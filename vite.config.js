@@ -1,0 +1,20 @@
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import { VitePWA } from 'vite-plugin-pwa'
+
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [
+    react(),
+    VitePWA({
+      manifest: {
+        name: 'EZMacros',
+        short_name: 'EZMacros',
+        theme_color: '#0e0f0d',
+        background_color: '#0e0f0d',
+        display: 'standalone',
+        start_url: '/',
+      },
+    }),
+  ],
+})
