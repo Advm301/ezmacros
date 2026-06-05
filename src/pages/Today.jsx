@@ -896,6 +896,8 @@ function GoalsModal({ goals, user, onClose, onSave }) {
                   fontSize: 12,
                   fontWeight: 600,
                   boxSizing: 'border-box',
+                  WebkitAppearance: 'none',
+                  MozAppearance: 'textfield',
                 }}
               />
               {validationErrors.age && <div style={{fontSize: 9, color: 'var(--red)', marginTop: 4}}>{validationErrors.age}</div>}
@@ -923,6 +925,8 @@ function GoalsModal({ goals, user, onClose, onSave }) {
                   fontSize: 12,
                   fontWeight: 600,
                   boxSizing: 'border-box',
+                  WebkitAppearance: 'none',
+                  MozAppearance: 'textfield',
                 }}
               />
               {validationErrors.weight && <div style={{fontSize: 9, color: 'var(--red)', marginTop: 4}}>{validationErrors.weight}</div>}
@@ -955,6 +959,8 @@ function GoalsModal({ goals, user, onClose, onSave }) {
                   fontSize: 12,
                   fontWeight: 600,
                   boxSizing: 'border-box',
+                  WebkitAppearance: 'none',
+                  MozAppearance: 'textfield',
                 }}
               />
               {validationErrors.goalWeight && <div style={{fontSize: 9, color: 'var(--red)', marginTop: 4}}>{validationErrors.goalWeight}</div>}
@@ -981,6 +987,8 @@ function GoalsModal({ goals, user, onClose, onSave }) {
                     fontSize: 12,
                     fontWeight: 600,
                     boxSizing: 'border-box',
+                    WebkitAppearance: 'none',
+                    MozAppearance: 'textfield',
                   }}
                 />
               ) : (
@@ -1005,6 +1013,8 @@ function GoalsModal({ goals, user, onClose, onSave }) {
                       fontSize: 12,
                       fontWeight: 600,
                       boxSizing: 'border-box',
+                      WebkitAppearance: 'none',
+                      MozAppearance: 'textfield',
                     }}
                   />
                   <input
@@ -1027,6 +1037,8 @@ function GoalsModal({ goals, user, onClose, onSave }) {
                       fontSize: 12,
                       fontWeight: 600,
                       boxSizing: 'border-box',
+                      WebkitAppearance: 'none',
+                      MozAppearance: 'textfield',
                     }}
                   />
                 </div>
@@ -1257,8 +1269,11 @@ function GoalsModal({ goals, user, onClose, onSave }) {
 
         {/* Macro Inputs - Protein, Carbs, Fat (Calories calculated) */}
         <div style={{marginBottom: 20}}>
-          <div style={{fontSize: 11, fontWeight: 600, color: 'var(--muted)', marginBottom: 12, textTransform: 'uppercase', letterSpacing: 0.5}}>
-            {isCustomMode ? 'Custom Macros' : 'Suggested Macros'}
+          <div style={{fontSize: 11, fontWeight: 600, color: 'var(--muted)', marginBottom: 12, textTransform: 'uppercase', letterSpacing: 0.5, display: 'flex', alignItems: 'center', gap: 6}}>
+            <span>{isCustomMode ? 'Custom Macros' : 'Suggested Macros'}</span>
+            <span style={{fontSize: 10, fontWeight: 400, color: 'var(--muted)'}}>
+              {isCustomMode ? '✏️ Custom' : '🔒 auto-calculated'}
+            </span>
           </div>
           <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12, marginBottom: 12}}>
             {[
@@ -1295,16 +1310,25 @@ function GoalsModal({ goals, user, onClose, onSave }) {
                     if (!isCustomMode) setSelectedPreset(null);
                     macro.setValue(e.target.value);
                   }}
+                  readOnly={!isCustomMode}
                   style={{
                     width: '100%',
                     padding: '10px 12px',
                     background: 'var(--s1)',
-                    border: '1px solid var(--border)',
+                    border: isCustomMode ? '1px solid var(--border)' : '1px solid var(--muted)',
                     borderRadius: 8,
-                    color: 'var(--cream)',
+                    color: isCustomMode ? 'var(--cream)' : 'var(--muted)',
                     fontSize: 14,
                     fontWeight: 600,
                     boxSizing: 'border-box',
+                    opacity: isCustomMode ? 1 : 0.5,
+                    cursor: isCustomMode ? 'text' : 'not-allowed',
+                    WebkitAppearance: 'none',
+                    MozAppearance: 'textfield',
+                    transition: 'all 0.15s',
+                  }}
+                  onFocus={(e) => {
+                    if (!isCustomMode) e.preventDefault();
                   }}
                 />
               </div>
