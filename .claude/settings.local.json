@@ -4,7 +4,8 @@
       "Bash(timeout 8 npm run dev)",
       "Bash(__NEW_LINE_8115675327d0dd95__ echo:*)",
       "Bash(timeout 10 npm run dev)",
-      "Bash(curl -s http://localhost:5173)"
+      "Bash(curl -s http://localhost:5173)",
+      "Bash(npx vite:*)"
     ]
   }
 }

@@ -279,20 +279,36 @@ export default function Today({onTabFocus}) {
               >
                 {/* Clickable card area */}
                 <div
-                  onClick={() => setOpenRecipe({
-                    name: meal.recipe_name || 'Logged Meal',
-                    emoji: '🍽️',
-                    cal: meal.cal,
-                    totalCal: meal.cal,
-                    protein: meal.protein,
-                    totalProtein: meal.protein,
-                    carbs: meal.carbs,
-                    totalCarbs: meal.carbs,
-                    fat: meal.fat,
-                    totalFat: meal.fat,
-                    isLogged: true,
-                    loggedTime: meal.logged_at,
-                  })}
+                  onClick={() => {
+                    let recipeData = {
+                      name: meal.recipe_name || 'Logged Meal',
+                      emoji: '🍽️',
+                      cal: meal.cal,
+                      totalCal: meal.cal,
+                      protein: meal.protein,
+                      totalProtein: meal.protein,
+                      carbs: meal.carbs,
+                      totalCarbs: meal.carbs,
+                      fat: meal.fat,
+                      totalFat: meal.fat,
+                      isLogged: true,
+                      loggedTime: meal.logged_at,
+                    };
+
+                    // Parse recipe_data if available
+                    if (meal.recipe_data) {
+                      try {
+                        const parsed = JSON.parse(meal.recipe_data);
+                        if (parsed.components) recipeData.components = parsed.components;
+                        if (parsed.steps) recipeData.steps = parsed.steps;
+                        if (parsed.toppings) recipeData.toppings = parsed.toppings;
+                      } catch (e) {
+                        console.error('Error parsing recipe_data:', e);
+                      }
+                    }
+
+                    setOpenRecipe(recipeData);
+                  }}
                   style={{
                     display: 'flex',
                     justifyContent: 'space-between',

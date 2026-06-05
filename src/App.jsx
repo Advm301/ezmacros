@@ -44,19 +44,13 @@ export default function App() {
     };
   }, []);
 
-  useEffect(() => {
-    // Listen for meal logged event
-    const handleMealLogged = () => {
-      setMealLoggedNotification(true);
-      setTodayBadge(true);
-      setTimeout(() => {
-        setMealLoggedNotification(false);
-      }, 2000);
-    };
-
-    window.addEventListener('mealLogged', handleMealLogged);
-    return () => window.removeEventListener('mealLogged', handleMealLogged);
-  }, []);
+  const handleMealLogged = () => {
+    setMealLoggedNotification(true);
+    setTodayBadge(true);
+    setTimeout(() => {
+      setMealLoggedNotification(false);
+    }, 2000);
+  };
 
   if (loading) {
     return (
@@ -129,7 +123,7 @@ export default function App() {
         <style>{`@keyframes fadeInOut { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }`}</style>
       </div>
 
-      {openRecipe && <RecipeModal recipe={openRecipe} onClose={() => setOpenRecipe(null)}/>}
+      {openRecipe && <RecipeModal recipe={openRecipe} onClose={() => setOpenRecipe(null)} onMealLogged={handleMealLogged}/>}
     </>
   );
 }

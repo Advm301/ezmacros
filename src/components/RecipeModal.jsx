@@ -60,29 +60,29 @@ const SUBSTITUTIONS = {
   "almond milk": ["Oat milk", "Regular milk", "Coconut milk carton"],
 };
 
-export default function RecipeModal({recipe, onClose}) {
+export default function RecipeModal({recipe, onClose, onMealLogged}) {
   const [logged, setLogged] = useState(false);
   const [logging, setLogging] = useState(false);
   const [error, setError] = useState(null);
   const [expandedSwap, setExpandedSwap] = useState(null);
-  const [componentNames, setComponentNames] = useState({}); // Tracks swapped component names
+  const [components, setComponents] = useState([]);
   const [macros, setMacros] = useState({ cal: 0, protein: 0, carbs: 0, fat: 0 });
   const [steps, setSteps] = useState([]);
   const [editingStepIndex, setEditingStepIndex] = useState(null);
   const [editingStepText, setEditingStepText] = useState("");
-  const [draggedStepIndex, setDraggedStepIndex] = useState(null);
+  const [isModified, setIsModified] = useState(false);
 
   useEffect(() => {
     // Reset logged state when modal opens for a new recipe
     setLogged(false);
     setError(null);
     setExpandedSwap(null);
-    setComponentNames({});
     setEditingStepIndex(null);
-    setDraggedStepIndex(null);
-    // Initialize steps and macros from recipe
+    setIsModified(false);
+    // Initialize components, steps, and macros from recipe
     if (recipe) {
-      setSteps(recipe.steps || []);
+      setComponents(recipe.components ? [...recipe.components] : []);
+      setSteps(recipe.steps ? [...recipe.steps] : []);
       setMacros({
         cal: recipe.cal || recipe.totalCal || 0,
         protein: recipe.protein || recipe.totalProtein || 0,
@@ -103,35 +103,37 @@ export default function RecipeModal({recipe, onClose}) {
   };
 
   const handleSwapComponent = (index, newName) => {
-    setComponentNames(prev => ({
-      ...prev,
-      [index]: newName,
-    }));
-
-    // Update macros based on the swap
-    const originalComponent = r.components[index];
+    // Update the component at this index
+    const updatedComponents = [...components];
+    const originalComponent = updatedComponents[index];
     const newMacros = MACRO_VALUES[newName];
 
     if (newMacros) {
-      // Calculate the difference and update totals
-      const originalMacros = MACRO_VALUES[originalComponent.name] || {
-        cal: originalComponent.cal || 0,
-        protein: originalComponent.protein || originalComponent.p || 0,
-        carbs: originalComponent.carbs || originalComponent.c || 0,
-        fat: originalComponent.fat || originalComponent.f || 0,
+      // Update component name and macros
+      updatedComponents[index] = {
+        ...originalComponent,
+        name: newName,
+        cal: Math.round(newMacros.cal * (originalComponent.grams / 100)),
+        protein: Math.round((newMacros.protein * (originalComponent.grams / 100)) * 10) / 10,
+        carbs: Math.round((newMacros.carbs * (originalComponent.grams / 100)) * 10) / 10,
+        fat: Math.round((newMacros.fat * (originalComponent.grams / 100)) * 10) / 10,
       };
 
-      const calDiff = (newMacros.cal - originalMacros.cal) * (originalComponent.grams / 100);
-      const proteinDiff = (newMacros.protein - originalMacros.protein) * (originalComponent.grams / 100);
-      const carbsDiff = (newMacros.carbs - originalMacros.carbs) * (originalComponent.grams / 100);
-      const fatDiff = (newMacros.fat - originalMacros.fat) * (originalComponent.grams / 100);
+      setComponents(updatedComponents);
 
-      setMacros(prev => ({
-        cal: Math.round(prev.cal + calDiff),
-        protein: Math.round((prev.protein + proteinDiff) * 10) / 10,
-        carbs: Math.round((prev.carbs + carbsDiff) * 10) / 10,
-        fat: Math.round((prev.fat + fatDiff) * 10) / 10,
-      }));
+      // Recalculate totals
+      const newTotals = updatedComponents.reduce(
+        (acc, comp) => ({
+          cal: acc.cal + (comp.cal || 0),
+          protein: acc.protein + (comp.protein || 0),
+          carbs: acc.carbs + (comp.carbs || 0),
+          fat: acc.fat + (comp.fat || 0),
+        }),
+        { cal: 0, protein: 0, carbs: 0, fat: 0 }
+      );
+
+      setMacros(newTotals);
+      setIsModified(true);
     }
 
     setExpandedSwap(null);
@@ -148,6 +150,7 @@ export default function RecipeModal({recipe, onClose}) {
       updatedSteps[editingStepIndex] = editingStepText;
       setSteps(updatedSteps);
       setEditingStepIndex(null);
+      setIsModified(true);
     }
   };
 
@@ -156,22 +159,22 @@ export default function RecipeModal({recipe, onClose}) {
     setEditingStepText('');
   };
 
-  const handleDragStart = (index) => {
-    setDraggedStepIndex(index);
-  };
-
-  const handleDragOver = (e) => {
-    e.preventDefault();
-  };
-
-  const handleDropStep = (dropIndex) => {
-    if (draggedStepIndex !== null && draggedStepIndex !== dropIndex) {
+  const handleMoveStepUp = (index) => {
+    if (index > 0) {
       const updatedSteps = [...steps];
-      const [draggedStep] = updatedSteps.splice(draggedStepIndex, 1);
-      updatedSteps.splice(dropIndex, 0, draggedStep);
+      [updatedSteps[index - 1], updatedSteps[index]] = [updatedSteps[index], updatedSteps[index - 1]];
       setSteps(updatedSteps);
+      setIsModified(true);
     }
-    setDraggedStepIndex(null);
+  };
+
+  const handleMoveStepDown = (index) => {
+    if (index < steps.length - 1) {
+      const updatedSteps = [...steps];
+      [updatedSteps[index], updatedSteps[index + 1]] = [updatedSteps[index + 1], updatedSteps[index]];
+      setSteps(updatedSteps);
+      setIsModified(true);
+    }
   };
 
   if (!recipe) return null;
@@ -200,14 +203,21 @@ export default function RecipeModal({recipe, onClose}) {
           carbs: macros.carbs,
           fat: macros.fat,
           logged_at: new Date().toISOString(),
+          recipe_data: JSON.stringify({
+            components: components,
+            steps: steps,
+            toppings: r.toppings || [],
+          }),
         });
 
       if (insertError) {
         setError(insertError.message);
       } else {
         setLogged(true);
-        // Emit meal logged event for notification
-        window.dispatchEvent(new CustomEvent('mealLogged'));
+        // Call onMealLogged callback if provided
+        if (onMealLogged) {
+          onMealLogged();
+        }
         setTimeout(() => {
           onClose();
         }, 1000);
@@ -224,7 +234,9 @@ export default function RecipeModal({recipe, onClose}) {
         <div style={{display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16}}>
           <div>
             <div style={{fontSize: 32, marginBottom: 4}}>{r.emoji}</div>
-            <div style={{fontFamily: "'Clash Display',sans-serif", fontSize: 22, fontWeight: 700, color: "var(--cream)"}}>{r.name}</div>
+            <div style={{fontFamily: "'Clash Display',sans-serif", fontSize: 22, fontWeight: 700, color: "var(--cream)"}}>
+              {r.name}{isModified && !r.isLogged ? " (Modified)" : ""}
+            </div>
             {!r.isLogged && (
               <div style={{fontSize: 12, color: "var(--muted)", marginTop: 4}}>
                 {r.method} · {r.activeTime || r.activeMinutes} min active · {r.stepCount} steps
@@ -262,23 +274,22 @@ export default function RecipeModal({recipe, onClose}) {
         )}
 
         {/* Components */}
-        {!r.isLogged && r.components && r.components.length > 0 && (
+        {!r.isLogged && components && components.length > 0 && (
           <div style={{marginBottom: 16}}>
             <div style={{fontSize: 12, fontWeight: 700, color: "var(--muted)", marginBottom: 8, textTransform: "uppercase", letterSpacing: 1}}>Components</div>
-            {r.components.map((c, i) => {
-              const displayName = componentNames[i] || c.name;
+            {components.map((c, i) => {
               const substitutions = getSubstitutions(c.name);
               return (
                 <div key={i}>
                   <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 0", borderBottom: "1px solid var(--border)"}}>
                     <div style={{flex: 1}}>
-                      <div style={{fontSize: 13, fontWeight: 600, color: "var(--cream)"}}>{displayName}</div>
+                      <div style={{fontSize: 13, fontWeight: 600, color: "var(--cream)"}}>{c.name}</div>
                       <div style={{fontSize: 11, color: "var(--muted)"}}>{c.type} · {c.grams}g{c.weighRaw ? " (weigh raw)" : ""}</div>
                     </div>
                     <div style={{display: "flex", gap: 12, alignItems: "center"}}>
                       <div style={{textAlign: "right", fontSize: 12, color: "var(--muted)"}}>
                         <div style={{color: "var(--orange)", fontWeight: 600}}>{c.cal} cal</div>
-                        <div>{c.p || c.protein}g P</div>
+                        <div>{c.protein || c.p}g P</div>
                       </div>
                       {substitutions && (
                         <button
@@ -365,21 +376,54 @@ export default function RecipeModal({recipe, onClose}) {
             {steps.map((s, i) => (
               <div
                 key={i}
-                draggable
-                onDragStart={() => handleDragStart(i)}
-                onDragOver={handleDragOver}
-                onDrop={() => handleDropStep(i)}
                 style={{
                   display: "flex",
                   gap: 10,
                   marginBottom: 10,
                   padding: 10,
                   borderRadius: 8,
-                  background: draggedStepIndex === i ? "rgba(201, 241, 58, 0.2)" : "transparent",
+                  background: "transparent",
                   transition: "all 0.15s",
                 }}
               >
-                <div style={{cursor: "grab", paddingTop: 2, color: "var(--muted)", fontSize: 14}}>⠿</div>
+                <div style={{display: "flex", flexDirection: "column", gap: 4, paddingTop: 2}}>
+                  {i > 0 && (
+                    <button
+                      onClick={() => handleMoveStepUp(i)}
+                      style={{
+                        background: "transparent",
+                        border: "none",
+                        color: "var(--muted)",
+                        fontSize: 12,
+                        cursor: "pointer",
+                        padding: "2px 6px",
+                        lineHeight: 1,
+                      }}
+                      onMouseEnter={(e) => e.target.style.color = "var(--lime)"}
+                      onMouseLeave={(e) => e.target.style.color = "var(--muted)"}
+                    >
+                      ▲
+                    </button>
+                  )}
+                  {i < steps.length - 1 && (
+                    <button
+                      onClick={() => handleMoveStepDown(i)}
+                      style={{
+                        background: "transparent",
+                        border: "none",
+                        color: "var(--muted)",
+                        fontSize: 12,
+                        cursor: "pointer",
+                        padding: "2px 6px",
+                        lineHeight: 1,
+                      }}
+                      onMouseEnter={(e) => e.target.style.color = "var(--lime)"}
+                      onMouseLeave={(e) => e.target.style.color = "var(--muted)"}
+                    >
+                      ▼
+                    </button>
+                  )}
+                </div>
                 <div style={{width: 24, height: 24, minWidth: 24, background: "var(--lime)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700, color: "#000"}}>{i+1}</div>
                 <div style={{flex: 1}}>
                   {editingStepIndex === i ? (
