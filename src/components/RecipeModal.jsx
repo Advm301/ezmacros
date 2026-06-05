@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { supabase } from '../lib/supabase';
 import { SPICE_LEVELS } from '../lib/generator.js';
 
@@ -194,6 +194,13 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
   const [hasChanges, setHasChanges] = useState(false);
   const [saving, setSaving] = useState(false);
   const [recipeName, setRecipeName] = useState("");
+  const [resetConfirming, setResetConfirming] = useState(false);
+  const resetConfirmTimeoutRef = useRef(null);
+
+  // Track original state to enable reset functionality
+  const originalComponents = useRef([]);
+  const originalSteps = useRef([]);
+  const originalName = useRef("");
 
   useEffect(() => {
     // Reset logged state when modal opens for a new recipe
@@ -202,11 +209,23 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
     setExpandedSwap(null);
     setEditingStepIndex(null);
     setIsModified(false);
+    setResetConfirming(false);
+    if (resetConfirmTimeoutRef.current) clearTimeout(resetConfirmTimeoutRef.current);
+
     // Initialize components, steps, and macros from recipe
     if (recipe) {
-      setComponents(recipe.components ? [...recipe.components] : []);
-      setSteps(recipe.steps ? [...recipe.steps] : []);
-      setRecipeName(recipe.name || "");
+      const initialComponents = recipe.components ? [...recipe.components] : [];
+      const initialSteps = recipe.steps ? [...recipe.steps] : [];
+      const initialName = recipe.name || "";
+
+      // Store original values in refs
+      originalComponents.current = initialComponents;
+      originalSteps.current = initialSteps;
+      originalName.current = initialName;
+
+      setComponents(initialComponents);
+      setSteps(initialSteps);
+      setRecipeName(initialName);
       setMacros({
         cal: recipe.cal || recipe.totalCal || 0,
         protein: recipe.protein || recipe.totalProtein || 0,
@@ -233,6 +252,19 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
     }
   }, [components]);
 
+  // Check if current state matches original and update isModified accordingly
+  useEffect(() => {
+    const modified = isCurrentStateModified();
+    setIsModified(modified);
+
+    // Update recipeName based on isModified
+    if (modified && !recipeName.includes(" (Modified)")) {
+      setRecipeName(originalName.current + " (Modified)");
+    } else if (!modified && recipeName.includes(" (Modified)")) {
+      setRecipeName(originalName.current);
+    }
+  }, [components, steps]);
+
   // Track step changes for logged meals
   useEffect(() => {
     if (r.isLoggedView && recipe?.steps && steps.length > 0) {
@@ -249,6 +281,27 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
       }
     }
     return null;
+  };
+
+  // Check if current state matches original state
+  const isCurrentStateModified = () => {
+    // Check if components have changed
+    if (components.length !== originalComponents.current.length) return true;
+    for (let i = 0; i < components.length; i++) {
+      if (components[i].name !== originalComponents.current[i].name) return true;
+      if (Math.round(components[i].cal) !== Math.round(originalComponents.current[i].cal)) return true;
+      if (Math.round(components[i].protein * 10) / 10 !== Math.round(originalComponents.current[i].protein * 10) / 10) return true;
+      if (Math.round(components[i].carbs * 10) / 10 !== Math.round(originalComponents.current[i].carbs * 10) / 10) return true;
+      if (Math.round(components[i].fat * 10) / 10 !== Math.round(originalComponents.current[i].fat * 10) / 10) return true;
+    }
+
+    // Check if steps have changed
+    if (steps.length !== originalSteps.current.length) return true;
+    for (let i = 0; i < steps.length; i++) {
+      if (steps[i] !== originalSteps.current[i]) return true;
+    }
+
+    return false;
   };
 
   const getMacroValues = (name) => {
@@ -303,13 +356,6 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
     }
 
     setComponents(updatedComponents);
-    setIsModified(true);
-
-    // When any swap is made, append " (Modified)" to recipe name if not already suffixed
-    if (!recipeName.includes(" (Modified)")) {
-      setRecipeName(recipeName + " (Modified)");
-    }
-
     setExpandedSwap(null);
   };
 
@@ -324,7 +370,6 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
       updatedSteps[editingStepIndex] = editingStepText;
       setSteps(updatedSteps);
       setEditingStepIndex(null);
-      setIsModified(true);
     }
   };
 
@@ -333,12 +378,30 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
     setEditingStepText('');
   };
 
+  const handleReset = () => {
+    if (!resetConfirming) {
+      // First click - enter confirmation state
+      setResetConfirming(true);
+      // Auto-revert after 3 seconds
+      if (resetConfirmTimeoutRef.current) clearTimeout(resetConfirmTimeoutRef.current);
+      resetConfirmTimeoutRef.current = setTimeout(() => {
+        setResetConfirming(false);
+      }, 3000);
+    } else {
+      // Second click - confirm reset
+      setComponents([...originalComponents.current]);
+      setSteps([...originalSteps.current]);
+      setRecipeName(originalName.current);
+      setResetConfirming(false);
+      if (resetConfirmTimeoutRef.current) clearTimeout(resetConfirmTimeoutRef.current);
+    }
+  };
+
   const handleMoveStepUp = (index) => {
     if (index > 0) {
       const updatedSteps = [...steps];
       [updatedSteps[index - 1], updatedSteps[index]] = [updatedSteps[index], updatedSteps[index - 1]];
       setSteps(updatedSteps);
-      setIsModified(true);
     }
   };
 
@@ -347,7 +410,6 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
       const updatedSteps = [...steps];
       [updatedSteps[index], updatedSteps[index + 1]] = [updatedSteps[index + 1], updatedSteps[index]];
       setSteps(updatedSteps);
-      setIsModified(true);
     }
   };
 
@@ -509,7 +571,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
             )}
           </div>
           <div style={{display: "flex", flexDirection: "column", gap: 8}}>
-            {hasChanges && r.isLoggedView && (
+            {isModified && r.isLoggedView && (
               <button
                 onClick={handleSaveChanges}
                 disabled={saving}
@@ -527,6 +589,24 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
                 }}
               >
                 {saving ? "Saving..." : "Save Changes"}
+              </button>
+            )}
+            {isModified && (
+              <button
+                onClick={handleReset}
+                style={{
+                  background: resetConfirming ? "rgba(255, 77, 77, 0.2)" : "transparent",
+                  border: "1px solid rgba(255, 77, 77, 0.5)",
+                  color: resetConfirming ? "#ff4d4d" : "var(--muted)",
+                  borderRadius: 8,
+                  padding: "8px 14px",
+                  cursor: "pointer",
+                  fontSize: 12,
+                  fontWeight: 700,
+                  transition: "all 0.15s",
+                }}
+              >
+                {resetConfirming ? "Are you sure? Tap to confirm" : "↻ Reset to Default"}
               </button>
             )}
             <button onClick={handleClose} style={{background: "var(--s3)", border: "1px solid var(--border)", color: "var(--muted)", borderRadius: 8, padding: "6px 12px", cursor: "pointer", fontSize: 13}}>✕ Close</button>
