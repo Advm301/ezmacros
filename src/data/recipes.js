@@ -10,7 +10,7 @@ export const EZ = {
 export const BANNED = ["Mincing fresh garlic","Peeling anything","From-scratch sauces","Sauté then transfer","Washing/drying produce","Two simultaneous cook processes"];
 
 export const RECIPES = [
-  {id:1,name:"Teriyaki Cod Bowl",emoji:"🐟",method:"Bake",type:"fresh",ezLevel:1,
+  {id:1,name:"Teriyaki Cod Bowl",emoji:"🐟",method:"Bake",type:"fresh",ezLevel:1,spiceLevel:0,
     tags:["High Protein","Asian-Inspired","Neutral","Omega-3"],
     cal:420,protein:38,carbs:42,fat:8,activeTime:3,stepCount:3,
     components:[
@@ -22,8 +22,8 @@ export const RECIPES = [
     toppings:[{name:"Sesame Seeds",info:"1 tsp = 17 cal · 0.5g P"},{name:"Sriracha",info:"1 tsp = 5 cal"}],
     steps:["Place cod on foil-lined baking sheet. Drizzle teriyaki sauce over top.","Bake 425°F for 12–14 min.","Microwave rice 90 sec + steam-bag green beans 3 min. Build bowl — toppings separate."],
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-  {id:2,name:"Spicy Asian Cod Bowl",emoji:"🌶️",method:"Bake",type:"fresh",ezLevel:2,
-    tags:["High Protein","Asian-Inspired","Spicy","Omega-3"],
+  {id:2,name:"Spicy Asian Cod Bowl",emoji:"🌶️",method:"Bake",type:"fresh",ezLevel:2,spiceLevel:2,
+    tags:["High Protein","Asian-Inspired","Medium Heat","Omega-3"],
     cal:440,protein:40,carbs:44,fat:10,activeTime:5,stepCount:5,
     components:[
       {name:"Cod Fillet",type:"Protein",cal:140,p:30,c:0,f:1,grams:170,weighRaw:true},
@@ -35,7 +35,7 @@ export const RECIPES = [
     toppings:[{name:"Extra Sriracha",info:"1 tsp = 5 cal"},{name:"Sesame Seeds",info:"1 tsp = 17 cal · 0.5g P"}],
     steps:["Pat cod dry with paper towel.","Mix soy sauce + sriracha + a small squeeze of honey in small bowl. Honey rounds the heat and prevents the sauce tasting flat. Brush over cod on foil-lined sheet. Dust with garlic powder.","Bake 425°F 12–14 min.","Rest cod 1 min.","Microwave rice 90 sec + steam-bag beans 3 min. Build bowl — toppings separate."],
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-  {id:3,name:"Air Fryer Chicken Thighs",emoji:"🍗",method:"Air Fryer",type:"fresh",ezLevel:1,
+  {id:3,name:"Air Fryer Chicken Thighs",emoji:"🍗",method:"Air Fryer",type:"fresh",ezLevel:1,spiceLevel:0,
     tags:["High Protein","Neutral","Gluten-Free","Keto"],
     cal:310,protein:38,carbs:2,fat:16,activeTime:4,stepCount:3,
     components:[
@@ -46,8 +46,8 @@ export const RECIPES = [
     toppings:[{name:"Hot Sauce",info:"1 tsp = 0 cal"},{name:"Parmesan",info:"1 tbsp = 22 cal · 2g P"}],
     steps:["Spray chicken with olive oil spray. Shake seasoning over both sides.","Air fry 400°F for 18–20 min, flip once at 10 min.","Rest 2 min. Add toppings on the side."],
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-  {id:4,name:"Maverick Jerk Chicken Bowl",emoji:"📦",method:"Microwave",type:"packaged",ezLevel:1,
-    tags:["High Protein","Spicy","Caribbean","Ready in 3 min"],
+  {id:4,name:"Maverick Jerk Chicken Bowl",emoji:"📦",method:"Microwave",type:"packaged",ezLevel:1,spiceLevel:3,
+    tags:["High Protein","Hot","Caribbean","Ready in 3 min"],
     cal:380,protein:40,carbs:28,fat:12,activeTime:1,stepCount:2,
     components:[
       {name:"Maverick Foods Jerk Chicken Bowl (9oz)",type:"Packaged Meal",cal:380,p:40,c:28,f:12,grams:255,weighRaw:false},
@@ -55,7 +55,7 @@ export const RECIPES = [
     toppings:[{name:"Lime Squeeze",info:"½ lime = 5 cal"},{name:"Hot Sauce",info:"1 tsp = 0 cal"}],
     steps:["Remove lid. Microwave HIGH 3 minutes.","Rest 1 min. Add toppings to taste."],
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-  {id:5,name:"Deviled Eggs",emoji:"🥚",method:"No Cook",type:"fresh",ezLevel:1,
+  {id:5,name:"Deviled Eggs",emoji:"🥚",method:"No Cook",type:"fresh",ezLevel:1,spiceLevel:0,
     tags:["High Protein","Keto","Neutral","Low Carb","Snack"],
     cal:210,protein:18,carbs:2,fat:14,activeTime:5,stepCount:3,
     components:[
@@ -66,7 +66,7 @@ export const RECIPES = [
     toppings:[{name:"Paprika (shaker)",info:"pinch = 0 cal"},{name:"Pickle Relish",info:"1 tsp = 5 cal"}],
     steps:["Halve pre-boiled eggs lengthwise. Pop yolks into bowl.","Mash yolks with mayo + mustard until smooth.","Fill whites. Shake paprika on top."],
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-  {id:6,name:"Slow Cooker Beef Rice Bowl",emoji:"🥩",method:"Slow Cooker",type:"fresh",ezLevel:2,
+  {id:6,name:"Slow Cooker Beef Rice Bowl",emoji:"🥩",method:"Slow Cooker",type:"fresh",ezLevel:2,spiceLevel:0,
     tags:["High Protein","Neutral","Bulk Friendly","Meal Prep"],
     cal:520,protein:45,carbs:48,fat:14,activeTime:5,stepCount:4,
     components:[
@@ -78,7 +78,7 @@ export const RECIPES = [
     toppings:[{name:"Shredded Cheddar",info:"¼ cup = 110 cal · 7g P"},{name:"Sour Cream",info:"2 tbsp = 60 cal"},{name:"Hot Sauce",info:"1 tsp = 0 cal"}],
     steps:["Add beef + canned tomatoes to slow cooker. Break up beef roughly.","Cook HIGH 2 hrs or LOW 4 hrs.","Microwave rice 90 sec + steam-bag veg 3 min.","Build bowl. Toppings on the side."],
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-  {id:7,name:"Sheet Pan Turkey Meatballs",emoji:"🧆",method:"Bake",type:"fresh",ezLevel:2,
+  {id:7,name:"Sheet Pan Turkey Meatballs",emoji:"🧆",method:"Bake",type:"fresh",ezLevel:2,spiceLevel:0,
     tags:["High Protein","Italian-Inspired","Neutral","Meal Prep"],
     cal:310,protein:36,carbs:8,fat:12,activeTime:8,stepCount:4,
     components:[
@@ -89,7 +89,7 @@ export const RECIPES = [
     toppings:[{name:"Rao's Marinara",info:"¼ cup = 40 cal · 1g P"},{name:"Shredded Mozzarella",info:"¼ cup = 90 cal · 7g P"}],
     steps:["Mix turkey, breadcrumbs, egg white carton pour, and Italian seasoning shaker in bowl.","Roll into ~1.5-inch balls onto foil-lined baking sheet.","Bake 400°F for 18–20 min.","Add sauce and cheese as separate toppings."],
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-  {id:8,name:"Salmon Lemon Herb Bake",emoji:"🐠",method:"Bake",type:"fresh",ezLevel:1,
+  {id:8,name:"Salmon Lemon Herb Bake",emoji:"🐠",method:"Bake",type:"fresh",ezLevel:1,spiceLevel:0,
     tags:["High Protein","Neutral","Omega-3","Gluten-Free"],
     cal:380,protein:40,carbs:2,fat:22,activeTime:3,stepCount:3,
     components:[
@@ -102,7 +102,7 @@ export const RECIPES = [
     steps:["Place salmon skin-down on foil-lined sheet. Spray with oil, shake seasoning on top.","Bake 425°F for 12–14 min.","Microwave steam-bag broccoli 4 min. Plate together — toppings separate."],
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
 
-  {id:9,name:"Greek Yogurt Power Bowl",emoji:"🥣",method:"No Cook",type:"fresh",ezLevel:1,
+  {id:9,name:"Greek Yogurt Power Bowl",emoji:"🥣",method:"No Cook",type:"fresh",ezLevel:1,spiceLevel:0,
     tags:["Breakfast","High Protein","No Cook","Quick","Low Fat"],
     cal:370,protein:35,carbs:35,fat:4,activeTime:2,stepCount:2,
     components:[
@@ -115,7 +115,7 @@ export const RECIPES = [
     steps:["Mix protein powder into yogurt with a spoon until smooth.","Spoon blueberries over top. Drizzle honey. Add toppings to taste."],
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
 
-  {id:10,name:"Egg White Scramble",emoji:"🍳",method:"Stovetop",type:"fresh",ezLevel:1,
+  {id:10,name:"Egg White Scramble",emoji:"🍳",method:"Stovetop",type:"fresh",ezLevel:1,spiceLevel:0,
     tags:["Breakfast","High Protein","Low Fat","Low Carb","Quick"],
     cal:280,protein:38,carbs:6,fat:8,activeTime:5,stepCount:3,
     components:[

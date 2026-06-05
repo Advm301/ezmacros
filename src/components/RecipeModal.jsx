@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
+import { SPICE_LEVELS } from '../lib/generator.js';
 
 const MACRO_VALUES = {
   // Proteins
@@ -476,9 +477,14 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
         <div style={{display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16}}>
           <div style={{flex: 1}}>
             <div style={{fontSize: 32, marginBottom: 4}}>{r.emoji}</div>
-            <div style={{fontFamily: "'Clash Display',sans-serif", fontSize: 22, fontWeight: 700, color: "var(--cream)"}}>
+            <div style={{fontFamily: "'Clash Display',sans-serif", fontSize: 22, fontWeight: 700, color: "var(--cream)", marginBottom: 2}}>
               {r.name}{isModified && !r.isLogged ? " (Modified)" : ""}
             </div>
+            {r.spiceLevel > 0 && (
+              <div style={{fontSize: 14, marginBottom: 4}}>
+                {SPICE_LEVELS[r.spiceLevel].display} {SPICE_LEVELS[r.spiceLevel].label}
+              </div>
+            )}
             {!r.isLogged && !r.isLoggedView && r.method && (r.activeTime || r.activeMinutes) && r.stepCount && (
               <div style={{fontSize: 12, color: "var(--muted)", marginTop: 4}}>
                 {r.method} · {r.activeTime || r.activeMinutes} min active · {r.stepCount} steps

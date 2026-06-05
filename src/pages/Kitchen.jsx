@@ -1,18 +1,20 @@
 import { useState } from 'react';
 import { EZ } from '../data/recipes.js';
 import { QUICK_COMBOS } from '../data/quickCombos.js';
-import { generateLocalRecipes, classifyIngredient } from '../lib/generator.js';
+import { generateLocalRecipes, classifyIngredient, SPICE_LEVELS } from '../lib/generator.js';
 
 export default function Kitchen({ezLevel, goals, onOpen}) {
   const [input, setInput] = useState("");
   const [ings, setIngs] = useState([]);
   const [flavorTags, setFlavorTags] = useState([]);
   const [cookMethod, setCookMethod] = useState("Any");
+  const [heatLevel, setHeatLevel] = useState(null);
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState([]);
 
   const FLAVORS = ["Spicy","Saucy","Neutral","Asian-Inspired","Italian-Inspired","Mediterranean","Caribbean","BBQ","American"];
   const METHODS = ["Any","No Cook","Microwave","Air Fryer","Bake","Stovetop","Slow Cooker"];
+  const HEAT_LEVELS = ["Mild", "Medium", "Hot"];
 
   const addIng = () => {
     const v = input.trim();
@@ -22,14 +24,22 @@ export default function Kitchen({ezLevel, goals, onOpen}) {
   };
 
   const removeIng = n => setIngs(p => p.filter(i => i !== n));
-  const toggleFlavor = t => setFlavorTags(p => p.includes(t) ? p.filter(x => x !== t) : [...p, t]);
+  const toggleFlavor = t => {
+    if (t === "Spicy" && flavorTags.includes("Spicy")) {
+      // Reset heat level when removing Spicy flavor
+      setHeatLevel(null);
+    }
+    setFlavorTags(p => p.includes(t) ? p.filter(x => x !== t) : [...p, t]);
+  };
 
   const generate = () => {
     if(!ings.length) return;
     setLoading(true);
     setResults([]);
     setTimeout(() => {
-      const recipes = generateLocalRecipes(ings, ezLevel, flavorTags, cookMethod, goals);
+      const isSpicy = flavorTags.includes("Spicy");
+      const heatLevelNum = isSpicy && heatLevel ? (heatLevel === "Mild" ? 1 : heatLevel === "Medium" ? 2 : 3) : null;
+      const recipes = generateLocalRecipes(ings, ezLevel, flavorTags, cookMethod, goals, heatLevelNum);
       setResults(recipes);
       setLoading(false);
     }, 900);
@@ -83,6 +93,15 @@ export default function Kitchen({ezLevel, goals, onOpen}) {
             {METHODS.map(m => <div key={m} className={`pill ${cookMethod === m ? "active" : ""}`} onClick={() => setCookMethod(m)}>{m}</div>)}
           </div>
         </div>
+
+        {flavorTags.includes("Spicy") && (
+          <div className="filter-sec" style={{marginBottom: 12}}>
+            <div className="filter-label">Heat Level</div>
+            <div className="scroll-row">
+              {HEAT_LEVELS.map(level => <div key={level} className={`pill ${heatLevel === level ? "active" : ""}`} onClick={() => setHeatLevel(level)}>{level}</div>)}
+            </div>
+          </div>
+        )}
 
         <div className="ez-level-info">
           <span style={{fontSize: 15}}>{lev.bolts}</span>
@@ -146,7 +165,10 @@ export default function Kitchen({ezLevel, goals, onOpen}) {
                   <div style={{display: "flex", alignItems: "center", gap: 8, marginBottom: 6}}>
                     <span style={{fontSize: 22}}>{r.emoji}</span>
                     <div style={{flex: 1}}>
-                      <div style={{fontWeight: 700, fontSize: 15}}>{r.name}</div>
+                      <div style={{fontWeight: 700, fontSize: 15}}>
+                        {r.name}
+                        {r.spiceLevel > 0 && <span style={{marginLeft: 6, fontSize: 12, color: "var(--orange)"}}>{SPICE_LEVELS[r.spiceLevel].display}</span>}
+                      </div>
                       <div style={{fontSize: 11, color: "var(--muted)", marginTop: 2}}>
                         {r.method} · {r.activeMinutes} min · {r.stepCount} steps
                       </div>

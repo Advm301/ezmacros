@@ -1,5 +1,13 @@
 import { EZ, RECIPES, BANNED } from '../data/recipes.js';
 
+export const SPICE_LEVELS = {
+  0: { label: "No Heat", display: "–" },
+  1: { label: "Mild", display: "🌶️" },
+  2: { label: "Medium", display: "🌶️🌶️" },
+  3: { label: "Hot", display: "🌶️🌶️🌶️" },
+  4: { label: "Extra Hot", display: "🌶️🌶️🌶️🌶️" },
+};
+
 // Helper function to split combined sauce/seasoning components into individual components
 function splitCombinedIngredient(combinedName) {
   const splits = {
@@ -47,7 +55,7 @@ export function classifyIngredient(name) {
   return "other";
 }
 
-export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMethod, goals) {
+export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMethod, goals, heatLevel = null) {
   const lev = EZ[ezLevel];
   const lower = ingredients.map(i => i.toLowerCase());
   const hasCod = lower.some(i => /cod/.test(i));
@@ -95,13 +103,16 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
                     isMediterranean?"Mediterranean Cod":"Lemon Herb Cod";
     const codSauceG = isSaucy?40:isAsian||isSpicy?20:3;
     const codSauceCal = isSaucy?45:isAsian||isSpicy?20:8;
+    const spiceLevel = isSpicy ? (heatLevel || 1) : 0;
     results.push({
       name:codName, emoji:"🐟", method:cookMethod!=="Any"?cookMethod:"Bake", ezLevel,
-      tags:["High Protein","Omega-3","Low Fat",isSpicy?"Spicy":"Neutral",isSaucy?"Saucy":"",isAsian?"Asian-Inspired":"Gluten-Free"].filter(Boolean),
+      spiceLevel,
+      tags:["High Protein","Omega-3","Low Fat",isSpicy?(heatLevel===3?"Hot":heatLevel===2?"Medium Heat":"Mild Heat"):"Neutral",isSaucy?"Saucy":"",isAsian?"Asian-Inspired":"Gluten-Free"].filter(Boolean),
       totalCal:380, totalProtein:38, totalCarbs:44, totalFat:4, activeMinutes:3, stepCount:4,
       components:[
         {name:"Cod Fillet",type:"Protein",grams:170,cal:140,protein:30,carbs:0,fat:1,weighRaw:true},
         ...(splitCombinedIngredient(codSauce) || [{name:codSauce,type:"Sauce",grams:codSauceG,cal:codSauceCal,protein:1,carbs:isAsian||isSpicy?4:2,fat:0,weighRaw:false}]),
+        ...(isSpicy && spiceLevel >= 3 ? [{name:"Red Pepper Flakes",type:"Seasoning",grams:1,cal:3,protein:0,carbs:1,fat:0,weighRaw:false}] : []),
         {name:carbName,type:"Carb",grams:carbGrams,cal:carbCal,protein:carbP,carbs:carbC,fat:carbF,weighRaw:false},
         ...(veg ? [{name:veg,type:"Veg",grams:vegGrams,cal:vegCal,protein:vegP,carbs:vegC,fat:vegF,weighRaw:false}] : []),
       ],
@@ -123,17 +134,20 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
                        isAsian ? "Teriyaki Sauce" : "Garlic Herb Seasoning";
     const sauceG = isSaucy?60:isAsian||isSpicy?25:3;
     const sauceCal = isSaucy&&isAsian?70:isSaucy?50:isAsian||isSpicy?20:10;
+    const spiceLevel = isSpicy ? (heatLevel || 1) : 0;
     results.push({
       name: isSaucy&&isSpicy?"Spicy Saucy Chicken":isSaucy&&isAsian?"Saucy Teriyaki Chicken":
             isSaucy?"Saucy Baked Chicken":isSpicy?"Spicy Air Fryer Chicken":
             isAsian?"Teriyaki Chicken Bowl":"Garlic Herb Chicken",
       emoji:"🍗", method:cookMethod!=="Any"?cookMethod:"Air Fryer", ezLevel,
-      tags:["High Protein",isSpicy?"Spicy":"Neutral",isSaucy?"Saucy":"",isAsian?"Asian-Inspired":"Gluten-Free","Keto"].filter(Boolean),
+      spiceLevel,
+      tags:["High Protein",isSpicy?(heatLevel===3?"Hot":heatLevel===2?"Medium Heat":"Mild Heat"):"Neutral",isSaucy?"Saucy":"",isAsian?"Asian-Inspired":"Gluten-Free","Keto"].filter(Boolean),
       totalCal:isSaucy?370:340, totalProtein:40, totalCarbs:hasRice?44:4, totalFat:18,
       activeMinutes:4, stepCount:3,
       components:[
         {name:"Chicken Thighs (boneless, skinless)",type:"Protein",grams:170,cal:220,protein:35,carbs:0,fat:9,weighRaw:true},
         ...(splitCombinedIngredient(sauceLabel) || [{name:sauceLabel,type:isAsian||isSpicy||isSaucy?"Sauce":"Seasoning",grams:sauceG,cal:sauceCal,protein:1,carbs:isSaucy?6:2,fat:0,weighRaw:false}]),
+        ...(isSpicy && spiceLevel >= 3 ? [{name:"Red Pepper Flakes",type:"Seasoning",grams:1,cal:3,protein:0,carbs:1,fat:0,weighRaw:false}] : []),
         ...(hasRice?[{name:carbName,type:"Carb",grams:carbGrams,cal:carbCal,protein:carbP,carbs:carbC,fat:carbF,weighRaw:false}]:[]),
         ...(veg ? [{name:veg,type:"Veg",grams:vegGrams,cal:vegCal,protein:vegP,carbs:vegC,fat:vegF,weighRaw:false}] : []),
       ],
@@ -157,14 +171,17 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
                      isAsian?"Asian Beef Bowl":"Ground Beef Rice Bowl";
     const beefSauceG = isSaucy?80:isAsian||isSpicy?45:120;
     const beefSauceCal = isSaucy&&isAsian?90:isSaucy?80:isAsian||isSpicy?45:25;
+    const spiceLevel = isSpicy ? (heatLevel || 1) : 0;
     results.push({
       name:beefName, emoji:"🥩", method:cookMethod!=="Any"?cookMethod:"Slow Cooker", ezLevel,
-      tags:["High Protein",isSpicy?"Spicy":"Neutral",isSaucy?"Saucy":"",isAsian?"Asian-Inspired":"Bulk Friendly","Meal Prep"].filter(Boolean),
+      spiceLevel,
+      tags:["High Protein",isSpicy?(heatLevel===3?"Hot":heatLevel===2?"Medium Heat":"Mild Heat"):"Neutral",isSaucy?"Saucy":"",isAsian?"Asian-Inspired":"Bulk Friendly","Meal Prep"].filter(Boolean),
       totalCal:isSaucy?560:520, totalProtein:45, totalCarbs:48, totalFat:isSaucy?16:14,
       activeMinutes:5, stepCount:4,
       components:[
         {name:"Ground Beef (93% lean)",type:"Protein",grams:142,cal:195,protein:30,carbs:0,fat:7,weighRaw:true},
         ...(splitCombinedIngredient(beefSauce) || [{name:beefSauce,type:isSaucy||isAsian||isSpicy?"Sauce":"Veg/Sauce",grams:beefSauceG,cal:beefSauceCal,protein:1,carbs:isSaucy?8:6,fat:0,weighRaw:false}]),
+        ...(isSpicy && spiceLevel >= 3 ? [{name:"Red Pepper Flakes",type:"Seasoning",grams:1,cal:3,protein:0,carbs:1,fat:0,weighRaw:false}] : []),
         {name:carbName,type:"Carb",grams:carbGrams,cal:carbCal,protein:carbP,carbs:carbC,fat:carbF,weighRaw:false},
         ...(veg ? [{name:veg,type:"Veg",grams:vegGrams,cal:vegCal,protein:vegP,carbs:vegC,fat:vegF,weighRaw:false}] : []),
       ],
@@ -189,14 +206,17 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
                        isAsian?"Asian Turkey Bowl":"Garlic Herb Turkey Bowl";
     const turkeySauceG = isSaucy?70:isAsian||isSpicy?35:3;
     const turkeySauceCal = isSaucy&&isAsian?80:isSaucy?60:isAsian||isSpicy?30:10;
+    const spiceLevel = isSpicy ? (heatLevel || 1) : 0;
     results.push({
       name:turkeyName, emoji:"🦃", method:cookMethod!=="Any"?cookMethod:"Skillet", ezLevel,
-      tags:["High Protein","Lean",isSpicy?"Spicy":"Neutral",isSaucy?"Saucy":"",isAsian?"Asian-Inspired":"Bulk Friendly"].filter(Boolean),
+      spiceLevel,
+      tags:["High Protein","Lean",isSpicy?(heatLevel===3?"Hot":heatLevel===2?"Medium Heat":"Mild Heat"):"Neutral",isSaucy?"Saucy":"",isAsian?"Asian-Inspired":"Bulk Friendly"].filter(Boolean),
       totalCal:isSaucy?580:540, totalProtein:46, totalCarbs:48, totalFat:isSaucy?18:16,
       activeMinutes:6, stepCount:4,
       components:[
         {name:"Ground Turkey (93% lean)",type:"Protein",grams:170,cal:200,protein:35,carbs:0,fat:6,weighRaw:true},
         ...(splitCombinedIngredient(turkeySauce) || [{name:turkeySauce,type:isSaucy||isAsian||isSpicy?"Sauce":"Seasoning",grams:turkeySauceG,cal:turkeySauceCal,protein:1,carbs:isSaucy?8:2,fat:0,weighRaw:false}]),
+        ...(isSpicy && spiceLevel >= 3 ? [{name:"Red Pepper Flakes",type:"Seasoning",grams:1,cal:3,protein:0,carbs:1,fat:0,weighRaw:false}] : []),
         {name:carbName,type:"Carb",grams:carbGrams,cal:carbCal,protein:carbP,carbs:carbC,fat:carbF,weighRaw:false},
         ...(veg ? [{name:veg,type:"Veg",grams:vegGrams,cal:vegCal,protein:vegP,carbs:vegC,fat:vegF,weighRaw:false}] : []),
       ],
@@ -218,16 +238,19 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
                         isSaucy?"Ponzu+Soy (heavy)":isSpicy?"Sriracha+Soy":
                         isAsian?"Teriyaki Sauce":"Olive Oil+Lemon Pepper";
     const salmonG = isSaucy?55:25; const salmonCal = isSaucy?50:20;
+    const spiceLevel = isSpicy ? (heatLevel || 1) : 0;
     results.push({
       name:isSaucy&&isSpicy?"Spicy Saucy Salmon":isSaucy&&isAsian?"Saucy Teriyaki Salmon":
            isSaucy?"Ponzu Glazed Salmon":isSpicy?"Spicy Sriracha Salmon":
            isAsian?"Teriyaki Salmon Bowl":"Lemon Herb Salmon",
       emoji:"🐠", method:cookMethod!=="Any"?cookMethod:"Bake", ezLevel,
-      tags:["High Protein","Omega-3",isSpicy?"Spicy":"Neutral",isSaucy?"Saucy":"",isAsian?"Asian-Inspired":"Gluten-Free"].filter(Boolean),
+      spiceLevel,
+      tags:["High Protein","Omega-3",isSpicy?(heatLevel===3?"Hot":heatLevel===2?"Medium Heat":"Mild Heat"):"Neutral",isSaucy?"Saucy":"",isAsian?"Asian-Inspired":"Gluten-Free"].filter(Boolean),
       totalCal:isSaucy?460:430, totalProtein:42, totalCarbs:44, totalFat:20, activeMinutes:3, stepCount:3,
       components:[
         {name:"Salmon Fillet",type:"Protein",grams:170,cal:280,protein:36,carbs:0,fat:14,weighRaw:true},
         ...(splitCombinedIngredient(salmonSauce) || [{name:salmonSauce,type:"Sauce",grams:salmonG,cal:salmonCal,protein:1,carbs:isSaucy?6:2,fat:1,weighRaw:false}]),
+        ...(isSpicy && spiceLevel >= 3 ? [{name:"Red Pepper Flakes",type:"Seasoning",grams:1,cal:3,protein:0,carbs:1,fat:0,weighRaw:false}] : []),
         {name:carbName,type:"Carb",grams:carbGrams,cal:carbCal,protein:carbP,carbs:carbC,fat:carbF,weighRaw:false},
         ...(veg ? [{name:veg,type:"Veg",grams:vegGrams,cal:vegCal,protein:vegP,carbs:vegC,fat:vegF,weighRaw:false}] : []),
       ],
@@ -242,6 +265,7 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
   }
 
   if (hasEggs || hasEggWhites) {
+    const spiceLevel = isSpicy ? (heatLevel || 1) : 0;
     // Spicy eggs only
     if (isSpicy && ingredients.length === 1) {
       results.push({
@@ -249,7 +273,8 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
         emoji: "🍳",
         method: "Stovetop",
         ezLevel,
-        tags: ["Breakfast", "High Protein", "Spicy", "Quick"],
+        spiceLevel,
+        tags: ["Breakfast", "High Protein", heatLevel===3?"Hot":heatLevel===2?"Medium Heat":"Mild Heat", "Quick"],
         totalCal: 340,
         totalProtein: 32,
         totalCarbs: 2,
@@ -261,6 +286,7 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
           {name: "Butter", type: "Fat", grams: 14, cal: 100, protein: 0, carbs: 0, fat: 11, weighRaw: false},
           {name: "Sriracha", type: "Sauce", grams: 10, cal: 15, protein: 0, carbs: 1, fat: 0, weighRaw: false},
           {name: "Shredded Cheddar (bagged)", type: "Cheese", grams: 28, cal: 110, protein: 7, carbs: 0, fat: 9, weighRaw: false},
+          ...(spiceLevel >= 3 ? [{name: "Red Pepper Flakes", type: "Seasoning", grams: 1, cal: 3, protein: 0, carbs: 1, fat: 0, weighRaw: false}] : []),
         ],
         toppings: [{name: "Extra Sriracha", info: "1 tsp = 5 cal"}, {name: "Black Pepper", info: "pinch = 0 cal"}],
         steps: [
@@ -277,6 +303,7 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
         emoji: "🍳",
         method: "Stovetop",
         ezLevel,
+        spiceLevel: 0,
         tags: ["Breakfast", "High Protein", "Neutral", "Quick"],
         totalCal: 310,
         totalProtein: 30,
@@ -304,6 +331,7 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
         emoji: "🍳",
         method: "Stovetop",
         ezLevel,
+        spiceLevel: 0,
         tags: ["Breakfast", "High Protein", "Comfort", "Quick"],
         totalCal: 380,
         totalProtein: 28,
@@ -333,6 +361,7 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
         emoji: "🍳",
         method: "Stovetop",
         ezLevel,
+        spiceLevel: 0,
         tags: ["Breakfast", "High Protein", "Neutral", "Quick"],
         totalCal: 290,
         totalProtein: 30,
@@ -362,6 +391,7 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
       emoji: "🥚",
       method: "No Cook",
       ezLevel,
+      spiceLevel: 0,
       tags: ["Breakfast", "High Protein", "Keto", "Low Carb", "Snack"],
       totalCal: 210,
       totalProtein: 18,
