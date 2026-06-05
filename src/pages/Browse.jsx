@@ -13,7 +13,13 @@ export default function Browse({ezLevel, onOpen}) {
 
   const filtered = RECIPES.filter(r => {
     const matchSearch = r.name.toLowerCase().includes(search.toLowerCase());
-    const matchFilter = filter === "All" || (r.tags || []).some(t => t.includes(filter));
+
+    // Case-insensitive tag matching
+    let matchFilter = filter === "All";
+    if (!matchFilter) {
+      matchFilter = (r.tags || []).some(t => t.toLowerCase() === filter.toLowerCase());
+    }
+
     let matchSpice = true;
     if (spiceFilter === "No Spice") matchSpice = r.spiceLevel === 0;
     else if (spiceFilter === "Mild") matchSpice = r.spiceLevel === 1;
@@ -52,7 +58,7 @@ export default function Browse({ezLevel, onOpen}) {
       </div>
       <div className="px">
         {filtered.map(r => (
-          <div key={r.id} className="recipe-card" style={{marginBottom: 10, cursor: "pointer"}} onClick={() => onOpen(r)}>
+          <div key={r.id} className="recipe-card" style={{marginBottom: 10, cursor: "pointer"}} onClick={() => onOpen({...r, isBrowseRecipe: true})}>
             <div style={{display: "flex", alignItems: "center", gap: 10}}>
               <span style={{fontSize: 24}}>{r.emoji}</span>
               <div style={{flex: 1}}>

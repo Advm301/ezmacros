@@ -255,7 +255,8 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
 
     // Initialize components, steps, and macros from recipe
     if (recipe) {
-      const initialComponents = recipe.components ? [...recipe.components] : [];
+      // Deep copy components to avoid mutation issues
+      const initialComponents = (recipe.components || []).map(comp => ({...comp}));
       const initialSteps = recipe.steps ? [...recipe.steps] : [];
       let initialName = recipe.name || "";
       initialName = initialName.replace(" (Modified)", "");
@@ -270,7 +271,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
 
       // Priority 1: Use originalRecipeData passed from Today.jsx
       if (recipe.originalRecipeData) {
-        originalComponentsData = recipe.originalRecipeData.components || initialComponents;
+        originalComponentsData = (recipe.originalRecipeData.components || initialComponents).map(comp => ({...comp}));
         originalStepsData = recipe.originalRecipeData.steps || initialSteps;
       }
       // Priority 2: Check if recipe_data has originalData
@@ -278,7 +279,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
         try {
           const parsedData = JSON.parse(recipe.recipe_data);
           if (parsedData.originalData) {
-            originalComponentsData = parsedData.originalData.components || initialComponents;
+            originalComponentsData = (parsedData.originalData.components || initialComponents).map(comp => ({...comp}));
             originalStepsData = parsedData.originalData.steps || initialSteps;
           }
         } catch (e) {
@@ -286,7 +287,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
         }
       }
 
-      // Store original recipe values in refs
+      // Store original recipe values in refs (deep copies)
       originalComponents.current = originalComponentsData;
       originalSteps.current = originalStepsData;
       originalName.current = initialName;
@@ -301,8 +302,12 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
         fat: recipe.fat || recipe.totalFat || 0,
       });
 
-      // If wasModified is true on load, set isModified immediately
-      if (recipe.wasModified) {
+      // If isBrowseRecipe flag is set, ensure isModified stays false
+      if (recipe.isBrowseRecipe) {
+        setIsModified(false);
+      }
+      // If wasModified is true on load, set isModified immediately (for logged meals)
+      else if (recipe.wasModified) {
         setIsModified(true);
       }
     }
@@ -333,7 +338,17 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
   }, [components]);
 
   // Check if current state matches original and update isModified accordingly
+  // Skip this check for Browse recipes - they should never show as modified
   useEffect(() => {
+    // Don't auto-update modified state if this is a Browse recipe
+    if (recipe?.isBrowseRecipe) {
+      setIsModified(false);
+      if (recipeName !== originalName.current) {
+        setRecipeName(originalName.current);
+      }
+      return;
+    }
+
     const modified = isCurrentStateModified();
     setIsModified(modified);
 
@@ -347,7 +362,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
         setRecipeName(originalName.current);
       }
     }
-  }, [components, steps]);
+  }, [components, steps, recipe?.isBrowseRecipe]);
 
   // For logged meals, track if there are unsaved changes from what was loaded from database
   useEffect(() => {
@@ -817,8 +832,19 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
         <div style={{display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16}}>
           <div style={{flex: 1}}>
             <div style={{fontSize: 32, marginBottom: 4}}>{r.emoji}</div>
-            <div style={{fontFamily: "'Clash Display',sans-serif", fontSize: 22, fontWeight: 700, color: "var(--cream)", marginBottom: 2}}>
-              {recipeName}
+            <div style={{fontFamily: "'Clash Display',sans-serif", fontSize: 22, fontWeight: 700, marginBottom: 2}}>
+              {recipeName.includes(" (Modified)") ? (
+                <>
+                  <span style={{color: "var(--cream)"}}>
+                    {recipeName.split(" (Modified)")[0]}
+                  </span>
+                  <span style={{color: "var(--lime)", fontSize: "0.8em", fontStyle: "italic", marginLeft: 4}}>
+                    (Modified)
+                  </span>
+                </>
+              ) : (
+                <span style={{color: "var(--cream)"}}>{recipeName}</span>
+              )}
             </div>
             {r.spiceLevel > 0 && (
               <div style={{fontSize: 14, marginBottom: 4}}>
