@@ -291,8 +291,8 @@ export default function Today({onTabFocus}) {
                       totalCarbs: meal.carbs,
                       fat: meal.fat,
                       totalFat: meal.fat,
-                      isLogged: true,
                       loggedTime: meal.logged_at,
+                      isLoggedView: true,
                     };
 
                     // Parse recipe_data if available
@@ -302,9 +302,17 @@ export default function Today({onTabFocus}) {
                         if (parsed.components) recipeData.components = parsed.components;
                         if (parsed.steps) recipeData.steps = parsed.steps;
                         if (parsed.toppings) recipeData.toppings = parsed.toppings;
+                        if (parsed.emoji) recipeData.emoji = parsed.emoji;
+                        if (parsed.method) recipeData.method = parsed.method;
+                        if (parsed.activeTime) recipeData.activeTime = parsed.activeTime;
                       } catch (e) {
                         console.error('Error parsing recipe_data:', e);
                       }
+                    }
+
+                    // Set stepCount based on steps array
+                    if (recipeData.steps && Array.isArray(recipeData.steps)) {
+                      recipeData.stepCount = recipeData.steps.length;
                     }
 
                     setOpenRecipe(recipeData);

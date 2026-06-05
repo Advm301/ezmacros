@@ -60,7 +60,7 @@ const SUBSTITUTIONS = {
   "almond milk": ["Oat milk", "Regular milk", "Coconut milk carton"],
 };
 
-export default function RecipeModal({recipe, onClose, onMealLogged}) {
+export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView}) {
   const [logged, setLogged] = useState(false);
   const [logging, setLogging] = useState(false);
   const [error, setError] = useState(null);
@@ -260,21 +260,14 @@ export default function RecipeModal({recipe, onClose, onMealLogged}) {
         </div>
 
         {/* Logged Meal Details */}
-        {r.isLogged && (
-          <>
-            {r.loggedTime && (
-              <div style={{fontSize: 12, color: "var(--muted)", marginBottom: 12}}>
-                Logged at: {new Date(r.loggedTime).toLocaleString()}
-              </div>
-            )}
-            <div style={{background: "rgba(201, 241, 58, 0.1)", border: "1px solid rgba(201, 241, 58, 0.3)", borderRadius: 12, padding: 12, marginBottom: 16, fontSize: 12, color: "var(--lime)", lineHeight: 1.6}}>
-              Visit the Kitchen tab to regenerate this recipe with full step-by-step details.
-            </div>
-          </>
+        {r.isLoggedView && r.loggedTime && (
+          <div style={{fontSize: 12, color: "var(--muted)", marginBottom: 12}}>
+            Logged at: {new Date(r.loggedTime).toLocaleString()}
+          </div>
         )}
 
         {/* Components */}
-        {!r.isLogged && components && components.length > 0 && (
+        {(!r.isLogged || r.isLoggedView) && components && components.length > 0 && (
           <div style={{marginBottom: 16}}>
             <div style={{fontSize: 12, fontWeight: 700, color: "var(--muted)", marginBottom: 8, textTransform: "uppercase", letterSpacing: 1}}>Components</div>
             {components.map((c, i) => {
@@ -370,7 +363,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged}) {
         )}
 
         {/* Steps */}
-        {!r.isLogged && steps.length > 0 && (
+        {(!r.isLogged || r.isLoggedView) && steps.length > 0 && (
           <div style={{marginBottom: 16}}>
             <div style={{fontSize: 12, fontWeight: 700, color: "var(--muted)", marginBottom: 8, textTransform: "uppercase", letterSpacing: 1}}>Steps</div>
             {steps.map((s, i) => (
@@ -505,7 +498,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged}) {
         )}
 
         {/* Toppings */}
-        {!r.isLogged && r.toppings && r.toppings.length > 0 && (
+        {(!r.isLogged || r.isLoggedView) && r.toppings && r.toppings.length > 0 && (
           <div style={{marginBottom: 16}}>
             <div style={{fontSize: 12, fontWeight: 700, color: "var(--muted)", marginBottom: 8, textTransform: "uppercase", letterSpacing: 1}}>Optional Toppings</div>
             {r.toppings.map((t, i) => (
@@ -518,7 +511,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged}) {
         )}
 
         {/* Log Meal Button */}
-        {!r.isLogged && (
+        {!r.isLogged && !r.isLoggedView && (
           <>
             <button
               onClick={handleLogMeal}
