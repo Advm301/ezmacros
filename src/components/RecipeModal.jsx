@@ -5,7 +5,7 @@ const MACRO_VALUES = {
   "Ground Chicken": { cal: 143, protein: 27, carbs: 0, fat: 3 },
   "Ground Beef (93% lean)": { cal: 137, protein: 21, carbs: 0, fat: 5 },
   "Chicken Breast": { cal: 110, protein: 23, carbs: 0, fat: 1 },
-  "Brown Rice Pouch": { cal: 216, protein: 5, carbs: 45, fat: 2 },
+  "Brown Rice Pouch": { cal: 108, protein: 2.5, carbs: 22.5, fat: 1 },
   "Cauliflower rice bag": { cal: 25, protein: 2, carbs: 5, fat: 0 },
   "Frozen Green Beans": { cal: 31, protein: 2, carbs: 7, fat: 0 },
   "Frozen Spinach": { cal: 23, protein: 3, carbs: 3, fat: 0 },
@@ -92,6 +92,22 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
     }
   }, [recipe?.id]);
 
+  // Recalculate totals whenever components change
+  useEffect(() => {
+    if (components && components.length > 0) {
+      const newTotals = components.reduce(
+        (acc, comp) => ({
+          cal: acc.cal + (comp.cal || 0),
+          protein: acc.protein + (comp.protein || 0),
+          carbs: acc.carbs + (comp.carbs || 0),
+          fat: acc.fat + (comp.fat || 0),
+        }),
+        { cal: 0, protein: 0, carbs: 0, fat: 0 }
+      );
+      setMacros(newTotals);
+    }
+  }, [components]);
+
   const getSubstitutions = (ingredientName) => {
     const lowerName = ingredientName.toLowerCase();
     for (const key in SUBSTITUTIONS) {
@@ -103,14 +119,10 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
   };
 
   const handleSwapComponent = (index, newName) => {
-    console.log('handleSwapComponent called:', { index, newName });
-
     // Update the component at this index
     const updatedComponents = [...components];
     const originalComponent = updatedComponents[index];
     const newMacros = MACRO_VALUES[newName];
-
-    console.log('Macro lookup result:', { newName, newMacros });
 
     if (newMacros) {
       // Update component name and macros
@@ -124,19 +136,6 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
       };
 
       setComponents(updatedComponents);
-
-      // Recalculate totals
-      const newTotals = updatedComponents.reduce(
-        (acc, comp) => ({
-          cal: acc.cal + (comp.cal || 0),
-          protein: acc.protein + (comp.protein || 0),
-          carbs: acc.carbs + (comp.carbs || 0),
-          fat: acc.fat + (comp.fat || 0),
-        }),
-        { cal: 0, protein: 0, carbs: 0, fat: 0 }
-      );
-
-      setMacros(newTotals);
       setIsModified(true);
     }
 
