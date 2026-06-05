@@ -1,6 +1,16 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 
+const MACRO_VALUES = {
+  "Ground Chicken": { cal: 143, protein: 27, carbs: 0, fat: 3 },
+  "Ground Beef (93% lean)": { cal: 137, protein: 21, carbs: 0, fat: 5 },
+  "Chicken Breast": { cal: 110, protein: 23, carbs: 0, fat: 1 },
+  "Brown Rice Pouch": { cal: 216, protein: 5, carbs: 45, fat: 2 },
+  "Cauliflower rice bag": { cal: 25, protein: 2, carbs: 5, fat: 0 },
+  "Frozen Green Beans": { cal: 31, protein: 2, carbs: 7, fat: 0 },
+  "Frozen Spinach": { cal: 23, protein: 3, carbs: 3, fat: 0 },
+};
+
 const SUBSTITUTIONS = {
   // Proteins
   "ground turkey": ["Ground Chicken", "Ground Beef (93% lean)", "Canned Chicken"],
@@ -56,6 +66,11 @@ export default function RecipeModal({recipe, onClose}) {
   const [error, setError] = useState(null);
   const [expandedSwap, setExpandedSwap] = useState(null);
   const [componentNames, setComponentNames] = useState({}); // Tracks swapped component names
+  const [macros, setMacros] = useState({ cal: 0, protein: 0, carbs: 0, fat: 0 });
+  const [steps, setSteps] = useState([]);
+  const [editingStepIndex, setEditingStepIndex] = useState(null);
+  const [editingStepText, setEditingStepText] = useState("");
+  const [draggedStepIndex, setDraggedStepIndex] = useState(null);
 
   useEffect(() => {
     // Reset logged state when modal opens for a new recipe
@@ -63,6 +78,18 @@ export default function RecipeModal({recipe, onClose}) {
     setError(null);
     setExpandedSwap(null);
     setComponentNames({});
+    setEditingStepIndex(null);
+    setDraggedStepIndex(null);
+    // Initialize steps and macros from recipe
+    if (recipe) {
+      setSteps(recipe.steps || []);
+      setMacros({
+        cal: recipe.cal || recipe.totalCal || 0,
+        protein: recipe.protein || recipe.totalProtein || 0,
+        carbs: recipe.carbs || recipe.totalCarbs || 0,
+        fat: recipe.fat || recipe.totalFat || 0,
+      });
+    }
   }, [recipe?.id]);
 
   const getSubstitutions = (ingredientName) => {
@@ -80,7 +107,71 @@ export default function RecipeModal({recipe, onClose}) {
       ...prev,
       [index]: newName,
     }));
+
+    // Update macros based on the swap
+    const originalComponent = r.components[index];
+    const newMacros = MACRO_VALUES[newName];
+
+    if (newMacros) {
+      // Calculate the difference and update totals
+      const originalMacros = MACRO_VALUES[originalComponent.name] || {
+        cal: originalComponent.cal || 0,
+        protein: originalComponent.protein || originalComponent.p || 0,
+        carbs: originalComponent.carbs || originalComponent.c || 0,
+        fat: originalComponent.fat || originalComponent.f || 0,
+      };
+
+      const calDiff = (newMacros.cal - originalMacros.cal) * (originalComponent.grams / 100);
+      const proteinDiff = (newMacros.protein - originalMacros.protein) * (originalComponent.grams / 100);
+      const carbsDiff = (newMacros.carbs - originalMacros.carbs) * (originalComponent.grams / 100);
+      const fatDiff = (newMacros.fat - originalMacros.fat) * (originalComponent.grams / 100);
+
+      setMacros(prev => ({
+        cal: Math.round(prev.cal + calDiff),
+        protein: Math.round((prev.protein + proteinDiff) * 10) / 10,
+        carbs: Math.round((prev.carbs + carbsDiff) * 10) / 10,
+        fat: Math.round((prev.fat + fatDiff) * 10) / 10,
+      }));
+    }
+
     setExpandedSwap(null);
+  };
+
+  const handleEditStep = (index) => {
+    setEditingStepIndex(index);
+    setEditingStepText(steps[index] || '');
+  };
+
+  const handleSaveStep = () => {
+    if (editingStepIndex !== null) {
+      const updatedSteps = [...steps];
+      updatedSteps[editingStepIndex] = editingStepText;
+      setSteps(updatedSteps);
+      setEditingStepIndex(null);
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setEditingStepIndex(null);
+    setEditingStepText('');
+  };
+
+  const handleDragStart = (index) => {
+    setDraggedStepIndex(index);
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
+
+  const handleDropStep = (dropIndex) => {
+    if (draggedStepIndex !== null && draggedStepIndex !== dropIndex) {
+      const updatedSteps = [...steps];
+      const [draggedStep] = updatedSteps.splice(draggedStepIndex, 1);
+      updatedSteps.splice(dropIndex, 0, draggedStep);
+      setSteps(updatedSteps);
+    }
+    setDraggedStepIndex(null);
   };
 
   if (!recipe) return null;
@@ -104,10 +195,10 @@ export default function RecipeModal({recipe, onClose}) {
           user_id: user.id,
           recipe_id: String(r.id || r.name),
           recipe_name: r.name,
-          cal: r.cal || r.totalCal || 0,
-          protein: r.protein || r.totalProtein || 0,
-          carbs: r.carbs || r.totalCarbs || 0,
-          fat: r.fat || r.totalFat || 0,
+          cal: macros.cal,
+          protein: macros.protein,
+          carbs: macros.carbs,
+          fat: macros.fat,
           logged_at: new Date().toISOString(),
         });
 
@@ -115,6 +206,8 @@ export default function RecipeModal({recipe, onClose}) {
         setError(insertError.message);
       } else {
         setLogged(true);
+        // Emit meal logged event for notification
+        window.dispatchEvent(new CustomEvent('mealLogged'));
         setTimeout(() => {
           onClose();
         }, 1000);
@@ -144,8 +237,8 @@ export default function RecipeModal({recipe, onClose}) {
         {/* Macros */}
         <div style={{background: "var(--s2)", borderRadius: 14, padding: 14, marginBottom: 16, border: "1px solid var(--border)"}}>
           <div style={{display: "flex", justifyContent: "space-around"}}>
-            {[["cal", r.cal || r.totalCal, "var(--orange)"],["protein", (r.protein || r.totalProtein) + "g", "var(--lime)"],
-              ["carbs", (r.carbs || r.totalCarbs) + "g", "var(--blue)"],["fat", (r.fat || r.totalFat) + "g", "var(--muted)"]].map(([l,v,c]) => (
+            {[["cal", macros.cal, "var(--orange)"],["protein", macros.protein + "g", "var(--lime)"],
+              ["carbs", macros.carbs + "g", "var(--blue)"],["fat", macros.fat + "g", "var(--muted)"]].map(([l,v,c]) => (
               <div key={l} style={{textAlign: "center"}}>
                 <div style={{fontSize: 22, fontWeight: 700, color: c, fontFamily: "'Clash Display',sans-serif"}}>{v}</div>
                 <div style={{fontSize: 10, color: "var(--muted)"}}>{l}</div>
@@ -154,11 +247,18 @@ export default function RecipeModal({recipe, onClose}) {
           </div>
         </div>
 
-        {/* Logged Meal Note */}
+        {/* Logged Meal Details */}
         {r.isLogged && (
-          <div style={{background: "rgba(201, 241, 58, 0.1)", border: "1px solid rgba(201, 241, 58, 0.3)", borderRadius: 12, padding: 12, marginBottom: 16, fontSize: 12, color: "var(--lime)", lineHeight: 1.6}}>
-            Re-generate this recipe in the Kitchen tab for full details including ingredients, steps, and substitutions.
-          </div>
+          <>
+            {r.loggedTime && (
+              <div style={{fontSize: 12, color: "var(--muted)", marginBottom: 12}}>
+                Logged at: {new Date(r.loggedTime).toLocaleString()}
+              </div>
+            )}
+            <div style={{background: "rgba(201, 241, 58, 0.1)", border: "1px solid rgba(201, 241, 58, 0.3)", borderRadius: 12, padding: 12, marginBottom: 16, fontSize: 12, color: "var(--lime)", lineHeight: 1.6}}>
+              Visit the Kitchen tab to regenerate this recipe with full step-by-step details.
+            </div>
+          </>
         )}
 
         {/* Components */}
@@ -259,13 +359,102 @@ export default function RecipeModal({recipe, onClose}) {
         )}
 
         {/* Steps */}
-        {!r.isLogged && r.steps && (
+        {!r.isLogged && steps.length > 0 && (
           <div style={{marginBottom: 16}}>
             <div style={{fontSize: 12, fontWeight: 700, color: "var(--muted)", marginBottom: 8, textTransform: "uppercase", letterSpacing: 1}}>Steps</div>
-            {r.steps.map((s, i) => (
-              <div key={i} style={{display: "flex", gap: 10, marginBottom: 10}}>
+            {steps.map((s, i) => (
+              <div
+                key={i}
+                draggable
+                onDragStart={() => handleDragStart(i)}
+                onDragOver={handleDragOver}
+                onDrop={() => handleDropStep(i)}
+                style={{
+                  display: "flex",
+                  gap: 10,
+                  marginBottom: 10,
+                  padding: 10,
+                  borderRadius: 8,
+                  background: draggedStepIndex === i ? "rgba(201, 241, 58, 0.2)" : "transparent",
+                  transition: "all 0.15s",
+                }}
+              >
+                <div style={{cursor: "grab", paddingTop: 2, color: "var(--muted)", fontSize: 14}}>⠿</div>
                 <div style={{width: 24, height: 24, minWidth: 24, background: "var(--lime)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700, color: "#000"}}>{i+1}</div>
-                <div style={{fontSize: 13, color: "var(--cream)", lineHeight: 1.5, paddingTop: 3}}>{s}</div>
+                <div style={{flex: 1}}>
+                  {editingStepIndex === i ? (
+                    <div>
+                      <textarea
+                        value={editingStepText}
+                        onChange={(e) => setEditingStepText(e.target.value)}
+                        style={{
+                          width: "100%",
+                          minHeight: "80px",
+                          padding: "8px",
+                          borderRadius: 6,
+                          border: "1px solid var(--lime)",
+                          background: "var(--s2)",
+                          color: "var(--cream)",
+                          fontSize: 13,
+                          fontFamily: "'Plus Jakarta Sans', sans-serif",
+                          resize: "vertical",
+                        }}
+                      />
+                      <div style={{display: "flex", gap: 8, marginTop: 8}}>
+                        <button
+                          onClick={handleSaveStep}
+                          style={{
+                            background: "var(--lime)",
+                            color: "#000",
+                            border: "none",
+                            borderRadius: 6,
+                            padding: "6px 12px",
+                            fontSize: 12,
+                            fontWeight: 600,
+                            cursor: "pointer",
+                          }}
+                        >
+                          Save
+                        </button>
+                        <button
+                          onClick={handleCancelEdit}
+                          style={{
+                            background: "var(--s2)",
+                            color: "var(--muted)",
+                            border: "1px solid var(--border)",
+                            borderRadius: 6,
+                            padding: "6px 12px",
+                            fontSize: 12,
+                            fontWeight: 600,
+                            cursor: "pointer",
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div style={{display: "flex", justifyContent: "space-between", alignItems: "flex-start"}}>
+                      <div style={{fontSize: 13, color: "var(--cream)", lineHeight: 1.5}}>{s}</div>
+                      <button
+                        onClick={() => handleEditStep(i)}
+                        style={{
+                          background: "transparent",
+                          border: "none",
+                          color: "var(--muted)",
+                          fontSize: 14,
+                          cursor: "pointer",
+                          padding: "2px 6px",
+                          marginLeft: 8,
+                        }}
+                        onMouseEnter={(e) => e.target.style.color = "var(--lime)"}
+                        onMouseLeave={(e) => e.target.style.color = "var(--muted)"}
+                      >
+                        ✏️
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             ))}
           </div>

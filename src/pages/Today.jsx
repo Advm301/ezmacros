@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import RecipeModal from '../components/RecipeModal';
 
-export default function Today() {
+export default function Today({onTabFocus}) {
   const [goals, setGoals] = useState(null);
   const [meals, setMeals] = useState([]);
   const [totals, setTotals] = useState({ cal: 0, protein: 0, carbs: 0, fat: 0 });
@@ -46,6 +46,7 @@ export default function Today() {
           .lt('logged_at', `${today}T23:59:59`)
           .order('logged_at', { ascending: false });
 
+        console.log('Meal logs data:', mealsData);
         setMeals(mealsData || []);
 
         // Calculate totals
@@ -85,6 +86,13 @@ export default function Today() {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, []);
+
+  useEffect(() => {
+    // Call onTabFocus when tab becomes active
+    if (onTabFocus) {
+      onTabFocus();
+    }
+  }, [onTabFocus]);
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
@@ -260,51 +268,63 @@ export default function Today() {
           ) : (
             meals.map((meal, i) => (
               <div
-                key={i}
-                onClick={() => setOpenRecipe({
-                  name: meal.recipe_name || 'Logged Meal',
-                  emoji: '📋',
-                  cal: meal.cal,
-                  totalCal: meal.cal,
-                  protein: meal.protein,
-                  totalProtein: meal.protein,
-                  carbs: meal.carbs,
-                  totalCarbs: meal.carbs,
-                  fat: meal.fat,
-                  totalFat: meal.fat,
-                  isLogged: true,
-                })}
+                key={meal.id || i}
                 style={{
                   background: 'var(--s1)',
                   border: '1px solid var(--border)',
                   borderRadius: 12,
-                  padding: 12,
                   marginBottom: 10,
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'flex-start',
-                  cursor: 'pointer',
-                  transition: 'all 0.15s',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = 'var(--lime)';
-                  e.currentTarget.style.background = 'var(--s2)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = 'var(--border)';
-                  e.currentTarget.style.background = 'var(--s1)';
+                  overflow: 'hidden',
                 }}
               >
-                <div style={{flex: 1}}>
-                  <div style={{fontWeight: 700, fontSize: 14, color: 'var(--cream)', marginBottom: 4}}>
-                    {meal.recipe_name || 'Logged Meal'}
+                {/* Clickable card area */}
+                <div
+                  onClick={() => setOpenRecipe({
+                    name: meal.recipe_name || 'Logged Meal',
+                    emoji: '🍽️',
+                    cal: meal.cal,
+                    totalCal: meal.cal,
+                    protein: meal.protein,
+                    totalProtein: meal.protein,
+                    carbs: meal.carbs,
+                    totalCarbs: meal.carbs,
+                    fat: meal.fat,
+                    totalFat: meal.fat,
+                    isLogged: true,
+                    loggedTime: meal.logged_at,
+                  })}
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'flex-start',
+                    padding: 12,
+                    cursor: 'pointer',
+                    transition: 'all 0.15s',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = 'var(--s2)';
+                    e.currentTarget.parentElement.style.borderColor = 'var(--lime)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'transparent';
+                    e.currentTarget.parentElement.style.borderColor = 'var(--border)';
+                  }}
+                >
+                  {/* Left side: emoji, name, time */}
+                  <div style={{display: 'flex', gap: 10, flex: 1}}>
+                    <div style={{fontSize: 20}}>🍽️</div>
+                    <div>
+                      <div style={{fontWeight: 700, fontSize: 14, color: 'var(--cream)', marginBottom: 4}}>
+                        {meal.recipe_name || 'Logged Meal'}
+                      </div>
+                      <div style={{fontSize: 11, color: 'var(--muted)'}}>
+                        {new Date(meal.logged_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      </div>
+                    </div>
                   </div>
-                  <div style={{fontSize: 11, color: 'var(--muted)'}}>
-                    {new Date(meal.logged_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                  </div>
-                </div>
-                <div style={{display: 'flex', gap: 12, alignItems: 'flex-start', marginLeft: 12}}>
-                  <div style={{textAlign: 'right'}}>
+
+                  {/* Right side: macros */}
+                  <div style={{textAlign: 'right', marginLeft: 12}}>
                     <div style={{fontSize: 12, color: 'var(--orange)', fontWeight: 700}}>
                       {meal.cal} cal
                     </div>
@@ -312,6 +332,10 @@ export default function Today() {
                       {meal.protein}g P
                     </div>
                   </div>
+                </div>
+
+                {/* Delete button - separate from clickable area */}
+                <div style={{display: 'flex', justifyContent: 'flex-end', paddingRight: 12, paddingBottom: 8}}>
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
