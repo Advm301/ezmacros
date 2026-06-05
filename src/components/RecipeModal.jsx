@@ -511,19 +511,34 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
 
       const data = await response.json();
 
+      // Filter out Branded foods - only use Foundation and SR Legacy
+      const filteredFoods = (data.foods || []).filter(food =>
+        food.dataType === "Foundation" || food.dataType === "SR Legacy"
+      );
+
       // Parse food results
-      let foods = (data.foods || []).map(food => {
+      let foods = filteredFoods.map((food) => {
         const getNutrientValue = (nutrientName) => {
           const nutrient = food.foodNutrients?.find(n =>
             n.nutrientName && n.nutrientName.includes(nutrientName) && n.value !== null
           );
-          return nutrient ? nutrient.value : 0;
+          return nutrient ? { value: nutrient?.value ?? 0, unit: nutrient?.unitName } : { value: 0, unit: null };
         };
 
-        const energyValue = getNutrientValue("Energy");
-        const proteinValue = getNutrientValue("Protein");
-        const carbValue = getNutrientValue("Carbohydrate");
-        const fatValue = getNutrientValue("Total lipid");
+        const energyData = getNutrientValue("Energy");
+        const proteinData = getNutrientValue("Protein");
+        const carbData = getNutrientValue("Carbohydrate");
+        const fatData = getNutrientValue("Total lipid");
+
+        // Convert kJ to kcal if needed
+        let energyValue = energyData.value;
+        if (energyData.unit && energyData.unit.toLowerCase().includes("kj")) {
+          energyValue = energyValue / 4.184;
+        }
+
+        const proteinValue = proteinData.value;
+        const carbValue = carbData.value;
+        const fatValue = fatData.value;
 
         return {
           name: food.description || "Unknown",
@@ -979,8 +994,6 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
                                       const newMacros = { cal: item.cal, protein: item.protein, carbs: item.carbs, fat: item.fat };
                                       const scaleFactor = originalComponent.grams / 100;
                                       const calcCal = newMacros.cal * scaleFactor;
-
-                                      console.log(`USDA Scaling - Item: ${item.name}, Grams: ${originalComponent.grams}, USDA Cal/100g: ${newMacros.cal}, Calculated: ${Math.round(calcCal)}`);
 
                                       updatedComponents[i] = {
                                         ...originalComponent,
