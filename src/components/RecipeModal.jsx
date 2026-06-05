@@ -40,6 +40,65 @@ const MACRO_VALUES = {
   "cholula": { cal: 5, protein: 0, carbs: 1, fat: 0 },
 };
 
+const FOOD_DATABASE = [
+  // Cheeses
+  { name: "Reduced Fat Cheddar", cal: 290, protein: 24, carbs: 1, fat: 20 },
+  { name: "Mozzarella", cal: 280, protein: 22, carbs: 2, fat: 20 },
+  { name: "Pepper Jack", cal: 370, protein: 22, carbs: 1, fat: 30 },
+  { name: "Colby Jack", cal: 390, protein: 23, carbs: 1, fat: 32 },
+  { name: "Feta Cheese", cal: 264, protein: 14, carbs: 4, fat: 21 },
+  { name: "Parmesan", cal: 431, protein: 38, carbs: 4, fat: 29 },
+  { name: "Cottage Cheese", cal: 98, protein: 11, carbs: 3, fat: 4 },
+  { name: "Ricotta", cal: 174, protein: 11, carbs: 3, fat: 13 },
+
+  // Deli & Proteins
+  { name: "Turkey Breast (deli)", cal: 89, protein: 17, carbs: 2, fat: 1 },
+  { name: "Ham (deli)", cal: 107, protein: 17, carbs: 2, fat: 4 },
+  { name: "Smoked Salmon", cal: 117, protein: 18, carbs: 0, fat: 4 },
+  { name: "Sardines", cal: 208, protein: 25, carbs: 0, fat: 11 },
+  { name: "Tuna (canned)", cal: 116, protein: 26, carbs: 0, fat: 1 },
+
+  // Legumes
+  { name: "Edamame", cal: 121, protein: 11, carbs: 9, fat: 5 },
+  { name: "Black Beans", cal: 132, protein: 9, carbs: 24, fat: 1 },
+  { name: "Chickpeas", cal: 164, protein: 9, carbs: 27, fat: 3 },
+  { name: "Lentils", cal: 116, protein: 9, carbs: 20, fat: 0 },
+
+  // Grains & Carbs
+  { name: "Quinoa", cal: 120, protein: 4, carbs: 22, fat: 2 },
+  { name: "Sweet Potato", cal: 86, protein: 2, carbs: 20, fat: 0 },
+
+  // Fruits & Nuts
+  { name: "Avocado", cal: 160, protein: 2, carbs: 9, fat: 15 },
+  { name: "Banana", cal: 89, protein: 1, carbs: 23, fat: 0 },
+  { name: "Blueberries", cal: 57, protein: 1, carbs: 14, fat: 0 },
+  { name: "Strawberries", cal: 32, protein: 1, carbs: 8, fat: 0 },
+  { name: "Almond Butter", cal: 614, protein: 21, carbs: 19, fat: 56 },
+  { name: "Peanut Butter", cal: 588, protein: 25, carbs: 20, fat: 50 },
+
+  // Grains & Cereals
+  { name: "Granola", cal: 471, protein: 10, carbs: 64, fat: 20 },
+  { name: "Protein Powder (whey)", cal: 400, protein: 80, carbs: 8, fat: 5 },
+
+  // Dairy & Milk
+  { name: "Whole Milk", cal: 61, protein: 3, carbs: 5, fat: 3 },
+  { name: "Oat Milk", cal: 45, protein: 1, carbs: 7, fat: 2 },
+  { name: "Greek Yogurt 0%", cal: 59, protein: 10, carbs: 4, fat: 0 },
+  { name: "Skyr", cal: 63, protein: 11, carbs: 4, fat: 0 },
+
+  // Condiments & Sauces
+  { name: "Hummus", cal: 166, protein: 8, carbs: 14, fat: 10 },
+  { name: "Salsa", cal: 36, protein: 2, carbs: 8, fat: 0 },
+  { name: "Hot Sauce", cal: 11, protein: 0, carbs: 2, fat: 0 },
+  { name: "Soy Sauce", cal: 53, protein: 8, carbs: 5, fat: 0 },
+
+  // Oils & Sweeteners
+  { name: "Olive Oil", cal: 884, protein: 0, carbs: 0, fat: 100 },
+  { name: "Butter", cal: 717, protein: 1, carbs: 0, fat: 81 },
+  { name: "Honey", cal: 304, protein: 0, carbs: 82, fat: 0 },
+  { name: "Maple Syrup", cal: 260, protein: 0, carbs: 67, fat: 0 },
+];
+
 const SUBSTITUTIONS = {
   // Proteins
   "ground turkey": ["Ground Chicken", "Ground Beef", "Canned Chicken"],
@@ -57,7 +116,11 @@ const SUBSTITUTIONS = {
   "ground bison": ["Ground Turkey", "Ground Beef", "Ground Chicken"],
   "tuna": ["Canned Salmon", "Canned Chicken", "Shrimp"],
   "pork": ["Chicken Thighs", "Ground Turkey", "Ground Beef"],
-  "egg": ["Egg whites", "Canned Chicken", "Tofu"],
+  "egg white": ["Whole eggs (3 large)", "Liquid egg substitute", "Silken tofu scramble"],
+  "whole egg": ["Egg white carton", "Liquid egg substitute", "Flax egg (1 tbsp flax + 3 tbsp water)"],
+  "egg": ["Egg white carton", "Liquid egg substitute", "Silken tofu scramble"],
+  "egg white carton": ["Whole eggs (3 large)", "Liquid egg substitute", "Silken tofu scramble"],
+  "liquid egg substitute": ["Egg white carton", "Whole eggs (3 large)", "Silken tofu scramble"],
 
   // Carbs
   "white rice": ["Brown Rice", "Quinoa", "Cauliflower Rice"],
@@ -125,6 +188,8 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
   const [editingStepIndex, setEditingStepIndex] = useState(null);
   const [editingStepText, setEditingStepText] = useState("");
   const [isModified, setIsModified] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchComponentIndex, setSearchComponentIndex] = useState(null);
 
   useEffect(() => {
     // Reset logged state when modal opens for a new recipe
@@ -173,16 +238,26 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
   };
 
   const getMacroValues = (name) => {
-    // Try exact match first (case-insensitive)
+    // Try exact match first in MACRO_VALUES (case-insensitive)
     const lowerName = name.toLowerCase();
     const exactKey = Object.keys(MACRO_VALUES).find(key => key.toLowerCase() === lowerName);
     if (exactKey) return MACRO_VALUES[exactKey];
 
-    // Try partial match: newName includes key or key includes newName
+    // Try partial match in MACRO_VALUES: newName includes key or key includes newName
     const partialKey = Object.keys(MACRO_VALUES).find(
       key => lowerName.includes(key.toLowerCase()) || key.toLowerCase().includes(lowerName)
     );
     if (partialKey) return MACRO_VALUES[partialKey];
+
+    // Try exact match in FOOD_DATABASE
+    const foodItem = FOOD_DATABASE.find(item => item.name.toLowerCase() === lowerName);
+    if (foodItem) return { cal: foodItem.cal, protein: foodItem.protein, carbs: foodItem.carbs, fat: foodItem.fat };
+
+    // Try partial match in FOOD_DATABASE
+    const partialFood = FOOD_DATABASE.find(item =>
+      lowerName.includes(item.name.toLowerCase()) || item.name.toLowerCase().includes(lowerName)
+    );
+    if (partialFood) return { cal: partialFood.cal, protein: partialFood.protein, carbs: partialFood.carbs, fat: partialFood.fat };
 
     // No match found
     return null;
@@ -404,45 +479,205 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
                   </div>
 
                   {/* Substitution Panel */}
-                  {expandedSwap === i && substitutions && (
+                  {expandedSwap === i && (
                     <div style={{padding: "8px 0 12px 0", borderBottom: "1px solid var(--border)"}}>
-                      <div style={{fontSize: 10, color: "var(--muted)", marginBottom: 8}}>Alternatives:</div>
-                      <div style={{display: "flex", flexWrap: "wrap", gap: 6}}>
-                        {substitutions.map((sub, j) => (
-                          <button
-                            key={j}
-                            onClick={() => handleSwapComponent(i, sub)}
+                      {substitutions && (
+                        <>
+                          <div style={{fontSize: 10, color: "var(--muted)", marginBottom: 8}}>Alternatives:</div>
+                          <div style={{display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 12}}>
+                            {substitutions.map((sub, j) => (
+                              <button
+                                key={j}
+                                onClick={() => {
+                                  handleSwapComponent(i, sub);
+                                  setSearchQuery("");
+                                  setSearchComponentIndex(null);
+                                }}
+                                style={{
+                                  background: "var(--s2)",
+                                  border: "1px solid var(--lime)",
+                                  color: "var(--lime)",
+                                  borderRadius: 20,
+                                  padding: "6px 12px",
+                                  fontSize: 12,
+                                  fontWeight: 600,
+                                  cursor: "pointer",
+                                  transition: "all 0.15s",
+                                }}
+                                onMouseEnter={(e) => {
+                                  e.target.style.background = "var(--lime)";
+                                  e.target.style.color = "#000";
+                                }}
+                                onMouseLeave={(e) => {
+                                  e.target.style.background = "var(--s2)";
+                                  e.target.style.color = "var(--lime)";
+                                }}
+                              >
+                                {sub}
+                              </button>
+                            ))}
+                          </div>
+                        </>
+                      )}
+
+                      {/* Custom Ingredient Search */}
+                      <div style={{marginTop: 12, paddingTop: 12, borderTop: "1px solid var(--s3)"}}>
+                        <div style={{display: "flex", gap: 8, marginBottom: 8}}>
+                          <input
+                            type="text"
+                            placeholder="Search any ingredient..."
+                            value={searchComponentIndex === i ? searchQuery : ""}
+                            onChange={(e) => {
+                              setSearchComponentIndex(i);
+                              setSearchQuery(e.target.value);
+                            }}
+                            onFocus={() => setSearchComponentIndex(i)}
                             style={{
+                              flex: 1,
                               background: "var(--s2)",
-                              border: "1px solid var(--lime)",
-                              color: "var(--lime)",
-                              borderRadius: 20,
-                              padding: "6px 12px",
+                              border: "1px solid var(--border)",
+                              borderRadius: 8,
+                              padding: "6px 10px",
+                              color: "var(--cream)",
                               fontSize: 12,
-                              fontWeight: 600,
-                              cursor: "pointer",
-                              transition: "all 0.15s",
+                              fontFamily: "'Plus Jakarta Sans', sans-serif",
+                              outline: "none",
+                              transition: "border-color 0.15s",
                             }}
-                            onMouseEnter={(e) => {
-                              e.target.style.background = "var(--lime)";
-                              e.target.style.color = "#000";
+                            onFocus={(e) => {
+                              e.target.style.borderColor = "var(--lime)";
                             }}
-                            onMouseLeave={(e) => {
-                              e.target.style.background = "var(--s2)";
-                              e.target.style.color = "var(--lime)";
+                            onBlur={(e) => {
+                              e.target.style.borderColor = "var(--border)";
                             }}
-                          >
-                            {sub}
-                          </button>
-                        ))}
+                          />
+                          <span style={{fontSize: 12, color: "var(--muted)", display: "flex", alignItems: "center"}}>🔍</span>
+                        </div>
+
+                        {/* Search Results */}
+                        {searchComponentIndex === i && searchQuery && (
+                          <div style={{display: "flex", flexWrap: "wrap", gap: 6}}>
+                            {FOOD_DATABASE.filter(item =>
+                              item.name.toLowerCase().includes(searchQuery.toLowerCase())
+                            ).slice(0, 5).map((item, j) => (
+                              <button
+                                key={j}
+                                onClick={() => {
+                                  handleSwapComponent(i, item.name);
+                                  setSearchQuery("");
+                                  setSearchComponentIndex(null);
+                                }}
+                                style={{
+                                  background: "var(--s3)",
+                                  border: "1px solid var(--border)",
+                                  color: "var(--muted)",
+                                  borderRadius: 20,
+                                  padding: "6px 12px",
+                                  fontSize: 11,
+                                  fontWeight: 600,
+                                  cursor: "pointer",
+                                  transition: "all 0.15s",
+                                }}
+                                onMouseEnter={(e) => {
+                                  e.target.style.background = "var(--muted)";
+                                  e.target.style.color = "var(--bg)";
+                                  e.target.style.borderColor = "var(--muted)";
+                                }}
+                                onMouseLeave={(e) => {
+                                  e.target.style.background = "var(--s3)";
+                                  e.target.style.color = "var(--muted)";
+                                  e.target.style.borderColor = "var(--border)";
+                                }}
+                              >
+                                {item.name}
+                              </button>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     </div>
                   )}
 
-                  {/* No swaps available */}
+                  {/* No swaps available (but search still shown) */}
                   {expandedSwap === i && !substitutions && (
-                    <div style={{padding: "8px 0 12px 0", borderBottom: "1px solid var(--border)", fontSize: 11, color: "var(--muted)"}}>
-                      No swaps available for this ingredient
+                    <div style={{padding: "8px 0 12px 0", borderBottom: "1px solid var(--border)"}}>
+                      <div style={{fontSize: 11, color: "var(--muted)", marginBottom: 12}}>
+                        No preset alternatives. Try searching below:
+                      </div>
+
+                      {/* Custom Ingredient Search */}
+                      <div style={{display: "flex", gap: 8, marginBottom: 8}}>
+                        <input
+                          type="text"
+                          placeholder="Search any ingredient..."
+                          value={searchComponentIndex === i ? searchQuery : ""}
+                          onChange={(e) => {
+                            setSearchComponentIndex(i);
+                            setSearchQuery(e.target.value);
+                          }}
+                          onFocus={() => setSearchComponentIndex(i)}
+                          style={{
+                            flex: 1,
+                            background: "var(--s2)",
+                            border: "1px solid var(--border)",
+                            borderRadius: 8,
+                            padding: "6px 10px",
+                            color: "var(--cream)",
+                            fontSize: 12,
+                            fontFamily: "'Plus Jakarta Sans', sans-serif",
+                            outline: "none",
+                            transition: "border-color 0.15s",
+                          }}
+                          onFocus={(e) => {
+                            e.target.style.borderColor = "var(--lime)";
+                          }}
+                          onBlur={(e) => {
+                            e.target.style.borderColor = "var(--border)";
+                          }}
+                        />
+                        <span style={{fontSize: 12, color: "var(--muted)", display: "flex", alignItems: "center"}}>🔍</span>
+                      </div>
+
+                      {/* Search Results */}
+                      {searchComponentIndex === i && searchQuery && (
+                        <div style={{display: "flex", flexWrap: "wrap", gap: 6}}>
+                          {FOOD_DATABASE.filter(item =>
+                            item.name.toLowerCase().includes(searchQuery.toLowerCase())
+                          ).slice(0, 5).map((item, j) => (
+                            <button
+                              key={j}
+                              onClick={() => {
+                                handleSwapComponent(i, item.name);
+                                setSearchQuery("");
+                                setSearchComponentIndex(null);
+                              }}
+                              style={{
+                                background: "var(--s3)",
+                                border: "1px solid var(--border)",
+                                color: "var(--muted)",
+                                borderRadius: 20,
+                                padding: "6px 12px",
+                                fontSize: 11,
+                                fontWeight: 600,
+                                cursor: "pointer",
+                                transition: "all 0.15s",
+                              }}
+                              onMouseEnter={(e) => {
+                                e.target.style.background = "var(--muted)";
+                                e.target.style.color = "var(--bg)";
+                                e.target.style.borderColor = "var(--muted)";
+                              }}
+                              onMouseLeave={(e) => {
+                                e.target.style.background = "var(--s3)";
+                                e.target.style.color = "var(--muted)";
+                                e.target.style.borderColor = "var(--border)";
+                              }}
+                            >
+                              {item.name}
+                            </button>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
