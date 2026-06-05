@@ -2,17 +2,52 @@ import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 
 const SUBSTITUTIONS = {
-  "Ground Turkey (93% lean)": ["Ground Chicken", "Ground Beef (93% lean)", "Canned Chicken"],
-  "Chicken Thighs (boneless, skinless)": ["Chicken Breast", "Ground Turkey", "Rotisserie Chicken"],
-  "Salmon Fillet": ["Cod", "Canned Salmon pouch", "Tilapia"],
-  "Cod Fillet": ["Salmon", "Tilapia", "Shrimp"],
-  "Ground Beef (93% lean)": ["Ground Turkey", "Ground Bison", "Canned Beef"],
-  "Canned Tuna": ["Canned Salmon", "Canned Chicken", "Sardines"],
-  "White Rice Pouch (microwave)": ["Brown Rice Pouch", "Quinoa pouch", "Cauliflower rice bag"],
-  "Frozen Broccoli (steam-bag)": ["Frozen Green Beans", "Frozen Spinach", "Frozen Mixed Veg"],
-  "Frozen Green Beans (steam-bag)": ["Frozen Broccoli", "Frozen Asparagus", "Frozen Mixed Veg"],
-  "Greek Yogurt": ["Skyr (Siggi's)", "Cottage Cheese", "Quark"],
-  "Whole Eggs (3 large)": ["Egg whites (carton)", "Tofu scramble"],
+  // Proteins
+  "ground turkey": ["Ground Chicken", "Ground Beef (93% lean)", "Canned Chicken"],
+  "chicken thighs": ["Chicken Breast", "Ground Turkey", "Rotisserie Chicken"],
+  "salmon": ["Cod", "Canned Salmon pouch", "Tilapia"],
+  "cod": ["Salmon", "Tilapia", "Shrimp"],
+  "ground beef": ["Ground Turkey", "Ground Bison", "Canned Beef"],
+  "tuna": ["Canned Salmon", "Canned Chicken", "Sardines"],
+  "shrimp": ["Bay scallops", "Tilapia", "Canned crab"],
+  "pork": ["Chicken Thighs", "Turkey Tenderloin", "Lamb chops"],
+  "egg": ["Egg whites (carton)", "Tofu scramble", "Liquid egg substitute"],
+
+  // Carbs
+  "white rice": ["Brown Rice Pouch", "Quinoa pouch", "Cauliflower rice bag"],
+  "pasta": ["Banza chickpea pasta", "Lentil pasta", "Zucchini noodles (frozen)"],
+  "oat": ["Cream of wheat", "Grits", "Quinoa flakes"],
+
+  // Vegetables
+  "broccoli": ["Frozen Green Beans", "Frozen Spinach", "Frozen Mixed Veg"],
+  "green bean": ["Frozen Broccoli", "Frozen Asparagus", "Frozen Mixed Veg"],
+  "spinach": ["Kale (bagged, pre-washed)", "Frozen peas", "Arugula"],
+  "mixed veg": ["Frozen edamame", "Frozen peas and carrots", "Canned mixed vegetables"],
+  "asparagus": ["Frozen broccoli", "Frozen green beans", "Zucchini"],
+
+  // Dairy
+  "greek yogurt": ["Skyr (Siggi's)", "Cottage Cheese", "Quark"],
+  "cottage cheese": ["Ricotta", "Greek Yogurt", "Quark"],
+  "cheddar": ["Mozzarella", "Pepper jack", "Colby jack"],
+  "cheese": ["Nutritional yeast", "Dairy-free shredded cheese", "Light cream cheese"],
+
+  // Sauces & Seasonings
+  "garlic herb": ["Italian Seasoning (shaker)", "Lemon Pepper Seasoning", "Everything Bagel Seasoning"],
+  "taco seasoning": ["Fajita Seasoning packet", "Chili Seasoning packet", "Cumin + Paprika + Garlic Powder"],
+  "teriyaki": ["Coconut Aminos + honey", "Soy sauce + honey + garlic powder", "Kikkoman Stir Fry Sauce"],
+  "sriracha": ["Frank's RedHot", "Cholula", "Sambal Oelek"],
+  "lemon pepper": ["Garlic Herb Seasoning", "Italian Seasoning", "Cajun Seasoning"],
+  "buffalo": ["Frank's RedHot + butter", "Sriracha + honey", "Sweet Baby Ray's Buffalo"],
+  "marinara": ["Tomato paste + Italian seasoning", "Prego Traditional", "Pizza sauce"],
+  "soy sauce": ["Coconut Aminos", "Tamari (gluten-free soy)", "Liquid Aminos"],
+  "olive oil": ["Avocado oil spray", "Coconut oil spray", "Butter"],
+  "honey": ["Maple syrup", "Agave nectar", "Sugar-free syrup"],
+  "mayo": ["Greek yogurt", "Avocado", "Light mayo"],
+  "mustard": ["Dijon mustard", "Hot sauce", "Horseradish"],
+
+  // Baking & Misc
+  "panko": ["Regular breadcrumbs", "Crushed rice cakes", "Almond flour"],
+  "almond milk": ["Oat milk", "Regular milk", "Coconut milk carton"],
 };
 
 export default function RecipeModal({recipe, onClose}) {
@@ -20,7 +55,7 @@ export default function RecipeModal({recipe, onClose}) {
   const [logging, setLogging] = useState(false);
   const [error, setError] = useState(null);
   const [expandedSwap, setExpandedSwap] = useState(null);
-  const [componentNames, setComponentNames] = useState({});
+  const [componentNames, setComponentNames] = useState({}); // Tracks swapped component names
 
   useEffect(() => {
     // Reset logged state when modal opens for a new recipe
@@ -31,7 +66,13 @@ export default function RecipeModal({recipe, onClose}) {
   }, [recipe?.id]);
 
   const getSubstitutions = (ingredientName) => {
-    return SUBSTITUTIONS[ingredientName] || null;
+    const lowerName = ingredientName.toLowerCase();
+    for (const key in SUBSTITUTIONS) {
+      if (lowerName.includes(key.toLowerCase())) {
+        return SUBSTITUTIONS[key];
+      }
+    }
+    return null;
   };
 
   const handleSwapComponent = (index, newName) => {
@@ -74,6 +115,9 @@ export default function RecipeModal({recipe, onClose}) {
         setError(insertError.message);
       } else {
         setLogged(true);
+        setTimeout(() => {
+          onClose();
+        }, 1000);
       }
     } catch (err) {
       setError(err.message || "Failed to log meal");
@@ -88,9 +132,11 @@ export default function RecipeModal({recipe, onClose}) {
           <div>
             <div style={{fontSize: 32, marginBottom: 4}}>{r.emoji}</div>
             <div style={{fontFamily: "'Clash Display',sans-serif", fontSize: 22, fontWeight: 700, color: "var(--cream)"}}>{r.name}</div>
-            <div style={{fontSize: 12, color: "var(--muted)", marginTop: 4}}>
-              {r.method} · {r.activeTime || r.activeMinutes} min active · {r.stepCount} steps
-            </div>
+            {!r.isLogged && (
+              <div style={{fontSize: 12, color: "var(--muted)", marginTop: 4}}>
+                {r.method} · {r.activeTime || r.activeMinutes} min active · {r.stepCount} steps
+              </div>
+            )}
           </div>
           <button onClick={onClose} style={{background: "var(--s3)", border: "1px solid var(--border)", color: "var(--muted)", borderRadius: 8, padding: "6px 12px", cursor: "pointer", fontSize: 13}}>✕ Close</button>
         </div>
@@ -108,8 +154,15 @@ export default function RecipeModal({recipe, onClose}) {
           </div>
         </div>
 
+        {/* Logged Meal Note */}
+        {r.isLogged && (
+          <div style={{background: "rgba(201, 241, 58, 0.1)", border: "1px solid rgba(201, 241, 58, 0.3)", borderRadius: 12, padding: 12, marginBottom: 16, fontSize: 12, color: "var(--lime)", lineHeight: 1.6}}>
+            Re-generate this recipe in the Kitchen tab for full details including ingredients, steps, and substitutions.
+          </div>
+        )}
+
         {/* Components */}
-        {r.components && r.components.length > 0 && (
+        {!r.isLogged && r.components && r.components.length > 0 && (
           <div style={{marginBottom: 16}}>
             <div style={{fontSize: 12, fontWeight: 700, color: "var(--muted)", marginBottom: 8, textTransform: "uppercase", letterSpacing: 1}}>Components</div>
             {r.components.map((c, i) => {
@@ -206,7 +259,7 @@ export default function RecipeModal({recipe, onClose}) {
         )}
 
         {/* Steps */}
-        {r.steps && (
+        {!r.isLogged && r.steps && (
           <div style={{marginBottom: 16}}>
             <div style={{fontSize: 12, fontWeight: 700, color: "var(--muted)", marginBottom: 8, textTransform: "uppercase", letterSpacing: 1}}>Steps</div>
             {r.steps.map((s, i) => (
@@ -219,7 +272,7 @@ export default function RecipeModal({recipe, onClose}) {
         )}
 
         {/* Toppings */}
-        {r.toppings && r.toppings.length > 0 && (
+        {!r.isLogged && r.toppings && r.toppings.length > 0 && (
           <div style={{marginBottom: 16}}>
             <div style={{fontSize: 12, fontWeight: 700, color: "var(--muted)", marginBottom: 8, textTransform: "uppercase", letterSpacing: 1}}>Optional Toppings</div>
             {r.toppings.map((t, i) => (
@@ -232,41 +285,45 @@ export default function RecipeModal({recipe, onClose}) {
         )}
 
         {/* Log Meal Button */}
-        <button
-          onClick={handleLogMeal}
-          disabled={logging || logged}
-          style={{
-            width: "100%",
-            background: logged ? "var(--s2)" : "var(--lime)",
-            color: logged ? "var(--muted)" : "#000",
-            border: "none",
-            borderRadius: 12,
-            padding: "14px 16px",
-            fontSize: 15,
-            fontWeight: 700,
-            fontFamily: "'Clash Display', sans-serif",
-            cursor: logged || logging ? "not-allowed" : "pointer",
-            opacity: logged ? 0.6 : 1,
-            transition: "all 0.15s",
-            marginBottom: error ? 12 : 0,
-          }}
-        >
-          {logged ? "✓ Logged" : logging ? "Logging..." : "Log This Meal"}
-        </button>
+        {!r.isLogged && (
+          <>
+            <button
+              onClick={handleLogMeal}
+              disabled={logging || logged}
+              style={{
+                width: "100%",
+                background: logged ? "var(--s2)" : "var(--lime)",
+                color: logged ? "var(--muted)" : "#000",
+                border: "none",
+                borderRadius: 12,
+                padding: "14px 16px",
+                fontSize: 15,
+                fontWeight: 700,
+                fontFamily: "'Clash Display', sans-serif",
+                cursor: logged || logging ? "not-allowed" : "pointer",
+                opacity: logged ? 0.6 : 1,
+                transition: "all 0.15s",
+                marginBottom: error ? 12 : 0,
+              }}
+            >
+              {logged ? "✓ Logged" : logging ? "Logging..." : "Log This Meal"}
+            </button>
 
-        {/* Error Message */}
-        {error && (
-          <div style={{
-            background: "rgba(255, 77, 77, 0.1)",
-            border: "1px solid rgba(255, 77, 77, 0.3)",
-            borderRadius: 8,
-            padding: 12,
-            fontSize: 12,
-            color: "var(--red)",
-            lineHeight: 1.5,
-          }}>
-            {error}
-          </div>
+            {/* Error Message */}
+            {error && (
+              <div style={{
+                background: "rgba(255, 77, 77, 0.1)",
+                border: "1px solid rgba(255, 77, 77, 0.3)",
+                borderRadius: 8,
+                padding: 12,
+                fontSize: 12,
+                color: "var(--red)",
+                lineHeight: 1.5,
+              }}>
+                {error}
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>

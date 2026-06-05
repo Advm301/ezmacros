@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
+import RecipeModal from '../components/RecipeModal';
 
 export default function Today() {
   const [goals, setGoals] = useState(null);
@@ -7,6 +8,9 @@ export default function Today() {
   const [totals, setTotals] = useState({ cal: 0, protein: 0, carbs: 0, fat: 0 });
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
+  const [openRecipe, setOpenRecipe] = useState(null);
+  const [deletingMealId, setDeletingMealId] = useState(null);
+  const [deleteConfirmTime, setDeleteConfirmTime] = useState(null);
 
   useEffect(() => {
     const loadData = async () => {
@@ -84,6 +88,56 @@ export default function Today() {
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
+  };
+
+  const handleDeleteMeal = async (mealId) => {
+    // If already in confirmation state, delete the meal
+    if (deletingMealId === mealId && deleteConfirmTime) {
+      try {
+        const { error } = await supabase
+          .from('meal_logs')
+          .delete()
+          .eq('id', mealId);
+
+        if (!error) {
+          // Remove meal from list
+          const updatedMeals = meals.filter(m => m.id !== mealId);
+          setMeals(updatedMeals);
+
+          // Recalculate totals
+          if (updatedMeals.length > 0) {
+            const newTotals = updatedMeals.reduce(
+              (acc, meal) => ({
+                cal: acc.cal + (meal.cal || 0),
+                protein: acc.protein + (meal.protein || 0),
+                carbs: acc.carbs + (meal.carbs || 0),
+                fat: acc.fat + (meal.fat || 0),
+              }),
+              { cal: 0, protein: 0, carbs: 0, fat: 0 }
+            );
+            setTotals(newTotals);
+          } else {
+            setTotals({ cal: 0, protein: 0, carbs: 0, fat: 0 });
+          }
+        }
+        setDeletingMealId(null);
+        setDeleteConfirmTime(null);
+      } catch (err) {
+        console.error('Error deleting meal:', err);
+      }
+    } else {
+      // First click - show confirmation for 2 seconds
+      setDeletingMealId(mealId);
+      setDeleteConfirmTime(Date.now());
+
+      // Reset confirmation state after 2 seconds if not confirmed
+      setTimeout(() => {
+        if (deletingMealId === mealId) {
+          setDeletingMealId(null);
+          setDeleteConfirmTime(null);
+        }
+      }, 2000);
+    }
   };
 
   const getProgress = (consumed, goal) => {
@@ -207,6 +261,19 @@ export default function Today() {
             meals.map((meal, i) => (
               <div
                 key={i}
+                onClick={() => setOpenRecipe({
+                  name: meal.recipe_name || 'Logged Meal',
+                  emoji: '📋',
+                  cal: meal.cal,
+                  totalCal: meal.cal,
+                  protein: meal.protein,
+                  totalProtein: meal.protein,
+                  carbs: meal.carbs,
+                  totalCarbs: meal.carbs,
+                  fat: meal.fat,
+                  totalFat: meal.fat,
+                  isLogged: true,
+                })}
                 style={{
                   background: 'var(--s1)',
                   border: '1px solid var(--border)',
@@ -216,6 +283,16 @@ export default function Today() {
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'flex-start',
+                  cursor: 'pointer',
+                  transition: 'all 0.15s',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--lime)';
+                  e.currentTarget.style.background = 'var(--s2)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--border)';
+                  e.currentTarget.style.background = 'var(--s1)';
                 }}
               >
                 <div style={{flex: 1}}>
@@ -226,19 +303,50 @@ export default function Today() {
                     {new Date(meal.logged_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </div>
                 </div>
-                <div style={{textAlign: 'right', marginLeft: 12}}>
-                  <div style={{fontSize: 12, color: 'var(--orange)', fontWeight: 700}}>
-                    {meal.cal} cal
+                <div style={{display: 'flex', gap: 12, alignItems: 'flex-start', marginLeft: 12}}>
+                  <div style={{textAlign: 'right'}}>
+                    <div style={{fontSize: 12, color: 'var(--orange)', fontWeight: 700}}>
+                      {meal.cal} cal
+                    </div>
+                    <div style={{fontSize: 11, color: 'var(--lime)', marginTop: 2}}>
+                      {meal.protein}g P
+                    </div>
                   </div>
-                  <div style={{fontSize: 11, color: 'var(--lime)', marginTop: 2}}>
-                    {meal.protein}g P
-                  </div>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteMeal(meal.id);
+                    }}
+                    style={{
+                      background: 'transparent',
+                      border: 'none',
+                      color: deletingMealId === meal.id ? 'var(--red)' : 'var(--muted)',
+                      fontSize: 16,
+                      cursor: 'pointer',
+                      padding: '4px 8px',
+                      transition: 'all 0.15s',
+                    }}
+                    onMouseEnter={(e) => {
+                      if (deletingMealId !== meal.id) {
+                        e.target.style.color = 'var(--red)';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (deletingMealId !== meal.id) {
+                        e.target.style.color = 'var(--muted)';
+                      }
+                    }}
+                  >
+                    {deletingMealId === meal.id ? 'Remove?' : '✕'}
+                  </button>
                 </div>
               </div>
             ))
           )}
         </div>
       </div>
+
+      {openRecipe && <RecipeModal recipe={openRecipe} onClose={() => setOpenRecipe(null)} />}
     </div>
   );
 }
