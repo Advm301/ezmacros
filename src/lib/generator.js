@@ -130,7 +130,13 @@ function splitCombinedIngredient(combinedName) {
       {name:"Soy Sauce",type:"Sauce",grams:10,...calcComponentMacros(getUsdaMacros("Soy Sauce"),10),weighRaw:false},
     ],
   };
-  return splits[combinedName] || null;
+
+  // If not a combined ingredient, treat it as a single seasoning component
+  if (!splits[combinedName]) {
+    return [createSeasoningComponent(combinedName, 1)];
+  }
+
+  return splits[combinedName];
 }
 
 export function classifyIngredient(name) {
@@ -358,6 +364,8 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
     const totalProtein = components.reduce((sum, c) => sum + c.protein, 0);
     const totalCarbs = components.reduce((sum, c) => sum + c.carbs, 0);
     const totalFat = components.reduce((sum, c) => sum + c.fat, 0);
+
+    console.log('Turkey components:', JSON.stringify(components));
 
     results.push({
       name:turkeyName, emoji:"🦃", method:cookMethod!=="Any"?cookMethod:"Skillet", ezLevel,
