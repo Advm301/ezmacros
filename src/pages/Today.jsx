@@ -539,7 +539,8 @@ function GoalsModal({ goals, user, onClose, onSave }) {
   const [selectedPreset, setSelectedPreset] = useState(null);
   const [showEzInfo, setShowEzInfo] = useState(false);
   const [saveError, setSaveError] = useState(null);
-  const [showCustomMacros, setShowCustomMacros] = useState(false);
+  const [isCustomMode, setIsCustomMode] = useState(false);
+  const [customMacros, setCustomMacros] = useState({ protein: '', carbs: '', fat: '' });
 
   const ACTIVITY_MULTIPLIERS = {
     'Sedentary': 1.2,
@@ -611,14 +612,17 @@ function GoalsModal({ goals, user, onClose, onSave }) {
     },
   };
 
-  // Calculate carbs for each preset with ISSN-recommended minimums
+  // Calculate carbs for each preset with realistic caps
+  // Carbs fill remainder but capped to prevent unrealistic targets
   const presetsWithCarbs = Object.entries(PRESETS).reduce((acc, [key, preset]) => {
     const proteinCal = preset.protein * 4;
     const fatCal = preset.fat * 9;
     const remaining = preset.cal - proteinCal - fatCal;
-    // ISSN minimums: 50g cut, 100g maintain, 150g bulk
+
+    // Carb caps: Cut 200g, Maintain 280g, Bulk 350g
     const minCarbs = key === 'bulk' ? 150 : key === 'maintain' ? 100 : 50;
-    const carbs = Math.max(minCarbs, Math.round(remaining / 4));
+    const maxCarbs = key === 'bulk' ? 350 : key === 'maintain' ? 280 : 200;
+    const carbs = Math.min(maxCarbs, Math.max(minCarbs, Math.round(remaining / 4)));
 
     acc[key] = {
       ...preset,
@@ -707,12 +711,18 @@ function GoalsModal({ goals, user, onClose, onSave }) {
       // Convert ez_level to integer: 'Effortless'→1, 'Easy'→2, 'Relaxed'→3
       const ezLevelInt = ezLevel === 'Effortless' ? 1 : ezLevel === 'Relaxed' ? 3 : 2;
 
+      // Use custom macros if in custom mode, else use suggested macros
+      const finalProtein = isCustomMode ? parseInt(customMacros.protein) || 0 : parseInt(protein);
+      const finalCarbs = isCustomMode ? parseInt(customMacros.carbs) || 0 : parseInt(carbs);
+      const finalFat = isCustomMode ? parseInt(customMacros.fat) || 0 : parseInt(fat);
+      const finalCal = (finalProtein * 4) + (finalCarbs * 4) + (finalFat * 9);
+
       const goalsData = {
         user_id: freshUser.id,
-        cal: calculatedCal,
-        protein: parseInt(protein),
-        carbs: parseInt(carbs),
-        fat: parseInt(fat),
+        cal: finalCal,
+        protein: finalProtein,
+        carbs: finalCarbs,
+        fat: finalFat,
         ez_level: ezLevelInt,
         sex,
         age: parseInt(age),
@@ -1205,15 +1215,18 @@ function GoalsModal({ goals, user, onClose, onSave }) {
           {/* Custom Macros Toggle */}
           <button
             onClick={() => {
-              const newShowCustom = !showCustomMacros;
-              setShowCustomMacros(newShowCustom);
-
-              // If toggling to "Use Suggested", revert macros to current preset
-              if (!newShowCustom && selectedPreset && presetsWithCarbs[selectedPreset]) {
-                const preset = presetsWithCarbs[selectedPreset];
-                setProtein(preset.protein);
-                setFat(preset.fat);
-                setCarbs(preset.carbs);
+              if (!isCustomMode) {
+                // Entering custom mode: initialize with suggested values
+                setIsCustomMode(true);
+                setCustomMacros({
+                  protein: protein.toString(),
+                  carbs: carbs.toString(),
+                  fat: fat.toString(),
+                });
+              } else {
+                // Exiting custom mode: revert to suggested
+                setIsCustomMode(false);
+                setCustomMacros({ protein: '', carbs: '', fat: '' });
               }
             }}
             style={{
@@ -1241,15 +1254,33 @@ function GoalsModal({ goals, user, onClose, onSave }) {
         {/* Macro Inputs - Protein, Carbs, Fat (Calories calculated) */}
         <div style={{marginBottom: 20}}>
           <div style={{fontSize: 11, fontWeight: 600, color: 'var(--muted)', marginBottom: 12, textTransform: 'uppercase', letterSpacing: 0.5}}>
-            {showCustomMacros ? 'Custom Macros' : 'Suggested Macros'}
+            {isCustomMode ? 'Custom Macros' : 'Suggested Macros'}
           </div>
           <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12, marginBottom: 12}}>
             {[
-              { label: '💪 Protein (g)', value: protein, setValue: setProtein, color: 'var(--lime)' },
-              { label: '🍚 Carbs (g)', value: carbs, setValue: setCarbs, color: 'var(--blue)' },
-              { label: '🥑 Fat (g)', value: fat, setValue: setFat, color: 'var(--muted)' },
+              {
+                key: 'protein',
+                label: '💪 Protein (g)',
+                value: isCustomMode ? customMacros.protein : protein,
+                setValue: isCustomMode ? (val) => setCustomMacros(prev => ({...prev, protein: val})) : setProtein,
+                color: 'var(--lime)'
+              },
+              {
+                key: 'carbs',
+                label: '🍚 Carbs (g)',
+                value: isCustomMode ? customMacros.carbs : carbs,
+                setValue: isCustomMode ? (val) => setCustomMacros(prev => ({...prev, carbs: val})) : setCarbs,
+                color: 'var(--blue)'
+              },
+              {
+                key: 'fat',
+                label: '🥑 Fat (g)',
+                value: isCustomMode ? customMacros.fat : fat,
+                setValue: isCustomMode ? (val) => setCustomMacros(prev => ({...prev, fat: val})) : setFat,
+                color: 'var(--muted)'
+              },
             ].map((macro) => (
-              <div key={macro.label}>
+              <div key={macro.key}>
                 <label style={{fontSize: 11, fontWeight: 600, color: macro.color, display: 'block', marginBottom: 6}}>
                   {macro.label}
                 </label>
@@ -1257,8 +1288,8 @@ function GoalsModal({ goals, user, onClose, onSave }) {
                   type="number"
                   value={macro.value}
                   onChange={(e) => {
-                    setSelectedPreset(null);
-                    macro.setValue(parseInt(e.target.value) || 0);
+                    if (!isCustomMode) setSelectedPreset(null);
+                    macro.setValue(e.target.value);
                   }}
                   style={{
                     width: '100%',
@@ -1286,12 +1317,22 @@ function GoalsModal({ goals, user, onClose, onSave }) {
             marginBottom: 12,
           }}>
             <div style={{fontSize: 10, color: 'var(--muted)', marginBottom: 4}}>🔥 Calculated Total</div>
-            <div style={{fontSize: 18, fontWeight: 700, color: 'var(--orange)'}}>
-              {calculatedCal} cal
-            </div>
-            <div style={{fontSize: 9, color: 'var(--muted)', marginTop: 6}}>
-              ({protein}g × 4) + ({carbs}g × 4) + ({fat}g × 9)
-            </div>
+            {(() => {
+              const p = isCustomMode ? (parseInt(customMacros.protein) || 0) : protein;
+              const c = isCustomMode ? (parseInt(customMacros.carbs) || 0) : carbs;
+              const f = isCustomMode ? (parseInt(customMacros.fat) || 0) : fat;
+              const totalCal = (p * 4) + (c * 4) + (f * 9);
+              return (
+                <>
+                  <div style={{fontSize: 18, fontWeight: 700, color: 'var(--orange)'}}>
+                    {totalCal} cal
+                  </div>
+                  <div style={{fontSize: 9, color: 'var(--muted)', marginTop: 6}}>
+                    ({p}g × 4) + ({c}g × 4) + ({f}g × 9)
+                  </div>
+                </>
+              );
+            })()}
           </div>
 
           {/* Error Message */}
