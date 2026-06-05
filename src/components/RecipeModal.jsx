@@ -487,7 +487,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
   };
 
   // Search USDA FoodData Central API with debouncing
-  const searchUSDAFoods = async (query) => {
+  const searchUSDAFoods = async (query, componentType = null) => {
     if (query.length < 3) {
       setUsdaResults([]);
       setUsdaError(null);
@@ -499,7 +499,8 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
 
     try {
       const apiKey = import.meta.env.VITE_USDA_API_KEY;
-      const searchQuery = query.includes("raw") ? query : query + ", raw";
+      const isProteinType = componentType === "Protein";
+      const searchQuery = (isProteinType && !query.includes("raw")) ? query + ", raw" : query;
       const response = await fetch(
         `https://api.nal.usda.gov/fdc/v1/foods/search?query=${encodeURIComponent(searchQuery)}&dataType=Foundation,SR%20Legacy&pageSize=20&api_key=${apiKey}`
       );
@@ -511,7 +512,6 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
       const data = await response.json();
 
       // Parse food results
-      const cookedKeywords = ["cooked", "broiled", "baked", "fried", "roasted", "grilled", "dried", "canned"];
       let foods = (data.foods || []).map(food => {
         const getNutrientValue = (nutrientName) => {
           const nutrient = food.foodNutrients?.find(n =>
@@ -520,25 +520,32 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
           return nutrient ? nutrient.value : 0;
         };
 
+        const energyValue = getNutrientValue("Energy");
+        const proteinValue = getNutrientValue("Protein");
+        const carbValue = getNutrientValue("Carbohydrate");
+        const fatValue = getNutrientValue("Total lipid");
+
         return {
           name: food.description || "Unknown",
-          cal: Math.round(getNutrientValue("Energy")),
-          protein: Math.round(getNutrientValue("Protein") * 10) / 10,
-          carbs: Math.round(getNutrientValue("Carbohydrate") * 10) / 10,
-          fat: Math.round(getNutrientValue("Total lipid") * 10) / 10,
+          cal: Math.round(energyValue),
+          protein: Math.round(proteinValue * 10) / 10,
+          carbs: Math.round(carbValue * 10) / 10,
+          fat: Math.round(fatValue * 10) / 10,
         };
       });
 
-      // Filter out cooked items
-      const rawFoods = foods.filter(food => {
-        const desc = food.name.toLowerCase();
-        return !cookedKeywords.some(keyword => desc.includes(keyword));
-      });
-
-      // Use filtered results if available, otherwise show all with a note
-      const resultsToShow = rawFoods.length > 0 ? rawFoods : foods;
-      if (foods.length > 0 && rawFoods.length === 0) {
-        setUsdaError("Showing all options — select raw where possible");
+      // Filter based on component type
+      let resultsToShow = foods;
+      if (isProteinType) {
+        const cookedKeywords = ["cooked", "broiled", "baked", "fried", "roasted", "grilled", "dried"];
+        const rawFoods = foods.filter(food => {
+          const desc = food.name.toLowerCase();
+          return !cookedKeywords.some(keyword => desc.includes(keyword));
+        });
+        resultsToShow = rawFoods.length > 0 ? rawFoods : foods;
+        if (foods.length > 0 && rawFoods.length === 0) {
+          setUsdaError("Showing all options — select raw where possible");
+        }
       }
 
       setUsdaResults(resultsToShow.slice(0, 5));
@@ -552,7 +559,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
   };
 
   // Debounced USDA search
-  const handleUSDASearch = (query) => {
+  const handleUSDASearch = (query, componentType = null) => {
     if (usdaDebounceRef.current) clearTimeout(usdaDebounceRef.current);
 
     if (query.length < 3) {
@@ -563,7 +570,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
 
     setUsdaLoading(true);
     usdaDebounceRef.current = setTimeout(() => {
-      searchUSDAFoods(query);
+      searchUSDAFoods(query, componentType);
     }, 500);
   };
 
@@ -817,12 +824,25 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
               const substitutions = getSubstitutions(c.name);
               return (
                 <div key={i}>
-                  <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 0", borderBottom: "1px solid var(--border)"}}>
+                  <div style={{display: "flex", justifyContent: "space-between", alignItems: "flex-start", padding: "8px 0", borderBottom: "1px solid var(--border)"}}>
                     <div style={{flex: 1}}>
-                      <div style={{fontSize: 13, fontWeight: 600, color: "var(--cream)"}}>{c.name}</div>
-                      <div style={{fontSize: 11, color: "var(--muted)"}}>{c.type} · {c.grams}g{c.weighRaw ? " (weigh raw)" : ""}</div>
+                      <div style={{fontSize: 13, fontWeight: 600, color: "var(--cream)", marginBottom: 4}}>{c.name}</div>
+                      <div style={{display: "flex", gap: 6, alignItems: "center", flexWrap: "wrap"}}>
+                        <span style={{fontSize: 11, color: "var(--muted)"}}>{c.type}</span>
+                        <span style={{
+                          fontSize: 11,
+                          fontWeight: 600,
+                          color: "var(--lime)",
+                          border: "1px solid var(--lime)",
+                          borderRadius: 12,
+                          padding: "2px 8px",
+                          backgroundColor: "rgba(0, 255, 100, 0.05)",
+                        }}>
+                          ⚖️ {c.grams}g{c.weighRaw ? " raw" : ""}
+                        </span>
+                      </div>
                     </div>
-                    <div style={{display: "flex", gap: 12, alignItems: "center"}}>
+                    <div style={{display: "flex", gap: 12, alignItems: "flex-start", flexDirection: "column"}}>
                       <div style={{textAlign: "right", fontSize: 12, color: "var(--muted)"}}>
                         <div style={{color: "var(--orange)", fontWeight: 600}}>{c.cal} cal</div>
                         <div>{c.protein || c.p}g P</div>
@@ -908,7 +928,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
                             onChange={(e) => {
                               setSearchComponentIndex(i);
                               setSearchQuery(e.target.value);
-                              handleUSDASearch(e.target.value);
+                              handleUSDASearch(e.target.value, c.type);
                             }}
                             onFocus={() => setSearchComponentIndex(i)}
                             style={{
@@ -957,13 +977,18 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
                                       const updatedComponents = [...components];
                                       const originalComponent = updatedComponents[i];
                                       const newMacros = { cal: item.cal, protein: item.protein, carbs: item.carbs, fat: item.fat };
+                                      const scaleFactor = originalComponent.grams / 100;
+                                      const calcCal = newMacros.cal * scaleFactor;
+
+                                      console.log(`USDA Scaling - Item: ${item.name}, Grams: ${originalComponent.grams}, USDA Cal/100g: ${newMacros.cal}, Calculated: ${Math.round(calcCal)}`);
+
                                       updatedComponents[i] = {
                                         ...originalComponent,
                                         name: item.name,
-                                        cal: Math.round(newMacros.cal * (originalComponent.grams / 100)),
-                                        protein: Math.round((newMacros.protein * (originalComponent.grams / 100)) * 10) / 10,
-                                        carbs: Math.round((newMacros.carbs * (originalComponent.grams / 100)) * 10) / 10,
-                                        fat: Math.round((newMacros.fat * (originalComponent.grams / 100)) * 10) / 10,
+                                        cal: Math.round(calcCal),
+                                        protein: Math.round((newMacros.protein * scaleFactor) * 10) / 10,
+                                        carbs: Math.round((newMacros.carbs * scaleFactor) * 10) / 10,
+                                        fat: Math.round((newMacros.fat * scaleFactor) * 10) / 10,
                                       };
                                       setComponents(updatedComponents);
                                       if (recipe?.isLoggedView) setHasUnsavedChanges(true);
@@ -1004,120 +1029,6 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
                           </div>
                         )}
                       </div>
-                    </div>
-                  )}
-
-                  {/* No swaps available (but search still shown) */}
-                  {expandedSwap === i && !substitutions && (
-                    <div style={{padding: "8px 0 12px 0", borderBottom: "1px solid var(--border)"}}>
-                      <div style={{fontSize: 11, color: "var(--muted)", marginBottom: 12}}>
-                        No preset alternatives. Try searching below:
-                      </div>
-
-                      {/* Custom Ingredient Search */}
-                      <div style={{display: "flex", gap: 8, marginBottom: 8}}>
-                        <input
-                          type="text"
-                          placeholder="Search 300,000+ foods..."
-                          value={searchComponentIndex === i ? searchQuery : ""}
-                          onChange={(e) => {
-                            setSearchComponentIndex(i);
-                            setSearchQuery(e.target.value);
-                            handleUSDASearch(e.target.value);
-                          }}
-                          onFocus={() => setSearchComponentIndex(i)}
-                          style={{
-                            flex: 1,
-                            background: "var(--s2)",
-                            border: "1px solid var(--border)",
-                            borderRadius: 8,
-                            padding: "6px 10px",
-                            color: "var(--cream)",
-                            fontSize: 12,
-                            fontFamily: "'Plus Jakarta Sans', sans-serif",
-                            outline: "none",
-                            transition: "border-color 0.15s",
-                          }}
-                          onFocus={(e) => {
-                            e.target.style.borderColor = "var(--lime)";
-                          }}
-                          onBlur={(e) => {
-                            e.target.style.borderColor = "var(--border)";
-                          }}
-                        />
-                        <span style={{fontSize: 12, color: "var(--muted)", display: "flex", alignItems: "center"}}>
-                          {usdaLoading && searchComponentIndex === i ? "⏳" : "🔍"}
-                        </span>
-                      </div>
-
-                      {/* Search Results or Messages */}
-                      {searchComponentIndex === i && searchQuery && (
-                        <div>
-                          {usdaError && (
-                            <div style={{fontSize: 11, color: "var(--muted)", marginBottom: 8}}>
-                              {usdaError}
-                            </div>
-                          )}
-                          {usdaResults.length === 0 && !usdaLoading && !usdaError && (
-                            <div style={{fontSize: 11, color: "var(--muted)", marginBottom: 8}}>
-                              No results found for that ingredient
-                            </div>
-                          )}
-                          {usdaResults.length > 0 && (
-                            <div style={{display: "flex", flexWrap: "wrap", gap: 6}}>
-                              {usdaResults.map((item, j) => (
-                                <button
-                                  key={j}
-                                  onClick={() => {
-                                    const updatedComponents = [...components];
-                                    const originalComponent = updatedComponents[i];
-                                    const newMacros = { cal: item.cal, protein: item.protein, carbs: item.carbs, fat: item.fat };
-                                    updatedComponents[i] = {
-                                      ...originalComponent,
-                                      name: item.name,
-                                      cal: Math.round(newMacros.cal * (originalComponent.grams / 100)),
-                                      protein: Math.round((newMacros.protein * (originalComponent.grams / 100)) * 10) / 10,
-                                      carbs: Math.round((newMacros.carbs * (originalComponent.grams / 100)) * 10) / 10,
-                                      fat: Math.round((newMacros.fat * (originalComponent.grams / 100)) * 10) / 10,
-                                    };
-                                    setComponents(updatedComponents);
-                                    if (recipe?.isLoggedView) setHasUnsavedChanges(true);
-                                    setSearchQuery("");
-                                    setSearchComponentIndex(null);
-                                    setUsdaResults([]);
-                                  }}
-                                  style={{
-                                    background: "var(--s3)",
-                                    border: "1px solid var(--border)",
-                                    color: "var(--muted)",
-                                    borderRadius: 20,
-                                    padding: "6px 12px",
-                                    fontSize: 11,
-                                    fontWeight: 600,
-                                    cursor: "pointer",
-                                    transition: "all 0.15s",
-                                  }}
-                                  onMouseEnter={(e) => {
-                                    e.target.style.background = "var(--muted)";
-                                    e.target.style.color = "var(--bg)";
-                                    e.target.style.borderColor = "var(--muted)";
-                                  }}
-                                  onMouseLeave={(e) => {
-                                    e.target.style.background = "var(--s3)";
-                                    e.target.style.color = "var(--muted)";
-                                    e.target.style.borderColor = "var(--border)";
-                                  }}
-                                >
-                                  <div>{item.name}</div>
-                                  <div style={{fontSize: 10, color: "var(--muted)"}}>
-                                    {item.cal} cal · {item.protein}g P
-                                  </div>
-                                </button>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                      )}
                     </div>
                   )}
                 </div>
