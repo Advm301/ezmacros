@@ -626,10 +626,26 @@ function GoalsModal({ goals, user, onClose, onSave }) {
     setSelectedPreset(presetName);
   };
 
+  const [validationErrors, setValidationErrors] = useState({});
+
   const handleSave = async () => {
+    // Validation
+    const errors = {};
+    if (!age || age < 15 || age > 80) errors.age = 'Age is required (15-80)';
+    if (!lbs || lbs < 50) errors.weight = 'Weight is required';
+    if (!goalWeightLbs || goalWeightLbs < 50) errors.goalWeight = 'Goal weight is required';
+    if (!heightCm || heightCm < 100) errors.height = 'Height is required';
+
+    if (Object.keys(errors).length > 0) {
+      setValidationErrors(errors);
+      return;
+    }
+
     if (!user) return;
     setSaving(true);
     setSaveError(null);
+    setValidationErrors({});
+
     try {
       // Get fresh user data
       const { data: { user: freshUser } } = await supabase.auth.getUser();
@@ -652,15 +668,33 @@ function GoalsModal({ goals, user, onClose, onSave }) {
         goal_weight_lbs: goalWeightLbs,
       };
 
-      const { error } = await supabase
+      // Check if goals record exists
+      const { data: existingGoals } = await supabase
         .from('goals')
-        .upsert(
-          goalsData,
-          { onConflict: 'user_id', ignoreDuplicates: false }
-        );
+        .select('id')
+        .eq('user_id', freshUser.id)
+        .maybeSingle();
+
+      let error;
+      if (existingGoals) {
+        // Update existing record (don't include user_id in update)
+        const updateData = { ...goalsData };
+        delete updateData.user_id;
+        const result = await supabase
+          .from('goals')
+          .update(updateData)
+          .eq('user_id', freshUser.id);
+        error = result.error;
+      } else {
+        // Insert new record
+        const result = await supabase
+          .from('goals')
+          .insert(goalsData);
+        error = result.error;
+      }
 
       if (error) {
-        console.error('Error saving goals:', error);
+        console.error('Error saving goals:', error.message);
         throw new Error(error.message || 'Failed to save goals to database');
       }
       // Success - notify parent and close
@@ -780,7 +814,7 @@ function GoalsModal({ goals, user, onClose, onSave }) {
             {/* Age */}
             <div>
               <label style={{fontSize: 11, fontWeight: 600, color: 'var(--muted)', display: 'block', marginBottom: 6}}>
-                Age
+                Age <span style={{color: 'var(--red)'}}>*</span>
               </label>
               <input
                 type="number"
@@ -792,7 +826,7 @@ function GoalsModal({ goals, user, onClose, onSave }) {
                   width: '100%',
                   padding: '8px 12px',
                   background: 'var(--bg)',
-                  border: '1px solid var(--border)',
+                  border: validationErrors.age ? '1px solid var(--red)' : '1px solid var(--border)',
                   borderRadius: 8,
                   color: 'var(--cream)',
                   fontSize: 12,
@@ -800,12 +834,13 @@ function GoalsModal({ goals, user, onClose, onSave }) {
                   boxSizing: 'border-box',
                 }}
               />
+              {validationErrors.age && <div style={{fontSize: 9, color: 'var(--red)', marginTop: 4}}>{validationErrors.age}</div>}
             </div>
 
             {/* Weight */}
             <div>
               <label style={{fontSize: 11, fontWeight: 600, color: 'var(--muted)', display: 'block', marginBottom: 6}}>
-                {isMetric ? 'Weight (kg)' : 'Weight (lbs)'}
+                {isMetric ? 'Weight (kg)' : 'Weight (lbs)'} <span style={{color: 'var(--red)'}}>*</span>
               </label>
               <input
                 type="number"
@@ -818,7 +853,7 @@ function GoalsModal({ goals, user, onClose, onSave }) {
                   width: '100%',
                   padding: '8px 12px',
                   background: 'var(--bg)',
-                  border: '1px solid var(--border)',
+                  border: validationErrors.weight ? '1px solid var(--red)' : '1px solid var(--border)',
                   borderRadius: 8,
                   color: 'var(--cream)',
                   fontSize: 12,
@@ -826,12 +861,13 @@ function GoalsModal({ goals, user, onClose, onSave }) {
                   boxSizing: 'border-box',
                 }}
               />
+              {validationErrors.weight && <div style={{fontSize: 9, color: 'var(--red)', marginTop: 4}}>{validationErrors.weight}</div>}
             </div>
 
             {/* Goal Weight */}
             <div>
               <label style={{fontSize: 11, fontWeight: 600, color: 'var(--muted)', display: 'block', marginBottom: 6}}>
-                {isMetric ? 'Goal Wt (kg)' : 'Goal Wt (lbs)'}
+                {isMetric ? 'Goal Wt (kg)' : 'Goal Wt (lbs)'} <span style={{color: 'var(--red)'}}>*</span>
               </label>
               <input
                 type="number"
@@ -849,7 +885,7 @@ function GoalsModal({ goals, user, onClose, onSave }) {
                   width: '100%',
                   padding: '8px 12px',
                   background: 'var(--bg)',
-                  border: '1px solid var(--border)',
+                  border: validationErrors.goalWeight ? '1px solid var(--red)' : '1px solid var(--border)',
                   borderRadius: 8,
                   color: 'var(--cream)',
                   fontSize: 12,
@@ -857,13 +893,14 @@ function GoalsModal({ goals, user, onClose, onSave }) {
                   boxSizing: 'border-box',
                 }}
               />
-              <div style={{fontSize: 9, color: 'var(--muted)', marginTop: 4}}>Used for protein target</div>
+              {validationErrors.goalWeight && <div style={{fontSize: 9, color: 'var(--red)', marginTop: 4}}>{validationErrors.goalWeight}</div>}
+              <div style={{fontSize: 9, color: 'var(--muted)', marginTop: 4}}>We'll suggest the right goals based on your target</div>
             </div>
 
             {/* Height */}
             <div>
               <label style={{fontSize: 11, fontWeight: 600, color: 'var(--muted)', display: 'block', marginBottom: 6}}>
-                {isMetric ? 'Height (cm)' : 'Height'}
+                {isMetric ? 'Height (cm)' : 'Height'} <span style={{color: 'var(--red)'}}>*</span>
               </label>
               {isMetric ? (
                 <input
@@ -874,7 +911,7 @@ function GoalsModal({ goals, user, onClose, onSave }) {
                     width: '100%',
                     padding: '8px 12px',
                     background: 'var(--bg)',
-                    border: '1px solid var(--border)',
+                    border: validationErrors.height ? '1px solid var(--red)' : '1px solid var(--border)',
                     borderRadius: 8,
                     color: 'var(--cream)',
                     fontSize: 12,
@@ -898,7 +935,7 @@ function GoalsModal({ goals, user, onClose, onSave }) {
                       flex: 1,
                       padding: '8px 6px',
                       background: 'var(--bg)',
-                      border: '1px solid var(--border)',
+                      border: validationErrors.height ? '1px solid var(--red)' : '1px solid var(--border)',
                       borderRadius: 8,
                       color: 'var(--cream)',
                       fontSize: 12,
@@ -920,7 +957,7 @@ function GoalsModal({ goals, user, onClose, onSave }) {
                       flex: 1,
                       padding: '8px 6px',
                       background: 'var(--bg)',
-                      border: '1px solid var(--border)',
+                      border: validationErrors.height ? '1px solid var(--red)' : '1px solid var(--border)',
                       borderRadius: 8,
                       color: 'var(--cream)',
                       fontSize: 12,
@@ -930,6 +967,7 @@ function GoalsModal({ goals, user, onClose, onSave }) {
                   />
                 </div>
               )}
+              {validationErrors.height && <div style={{fontSize: 9, color: 'var(--red)', marginTop: 4}}>{validationErrors.height}</div>}
             </div>
           </div>
 
@@ -1064,6 +1102,19 @@ function GoalsModal({ goals, user, onClose, onSave }) {
           </div>
           <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 6}}>
             {Object.keys(presetsWithCarbs).map((presetKey) => {
+              // Determine which presets to show based on goal weight vs current weight
+              let shouldShow = true;
+              if (goalWeightLbs && lbs) {
+                if (goalWeightLbs < lbs && presetKey === 'bulk') {
+                  shouldShow = false; // Hide Bulk if losing weight
+                }
+                if (goalWeightLbs > lbs && presetKey === 'cut') {
+                  shouldShow = false; // Hide Cut if gaining weight
+                }
+              }
+
+              if (!shouldShow) return null;
+
               const preset = presetsWithCarbs[presetKey];
               const displayName = presetKey.charAt(0).toUpperCase() + presetKey.slice(1);
               return (
