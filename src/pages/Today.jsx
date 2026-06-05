@@ -1133,6 +1133,10 @@ function GoalsModal({ goals, user, onClose, onSave }) {
             </div>
           )}
 
+          <div style={{fontSize: 9, color: 'var(--muted)', marginBottom: 12}}>
+            Controls the complexity of recipes generated in the Kitchen tab. Change anytime.
+          </div>
+
           <div style={{display: 'flex', gap: 8}}>
             {['Effortless', 'Easy', 'Relaxed'].map((level, idx) => (
               <button
