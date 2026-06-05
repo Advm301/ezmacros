@@ -305,34 +305,9 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
     setComponents(updatedComponents);
     setIsModified(true);
 
-    // If swapping a protein, intelligently update the recipe name
-    if (originalComponent.type === "Protein") {
-      const proteinKeywords = ["beef", "chicken", "salmon", "cod", "turkey", "tuna", "shrimp", "pork", "eggs"];
-      const currentNameLower = recipeName.toLowerCase();
-
-      // Find which protein keyword is in the current recipe name
-      let foundKeyword = null;
-      for (const keyword of proteinKeywords) {
-        if (currentNameLower.includes(keyword)) {
-          foundKeyword = keyword;
-          break;
-        }
-      }
-
-      if (foundKeyword) {
-        // Replace the protein keyword with the new ingredient name (taking first word)
-        const newIngredientWord = newName.split(/\s+/)[0];
-        const newRecipeName = recipeName.replace(
-          new RegExp(foundKeyword, "i"),
-          newIngredientWord
-        );
-        setRecipeName(newRecipeName);
-      } else {
-        // Fall back to appending " (Modified)" if no protein keyword found
-        if (!recipeName.includes(" (Modified)")) {
-          setRecipeName(recipeName + " (Modified)");
-        }
-      }
+    // When any swap is made, append " (Modified)" to recipe name if not already suffixed
+    if (!recipeName.includes(" (Modified)")) {
+      setRecipeName(recipeName + " (Modified)");
     }
 
     setExpandedSwap(null);
@@ -390,6 +365,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
       }
 
       const updateData = {
+        recipe_name: recipeName,
         cal: Math.round(macros.cal),
         protein: Math.round(macros.protein),
         carbs: Math.round(macros.carbs),
@@ -467,7 +443,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
         .insert({
           user_id: user.id,
           recipe_id: String(r.id || r.name),
-          recipe_name: r.name,
+          recipe_name: recipeName,
           cal: Math.round(macros.cal),
           protein: Math.round(macros.protein),
           carbs: Math.round(macros.carbs),
@@ -483,6 +459,9 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
             })),
             steps: steps,
             toppings: r.toppings || [],
+            emoji: r.emoji,
+            method: r.method,
+            activeTime: r.activeTime,
           }),
         });
 
