@@ -193,6 +193,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
   const [searchComponentIndex, setSearchComponentIndex] = useState(null);
   const [hasChanges, setHasChanges] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [recipeName, setRecipeName] = useState("");
 
   useEffect(() => {
     // Reset logged state when modal opens for a new recipe
@@ -205,6 +206,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
     if (recipe) {
       setComponents(recipe.components ? [...recipe.components] : []);
       setSteps(recipe.steps ? [...recipe.steps] : []);
+      setRecipeName(recipe.name || "");
       setMacros({
         cal: recipe.cal || recipe.totalCal || 0,
         protein: recipe.protein || recipe.totalProtein || 0,
@@ -302,6 +304,37 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
 
     setComponents(updatedComponents);
     setIsModified(true);
+
+    // If swapping a protein, intelligently update the recipe name
+    if (originalComponent.type === "Protein") {
+      const proteinKeywords = ["beef", "chicken", "salmon", "cod", "turkey", "tuna", "shrimp", "pork", "eggs"];
+      const currentNameLower = recipeName.toLowerCase();
+
+      // Find which protein keyword is in the current recipe name
+      let foundKeyword = null;
+      for (const keyword of proteinKeywords) {
+        if (currentNameLower.includes(keyword)) {
+          foundKeyword = keyword;
+          break;
+        }
+      }
+
+      if (foundKeyword) {
+        // Replace the protein keyword with the new ingredient name (taking first word)
+        const newIngredientWord = newName.split(/\s+/)[0];
+        const newRecipeName = recipeName.replace(
+          new RegExp(foundKeyword, "i"),
+          newIngredientWord
+        );
+        setRecipeName(newRecipeName);
+      } else {
+        // Fall back to appending " (Modified)" if no protein keyword found
+        if (!recipeName.includes(" (Modified)")) {
+          setRecipeName(recipeName + " (Modified)");
+        }
+      }
+    }
+
     setExpandedSwap(null);
   };
 
@@ -478,7 +511,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
           <div style={{flex: 1}}>
             <div style={{fontSize: 32, marginBottom: 4}}>{r.emoji}</div>
             <div style={{fontFamily: "'Clash Display',sans-serif", fontSize: 22, fontWeight: 700, color: "var(--cream)", marginBottom: 2}}>
-              {r.name}{isModified && !r.isLogged ? " (Modified)" : ""}
+              {recipeName}
             </div>
             {r.spiceLevel > 0 && (
               <div style={{fontSize: 14, marginBottom: 4}}>

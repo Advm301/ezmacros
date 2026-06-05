@@ -6,7 +6,8 @@
       "Bash(timeout 10 npm run dev)",
       "Bash(curl -s http://localhost:5173)",
       "Bash(npx vite:*)",
-      "Bash(timeout 20 npm run dev)"
+      "Bash(timeout 20 npm run dev)",
+      "Bash(pkill:*)"
     ]
   }
 }
