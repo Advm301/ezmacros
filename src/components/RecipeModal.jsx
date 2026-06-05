@@ -2,62 +2,116 @@ import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 
 const MACRO_VALUES = {
-  "Ground Chicken": { cal: 143, protein: 27, carbs: 0, fat: 3 },
-  "Ground Beef (93% lean)": { cal: 137, protein: 21, carbs: 0, fat: 5 },
-  "Chicken Breast": { cal: 110, protein: 23, carbs: 0, fat: 1 },
-  "Brown Rice Pouch": { cal: 108, protein: 2.5, carbs: 22.5, fat: 1 },
-  "Cauliflower rice bag": { cal: 25, protein: 2, carbs: 5, fat: 0 },
-  "Frozen Green Beans": { cal: 31, protein: 2, carbs: 7, fat: 0 },
-  "Frozen Spinach": { cal: 23, protein: 3, carbs: 3, fat: 0 },
+  // Proteins
+  "tilapia": { cal: 96, protein: 20, carbs: 0, fat: 2 },
+  "cod": { cal: 82, protein: 18, carbs: 0, fat: 1 },
+  "canned salmon": { cal: 130, protein: 20, carbs: 0, fat: 5 },
+  "shrimp": { cal: 85, protein: 18, carbs: 1, fat: 1 },
+  "chicken breast": { cal: 110, protein: 23, carbs: 0, fat: 1 },
+  "ground chicken": { cal: 143, protein: 27, carbs: 0, fat: 3 },
+  "ground turkey": { cal: 123, protein: 22, carbs: 0, fat: 4 },
+  "ground beef": { cal: 137, protein: 21, carbs: 0, fat: 5 },
+  "canned chicken": { cal: 100, protein: 22, carbs: 0, fat: 1 },
+  "rotisserie chicken": { cal: 165, protein: 28, carbs: 0, fat: 6 },
+  "ground bison": { cal: 146, protein: 21, carbs: 0, fat: 7 },
+
+  // Carbs
+  "cauliflower rice": { cal: 25, protein: 2, carbs: 5, fat: 0 },
+  "brown rice": { cal: 108, protein: 2, carbs: 22, fat: 1 },
+  "quinoa": { cal: 120, protein: 4, carbs: 22, fat: 2 },
+
+  // Vegetables
+  "frozen green beans": { cal: 31, protein: 2, carbs: 7, fat: 0 },
+  "frozen spinach": { cal: 23, protein: 3, carbs: 3, fat: 0 },
+  "frozen peas": { cal: 77, protein: 5, carbs: 14, fat: 0 },
+  "frozen edamame": { cal: 121, protein: 11, carbs: 9, fat: 5 },
+  "frozen asparagus": { cal: 20, protein: 2, carbs: 4, fat: 0 },
+  "frozen mixed veg": { cal: 65, protein: 3, carbs: 13, fat: 0 },
+
+  // Oils & Seasonings
+  "avocado oil spray": { cal: 7, protein: 0, carbs: 0, fat: 1 },
+  "coconut oil spray": { cal: 7, protein: 0, carbs: 0, fat: 1 },
+  "butter": { cal: 72, protein: 0, carbs: 0, fat: 8 },
+  "italian seasoning": { cal: 5, protein: 0, carbs: 1, fat: 0 },
+  "lemon pepper seasoning": { cal: 5, protein: 0, carbs: 1, fat: 0 },
+  "everything bagel seasoning": { cal: 8, protein: 0, carbs: 1, fat: 0 },
+  "coconut aminos": { cal: 10, protein: 0, carbs: 2, fat: 0 },
+  "frank's redhot": { cal: 5, protein: 0, carbs: 1, fat: 0 },
+  "cholula": { cal: 5, protein: 0, carbs: 1, fat: 0 },
 };
 
 const SUBSTITUTIONS = {
   // Proteins
-  "ground turkey": ["Ground Chicken", "Ground Beef (93% lean)", "Canned Chicken"],
+  "ground turkey": ["Ground Chicken", "Ground Beef", "Canned Chicken"],
+  "ground chicken": ["Ground Turkey", "Ground Beef", "Canned Chicken"],
+  "ground beef": ["Ground Turkey", "Ground Chicken", "Ground Bison"],
+  "chicken breast": ["Rotisserie Chicken", "Ground Chicken", "Canned Chicken"],
   "chicken thighs": ["Chicken Breast", "Ground Turkey", "Rotisserie Chicken"],
-  "salmon": ["Cod", "Canned Salmon pouch", "Tilapia"],
+  "salmon": ["Cod", "Canned Salmon", "Tilapia"],
   "cod": ["Salmon", "Tilapia", "Shrimp"],
-  "ground beef": ["Ground Turkey", "Ground Bison", "Canned Beef"],
-  "tuna": ["Canned Salmon", "Canned Chicken", "Sardines"],
-  "shrimp": ["Bay scallops", "Tilapia", "Canned crab"],
-  "pork": ["Chicken Thighs", "Turkey Tenderloin", "Lamb chops"],
-  "egg": ["Egg whites (carton)", "Tofu scramble", "Liquid egg substitute"],
+  "tilapia": ["Salmon", "Cod", "Shrimp"],
+  "shrimp": ["Cod", "Tilapia", "Canned Salmon"],
+  "canned salmon": ["Canned Chicken", "Shrimp", "Cod"],
+  "canned chicken": ["Ground Chicken", "Chicken Breast", "Canned Salmon"],
+  "rotisserie chicken": ["Chicken Breast", "Ground Chicken", "Canned Chicken"],
+  "ground bison": ["Ground Turkey", "Ground Beef", "Ground Chicken"],
+  "tuna": ["Canned Salmon", "Canned Chicken", "Shrimp"],
+  "pork": ["Chicken Thighs", "Ground Turkey", "Ground Beef"],
+  "egg": ["Egg whites", "Canned Chicken", "Tofu"],
 
   // Carbs
-  "white rice": ["Brown Rice Pouch", "Quinoa pouch", "Cauliflower rice bag"],
-  "pasta": ["Banza chickpea pasta", "Lentil pasta", "Zucchini noodles (frozen)"],
-  "oat": ["Cream of wheat", "Grits", "Quinoa flakes"],
+  "white rice": ["Brown Rice", "Quinoa", "Cauliflower Rice"],
+  "brown rice": ["White Rice", "Quinoa", "Cauliflower Rice"],
+  "quinoa": ["Brown Rice", "White Rice", "Cauliflower Rice"],
+  "pasta": ["Brown Rice", "Quinoa", "Zucchini noodles"],
+  "oat": ["Quinoa", "Brown Rice", "Cauliflower Rice"],
 
   // Vegetables
   "broccoli": ["Frozen Green Beans", "Frozen Spinach", "Frozen Mixed Veg"],
-  "green bean": ["Frozen Broccoli", "Frozen Asparagus", "Frozen Mixed Veg"],
-  "spinach": ["Kale (bagged, pre-washed)", "Frozen peas", "Arugula"],
-  "mixed veg": ["Frozen edamame", "Frozen peas and carrots", "Canned mixed vegetables"],
-  "asparagus": ["Frozen broccoli", "Frozen green beans", "Zucchini"],
+  "green beans": ["Frozen Spinach", "Frozen Broccoli", "Frozen Asparagus"],
+  "frozen green beans": ["Frozen Broccoli", "Frozen Spinach", "Frozen Asparagus"],
+  "spinach": ["Frozen Peas", "Frozen Broccoli", "Frozen Asparagus"],
+  "frozen spinach": ["Frozen Peas", "Frozen Green Beans", "Frozen Broccoli"],
+  "frozen peas": ["Frozen Spinach", "Frozen Edamame", "Frozen Mixed Veg"],
+  "frozen edamame": ["Frozen Peas", "Frozen Spinach", "Frozen Green Beans"],
+  "frozen asparagus": ["Frozen Broccoli", "Frozen Green Beans", "Frozen Spinach"],
+  "frozen mixed veg": ["Frozen Peas", "Frozen Edamame", "Frozen Green Beans"],
+  "mixed veg": ["Frozen Edamame", "Frozen Peas", "Frozen Mixed Veg"],
+  "asparagus": ["Frozen Broccoli", "Frozen Green Beans", "Frozen Spinach"],
 
   // Dairy
-  "greek yogurt": ["Skyr (Siggi's)", "Cottage Cheese", "Quark"],
-  "cottage cheese": ["Ricotta", "Greek Yogurt", "Quark"],
-  "cheddar": ["Mozzarella", "Pepper jack", "Colby jack"],
-  "cheese": ["Nutritional yeast", "Dairy-free shredded cheese", "Light cream cheese"],
+  "greek yogurt": ["Cottage Cheese", "Skyr", "Quark"],
+  "cottage cheese": ["Greek Yogurt", "Ricotta", "Quark"],
+  "cheddar": ["Mozzarella", "Pepper Jack", "Colby Jack"],
+  "cheese": ["Greek Yogurt", "Cottage Cheese", "Nutritional Yeast"],
 
   // Sauces & Seasonings
-  "garlic herb": ["Italian Seasoning (shaker)", "Lemon Pepper Seasoning", "Everything Bagel Seasoning"],
-  "taco seasoning": ["Fajita Seasoning packet", "Chili Seasoning packet", "Cumin + Paprika + Garlic Powder"],
-  "teriyaki": ["Coconut Aminos + honey", "Soy sauce + honey + garlic powder", "Kikkoman Stir Fry Sauce"],
-  "sriracha": ["Frank's RedHot", "Cholula", "Sambal Oelek"],
-  "lemon pepper": ["Garlic Herb Seasoning", "Italian Seasoning", "Cajun Seasoning"],
-  "buffalo": ["Frank's RedHot + butter", "Sriracha + honey", "Sweet Baby Ray's Buffalo"],
-  "marinara": ["Tomato paste + Italian seasoning", "Prego Traditional", "Pizza sauce"],
-  "soy sauce": ["Coconut Aminos", "Tamari (gluten-free soy)", "Liquid Aminos"],
-  "olive oil": ["Avocado oil spray", "Coconut oil spray", "Butter"],
-  "honey": ["Maple syrup", "Agave nectar", "Sugar-free syrup"],
-  "mayo": ["Greek yogurt", "Avocado", "Light mayo"],
-  "mustard": ["Dijon mustard", "Hot sauce", "Horseradish"],
+  "garlic herb": ["Italian Seasoning", "Lemon Pepper Seasoning", "Everything Bagel Seasoning"],
+  "italian seasoning": ["Garlic Herb", "Lemon Pepper Seasoning", "Everything Bagel Seasoning"],
+  "lemon pepper seasoning": ["Italian Seasoning", "Garlic Herb", "Everything Bagel Seasoning"],
+  "everything bagel seasoning": ["Italian Seasoning", "Lemon Pepper Seasoning", "Garlic Herb"],
+  "taco seasoning": ["Fajita Seasoning", "Cumin", "Paprika"],
+  "teriyaki": ["Coconut Aminos", "Soy Sauce", "Tamari"],
+  "sriracha": ["Frank's RedHot", "Cholula", "Hot Sauce"],
+  "frank's redhot": ["Cholula", "Sriracha", "Hot Sauce"],
+  "cholula": ["Frank's RedHot", "Sriracha", "Hot Sauce"],
+  "lemon pepper": ["Italian Seasoning", "Garlic Herb", "Cajun Seasoning"],
+  "buffalo": ["Frank's RedHot", "Sriracha", "Hot Sauce"],
+  "marinara": ["Tomato Paste", "Pizza Sauce", "Prego"],
+  "soy sauce": ["Coconut Aminos", "Tamari", "Liquid Aminos"],
+  "coconut aminos": ["Soy Sauce", "Tamari", "Liquid Aminos"],
+  "olive oil": ["Avocado Oil Spray", "Coconut Oil Spray", "Butter"],
+  "avocado oil spray": ["Coconut Oil Spray", "Olive Oil", "Butter"],
+  "coconut oil spray": ["Avocado Oil Spray", "Olive Oil", "Butter"],
+  "butter": ["Avocado Oil Spray", "Coconut Oil Spray", "Olive Oil"],
+  "honey": ["Maple Syrup", "Agave Nectar", "Sugar-free Syrup"],
+  "mayo": ["Greek Yogurt", "Avocado", "Light Mayo"],
+  "mustard": ["Dijon Mustard", "Hot Sauce", "Horseradish"],
 
   // Baking & Misc
-  "panko": ["Regular breadcrumbs", "Crushed rice cakes", "Almond flour"],
-  "almond milk": ["Oat milk", "Regular milk", "Coconut milk carton"],
+  "panko": ["Breadcrumbs", "Rice Cakes", "Almond Flour"],
+  "almond milk": ["Oat Milk", "Regular Milk", "Coconut Milk"],
+  "cauliflower rice": ["Brown Rice", "Quinoa", "White Rice"],
 };
 
 export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView}) {
@@ -118,14 +172,31 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
     return null;
   };
 
+  const getMacroValues = (name) => {
+    // Try exact match first (case-insensitive)
+    const lowerName = name.toLowerCase();
+    const exactKey = Object.keys(MACRO_VALUES).find(key => key.toLowerCase() === lowerName);
+    if (exactKey) return MACRO_VALUES[exactKey];
+
+    // Try partial match: newName includes key or key includes newName
+    const partialKey = Object.keys(MACRO_VALUES).find(
+      key => lowerName.includes(key.toLowerCase()) || key.toLowerCase().includes(lowerName)
+    );
+    if (partialKey) return MACRO_VALUES[partialKey];
+
+    // No match found
+    return null;
+  };
+
   const handleSwapComponent = (index, newName) => {
     // Update the component at this index
     const updatedComponents = [...components];
     const originalComponent = updatedComponents[index];
-    const newMacros = MACRO_VALUES[newName];
+    const newMacros = getMacroValues(newName);
 
+    // Update component name
     if (newMacros) {
-      // Update component name and macros
+      // If we found macros, calculate new values
       updatedComponents[index] = {
         ...originalComponent,
         name: newName,
@@ -134,11 +205,16 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
         carbs: Math.round((newMacros.carbs * (originalComponent.grams / 100)) * 10) / 10,
         fat: Math.round((newMacros.fat * (originalComponent.grams / 100)) * 10) / 10,
       };
-
-      setComponents(updatedComponents);
-      setIsModified(true);
+    } else {
+      // If no macros found, just update the name but keep the original macros
+      updatedComponents[index] = {
+        ...originalComponent,
+        name: newName,
+      };
     }
 
+    setComponents(updatedComponents);
+    setIsModified(true);
     setExpandedSwap(null);
   };
 
