@@ -69,6 +69,20 @@ function getUsdaMacros(ingredientName) {
   return macros;
 }
 
+// Helper function to create seasoning components with fixed macro values
+function createSeasoningComponent(name, grams) {
+  return {
+    name,
+    type: "Seasoning",
+    grams,
+    cal: 5,
+    protein: 0,
+    carbs: 1,
+    fat: 0,
+    weighRaw: false
+  };
+}
+
 // Helper function to calculate component macros with proper rounding
 function calcComponentMacros(usdaMacros, grams) {
   if (!usdaMacros) return null;
@@ -86,8 +100,8 @@ function splitCombinedIngredient(combinedName) {
     "Soy+Sriracha+Garlic+Honey": [
       {name:"Soy Sauce",type:"Sauce",grams:10,...calcComponentMacros(getUsdaMacros("Soy Sauce"),10),weighRaw:false},
       {name:"Sriracha",type:"Sauce",grams:5,...calcComponentMacros(getUsdaMacros("Sriracha"),5),weighRaw:false},
-      {name:"Garlic Powder",type:"Seasoning",grams:1,...calcComponentMacros(getUsdaMacros("Garlic Powder"),1),weighRaw:false},
-      {name:"Honey",type:"Seasoning",grams:5,...calcComponentMacros(getUsdaMacros("Honey"),5),weighRaw:false},
+      createSeasoningComponent("Garlic Powder", 1),
+      createSeasoningComponent("Honey", 5),
     ],
     "Sriracha+Soy (heavy)": [
       {name:"Sriracha",type:"Sauce",grams:15,...calcComponentMacros(getUsdaMacros("Sriracha"),15),weighRaw:false},
@@ -96,8 +110,8 @@ function splitCombinedIngredient(combinedName) {
     "Sriracha+Soy+Garlic+Honey (heavy)": [
       {name:"Sriracha",type:"Sauce",grams:15,...calcComponentMacros(getUsdaMacros("Sriracha"),15),weighRaw:false},
       {name:"Soy Sauce",type:"Sauce",grams:15,...calcComponentMacros(getUsdaMacros("Soy Sauce"),15),weighRaw:false},
-      {name:"Garlic Powder",type:"Seasoning",grams:1,...calcComponentMacros(getUsdaMacros("Garlic Powder"),1),weighRaw:false},
-      {name:"Honey",type:"Seasoning",grams:5,...calcComponentMacros(getUsdaMacros("Honey"),5),weighRaw:false},
+      createSeasoningComponent("Garlic Powder", 1),
+      createSeasoningComponent("Honey", 5),
     ],
     "Sriracha+Soy Sauce": [
       {name:"Sriracha",type:"Sauce",grams:10,...calcComponentMacros(getUsdaMacros("Sriracha"),10),weighRaw:false},
@@ -105,11 +119,11 @@ function splitCombinedIngredient(combinedName) {
     ],
     "Olive Oil+Lemon Pepper": [
       {name:"Olive Oil",type:"Fat",grams:4,...calcComponentMacros(getUsdaMacros("Olive Oil"),4),weighRaw:false},
-      {name:"Lemon Pepper Seasoning",type:"Seasoning",grams:2,...calcComponentMacros(getUsdaMacros("Lemon Pepper Seasoning"),2),weighRaw:false},
+      createSeasoningComponent("Lemon Pepper Seasoning", 2),
     ],
     "Ponzu+Honey": [
-      {name:"Ponzu Sauce",type:"Sauce",grams:15,...calcComponentMacros(getUsdaMacros("Honey"),15),weighRaw:false},
-      {name:"Honey",type:"Seasoning",grams:5,...calcComponentMacros(getUsdaMacros("Honey"),5),weighRaw:false},
+      {name:"Ponzu Sauce",type:"Sauce",grams:15,...calcComponentMacros(getUsdaMacros("Soy Sauce"),15),weighRaw:false},
+      createSeasoningComponent("Honey", 5),
     ],
     "Ponzu+Soy (heavy)": [
       {name:"Ponzu Sauce",type:"Sauce",grams:20,...calcComponentMacros(getUsdaMacros("Soy Sauce"),20),weighRaw:false},
@@ -183,12 +197,11 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
     ), 85) : { cal: 0, protein: 0, carbs: 0, fat: 0 };
 
     const sauceComponents = splitCombinedIngredient(codSauce) || [];
-    const redPepperMacros = isSpicy && spiceLevel >= 3 ? calcComponentMacros(getUsdaMacros("Red Pepper Flakes"), 1) : null;
 
     const components = [
       {name:"Cod Fillet",type:"Protein",grams:170,...codMacros,weighRaw:true},
       ...sauceComponents,
-      ...(redPepperMacros ? [{name:"Red Pepper Flakes",type:"Seasoning",grams:1,...redPepperMacros,weighRaw:false}] : []),
+      ...(isSpicy && spiceLevel >= 3 ? [createSeasoningComponent("Red Pepper Flakes", 1)] : []),
       {name:carbName,type:"Carb",grams:200,...carbMacros,weighRaw:false},
       ...(veg ? [{name:veg,type:"Veg",grams:85,...vegMacros,weighRaw:false}] : []),
     ];
@@ -230,12 +243,11 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
     ), 85) : { cal: 0, protein: 0, carbs: 0, fat: 0 };
 
     const sauceComponents = splitCombinedIngredient(sauceLabel) || [];
-    const redPepperMacros = isSpicy && spiceLevel >= 3 ? calcComponentMacros(getUsdaMacros("Red Pepper Flakes"), 1) : null;
 
     const components = [
       {name:"Chicken Thighs (boneless, skinless)",type:"Protein",grams:170,...chickenMacros,weighRaw:true},
       ...sauceComponents,
-      ...(redPepperMacros ? [{name:"Red Pepper Flakes",type:"Seasoning",grams:1,...redPepperMacros,weighRaw:false}] : []),
+      ...(isSpicy && spiceLevel >= 3 ? [createSeasoningComponent("Red Pepper Flakes", 1)] : []),
       ...(hasRice?[{name:carbName,type:"Carb",grams:200,...carbMacros,weighRaw:false}]:[]),
       ...(veg ? [{name:veg,type:"Veg",grams:85,...vegMacros,weighRaw:false}] : []),
     ];
@@ -283,12 +295,11 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
     ), 85) : { cal: 0, protein: 0, carbs: 0, fat: 0 };
 
     const sauceComponents = splitCombinedIngredient(beefSauce) || [];
-    const redPepperMacros = isSpicy && spiceLevel >= 3 ? calcComponentMacros(getUsdaMacros("Red Pepper Flakes"), 1) : null;
 
     const components = [
       {name:"Ground Beef (93% lean)",type:"Protein",grams:142,...beefMacros,weighRaw:true},
       ...sauceComponents,
-      ...(redPepperMacros ? [{name:"Red Pepper Flakes",type:"Seasoning",grams:1,...redPepperMacros,weighRaw:false}] : []),
+      ...(isSpicy && spiceLevel >= 3 ? [createSeasoningComponent("Red Pepper Flakes", 1)] : []),
       {name:carbName,type:"Carb",grams:200,...carbMacros,weighRaw:false},
       ...(veg ? [{name:veg,type:"Veg",grams:85,...vegMacros,weighRaw:false}] : []),
     ];
@@ -334,12 +345,11 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
     ), 85) : { cal: 0, protein: 0, carbs: 0, fat: 0 };
 
     const sauceComponents = splitCombinedIngredient(turkeySauce) || [];
-    const redPepperMacros = isSpicy && spiceLevel >= 3 ? calcComponentMacros(getUsdaMacros("Red Pepper Flakes"), 1) : null;
 
     const components = [
       {name:"Ground Turkey (93% lean)",type:"Protein",grams:170,...turkeyMacros,weighRaw:true},
       ...sauceComponents,
-      ...(redPepperMacros ? [{name:"Red Pepper Flakes",type:"Seasoning",grams:1,...redPepperMacros,weighRaw:false}] : []),
+      ...(isSpicy && spiceLevel >= 3 ? [createSeasoningComponent("Red Pepper Flakes", 1)] : []),
       {name:carbName,type:"Carb",grams:200,...carbMacros,weighRaw:false},
       ...(veg ? [{name:veg,type:"Veg",grams:85,...vegMacros,weighRaw:false}] : []),
     ];
@@ -383,12 +393,11 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
     ), 85) : { cal: 0, protein: 0, carbs: 0, fat: 0 };
 
     const sauceComponents = splitCombinedIngredient(salmonSauce) || [];
-    const redPepperMacros = isSpicy && spiceLevel >= 3 ? calcComponentMacros(getUsdaMacros("Red Pepper Flakes"), 1) : null;
 
     const components = [
       {name:"Salmon Fillet",type:"Protein",grams:170,...salmonMacros,weighRaw:true},
       ...sauceComponents,
-      ...(redPepperMacros ? [{name:"Red Pepper Flakes",type:"Seasoning",grams:1,...redPepperMacros,weighRaw:false}] : []),
+      ...(isSpicy && spiceLevel >= 3 ? [createSeasoningComponent("Red Pepper Flakes", 1)] : []),
       {name:carbName,type:"Carb",grams:200,...carbMacros,weighRaw:false},
       ...(veg ? [{name:veg,type:"Veg",grams:85,...vegMacros,weighRaw:false}] : []),
     ];
@@ -423,14 +432,13 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
     if (isSpicy && ingredients.length === 1) {
       const eggsMacros = calcComponentMacros(getUsdaMacros("Whole Egg"), 150);
       const srirMacros = calcComponentMacros(getUsdaMacros("Sriracha"), 10);
-      const redPepperMacros = spiceLevel >= 3 ? calcComponentMacros(getUsdaMacros("Red Pepper Flakes"), 1) : null;
 
       const components = [
         {name: "Whole Eggs (3 large)", type: "Protein", grams: 150, ...eggsMacros, weighRaw: false},
         {name: "Butter", type: "Fat", grams: 14, cal: 100, protein: 0, carbs: 0, fat: 11, weighRaw: false},
         {name: "Sriracha", type: "Sauce", grams: 10, ...srirMacros, weighRaw: false},
         {name: "Shredded Cheddar (bagged)", type: "Cheese", grams: 28, cal: 110, protein: 7, carbs: 0, fat: 9, weighRaw: false},
-        ...(redPepperMacros ? [{name: "Red Pepper Flakes", type: "Seasoning", grams: 1, ...redPepperMacros, weighRaw: false}] : []),
+        ...(spiceLevel >= 3 ? [createSeasoningComponent("Red Pepper Flakes", 1)] : []),
       ];
       const totalCal = components.reduce((sum, c) => sum + c.cal, 0);
       const totalProtein = components.reduce((sum, c) => sum + c.protein, 0);
