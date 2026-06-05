@@ -1,5 +1,44 @@
 import { EZ, RECIPES, BANNED } from '../data/recipes.js';
 
+// Helper function to split combined sauce/seasoning components into individual components
+function splitCombinedIngredient(combinedName) {
+  const splits = {
+    "Soy+Sriracha+Garlic+Honey": [
+      {name:"Soy Sauce",type:"Sauce",grams:10,cal:5,protein:1,carbs:0,fat:0,weighRaw:false},
+      {name:"Sriracha",type:"Sauce",grams:5,cal:5,protein:0,carbs:1,fat:0,weighRaw:false},
+      {name:"Garlic Powder",type:"Seasoning",grams:1,cal:3,protein:0,carbs:1,fat:0,weighRaw:false},
+      {name:"Honey",type:"Seasoning",grams:5,cal:15,protein:0,carbs:4,fat:0,weighRaw:false},
+    ],
+    "Sriracha+Soy (heavy)": [
+      {name:"Sriracha",type:"Sauce",grams:15,cal:10,protein:0,carbs:2,fat:0,weighRaw:false},
+      {name:"Soy Sauce",type:"Sauce",grams:15,cal:8,protein:1,carbs:1,fat:0,weighRaw:false},
+    ],
+    "Sriracha+Soy+Garlic+Honey (heavy)": [
+      {name:"Sriracha",type:"Sauce",grams:15,cal:10,protein:0,carbs:2,fat:0,weighRaw:false},
+      {name:"Soy Sauce",type:"Sauce",grams:15,cal:8,protein:1,carbs:1,fat:0,weighRaw:false},
+      {name:"Garlic Powder",type:"Seasoning",grams:1,cal:3,protein:0,carbs:1,fat:0,weighRaw:false},
+      {name:"Honey",type:"Seasoning",grams:5,cal:15,protein:0,carbs:4,fat:0,weighRaw:false},
+    ],
+    "Sriracha+Soy Sauce": [
+      {name:"Sriracha",type:"Sauce",grams:10,cal:5,protein:0,carbs:1,fat:0,weighRaw:false},
+      {name:"Soy Sauce",type:"Sauce",grams:10,cal:5,protein:1,carbs:0,fat:0,weighRaw:false},
+    ],
+    "Olive Oil+Lemon Pepper": [
+      {name:"Olive Oil Spray",type:"Fat",grams:4,cal:25,protein:0,carbs:0,fat:3,weighRaw:false},
+      {name:"Lemon Pepper Seasoning",type:"Seasoning",grams:2,cal:5,protein:0,carbs:1,fat:0,weighRaw:false},
+    ],
+    "Ponzu+Honey": [
+      {name:"Ponzu Sauce",type:"Sauce",grams:15,cal:10,protein:1,carbs:1,fat:0,weighRaw:false},
+      {name:"Honey",type:"Seasoning",grams:5,cal:15,protein:0,carbs:4,fat:0,weighRaw:false},
+    ],
+    "Ponzu+Soy (heavy)": [
+      {name:"Ponzu Sauce",type:"Sauce",grams:20,cal:13,protein:1,carbs:2,fat:0,weighRaw:false},
+      {name:"Soy Sauce",type:"Sauce",grams:10,cal:5,protein:1,carbs:0,fat:0,weighRaw:false},
+    ],
+  };
+  return splits[combinedName] || null;
+}
+
 export function classifyIngredient(name) {
   const n = name.toLowerCase();
   if (/chicken|beef|turkey|salmon|cod|tuna|shrimp|egg|pork|tofu|fish/.test(n)) return "protein";
@@ -62,7 +101,7 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
       totalCal:380, totalProtein:38, totalCarbs:44, totalFat:4, activeMinutes:3, stepCount:4,
       components:[
         {name:"Cod Fillet",type:"Protein",grams:170,cal:140,protein:30,carbs:0,fat:1,weighRaw:true},
-        {name:codSauce,type:"Sauce",grams:codSauceG,cal:codSauceCal,protein:1,carbs:isAsian||isSpicy?4:2,fat:0,weighRaw:false},
+        ...(splitCombinedIngredient(codSauce) || [{name:codSauce,type:"Sauce",grams:codSauceG,cal:codSauceCal,protein:1,carbs:isAsian||isSpicy?4:2,fat:0,weighRaw:false}]),
         {name:carbName,type:"Carb",grams:carbGrams,cal:carbCal,protein:carbP,carbs:carbC,fat:carbF,weighRaw:false},
         ...(veg ? [{name:veg,type:"Veg",grams:vegGrams,cal:vegCal,protein:vegP,carbs:vegC,fat:vegF,weighRaw:false}] : []),
       ],
@@ -94,7 +133,7 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
       activeMinutes:4, stepCount:3,
       components:[
         {name:"Chicken Thighs (boneless, skinless)",type:"Protein",grams:170,cal:220,protein:35,carbs:0,fat:9,weighRaw:true},
-        {name:sauceLabel,type:isAsian||isSpicy||isSaucy?"Sauce":"Seasoning",grams:sauceG,cal:sauceCal,protein:1,carbs:isSaucy?6:2,fat:0,weighRaw:false},
+        ...(splitCombinedIngredient(sauceLabel) || [{name:sauceLabel,type:isAsian||isSpicy||isSaucy?"Sauce":"Seasoning",grams:sauceG,cal:sauceCal,protein:1,carbs:isSaucy?6:2,fat:0,weighRaw:false}]),
         ...(hasRice?[{name:carbName,type:"Carb",grams:carbGrams,cal:carbCal,protein:carbP,carbs:carbC,fat:carbF,weighRaw:false}]:[]),
         ...(veg ? [{name:veg,type:"Veg",grams:vegGrams,cal:vegCal,protein:vegP,carbs:vegC,fat:vegF,weighRaw:false}] : []),
       ],
@@ -125,7 +164,7 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
       activeMinutes:5, stepCount:4,
       components:[
         {name:"Ground Beef (93% lean)",type:"Protein",grams:142,cal:195,protein:30,carbs:0,fat:7,weighRaw:true},
-        {name:beefSauce,type:isSaucy||isAsian||isSpicy?"Sauce":"Veg/Sauce",grams:beefSauceG,cal:beefSauceCal,protein:1,carbs:isSaucy?8:6,fat:0,weighRaw:false},
+        ...(splitCombinedIngredient(beefSauce) || [{name:beefSauce,type:isSaucy||isAsian||isSpicy?"Sauce":"Veg/Sauce",grams:beefSauceG,cal:beefSauceCal,protein:1,carbs:isSaucy?8:6,fat:0,weighRaw:false}]),
         {name:carbName,type:"Carb",grams:carbGrams,cal:carbCal,protein:carbP,carbs:carbC,fat:carbF,weighRaw:false},
         ...(veg ? [{name:veg,type:"Veg",grams:vegGrams,cal:vegCal,protein:vegP,carbs:vegC,fat:vegF,weighRaw:false}] : []),
       ],
@@ -157,7 +196,7 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
       activeMinutes:6, stepCount:4,
       components:[
         {name:"Ground Turkey (93% lean)",type:"Protein",grams:170,cal:200,protein:35,carbs:0,fat:6,weighRaw:true},
-        {name:turkeySauce,type:isSaucy||isAsian||isSpicy?"Sauce":"Seasoning",grams:turkeySauceG,cal:turkeySauceCal,protein:1,carbs:isSaucy?8:2,fat:0,weighRaw:false},
+        ...(splitCombinedIngredient(turkeySauce) || [{name:turkeySauce,type:isSaucy||isAsian||isSpicy?"Sauce":"Seasoning",grams:turkeySauceG,cal:turkeySauceCal,protein:1,carbs:isSaucy?8:2,fat:0,weighRaw:false}]),
         {name:carbName,type:"Carb",grams:carbGrams,cal:carbCal,protein:carbP,carbs:carbC,fat:carbF,weighRaw:false},
         ...(veg ? [{name:veg,type:"Veg",grams:vegGrams,cal:vegCal,protein:vegP,carbs:vegC,fat:vegF,weighRaw:false}] : []),
       ],
@@ -188,7 +227,7 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
       totalCal:isSaucy?460:430, totalProtein:42, totalCarbs:44, totalFat:20, activeMinutes:3, stepCount:3,
       components:[
         {name:"Salmon Fillet",type:"Protein",grams:170,cal:280,protein:36,carbs:0,fat:14,weighRaw:true},
-        {name:salmonSauce,type:"Sauce",grams:salmonG,cal:salmonCal,protein:1,carbs:isSaucy?6:2,fat:1,weighRaw:false},
+        ...(splitCombinedIngredient(salmonSauce) || [{name:salmonSauce,type:"Sauce",grams:salmonG,cal:salmonCal,protein:1,carbs:isSaucy?6:2,fat:1,weighRaw:false}]),
         {name:carbName,type:"Carb",grams:carbGrams,cal:carbCal,protein:carbP,carbs:carbC,fat:carbF,weighRaw:false},
         ...(veg ? [{name:veg,type:"Veg",grams:vegGrams,cal:vegCal,protein:vegP,carbs:vegC,fat:vegF,weighRaw:false}] : []),
       ],

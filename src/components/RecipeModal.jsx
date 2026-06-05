@@ -190,6 +190,8 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
   const [isModified, setIsModified] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchComponentIndex, setSearchComponentIndex] = useState(null);
+  const [hasChanges, setHasChanges] = useState(false);
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     // Reset logged state when modal opens for a new recipe
@@ -224,8 +226,17 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
         { cal: 0, protein: 0, carbs: 0, fat: 0 }
       );
       setMacros(newTotals);
+      if (r.isLoggedView) setHasChanges(true);
     }
   }, [components]);
+
+  // Track step changes for logged meals
+  useEffect(() => {
+    if (r.isLoggedView && recipe?.steps && steps.length > 0) {
+      const hasStepChanges = !recipe.steps.every((step, idx) => step === steps[idx]);
+      if (hasStepChanges) setHasChanges(true);
+    }
+  }, [steps]);
 
   const getSubstitutions = (ingredientName) => {
     const lowerName = ingredientName.toLowerCase();
@@ -334,6 +345,67 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
   if (!recipe) return null;
   const r = recipe;
 
+  const handleSaveChanges = async () => {
+    setSaving(true);
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        setError("You must be logged in");
+        setSaving(false);
+        return;
+      }
+
+      const { error: updateError } = await supabase
+        .from('meal_logs')
+        .update({
+          cal: Math.round(macros.cal),
+          protein: Math.round(macros.protein),
+          carbs: Math.round(macros.carbs),
+          fat: Math.round(macros.fat),
+          recipe_data: JSON.stringify({
+            components: components.map(comp => ({
+              ...comp,
+              cal: Math.round(comp.cal),
+              protein: Math.round(comp.protein),
+              carbs: Math.round(comp.carbs),
+              fat: Math.round(comp.fat),
+            })),
+            steps: steps,
+            toppings: r.toppings || [],
+            emoji: r.emoji,
+            method: r.method,
+            activeTime: r.activeTime,
+          }),
+        })
+        .eq('user_id', user.id)
+        .eq('recipe_name', r.name)
+        .eq('logged_at', r.loggedTime);
+
+      if (updateError) {
+        setError("Failed to save changes");
+      } else {
+        setHasChanges(false);
+        setSaving(false);
+        setTimeout(() => {
+          onClose();
+        }, 500);
+      }
+    } catch (err) {
+      setError(err.message || "Failed to save changes");
+      setSaving(false);
+    }
+  };
+
+  const handleClose = () => {
+    if (hasChanges && r.isLoggedView) {
+      if (window.confirm("You have unsaved changes. Close without saving?")) {
+        onClose();
+      }
+    } else {
+      onClose();
+    }
+  };
+
   const handleLogMeal = async () => {
     setLogging(true);
     setError(null);
@@ -392,18 +464,45 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
     <div style={{position: "fixed", inset: 0, background: "rgba(0,0,0,.85)", zIndex: 100, overflowY: "auto"}} onClick={onClose}>
       <div style={{background: "var(--s1)", margin: "20px auto", maxWidth: 430, borderRadius: 20, padding: 24, border: "1px solid var(--border)"}} onClick={e => e.stopPropagation()}>
         <div style={{display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16}}>
-          <div>
+          <div style={{flex: 1}}>
             <div style={{fontSize: 32, marginBottom: 4}}>{r.emoji}</div>
             <div style={{fontFamily: "'Clash Display',sans-serif", fontSize: 22, fontWeight: 700, color: "var(--cream)"}}>
               {r.name}{isModified && !r.isLogged ? " (Modified)" : ""}
             </div>
-            {!r.isLogged && (
+            {!r.isLogged && !r.isLoggedView && r.method && (r.activeTime || r.activeMinutes) && r.stepCount && (
               <div style={{fontSize: 12, color: "var(--muted)", marginTop: 4}}>
                 {r.method} · {r.activeTime || r.activeMinutes} min active · {r.stepCount} steps
               </div>
             )}
+            {r.isLoggedView && r.method && (
+              <div style={{fontSize: 12, color: "var(--muted)", marginTop: 4}}>
+                {r.method}
+              </div>
+            )}
           </div>
-          <button onClick={onClose} style={{background: "var(--s3)", border: "1px solid var(--border)", color: "var(--muted)", borderRadius: 8, padding: "6px 12px", cursor: "pointer", fontSize: 13}}>✕ Close</button>
+          <div style={{display: "flex", flexDirection: "column", gap: 8}}>
+            {hasChanges && r.isLoggedView && (
+              <button
+                onClick={handleSaveChanges}
+                disabled={saving}
+                style={{
+                  background: "var(--lime)",
+                  color: "#000",
+                  border: "none",
+                  borderRadius: 8,
+                  padding: "8px 14px",
+                  cursor: saving ? "not-allowed" : "pointer",
+                  fontSize: 12,
+                  fontWeight: 700,
+                  opacity: saving ? 0.6 : 1,
+                  transition: "opacity 0.15s",
+                }}
+              >
+                {saving ? "Saving..." : "Save Changes"}
+              </button>
+            )}
+            <button onClick={handleClose} style={{background: "var(--s3)", border: "1px solid var(--border)", color: "var(--muted)", borderRadius: 8, padding: "6px 12px", cursor: "pointer", fontSize: 13}}>✕ Close</button>
+          </div>
         </div>
 
         {/* Macros */}
