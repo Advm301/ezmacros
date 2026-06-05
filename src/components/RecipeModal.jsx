@@ -415,6 +415,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
     }
 
     setComponents(updatedComponents);
+    if (isLoggedView) setHasUnsavedChanges(true);
     setExpandedSwap(null);
   };
 
@@ -429,6 +430,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
       updatedSteps[editingStepIndex] = editingStepText;
       setSteps(updatedSteps);
       setEditingStepIndex(null);
+      if (isLoggedView) setHasUnsavedChanges(true);
     }
   };
 
@@ -453,6 +455,8 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
       setRecipeName(originalName.current);
       setResetConfirming(false);
       if (resetConfirmTimeoutRef.current) clearTimeout(resetConfirmTimeoutRef.current);
+      // If in logged view, ensure Save Changes button appears
+      if (isLoggedView) setHasUnsavedChanges(true);
     }
   };
 
@@ -461,6 +465,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
       const updatedSteps = [...steps];
       [updatedSteps[index - 1], updatedSteps[index]] = [updatedSteps[index], updatedSteps[index - 1]];
       setSteps(updatedSteps);
+      if (isLoggedView) setHasUnsavedChanges(true);
     }
   };
 
@@ -469,6 +474,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
       const updatedSteps = [...steps];
       [updatedSteps[index], updatedSteps[index + 1]] = [updatedSteps[index + 1], updatedSteps[index]];
       setSteps(updatedSteps);
+      if (isLoggedView) setHasUnsavedChanges(true);
     }
   };
 

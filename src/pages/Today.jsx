@@ -403,7 +403,7 @@ export default function Today({onTabFocus}) {
                     <div style={{fontSize: 20}}>🍽️</div>
                     <div>
                       <div style={{fontWeight: 700, fontSize: 14, color: 'var(--cream)', marginBottom: 4}}>
-                        {(meal.recipe_name || 'Logged Meal') + (isMealModified(meal) ? ' (Modified)' : '')}
+                        {(meal.recipe_name || 'Logged Meal') + (!meal.recipe_name?.includes('(Modified)') && isMealModified(meal) ? ' (Modified)' : '')}
                       </div>
                       <div style={{fontSize: 11, color: 'var(--muted)'}}>
                         {new Date(meal.logged_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
