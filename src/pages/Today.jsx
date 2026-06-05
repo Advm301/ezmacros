@@ -539,6 +539,7 @@ function GoalsModal({ goals, user, onClose, onSave }) {
   const [selectedPreset, setSelectedPreset] = useState(null);
   const [showEzInfo, setShowEzInfo] = useState(false);
   const [saveError, setSaveError] = useState(null);
+  const [showCustomMacros, setShowCustomMacros] = useState(false);
 
   const ACTIVITY_MULTIPLIERS = {
     'Sedentary': 1.2,
@@ -584,43 +585,38 @@ function GoalsModal({ goals, user, onClose, onSave }) {
   const tdee = calculateTDEE();
   const lbs = getLbsValue();
 
-  // Activity-level-based calorie multipliers (cut, maintain, bulk)
-  // Conservative multipliers: bulk is clean bulk (200-400 cal surplus), not aggressive
-  const ACTIVITY_CAL_MULTIPLIERS = {
-    'Sedentary': { cut: 11, maintain: 12, bulk: 13 },
-    'Lightly Active': { cut: 12, maintain: 13, bulk: 14 },
-    'Moderately Active': { cut: 12, maintain: 14, bulk: 15 },
-    'Very Active': { cut: 13, maintain: 15, bulk: 16 },
-  };
+  // ISSN evidence-based formulas using TDEE
+  // Cut: TDEE - 500, Maintain: TDEE, Bulk: TDEE + 250
+  const cutCal = tdee - 500;
+  const maintainCal = tdee;
+  const bulkCal = tdee + 250;
 
-  const calMultipliers = ACTIVITY_CAL_MULTIPLIERS[activityLevel] || ACTIVITY_CAL_MULTIPLIERS['Moderately Active'];
-
-  // Build presets with activity-adjusted calories
-  // Protein: Cut (1.0g goal weight), Maintain (0.8g current), Bulk (0.85g current for muscle building)
-  // Fat: More conservative — Cut (0.25g goal weight), Maintain (0.3g current), Bulk (0.3g current)
+  // Build presets using ISSN methodology
+  // All protein/fat based on current weight (lbs), not goal weight
   const PRESETS = {
     cut: {
-      cal: lbs * calMultipliers.cut,
-      protein: Math.round((goalWeightLbs || lbs) * 1.0),
-      fat: Math.round((goalWeightLbs || lbs) * 0.25),
+      cal: cutCal,
+      protein: Math.round(lbs * 1.0),
+      fat: Math.round(lbs * 0.35),
     },
     maintain: {
-      cal: lbs * calMultipliers.maintain,
+      cal: maintainCal,
       protein: Math.round(lbs * 0.8),
-      fat: Math.round(lbs * 0.3),
+      fat: Math.round(lbs * 0.4),
     },
     bulk: {
-      cal: lbs * calMultipliers.bulk,
-      protein: Math.round(lbs * 0.85),
-      fat: Math.round(lbs * 0.3),
+      cal: bulkCal,
+      protein: Math.round(lbs * 0.75),
+      fat: Math.round(lbs * 0.45),
     },
   };
 
-  // Calculate carbs for each preset with minimums
+  // Calculate carbs for each preset with ISSN-recommended minimums
   const presetsWithCarbs = Object.entries(PRESETS).reduce((acc, [key, preset]) => {
     const proteinCal = preset.protein * 4;
     const fatCal = preset.fat * 9;
     const remaining = preset.cal - proteinCal - fatCal;
+    // ISSN minimums: 50g cut, 100g maintain, 150g bulk
     const minCarbs = key === 'bulk' ? 150 : key === 'maintain' ? 100 : 50;
     const carbs = Math.max(minCarbs, Math.round(remaining / 4));
 
@@ -1072,8 +1068,9 @@ function GoalsModal({ goals, user, onClose, onSave }) {
             marginTop: 12,
             textAlign: 'center',
           }}>
-            <div style={{fontSize: 10, color: 'var(--muted)', marginBottom: 4}}>Estimated Daily Energy Expenditure</div>
-            <div style={{fontSize: 20, fontWeight: 700, color: 'var(--lime)'}}>
+            <div style={{fontSize: 11, fontWeight: 600, color: 'var(--lime)', marginBottom: 2}}>Your TDEE (Total Daily Energy Expenditure)</div>
+            <div style={{fontSize: 9, color: 'var(--muted)', marginBottom: 8}}>Calories your body burns daily at your activity level</div>
+            <div style={{fontSize: 24, fontWeight: 700, color: 'var(--lime)'}}>
               {tdee} cal
             </div>
           </div>
@@ -1204,10 +1201,48 @@ function GoalsModal({ goals, user, onClose, onSave }) {
           <div style={{fontSize: 10, color: 'var(--muted)', marginTop: 8, fontStyle: 'italic', textAlign: 'center'}}>
             {visiblePresets.length === 1 ? 'Based on your goal weight' : 'These are starting point estimates. Adjust based on your progress.'}
           </div>
+
+          {/* Custom Macros Toggle */}
+          <button
+            onClick={() => {
+              const newShowCustom = !showCustomMacros;
+              setShowCustomMacros(newShowCustom);
+
+              // If toggling to "Use Suggested", revert macros to current preset
+              if (!newShowCustom && selectedPreset && presetsWithCarbs[selectedPreset]) {
+                const preset = presetsWithCarbs[selectedPreset];
+                setProtein(preset.protein);
+                setFat(preset.fat);
+                setCarbs(preset.carbs);
+              }
+            }}
+            style={{
+              background: 'transparent',
+              border: 'none',
+              color: 'var(--lime)',
+              fontSize: 12,
+              fontWeight: 600,
+              cursor: 'pointer',
+              marginTop: 12,
+              padding: '8px 0',
+              transition: 'all 0.15s',
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.opacity = '0.7';
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.opacity = '1';
+            }}
+          >
+            ✏️ {showCustomMacros ? 'Use Suggested' : 'Set my own macros'}
+          </button>
         </div>
 
         {/* Macro Inputs - Protein, Carbs, Fat (Calories calculated) */}
         <div style={{marginBottom: 20}}>
+          <div style={{fontSize: 11, fontWeight: 600, color: 'var(--muted)', marginBottom: 12, textTransform: 'uppercase', letterSpacing: 0.5}}>
+            {showCustomMacros ? 'Custom Macros' : 'Suggested Macros'}
+          </div>
           <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12, marginBottom: 12}}>
             {[
               { label: '💪 Protein (g)', value: protein, setValue: setProtein, color: 'var(--lime)' },
