@@ -827,7 +827,146 @@ function GoalsModal({ goals, user, onClose, onSave }) {
           </button>
         </div>
 
-        {/* Personal Stats Section */}
+        {/* Macro Mode Selector */}
+        <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 24}}>
+          <button
+            onClick={() => setIsCustomMode(false)}
+            style={{
+              padding: '12px 16px',
+              borderRadius: 20,
+              border: isCustomMode ? '1px solid var(--border)' : '1px solid var(--lime)',
+              background: isCustomMode ? 'var(--s2)' : 'var(--lime)',
+              color: isCustomMode ? 'var(--lime)' : '#000',
+              fontSize: 13,
+              fontWeight: 600,
+              cursor: 'pointer',
+              transition: 'all 0.15s',
+            }}
+            onMouseEnter={(e) => {
+              if (isCustomMode) {
+                e.target.style.background = 'var(--lime)';
+                e.target.style.color = '#000';
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (isCustomMode) {
+                e.target.style.background = 'var(--s2)';
+                e.target.style.color = 'var(--lime)';
+              }
+            }}
+          >
+            📊 Calculate for me
+          </button>
+          <button
+            onClick={() => setIsCustomMode(true)}
+            style={{
+              padding: '12px 16px',
+              borderRadius: 20,
+              border: !isCustomMode ? '1px solid var(--border)' : '1px solid var(--lime)',
+              background: !isCustomMode ? 'var(--s2)' : 'var(--lime)',
+              color: !isCustomMode ? 'var(--lime)' : '#000',
+              fontSize: 13,
+              fontWeight: 600,
+              cursor: 'pointer',
+              transition: 'all 0.15s',
+            }}
+            onMouseEnter={(e) => {
+              if (!isCustomMode) {
+                e.target.style.background = 'var(--lime)';
+                e.target.style.color = '#000';
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (!isCustomMode) {
+                e.target.style.background = 'var(--s2)';
+                e.target.style.color = 'var(--lime)';
+              }
+            }}
+          >
+            ✏️ Set my own macros
+          </button>
+        </div>
+
+        {/* EZ Level Selector - Always visible */}
+        <div style={{marginBottom: 20, position: 'relative'}}>
+          <div style={{display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8}}>
+            <div style={{fontSize: 12, fontWeight: 600, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: 1}}>
+              EZ Level
+            </div>
+            <button
+              onClick={() => setShowEzInfo(!showEzInfo)}
+              style={{
+                background: 'transparent',
+                border: 'none',
+                fontSize: 14,
+                cursor: 'pointer',
+                color: 'var(--muted)',
+                padding: 0,
+              }}
+            >
+              ℹ️
+            </button>
+          </div>
+
+          {showEzInfo && (
+            <div style={{
+              background: 'var(--s1)',
+              border: '1px solid var(--lime)',
+              borderRadius: 8,
+              padding: 12,
+              marginBottom: 12,
+              fontSize: 11,
+              color: 'var(--cream)',
+              lineHeight: 1.5,
+            }}>
+              <div style={{marginBottom: 8}}>
+                <div style={{fontWeight: 600, color: 'var(--lime)', marginBottom: 2}}>⚡ Effortless</div>
+                <div>Max 3 steps, 5 min active time. Microwave only, zero prep.</div>
+              </div>
+              <div style={{marginBottom: 8}}>
+                <div style={{fontWeight: 600, color: 'var(--lime)', marginBottom: 2}}>⚡⚡ Easy</div>
+                <div>Max 5 steps, 10 min active time. Simple cooking, bottled sauces.</div>
+              </div>
+              <div>
+                <div style={{fontWeight: 600, color: 'var(--lime)', marginBottom: 2}}>⚡⚡⚡ Relaxed</div>
+                <div>Max 5 steps, 15 min active time. Light prep, more variety.</div>
+              </div>
+            </div>
+          )}
+
+          <div style={{fontSize: 9, color: 'var(--muted)', marginBottom: 12}}>
+            Controls the complexity of recipes generated in the Kitchen tab. Change anytime.
+          </div>
+
+          <div style={{display: 'flex', gap: 8}}>
+            {['Effortless', 'Easy', 'Relaxed'].map((level, idx) => (
+              <button
+                key={level}
+                onClick={() => {
+                  setEzLevel(level);
+                  setShowEzInfo(false);
+                }}
+                style={{
+                  flex: 1,
+                  padding: '10px 12px',
+                  borderRadius: 20,
+                  border: '1px solid var(--border)',
+                  background: ezLevel === level ? 'var(--lime)' : 'var(--s2)',
+                  color: ezLevel === level ? '#000' : 'var(--cream)',
+                  fontSize: 12,
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  transition: 'all 0.15s',
+                }}
+              >
+                {'⚡'.repeat(idx + 1)} {level}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Personal Stats Section - Only shown in calculate mode */}
+        {!isCustomMode && (
         <div style={{background: 'var(--s1)', border: '1px solid var(--border)', borderRadius: 12, padding: 16, marginBottom: 24}}>
           <div style={{fontSize: 12, fontWeight: 700, color: 'var(--lime)', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 12}}>
             Personal Stats
@@ -1103,182 +1242,15 @@ function GoalsModal({ goals, user, onClose, onSave }) {
             </div>
           </div>
         </div>
+        )}
 
-        {/* EZ Level Selector */}
-        <div style={{marginBottom: 20, position: 'relative'}}>
-          <div style={{display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8}}>
-            <div style={{fontSize: 12, fontWeight: 600, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: 1}}>
-              EZ Level
-            </div>
-            <button
-              onClick={() => setShowEzInfo(!showEzInfo)}
-              style={{
-                background: 'transparent',
-                border: 'none',
-                fontSize: 14,
-                cursor: 'pointer',
-                color: 'var(--muted)',
-                padding: 0,
-              }}
-            >
-              ℹ️
-            </button>
-          </div>
-
-          {showEzInfo && (
-            <div style={{
-              background: 'var(--s1)',
-              border: '1px solid var(--lime)',
-              borderRadius: 8,
-              padding: 12,
-              marginBottom: 12,
-              fontSize: 11,
-              color: 'var(--cream)',
-              lineHeight: 1.5,
-            }}>
-              <div style={{marginBottom: 8}}>
-                <div style={{fontWeight: 600, color: 'var(--lime)', marginBottom: 2}}>⚡ Effortless</div>
-                <div>Max 3 steps, 5 min active time. Microwave only, zero prep.</div>
-              </div>
-              <div style={{marginBottom: 8}}>
-                <div style={{fontWeight: 600, color: 'var(--lime)', marginBottom: 2}}>⚡⚡ Easy</div>
-                <div>Max 5 steps, 10 min active time. Simple cooking, bottled sauces.</div>
-              </div>
-              <div>
-                <div style={{fontWeight: 600, color: 'var(--lime)', marginBottom: 2}}>⚡⚡⚡ Relaxed</div>
-                <div>Max 5 steps, 15 min active time. Light prep, more variety.</div>
-              </div>
-            </div>
-          )}
-
-          <div style={{fontSize: 9, color: 'var(--muted)', marginBottom: 12}}>
-            Controls the complexity of recipes generated in the Kitchen tab. Change anytime.
-          </div>
-
-          <div style={{display: 'flex', gap: 8}}>
-            {['Effortless', 'Easy', 'Relaxed'].map((level, idx) => (
-              <button
-                key={level}
-                onClick={() => {
-                  setEzLevel(level);
-                  setShowEzInfo(false);
-                }}
-                style={{
-                  flex: 1,
-                  padding: '10px 12px',
-                  borderRadius: 20,
-                  border: '1px solid var(--border)',
-                  background: ezLevel === level ? 'var(--lime)' : 'var(--s2)',
-                  color: ezLevel === level ? '#000' : 'var(--cream)',
-                  fontSize: 12,
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  transition: 'all 0.15s',
-                }}
-              >
-                {'⚡'.repeat(idx + 1)} {level}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Preset Pills - Simplified based on goal weight */}
-        <div style={{marginBottom: 20}}>
-          <div style={{fontSize: 11, fontWeight: 600, color: 'var(--muted)', marginBottom: 8}}>
-            {visiblePresets.length === 1 ? `${visiblePresets[0].charAt(0).toUpperCase() + visiblePresets[0].slice(1)} (Auto-applied)` : 'Select Goal'}
-          </div>
-          <div style={{display: 'grid', gridTemplateColumns: visiblePresets.length === 3 ? '1fr 1fr 1fr' : '1fr', gap: 6}}>
-            {visiblePresets.map((presetKey) => {
-              const preset = presetsWithCarbs[presetKey];
-              const displayName = presetKey.charAt(0).toUpperCase() + presetKey.slice(1);
-              const isSelected = selectedPreset === presetKey;
-
-              return (
-                <button
-                  key={presetKey}
-                  onClick={() => applyPreset(presetKey)}
-                  style={{
-                    padding: '12px 8px',
-                    borderRadius: 12,
-                    border: isSelected ? '2px solid var(--lime)' : '1px solid var(--lime)',
-                    background: isSelected ? 'var(--lime)' : 'var(--s2)',
-                    color: isSelected ? '#000' : 'var(--lime)',
-                    cursor: visiblePresets.length === 1 ? 'default' : 'pointer',
-                    transition: 'all 0.15s',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    gap: 4,
-                    opacity: visiblePresets.length === 1 ? 1 : 0.8,
-                  }}
-                  onMouseEnter={(e) => {
-                    if (visiblePresets.length > 1 && !isSelected) {
-                      e.currentTarget.style.background = 'var(--lime)';
-                      e.currentTarget.style.color = '#000';
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (visiblePresets.length > 1 && !isSelected) {
-                      e.currentTarget.style.background = 'var(--s2)';
-                      e.currentTarget.style.color = 'var(--lime)';
-                    }
-                  }}
-                >
-                  <div style={{fontSize: 12, fontWeight: 700}}>{displayName}</div>
-                  <div style={{fontSize: 10, opacity: 0.8}}>{Math.round(preset.cal)} cal</div>
-                </button>
-              );
-            })}
-          </div>
-          <div style={{fontSize: 10, color: 'var(--muted)', marginTop: 8, fontStyle: 'italic', textAlign: 'center'}}>
-            {visiblePresets.length === 1 ? 'Based on your goal weight' : 'These are starting point estimates. Adjust based on your progress.'}
-          </div>
-
-          {/* Custom Macros Toggle */}
-          <button
-            onClick={() => {
-              if (!isCustomMode) {
-                // Entering custom mode: initialize with suggested values
-                setIsCustomMode(true);
-                setCustomMacros({
-                  protein: protein.toString(),
-                  carbs: carbs.toString(),
-                  fat: fat.toString(),
-                });
-              } else {
-                // Exiting custom mode: revert to suggested
-                setIsCustomMode(false);
-                setCustomMacros({ protein: '', carbs: '', fat: '' });
-              }
-            }}
-            style={{
-              background: 'transparent',
-              border: 'none',
-              color: 'var(--lime)',
-              fontSize: 12,
-              fontWeight: 600,
-              cursor: 'pointer',
-              marginTop: 12,
-              padding: '8px 0',
-              transition: 'all 0.15s',
-            }}
-            onMouseEnter={(e) => {
-              e.target.style.opacity = '0.7';
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.opacity = '1';
-            }}
-          >
-            ✏️ {isCustomMode ? 'Use Suggested' : 'Set my own macros'}
-          </button>
-        </div>
-
-        {/* Macro Inputs - Protein, Carbs, Fat (Calories calculated) */}
+        {/* Macro Inputs - Only shown in custom mode */}
+        {isCustomMode && (
         <div style={{marginBottom: 20}}>
           <div style={{fontSize: 11, fontWeight: 600, color: 'var(--muted)', marginBottom: 12, textTransform: 'uppercase', letterSpacing: 0.5, display: 'flex', alignItems: 'center', gap: 6}}>
-            <span>{isCustomMode ? 'Custom Macros' : 'Suggested Macros'}</span>
+            <span>Custom Macros</span>
             <span style={{fontSize: 10, fontWeight: 400, color: 'var(--muted)'}}>
-              {isCustomMode ? '✏️ Custom' : '🔒 auto-calculated'}
+              ✏️ Custom
             </span>
           </div>
           <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12, marginBottom: 12}}>
@@ -1286,22 +1258,22 @@ function GoalsModal({ goals, user, onClose, onSave }) {
               {
                 key: 'protein',
                 label: '💪 Protein (g)',
-                value: isCustomMode ? customMacros.protein : protein,
-                setValue: isCustomMode ? (val) => setCustomMacros(prev => ({...prev, protein: val})) : setProtein,
+                value: customMacros.protein,
+                setValue: (val) => setCustomMacros(prev => ({...prev, protein: val})),
                 color: 'var(--lime)'
               },
               {
                 key: 'carbs',
                 label: '🍚 Carbs (g)',
-                value: isCustomMode ? customMacros.carbs : carbs,
-                setValue: isCustomMode ? (val) => setCustomMacros(prev => ({...prev, carbs: val})) : setCarbs,
+                value: customMacros.carbs,
+                setValue: (val) => setCustomMacros(prev => ({...prev, carbs: val})),
                 color: 'var(--blue)'
               },
               {
                 key: 'fat',
                 label: '🥑 Fat (g)',
-                value: isCustomMode ? customMacros.fat : fat,
-                setValue: isCustomMode ? (val) => setCustomMacros(prev => ({...prev, fat: val})) : setFat,
+                value: customMacros.fat,
+                setValue: (val) => setCustomMacros(prev => ({...prev, fat: val})),
                 color: 'var(--muted)'
               },
             ].map((macro) => (
@@ -1313,27 +1285,22 @@ function GoalsModal({ goals, user, onClose, onSave }) {
                   type="number"
                   value={macro.value}
                   onChange={(e) => {
-                    if (!isCustomMode) setSelectedPreset(null);
                     macro.setValue(e.target.value);
                   }}
-                  readOnly={!isCustomMode}
                   className="goals-modal-input"
                   style={{
                     width: '100%',
                     padding: '10px 12px',
                     background: 'var(--s1)',
-                    border: isCustomMode ? '1px solid var(--border)' : '1px solid var(--muted)',
+                    border: '1px solid var(--border)',
                     borderRadius: 8,
-                    color: isCustomMode ? 'var(--cream)' : 'var(--muted)',
+                    color: 'var(--cream)',
                     fontSize: 14,
                     fontWeight: 600,
                     boxSizing: 'border-box',
-                    opacity: isCustomMode ? 1 : 0.5,
-                    cursor: isCustomMode ? 'text' : 'not-allowed',
+                    opacity: 1,
+                    cursor: 'text',
                     transition: 'all 0.15s',
-                  }}
-                  onFocus={(e) => {
-                    if (!isCustomMode) e.preventDefault();
                   }}
                 />
               </div>
@@ -1351,9 +1318,9 @@ function GoalsModal({ goals, user, onClose, onSave }) {
           }}>
             <div style={{fontSize: 10, color: 'var(--muted)', marginBottom: 4}}>🔥 Calculated Total</div>
             {(() => {
-              const p = isCustomMode ? (parseInt(customMacros.protein) || 0) : protein;
-              const c = isCustomMode ? (parseInt(customMacros.carbs) || 0) : carbs;
-              const f = isCustomMode ? (parseInt(customMacros.fat) || 0) : fat;
+              const p = parseInt(customMacros.protein) || 0;
+              const c = parseInt(customMacros.carbs) || 0;
+              const f = parseInt(customMacros.fat) || 0;
               const totalCal = (p * 4) + (c * 4) + (f * 9);
               return (
                 <>
@@ -1367,23 +1334,167 @@ function GoalsModal({ goals, user, onClose, onSave }) {
               );
             })()}
           </div>
+        </div>
+        )}
 
-          {/* Error Message */}
-          {saveError && (
+        {/* Suggested Macros Display - Only shown in calculate mode */}
+        {!isCustomMode && (
+        <div style={{marginBottom: 20}}>
+          {/* Preset Pills - Simplified based on goal weight */}
+          <div style={{marginBottom: 20}}>
+            <div style={{fontSize: 11, fontWeight: 600, color: 'var(--muted)', marginBottom: 8}}>
+              {visiblePresets.length === 1 ? `${visiblePresets[0].charAt(0).toUpperCase() + visiblePresets[0].slice(1)} (Auto-applied)` : 'Select Goal'}
+            </div>
+            <div style={{display: 'grid', gridTemplateColumns: visiblePresets.length === 3 ? '1fr 1fr 1fr' : '1fr', gap: 6}}>
+              {visiblePresets.map((presetKey) => {
+                const preset = presetsWithCarbs[presetKey];
+                const displayName = presetKey.charAt(0).toUpperCase() + presetKey.slice(1);
+                const isSelected = selectedPreset === presetKey;
+
+                return (
+                  <button
+                    key={presetKey}
+                    onClick={() => applyPreset(presetKey)}
+                    style={{
+                      padding: '12px 8px',
+                      borderRadius: 12,
+                      border: isSelected ? '2px solid var(--lime)' : '1px solid var(--lime)',
+                      background: isSelected ? 'var(--lime)' : 'var(--s2)',
+                      color: isSelected ? '#000' : 'var(--lime)',
+                      cursor: visiblePresets.length === 1 ? 'default' : 'pointer',
+                      transition: 'all 0.15s',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      gap: 4,
+                      opacity: visiblePresets.length === 1 ? 1 : 0.8,
+                    }}
+                    onMouseEnter={(e) => {
+                      if (visiblePresets.length > 1 && !isSelected) {
+                        e.currentTarget.style.background = 'var(--lime)';
+                        e.currentTarget.style.color = '#000';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (visiblePresets.length > 1 && !isSelected) {
+                        e.currentTarget.style.background = 'var(--s2)';
+                        e.currentTarget.style.color = 'var(--lime)';
+                      }
+                    }}
+                  >
+                    <div style={{fontSize: 12, fontWeight: 700}}>{displayName}</div>
+                    <div style={{fontSize: 10, opacity: 0.8}}>{Math.round(preset.cal)} cal</div>
+                  </button>
+                );
+              })}
+            </div>
+            <div style={{fontSize: 10, color: 'var(--muted)', marginTop: 8, fontStyle: 'italic', textAlign: 'center'}}>
+              {visiblePresets.length === 1 ? 'Based on your goal weight' : 'These are starting point estimates. Adjust based on your progress.'}
+            </div>
+          </div>
+
+          {/* Suggested Macros Inputs - Read-only display */}
+          <div style={{marginTop: 20}}>
+            <div style={{fontSize: 11, fontWeight: 600, color: 'var(--muted)', marginBottom: 12, textTransform: 'uppercase', letterSpacing: 0.5, display: 'flex', alignItems: 'center', gap: 6}}>
+              <span>Suggested Macros</span>
+              <span style={{fontSize: 10, fontWeight: 400, color: 'var(--muted)'}}>
+                🔒 auto-calculated
+              </span>
+            </div>
+            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12, marginBottom: 12}}>
+              {[
+                {
+                  key: 'protein',
+                  label: '💪 Protein (g)',
+                  value: protein,
+                  color: 'var(--lime)'
+                },
+                {
+                  key: 'carbs',
+                  label: '🍚 Carbs (g)',
+                  value: carbs,
+                  color: 'var(--blue)'
+                },
+                {
+                  key: 'fat',
+                  label: '🥑 Fat (g)',
+                  value: fat,
+                  color: 'var(--muted)'
+                },
+              ].map((macro) => (
+                <div key={macro.key}>
+                  <label style={{fontSize: 11, fontWeight: 600, color: macro.color, display: 'block', marginBottom: 6}}>
+                    {macro.label}
+                  </label>
+                  <input
+                    type="number"
+                    value={macro.value}
+                    readOnly
+                    className="goals-modal-input"
+                    style={{
+                      width: '100%',
+                      padding: '10px 12px',
+                      background: 'var(--s1)',
+                      border: '1px solid var(--muted)',
+                      borderRadius: 8,
+                      color: 'var(--muted)',
+                      fontSize: 14,
+                      fontWeight: 600,
+                      boxSizing: 'border-box',
+                      opacity: 0.5,
+                      cursor: 'not-allowed',
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
+
+            {/* Calculated Calories Display */}
             <div style={{
-              background: 'rgba(255, 0, 0, 0.1)',
-              border: '1px solid var(--red)',
+              background: 'var(--s1)',
+              border: '1px solid var(--orange)',
               borderRadius: 8,
               padding: 12,
-              marginBottom: 12,
-              fontSize: 12,
-              color: 'var(--red)',
               textAlign: 'center',
+              marginBottom: 12,
             }}>
-              {saveError}
+              <div style={{fontSize: 10, color: 'var(--muted)', marginBottom: 4}}>🔥 Calculated Total</div>
+              {(() => {
+                const p = protein;
+                const c = carbs;
+                const f = fat;
+                const totalCal = (p * 4) + (c * 4) + (f * 9);
+                return (
+                  <>
+                    <div style={{fontSize: 18, fontWeight: 700, color: 'var(--orange)'}}>
+                      {totalCal} cal
+                    </div>
+                    <div style={{fontSize: 9, color: 'var(--muted)', marginTop: 6}}>
+                      ({p}g × 4) + ({c}g × 4) + ({f}g × 9)
+                    </div>
+                  </>
+                );
+              })()}
             </div>
-          )}
+          </div>
         </div>
+        )}
+
+        {/* Error Message */}
+        {saveError && (
+          <div style={{
+            background: 'rgba(255, 0, 0, 0.1)',
+            border: '1px solid var(--red)',
+            borderRadius: 8,
+            padding: 12,
+            marginBottom: 12,
+            fontSize: 12,
+            color: 'var(--red)',
+            textAlign: 'center',
+          }}>
+            {saveError}
+          </div>
+        )}
 
         {/* Save Button */}
         <button
