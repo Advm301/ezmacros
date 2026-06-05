@@ -1247,7 +1247,7 @@ function GoalsModal({ goals, user, onClose, onSave }) {
               e.target.style.opacity = '1';
             }}
           >
-            ✏️ {showCustomMacros ? 'Use Suggested' : 'Set my own macros'}
+            ✏️ {isCustomMode ? 'Use Suggested' : 'Set my own macros'}
           </button>
         </div>
 
