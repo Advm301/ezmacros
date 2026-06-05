@@ -3,7 +3,7 @@ import { supabase } from '../lib/supabase';
 import { RECIPES } from '../data/recipes.js';
 import RecipeModal from '../components/RecipeModal';
 
-export default function Today({onTabFocus}) {
+export default function Today({onTabFocus, onUpdateEzLevel}) {
   const [goals, setGoals] = useState(null);
   const [meals, setMeals] = useState([]);
   const [totals, setTotals] = useState({ cal: 0, protein: 0, carbs: 0, fat: 0 });
@@ -12,6 +12,7 @@ export default function Today({onTabFocus}) {
   const [openRecipe, setOpenRecipe] = useState(null);
   const [deletingMealId, setDeletingMealId] = useState(null);
   const [deleteConfirmTime, setDeleteConfirmTime] = useState(null);
+  const [showGoalsModal, setShowGoalsModal] = useState(false);
 
   const loadData = async () => {
     try {
@@ -223,7 +224,7 @@ export default function Today({onTabFocus}) {
 
   return (
     <div style={{paddingBottom: 20}}>
-      {/* Header with sign out */}
+      {/* Header with goals and sign out */}
       <div style={{
         padding: '14px 18px 10px',
         position: 'sticky',
@@ -238,30 +239,55 @@ export default function Today({onTabFocus}) {
         <div style={{fontFamily: "'Clash Display',sans-serif", fontSize: 18, fontWeight: 700}}>
           Today's Progress
         </div>
-        <button
-          onClick={handleSignOut}
-          style={{
-            background: 'var(--s2)',
-            border: '1px solid var(--border)',
-            color: 'var(--muted)',
-            borderRadius: 8,
-            padding: '6px 12px',
-            fontSize: 12,
-            fontWeight: 600,
-            cursor: 'pointer',
-            transition: 'all 0.15s',
-          }}
-          onMouseEnter={(e) => {
-            e.target.style.borderColor = 'var(--red)';
-            e.target.style.color = 'var(--red)';
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.borderColor = 'var(--border)';
-            e.target.style.color = 'var(--muted)';
-          }}
-        >
-          Sign Out
-        </button>
+        <div style={{display: 'flex', gap: 8, alignItems: 'center'}}>
+          <button
+            onClick={() => setShowGoalsModal(true)}
+            style={{
+              background: 'var(--s2)',
+              border: '1px solid var(--border)',
+              color: 'var(--muted)',
+              borderRadius: 8,
+              padding: '6px 10px',
+              fontSize: 14,
+              cursor: 'pointer',
+              transition: 'all 0.15s',
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.borderColor = 'var(--lime)';
+              e.target.style.color = 'var(--lime)';
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.borderColor = 'var(--border)';
+              e.target.style.color = 'var(--muted)';
+            }}
+          >
+            🎯
+          </button>
+          <button
+            onClick={handleSignOut}
+            style={{
+              background: 'var(--s2)',
+              border: '1px solid var(--border)',
+              color: 'var(--muted)',
+              borderRadius: 8,
+              padding: '6px 12px',
+              fontSize: 12,
+              fontWeight: 600,
+              cursor: 'pointer',
+              transition: 'all 0.15s',
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.borderColor = 'var(--red)';
+              e.target.style.color = 'var(--red)';
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.borderColor = 'var(--border)';
+              e.target.style.color = 'var(--muted)';
+            }}
+          >
+            Sign Out
+          </button>
+        </div>
       </div>
 
       <div className="px pt">
@@ -459,6 +485,235 @@ export default function Today({onTabFocus}) {
       </div>
 
       {openRecipe && <RecipeModal recipe={openRecipe} onClose={() => setOpenRecipe(null)} onSave={loadData} />}
+
+      {showGoalsModal && (
+        <GoalsModal
+          goals={goals}
+          user={user}
+          onClose={() => setShowGoalsModal(false)}
+          onSave={(newGoals) => {
+            setGoals(newGoals);
+            if (onUpdateEzLevel && newGoals.ez_level) {
+              onUpdateEzLevel(newGoals.ez_level);
+            }
+          }}
+        />
+      )}
+    </div>
+  );
+}
+
+function GoalsModal({ goals, user, onClose, onSave }) {
+  const [cal, setCal] = useState(goals?.cal || 2200);
+  const [protein, setProtein] = useState(goals?.protein || 180);
+  const [carbs, setCarbs] = useState(goals?.carbs || 220);
+  const [fat, setFat] = useState(goals?.fat || 60);
+  const [ezLevel, setEzLevel] = useState(goals?.ez_level || 'Easy');
+  const [saving, setSaving] = useState(false);
+
+  const PRESETS = {
+    Cut: { cal: 1800, protein: 200, carbs: 150, fat: 50 },
+    Maintain: { cal: 2200, protein: 180, carbs: 220, fat: 60 },
+    Bulk: { cal: 2800, protein: 200, carbs: 300, fat: 80 },
+  };
+
+  const applyPreset = (presetName) => {
+    const preset = PRESETS[presetName];
+    setCal(preset.cal);
+    setProtein(preset.protein);
+    setCarbs(preset.carbs);
+    setFat(preset.fat);
+  };
+
+  const handleSave = async () => {
+    if (!user) return;
+    setSaving(true);
+    try {
+      const { error } = await supabase
+        .from('goals')
+        .upsert({
+          user_id: user.id,
+          cal: parseInt(cal),
+          protein: parseInt(protein),
+          carbs: parseInt(carbs),
+          fat: parseInt(fat),
+          ez_level: ezLevel,
+        });
+
+      if (error) throw error;
+      onSave({ cal: parseInt(cal), protein: parseInt(protein), carbs: parseInt(carbs), fat: parseInt(fat), ez_level: ezLevel });
+      onClose();
+    } catch (err) {
+      console.error('Error saving goals:', err);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <div style={{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      background: 'rgba(0, 0, 0, 0.8)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      zIndex: 1000,
+    }}>
+      <div style={{
+        background: 'var(--bg)',
+        border: '1px solid var(--border)',
+        borderRadius: 16,
+        padding: 24,
+        maxWidth: 400,
+        width: '90%',
+        maxHeight: '90vh',
+        overflowY: 'auto',
+      }}>
+        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20}}>
+          <div style={{fontSize: 18, fontWeight: 700, color: 'var(--cream)'}}>My Goals</div>
+          <button
+            onClick={onClose}
+            style={{
+              background: 'transparent',
+              border: 'none',
+              fontSize: 24,
+              cursor: 'pointer',
+              color: 'var(--muted)',
+              padding: 0,
+            }}
+          >
+            ×
+          </button>
+        </div>
+
+        {/* EZ Level Selector */}
+        <div style={{marginBottom: 20}}>
+          <div style={{fontSize: 12, fontWeight: 600, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 8}}>
+            EZ Level
+          </div>
+          <div style={{display: 'flex', gap: 8}}>
+            {['Effortless', 'Easy', 'Relaxed'].map((level, idx) => (
+              <button
+                key={level}
+                onClick={() => setEzLevel(level)}
+                style={{
+                  flex: 1,
+                  padding: '10px 12px',
+                  borderRadius: 20,
+                  border: '1px solid var(--border)',
+                  background: ezLevel === level ? 'var(--lime)' : 'var(--s2)',
+                  color: ezLevel === level ? '#000' : 'var(--cream)',
+                  fontSize: 12,
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  transition: 'all 0.15s',
+                }}
+              >
+                {'⚡'.repeat(idx + 1)} {level}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Preset Pills */}
+        <div style={{marginBottom: 20}}>
+          <div style={{display: 'flex', gap: 6}}>
+            {Object.keys(PRESETS).map((presetName) => (
+              <button
+                key={presetName}
+                onClick={() => applyPreset(presetName)}
+                style={{
+                  flex: 1,
+                  padding: '8px 12px',
+                  borderRadius: 16,
+                  border: '1px solid var(--lime)',
+                  background: 'var(--s2)',
+                  color: 'var(--lime)',
+                  fontSize: 12,
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  transition: 'all 0.15s',
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.background = 'var(--lime)';
+                  e.target.style.color = '#000';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.background = 'var(--s2)';
+                  e.target.style.color = 'var(--lime)';
+                }}
+              >
+                {presetName}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Macro Inputs */}
+        <div style={{marginBottom: 20}}>
+          <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12}}>
+            {[
+              { label: '🔥 Calories', value: cal, setValue: setCal, color: 'var(--orange)' },
+              { label: '💪 Protein (g)', value: protein, setValue: setProtein, color: 'var(--lime)' },
+              { label: '🍚 Carbs (g)', value: carbs, setValue: setCarbs, color: 'var(--blue)' },
+              { label: '🥑 Fat (g)', value: fat, setValue: setFat, color: 'var(--muted)' },
+            ].map((macro) => (
+              <div key={macro.label}>
+                <label style={{fontSize: 11, fontWeight: 600, color: macro.color, display: 'block', marginBottom: 6}}>
+                  {macro.label}
+                </label>
+                <input
+                  type="number"
+                  value={macro.value}
+                  onChange={(e) => macro.setValue(parseInt(e.target.value) || 0)}
+                  style={{
+                    width: '100%',
+                    padding: '10px 12px',
+                    background: 'var(--s1)',
+                    border: '1px solid var(--border)',
+                    borderRadius: 8,
+                    color: 'var(--cream)',
+                    fontSize: 14,
+                    fontWeight: 600,
+                    boxSizing: 'border-box',
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Save Button */}
+        <button
+          onClick={handleSave}
+          disabled={saving}
+          style={{
+            width: '100%',
+            padding: '12px 16px',
+            background: 'var(--lime)',
+            border: 'none',
+            borderRadius: 8,
+            color: '#000',
+            fontSize: 14,
+            fontWeight: 700,
+            cursor: saving ? 'not-allowed' : 'pointer',
+            opacity: saving ? 0.6 : 1,
+            transition: 'all 0.15s',
+          }}
+          onMouseEnter={(e) => {
+            if (!saving) e.target.style.background = 'rgba(0, 255, 100, 0.85)';
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.background = 'var(--lime)';
+          }}
+        >
+          {saving ? 'Saving...' : 'Save Goals'}
+        </button>
+      </div>
     </div>
   );
 }

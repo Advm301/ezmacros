@@ -15,7 +15,20 @@ export default function App() {
   const [goals] = useState({cal: 2200, protein: 180, carbs: 220, fat: 60});
   const [mealLoggedNotification, setMealLoggedNotification] = useState(false);
   const [todayBadge, setTodayBadge] = useState(false);
-  const ezLevel = 2;
+  const [ezLevel, setEzLevel] = useState(1);
+
+  const ezLevelNames = {
+    0: { name: 'Effortless', icon: '⚡', bolts: '⚡' },
+    1: { name: 'Easy', icon: '⚡⚡', bolts: '⚡⚡' },
+    2: { name: 'Relaxed', icon: '⚡⚡⚡', bolts: '⚡⚡⚡' },
+  };
+
+  const updateEzLevel = (levelName) => {
+    const levelIndex = Object.values(ezLevelNames).findIndex(l => l.name === levelName);
+    if (levelIndex !== -1) {
+      setEzLevel(levelIndex);
+    }
+  };
 
   useEffect(() => {
     // Check for existing session on mount
@@ -85,12 +98,12 @@ export default function App() {
             <span style={{color: "var(--lime)"}}>EZ</span><span style={{color: "var(--cream)"}}>Macros</span>
           </div>
           <div style={{background: "var(--s2)", border: "1px solid var(--lime)", borderRadius: 20, padding: "4px 12px", fontSize: 12, fontWeight: 600, color: "var(--lime)"}}>
-            ⚡⚡ Easy
+            {ezLevelNames[ezLevel].icon} {ezLevelNames[ezLevel].name}
           </div>
         </div>
 
         {/* Page content */}
-        {tab === "today" && <Today onTabFocus={() => setTodayBadge(false)}/>}
+        {tab === "today" && <Today onTabFocus={() => setTodayBadge(false)} onUpdateEzLevel={updateEzLevel}/>}
         {tab === "kitchen" && <Kitchen ezLevel={ezLevel} goals={goals} onOpen={setOpenRecipe}/>}
         {tab === "browse" && <Browse ezLevel={ezLevel} onOpen={setOpenRecipe}/>}
 
