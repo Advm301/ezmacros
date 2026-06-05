@@ -307,7 +307,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
 
   // For logged meals, track if there are unsaved changes from what was loaded from database
   useEffect(() => {
-    if (!isLoggedView) return;
+    if (!recipe?.isLoggedView) return;
 
     const hasUnsaved = components.length !== initialLoadedComponents.current.length ||
       steps.length !== initialLoadedSteps.current.length ||
@@ -322,7 +322,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
       !steps.every((step, i) => step === initialLoadedSteps.current[i]);
 
     setHasUnsavedChanges(hasUnsaved);
-  }, [components, steps, isLoggedView]);
+  }, [components, steps, recipe?.isLoggedView]);
 
   // Track step changes for logged meals
   useEffect(() => {
@@ -415,7 +415,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
     }
 
     setComponents(updatedComponents);
-    if (isLoggedView) setHasUnsavedChanges(true);
+    if (recipe?.isLoggedView) setHasUnsavedChanges(true);
     setExpandedSwap(null);
   };
 
@@ -430,7 +430,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
       updatedSteps[editingStepIndex] = editingStepText;
       setSteps(updatedSteps);
       setEditingStepIndex(null);
-      if (isLoggedView) setHasUnsavedChanges(true);
+      if (recipe?.isLoggedView) setHasUnsavedChanges(true);
     }
   };
 
@@ -456,7 +456,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
       setResetConfirming(false);
       if (resetConfirmTimeoutRef.current) clearTimeout(resetConfirmTimeoutRef.current);
       // If in logged view, ensure Save Changes button appears
-      if (isLoggedView) setHasUnsavedChanges(true);
+      if (recipe?.isLoggedView) setHasUnsavedChanges(true);
     }
   };
 
@@ -465,7 +465,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
       const updatedSteps = [...steps];
       [updatedSteps[index - 1], updatedSteps[index]] = [updatedSteps[index], updatedSteps[index - 1]];
       setSteps(updatedSteps);
-      if (isLoggedView) setHasUnsavedChanges(true);
+      if (recipe?.isLoggedView) setHasUnsavedChanges(true);
     }
   };
 
@@ -474,7 +474,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
       const updatedSteps = [...steps];
       [updatedSteps[index], updatedSteps[index + 1]] = [updatedSteps[index + 1], updatedSteps[index]];
       setSteps(updatedSteps);
-      if (isLoggedView) setHasUnsavedChanges(true);
+      if (recipe?.isLoggedView) setHasUnsavedChanges(true);
     }
   };
 
@@ -555,7 +555,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
   };
 
   const handleClose = () => {
-    if (isLoggedView && hasUnsavedChanges) {
+    if (recipe?.isLoggedView && hasUnsavedChanges) {
       if (window.confirm("You have unsaved changes. Close without saving?")) {
         onClose();
       }
@@ -658,7 +658,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
             )}
           </div>
           <div style={{display: "flex", flexDirection: "column", gap: 8}}>
-            {isLoggedView && hasUnsavedChanges && (
+            {r.isLoggedView && hasUnsavedChanges && (
               <button
                 onClick={handleSaveChanges}
                 disabled={saving}
