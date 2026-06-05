@@ -103,10 +103,14 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
   };
 
   const handleSwapComponent = (index, newName) => {
+    console.log('handleSwapComponent called:', { index, newName });
+
     // Update the component at this index
     const updatedComponents = [...components];
     const originalComponent = updatedComponents[index];
     const newMacros = MACRO_VALUES[newName];
+
+    console.log('Macro lookup result:', { newName, newMacros });
 
     if (newMacros) {
       // Update component name and macros
@@ -198,13 +202,19 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
           user_id: user.id,
           recipe_id: String(r.id || r.name),
           recipe_name: r.name,
-          cal: macros.cal,
-          protein: macros.protein,
-          carbs: macros.carbs,
-          fat: macros.fat,
+          cal: Math.round(macros.cal),
+          protein: Math.round(macros.protein),
+          carbs: Math.round(macros.carbs),
+          fat: Math.round(macros.fat),
           logged_at: new Date().toISOString(),
           recipe_data: JSON.stringify({
-            components: components,
+            components: components.map(comp => ({
+              ...comp,
+              cal: Math.round(comp.cal),
+              protein: Math.round(comp.protein),
+              carbs: Math.round(comp.carbs),
+              fat: Math.round(comp.fat),
+            })),
             steps: steps,
             toppings: r.toppings || [],
           }),
@@ -284,33 +294,37 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
                         <div style={{color: "var(--orange)", fontWeight: 600}}>{c.cal} cal</div>
                         <div>{c.protein || c.p}g P</div>
                       </div>
-                      {substitutions && (
-                        <button
-                          onClick={() => setExpandedSwap(expandedSwap === i ? null : i)}
-                          style={{
-                            background: "transparent",
-                            border: "1px solid var(--border)",
-                            color: "var(--muted)",
-                            borderRadius: 6,
-                            padding: "4px 8px",
-                            fontSize: 11,
-                            fontWeight: 600,
-                            cursor: "pointer",
-                            transition: "all 0.15s",
-                            whiteSpace: "nowrap",
-                          }}
-                          onMouseEnter={(e) => {
+                      <button
+                        onClick={() => setExpandedSwap(expandedSwap === i ? null : i)}
+                        style={{
+                          background: "transparent",
+                          border: "1px solid var(--border)",
+                          color: substitutions ? "var(--muted)" : "var(--s3)",
+                          borderRadius: 6,
+                          padding: "4px 8px",
+                          fontSize: 11,
+                          fontWeight: 600,
+                          cursor: substitutions ? "pointer" : "not-allowed",
+                          transition: "all 0.15s",
+                          whiteSpace: "nowrap",
+                          opacity: substitutions ? 1 : 0.5,
+                        }}
+                        disabled={!substitutions}
+                        onMouseEnter={(e) => {
+                          if (substitutions) {
                             e.target.style.borderColor = "var(--lime)";
                             e.target.style.color = "var(--lime)";
-                          }}
-                          onMouseLeave={(e) => {
+                          }
+                        }}
+                        onMouseLeave={(e) => {
+                          if (substitutions) {
                             e.target.style.borderColor = "var(--border)";
                             e.target.style.color = "var(--muted)";
-                          }}
-                        >
-                          Swap
-                        </button>
-                      )}
+                          }
+                        }}
+                      >
+                        Swap
+                      </button>
                     </div>
                   </div>
 
