@@ -520,6 +520,7 @@ function GoalsModal({ goals, user, onClose, onSave }) {
   const [age, setAge] = useState(goals?.age || 30);
   const [weightLbs, setWeightLbs] = useState(goals?.weight_lbs || 180);
   const [heightCm, setHeightCm] = useState(goals?.height_cm || 180);
+  const [goalWeightLbs, setGoalWeightLbs] = useState(goals?.goal_weight_lbs || null);
   const [activityLevel, setActivityLevel] = useState(goals?.activity_level || 'Moderately Active');
   const [isMetric, setIsMetric] = useState(false);
 
@@ -577,38 +578,39 @@ function GoalsModal({ goals, user, onClose, onSave }) {
   const tdee = calculateTDEE();
   const lbs = getLbsValue();
 
-  // Calculate carbs from remaining calories
-  const calculateCarbs = (calTotal, proteinG, fatG) => {
-    const proteinCal = proteinG * 4;
-    const fatCal = fatG * 9;
-    const remaining = calTotal - proteinCal - fatCal;
-    return Math.round(Math.max(0, remaining / 4));
-  };
+  // Determine goal weight (use input if provided, otherwise estimate as current × 0.9)
+  const effectiveGoalWeightLbs = goalWeightLbs || Math.round(lbs * 0.9);
 
-  // Calculate presets based on TDEE with corrected formulas
+  // Calculate presets based on TDEE with corrected formulas (using goal weight for protein)
   const PRESETS = {
     cut: {
       cal: Math.round(tdee - 500),
-      protein: Math.round(lbs * 1.0),
-      fat: Math.round((tdee - 500) * 0.22 / 9),
+      protein: Math.round(effectiveGoalWeightLbs * 1.0),
+      fat: Math.round(effectiveGoalWeightLbs * 0.35),
     },
     maintain: {
       cal: tdee,
-      protein: Math.round(lbs * 0.85),
-      fat: Math.round(tdee * 0.25 / 9),
+      protein: Math.round(effectiveGoalWeightLbs * 0.85),
+      fat: Math.round(effectiveGoalWeightLbs * 0.4),
     },
     bulk: {
       cal: Math.round(tdee + 300),
-      protein: Math.round(lbs * 0.75),
-      fat: Math.round((tdee + 300) * 0.25 / 9),
+      protein: Math.round(effectiveGoalWeightLbs * 0.75),
+      fat: Math.round(effectiveGoalWeightLbs * 0.4),
     },
   };
 
-  // Calculate carbs for each preset
+  // Calculate carbs for each preset with minimums
   const presetsWithCarbs = Object.entries(PRESETS).reduce((acc, [key, preset]) => {
+    const proteinCal = preset.protein * 4;
+    const fatCal = preset.fat * 9;
+    const remaining = preset.cal - proteinCal - fatCal;
+    const minCarbs = key === 'bulk' ? 100 : 50;
+    const carbs = Math.max(minCarbs, Math.round(remaining / 4));
+
     acc[key] = {
       ...preset,
-      carbs: calculateCarbs(preset.cal, preset.protein, preset.fat),
+      carbs,
     };
     return acc;
   }, {});
@@ -628,8 +630,14 @@ function GoalsModal({ goals, user, onClose, onSave }) {
     setSaving(true);
     setSaveError(null);
     try {
+      // Get fresh user data
+      const { data: { user: freshUser } } = await supabase.auth.getUser();
+      if (!freshUser) {
+        throw new Error('User session expired');
+      }
+
       const goalsData = {
-        user_id: user.id,
+        user_id: freshUser.id,
         cal: calculatedCal,
         protein: parseInt(protein),
         carbs: parseInt(carbs),
@@ -640,17 +648,27 @@ function GoalsModal({ goals, user, onClose, onSave }) {
         weight_lbs: lbs,
         height_cm: getCmValue(),
         activity_level: activityLevel,
+        goal_weight_lbs: goalWeightLbs,
       };
 
-      const { data, error } = await supabase
+      console.log('Attempting to save goals:', goalsData);
+
+      const { error } = await supabase
         .from('goals')
-        .upsert(goalsData, { onConflict: 'user_id' });
+        .upsert(
+          goalsData,
+          { onConflict: 'user_id', ignoreDuplicates: false }
+        );
 
       if (error) {
-        console.error('Supabase error:', error);
-        throw new Error(error.message || 'Failed to save goals');
+        console.error('Supabase upsert error:', error);
+        console.error('Error code:', error.code);
+        console.error('Error message:', error.message);
+        console.error('Full error object:', JSON.stringify(error));
+        throw new Error(error.message || 'Failed to save goals to database');
       }
 
+      console.log('Goals saved successfully');
       // Success - notify parent and close
       onSave(goalsData);
       onClose();
@@ -814,6 +832,38 @@ function GoalsModal({ goals, user, onClose, onSave }) {
                   boxSizing: 'border-box',
                 }}
               />
+            </div>
+
+            {/* Goal Weight */}
+            <div>
+              <label style={{fontSize: 11, fontWeight: 600, color: 'var(--muted)', display: 'block', marginBottom: 6}}>
+                {isMetric ? 'Goal Wt (kg)' : 'Goal Wt (lbs)'}
+              </label>
+              <input
+                type="number"
+                placeholder={isMetric ? Math.round(lbs * 0.9 / 2.205) : Math.round(lbs * 0.9)}
+                value={isMetric && goalWeightLbs ? Math.round(goalWeightLbs / 2.205) : goalWeightLbs || ''}
+                onChange={(e) => {
+                  const val = parseInt(e.target.value);
+                  if (val) {
+                    setGoalWeightLbs(isMetric ? Math.round(val * 2.205) : val);
+                  } else {
+                    setGoalWeightLbs(null);
+                  }
+                }}
+                style={{
+                  width: '100%',
+                  padding: '8px 12px',
+                  background: 'var(--bg)',
+                  border: '1px solid var(--border)',
+                  borderRadius: 8,
+                  color: 'var(--cream)',
+                  fontSize: 12,
+                  fontWeight: 600,
+                  boxSizing: 'border-box',
+                }}
+              />
+              <div style={{fontSize: 9, color: 'var(--muted)', marginTop: 4}}>Used for protein target</div>
             </div>
 
             {/* Height */}
