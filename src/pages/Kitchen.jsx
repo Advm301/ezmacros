@@ -3,6 +3,40 @@ import { EZ } from '../data/recipes.js';
 import { QUICK_COMBOS } from '../data/quickCombos.js';
 import { generateLocalRecipes, classifyIngredient, SPICE_LEVELS } from '../lib/generator.js';
 
+const KNOWN_INGREDIENTS = [
+  "Chicken Thighs (boneless, skinless)",
+  "Chicken Breast (boneless, skinless)",
+  "Canned Chicken",
+  "Rotisserie Chicken",
+  "Ground Turkey (93% lean)",
+  "Ground Beef (93% lean)",
+  "Ground Beef (85% lean)",
+  "Salmon Fillet",
+  "Cod Fillet",
+  "Canned Tuna",
+  "Frozen Shrimp (peeled, deveined)",
+  "Whole Eggs",
+  "Egg Whites (carton)",
+  "Pre-Boiled Eggs",
+  "White Rice Pouch",
+  "Brown Rice Pouch",
+  "Rolled Oats",
+  "Frozen Broccoli",
+  "Frozen Green Beans",
+  "Frozen Spinach",
+  "Frozen Mixed Vegetables",
+  "Frozen Hash Browns",
+  "Canned Black Beans",
+  "Canned Diced Tomatoes",
+  "Greek Yogurt (0%)",
+  "Cottage Cheese",
+  "Shredded Cheddar (bagged)",
+  "Low-Fat Shredded Cheese (bagged)",
+  "Protein Powder (whey)",
+  "Avocado (squeeze tube)",
+  "Pork Tenderloin",
+];
+
 export default function Kitchen({ezLevel, goals, onOpen}) {
   const [input, setInput] = useState("");
   const [ings, setIngs] = useState([]);
@@ -11,16 +45,44 @@ export default function Kitchen({ezLevel, goals, onOpen}) {
   const [heatLevel, setHeatLevel] = useState(null);
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [suggestions, setSuggestions] = useState([]);
 
   const FLAVORS = ["Spicy","Saucy","Neutral","Asian-Inspired","Italian-Inspired","Mediterranean","Caribbean","BBQ","American"];
   const METHODS = ["Any","No Cook","Microwave","Air Fryer","Bake","Stovetop","Slow Cooker"];
   const HEAT_LEVELS = ["Mild", "Medium", "Hot"];
 
-  const addIng = () => {
-    const v = input.trim();
+  const addIng = (ingredientName = null) => {
+    const v = (ingredientName || input).trim();
     if(!v || ings.includes(v)) return;
     setIngs(p => [...p, v]);
     setInput("");
+    setShowSuggestions(false);
+    setSuggestions([]);
+  };
+
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setInput(value);
+
+    if (value.length >= 2) {
+      const filtered = KNOWN_INGREDIENTS.filter(ing =>
+        ing.toLowerCase().includes(value.toLowerCase())
+      ).slice(0, 6);
+      setSuggestions(filtered);
+      setShowSuggestions(true);
+    } else {
+      setShowSuggestions(false);
+      setSuggestions([]);
+    }
+  };
+
+  const handleInputKeyDown = (e) => {
+    if (e.key === "Enter") {
+      addIng();
+    } else if (e.key === "Escape") {
+      setShowSuggestions(false);
+    }
   };
 
   const removeIng = n => setIngs(p => p.filter(i => i !== n));
@@ -63,11 +125,59 @@ export default function Kitchen({ezLevel, goals, onOpen}) {
         </div>
 
         <div className="ing-area">
-          <div className="ing-row">
+          <div className="ing-row" style={{position: "relative"}}>
             <input className="ing-input" placeholder="e.g. cod fillet, green beans..."
-              value={input} onChange={e => setInput(e.target.value)}
-              onKeyDown={e => {if(e.key === "Enter") addIng();}}/>
-            <button className="add-btn" onClick={addIng}>Add</button>
+              value={input} onChange={handleInputChange}
+              onKeyDown={handleInputKeyDown}
+              onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+              onFocus={() => input.length >= 2 && setShowSuggestions(true)}/>
+            <button className="add-btn" onClick={() => addIng()}>Add</button>
+
+            {showSuggestions && (
+              <div style={{
+                position: "absolute",
+                top: "100%",
+                left: 0,
+                right: 0,
+                background: "var(--s2)",
+                border: "2px solid var(--lime)",
+                borderTop: "none",
+                borderRadius: "0 0 8px 8px",
+                zIndex: 10,
+                maxHeight: "240px",
+                overflowY: "auto",
+              }}>
+                {suggestions.length > 0 ? (
+                  suggestions.map((ing, i) => (
+                    <div
+                      key={i}
+                      onClick={() => addIng(ing)}
+                      style={{
+                        padding: "12px 16px",
+                        borderBottom: i < suggestions.length - 1 ? "1px solid var(--border)" : "none",
+                        cursor: "pointer",
+                        fontSize: 13,
+                        color: "var(--cream)",
+                        transition: "background 0.15s",
+                      }}
+                      onMouseEnter={(e) => e.target.style.background = "var(--s3)"}
+                      onMouseLeave={(e) => e.target.style.background = "transparent"}
+                    >
+                      {ing}
+                    </div>
+                  ))
+                ) : (
+                  <div style={{
+                    padding: "12px 16px",
+                    fontSize: 12,
+                    color: "var(--muted)",
+                    fontStyle: "italic",
+                  }}>
+                    Press Enter to add custom ingredient
+                  </div>
+                )}
+              </div>
+            )}
           </div>
           <div className="ing-chips">
             {ings.length === 0 && <span style={{fontSize: 12, color: "var(--muted)"}}>No ingredients added yet — try a quick combo above</span>}

@@ -153,6 +153,7 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
   const hasCod = lower.some(i => /cod/.test(i));
   const hasSalmon = lower.some(i => /salmon/.test(i));
   const hasChicken = lower.some(i => /chicken/.test(i));
+  const hasChickenBreast = lower.some(i => /chicken breast/.test(i));
   const hasBeef = lower.some(i => /beef|ground beef/.test(i));
   const hasTurkey = lower.some(i => /turkey/.test(i));
   const hasShrimp = lower.some(i => /shrimp|prawn/.test(i));
@@ -241,7 +242,7 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
                        isAsian ? "Teriyaki Sauce" : "Garlic Herb Seasoning";
     const spiceLevel = isSpicy ? (heatLevel || 1) : 0;
 
-    const chickenMacros = calcComponentMacros(getUsdaMacros("Chicken Thighs (boneless, skinless)"), 170);
+    const chickenMacros = calcComponentMacros(getUsdaMacros(hasChickenBreast ? "Chicken Breast (boneless, skinless)" : "Chicken Thighs (boneless, skinless)"), 170);
     const carbMacros = calcComponentMacros(getUsdaMacros(hasRice ? "White Rice (cooked)" : "White Rice (cooked)"), 200);
     const vegMacros = veg ? calcComponentMacros(getUsdaMacros(
       hasGreenBeans ? "Frozen Green Beans" : hasBroccoli ? "Frozen Broccoli" :
@@ -251,7 +252,7 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
     const sauceComponents = splitCombinedIngredient(sauceLabel) || [];
 
     const components = [
-      {name:"Chicken Thighs (boneless, skinless)",type:"Protein",grams:170,...chickenMacros,weighRaw:true,userAdded:true},
+      {name:hasChickenBreast?"Chicken Breast (boneless, skinless)":"Chicken Thighs (boneless, skinless)",type:"Protein",grams:170,...chickenMacros,weighRaw:true,userAdded:true},
       ...sauceComponents.map(c => ({...c, userAdded: false})),
       ...(isSpicy && spiceLevel >= 3 ? [createSeasoningComponent("Red Pepper Flakes", 1)] : []).map(c => ({...c, userAdded: false})),
       {name:carbName,type:"Carb",grams:200,...carbMacros,weighRaw:false,userAdded:false},
