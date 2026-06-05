@@ -2,16 +2,13 @@ import { useState } from 'react';
 import { supabase } from '../lib/supabase';
 
 export default function Login() {
+  const [step, setStep] = useState("email"); // "email" or "code"
   const [email, setEmail] = useState("");
+  const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
+  const [verifying, setVerifying] = useState(false);
   const [message, setMessage] = useState(null);
   const [error, setError] = useState(null);
-
-  // Dev password login
-  const [devEmail, setDevEmail] = useState("");
-  const [devPassword, setDevPassword] = useState("");
-  const [devLoading, setDevLoading] = useState(false);
-  const isLocalhost = window.location.hostname === 'localhost';
 
   const handleSendMagicLink = async (e) => {
     e.preventDefault();
@@ -35,8 +32,8 @@ export default function Login() {
       if (err) {
         setError(err.message);
       } else {
-        setMessage("Check your email — your link is on the way.");
-        setEmail("");
+        setMessage("Code sent to your email");
+        setStep("code");
       }
     } catch (err) {
       setError(err.message || "Something went wrong");
@@ -45,21 +42,22 @@ export default function Login() {
     }
   };
 
-  const handleDevPasswordLogin = async (e) => {
+  const handleVerifyCode = async (e) => {
     e.preventDefault();
     setError(null);
     setMessage(null);
 
-    if (!devEmail.trim() || !devPassword.trim()) {
-      setError("Please enter email and password");
+    if (!code.trim() || code.length !== 6) {
+      setError("Please enter a 6-digit code");
       return;
     }
 
-    setDevLoading(true);
+    setVerifying(true);
     try {
-      const { error: err } = await supabase.auth.signInWithPassword({
-        email: devEmail.trim(),
-        password: devPassword.trim(),
+      const { error: err } = await supabase.auth.verifyOtp({
+        email: email.trim(),
+        token: code.trim(),
+        type: 'email',
       });
 
       if (err) {
@@ -68,7 +66,7 @@ export default function Login() {
     } catch (err) {
       setError(err.message || "Something went wrong");
     } finally {
-      setDevLoading(false);
+      setVerifying(false);
     }
   };
 
@@ -109,57 +107,133 @@ export default function Login() {
           Real meals. Real macros. Actually easy.
         </div>
 
-        {/* Form */}
-        <form onSubmit={handleSendMagicLink} style={{marginBottom: 24}}>
-          <input
-            type="email"
-            placeholder="you@example.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            disabled={loading}
-            style={{
-              width: "100%",
-              background: "var(--s2)",
-              border: "1px solid var(--border)",
-              borderRadius: 12,
-              padding: "14px 16px",
-              color: "var(--cream)",
-              fontSize: 15,
-              fontFamily: "'Plus Jakarta Sans', sans-serif",
-              marginBottom: 16,
-              boxSizing: "border-box",
-              outline: "none",
-              transition: "border-color 0.15s",
-            }}
-            onFocus={(e) => {
-              e.target.style.borderColor = "var(--lime)";
-            }}
-            onBlur={(e) => {
-              e.target.style.borderColor = "var(--border)";
-            }}
-          />
+        {/* Step 1: Email */}
+        {step === "email" && (
+          <form onSubmit={handleSendMagicLink} style={{marginBottom: 24}}>
+            <input
+              type="email"
+              placeholder="you@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              disabled={loading}
+              style={{
+                width: "100%",
+                background: "var(--s2)",
+                border: "1px solid var(--border)",
+                borderRadius: 12,
+                padding: "14px 16px",
+                color: "var(--cream)",
+                fontSize: 15,
+                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                marginBottom: 16,
+                boxSizing: "border-box",
+                outline: "none",
+                transition: "border-color 0.15s",
+              }}
+              onFocus={(e) => {
+                e.target.style.borderColor = "var(--lime)";
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = "var(--border)";
+              }}
+            />
 
-          <button
-            type="submit"
-            disabled={loading}
-            style={{
-              width: "100%",
-              background: "var(--lime)",
-              color: "#000",
-              border: "none",
-              borderRadius: 12,
-              padding: "14px 16px",
-              fontSize: 15,
-              fontWeight: 700,
-              fontFamily: "'Clash Display', sans-serif",
-              cursor: loading ? "not-allowed" : "pointer",
-              opacity: loading ? 0.6 : 1,
-              transition: "opacity 0.15s",
-            }}
-          >
-            {loading ? "Sending..." : "Send Magic Link"}
-          </button>
-        </form>
+            <button
+              type="submit"
+              disabled={loading}
+              style={{
+                width: "100%",
+                background: "var(--lime)",
+                color: "#000",
+                border: "none",
+                borderRadius: 12,
+                padding: "14px 16px",
+                fontSize: 15,
+                fontWeight: 700,
+                fontFamily: "'Clash Display', sans-serif",
+                cursor: loading ? "not-allowed" : "pointer",
+                opacity: loading ? 0.6 : 1,
+                transition: "opacity 0.15s",
+              }}
+            >
+              {loading ? "Sending..." : "Send Magic Link"}
+            </button>
+          </form>
+        )}
+
+        {/* Step 2: Code Verification */}
+        {step === "code" && (
+          <form onSubmit={handleVerifyCode} style={{marginBottom: 24}}>
+            <div style={{
+              fontSize: 13,
+              color: "var(--muted)",
+              marginBottom: 12,
+              fontWeight: 600,
+            }}>
+              Enter the code from your email
+            </div>
+            <input
+              type="text"
+              placeholder="000000"
+              maxLength="6"
+              value={code}
+              onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))}
+              disabled={verifying}
+              style={{
+                width: "100%",
+                background: "var(--s2)",
+                border: "1px solid var(--border)",
+                borderRadius: 12,
+                padding: "14px 16px",
+                color: "var(--cream)",
+                fontSize: 15,
+                fontFamily: "'Courier New', monospace",
+                marginBottom: 16,
+                boxSizing: "border-box",
+                outline: "none",
+                transition: "border-color 0.15s",
+                textAlign: "center",
+                letterSpacing: "2px",
+              }}
+              onFocus={(e) => {
+                e.target.style.borderColor = "var(--lime)";
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = "var(--border)";
+              }}
+            />
+
+            <button
+              type="submit"
+              disabled={verifying}
+              style={{
+                width: "100%",
+                background: "var(--lime)",
+                color: "#000",
+                border: "none",
+                borderRadius: 12,
+                padding: "14px 16px",
+                fontSize: 15,
+                fontWeight: 700,
+                fontFamily: "'Clash Display', sans-serif",
+                cursor: verifying ? "not-allowed" : "pointer",
+                opacity: verifying ? 0.6 : 1,
+                transition: "opacity 0.15s",
+              }}
+            >
+              {verifying ? "Verifying..." : "Verify Code"}
+            </button>
+
+            <div style={{
+              fontSize: 12,
+              color: "var(--muted)",
+              marginTop: 16,
+              lineHeight: 1.6,
+            }}>
+              Or click the link in the email
+            </div>
+          </form>
+        )}
 
         {/* Success Message */}
         {message && (
@@ -193,111 +267,6 @@ export default function Login() {
           </div>
         )}
 
-        {/* Dev Password Form (localhost only) */}
-        {isLocalhost && (
-          <>
-            {/* Or Divider */}
-            <div style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 12,
-              margin: "32px 0 24px",
-            }}>
-              <div style={{flex: 1, height: "1px", background: "var(--border)"}}></div>
-              <div style={{fontSize: 12, color: "var(--muted)", fontWeight: 600}}>or</div>
-              <div style={{flex: 1, height: "1px", background: "var(--border)"}}></div>
-            </div>
-
-            <form onSubmit={handleDevPasswordLogin} style={{marginBottom: 24}}>
-              <input
-                type="email"
-                placeholder="dev email"
-                value={devEmail}
-                onChange={(e) => setDevEmail(e.target.value)}
-                disabled={devLoading}
-                style={{
-                  width: "100%",
-                  background: "var(--s2)",
-                  border: "1px solid var(--border)",
-                  borderRadius: 12,
-                  padding: "12px 14px",
-                  color: "var(--cream)",
-                  fontSize: 13,
-                  fontFamily: "'Plus Jakarta Sans', sans-serif",
-                  marginBottom: 10,
-                  boxSizing: "border-box",
-                  outline: "none",
-                  transition: "border-color 0.15s",
-                }}
-                onFocus={(e) => {
-                  e.target.style.borderColor = "var(--lime)";
-                }}
-                onBlur={(e) => {
-                  e.target.style.borderColor = "var(--border)";
-                }}
-              />
-
-              <input
-                type="password"
-                placeholder="dev password"
-                value={devPassword}
-                onChange={(e) => setDevPassword(e.target.value)}
-                disabled={devLoading}
-                style={{
-                  width: "100%",
-                  background: "var(--s2)",
-                  border: "1px solid var(--border)",
-                  borderRadius: 12,
-                  padding: "12px 14px",
-                  color: "var(--cream)",
-                  fontSize: 13,
-                  fontFamily: "'Plus Jakarta Sans', sans-serif",
-                  marginBottom: 12,
-                  boxSizing: "border-box",
-                  outline: "none",
-                  transition: "border-color 0.15s",
-                }}
-                onFocus={(e) => {
-                  e.target.style.borderColor = "var(--lime)";
-                }}
-                onBlur={(e) => {
-                  e.target.style.borderColor = "var(--border)";
-                }}
-              />
-
-              <button
-                type="submit"
-                disabled={devLoading}
-                style={{
-                  width: "100%",
-                  background: "var(--s2)",
-                  color: "var(--muted)",
-                  border: "1px solid var(--border)",
-                  borderRadius: 12,
-                  padding: "12px 14px",
-                  fontSize: 13,
-                  fontWeight: 600,
-                  fontFamily: "'Plus Jakarta Sans', sans-serif",
-                  cursor: devLoading ? "not-allowed" : "pointer",
-                  opacity: devLoading ? 0.6 : 1,
-                  transition: "all 0.15s",
-                }}
-                onMouseEnter={(e) => {
-                  if (!devLoading) {
-                    e.target.style.borderColor = "var(--lime)";
-                    e.target.style.color = "var(--lime)";
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.borderColor = "var(--border)";
-                  e.target.style.color = "var(--muted)";
-                }}
-              >
-                {devLoading ? "Signing in..." : "Dev Login (localhost only)"}
-              </button>
-            </form>
-          </>
-        )}
 
         {/* Footer */}
         <div style={{
