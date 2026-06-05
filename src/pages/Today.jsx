@@ -3,7 +3,7 @@ import { supabase } from '../lib/supabase';
 import { RECIPES } from '../data/recipes.js';
 import RecipeModal from '../components/RecipeModal';
 
-export default function Today({onTabFocus, onUpdateEzLevel}) {
+export default function Today({onTabFocus, onUpdateEzLevel, openGoalsModal, onGoalsModalClosed}) {
   const [goals, setGoals] = useState(null);
   const [meals, setMeals] = useState([]);
   const [totals, setTotals] = useState({ cal: 0, protein: 0, carbs: 0, fat: 0 });
@@ -95,6 +95,14 @@ export default function Today({onTabFocus, onUpdateEzLevel}) {
       onTabFocus();
     }
   }, [onTabFocus]);
+
+  useEffect(() => {
+    // Open Goals modal if requested from header
+    if (openGoalsModal) {
+      setShowGoalsModal(true);
+      onGoalsModalClosed && onGoalsModalClosed();
+    }
+  }, [openGoalsModal, onGoalsModalClosed]);
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();

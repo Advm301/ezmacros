@@ -205,6 +205,8 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
   const [usdaLoading, setUsdaLoading] = useState(false);
   const [usdaError, setUsdaError] = useState(null);
   const usdaDebounceRef = useRef(null);
+  const [updatedStepIndices, setUpdatedStepIndices] = useState(new Set());
+  const stepFlashTimeoutRef = useRef(null);
 
   // Track original state to enable reset functionality
   const originalComponents = useRef([]);
@@ -212,6 +214,33 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
   const originalName = useRef("");
   const initialLoadedComponents = useRef([]);
   const initialLoadedSteps = useRef([]);
+
+  // Helper function to extract keyword from component name
+  const extractKeyword = (name) => {
+    if (!name) return "";
+    // List of words to skip at the beginning
+    const skipWords = ["frozen", "canned", "white", "ground", "pre-cooked", "pre-cut", "low-sodium", "heavy", "light", "reduced", "extra", "lean", "skinless", "boneless"];
+
+    // Remove everything in parentheses
+    let cleaned = name.replace(/\s*\([^)]*\)/g, "").trim();
+
+    // Split into words
+    let words = cleaned.toLowerCase().split(/\s+/);
+
+    // Find the first non-skip word (or first 2 words for compound ingredients)
+    let result = [];
+    for (let word of words) {
+      if (!skipWords.includes(word)) {
+        result.push(word);
+        // Take 2 words for compound ingredients like "green beans"
+        if (result.length >= 2) break;
+        // Single word is usually enough
+        if (result.length === 1 && word.length > 4) break;
+      }
+    }
+
+    return result.join(" ").toLowerCase();
+  };
 
   useEffect(() => {
     // Reset logged state when modal opens for a new recipe
@@ -277,6 +306,13 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
         setIsModified(true);
       }
     }
+
+    return () => {
+      // Cleanup timeouts on unmount
+      if (resetConfirmTimeoutRef.current) clearTimeout(resetConfirmTimeoutRef.current);
+      if (stepFlashTimeoutRef.current) clearTimeout(stepFlashTimeoutRef.current);
+      if (usdaDebounceRef.current) clearTimeout(usdaDebounceRef.current);
+    };
   }, [recipe?.id]);
 
   // Recalculate totals whenever components change
@@ -401,6 +437,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
     // Update the component at this index
     const updatedComponents = [...components];
     const originalComponent = updatedComponents[index];
+    const oldName = originalComponent.name;
     const newMacros = getMacroValues(newName);
 
     // Update component name
@@ -423,6 +460,37 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
     }
 
     setComponents(updatedComponents);
+
+    // Update steps to reflect ingredient name change
+    const oldKeyword = extractKeyword(oldName);
+    const newKeyword = extractKeyword(newName);
+
+    if (oldKeyword && newKeyword && oldKeyword !== newKeyword) {
+      const updatedSteps = [...steps];
+      const flashedIndices = new Set();
+
+      // Replace old keyword with new keyword in all steps (case-insensitive)
+      const regex = new RegExp(`\\b${oldKeyword}\\b`, 'gi');
+      updatedSteps.forEach((step, stepIndex) => {
+        if (regex.test(step)) {
+          updatedSteps[stepIndex] = step.replace(regex, newKeyword);
+          flashedIndices.add(stepIndex);
+        }
+      });
+
+      // Only update if we made changes
+      if (flashedIndices.size > 0) {
+        setSteps(updatedSteps);
+        setUpdatedStepIndices(flashedIndices);
+
+        // Clear the flash after 1 second
+        if (stepFlashTimeoutRef.current) clearTimeout(stepFlashTimeoutRef.current);
+        stepFlashTimeoutRef.current = setTimeout(() => {
+          setUpdatedStepIndices(new Set());
+        }, 1000);
+      }
+    }
+
     if (recipe?.isLoggedView) setHasUnsavedChanges(true);
     setExpandedSwap(null);
   };
@@ -1079,7 +1147,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
                   marginBottom: 10,
                   padding: 10,
                   borderRadius: 8,
-                  background: "transparent",
+                  background: updatedStepIndices.has(i) ? "var(--lime)" : "transparent",
                   transition: "all 0.15s",
                 }}
               >
@@ -1090,14 +1158,14 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
                       style={{
                         background: "transparent",
                         border: "none",
-                        color: "var(--muted)",
+                        color: updatedStepIndices.has(i) ? "#000" : "var(--muted)",
                         fontSize: 12,
                         cursor: "pointer",
                         padding: "2px 6px",
                         lineHeight: 1,
                       }}
-                      onMouseEnter={(e) => e.target.style.color = "var(--lime)"}
-                      onMouseLeave={(e) => e.target.style.color = "var(--muted)"}
+                      onMouseEnter={(e) => e.target.style.color = updatedStepIndices.has(i) ? "#333" : "var(--lime)"}
+                      onMouseLeave={(e) => e.target.style.color = updatedStepIndices.has(i) ? "#000" : "var(--muted)"}
                     >
                       ▲
                     </button>
@@ -1108,20 +1176,20 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
                       style={{
                         background: "transparent",
                         border: "none",
-                        color: "var(--muted)",
+                        color: updatedStepIndices.has(i) ? "#000" : "var(--muted)",
                         fontSize: 12,
                         cursor: "pointer",
                         padding: "2px 6px",
                         lineHeight: 1,
                       }}
-                      onMouseEnter={(e) => e.target.style.color = "var(--lime)"}
-                      onMouseLeave={(e) => e.target.style.color = "var(--muted)"}
+                      onMouseEnter={(e) => e.target.style.color = updatedStepIndices.has(i) ? "#333" : "var(--lime)"}
+                      onMouseLeave={(e) => e.target.style.color = updatedStepIndices.has(i) ? "#000" : "var(--muted)"}
                     >
                       ▼
                     </button>
                   )}
                 </div>
-                <div style={{width: 24, height: 24, minWidth: 24, background: "var(--lime)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700, color: "#000"}}>{i+1}</div>
+                <div style={{width: 24, height: 24, minWidth: 24, background: updatedStepIndices.has(i) ? "#000" : "var(--lime)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700, color: updatedStepIndices.has(i) ? "var(--lime)" : "#000"}}>{i+1}</div>
                 <div style={{flex: 1}}>
                   {editingStepIndex === i ? (
                     <div>
@@ -1176,20 +1244,20 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
                     </div>
                   ) : (
                     <div style={{display: "flex", justifyContent: "space-between", alignItems: "flex-start"}}>
-                      <div style={{fontSize: 13, color: "var(--cream)", lineHeight: 1.5}}>{s}</div>
+                      <div style={{fontSize: 13, color: updatedStepIndices.has(i) ? "#000" : "var(--cream)", lineHeight: 1.5}}>{s}</div>
                       <button
                         onClick={() => handleEditStep(i)}
                         style={{
                           background: "transparent",
                           border: "none",
-                          color: "var(--muted)",
+                          color: updatedStepIndices.has(i) ? "#000" : "var(--muted)",
                           fontSize: 14,
                           cursor: "pointer",
                           padding: "2px 6px",
                           marginLeft: 8,
                         }}
-                        onMouseEnter={(e) => e.target.style.color = "var(--lime)"}
-                        onMouseLeave={(e) => e.target.style.color = "var(--muted)"}
+                        onMouseEnter={(e) => e.target.style.color = updatedStepIndices.has(i) ? "#333" : "var(--lime)"}
+                        onMouseLeave={(e) => e.target.style.color = updatedStepIndices.has(i) ? "#000" : "var(--muted)"}
                       >
                         ✏️
                       </button>

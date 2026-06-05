@@ -5,21 +5,28 @@ import { SPICE_LEVELS } from '../lib/generator.js';
 export default function Browse({ezLevel, onOpen}) {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("All");
-  const [heatFilter, setHeatFilter] = useState("Any Heat");
+  const [spiceFilter, setSpiceFilter] = useState("Any Spice");
+  const [ezFilter, setEzFilter] = useState("Any Level");
   const filters = ["All","Breakfast","Lunch","Dinner","Snack","No Cook","Quick","Meal Prep"];
-  const heatFilters = ["Any Heat","No Heat","Mild","Medium","Hot","Extra Hot"];
+  const spiceFilters = ["Any Spice","No Spice","Mild","Medium","Hot","Extra Hot"];
+  const ezFilters = ["Any Level","⚡ Effortless","⚡⚡ Easy","⚡⚡⚡ Relaxed"];
 
   const filtered = RECIPES.filter(r => {
     const matchSearch = r.name.toLowerCase().includes(search.toLowerCase());
     const matchFilter = filter === "All" || (r.tags || []).some(t => t.includes(filter));
-    let matchHeat = true;
-    if (heatFilter === "No Heat") matchHeat = r.spiceLevel === 0;
-    else if (heatFilter === "Mild") matchHeat = r.spiceLevel === 1;
-    else if (heatFilter === "Medium") matchHeat = r.spiceLevel === 2;
-    else if (heatFilter === "Hot") matchHeat = r.spiceLevel === 3;
-    else if (heatFilter === "Extra Hot") matchHeat = r.spiceLevel === 4;
-    // "Any Heat" matches all
-    return matchSearch && matchFilter && matchHeat;
+    let matchSpice = true;
+    if (spiceFilter === "No Spice") matchSpice = r.spiceLevel === 0;
+    else if (spiceFilter === "Mild") matchSpice = r.spiceLevel === 1;
+    else if (spiceFilter === "Medium") matchSpice = r.spiceLevel === 2;
+    else if (spiceFilter === "Hot") matchSpice = r.spiceLevel === 3;
+    else if (spiceFilter === "Extra Hot") matchSpice = r.spiceLevel === 4;
+    // "Any Spice" matches all
+    let matchEz = true;
+    if (ezFilter === "⚡ Effortless") matchEz = r.ezLevel === 1;
+    else if (ezFilter === "⚡⚡ Easy") matchEz = r.ezLevel === 2;
+    else if (ezFilter === "⚡⚡⚡ Relaxed") matchEz = r.ezLevel === 3;
+    // "Any Level" matches all
+    return matchSearch && matchFilter && matchSpice && matchEz;
   });
   return (
     <div style={{paddingBottom: 20}}>
@@ -33,9 +40,14 @@ export default function Browse({ezLevel, onOpen}) {
           {filters.map(f => <div key={f} className={`pill ${filter === f ? "active" : ""}`} onClick={() => setFilter(f)}>{f}</div>)}
         </div>
 
-        <div className="filter-label" style={{marginBottom: 8}}>Heat Level</div>
+        <div className="filter-label" style={{marginBottom: 8}}>Spice Level</div>
         <div className="scroll-row" style={{marginBottom: 16}}>
-          {heatFilters.map(h => <div key={h} className={`pill ${heatFilter === h ? "active" : ""}`} onClick={() => setHeatFilter(h)}>{h}</div>)}
+          {spiceFilters.map(s => <div key={s} className={`pill ${spiceFilter === s ? "active" : ""}`} onClick={() => setSpiceFilter(s)}>{s}</div>)}
+        </div>
+
+        <div className="filter-label" style={{marginBottom: 8}}>EZ Level</div>
+        <div className="scroll-row" style={{marginBottom: 16}}>
+          {ezFilters.map(e => <div key={e} className={`pill ${ezFilter === e ? "active" : ""}`} onClick={() => setEzFilter(e)}>{e}</div>)}
         </div>
       </div>
       <div className="px">

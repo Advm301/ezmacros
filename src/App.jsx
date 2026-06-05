@@ -16,6 +16,7 @@ export default function App() {
   const [mealLoggedNotification, setMealLoggedNotification] = useState(false);
   const [todayBadge, setTodayBadge] = useState(false);
   const [ezLevel, setEzLevel] = useState(1);
+  const [openGoalsModal, setOpenGoalsModal] = useState(false);
 
   const ezLevelNames = {
     0: { name: 'Effortless', icon: '⚡', bolts: '⚡' },
@@ -97,13 +98,26 @@ export default function App() {
           <div style={{fontFamily: "'Clash Display',sans-serif", fontSize: 20, fontWeight: 700}}>
             <span style={{color: "var(--lime)"}}>EZ</span><span style={{color: "var(--cream)"}}>Macros</span>
           </div>
-          <div style={{background: "var(--s2)", border: "1px solid var(--lime)", borderRadius: 20, padding: "4px 12px", fontSize: 12, fontWeight: 600, color: "var(--lime)"}}>
+          <div
+            onClick={() => {
+              setTab("today");
+              setOpenGoalsModal(true);
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.background = "var(--s1)";
+              e.target.style.borderColor = "var(--lime)";
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.background = "var(--s2)";
+              e.target.style.borderColor = "var(--lime)";
+            }}
+            style={{background: "var(--s2)", border: "1px solid var(--lime)", borderRadius: 20, padding: "4px 12px", fontSize: 12, fontWeight: 600, color: "var(--lime)", cursor: "pointer", transition: "all 0.15s"}}>
             {ezLevelNames[ezLevel].icon} {ezLevelNames[ezLevel].name}
           </div>
         </div>
 
         {/* Page content */}
-        {tab === "today" && <Today onTabFocus={() => setTodayBadge(false)} onUpdateEzLevel={updateEzLevel}/>}
+        {tab === "today" && <Today onTabFocus={() => setTodayBadge(false)} onUpdateEzLevel={updateEzLevel} openGoalsModal={openGoalsModal} onGoalsModalClosed={() => setOpenGoalsModal(false)}/>}
         {tab === "kitchen" && <Kitchen ezLevel={ezLevel} goals={goals} onOpen={setOpenRecipe}/>}
         {tab === "browse" && <Browse ezLevel={ezLevel} onOpen={setOpenRecipe}/>}
 
