@@ -189,6 +189,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
   const [editingStepIndex, setEditingStepIndex] = useState(null);
   const [editingStepText, setEditingStepText] = useState("");
   const [isModified, setIsModified] = useState(false);
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchComponentIndex, setSearchComponentIndex] = useState(null);
   const [hasChanges, setHasChanges] = useState(false);
@@ -201,6 +202,8 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
   const originalComponents = useRef([]);
   const originalSteps = useRef([]);
   const originalName = useRef("");
+  const initialLoadedComponents = useRef([]);
+  const initialLoadedSteps = useRef([]);
 
   useEffect(() => {
     // Reset logged state when modal opens for a new recipe
@@ -209,6 +212,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
     setExpandedSwap(null);
     setEditingStepIndex(null);
     setIsModified(false);
+    setHasUnsavedChanges(false);
     setResetConfirming(false);
     if (resetConfirmTimeoutRef.current) clearTimeout(resetConfirmTimeoutRef.current);
 
@@ -216,11 +220,31 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
     if (recipe) {
       const initialComponents = recipe.components ? [...recipe.components] : [];
       const initialSteps = recipe.steps ? [...recipe.steps] : [];
-      const initialName = recipe.name || "";
+      let initialName = recipe.name || "";
+      initialName = initialName.replace(" (Modified)", "");
 
-      // Store original values in refs
-      originalComponents.current = initialComponents;
-      originalSteps.current = initialSteps;
+      // Store what was initially loaded from database
+      initialLoadedComponents.current = initialComponents;
+      initialLoadedSteps.current = initialSteps;
+
+      // Check if recipe_data has originalData (for logged meals that were previously modified)
+      let originalComponentsData = initialComponents;
+      let originalStepsData = initialSteps;
+      if (recipe.recipe_data && typeof recipe.recipe_data === "string") {
+        try {
+          const parsedData = JSON.parse(recipe.recipe_data);
+          if (parsedData.originalData) {
+            originalComponentsData = parsedData.originalData.components || initialComponents;
+            originalStepsData = parsedData.originalData.steps || initialSteps;
+          }
+        } catch (e) {
+          // If parsing fails, use loaded data as original
+        }
+      }
+
+      // Store original recipe values in refs
+      originalComponents.current = originalComponentsData;
+      originalSteps.current = originalStepsData;
       originalName.current = initialName;
 
       setComponents(initialComponents);
@@ -257,13 +281,36 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
     const modified = isCurrentStateModified();
     setIsModified(modified);
 
-    // Update recipeName based on isModified
-    if (modified && !recipeName.includes(" (Modified)")) {
-      setRecipeName(originalName.current + " (Modified)");
-    } else if (!modified && recipeName.includes(" (Modified)")) {
-      setRecipeName(originalName.current);
+    // Update recipeName based on isModified - explicitly set to originalName when not modified
+    if (modified) {
+      if (recipeName !== originalName.current + " (Modified)") {
+        setRecipeName(originalName.current + " (Modified)");
+      }
+    } else {
+      if (recipeName !== originalName.current) {
+        setRecipeName(originalName.current);
+      }
     }
   }, [components, steps]);
+
+  // For logged meals, track if there are unsaved changes from what was loaded from database
+  useEffect(() => {
+    if (!isLoggedView) return;
+
+    const hasUnsaved = components.length !== initialLoadedComponents.current.length ||
+      steps.length !== initialLoadedSteps.current.length ||
+      !components.every((comp, i) => {
+        const orig = initialLoadedComponents.current[i];
+        return comp.name === orig.name &&
+          Math.round(comp.cal) === Math.round(orig.cal) &&
+          Math.round(comp.protein * 10) / 10 === Math.round(orig.protein * 10) / 10 &&
+          Math.round(comp.carbs * 10) / 10 === Math.round(orig.carbs * 10) / 10 &&
+          Math.round(comp.fat * 10) / 10 === Math.round(orig.fat * 10) / 10;
+      }) ||
+      !steps.every((step, i) => step === initialLoadedSteps.current[i]);
+
+    setHasUnsavedChanges(hasUnsaved);
+  }, [components, steps, isLoggedView]);
 
   // Track step changes for logged meals
   useEffect(() => {
@@ -445,6 +492,17 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
           emoji: r.emoji,
           method: r.method,
           activeTime: r.activeTime,
+          originalData: {
+            components: originalComponents.current.map(comp => ({
+              ...comp,
+              cal: Math.round(comp.cal),
+              protein: Math.round(comp.protein),
+              carbs: Math.round(comp.carbs),
+              fat: Math.round(comp.fat),
+            })),
+            steps: originalSteps.current,
+            name: originalName.current,
+          },
         }),
       };
 
@@ -479,7 +537,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
   };
 
   const handleClose = () => {
-    if (hasChanges && r.isLoggedView) {
+    if (isLoggedView && hasUnsavedChanges) {
       if (window.confirm("You have unsaved changes. Close without saving?")) {
         onClose();
       }
@@ -524,6 +582,17 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
             emoji: r.emoji,
             method: r.method,
             activeTime: r.activeTime,
+            originalData: {
+              components: originalComponents.current.map(comp => ({
+                ...comp,
+                cal: Math.round(comp.cal),
+                protein: Math.round(comp.protein),
+                carbs: Math.round(comp.carbs),
+                fat: Math.round(comp.fat),
+              })),
+              steps: originalSteps.current,
+              name: originalName.current,
+            },
           }),
         });
 
@@ -571,7 +640,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
             )}
           </div>
           <div style={{display: "flex", flexDirection: "column", gap: 8}}>
-            {isModified && r.isLoggedView && (
+            {isLoggedView && hasUnsavedChanges && (
               <button
                 onClick={handleSaveChanges}
                 disabled={saving}
