@@ -292,6 +292,7 @@ export default function Today({onTabFocus}) {
                       fat: meal.fat,
                       totalFat: meal.fat,
                       loggedTime: meal.logged_at,
+                      logId: meal.id,
                       isLoggedView: true,
                     };
 

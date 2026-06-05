@@ -346,6 +346,10 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
   const r = recipe;
 
   const handleSaveChanges = async () => {
+    console.log('handleSaveChanges called');
+    console.log('recipe.logId:', r.logId);
+    console.log('recipe.id:', r.id);
+
     setSaving(true);
     try {
       const { data: { user } } = await supabase.auth.getUser();
@@ -355,34 +359,41 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
         return;
       }
 
-      const { error: updateError } = await supabase
+      const updateData = {
+        cal: Math.round(macros.cal),
+        protein: Math.round(macros.protein),
+        carbs: Math.round(macros.carbs),
+        fat: Math.round(macros.fat),
+        recipe_data: JSON.stringify({
+          components: components.map(comp => ({
+            ...comp,
+            cal: Math.round(comp.cal),
+            protein: Math.round(comp.protein),
+            carbs: Math.round(comp.carbs),
+            fat: Math.round(comp.fat),
+          })),
+          steps: steps,
+          toppings: r.toppings || [],
+          emoji: r.emoji,
+          method: r.method,
+          activeTime: r.activeTime,
+        }),
+      };
+
+      console.log('Update data:', updateData);
+      console.log('Updating meal with logId:', r.logId);
+
+      const { error: updateError, data } = await supabase
         .from('meal_logs')
-        .update({
-          cal: Math.round(macros.cal),
-          protein: Math.round(macros.protein),
-          carbs: Math.round(macros.carbs),
-          fat: Math.round(macros.fat),
-          recipe_data: JSON.stringify({
-            components: components.map(comp => ({
-              ...comp,
-              cal: Math.round(comp.cal),
-              protein: Math.round(comp.protein),
-              carbs: Math.round(comp.carbs),
-              fat: Math.round(comp.fat),
-            })),
-            steps: steps,
-            toppings: r.toppings || [],
-            emoji: r.emoji,
-            method: r.method,
-            activeTime: r.activeTime,
-          }),
-        })
-        .eq('user_id', user.id)
-        .eq('recipe_name', r.name)
-        .eq('logged_at', r.loggedTime);
+        .update(updateData)
+        .eq('id', r.logId);
+
+      console.log('Supabase response:', { error: updateError, data });
 
       if (updateError) {
-        setError("Failed to save changes");
+        console.error('Update error:', updateError);
+        setError("Failed to save changes: " + updateError.message);
+        setSaving(false);
       } else {
         setHasChanges(false);
         setSaving(false);
@@ -391,6 +402,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
         }, 500);
       }
     } catch (err) {
+      console.error('Exception in handleSaveChanges:', err);
       setError(err.message || "Failed to save changes");
       setSaving(false);
     }
