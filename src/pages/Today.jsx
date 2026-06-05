@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
+import { RECIPES } from '../data/recipes.js';
 import RecipeModal from '../components/RecipeModal';
 
 export default function Today({onTabFocus}) {
@@ -147,6 +148,60 @@ export default function Today({onTabFocus}) {
     }
   };
 
+  // Check if a meal is modified by comparing with original data
+  const isMealModified = (meal) => {
+    if (!meal.recipe_data) return false;
+    let recipeData;
+    try {
+      recipeData = typeof meal.recipe_data === 'string' ? JSON.parse(meal.recipe_data) : meal.recipe_data;
+    } catch (e) {
+      return false;
+    }
+
+    // If originalData exists, compare current components with original
+    if (recipeData.originalData && recipeData.originalData.components) {
+      const original = recipeData.originalData.components;
+      const current = recipeData.components || [];
+      if (original.length !== current.length) return true;
+      for (let i = 0; i < original.length; i++) {
+        if (original[i].name !== current[i].name) return true;
+      }
+      return false;
+    }
+
+    // If no originalData, check if name contains " (Modified)"
+    return meal.recipe_name && meal.recipe_name.includes(" (Modified)");
+  };
+
+  // Get the original recipe data for a meal (for reset functionality)
+  const getOriginalRecipeData = (meal) => {
+    if (!meal.recipe_data) return null;
+    let recipeData;
+    try {
+      recipeData = typeof meal.recipe_data === 'string' ? JSON.parse(meal.recipe_data) : meal.recipe_data;
+    } catch (e) {
+      return null;
+    }
+
+    // If originalData exists, use it
+    if (recipeData.originalData) {
+      return recipeData.originalData;
+    }
+
+    // Otherwise try to find matching recipe in RECIPES array
+    const mealNameClean = meal.recipe_name ? meal.recipe_name.replace(" (Modified)", "") : "";
+    const matchedRecipe = RECIPES.find(r => r.name === mealNameClean);
+    if (matchedRecipe) {
+      return {
+        components: matchedRecipe.components,
+        steps: matchedRecipe.steps,
+        name: matchedRecipe.name,
+      };
+    }
+
+    return null;
+  };
+
   const getProgress = (consumed, goal) => {
     return goal > 0 ? Math.min((consumed / goal) * 100, 100) : 0;
   };
@@ -279,6 +334,9 @@ export default function Today({onTabFocus}) {
                 {/* Clickable card area */}
                 <div
                   onClick={() => {
+                    const modified = isMealModified(meal);
+                    const originalData = getOriginalRecipeData(meal);
+
                     let recipeData = {
                       name: meal.recipe_name || 'Logged Meal',
                       emoji: '🍽️',
@@ -293,6 +351,8 @@ export default function Today({onTabFocus}) {
                       loggedTime: meal.logged_at,
                       logId: meal.id,
                       isLoggedView: true,
+                      wasModified: modified,
+                      hasResetButton: originalData !== null,
                     };
 
                     // Parse recipe_data if available
@@ -305,6 +365,10 @@ export default function Today({onTabFocus}) {
                         if (parsed.emoji) recipeData.emoji = parsed.emoji;
                         if (parsed.method) recipeData.method = parsed.method;
                         if (parsed.activeTime) recipeData.activeTime = parsed.activeTime;
+                        // Store originalData for reset comparison in RecipeModal
+                        if (parsed.originalData) {
+                          recipeData.originalRecipeData = parsed.originalData;
+                        }
                       } catch (e) {
                         console.error('Error parsing recipe_data:', e);
                       }
@@ -339,7 +403,7 @@ export default function Today({onTabFocus}) {
                     <div style={{fontSize: 20}}>🍽️</div>
                     <div>
                       <div style={{fontWeight: 700, fontSize: 14, color: 'var(--cream)', marginBottom: 4}}>
-                        {meal.recipe_name || 'Logged Meal'}
+                        {(meal.recipe_name || 'Logged Meal') + (isMealModified(meal) ? ' (Modified)' : '')}
                       </div>
                       <div style={{fontSize: 11, color: 'var(--muted)'}}>
                         {new Date(meal.logged_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}

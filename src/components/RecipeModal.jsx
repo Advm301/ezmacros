@@ -227,10 +227,17 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
       initialLoadedComponents.current = initialComponents;
       initialLoadedSteps.current = initialSteps;
 
-      // Check if recipe_data has originalData (for logged meals that were previously modified)
+      // Determine original recipe data for reset functionality
       let originalComponentsData = initialComponents;
       let originalStepsData = initialSteps;
-      if (recipe.recipe_data && typeof recipe.recipe_data === "string") {
+
+      // Priority 1: Use originalRecipeData passed from Today.jsx
+      if (recipe.originalRecipeData) {
+        originalComponentsData = recipe.originalRecipeData.components || initialComponents;
+        originalStepsData = recipe.originalRecipeData.steps || initialSteps;
+      }
+      // Priority 2: Check if recipe_data has originalData
+      else if (recipe.recipe_data && typeof recipe.recipe_data === "string") {
         try {
           const parsedData = JSON.parse(recipe.recipe_data);
           if (parsedData.originalData) {
@@ -256,6 +263,11 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
         carbs: recipe.carbs || recipe.totalCarbs || 0,
         fat: recipe.fat || recipe.totalFat || 0,
       });
+
+      // If wasModified is true on load, set isModified immediately
+      if (recipe.wasModified) {
+        setIsModified(true);
+      }
     }
   }, [recipe?.id]);
 
@@ -660,7 +672,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
                 {saving ? "Saving..." : "Save Changes"}
               </button>
             )}
-            {isModified && (
+            {isModified && r.hasResetButton !== false && (
               <button
                 onClick={handleReset}
                 style={{
