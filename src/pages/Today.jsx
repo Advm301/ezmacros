@@ -548,10 +548,10 @@ function GoalsModal({ goals, user, onClose, onSave }) {
   };
 
   const ACTIVITY_DESCRIPTIONS = {
-    'Sedentary': 'Desk job, little or no exercise',
-    'Lightly Active': 'Exercise 1-3 days/week',
-    'Moderately Active': 'Exercise 3-5 days/week',
-    'Very Active': 'Hard exercise 6-7 days/week or physical job',
+    'Sedentary': 'Little or no exercise, desk job',
+    'Lightly Active': 'Light exercise 1-3 days/week or walking daily',
+    'Moderately Active': 'Gym 3-5 days/week, active lifestyle',
+    'Very Active': 'Physical job, or training twice daily, competitive athlete',
   };
 
   // Convert between metric and imperial
@@ -585,33 +585,34 @@ function GoalsModal({ goals, user, onClose, onSave }) {
   const lbs = getLbsValue();
 
   // Activity-level-based calorie multipliers (cut, maintain, bulk)
+  // Conservative multipliers: bulk is clean bulk (200-400 cal surplus), not aggressive
   const ACTIVITY_CAL_MULTIPLIERS = {
-    'Sedentary': { cut: 11, maintain: 13, bulk: 15 },
-    'Lightly Active': { cut: 12, maintain: 14, bulk: 16 },
-    'Moderately Active': { cut: 13, maintain: 15, bulk: 17 },
-    'Very Active': { cut: 14, maintain: 16, bulk: 18 },
+    'Sedentary': { cut: 11, maintain: 12, bulk: 13 },
+    'Lightly Active': { cut: 12, maintain: 13, bulk: 14 },
+    'Moderately Active': { cut: 12, maintain: 14, bulk: 15 },
+    'Very Active': { cut: 13, maintain: 15, bulk: 16 },
   };
 
   const calMultipliers = ACTIVITY_CAL_MULTIPLIERS[activityLevel] || ACTIVITY_CAL_MULTIPLIERS['Moderately Active'];
 
   // Build presets with activity-adjusted calories
-  // Protein: Cut uses goalWeight (1.0g), Maintain uses currentWeight (0.85g), Bulk uses currentWeight (0.8g)
-  // Fat: Cut/Bulk use their respective weights (0.3/0.35), Maintain uses currentWeight (0.35g)
+  // Protein: Cut (1.0g goal weight), Maintain (0.8g current), Bulk (0.85g current for muscle building)
+  // Fat: More conservative — Cut (0.25g goal weight), Maintain (0.3g current), Bulk (0.3g current)
   const PRESETS = {
     cut: {
       cal: lbs * calMultipliers.cut,
       protein: Math.round((goalWeightLbs || lbs) * 1.0),
-      fat: Math.round((goalWeightLbs || lbs) * 0.3),
+      fat: Math.round((goalWeightLbs || lbs) * 0.25),
     },
     maintain: {
       cal: lbs * calMultipliers.maintain,
-      protein: Math.round(lbs * 0.85),
-      fat: Math.round(lbs * 0.35),
+      protein: Math.round(lbs * 0.8),
+      fat: Math.round(lbs * 0.3),
     },
     bulk: {
       cal: lbs * calMultipliers.bulk,
-      protein: Math.round(lbs * 0.8),
-      fat: Math.round(lbs * 0.35),
+      protein: Math.round(lbs * 0.85),
+      fat: Math.round(lbs * 0.3),
     },
   };
 
