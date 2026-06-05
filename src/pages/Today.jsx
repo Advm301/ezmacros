@@ -775,7 +775,19 @@ function GoalsModal({ goals, user, onClose, onSave }) {
   const { feet, inches } = getFeetInches();
 
   return (
-    <div style={{
+    <>
+      <style>{`
+        .goals-modal-input::-webkit-outer-spin-button,
+        .goals-modal-input::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+        .goals-modal-input[type=number] {
+          -moz-appearance: textfield;
+          appearance: textfield;
+        }
+      `}</style>
+      <div style={{
       position: 'fixed',
       top: 0,
       left: 0,
@@ -886,6 +898,7 @@ function GoalsModal({ goals, user, onClose, onSave }) {
                 max="80"
                 value={age}
                 onChange={(e) => setAge(parseInt(e.target.value) || 30)}
+                className="goals-modal-input"
                 style={{
                   width: '100%',
                   padding: '8px 12px',
@@ -896,8 +909,6 @@ function GoalsModal({ goals, user, onClose, onSave }) {
                   fontSize: 12,
                   fontWeight: 600,
                   boxSizing: 'border-box',
-                  WebkitAppearance: 'none',
-                  MozAppearance: 'textfield',
                 }}
               />
               {validationErrors.age && <div style={{fontSize: 9, color: 'var(--red)', marginTop: 4}}>{validationErrors.age}</div>}
@@ -915,6 +926,7 @@ function GoalsModal({ goals, user, onClose, onSave }) {
                   const val = parseInt(e.target.value) || 0;
                   setWeightLbs(isMetric ? Math.round(val * 2.205) : val);
                 }}
+                className="goals-modal-input"
                 style={{
                   width: '100%',
                   padding: '8px 12px',
@@ -925,8 +937,6 @@ function GoalsModal({ goals, user, onClose, onSave }) {
                   fontSize: 12,
                   fontWeight: 600,
                   boxSizing: 'border-box',
-                  WebkitAppearance: 'none',
-                  MozAppearance: 'textfield',
                 }}
               />
               {validationErrors.weight && <div style={{fontSize: 9, color: 'var(--red)', marginTop: 4}}>{validationErrors.weight}</div>}
@@ -949,6 +959,7 @@ function GoalsModal({ goals, user, onClose, onSave }) {
                     setGoalWeightLbs(null);
                   }
                 }}
+                className="goals-modal-input"
                 style={{
                   width: '100%',
                   padding: '8px 12px',
@@ -959,8 +970,6 @@ function GoalsModal({ goals, user, onClose, onSave }) {
                   fontSize: 12,
                   fontWeight: 600,
                   boxSizing: 'border-box',
-                  WebkitAppearance: 'none',
-                  MozAppearance: 'textfield',
                 }}
               />
               {validationErrors.goalWeight && <div style={{fontSize: 9, color: 'var(--red)', marginTop: 4}}>{validationErrors.goalWeight}</div>}
@@ -977,6 +986,7 @@ function GoalsModal({ goals, user, onClose, onSave }) {
                   type="number"
                   value={heightCm}
                   onChange={(e) => setHeightCm(parseInt(e.target.value) || 180)}
+                  className="goals-modal-input"
                   style={{
                     width: '100%',
                     padding: '8px 12px',
@@ -987,8 +997,6 @@ function GoalsModal({ goals, user, onClose, onSave }) {
                     fontSize: 12,
                     fontWeight: 600,
                     boxSizing: 'border-box',
-                    WebkitAppearance: 'none',
-                    MozAppearance: 'textfield',
                   }}
                 />
               ) : (
@@ -1003,6 +1011,7 @@ function GoalsModal({ goals, user, onClose, onSave }) {
                       const newFeet = parseInt(e.target.value) || 0;
                       setHeightCm(Math.round(newFeet * 30.48 + inches * 2.54));
                     }}
+                    className="goals-modal-input"
                     style={{
                       flex: 1,
                       padding: '8px 6px',
@@ -1013,8 +1022,6 @@ function GoalsModal({ goals, user, onClose, onSave }) {
                       fontSize: 12,
                       fontWeight: 600,
                       boxSizing: 'border-box',
-                      WebkitAppearance: 'none',
-                      MozAppearance: 'textfield',
                     }}
                   />
                   <input
@@ -1027,6 +1034,7 @@ function GoalsModal({ goals, user, onClose, onSave }) {
                       const newInches = parseInt(e.target.value) || 0;
                       setHeightCm(Math.round(feet * 30.48 + newInches * 2.54));
                     }}
+                    className="goals-modal-input"
                     style={{
                       flex: 1,
                       padding: '8px 6px',
@@ -1037,8 +1045,6 @@ function GoalsModal({ goals, user, onClose, onSave }) {
                       fontSize: 12,
                       fontWeight: 600,
                       boxSizing: 'border-box',
-                      WebkitAppearance: 'none',
-                      MozAppearance: 'textfield',
                     }}
                   />
                 </div>
@@ -1311,6 +1317,7 @@ function GoalsModal({ goals, user, onClose, onSave }) {
                     macro.setValue(e.target.value);
                   }}
                   readOnly={!isCustomMode}
+                  className="goals-modal-input"
                   style={{
                     width: '100%',
                     padding: '10px 12px',
@@ -1323,8 +1330,6 @@ function GoalsModal({ goals, user, onClose, onSave }) {
                     boxSizing: 'border-box',
                     opacity: isCustomMode ? 1 : 0.5,
                     cursor: isCustomMode ? 'text' : 'not-allowed',
-                    WebkitAppearance: 'none',
-                    MozAppearance: 'textfield',
                     transition: 'all 0.15s',
                   }}
                   onFocus={(e) => {
@@ -1408,5 +1413,6 @@ function GoalsModal({ goals, user, onClose, onSave }) {
         </button>
       </div>
     </div>
+    </>
   );
 }
