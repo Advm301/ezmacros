@@ -12,65 +12,64 @@ export default function Today({onTabFocus}) {
   const [deletingMealId, setDeletingMealId] = useState(null);
   const [deleteConfirmTime, setDeleteConfirmTime] = useState(null);
 
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        // Get current user
-        const { data: { user: currentUser } } = await supabase.auth.getUser();
-        setUser(currentUser);
+  const loadData = async () => {
+    try {
+      // Get current user
+      const { data: { user: currentUser } } = await supabase.auth.getUser();
+      setUser(currentUser);
 
-        if (!currentUser) return;
+      if (!currentUser) return;
 
-        // Fetch user's goals
-        const { data: goalsData } = await supabase
-          .from('goals')
-          .select('*')
-          .eq('user_id', currentUser.id)
-          .single();
+      // Fetch user's goals
+      const { data: goalsData } = await supabase
+        .from('goals')
+        .select('*')
+        .eq('user_id', currentUser.id)
+        .single();
 
-        const userGoals = goalsData || {
-          cal: 2200,
-          protein: 180,
-          carbs: 220,
-          fat: 60,
-        };
-        setGoals(userGoals);
+      const userGoals = goalsData || {
+        cal: 2200,
+        protein: 180,
+        carbs: 220,
+        fat: 60,
+      };
+      setGoals(userGoals);
 
-        // Fetch today's meal logs
-        const today = new Date().toISOString().split('T')[0];
-        const { data: mealsData } = await supabase
-          .from('meal_logs')
-          .select('*')
-          .eq('user_id', currentUser.id)
-          .gte('logged_at', `${today}T00:00:00`)
-          .lt('logged_at', `${today}T23:59:59`)
-          .order('logged_at', { ascending: false });
+      // Fetch today's meal logs
+      const today = new Date().toISOString().split('T')[0];
+      const { data: mealsData } = await supabase
+        .from('meal_logs')
+        .select('*')
+        .eq('user_id', currentUser.id)
+        .gte('logged_at', `${today}T00:00:00`)
+        .lt('logged_at', `${today}T23:59:59`)
+        .order('logged_at', { ascending: false });
 
-        console.log('Meal logs data:', mealsData);
-        setMeals(mealsData || []);
+      setMeals(mealsData || []);
 
-        // Calculate totals
-        if (mealsData && mealsData.length > 0) {
-          const newTotals = mealsData.reduce(
-            (acc, meal) => ({
-              cal: acc.cal + (meal.cal || 0),
-              protein: acc.protein + (meal.protein || 0),
-              carbs: acc.carbs + (meal.carbs || 0),
-              fat: acc.fat + (meal.fat || 0),
-            }),
-            { cal: 0, protein: 0, carbs: 0, fat: 0 }
-          );
-          setTotals(newTotals);
-        } else {
-          setTotals({ cal: 0, protein: 0, carbs: 0, fat: 0 });
-        }
-      } catch (err) {
-        console.error('Error loading data:', err);
-      } finally {
-        setLoading(false);
+      // Calculate totals
+      if (mealsData && mealsData.length > 0) {
+        const newTotals = mealsData.reduce(
+          (acc, meal) => ({
+            cal: acc.cal + (meal.cal || 0),
+            protein: acc.protein + (meal.protein || 0),
+            carbs: acc.carbs + (meal.carbs || 0),
+            fat: acc.fat + (meal.fat || 0),
+          }),
+          { cal: 0, protein: 0, carbs: 0, fat: 0 }
+        );
+        setTotals(newTotals);
+      } else {
+        setTotals({ cal: 0, protein: 0, carbs: 0, fat: 0 });
       }
-    };
+    } catch (err) {
+      console.error('Error loading data:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     loadData();
 
     // Listen for visibility changes to refresh data when tab comes back into focus
@@ -395,7 +394,7 @@ export default function Today({onTabFocus}) {
         </div>
       </div>
 
-      {openRecipe && <RecipeModal recipe={openRecipe} onClose={() => setOpenRecipe(null)} />}
+      {openRecipe && <RecipeModal recipe={openRecipe} onClose={() => setOpenRecipe(null)} onSave={loadData} />}
     </div>
   );
 }

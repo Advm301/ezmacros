@@ -177,7 +177,7 @@ const SUBSTITUTIONS = {
   "cauliflower rice": ["Brown Rice", "Quinoa", "White Rice"],
 };
 
-export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView}) {
+export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView, onSave}) {
   const [logged, setLogged] = useState(false);
   const [logging, setLogging] = useState(false);
   const [error, setError] = useState(null);
@@ -346,10 +346,6 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
   const r = recipe;
 
   const handleSaveChanges = async () => {
-    console.log('handleSaveChanges called');
-    console.log('recipe.logId:', r.logId);
-    console.log('recipe.id:', r.id);
-
     setSaving(true);
     try {
       const { data: { user } } = await supabase.auth.getUser();
@@ -380,29 +376,25 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
         }),
       };
 
-      console.log('Update data:', updateData);
-      console.log('Updating meal with logId:', r.logId);
-
-      const { error: updateError, data } = await supabase
+      const { error: updateError } = await supabase
         .from('meal_logs')
         .update(updateData)
         .eq('id', r.logId);
 
-      console.log('Supabase response:', { error: updateError, data });
-
       if (updateError) {
-        console.error('Update error:', updateError);
         setError("Failed to save changes: " + updateError.message);
         setSaving(false);
       } else {
         setHasChanges(false);
         setSaving(false);
+        if (onSave) {
+          onSave();
+        }
         setTimeout(() => {
           onClose();
         }, 500);
       }
     } catch (err) {
-      console.error('Exception in handleSaveChanges:', err);
       setError(err.message || "Failed to save changes");
       setSaving(false);
     }
