@@ -846,7 +846,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
                 <div key={i}>
                   <div style={{display: "flex", justifyContent: "space-between", alignItems: "flex-start", padding: "8px 0", borderBottom: "1px solid var(--border)"}}>
                     <div style={{flex: 1}}>
-                      <div style={{fontSize: 13, fontWeight: 600, color: "var(--cream)", marginBottom: 4}}>{c.name}</div>
+                      <div style={{fontSize: 13, fontWeight: 600, color: c.userAdded ? "var(--lime)" : "var(--cream)", marginBottom: 4}}>{c.name}</div>
                       <div style={{display: "flex", gap: 6, alignItems: "center", flexWrap: "wrap"}}>
                         <span style={{fontSize: 11, color: "var(--muted)"}}>{c.type}</span>
                         <span style={{
@@ -859,6 +859,17 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
                           backgroundColor: "rgba(0, 255, 100, 0.05)",
                         }}>
                           ⚖️ {c.grams}g{c.weighRaw ? " raw" : ""}
+                        </span>
+                        <span style={{
+                          fontSize: 10,
+                          fontWeight: 600,
+                          color: c.userAdded ? "var(--lime)" : "var(--muted)",
+                          border: `1px solid ${c.userAdded ? "var(--lime)" : "var(--border)"}`,
+                          borderRadius: 12,
+                          padding: "2px 8px",
+                          backgroundColor: c.userAdded ? "rgba(0, 255, 100, 0.05)" : "transparent",
+                        }}>
+                          {c.userAdded ? "✓ Your ingredient" : "staple"}
                         </span>
                       </div>
                     </div>

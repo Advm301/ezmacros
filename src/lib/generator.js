@@ -205,11 +205,11 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
     const sauceComponents = splitCombinedIngredient(codSauce) || [];
 
     const components = [
-      {name:"Cod Fillet",type:"Protein",grams:170,...codMacros,weighRaw:true},
-      ...sauceComponents,
-      ...(isSpicy && spiceLevel >= 3 ? [createSeasoningComponent("Red Pepper Flakes", 1)] : []),
-      {name:carbName,type:"Carb",grams:200,...carbMacros,weighRaw:false},
-      ...(veg ? [{name:veg,type:"Veg",grams:85,...vegMacros,weighRaw:false}] : []),
+      {name:"Cod Fillet",type:"Protein",grams:170,...codMacros,weighRaw:true,userAdded:true},
+      ...sauceComponents.map(c => ({...c, userAdded: false})),
+      ...(isSpicy && spiceLevel >= 3 ? [createSeasoningComponent("Red Pepper Flakes", 1)] : []).map(c => ({...c, userAdded: false})),
+      {name:carbName,type:"Carb",grams:200,...carbMacros,weighRaw:false,userAdded:false},
+      ...(veg ? [{name:veg,type:"Veg",grams:85,...vegMacros,weighRaw:false,userAdded:false}] : []),
     ];
 
     const totalCal = components.reduce((sum, c) => sum + c.cal, 0);
@@ -251,11 +251,11 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
     const sauceComponents = splitCombinedIngredient(sauceLabel) || [];
 
     const components = [
-      {name:"Chicken Thighs (boneless, skinless)",type:"Protein",grams:170,...chickenMacros,weighRaw:true},
-      ...sauceComponents,
-      ...(isSpicy && spiceLevel >= 3 ? [createSeasoningComponent("Red Pepper Flakes", 1)] : []),
-      ...(hasRice?[{name:carbName,type:"Carb",grams:200,...carbMacros,weighRaw:false}]:[]),
-      ...(veg ? [{name:veg,type:"Veg",grams:85,...vegMacros,weighRaw:false}] : []),
+      {name:"Chicken Thighs (boneless, skinless)",type:"Protein",grams:170,...chickenMacros,weighRaw:true,userAdded:true},
+      ...sauceComponents.map(c => ({...c, userAdded: false})),
+      ...(isSpicy && spiceLevel >= 3 ? [createSeasoningComponent("Red Pepper Flakes", 1)] : []).map(c => ({...c, userAdded: false})),
+      {name:carbName,type:"Carb",grams:200,...carbMacros,weighRaw:false,userAdded:false},
+      ...(veg ? [{name:veg,type:"Veg",grams:85,...vegMacros,weighRaw:false,userAdded:false}] : []),
     ];
 
     const totalCal = components.reduce((sum, c) => sum + c.cal, 0);
@@ -303,11 +303,11 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
     const sauceComponents = splitCombinedIngredient(beefSauce) || [];
 
     const components = [
-      {name:"Ground Beef (93% lean)",type:"Protein",grams:142,...beefMacros,weighRaw:true},
-      ...sauceComponents,
-      ...(isSpicy && spiceLevel >= 3 ? [createSeasoningComponent("Red Pepper Flakes", 1)] : []),
-      {name:carbName,type:"Carb",grams:200,...carbMacros,weighRaw:false},
-      ...(veg ? [{name:veg,type:"Veg",grams:85,...vegMacros,weighRaw:false}] : []),
+      {name:"Ground Beef (93% lean)",type:"Protein",grams:142,...beefMacros,weighRaw:true,userAdded:true},
+      ...sauceComponents.map(c => ({...c, userAdded: false})),
+      ...(isSpicy && spiceLevel >= 3 ? [createSeasoningComponent("Red Pepper Flakes", 1)] : []).map(c => ({...c, userAdded: false})),
+      {name:carbName,type:"Carb",grams:200,...carbMacros,weighRaw:false,userAdded:false},
+      ...(veg ? [{name:veg,type:"Veg",grams:85,...vegMacros,weighRaw:false,userAdded:false}] : []),
     ];
 
     const totalCal = components.reduce((sum, c) => sum + c.cal, 0);
@@ -353,19 +353,17 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
     const sauceComponents = splitCombinedIngredient(turkeySauce) || [];
 
     const components = [
-      {name:"Ground Turkey (93% lean)",type:"Protein",grams:170,...turkeyMacros,weighRaw:true},
-      ...sauceComponents,
-      ...(isSpicy && spiceLevel >= 3 ? [createSeasoningComponent("Red Pepper Flakes", 1)] : []),
-      {name:carbName,type:"Carb",grams:200,...carbMacros,weighRaw:false},
-      ...(veg ? [{name:veg,type:"Veg",grams:85,...vegMacros,weighRaw:false}] : []),
+      {name:"Ground Turkey (93% lean)",type:"Protein",grams:170,...turkeyMacros,weighRaw:true,userAdded:true},
+      ...sauceComponents.map(c => ({...c, userAdded: false})),
+      ...(isSpicy && spiceLevel >= 3 ? [createSeasoningComponent("Red Pepper Flakes", 1)] : []).map(c => ({...c, userAdded: false})),
+      {name:carbName,type:"Carb",grams:200,...carbMacros,weighRaw:false,userAdded:false},
+      ...(veg ? [{name:veg,type:"Veg",grams:85,...vegMacros,weighRaw:false,userAdded:false}] : []),
     ];
 
     const totalCal = components.reduce((sum, c) => sum + c.cal, 0);
     const totalProtein = components.reduce((sum, c) => sum + c.protein, 0);
     const totalCarbs = components.reduce((sum, c) => sum + c.carbs, 0);
     const totalFat = components.reduce((sum, c) => sum + c.fat, 0);
-
-    console.log('Turkey components:', JSON.stringify(components));
 
     results.push({
       name:turkeyName, emoji:"🦃", method:cookMethod!=="Any"?cookMethod:"Skillet", ezLevel,
@@ -403,11 +401,11 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
     const sauceComponents = splitCombinedIngredient(salmonSauce) || [];
 
     const components = [
-      {name:"Salmon Fillet",type:"Protein",grams:170,...salmonMacros,weighRaw:true},
-      ...sauceComponents,
-      ...(isSpicy && spiceLevel >= 3 ? [createSeasoningComponent("Red Pepper Flakes", 1)] : []),
-      {name:carbName,type:"Carb",grams:200,...carbMacros,weighRaw:false},
-      ...(veg ? [{name:veg,type:"Veg",grams:85,...vegMacros,weighRaw:false}] : []),
+      {name:"Salmon Fillet",type:"Protein",grams:170,...salmonMacros,weighRaw:true,userAdded:true},
+      ...sauceComponents.map(c => ({...c, userAdded: false})),
+      ...(isSpicy && spiceLevel >= 3 ? [createSeasoningComponent("Red Pepper Flakes", 1)] : []).map(c => ({...c, userAdded: false})),
+      {name:carbName,type:"Carb",grams:200,...carbMacros,weighRaw:false,userAdded:false},
+      ...(veg ? [{name:veg,type:"Veg",grams:85,...vegMacros,weighRaw:false,userAdded:false}] : []),
     ];
 
     const totalCal = components.reduce((sum, c) => sum + c.cal, 0);
@@ -442,11 +440,11 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
       const srirMacros = calcComponentMacros(getUsdaMacros("Sriracha"), 10);
 
       const components = [
-        {name: "Whole Eggs (3 large)", type: "Protein", grams: 150, ...eggsMacros, weighRaw: false},
-        {name: "Butter", type: "Fat", grams: 14, cal: 100, protein: 0, carbs: 0, fat: 11, weighRaw: false},
-        {name: "Sriracha", type: "Sauce", grams: 10, ...srirMacros, weighRaw: false},
-        {name: "Shredded Cheddar (bagged)", type: "Cheese", grams: 28, cal: 110, protein: 7, carbs: 0, fat: 9, weighRaw: false},
-        ...(spiceLevel >= 3 ? [createSeasoningComponent("Red Pepper Flakes", 1)] : []),
+        {name: "Whole Eggs (3 large)", type: "Protein", grams: 150, ...eggsMacros, weighRaw: false, userAdded: true},
+        {name: "Butter", type: "Fat", grams: 14, cal: 100, protein: 0, carbs: 0, fat: 11, weighRaw: false, userAdded: false},
+        {name: "Sriracha", type: "Sauce", grams: 10, ...srirMacros, weighRaw: false, userAdded: false},
+        {name: "Shredded Cheddar (bagged)", type: "Cheese", grams: 28, cal: 110, protein: 7, carbs: 0, fat: 9, weighRaw: false, userAdded: false},
+        ...(spiceLevel >= 3 ? [createSeasoningComponent("Red Pepper Flakes", 1)] : []).map(c => ({...c, userAdded: false})),
       ];
       const totalCal = components.reduce((sum, c) => sum + c.cal, 0);
       const totalProtein = components.reduce((sum, c) => sum + c.protein, 0);
@@ -480,9 +478,9 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
       const eggsMacros = calcComponentMacros(getUsdaMacros("Whole Egg"), 150);
 
       const components = [
-        {name: "Whole Eggs (3 large)", type: "Protein", grams: 150, ...eggsMacros, weighRaw: false},
-        {name: "Butter", type: "Fat", grams: 14, cal: 100, protein: 0, carbs: 0, fat: 11, weighRaw: false},
-        {name: "Shredded Cheddar (bagged)", type: "Cheese", grams: 28, cal: 110, protein: 7, carbs: 0, fat: 9, weighRaw: false},
+        {name: "Whole Eggs (3 large)", type: "Protein", grams: 150, ...eggsMacros, weighRaw: false, userAdded: true},
+        {name: "Butter", type: "Fat", grams: 14, cal: 100, protein: 0, carbs: 0, fat: 11, weighRaw: false, userAdded: false},
+        {name: "Shredded Cheddar (bagged)", type: "Cheese", grams: 28, cal: 110, protein: 7, carbs: 0, fat: 9, weighRaw: false, userAdded: false},
       ];
       const totalCal = components.reduce((sum, c) => sum + c.cal, 0);
       const totalProtein = components.reduce((sum, c) => sum + c.protein, 0);
@@ -516,10 +514,10 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
       const eggsMacros = calcComponentMacros(getUsdaMacros("Whole Egg"), 100);
 
       const components = [
-        {name: "Frozen Hash Browns", type: "Carb", grams: 113, cal: 130, protein: 2, carbs: 22, fat: 4, weighRaw: false},
-        {name: "Whole Eggs (2 large)", type: "Protein", grams: 100, ...eggsMacros, weighRaw: false},
-        {name: "Butter", type: "Fat", grams: 14, cal: 100, protein: 0, carbs: 0, fat: 11, weighRaw: false},
-        {name: "Shredded Cheddar (bagged)", type: "Cheese", grams: 28, cal: 110, protein: 7, carbs: 0, fat: 9, weighRaw: false},
+        {name: "Whole Eggs (2 large)", type: "Protein", grams: 100, ...eggsMacros, weighRaw: false, userAdded: true},
+        {name: "Frozen Hash Browns", type: "Carb", grams: 113, cal: 130, protein: 2, carbs: 22, fat: 4, weighRaw: false, userAdded: false},
+        {name: "Butter", type: "Fat", grams: 14, cal: 100, protein: 0, carbs: 0, fat: 11, weighRaw: false, userAdded: false},
+        {name: "Shredded Cheddar (bagged)", type: "Cheese", grams: 28, cal: 110, protein: 7, carbs: 0, fat: 9, weighRaw: false, userAdded: false},
       ];
       const totalCal = components.reduce((sum, c) => sum + c.cal, 0);
       const totalProtein = components.reduce((sum, c) => sum + c.protein, 0);
@@ -555,10 +553,10 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
       const eggsMacros = calcComponentMacros(getUsdaMacros("Whole Egg"), 150);
 
       const components = [
-        {name: "Frozen Spinach (microwave bag)", type: "Veg", grams: 85, ...spinachMacros, weighRaw: false},
-        {name: "Whole Eggs (3 large)", type: "Protein", grams: 150, ...eggsMacros, weighRaw: false},
-        {name: "Butter", type: "Fat", grams: 10, cal: 80, protein: 0, carbs: 0, fat: 9, weighRaw: false},
-        {name: "Shredded Cheddar (bagged)", type: "Cheese", grams: 28, cal: 110, protein: 7, carbs: 0, fat: 9, weighRaw: false},
+        {name: "Whole Eggs (3 large)", type: "Protein", grams: 150, ...eggsMacros, weighRaw: false, userAdded: true},
+        {name: "Frozen Spinach (microwave bag)", type: "Veg", grams: 85, ...spinachMacros, weighRaw: false, userAdded: false},
+        {name: "Butter", type: "Fat", grams: 10, cal: 80, protein: 0, carbs: 0, fat: 9, weighRaw: false, userAdded: false},
+        {name: "Shredded Cheddar (bagged)", type: "Cheese", grams: 28, cal: 110, protein: 7, carbs: 0, fat: 9, weighRaw: false, userAdded: false},
       ];
       const totalCal = components.reduce((sum, c) => sum + c.cal, 0);
       const totalProtein = components.reduce((sum, c) => sum + c.protein, 0);
@@ -594,9 +592,9 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
       const eggsMacros2 = calcComponentMacros(getUsdaMacros("Whole Egg"), 150);
 
       const components = [
-        {name: "Pre-Boiled Eggs (6)", type: "Protein", grams: 150, ...eggsMacros2, weighRaw: false},
-        {name: "Hellmann's Light Mayo", type: "Fat", grams: 15, cal: 35, protein: 0, carbs: 0, fat: 3, weighRaw: false},
-        {name: "Yellow Mustard (squeeze bottle)", type: "Flavor", grams: 5, cal: 3, protein: 0, carbs: 0, fat: 0, weighRaw: false},
+        {name: "Pre-Boiled Eggs (6)", type: "Protein", grams: 150, ...eggsMacros2, weighRaw: false, userAdded: true},
+        {name: "Hellmann's Light Mayo", type: "Fat", grams: 15, cal: 35, protein: 0, carbs: 0, fat: 3, weighRaw: false, userAdded: false},
+        {name: "Yellow Mustard (squeeze bottle)", type: "Flavor", grams: 5, cal: 3, protein: 0, carbs: 0, fat: 0, weighRaw: false, userAdded: false},
       ];
       const totalCal = components.reduce((sum, c) => sum + c.cal, 0);
       const totalProtein = components.reduce((sum, c) => sum + c.protein, 0);
