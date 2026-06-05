@@ -581,22 +581,23 @@ function GoalsModal({ goals, user, onClose, onSave }) {
   // Determine goal weight (use input if provided, otherwise estimate as current × 0.9)
   const effectiveGoalWeightLbs = goalWeightLbs || Math.round(lbs * 0.9);
 
-  // Calculate presets based on TDEE with corrected formulas (using goal weight for protein)
+  // Calculate presets using coach-aligned formula (based on goal weight, not TDEE)
+  // TDEE is still calculated for informational display only
   const PRESETS = {
     cut: {
-      cal: Math.round(tdee - 500),
+      cal: effectiveGoalWeightLbs * 10,
       protein: Math.round(effectiveGoalWeightLbs * 1.0),
-      fat: Math.round(effectiveGoalWeightLbs * 0.35),
+      fat: Math.round(effectiveGoalWeightLbs * 0.3),
     },
     maintain: {
-      cal: tdee,
+      cal: effectiveGoalWeightLbs * 14,
       protein: Math.round(effectiveGoalWeightLbs * 0.85),
-      fat: Math.round(effectiveGoalWeightLbs * 0.4),
+      fat: Math.round(effectiveGoalWeightLbs * 0.35),
     },
     bulk: {
-      cal: Math.round(tdee + 300),
+      cal: effectiveGoalWeightLbs * 16,
       protein: Math.round(effectiveGoalWeightLbs * 0.75),
-      fat: Math.round(effectiveGoalWeightLbs * 0.4),
+      fat: Math.round(effectiveGoalWeightLbs * 0.35),
     },
   };
 
@@ -605,7 +606,7 @@ function GoalsModal({ goals, user, onClose, onSave }) {
     const proteinCal = preset.protein * 4;
     const fatCal = preset.fat * 9;
     const remaining = preset.cal - proteinCal - fatCal;
-    const minCarbs = key === 'bulk' ? 100 : 50;
+    const minCarbs = key === 'bulk' ? 150 : key === 'maintain' ? 100 : 50;
     const carbs = Math.max(minCarbs, Math.round(remaining / 4));
 
     acc[key] = {
@@ -651,8 +652,6 @@ function GoalsModal({ goals, user, onClose, onSave }) {
         goal_weight_lbs: goalWeightLbs,
       };
 
-      console.log('Attempting to save goals:', goalsData);
-
       const { error } = await supabase
         .from('goals')
         .upsert(
@@ -661,14 +660,9 @@ function GoalsModal({ goals, user, onClose, onSave }) {
         );
 
       if (error) {
-        console.error('Supabase upsert error:', error);
-        console.error('Error code:', error.code);
-        console.error('Error message:', error.message);
-        console.error('Full error object:', JSON.stringify(error));
+        console.error('Error saving goals:', error);
         throw new Error(error.message || 'Failed to save goals to database');
       }
-
-      console.log('Goals saved successfully');
       // Success - notify parent and close
       onSave(goalsData);
       onClose();
@@ -1107,6 +1101,9 @@ function GoalsModal({ goals, user, onClose, onSave }) {
                 </button>
               );
             })}
+          </div>
+          <div style={{fontSize: 10, color: 'var(--muted)', marginTop: 8, fontStyle: 'italic', textAlign: 'center'}}>
+            These are starting point estimates. Adjust based on your progress.
           </div>
         </div>
 
