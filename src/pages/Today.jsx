@@ -13,6 +13,7 @@ export default function Today({onTabFocus, onUpdateEzLevel}) {
   const [deletingMealId, setDeletingMealId] = useState(null);
   const [deleteConfirmTime, setDeleteConfirmTime] = useState(null);
   const [showGoalsModal, setShowGoalsModal] = useState(false);
+  const [goalsSavedNotification, setGoalsSavedNotification] = useState(false);
 
   const loadData = async () => {
     try {
@@ -496,8 +497,18 @@ export default function Today({onTabFocus, onUpdateEzLevel}) {
             if (onUpdateEzLevel && newGoals.ez_level) {
               onUpdateEzLevel(newGoals.ez_level);
             }
+            setGoalsSavedNotification(true);
+            setTimeout(() => setGoalsSavedNotification(false), 2000);
           }}
         />
+      )}
+
+      {/* Goals Saved Notification */}
+      {goalsSavedNotification && (
+        <div style={{position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', background: 'var(--s1)', border: '2px solid var(--lime)', borderRadius: 16, padding: 24, textAlign: 'center', zIndex: 100}}>
+          <div style={{fontSize: 32, color: 'var(--lime)', marginBottom: 12}}>✓</div>
+          <div style={{fontSize: 18, fontWeight: 700, color: 'var(--cream)'}}>Goals Saved ✓</div>
+        </div>
       )}
     </div>
   );
@@ -518,13 +529,22 @@ function GoalsModal({ goals, user, onClose, onSave }) {
   const [fat, setFat] = useState(goals?.fat || 60);
   const [ezLevel, setEzLevel] = useState(goals?.ez_level || 'Easy');
   const [saving, setSaving] = useState(false);
+  const [selectedPreset, setSelectedPreset] = useState(null);
+  const [showEzInfo, setShowEzInfo] = useState(false);
+  const [saveError, setSaveError] = useState(null);
 
   const ACTIVITY_MULTIPLIERS = {
     'Sedentary': 1.2,
     'Lightly Active': 1.375,
     'Moderately Active': 1.55,
     'Very Active': 1.725,
-    'Athlete': 1.9,
+  };
+
+  const ACTIVITY_DESCRIPTIONS = {
+    'Sedentary': 'Desk job, little or no exercise',
+    'Lightly Active': 'Exercise 1-3 days/week',
+    'Moderately Active': 'Exercise 3-5 days/week',
+    'Very Active': 'Hard exercise 6-7 days/week or physical job',
   };
 
   // Convert between metric and imperial
@@ -557,25 +577,6 @@ function GoalsModal({ goals, user, onClose, onSave }) {
   const tdee = calculateTDEE();
   const lbs = getLbsValue();
 
-  // Calculate presets based on TDEE
-  const PRESETS = {
-    Cut: {
-      cal: Math.round(tdee - 500),
-      protein: Math.round(lbs * 1.0),
-      fat: Math.round((tdee - 500) * 0.25 / 9),
-    },
-    Maintain: {
-      cal: tdee,
-      protein: Math.round(lbs * 0.8),
-      fat: Math.round(tdee * 0.25 / 9),
-    },
-    Bulk: {
-      cal: Math.round(tdee + 300),
-      protein: Math.round(lbs * 0.9),
-      fat: Math.round((tdee + 300) * 0.25 / 9),
-    },
-  };
-
   // Calculate carbs from remaining calories
   const calculateCarbs = (calTotal, proteinG, fatG) => {
     const proteinCal = proteinG * 4;
@@ -584,40 +585,54 @@ function GoalsModal({ goals, user, onClose, onSave }) {
     return Math.round(Math.max(0, remaining / 4));
   };
 
+  // Calculate presets based on TDEE with corrected formulas
+  const PRESETS = {
+    cut: {
+      cal: Math.round(tdee - 500),
+      protein: Math.round(lbs * 1.0),
+      fat: Math.round((tdee - 500) * 0.22 / 9),
+    },
+    maintain: {
+      cal: tdee,
+      protein: Math.round(lbs * 0.85),
+      fat: Math.round(tdee * 0.25 / 9),
+    },
+    bulk: {
+      cal: Math.round(tdee + 300),
+      protein: Math.round(lbs * 0.75),
+      fat: Math.round((tdee + 300) * 0.25 / 9),
+    },
+  };
+
+  // Calculate carbs for each preset
+  const presetsWithCarbs = Object.entries(PRESETS).reduce((acc, [key, preset]) => {
+    acc[key] = {
+      ...preset,
+      carbs: calculateCarbs(preset.cal, preset.protein, preset.fat),
+    };
+    return acc;
+  }, {});
+
   const calculatedCal = (protein * 4) + (carbs * 4) + (fat * 9);
-  const displayCarbs = calculateCarbs(calculatedCal, protein, fat);
 
   const applyPreset = (presetName) => {
-    const preset = PRESETS[presetName];
+    const preset = presetsWithCarbs[presetName];
     setProtein(preset.protein);
     setFat(preset.fat);
+    setCarbs(preset.carbs);
+    setSelectedPreset(presetName);
   };
 
   const handleSave = async () => {
     if (!user) return;
     setSaving(true);
+    setSaveError(null);
     try {
-      const { error } = await supabase
-        .from('goals')
-        .upsert({
-          user_id: user.id,
-          cal: calculatedCal,
-          protein: parseInt(protein),
-          carbs: displayCarbs,
-          fat: parseInt(fat),
-          ez_level: ezLevel,
-          sex,
-          age: parseInt(age),
-          weight_lbs: lbs,
-          height_cm: getCmValue(),
-          activity_level: activityLevel,
-        });
-
-      if (error) throw error;
-      onSave({
+      const goalsData = {
+        user_id: user.id,
         cal: calculatedCal,
         protein: parseInt(protein),
-        carbs: displayCarbs,
+        carbs: parseInt(carbs),
         fat: parseInt(fat),
         ez_level: ezLevel,
         sex,
@@ -625,10 +640,23 @@ function GoalsModal({ goals, user, onClose, onSave }) {
         weight_lbs: lbs,
         height_cm: getCmValue(),
         activity_level: activityLevel,
-      });
+      };
+
+      const { data, error } = await supabase
+        .from('goals')
+        .upsert(goalsData, { onConflict: 'user_id' });
+
+      if (error) {
+        console.error('Supabase error:', error);
+        throw new Error(error.message || 'Failed to save goals');
+      }
+
+      // Success - notify parent and close
+      onSave(goalsData);
       onClose();
     } catch (err) {
       console.error('Error saving goals:', err);
+      setSaveError('Failed to save. Please try again.');
     } finally {
       setSaving(false);
     }
@@ -866,24 +894,30 @@ function GoalsModal({ goals, user, onClose, onSave }) {
             <label style={{fontSize: 11, fontWeight: 600, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: 0.5, display: 'block', marginBottom: 8}}>
               Activity Level
             </label>
-            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6}}>
+            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8}}>
               {Object.keys(ACTIVITY_MULTIPLIERS).map((level) => (
                 <button
                   key={level}
                   onClick={() => setActivityLevel(level)}
                   style={{
-                    padding: '8px 10px',
+                    padding: '10px 8px',
                     borderRadius: 8,
                     border: '1px solid var(--border)',
                     background: activityLevel === level ? 'var(--lime)' : 'var(--s2)',
                     color: activityLevel === level ? '#000' : 'var(--cream)',
-                    fontSize: 11,
-                    fontWeight: 600,
                     cursor: 'pointer',
                     transition: 'all 0.15s',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 4,
                   }}
                 >
-                  {level}
+                  <div style={{fontSize: 11, fontWeight: 600}}>
+                    {level}
+                  </div>
+                  <div style={{fontSize: 9, opacity: 0.7}}>
+                    {ACTIVITY_DESCRIPTIONS[level]}
+                  </div>
                 </button>
               ))}
             </div>
@@ -906,15 +940,60 @@ function GoalsModal({ goals, user, onClose, onSave }) {
         </div>
 
         {/* EZ Level Selector */}
-        <div style={{marginBottom: 20}}>
-          <div style={{fontSize: 12, fontWeight: 600, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 8}}>
-            EZ Level
+        <div style={{marginBottom: 20, position: 'relative'}}>
+          <div style={{display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8}}>
+            <div style={{fontSize: 12, fontWeight: 600, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: 1}}>
+              EZ Level
+            </div>
+            <button
+              onClick={() => setShowEzInfo(!showEzInfo)}
+              style={{
+                background: 'transparent',
+                border: 'none',
+                fontSize: 14,
+                cursor: 'pointer',
+                color: 'var(--muted)',
+                padding: 0,
+              }}
+            >
+              ℹ️
+            </button>
           </div>
+
+          {showEzInfo && (
+            <div style={{
+              background: 'var(--s1)',
+              border: '1px solid var(--lime)',
+              borderRadius: 8,
+              padding: 12,
+              marginBottom: 12,
+              fontSize: 11,
+              color: 'var(--cream)',
+              lineHeight: 1.5,
+            }}>
+              <div style={{marginBottom: 8}}>
+                <div style={{fontWeight: 600, color: 'var(--lime)', marginBottom: 2}}>⚡ Effortless</div>
+                <div>Max 3 steps, 5 min active time. Microwave only, zero prep.</div>
+              </div>
+              <div style={{marginBottom: 8}}>
+                <div style={{fontWeight: 600, color: 'var(--lime)', marginBottom: 2}}>⚡⚡ Easy</div>
+                <div>Max 5 steps, 10 min active time. Simple cooking, bottled sauces.</div>
+              </div>
+              <div>
+                <div style={{fontWeight: 600, color: 'var(--lime)', marginBottom: 2}}>⚡⚡⚡ Relaxed</div>
+                <div>Max 5 steps, 15 min active time. Light prep, more variety.</div>
+              </div>
+            </div>
+          )}
+
           <div style={{display: 'flex', gap: 8}}>
             {['Effortless', 'Easy', 'Relaxed'].map((level, idx) => (
               <button
                 key={level}
-                onClick={() => setEzLevel(level)}
+                onClick={() => {
+                  setEzLevel(level);
+                  setShowEzInfo(false);
+                }}
                 style={{
                   flex: 1,
                   padding: '10px 12px',
@@ -934,39 +1013,50 @@ function GoalsModal({ goals, user, onClose, onSave }) {
           </div>
         </div>
 
-        {/* Preset Pills with Calculated Calories */}
+        {/* Preset Pills with Calculated Calories & Selection Tracking */}
         <div style={{marginBottom: 20}}>
+          <div style={{fontSize: 11, fontWeight: 600, color: 'var(--muted)', marginBottom: 8}}>
+            {selectedPreset ? `${selectedPreset.charAt(0).toUpperCase() + selectedPreset.slice(1)} Goal` : 'Custom Macros'}
+          </div>
           <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 6}}>
-            {Object.keys(PRESETS).map((presetName) => (
-              <button
-                key={presetName}
-                onClick={() => applyPreset(presetName)}
-                style={{
-                  padding: '12px 8px',
-                  borderRadius: 12,
-                  border: '1px solid var(--lime)',
-                  background: 'var(--s2)',
-                  color: 'var(--lime)',
-                  cursor: 'pointer',
-                  transition: 'all 0.15s',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  gap: 4,
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'var(--lime)';
-                  e.currentTarget.style.color = '#000';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'var(--s2)';
-                  e.currentTarget.style.color = 'var(--lime)';
-                }}
-              >
-                <div style={{fontSize: 12, fontWeight: 700}}>{presetName}</div>
-                <div style={{fontSize: 10, opacity: 0.8}}>{PRESETS[presetName].cal} cal</div>
-              </button>
-            ))}
+            {Object.keys(presetsWithCarbs).map((presetKey) => {
+              const preset = presetsWithCarbs[presetKey];
+              const displayName = presetKey.charAt(0).toUpperCase() + presetKey.slice(1);
+              return (
+                <button
+                  key={presetKey}
+                  onClick={() => applyPreset(presetKey)}
+                  style={{
+                    padding: '12px 8px',
+                    borderRadius: 12,
+                    border: selectedPreset === presetKey ? '2px solid var(--lime)' : '1px solid var(--lime)',
+                    background: selectedPreset === presetKey ? 'var(--lime)' : 'var(--s2)',
+                    color: selectedPreset === presetKey ? '#000' : 'var(--lime)',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: 4,
+                  }}
+                  onMouseEnter={(e) => {
+                    if (selectedPreset !== presetKey) {
+                      e.currentTarget.style.background = 'var(--lime)';
+                      e.currentTarget.style.color = '#000';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (selectedPreset !== presetKey) {
+                      e.currentTarget.style.background = 'var(--s2)';
+                      e.currentTarget.style.color = 'var(--lime)';
+                    }
+                  }}
+                >
+                  <div style={{fontSize: 12, fontWeight: 700}}>{displayName}</div>
+                  <div style={{fontSize: 10, opacity: 0.8}}>{preset.cal} cal</div>
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -975,7 +1065,7 @@ function GoalsModal({ goals, user, onClose, onSave }) {
           <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12, marginBottom: 12}}>
             {[
               { label: '💪 Protein (g)', value: protein, setValue: setProtein, color: 'var(--lime)' },
-              { label: '🍚 Carbs (g)', value: carbs, setValue: setCarbs, color: 'var(--blue)', newValue: displayCarbs },
+              { label: '🍚 Carbs (g)', value: carbs, setValue: setCarbs, color: 'var(--blue)' },
               { label: '🥑 Fat (g)', value: fat, setValue: setFat, color: 'var(--muted)' },
             ].map((macro) => (
               <div key={macro.label}>
@@ -984,13 +1074,10 @@ function GoalsModal({ goals, user, onClose, onSave }) {
                 </label>
                 <input
                   type="number"
-                  value={macro.newValue !== undefined ? macro.newValue : macro.value}
+                  value={macro.value}
                   onChange={(e) => {
-                    if (macro.label.includes('Carbs')) {
-                      setCarbs(parseInt(e.target.value) || 0);
-                    } else {
-                      macro.setValue(parseInt(e.target.value) || 0);
-                    }
+                    setSelectedPreset(null);
+                    macro.setValue(parseInt(e.target.value) || 0);
                   }}
                   style={{
                     width: '100%',
@@ -1015,15 +1102,32 @@ function GoalsModal({ goals, user, onClose, onSave }) {
             borderRadius: 8,
             padding: 12,
             textAlign: 'center',
+            marginBottom: 12,
           }}>
             <div style={{fontSize: 10, color: 'var(--muted)', marginBottom: 4}}>🔥 Calculated Total</div>
             <div style={{fontSize: 18, fontWeight: 700, color: 'var(--orange)'}}>
               {calculatedCal} cal
             </div>
             <div style={{fontSize: 9, color: 'var(--muted)', marginTop: 6}}>
-              ({protein}g × 4) + ({displayCarbs}g × 4) + ({fat}g × 9)
+              ({protein}g × 4) + ({carbs}g × 4) + ({fat}g × 9)
             </div>
           </div>
+
+          {/* Error Message */}
+          {saveError && (
+            <div style={{
+              background: 'rgba(255, 0, 0, 0.1)',
+              border: '1px solid var(--red)',
+              borderRadius: 8,
+              padding: 12,
+              marginBottom: 12,
+              fontSize: 12,
+              color: 'var(--red)',
+              textAlign: 'center',
+            }}>
+              {saveError}
+            </div>
+          )}
         </div>
 
         {/* Save Button */}
