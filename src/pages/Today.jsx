@@ -21,13 +21,13 @@ export default function Today({onTabFocus}) {
       if (!currentUser) return;
 
       // Fetch user's goals
-      const { data: goalsData } = await supabase
+      const { data: goalsData, error: goalsError } = await supabase
         .from('goals')
         .select('*')
         .eq('user_id', currentUser.id)
-        .single();
+        .maybeSingle();
 
-      const userGoals = goalsData || {
+      const userGoals = (goalsData && !goalsError) ? goalsData : {
         cal: 2200,
         protein: 180,
         carbs: 220,

@@ -376,23 +376,29 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
         }),
       };
 
+      // Await the update fully
       const { error: updateError } = await supabase
         .from('meal_logs')
         .update(updateData)
         .eq('id', r.logId);
 
+      // Check error before proceeding
       if (updateError) {
         setError("Failed to save changes: " + updateError.message);
         setSaving(false);
       } else {
         setHasChanges(false);
-        setSaving(false);
+
+        // Call onSave after confirming update succeeded
         if (onSave) {
           onSave();
         }
-        setTimeout(() => {
-          onClose();
-        }, 500);
+
+        // Wait 800ms to give refresh time to complete
+        await new Promise(resolve => setTimeout(resolve, 800));
+
+        setSaving(false);
+        onClose();
       }
     } catch (err) {
       setError(err.message || "Failed to save changes");
