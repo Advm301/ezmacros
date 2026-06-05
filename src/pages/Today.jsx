@@ -584,22 +584,33 @@ function GoalsModal({ goals, user, onClose, onSave }) {
   const tdee = calculateTDEE();
   const lbs = getLbsValue();
 
-  // Goal weight is ONLY used for protein calculation
-  // Use current weight (lbs) for calories and fat
+  // Activity-level-based calorie multipliers (cut, maintain, bulk)
+  const ACTIVITY_CAL_MULTIPLIERS = {
+    'Sedentary': { cut: 11, maintain: 13, bulk: 15 },
+    'Lightly Active': { cut: 12, maintain: 14, bulk: 16 },
+    'Moderately Active': { cut: 13, maintain: 15, bulk: 17 },
+    'Very Active': { cut: 14, maintain: 16, bulk: 18 },
+  };
+
+  const calMultipliers = ACTIVITY_CAL_MULTIPLIERS[activityLevel] || ACTIVITY_CAL_MULTIPLIERS['Moderately Active'];
+
+  // Build presets with activity-adjusted calories
+  // Protein: Cut uses goalWeight (1.0g), Maintain uses currentWeight (0.85g), Bulk uses currentWeight (0.8g)
+  // Fat: Cut/Bulk use their respective weights (0.3/0.35), Maintain uses currentWeight (0.35g)
   const PRESETS = {
     cut: {
-      cal: lbs * 10,
+      cal: lbs * calMultipliers.cut,
       protein: Math.round((goalWeightLbs || lbs) * 1.0),
-      fat: Math.round(lbs * 0.3),
+      fat: Math.round((goalWeightLbs || lbs) * 0.3),
     },
     maintain: {
-      cal: lbs * 14,
-      protein: Math.round((goalWeightLbs || lbs) * 0.85),
+      cal: lbs * calMultipliers.maintain,
+      protein: Math.round(lbs * 0.85),
       fat: Math.round(lbs * 0.35),
     },
     bulk: {
-      cal: lbs * 16,
-      protein: Math.round((goalWeightLbs || lbs) * 0.75),
+      cal: lbs * calMultipliers.bulk,
+      protein: Math.round(lbs * 0.8),
       fat: Math.round(lbs * 0.35),
     },
   };
@@ -620,6 +631,46 @@ function GoalsModal({ goals, user, onClose, onSave }) {
   }, {});
 
   const calculatedCal = (protein * 4) + (carbs * 4) + (fat * 9);
+
+  // Determine which preset(s) to show based on goal weight
+  const getVisiblePresets = () => {
+    if (!goalWeightLbs || goalWeightLbs === null) {
+      // No goal weight set: show all three
+      return ['cut', 'maintain', 'bulk'];
+    }
+
+    const goalWtFloat = parseFloat(goalWeightLbs);
+    const currWtFloat = parseFloat(lbs);
+
+    // Within 1 lb = maintaining
+    if (Math.abs(goalWtFloat - currWtFloat) <= 1) {
+      return ['maintain'];
+    }
+
+    // Losing weight
+    if (goalWtFloat < currWtFloat) {
+      return ['cut'];
+    }
+
+    // Gaining weight
+    return ['bulk'];
+  };
+
+  const visiblePresets = getVisiblePresets();
+
+  // Auto-apply preset if only one is visible
+  useEffect(() => {
+    if (visiblePresets.length === 1) {
+      const presetName = visiblePresets[0];
+      const preset = presetsWithCarbs[presetName];
+      if (preset) {
+        setProtein(preset.protein);
+        setFat(preset.fat);
+        setCarbs(preset.carbs);
+        setSelectedPreset(presetName);
+      }
+    }
+  }, [visiblePresets, presetsWithCarbs]);
 
   const applyPreset = (presetName) => {
     const preset = presetsWithCarbs[presetName];
@@ -1101,33 +1152,17 @@ function GoalsModal({ goals, user, onClose, onSave }) {
           </div>
         </div>
 
-        {/* Preset Pills with Calculated Calories & Selection Tracking */}
+        {/* Preset Pills - Simplified based on goal weight */}
         <div style={{marginBottom: 20}}>
           <div style={{fontSize: 11, fontWeight: 600, color: 'var(--muted)', marginBottom: 8}}>
-            {selectedPreset ? selectedPreset.charAt(0).toUpperCase() + selectedPreset.slice(1) : 'Custom Macros'}
+            {visiblePresets.length === 1 ? `${visiblePresets[0].charAt(0).toUpperCase() + visiblePresets[0].slice(1)} (Auto-applied)` : 'Select Goal'}
           </div>
-          <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 6}}>
-            {Object.keys(presetsWithCarbs).map((presetKey) => {
-              // Determine which presets to show based on goal weight vs current weight
-              // Show all three if: goalWeight is empty OR goalWeight === currentWeight
-              // If goalWeight < currentWeight (losing): show Cut and Maintain only
-              // If goalWeight > currentWeight (gaining): show Maintain and Bulk only
-              let shouldShow = true;
-              if (goalWeightLbs && lbs) {
-                const goalWtFloat = parseFloat(goalWeightLbs);
-                const currWtFloat = parseFloat(lbs);
-
-                if (goalWtFloat < currWtFloat && presetKey === 'bulk') {
-                  shouldShow = false; // Hide Bulk if losing weight
-                } else if (goalWtFloat > currWtFloat && presetKey === 'cut') {
-                  shouldShow = false; // Hide Cut if gaining weight
-                }
-              }
-
-              if (!shouldShow) return null;
-
+          <div style={{display: 'grid', gridTemplateColumns: visiblePresets.length === 3 ? '1fr 1fr 1fr' : '1fr', gap: 6}}>
+            {visiblePresets.map((presetKey) => {
               const preset = presetsWithCarbs[presetKey];
               const displayName = presetKey.charAt(0).toUpperCase() + presetKey.slice(1);
+              const isSelected = selectedPreset === presetKey;
+
               return (
                 <button
                   key={presetKey}
@@ -1135,37 +1170,38 @@ function GoalsModal({ goals, user, onClose, onSave }) {
                   style={{
                     padding: '12px 8px',
                     borderRadius: 12,
-                    border: selectedPreset === presetKey ? '2px solid var(--lime)' : '1px solid var(--lime)',
-                    background: selectedPreset === presetKey ? 'var(--lime)' : 'var(--s2)',
-                    color: selectedPreset === presetKey ? '#000' : 'var(--lime)',
-                    cursor: 'pointer',
+                    border: isSelected ? '2px solid var(--lime)' : '1px solid var(--lime)',
+                    background: isSelected ? 'var(--lime)' : 'var(--s2)',
+                    color: isSelected ? '#000' : 'var(--lime)',
+                    cursor: visiblePresets.length === 1 ? 'default' : 'pointer',
                     transition: 'all 0.15s',
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
                     gap: 4,
+                    opacity: visiblePresets.length === 1 ? 1 : 0.8,
                   }}
                   onMouseEnter={(e) => {
-                    if (selectedPreset !== presetKey) {
+                    if (visiblePresets.length > 1 && !isSelected) {
                       e.currentTarget.style.background = 'var(--lime)';
                       e.currentTarget.style.color = '#000';
                     }
                   }}
                   onMouseLeave={(e) => {
-                    if (selectedPreset !== presetKey) {
+                    if (visiblePresets.length > 1 && !isSelected) {
                       e.currentTarget.style.background = 'var(--s2)';
                       e.currentTarget.style.color = 'var(--lime)';
                     }
                   }}
                 >
                   <div style={{fontSize: 12, fontWeight: 700}}>{displayName}</div>
-                  <div style={{fontSize: 10, opacity: 0.8}}>{preset.cal} cal</div>
+                  <div style={{fontSize: 10, opacity: 0.8}}>{Math.round(preset.cal)} cal</div>
                 </button>
               );
             })}
           </div>
           <div style={{fontSize: 10, color: 'var(--muted)', marginTop: 8, fontStyle: 'italic', textAlign: 'center'}}>
-            These are starting point estimates. Adjust based on your progress.
+            {visiblePresets.length === 1 ? 'Based on your goal weight' : 'These are starting point estimates. Adjust based on your progress.'}
           </div>
         </div>
 
