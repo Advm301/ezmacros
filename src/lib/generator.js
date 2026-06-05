@@ -39,13 +39,37 @@ const USDA_MACROS = {
   "lemon pepper seasoning": { cal: 233, protein: 8.7, carbs: 41.5, fat: 5.4 },
 };
 
-// Helper function to get macros from USDA table
+// Fallback macro values for missing ingredients
+const FALLBACK_MACROS = {
+  seasoning: { cal: 8, protein: 0, carbs: 1, fat: 0 },
+  veg: { cal: 35, protein: 2, carbs: 6, fat: 0 },
+  sauce: { cal: 20, protein: 1, carbs: 3, fat: 0 },
+};
+
+// Helper function to get macros from USDA table with fallback
 function getUsdaMacros(ingredientName) {
   const key = ingredientName.toLowerCase();
-  return USDA_MACROS[key];
+  const macros = USDA_MACROS[key];
+
+  if (!macros) {
+    // Use fallback based on ingredient type
+    const nameLower = ingredientName.toLowerCase();
+    if (nameLower.includes("seasoning") || nameLower.includes("pepper") || nameLower.includes("garlic")) {
+      console.warn(`USDA lookup fallback for: ${ingredientName} (seasoning)`);
+      return FALLBACK_MACROS.seasoning;
+    } else if (nameLower.includes("frozen") || nameLower.includes("broccoli") || nameLower.includes("spinach") || nameLower.includes("bean") || nameLower.includes("veg")) {
+      console.warn(`USDA lookup fallback for: ${ingredientName} (veg)`);
+      return FALLBACK_MACROS.veg;
+    } else if (nameLower.includes("sauce") || nameLower.includes("ponzu") || nameLower.includes("marinara")) {
+      console.warn(`USDA lookup fallback for: ${ingredientName} (sauce)`);
+      return FALLBACK_MACROS.sauce;
+    }
+  }
+
+  return macros;
 }
 
-// Helper function to calculate component macros
+// Helper function to calculate component macros with proper rounding
 function calcComponentMacros(usdaMacros, grams) {
   if (!usdaMacros) return null;
   return {

@@ -812,15 +812,20 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
         </div>
 
         {/* Macros */}
-        <div style={{background: "var(--s2)", borderRadius: 14, padding: 14, marginBottom: 16, border: "1px solid var(--border)"}}>
-          <div style={{display: "flex", justifyContent: "space-around"}}>
-            {[["cal", macros.cal, "var(--orange)"],["protein", macros.protein + "g", "var(--lime)"],
-              ["carbs", macros.carbs + "g", "var(--blue)"],["fat", macros.fat + "g", "var(--muted)"]].map(([l,v,c]) => (
-              <div key={l} style={{textAlign: "center"}}>
-                <div style={{fontSize: 22, fontWeight: 700, color: c, fontFamily: "'Clash Display',sans-serif"}}>{v}</div>
-                <div style={{fontSize: 10, color: "var(--muted)"}}>{l}</div>
-              </div>
-            ))}
+        <div style={{marginBottom: 16}}>
+          <div style={{background: "var(--s2)", borderRadius: 14, padding: 14, marginBottom: 8, border: "1px solid var(--border)"}}>
+            <div style={{display: "flex", justifyContent: "space-around"}}>
+              {[["cal", Math.round(macros.cal), "var(--orange)"],["protein", Math.round(macros.protein*10)/10 + "g", "var(--lime)"],
+                ["carbs", Math.round(macros.carbs*10)/10 + "g", "var(--blue)"],["fat", Math.round(macros.fat*10)/10 + "g", "var(--muted)"]].map(([l,v,c]) => (
+                <div key={l} style={{textAlign: "center"}}>
+                  <div style={{fontSize: 22, fontWeight: 700, color: c, fontFamily: "'Clash Display',sans-serif"}}>{v}</div>
+                  <div style={{fontSize: 10, color: "var(--muted)"}}>{l}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div style={{fontSize: 11, color: "var(--muted)", textAlign: "center"}}>
+            Macros are estimates based on USDA data. Actual values may vary.
           </div>
         </div>
 
@@ -859,8 +864,8 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
                     </div>
                     <div style={{display: "flex", gap: 12, alignItems: "flex-start", flexDirection: "column"}}>
                       <div style={{textAlign: "right", fontSize: 12, color: "var(--muted)"}}>
-                        <div style={{color: "var(--orange)", fontWeight: 600}}>{c.cal} cal</div>
-                        <div>{c.protein || c.p}g P</div>
+                        <div style={{color: "var(--orange)", fontWeight: 600}}>{Math.round(c.cal)} cal</div>
+                        <div>{Math.round((c.protein || c.p)*10)/10}g P</div>
                       </div>
                       <button
                         onClick={() => setExpandedSwap(expandedSwap === i ? null : i)}
