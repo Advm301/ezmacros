@@ -528,7 +528,13 @@ function GoalsModal({ goals, user, onClose, onSave }) {
   const [protein, setProtein] = useState(goals?.protein || 180);
   const [carbs, setCarbs] = useState(goals?.carbs || 220);
   const [fat, setFat] = useState(goals?.fat || 60);
-  const [ezLevel, setEzLevel] = useState(goals?.ez_level || 'Easy');
+  // Convert ez_level from integer to string: 1→'Effortless', 2→'Easy', 3→'Relaxed'
+  const [ezLevel, setEzLevel] = useState(() => {
+    const storedEzLevel = goals?.ez_level;
+    if (storedEzLevel === 1 || storedEzLevel === '1') return 'Effortless';
+    if (storedEzLevel === 3 || storedEzLevel === '3') return 'Relaxed';
+    return 'Easy'; // Default to Easy (2)
+  });
   const [saving, setSaving] = useState(false);
   const [selectedPreset, setSelectedPreset] = useState(null);
   const [showEzInfo, setShowEzInfo] = useState(false);
@@ -578,26 +584,23 @@ function GoalsModal({ goals, user, onClose, onSave }) {
   const tdee = calculateTDEE();
   const lbs = getLbsValue();
 
-  // Determine goal weight (use input if provided, otherwise estimate as current × 0.9)
-  const effectiveGoalWeightLbs = goalWeightLbs || Math.round(lbs * 0.9);
-
-  // Calculate presets using coach-aligned formula (based on goal weight, not TDEE)
-  // TDEE is still calculated for informational display only
+  // Goal weight is ONLY used for protein calculation
+  // Use current weight (lbs) for calories and fat
   const PRESETS = {
     cut: {
-      cal: effectiveGoalWeightLbs * 10,
-      protein: Math.round(effectiveGoalWeightLbs * 1.0),
-      fat: Math.round(effectiveGoalWeightLbs * 0.3),
+      cal: lbs * 10,
+      protein: Math.round((goalWeightLbs || lbs) * 1.0),
+      fat: Math.round(lbs * 0.3),
     },
     maintain: {
-      cal: effectiveGoalWeightLbs * 14,
-      protein: Math.round(effectiveGoalWeightLbs * 0.85),
-      fat: Math.round(effectiveGoalWeightLbs * 0.35),
+      cal: lbs * 14,
+      protein: Math.round((goalWeightLbs || lbs) * 0.85),
+      fat: Math.round(lbs * 0.35),
     },
     bulk: {
-      cal: effectiveGoalWeightLbs * 16,
-      protein: Math.round(effectiveGoalWeightLbs * 0.75),
-      fat: Math.round(effectiveGoalWeightLbs * 0.35),
+      cal: lbs * 16,
+      protein: Math.round((goalWeightLbs || lbs) * 0.75),
+      fat: Math.round(lbs * 0.35),
     },
   };
 
@@ -653,13 +656,16 @@ function GoalsModal({ goals, user, onClose, onSave }) {
         throw new Error('User session expired');
       }
 
+      // Convert ez_level to integer: 'Effortless'→1, 'Easy'→2, 'Relaxed'→3
+      const ezLevelInt = ezLevel === 'Effortless' ? 1 : ezLevel === 'Relaxed' ? 3 : 2;
+
       const goalsData = {
         user_id: freshUser.id,
         cal: calculatedCal,
         protein: parseInt(protein),
         carbs: parseInt(carbs),
         fat: parseInt(fat),
-        ez_level: ezLevel,
+        ez_level: ezLevelInt,
         sex,
         age: parseInt(age),
         weight_lbs: lbs,
@@ -867,7 +873,7 @@ function GoalsModal({ goals, user, onClose, onSave }) {
             {/* Goal Weight */}
             <div>
               <label style={{fontSize: 11, fontWeight: 600, color: 'var(--muted)', display: 'block', marginBottom: 6}}>
-                {isMetric ? 'Goal Wt (kg)' : 'Goal Wt (lbs)'} <span style={{color: 'var(--red)'}}>*</span>
+                {isMetric ? 'Goal Wt (kg)' : 'Goal Wt (lbs)'} — for protein target <span style={{color: 'var(--red)'}}>*</span>
               </label>
               <input
                 type="number"
@@ -894,7 +900,7 @@ function GoalsModal({ goals, user, onClose, onSave }) {
                 }}
               />
               {validationErrors.goalWeight && <div style={{fontSize: 9, color: 'var(--red)', marginTop: 4}}>{validationErrors.goalWeight}</div>}
-              <div style={{fontSize: 9, color: 'var(--muted)', marginTop: 4}}>We'll suggest the right goals based on your target</div>
+              <div style={{fontSize: 9, color: 'var(--muted)', marginTop: 4}}>Your target bodyweight used to set protein goals</div>
             </div>
 
             {/* Height */}
@@ -1098,17 +1104,22 @@ function GoalsModal({ goals, user, onClose, onSave }) {
         {/* Preset Pills with Calculated Calories & Selection Tracking */}
         <div style={{marginBottom: 20}}>
           <div style={{fontSize: 11, fontWeight: 600, color: 'var(--muted)', marginBottom: 8}}>
-            {selectedPreset ? `${selectedPreset.charAt(0).toUpperCase() + selectedPreset.slice(1)} Goal` : 'Custom Macros'}
+            {selectedPreset ? selectedPreset.charAt(0).toUpperCase() + selectedPreset.slice(1) : 'Custom Macros'}
           </div>
           <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 6}}>
             {Object.keys(presetsWithCarbs).map((presetKey) => {
               // Determine which presets to show based on goal weight vs current weight
+              // Show all three if: goalWeight is empty OR goalWeight === currentWeight
+              // If goalWeight < currentWeight (losing): show Cut and Maintain only
+              // If goalWeight > currentWeight (gaining): show Maintain and Bulk only
               let shouldShow = true;
               if (goalWeightLbs && lbs) {
-                if (goalWeightLbs < lbs && presetKey === 'bulk') {
+                const goalWtFloat = parseFloat(goalWeightLbs);
+                const currWtFloat = parseFloat(lbs);
+
+                if (goalWtFloat < currWtFloat && presetKey === 'bulk') {
                   shouldShow = false; // Hide Bulk if losing weight
-                }
-                if (goalWeightLbs > lbs && presetKey === 'cut') {
+                } else if (goalWtFloat > currWtFloat && presetKey === 'cut') {
                   shouldShow = false; // Hide Cut if gaining weight
                 }
               }
