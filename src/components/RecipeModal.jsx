@@ -1,16 +1,46 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 
+const SUBSTITUTIONS = {
+  "Ground Turkey (93% lean)": ["Ground Chicken", "Ground Beef (93% lean)", "Canned Chicken"],
+  "Chicken Thighs (boneless, skinless)": ["Chicken Breast", "Ground Turkey", "Rotisserie Chicken"],
+  "Salmon Fillet": ["Cod", "Canned Salmon pouch", "Tilapia"],
+  "Cod Fillet": ["Salmon", "Tilapia", "Shrimp"],
+  "Ground Beef (93% lean)": ["Ground Turkey", "Ground Bison", "Canned Beef"],
+  "Canned Tuna": ["Canned Salmon", "Canned Chicken", "Sardines"],
+  "White Rice Pouch (microwave)": ["Brown Rice Pouch", "Quinoa pouch", "Cauliflower rice bag"],
+  "Frozen Broccoli (steam-bag)": ["Frozen Green Beans", "Frozen Spinach", "Frozen Mixed Veg"],
+  "Frozen Green Beans (steam-bag)": ["Frozen Broccoli", "Frozen Asparagus", "Frozen Mixed Veg"],
+  "Greek Yogurt": ["Skyr (Siggi's)", "Cottage Cheese", "Quark"],
+  "Whole Eggs (3 large)": ["Egg whites (carton)", "Tofu scramble"],
+};
+
 export default function RecipeModal({recipe, onClose}) {
   const [logged, setLogged] = useState(false);
   const [logging, setLogging] = useState(false);
   const [error, setError] = useState(null);
+  const [expandedSwap, setExpandedSwap] = useState(null);
+  const [componentNames, setComponentNames] = useState({});
 
   useEffect(() => {
     // Reset logged state when modal opens for a new recipe
     setLogged(false);
     setError(null);
+    setExpandedSwap(null);
+    setComponentNames({});
   }, [recipe?.id]);
+
+  const getSubstitutions = (ingredientName) => {
+    return SUBSTITUTIONS[ingredientName] || null;
+  };
+
+  const handleSwapComponent = (index, newName) => {
+    setComponentNames(prev => ({
+      ...prev,
+      [index]: newName,
+    }));
+    setExpandedSwap(null);
+  };
 
   if (!recipe) return null;
   const r = recipe;
@@ -82,18 +112,96 @@ export default function RecipeModal({recipe, onClose}) {
         {r.components && r.components.length > 0 && (
           <div style={{marginBottom: 16}}>
             <div style={{fontSize: 12, fontWeight: 700, color: "var(--muted)", marginBottom: 8, textTransform: "uppercase", letterSpacing: 1}}>Components</div>
-            {r.components.map((c, i) => (
-              <div key={i} style={{display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 0", borderBottom: "1px solid var(--border)"}}>
-                <div>
-                  <div style={{fontSize: 13, fontWeight: 600, color: "var(--cream)"}}>{c.name}</div>
-                  <div style={{fontSize: 11, color: "var(--muted)"}}>{c.type} · {c.grams}g{c.weighRaw ? " (weigh raw)" : ""}</div>
+            {r.components.map((c, i) => {
+              const displayName = componentNames[i] || c.name;
+              const substitutions = getSubstitutions(c.name);
+              return (
+                <div key={i}>
+                  <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 0", borderBottom: "1px solid var(--border)"}}>
+                    <div style={{flex: 1}}>
+                      <div style={{fontSize: 13, fontWeight: 600, color: "var(--cream)"}}>{displayName}</div>
+                      <div style={{fontSize: 11, color: "var(--muted)"}}>{c.type} · {c.grams}g{c.weighRaw ? " (weigh raw)" : ""}</div>
+                    </div>
+                    <div style={{display: "flex", gap: 12, alignItems: "center"}}>
+                      <div style={{textAlign: "right", fontSize: 12, color: "var(--muted)"}}>
+                        <div style={{color: "var(--orange)", fontWeight: 600}}>{c.cal} cal</div>
+                        <div>{c.p || c.protein}g P</div>
+                      </div>
+                      {substitutions && (
+                        <button
+                          onClick={() => setExpandedSwap(expandedSwap === i ? null : i)}
+                          style={{
+                            background: "transparent",
+                            border: "1px solid var(--border)",
+                            color: "var(--muted)",
+                            borderRadius: 6,
+                            padding: "4px 8px",
+                            fontSize: 11,
+                            fontWeight: 600,
+                            cursor: "pointer",
+                            transition: "all 0.15s",
+                            whiteSpace: "nowrap",
+                          }}
+                          onMouseEnter={(e) => {
+                            e.target.style.borderColor = "var(--lime)";
+                            e.target.style.color = "var(--lime)";
+                          }}
+                          onMouseLeave={(e) => {
+                            e.target.style.borderColor = "var(--border)";
+                            e.target.style.color = "var(--muted)";
+                          }}
+                        >
+                          Swap
+                        </button>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Substitution Panel */}
+                  {expandedSwap === i && substitutions && (
+                    <div style={{padding: "8px 0 12px 0", borderBottom: "1px solid var(--border)"}}>
+                      <div style={{fontSize: 10, color: "var(--muted)", marginBottom: 8}}>Alternatives:</div>
+                      <div style={{display: "flex", flexWrap: "wrap", gap: 6}}>
+                        {substitutions.map((sub, j) => (
+                          <button
+                            key={j}
+                            onClick={() => handleSwapComponent(i, sub)}
+                            style={{
+                              background: "var(--s2)",
+                              border: "1px solid var(--lime)",
+                              color: "var(--lime)",
+                              borderRadius: 20,
+                              padding: "6px 12px",
+                              fontSize: 12,
+                              fontWeight: 600,
+                              cursor: "pointer",
+                              transition: "all 0.15s",
+                            }}
+                            onMouseEnter={(e) => {
+                              e.target.style.background = "var(--lime)";
+                              e.target.style.color = "#000";
+                            }}
+                            onMouseLeave={(e) => {
+                              e.target.style.background = "var(--s2)";
+                              e.target.style.color = "var(--lime)";
+                            }}
+                          >
+                            {sub}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* No swaps available */}
+                  {expandedSwap === i && !substitutions && (
+                    <div style={{padding: "8px 0 12px 0", borderBottom: "1px solid var(--border)", fontSize: 11, color: "var(--muted)"}}>
+                      No swaps available for this ingredient
+                    </div>
+                  )}
                 </div>
-                <div style={{textAlign: "right", fontSize: 12, color: "var(--muted)"}}>
-                  <div style={{color: "var(--orange)", fontWeight: 600}}>{c.cal} cal</div>
-                  <div>{c.p || c.protein}g P</div>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
 
