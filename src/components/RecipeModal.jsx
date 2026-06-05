@@ -6,22 +6,26 @@ const MACRO_VALUES = {
   // Proteins
   "tilapia": { cal: 96, protein: 20, carbs: 0, fat: 2 },
   "cod": { cal: 82, protein: 18, carbs: 0, fat: 1 },
+  "salmon": { cal: 142, protein: 20, carbs: 0, fat: 6 },
   "canned salmon": { cal: 130, protein: 20, carbs: 0, fat: 5 },
   "shrimp": { cal: 85, protein: 18, carbs: 1, fat: 1 },
   "chicken breast": { cal: 110, protein: 23, carbs: 0, fat: 1 },
+  "chicken thighs": { cal: 119, protein: 19, carbs: 0, fat: 4 },
   "ground chicken": { cal: 143, protein: 27, carbs: 0, fat: 3 },
-  "ground turkey": { cal: 123, protein: 22, carbs: 0, fat: 4 },
+  "ground turkey": { cal: 149, protein: 19, carbs: 0, fat: 8 },
   "ground beef": { cal: 137, protein: 21, carbs: 0, fat: 5 },
   "canned chicken": { cal: 100, protein: 22, carbs: 0, fat: 1 },
   "rotisserie chicken": { cal: 165, protein: 28, carbs: 0, fat: 6 },
   "ground bison": { cal: 146, protein: 21, carbs: 0, fat: 7 },
 
   // Carbs
+  "white rice": { cal: 130, protein: 3, carbs: 28, fat: 0 },
   "cauliflower rice": { cal: 25, protein: 2, carbs: 5, fat: 0 },
   "brown rice": { cal: 108, protein: 2, carbs: 22, fat: 1 },
   "quinoa": { cal: 120, protein: 4, carbs: 22, fat: 2 },
 
   // Vegetables
+  "frozen broccoli": { cal: 35, protein: 3, carbs: 6, fat: 0 },
   "frozen green beans": { cal: 31, protein: 2, carbs: 7, fat: 0 },
   "frozen spinach": { cal: 23, protein: 3, carbs: 3, fat: 0 },
   "frozen peas": { cal: 77, protein: 5, carbs: 14, fat: 0 },
@@ -495,8 +499,9 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
 
     try {
       const apiKey = import.meta.env.VITE_USDA_API_KEY;
+      const searchQuery = query.includes("raw") ? query : query + ", raw";
       const response = await fetch(
-        `https://api.nal.usda.gov/fdc/v1/foods/search?query=${encodeURIComponent(query)}&dataType=Foundation,SR%20Legacy&pageSize=5&api_key=${apiKey}`
+        `https://api.nal.usda.gov/fdc/v1/foods/search?query=${encodeURIComponent(searchQuery)}&dataType=Foundation,SR%20Legacy&pageSize=20&api_key=${apiKey}`
       );
 
       if (!response.ok) {
@@ -506,7 +511,8 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
       const data = await response.json();
 
       // Parse food results
-      const foods = (data.foods || []).map(food => {
+      const cookedKeywords = ["cooked", "broiled", "baked", "fried", "roasted", "grilled", "dried", "canned"];
+      let foods = (data.foods || []).map(food => {
         const getNutrientValue = (nutrientName) => {
           const nutrient = food.foodNutrients?.find(n =>
             n.nutrientName && n.nutrientName.includes(nutrientName) && n.value !== null
@@ -523,7 +529,19 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
         };
       });
 
-      setUsdaResults(foods);
+      // Filter out cooked items
+      const rawFoods = foods.filter(food => {
+        const desc = food.name.toLowerCase();
+        return !cookedKeywords.some(keyword => desc.includes(keyword));
+      });
+
+      // Use filtered results if available, otherwise show all with a note
+      const resultsToShow = rawFoods.length > 0 ? rawFoods : foods;
+      if (foods.length > 0 && rawFoods.length === 0) {
+        setUsdaError("Showing all options — select raw where possible");
+      }
+
+      setUsdaResults(resultsToShow.slice(0, 5));
     } catch (err) {
       console.error("USDA API error:", err);
       setUsdaError("Search unavailable — try a preset above");
@@ -814,28 +832,23 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
                         style={{
                           background: "transparent",
                           border: "1px solid var(--border)",
-                          color: substitutions ? "var(--muted)" : "var(--s3)",
+                          color: "var(--muted)",
                           borderRadius: 6,
                           padding: "4px 8px",
                           fontSize: 11,
                           fontWeight: 600,
-                          cursor: substitutions ? "pointer" : "not-allowed",
+                          cursor: "pointer",
                           transition: "all 0.15s",
                           whiteSpace: "nowrap",
-                          opacity: substitutions ? 1 : 0.5,
+                          opacity: 1,
                         }}
-                        disabled={!substitutions}
                         onMouseEnter={(e) => {
-                          if (substitutions) {
-                            e.target.style.borderColor = "var(--lime)";
-                            e.target.style.color = "var(--lime)";
-                          }
+                          e.target.style.borderColor = "var(--lime)";
+                          e.target.style.color = "var(--lime)";
                         }}
                         onMouseLeave={(e) => {
-                          if (substitutions) {
-                            e.target.style.borderColor = "var(--border)";
-                            e.target.style.color = "var(--muted)";
-                          }
+                          e.target.style.borderColor = "var(--border)";
+                          e.target.style.color = "var(--muted)";
                         }}
                       >
                         Swap

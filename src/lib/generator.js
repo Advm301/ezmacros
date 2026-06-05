@@ -87,10 +87,10 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
 
   // Only set a default veg if we have a specific one detected, or if not cooking eggs
   const veg = hasGreenBeans ? "Green Beans (steam-bag)" : hasBroccoli ? "Frozen Broccoli (steam-bag)" : hasMixedVeg ? "Frozen Mixed Veg (steam-bag)" : hasSpinach ? "Frozen Spinach (microwave)" : null;
-  const vegCal = 40; const vegP = 2; const vegC = 8; const vegF = 0; const vegGrams = 85;
+  const vegCal = 30; const vegP = 3; const vegC = 5; const vegF = 0; const vegGrams = 85;
 
   const carbName = hasRice ? "White Rice Pouch (microwave)" : hasPasta ? "Microwave Pasta Cup" : "White Rice Pouch (microwave)";
-  const carbCal = 200; const carbP = 4; const carbC = 44; const carbF = 1; const carbGrams = 200;
+  const carbCal = 260; const carbP = 6; const carbC = 56; const carbF = 0; const carbGrams = 200;
 
   const results = [];
 
@@ -108,9 +108,9 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
       name:codName, emoji:"🐟", method:cookMethod!=="Any"?cookMethod:"Bake", ezLevel,
       spiceLevel,
       tags:["High Protein","Omega-3","Low Fat",isSpicy?(heatLevel===3?"Hot":heatLevel===2?"Medium Heat":"Mild Heat"):"Neutral",isSaucy?"Saucy":"",isAsian?"Asian-Inspired":"Gluten-Free"].filter(Boolean),
-      totalCal:380, totalProtein:38, totalCarbs:44, totalFat:4, activeMinutes:3, stepCount:4,
+      totalCal:470, totalProtein:42, totalCarbs:61, totalFat:3, activeMinutes:3, stepCount:4,
       components:[
-        {name:"Cod Fillet",type:"Protein",grams:170,cal:140,protein:30,carbs:0,fat:1,weighRaw:true},
+        {name:"Cod Fillet",type:"Protein",grams:170,cal:139,protein:31,carbs:0,fat:2,weighRaw:true},
         ...(splitCombinedIngredient(codSauce) || [{name:codSauce,type:"Sauce",grams:codSauceG,cal:codSauceCal,protein:1,carbs:isAsian||isSpicy?4:2,fat:0,weighRaw:false}]),
         ...(isSpicy && spiceLevel >= 3 ? [{name:"Red Pepper Flakes",type:"Seasoning",grams:1,cal:3,protein:0,carbs:1,fat:0,weighRaw:false}] : []),
         {name:carbName,type:"Carb",grams:carbGrams,cal:carbCal,protein:carbP,carbs:carbC,fat:carbF,weighRaw:false},
@@ -142,10 +142,10 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
       emoji:"🍗", method:cookMethod!=="Any"?cookMethod:"Air Fryer", ezLevel,
       spiceLevel,
       tags:["High Protein",isSpicy?(heatLevel===3?"Hot":heatLevel===2?"Medium Heat":"Mild Heat"):"Neutral",isSaucy?"Saucy":"",isAsian?"Asian-Inspired":"Gluten-Free","Keto"].filter(Boolean),
-      totalCal:isSaucy?370:340, totalProtein:40, totalCarbs:hasRice?44:4, totalFat:18,
+      totalCal:isSaucy?410:380, totalProtein:42, totalCarbs:hasRice?61:5, totalFat:12,
       activeMinutes:4, stepCount:3,
       components:[
-        {name:"Chicken Thighs (boneless, skinless)",type:"Protein",grams:170,cal:220,protein:35,carbs:0,fat:9,weighRaw:true},
+        {name:"Chicken Thighs (boneless, skinless)",type:"Protein",grams:170,cal:202,protein:32,carbs:0,fat:7,weighRaw:true},
         ...(splitCombinedIngredient(sauceLabel) || [{name:sauceLabel,type:isAsian||isSpicy||isSaucy?"Sauce":"Seasoning",grams:sauceG,cal:sauceCal,protein:1,carbs:isSaucy?6:2,fat:0,weighRaw:false}]),
         ...(isSpicy && spiceLevel >= 3 ? [{name:"Red Pepper Flakes",type:"Seasoning",grams:1,cal:3,protein:0,carbs:1,fat:0,weighRaw:false}] : []),
         ...(hasRice?[{name:carbName,type:"Carb",grams:carbGrams,cal:carbCal,protein:carbP,carbs:carbC,fat:carbF,weighRaw:false}]:[]),
@@ -176,7 +176,7 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
       name:beefName, emoji:"🥩", method:cookMethod!=="Any"?cookMethod:"Slow Cooker", ezLevel,
       spiceLevel,
       tags:["High Protein",isSpicy?(heatLevel===3?"Hot":heatLevel===2?"Medium Heat":"Mild Heat"):"Neutral",isSaucy?"Saucy":"",isAsian?"Asian-Inspired":"Bulk Friendly","Meal Prep"].filter(Boolean),
-      totalCal:isSaucy?560:520, totalProtein:45, totalCarbs:48, totalFat:isSaucy?16:14,
+      totalCal:isSaucy?565:510, totalProtein:48, totalCarbs:61, totalFat:isSaucy?13:10,
       activeMinutes:5, stepCount:4,
       components:[
         {name:"Ground Beef (93% lean)",type:"Protein",grams:142,cal:195,protein:30,carbs:0,fat:7,weighRaw:true},
@@ -211,10 +211,10 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
       name:turkeyName, emoji:"🦃", method:cookMethod!=="Any"?cookMethod:"Skillet", ezLevel,
       spiceLevel,
       tags:["High Protein","Lean",isSpicy?(heatLevel===3?"Hot":heatLevel===2?"Medium Heat":"Mild Heat"):"Neutral",isSaucy?"Saucy":"",isAsian?"Asian-Inspired":"Bulk Friendly"].filter(Boolean),
-      totalCal:isSaucy?580:540, totalProtein:46, totalCarbs:48, totalFat:isSaucy?18:16,
+      totalCal:isSaucy?600:560, totalProtein:50, totalCarbs:61, totalFat:isSaucy?21:18,
       activeMinutes:6, stepCount:4,
       components:[
-        {name:"Ground Turkey (93% lean)",type:"Protein",grams:170,cal:200,protein:35,carbs:0,fat:6,weighRaw:true},
+        {name:"Ground Turkey (93% lean)",type:"Protein",grams:170,cal:253,protein:32,carbs:0,fat:14,weighRaw:true},
         ...(splitCombinedIngredient(turkeySauce) || [{name:turkeySauce,type:isSaucy||isAsian||isSpicy?"Sauce":"Seasoning",grams:turkeySauceG,cal:turkeySauceCal,protein:1,carbs:isSaucy?8:2,fat:0,weighRaw:false}]),
         ...(isSpicy && spiceLevel >= 3 ? [{name:"Red Pepper Flakes",type:"Seasoning",grams:1,cal:3,protein:0,carbs:1,fat:0,weighRaw:false}] : []),
         {name:carbName,type:"Carb",grams:carbGrams,cal:carbCal,protein:carbP,carbs:carbC,fat:carbF,weighRaw:false},
@@ -246,9 +246,9 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
       emoji:"🐠", method:cookMethod!=="Any"?cookMethod:"Bake", ezLevel,
       spiceLevel,
       tags:["High Protein","Omega-3",isSpicy?(heatLevel===3?"Hot":heatLevel===2?"Medium Heat":"Mild Heat"):"Neutral",isSaucy?"Saucy":"",isAsian?"Asian-Inspired":"Gluten-Free"].filter(Boolean),
-      totalCal:isSaucy?460:430, totalProtein:42, totalCarbs:44, totalFat:20, activeMinutes:3, stepCount:3,
+      totalCal:isSaucy?500:470, totalProtein:44, totalCarbs:61, totalFat:16, activeMinutes:3, stepCount:3,
       components:[
-        {name:"Salmon Fillet",type:"Protein",grams:170,cal:280,protein:36,carbs:0,fat:14,weighRaw:true},
+        {name:"Salmon Fillet",type:"Protein",grams:170,cal:241,protein:34,carbs:0,fat:10,weighRaw:true},
         ...(splitCombinedIngredient(salmonSauce) || [{name:salmonSauce,type:"Sauce",grams:salmonG,cal:salmonCal,protein:1,carbs:isSaucy?6:2,fat:1,weighRaw:false}]),
         ...(isSpicy && spiceLevel >= 3 ? [{name:"Red Pepper Flakes",type:"Seasoning",grams:1,cal:3,protein:0,carbs:1,fat:0,weighRaw:false}] : []),
         {name:carbName,type:"Carb",grams:carbGrams,cal:carbCal,protein:carbP,carbs:carbC,fat:carbF,weighRaw:false},
