@@ -504,24 +504,92 @@ export default function Today({onTabFocus, onUpdateEzLevel}) {
 }
 
 function GoalsModal({ goals, user, onClose, onSave }) {
-  const [cal, setCal] = useState(goals?.cal || 2200);
+  // Personal stats
+  const [sex, setSex] = useState(goals?.sex || 'Male');
+  const [age, setAge] = useState(goals?.age || 30);
+  const [weightLbs, setWeightLbs] = useState(goals?.weight_lbs || 180);
+  const [heightCm, setHeightCm] = useState(goals?.height_cm || 180);
+  const [activityLevel, setActivityLevel] = useState(goals?.activity_level || 'Moderately Active');
+  const [isMetric, setIsMetric] = useState(false);
+
+  // Macro goals
   const [protein, setProtein] = useState(goals?.protein || 180);
   const [carbs, setCarbs] = useState(goals?.carbs || 220);
   const [fat, setFat] = useState(goals?.fat || 60);
   const [ezLevel, setEzLevel] = useState(goals?.ez_level || 'Easy');
   const [saving, setSaving] = useState(false);
 
-  const PRESETS = {
-    Cut: { cal: 1800, protein: 200, carbs: 150, fat: 50 },
-    Maintain: { cal: 2200, protein: 180, carbs: 220, fat: 60 },
-    Bulk: { cal: 2800, protein: 200, carbs: 300, fat: 80 },
+  const ACTIVITY_MULTIPLIERS = {
+    'Sedentary': 1.2,
+    'Lightly Active': 1.375,
+    'Moderately Active': 1.55,
+    'Very Active': 1.725,
+    'Athlete': 1.9,
   };
+
+  // Convert between metric and imperial
+  const getLbsValue = () => isMetric ? Math.round(heightCm * 2.205) : weightLbs;
+  const getKgValue = () => isMetric ? weightLbs : Math.round(weightLbs / 2.205);
+  const getCmValue = () => isMetric ? weightLbs : Math.round(heightCm);
+  const getFeetInches = () => {
+    const cm = getCmValue();
+    const feet = Math.floor(cm / 30.48);
+    const inches = Math.round((cm % 30.48) / 2.54);
+    return { feet, inches };
+  };
+
+  // Calculate TDEE
+  const calculateTDEE = () => {
+    const kg = getKgValue();
+    const cm = getCmValue();
+    let bmr;
+
+    if (sex === 'Male') {
+      bmr = (10 * kg) + (6.25 * cm) - (5 * age) + 5;
+    } else {
+      bmr = (10 * kg) + (6.25 * cm) - (5 * age) - 161;
+    }
+
+    const multiplier = ACTIVITY_MULTIPLIERS[activityLevel] || 1.55;
+    return Math.round(bmr * multiplier);
+  };
+
+  const tdee = calculateTDEE();
+  const lbs = getLbsValue();
+
+  // Calculate presets based on TDEE
+  const PRESETS = {
+    Cut: {
+      cal: Math.round(tdee - 500),
+      protein: Math.round(lbs * 1.0),
+      fat: Math.round((tdee - 500) * 0.25 / 9),
+    },
+    Maintain: {
+      cal: tdee,
+      protein: Math.round(lbs * 0.8),
+      fat: Math.round(tdee * 0.25 / 9),
+    },
+    Bulk: {
+      cal: Math.round(tdee + 300),
+      protein: Math.round(lbs * 0.9),
+      fat: Math.round((tdee + 300) * 0.25 / 9),
+    },
+  };
+
+  // Calculate carbs from remaining calories
+  const calculateCarbs = (calTotal, proteinG, fatG) => {
+    const proteinCal = proteinG * 4;
+    const fatCal = fatG * 9;
+    const remaining = calTotal - proteinCal - fatCal;
+    return Math.round(Math.max(0, remaining / 4));
+  };
+
+  const calculatedCal = (protein * 4) + (carbs * 4) + (fat * 9);
+  const displayCarbs = calculateCarbs(calculatedCal, protein, fat);
 
   const applyPreset = (presetName) => {
     const preset = PRESETS[presetName];
-    setCal(preset.cal);
     setProtein(preset.protein);
-    setCarbs(preset.carbs);
     setFat(preset.fat);
   };
 
@@ -533,15 +601,31 @@ function GoalsModal({ goals, user, onClose, onSave }) {
         .from('goals')
         .upsert({
           user_id: user.id,
-          cal: parseInt(cal),
+          cal: calculatedCal,
           protein: parseInt(protein),
-          carbs: parseInt(carbs),
+          carbs: displayCarbs,
           fat: parseInt(fat),
           ez_level: ezLevel,
+          sex,
+          age: parseInt(age),
+          weight_lbs: lbs,
+          height_cm: getCmValue(),
+          activity_level: activityLevel,
         });
 
       if (error) throw error;
-      onSave({ cal: parseInt(cal), protein: parseInt(protein), carbs: parseInt(carbs), fat: parseInt(fat), ez_level: ezLevel });
+      onSave({
+        cal: calculatedCal,
+        protein: parseInt(protein),
+        carbs: displayCarbs,
+        fat: parseInt(fat),
+        ez_level: ezLevel,
+        sex,
+        age: parseInt(age),
+        weight_lbs: lbs,
+        height_cm: getCmValue(),
+        activity_level: activityLevel,
+      });
       onClose();
     } catch (err) {
       console.error('Error saving goals:', err);
@@ -549,6 +633,8 @@ function GoalsModal({ goals, user, onClose, onSave }) {
       setSaving(false);
     }
   };
+
+  const { feet, inches } = getFeetInches();
 
   return (
     <div style={{
@@ -562,18 +648,19 @@ function GoalsModal({ goals, user, onClose, onSave }) {
       alignItems: 'center',
       justifyContent: 'center',
       zIndex: 1000,
+      overflowY: 'auto',
+      padding: '20px 0',
     }}>
       <div style={{
         background: 'var(--bg)',
         border: '1px solid var(--border)',
         borderRadius: 16,
         padding: 24,
-        maxWidth: 400,
-        width: '90%',
-        maxHeight: '90vh',
-        overflowY: 'auto',
+        maxWidth: 500,
+        width: '95%',
+        margin: 'auto',
       }}>
-        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20}}>
+        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24}}>
           <div style={{fontSize: 18, fontWeight: 700, color: 'var(--cream)'}}>My Goals</div>
           <button
             onClick={onClose}
@@ -588,6 +675,234 @@ function GoalsModal({ goals, user, onClose, onSave }) {
           >
             ×
           </button>
+        </div>
+
+        {/* Personal Stats Section */}
+        <div style={{background: 'var(--s1)', border: '1px solid var(--border)', borderRadius: 12, padding: 16, marginBottom: 24}}>
+          <div style={{fontSize: 12, fontWeight: 700, color: 'var(--lime)', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 12}}>
+            Personal Stats
+          </div>
+
+          {/* Unit Toggle */}
+          <div style={{display: 'flex', gap: 6, marginBottom: 12}}>
+            {['Imperial', 'Metric'].map((unit) => (
+              <button
+                key={unit}
+                onClick={() => setIsMetric(unit === 'Metric')}
+                style={{
+                  flex: 1,
+                  padding: '8px 12px',
+                  borderRadius: 16,
+                  border: '1px solid var(--border)',
+                  background: (isMetric && unit === 'Metric') || (!isMetric && unit === 'Imperial') ? 'var(--lime)' : 'var(--s2)',
+                  color: (isMetric && unit === 'Metric') || (!isMetric && unit === 'Imperial') ? '#000' : 'var(--cream)',
+                  fontSize: 11,
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  transition: 'all 0.15s',
+                }}
+              >
+                {unit}
+              </button>
+            ))}
+          </div>
+
+          {/* Stats Inputs - 2 column grid */}
+          <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 12}}>
+            {/* Sex */}
+            <div>
+              <label style={{fontSize: 11, fontWeight: 600, color: 'var(--muted)', display: 'block', marginBottom: 6}}>
+                Sex
+              </label>
+              <div style={{display: 'flex', gap: 6}}>
+                {['Male', 'Female'].map((s) => (
+                  <button
+                    key={s}
+                    onClick={() => setSex(s)}
+                    style={{
+                      flex: 1,
+                      padding: '8px 8px',
+                      borderRadius: 8,
+                      border: '1px solid var(--border)',
+                      background: sex === s ? 'var(--lime)' : 'var(--s2)',
+                      color: sex === s ? '#000' : 'var(--cream)',
+                      fontSize: 11,
+                      fontWeight: 600,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {s}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Age */}
+            <div>
+              <label style={{fontSize: 11, fontWeight: 600, color: 'var(--muted)', display: 'block', marginBottom: 6}}>
+                Age
+              </label>
+              <input
+                type="number"
+                min="15"
+                max="80"
+                value={age}
+                onChange={(e) => setAge(parseInt(e.target.value) || 30)}
+                style={{
+                  width: '100%',
+                  padding: '8px 12px',
+                  background: 'var(--bg)',
+                  border: '1px solid var(--border)',
+                  borderRadius: 8,
+                  color: 'var(--cream)',
+                  fontSize: 12,
+                  fontWeight: 600,
+                  boxSizing: 'border-box',
+                }}
+              />
+            </div>
+
+            {/* Weight */}
+            <div>
+              <label style={{fontSize: 11, fontWeight: 600, color: 'var(--muted)', display: 'block', marginBottom: 6}}>
+                {isMetric ? 'Weight (kg)' : 'Weight (lbs)'}
+              </label>
+              <input
+                type="number"
+                value={isMetric ? Math.round(weightLbs / 2.205) : weightLbs}
+                onChange={(e) => {
+                  const val = parseInt(e.target.value) || 0;
+                  setWeightLbs(isMetric ? Math.round(val * 2.205) : val);
+                }}
+                style={{
+                  width: '100%',
+                  padding: '8px 12px',
+                  background: 'var(--bg)',
+                  border: '1px solid var(--border)',
+                  borderRadius: 8,
+                  color: 'var(--cream)',
+                  fontSize: 12,
+                  fontWeight: 600,
+                  boxSizing: 'border-box',
+                }}
+              />
+            </div>
+
+            {/* Height */}
+            <div>
+              <label style={{fontSize: 11, fontWeight: 600, color: 'var(--muted)', display: 'block', marginBottom: 6}}>
+                {isMetric ? 'Height (cm)' : 'Height'}
+              </label>
+              {isMetric ? (
+                <input
+                  type="number"
+                  value={heightCm}
+                  onChange={(e) => setHeightCm(parseInt(e.target.value) || 180)}
+                  style={{
+                    width: '100%',
+                    padding: '8px 12px',
+                    background: 'var(--bg)',
+                    border: '1px solid var(--border)',
+                    borderRadius: 8,
+                    color: 'var(--cream)',
+                    fontSize: 12,
+                    fontWeight: 600,
+                    boxSizing: 'border-box',
+                  }}
+                />
+              ) : (
+                <div style={{display: 'flex', gap: 6}}>
+                  <input
+                    type="number"
+                    min="4"
+                    max="7"
+                    placeholder="ft"
+                    value={feet}
+                    onChange={(e) => {
+                      const newFeet = parseInt(e.target.value) || 0;
+                      setHeightCm(Math.round(newFeet * 30.48 + inches * 2.54));
+                    }}
+                    style={{
+                      flex: 1,
+                      padding: '8px 6px',
+                      background: 'var(--bg)',
+                      border: '1px solid var(--border)',
+                      borderRadius: 8,
+                      color: 'var(--cream)',
+                      fontSize: 12,
+                      fontWeight: 600,
+                      boxSizing: 'border-box',
+                    }}
+                  />
+                  <input
+                    type="number"
+                    min="0"
+                    max="11"
+                    placeholder="in"
+                    value={inches}
+                    onChange={(e) => {
+                      const newInches = parseInt(e.target.value) || 0;
+                      setHeightCm(Math.round(feet * 30.48 + newInches * 2.54));
+                    }}
+                    style={{
+                      flex: 1,
+                      padding: '8px 6px',
+                      background: 'var(--bg)',
+                      border: '1px solid var(--border)',
+                      borderRadius: 8,
+                      color: 'var(--cream)',
+                      fontSize: 12,
+                      fontWeight: 600,
+                      boxSizing: 'border-box',
+                    }}
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Activity Level */}
+          <div>
+            <label style={{fontSize: 11, fontWeight: 600, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: 0.5, display: 'block', marginBottom: 8}}>
+              Activity Level
+            </label>
+            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6}}>
+              {Object.keys(ACTIVITY_MULTIPLIERS).map((level) => (
+                <button
+                  key={level}
+                  onClick={() => setActivityLevel(level)}
+                  style={{
+                    padding: '8px 10px',
+                    borderRadius: 8,
+                    border: '1px solid var(--border)',
+                    background: activityLevel === level ? 'var(--lime)' : 'var(--s2)',
+                    color: activityLevel === level ? '#000' : 'var(--cream)',
+                    fontSize: 11,
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    transition: 'all 0.15s',
+                  }}
+                >
+                  {level}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* TDEE Display */}
+          <div style={{
+            background: 'var(--bg)',
+            border: '1px solid var(--lime)',
+            borderRadius: 8,
+            padding: 12,
+            marginTop: 12,
+            textAlign: 'center',
+          }}>
+            <div style={{fontSize: 10, color: 'var(--muted)', marginBottom: 4}}>Estimated Daily Energy Expenditure</div>
+            <div style={{fontSize: 20, fontWeight: 700, color: 'var(--lime)'}}>
+              {tdee} cal
+            </div>
+          </div>
         </div>
 
         {/* EZ Level Selector */}
@@ -619,47 +934,48 @@ function GoalsModal({ goals, user, onClose, onSave }) {
           </div>
         </div>
 
-        {/* Preset Pills */}
+        {/* Preset Pills with Calculated Calories */}
         <div style={{marginBottom: 20}}>
-          <div style={{display: 'flex', gap: 6}}>
+          <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 6}}>
             {Object.keys(PRESETS).map((presetName) => (
               <button
                 key={presetName}
                 onClick={() => applyPreset(presetName)}
                 style={{
-                  flex: 1,
-                  padding: '8px 12px',
-                  borderRadius: 16,
+                  padding: '12px 8px',
+                  borderRadius: 12,
                   border: '1px solid var(--lime)',
                   background: 'var(--s2)',
                   color: 'var(--lime)',
-                  fontSize: 12,
-                  fontWeight: 600,
                   cursor: 'pointer',
                   transition: 'all 0.15s',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: 4,
                 }}
                 onMouseEnter={(e) => {
-                  e.target.style.background = 'var(--lime)';
-                  e.target.style.color = '#000';
+                  e.currentTarget.style.background = 'var(--lime)';
+                  e.currentTarget.style.color = '#000';
                 }}
                 onMouseLeave={(e) => {
-                  e.target.style.background = 'var(--s2)';
-                  e.target.style.color = 'var(--lime)';
+                  e.currentTarget.style.background = 'var(--s2)';
+                  e.currentTarget.style.color = 'var(--lime)';
                 }}
               >
-                {presetName}
+                <div style={{fontSize: 12, fontWeight: 700}}>{presetName}</div>
+                <div style={{fontSize: 10, opacity: 0.8}}>{PRESETS[presetName].cal} cal</div>
               </button>
             ))}
           </div>
         </div>
 
-        {/* Macro Inputs */}
+        {/* Macro Inputs - Protein, Carbs, Fat (Calories calculated) */}
         <div style={{marginBottom: 20}}>
-          <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12}}>
+          <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12, marginBottom: 12}}>
             {[
-              { label: '🔥 Calories', value: cal, setValue: setCal, color: 'var(--orange)' },
               { label: '💪 Protein (g)', value: protein, setValue: setProtein, color: 'var(--lime)' },
-              { label: '🍚 Carbs (g)', value: carbs, setValue: setCarbs, color: 'var(--blue)' },
+              { label: '🍚 Carbs (g)', value: carbs, setValue: setCarbs, color: 'var(--blue)', newValue: displayCarbs },
               { label: '🥑 Fat (g)', value: fat, setValue: setFat, color: 'var(--muted)' },
             ].map((macro) => (
               <div key={macro.label}>
@@ -668,8 +984,14 @@ function GoalsModal({ goals, user, onClose, onSave }) {
                 </label>
                 <input
                   type="number"
-                  value={macro.value}
-                  onChange={(e) => macro.setValue(parseInt(e.target.value) || 0)}
+                  value={macro.newValue !== undefined ? macro.newValue : macro.value}
+                  onChange={(e) => {
+                    if (macro.label.includes('Carbs')) {
+                      setCarbs(parseInt(e.target.value) || 0);
+                    } else {
+                      macro.setValue(parseInt(e.target.value) || 0);
+                    }
+                  }}
                   style={{
                     width: '100%',
                     padding: '10px 12px',
@@ -684,6 +1006,23 @@ function GoalsModal({ goals, user, onClose, onSave }) {
                 />
               </div>
             ))}
+          </div>
+
+          {/* Calculated Calories Display */}
+          <div style={{
+            background: 'var(--s1)',
+            border: '1px solid var(--orange)',
+            borderRadius: 8,
+            padding: 12,
+            textAlign: 'center',
+          }}>
+            <div style={{fontSize: 10, color: 'var(--muted)', marginBottom: 4}}>🔥 Calculated Total</div>
+            <div style={{fontSize: 18, fontWeight: 700, color: 'var(--orange)'}}>
+              {calculatedCal} cal
+            </div>
+            <div style={{fontSize: 9, color: 'var(--muted)', marginTop: 6}}>
+              ({protein}g × 4) + ({displayCarbs}g × 4) + ({fat}g × 9)
+            </div>
           </div>
         </div>
 
