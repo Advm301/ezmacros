@@ -217,6 +217,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
   const [userHasModified, setUserHasModified] = useState(false);
   const [editingGramIndex, setEditingGramIndex] = useState(null);
   const [editingGramValue, setEditingGramValue] = useState("");
+  const [completedSteps, setCompletedSteps] = useState({});
 
   // Track original state to enable reset functionality
   const originalComponents = useRef([]);
@@ -261,6 +262,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
     setIsModified(false);
     setHasUnsavedChanges(false);
     setResetConfirming(false);
+    setCompletedSteps({});
     if (resetConfirmTimeoutRef.current) clearTimeout(resetConfirmTimeoutRef.current);
 
     // Initialize components, steps, and macros from recipe
@@ -615,6 +617,13 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
   const handleCancelEdit = () => {
     setEditingStepIndex(null);
     setEditingStepText('');
+  };
+
+  const handleStepCheck = (index) => {
+    setCompletedSteps(prev => ({
+      ...prev,
+      [index]: !prev[index]
+    }));
   };
 
   const handleGramChange = (index, newGramValue) => {
@@ -1494,8 +1503,31 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
                       </div>
                     </div>
                   ) : (
-                    <div style={{display: "flex", justifyContent: "space-between", alignItems: "flex-start"}}>
-                      <div style={{fontSize: 13, color: updatedStepIndices.has(i) ? "#000" : "var(--cream)", lineHeight: 1.5}}>{s}</div>
+                    <div style={{display: "flex", gap: 8, justifyContent: "space-between", alignItems: "flex-start", width: "100%"}}>
+                      <div style={{display: "flex", gap: 8, alignItems: "flex-start", flex: 1}}>
+                        <input
+                          type="checkbox"
+                          checked={completedSteps[i] || false}
+                          onChange={() => handleStepCheck(i)}
+                          style={{
+                            cursor: "pointer",
+                            marginTop: "2px",
+                            width: "18px",
+                            height: "18px",
+                            minWidth: "18px",
+                          }}
+                        />
+                        <div style={{
+                          fontSize: 13,
+                          color: completedSteps[i] ? "var(--muted)" : (updatedStepIndices.has(i) ? "#000" : "var(--cream)"),
+                          lineHeight: 1.5,
+                          textDecoration: completedSteps[i] ? "line-through" : "none",
+                          opacity: completedSteps[i] ? 0.6 : 1,
+                          transition: "all 0.15s",
+                        }}>
+                          {s}
+                        </div>
+                      </div>
                       <button
                         onClick={() => handleEditStep(i)}
                         style={{
@@ -1517,6 +1549,24 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
                 </div>
               </div>
             ))}
+            {Object.keys(completedSteps).length > 0 && (
+              <button
+                onClick={() => setCompletedSteps({})}
+                style={{
+                  marginTop: 8,
+                  background: "var(--s2)",
+                  color: "var(--muted)",
+                  border: "1px solid var(--border)",
+                  borderRadius: 6,
+                  padding: "6px 12px",
+                  fontSize: 12,
+                  fontWeight: 600,
+                  cursor: "pointer",
+                }}
+              >
+                Clear All Steps
+              </button>
+            )}
           </div>
         )}
 
