@@ -1,4 +1,5 @@
 export default function GenerateMealPlanModal({ isGenerating, onGenerate, onCancel }) {
+  console.log('[DEBUG] GenerateMealPlanModal rendering with isGenerating:', isGenerating);
   return (
     <div style={{
       position: 'fixed',
@@ -6,11 +7,11 @@ export default function GenerateMealPlanModal({ isGenerating, onGenerate, onCanc
       left: 0,
       right: 0,
       bottom: 0,
-      background: 'rgba(0, 0, 0, 0.7)',
+      background: 'rgba(0, 0, 0, 1.0)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      zIndex: 45,
+      zIndex: 9999,
     }}>
       <div style={{
         background: 'var(--s1)',
@@ -49,7 +50,10 @@ export default function GenerateMealPlanModal({ isGenerating, onGenerate, onCanc
             </div>
             <div style={{ display: 'flex', gap: 8 }}>
               <button
-                onClick={onCancel}
+                onClick={() => {
+                  console.log('[DEBUG] Modal [Cancel] button clicked');
+                  onCancel();
+                }}
                 style={{
                   flex: 1,
                   background: 'var(--s2)',
@@ -68,7 +72,10 @@ export default function GenerateMealPlanModal({ isGenerating, onGenerate, onCanc
                 Cancel
               </button>
               <button
-                onClick={onGenerate}
+                onClick={() => {
+                  console.log('[DEBUG] Modal [Generate] button clicked');
+                  onGenerate();
+                }}
                 style={{
                   flex: 1,
                   background: 'var(--lime)',

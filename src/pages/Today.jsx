@@ -237,9 +237,16 @@ export default function Today({goals: propsGoals, onTabFocus, onUpdateEzLevel, f
 
   // Generate meal plan for today
   const generateMealPlan = async () => {
-    if (!goals) return;
+    console.log('[DEBUG] generateMealPlan called');
+    if (!goals) {
+      console.log('[DEBUG] generateMealPlan: no goals, returning');
+      return;
+    }
+    console.log('[DEBUG] generateMealPlan: setting showGenerateMealModal to false');
     setShowGenerateMealModal(false);
+    console.log('[DEBUG] generateMealPlan: calling mealPlanner.generateMealPlan');
     await mealPlanner.generateMealPlan(selectedDate, goals, preferences);
+    console.log('[DEBUG] generateMealPlan: meal plan generated');
     setConfirmedMeals(new Set());
   };
 
@@ -925,7 +932,10 @@ export default function Today({goals: propsGoals, onTabFocus, onUpdateEzLevel, f
         <GenerateMealPlanModal
           isGenerating={mealPlanner.loading}
           onGenerate={generateMealPlan}
-          onCancel={() => setShowGenerateMealModal(false)}
+          onCancel={() => {
+            console.log('[DEBUG] GenerateMealPlanModal onCancel called');
+            setShowGenerateMealModal(false);
+          }}
         />
       )}
 
