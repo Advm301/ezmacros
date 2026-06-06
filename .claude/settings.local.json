@@ -8,7 +8,10 @@
       "Bash(npx vite:*)",
       "Bash(timeout 20 npm run dev)",
       "Bash(pkill:*)",
-      "Bash(npm run:*)"
+      "Bash(npm run:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
     ]
   }
 }
