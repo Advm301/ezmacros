@@ -250,18 +250,26 @@ export default function Today({goals: propsGoals, onTabFocus, onUpdateEzLevel, f
     setConfirmedMeals(new Set());
   };
 
-  // Handle meal confirmation (checkbox toggle)
-  const handleMealConfirm = async (mealType, isConfirmed) => {
-    const newConfirmed = new Set(confirmedMeals);
-    if (isConfirmed) {
-      newConfirmed.add(mealType);
-    } else {
-      newConfirmed.delete(mealType);
-    }
-    setConfirmedMeals(newConfirmed);
+  // Handle logging a meal from meal plan (called from RecipeModal)
+  const handleLogMealFromPlan = () => {
+    if (!mealPlanner.mealPlan || !openRecipe) return;
 
-    // TODO: Save confirmation status to database
-    // Will update meal_logs with confirmed_at timestamp
+    // Find the meal in the plan by recipe ID
+    const updatedMeals = mealPlanner.mealPlan.meals.map(m => {
+      if (m.recipe && m.recipe.id === openRecipe.id) {
+        return { ...m, confirmed: true };
+      }
+      return m;
+    });
+
+    // Update the meal plan with new confirmed status
+    mealPlanner.mealPlan.meals = updatedMeals;
+
+    console.log('[DEBUG] Meal logged from plan:', {
+      recipeName: openRecipe.name,
+      confirmedCount: updatedMeals.filter(m => m.confirmed).length,
+      totalMeals: updatedMeals.length,
+    });
   };
 
   // Handle meal swap
@@ -710,10 +718,8 @@ export default function Today({goals: propsGoals, onTabFocus, onUpdateEzLevel, f
               <MealPlanDisplay
                 mealPlan={mealPlanner.mealPlan}
                 goals={goals}
-                confirmedMeals={confirmedMeals}
-                onMealConfirm={handleMealConfirm}
                 onSwapMeal={handleSwapMeal}
-                onViewRecipe={setOpenRecipe}
+                onViewRecipe={(recipe) => setOpenRecipe({ ...recipe, fromMealPlan: true })}
                 onRegeneratePlan={() => setShowGenerateMealModal(true)}
                 onClearPlan={() => mealPlanner.clearMealPlan()}
                 isGenerating={mealPlanner.loading}
@@ -924,7 +930,16 @@ export default function Today({goals: propsGoals, onTabFocus, onUpdateEzLevel, f
         </div>
       </div>
 
-      {openRecipe && <RecipeModal recipe={openRecipe} onClose={() => setOpenRecipe(null)} onSave={loadData} isFavorited={isFavorited} toggleFavorite={toggleFavorite} />}
+      {openRecipe && (
+        <RecipeModal
+          recipe={openRecipe}
+          onClose={() => setOpenRecipe(null)}
+          onSave={loadData}
+          isFavorited={isFavorited}
+          toggleFavorite={toggleFavorite}
+          onLogMealFromPlan={openRecipe.fromMealPlan ? handleLogMealFromPlan : undefined}
+        />
+      )}
 
       {/* Meal Planner Modals */}
       {showGenerateMealModal && (

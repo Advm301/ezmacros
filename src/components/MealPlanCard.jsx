@@ -1,4 +1,4 @@
-export default function MealPlanCard({ meal, isConfirmed, onConfirm, onSwap, onViewRecipe }) {
+export default function MealPlanCard({ meal, onSwap, onViewRecipe }) {
   // Safety check: verify meal and recipe exist
   if (!meal) {
     console.error('[DEBUG] MealPlanCard: meal prop is undefined');
@@ -10,7 +10,7 @@ export default function MealPlanCard({ meal, isConfirmed, onConfirm, onSwap, onV
     return null;
   }
 
-  const { mealType, recipe, targetMacros } = meal;
+  const { mealType, recipe, targetMacros, confirmed } = meal;
 
   // Verify recipe has required properties
   if (!recipe.name || recipe.cal === undefined) {
@@ -47,32 +47,22 @@ export default function MealPlanCard({ meal, isConfirmed, onConfirm, onSwap, onV
         borderRadius: 12,
         padding: 14,
         marginBottom: 12,
-        border: isConfirmed ? '2px solid var(--lime)' : '1px solid var(--border)',
+        border: confirmed ? '2px solid var(--lime)' : '1px solid var(--border)',
         transition: 'all 0.2s',
+        opacity: confirmed ? 0.7 : 1,
       }}
     >
-      {/* Header: Meal type + Checkbox */}
+      {/* Header: Meal type + Name */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
-        <input
-          type="checkbox"
-          checked={isConfirmed}
-          onChange={(e) => onConfirm(mealType, e.target.checked)}
-          style={{
-            width: 20,
-            height: 20,
-            cursor: 'pointer',
-            minWidth: 44,
-            minHeight: 44,
-            margin: -12,
-            padding: 12,
-          }}
-        />
         <div style={{ flex: 1 }}>
           <div style={{ fontSize: 11, fontWeight: 700, color: getMealTypeColor(mealType), letterSpacing: 0.5 }}>
             {getMealTypeLabel(mealType)}
           </div>
-          <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--cream)', marginTop: 2 }}>
-            {recipe?.name || 'Meal'}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 2 }}>
+            <div style={{ fontSize: 15, fontWeight: 700, color: confirmed ? 'var(--muted)' : 'var(--cream)', textDecoration: confirmed ? 'line-through' : 'none', transition: 'all 0.2s' }}>
+              {recipe?.name || 'Meal'}
+            </div>
+            {confirmed && <div style={{ fontSize: 16, color: 'var(--lime)', fontWeight: 700 }}>✓</div>}
           </div>
         </div>
       </div>

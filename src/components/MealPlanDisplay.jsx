@@ -4,8 +4,6 @@ import AccuracyIndicator from './AccuracyIndicator';
 export default function MealPlanDisplay({
   mealPlan,
   goals,
-  confirmedMeals,
-  onMealConfirm,
   onSwapMeal,
   onViewRecipe,
   onRegeneratePlan,
@@ -50,7 +48,7 @@ export default function MealPlanDisplay({
   }
 
   // Count confirmed meals
-  const confirmedCount = mealPlan.meals.filter(m => confirmedMeals?.has(m.mealType))?.length || 0;
+  const confirmedCount = mealPlan.meals.filter(m => m.confirmed)?.length || 0;
   const totalMeals = mealPlan.meals.length;
 
   return (
@@ -69,28 +67,6 @@ export default function MealPlanDisplay({
           </div>
         </div>
         <div style={{ display: 'flex', gap: 8 }}>
-          {confirmedCount < totalMeals && (
-            <button
-              onClick={() => {
-                mealPlan.meals.forEach(m => onMealConfirm(m.mealType, true));
-              }}
-              style={{
-                background: 'var(--lime)',
-                border: 'none',
-                borderRadius: 6,
-                padding: '6px 12px',
-                fontSize: 11,
-                fontWeight: 600,
-                color: 'var(--bg)',
-                cursor: 'pointer',
-                transition: 'all 0.2s',
-              }}
-              onMouseEnter={(e) => (e.target.style.opacity = '0.8')}
-              onMouseLeave={(e) => (e.target.style.opacity = '1')}
-            >
-              Confirm All
-            </button>
-          )}
           <button
             onClick={onClearPlan}
             style={{
@@ -131,8 +107,6 @@ export default function MealPlanDisplay({
           <MealPlanCard
             key={meal.mealType}
             meal={meal}
-            isConfirmed={confirmedMeals?.has(meal.mealType) || false}
-            onConfirm={onMealConfirm}
             onSwap={onSwapMeal}
             onViewRecipe={onViewRecipe}
           />

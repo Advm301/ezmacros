@@ -190,7 +190,7 @@ const SUBSTITUTIONS = {
   "cauliflower rice": ["Brown Rice", "Quinoa", "White Rice"],
 };
 
-export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView, onSave, isFavorited, toggleFavorite}) {
+export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView, onSave, isFavorited, toggleFavorite, onLogMealFromPlan}) {
   const [logged, setLogged] = useState(false);
   const [logging, setLogging] = useState(false);
   const [error, setError] = useState(null);
@@ -954,6 +954,16 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
         return;
       }
 
+      // If logging from meal plan, call the callback instead of inserting to meal_logs
+      if (onLogMealFromPlan) {
+        onLogMealFromPlan();
+        setLogged(true);
+        setTimeout(() => {
+          onClose();
+        }, 500);
+        return;
+      }
+
       const { error: insertError } = await supabase
         .from('meal_logs')
         .insert({
@@ -1676,7 +1686,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
         )}
 
         {/* Log Meal Button */}
-        {!r.isLogged && !r.isLoggedView && (
+        {((!r.isLogged && !r.isLoggedView) || onLogMealFromPlan) ? (
           <>
             <button
               onClick={handleLogMeal}
@@ -1715,7 +1725,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
               </div>
             )}
           </>
-        )}
+        ) : null}
       </div>
     </div>
   );

@@ -328,6 +328,7 @@ export function selectMealsForDay(dailyGoals, preferences, includeShakeGenerator
         mealType,
         recipe: bestRecipe,
         targetMacros: targetForSlot,
+        confirmed: false,
       });
       excludedIds.push(bestRecipe.id);
       totalMacros.cal += bestRecipe.cal || 0;
