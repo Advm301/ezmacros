@@ -42,14 +42,41 @@ function filterRecipesByPreferences(recipes, preferences, excludeRecipeIds = [])
       }
     }
 
-    // Filter by protein preferences (check if recipe contains preferred protein)
-    const proteinNames = (recipe.tags || []).map(tag => tag.toLowerCase());
-    const hasPreferredProtein = preferences.protein_preferences.some(pref =>
-      proteinNames.some(tag => tag.includes(pref.toLowerCase()))
-    );
-    if (!hasPreferredProtein && preferences.protein_preferences.length > 0) {
-      console.log(`[DEBUG]   Recipe ${recipe.id} (tags: ${recipe.tags}) filtered out by protein (prefs: ${preferences.protein_preferences})`);
-      return false;
+    // Filter by protein preferences (check recipe components, not tags)
+    // Main protein is typically the first component
+    if (preferences.protein_preferences.length > 0) {
+      const mainComponent = recipe.components && recipe.components[0];
+
+      if (!mainComponent) {
+        console.log(`[DEBUG]   Recipe ${recipe.id} - no components found, filtering out`);
+        return false;
+      }
+
+      // Extract protein name from component name (e.g., "Ground Beef (93% lean)" → "Ground Beef")
+      const componentName = mainComponent.name || '';
+      const proteinNameFromComponent = componentName.split('(')[0].trim();
+
+      // Normalize to match preference format: "Ground Beef" → "ground_beef", "Eggs" → "eggs"
+      const normalizedProtein = proteinNameFromComponent
+        .toLowerCase()
+        .replace(/\s+/g, '_');
+
+      console.log(`[DEBUG]   Recipe ${recipe.id} - main component: "${componentName}" → normalized: "${normalizedProtein}"`);
+
+      // Check if this protein matches any user preference
+      const hasPreferredProtein = preferences.protein_preferences.some(pref => {
+        const prefNormalized = pref.toLowerCase().replace(/\s+/g, '_');
+        const matches = normalizedProtein === prefNormalized || normalizedProtein.includes(prefNormalized);
+        if (matches) {
+          console.log(`[DEBUG]   Recipe ${recipe.id} - protein match: "${normalizedProtein}" matches preference "${pref}"`);
+        }
+        return matches;
+      });
+
+      if (!hasPreferredProtein) {
+        console.log(`[DEBUG]   Recipe ${recipe.id} (main protein: ${proteinNameFromComponent}) filtered out by protein (prefs: ${preferences.protein_preferences.join(', ')})`);
+        return false;
+      }
     }
 
     console.log(`[DEBUG]   Recipe ${recipe.id} - ${recipe.name} passed all filters`);
