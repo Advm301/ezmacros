@@ -127,7 +127,7 @@ export const RECIPES = [
     steps:["Microwave spinach bag 2 min. Squeeze out excess water.","Spray pan with cooking spray on medium heat. Pour in egg whites + spinach. Scramble until just set.","Top with cheese. Slide onto plate — hot sauce on the side."],
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
 
-  {id:11,name:"Kodiak Protein Pancakes",emoji:"🥞",method:"Stovetop",type:"fresh",ezLevel:1,spiceLevel:0,
+  {id:11,name:"Kodiak Protein Pancakes",emoji:"🥞",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:0,
     tags:["Breakfast","High Protein","Sweet","Quick"],
     cal:400,protein:30,carbs:44,fat:10,activeTime:8,stepCount:3,
     components:[
@@ -358,7 +358,7 @@ export const RECIPES = [
     steps:["Heat oil in skillet over medium-high. Brown beef 4–5 min, breaking it up as it cooks.","Add taco seasoning + water. Simmer 2 min. Microwave rice 90 sec + beans 60 sec.","Build bowl — toppings on side."],
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
 
-  {id:28,name:"Pork Tenderloin Bowl",emoji:"🐷",method:"Air Fryer",type:"fresh",ezLevel:2,spiceLevel:0,
+  {id:28,name:"Pork Tenderloin Bowl",emoji:"🐷",method:"Air Fryer",type:"fresh",ezLevel:1,spiceLevel:0,
     tags:["High Protein","Neutral","Lean","Quick"],
     cal:400,protein:44,carbs:38,fat:8,activeTime:6,stepCount:3,
     components:[
@@ -386,7 +386,7 @@ export const RECIPES = [
     steps:["Pat shrimp dry. Spray with oil + season with lemon pepper.","Air fry 380°F for 8–10 min, shaking halfway. Microwave rice 90 sec + broccoli 3 min.","Build bowl — toppings separate."],
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
 
-  {id:30,name:"Greek Chicken Bowl",emoji:"🇬🇷",method:"Air Fryer",type:"fresh",ezLevel:2,spiceLevel:0,
+  {id:30,name:"Greek Chicken Bowl",emoji:"🇬🇷",method:"Air Fryer",type:"fresh",ezLevel:1,spiceLevel:0,
     tags:["High Protein","Mediterranean","Neutral","Quick"],
     cal:440,protein:40,carbs:48,fat:10,activeTime:6,stepCount:3,
     components:[
@@ -494,7 +494,7 @@ export const RECIPES = [
     steps:["Heat sesame oil in large skillet over high heat. Scramble eggs 2 min, remove to plate.","Add rice to skillet, break up clumps. Stir 2 min. Add peas + soy sauce.","Return eggs to skillet, toss everything 1 min. Toppings on side."],
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
 
-  {id:38,name:"Chipotle Style Chicken Bowl",emoji:"🌶️",method:"Air Fryer",type:"fresh",ezLevel:2,spiceLevel:2,
+  {id:38,name:"Chipotle Style Chicken Bowl",emoji:"🌶️",method:"Air Fryer",type:"fresh",ezLevel:1,spiceLevel:2,
     tags:["High Protein","Hot","Mexican-Inspired","Quick"],
     cal:510,protein:44,carbs:48,fat:12,activeTime:6,stepCount:3,
     components:[
@@ -661,7 +661,7 @@ export const RECIPES = [
     steps:["Mix canned chicken with mustard + hot sauce.","Spoon onto crackers. Season lightly."],
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
 
-  {id:51,name:"Classic Smash Burger",emoji:"🍔",method:"Stovetop",type:"fresh",ezLevel:1,spiceLevel:0,
+  {id:51,name:"Classic Smash Burger",emoji:"🍔",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:0,
     tags:["High Protein","Comfort Food","Classic","Quick"],
     cal:580,protein:32,carbs:42,fat:26,activeTime:6,stepCount:4,
     components:[
@@ -676,7 +676,7 @@ export const RECIPES = [
     steps:["Heat cast iron skillet screaming hot (~400°F).","Roll beef into ball. Place on skillet and immediately smash flat with spatula.","Cook 2 min without moving. Flip, add cheese, cook 1 min.","Toast bun lightly. Build burger with ketchup, mustard, pickles."],
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
 
-  {id:52,name:"BBQ Bacon Burger",emoji:"🥓",method:"Stovetop",type:"fresh",ezLevel:1,spiceLevel:0,
+  {id:52,name:"BBQ Bacon Burger",emoji:"🥓",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:0,
     tags:["High Protein","Comfort Food","BBQ","Quick"],
     cal:560,protein:38,carbs:36,fat:24,activeTime:8,stepCount:4,
     components:[
@@ -886,7 +886,7 @@ export const RECIPES = [
     steps:["Poke potato with fork. Microwave on HIGH 8–10 min until tender.","Microwave chili 2 min in separate bowl. Split potato open. Top with chili, cheese, yogurt."],
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
 
-  {id:67,name:"Protein French Toast",emoji:"🍞",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:0,
+  {id:67,name:"Protein French Toast",emoji:"🍞",method:"Stovetop",type:"fresh",ezLevel:1,spiceLevel:0,
     tags:["Breakfast","High Protein","Sweet","Quick"],
     cal:360,protein:28,carbs:36,fat:10,activeTime:7,stepCount:3,
     components:[
@@ -975,7 +975,7 @@ export const RECIPES = [
     steps:["Place feta block in small baking dish. Pour canned cherry tomatoes around it (don't drain completely).","Spray feta lightly with olive oil. Shake Italian seasoning + garlic powder over top.","Bake 400°F for 25 min. Mash feta and tomatoes together until creamy. Toss with cooked pasta."],
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
 
-  {id:73,name:"Cottage Cheese Flatbread",emoji:"🥪",method:"Bake",type:"fresh",ezLevel:2,spiceLevel:0,
+  {id:73,name:"Cottage Cheese Flatbread",emoji:"🥪",method:"Bake",type:"fresh",ezLevel:1,spiceLevel:0,
     tags:["High Protein","Viral","Low Carb","Gluten-Free","Keto"],
     cal:220,protein:28,carbs:4,fat:10,activeTime:3,stepCount:3,
     components:[
@@ -1033,7 +1033,7 @@ export const RECIPES = [
     steps:["Mix drained tuna with soy sauce + rice vinegar + sesame oil in bowl.","Add cucumber slices + chili crisp + sesame seeds. Toss gently. Serve cold."],
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
 
-  {id:77,name:"High Protein Sushi Bake",emoji:"🍣",method:"Bake",type:"fresh",ezLevel:2,spiceLevel:1,
+  {id:77,name:"High Protein Sushi Bake",emoji:"🍣",method:"Bake",type:"fresh",ezLevel:1,spiceLevel:1,
     tags:["High Protein","Viral","Asian-Inspired","Comfort Food"],
     cal:460,protein:28,carbs:46,fat:14,activeTime:6,stepCount:3,
     components:[
@@ -1063,7 +1063,7 @@ export const RECIPES = [
     steps:["Top each cucumber round with 1 tsp cottage cheese. Layer salmon piece on top. Sprinkle everything seasoning + dill. Drizzle lemon."],
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
 
-  {id:79,name:"Egg White Fried Rice",emoji:"🍚",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:0,
+  {id:79,name:"Egg White Fried Rice",emoji:"🍚",method:"Stovetop",type:"fresh",ezLevel:1,spiceLevel:0,
     tags:["High Protein","Viral","Asian-Inspired","Low Fat"],
     cal:340,protein:24,carbs:42,fat:6,activeTime:7,stepCount:3,
     components:[
@@ -1232,7 +1232,7 @@ export const RECIPES = [
     steps:["Spray shrimp with olive oil. Air fry 380°F for 8–10 min. Toss in Frank's sauce.","Microwave rice 90 sec + broccoli 3 min. Build bowl.","Drizzle ranch dressing over shrimp. Toppings on side."],
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
 
-  {id:90,name:"Easy Shakshuka",emoji:"🍳",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:1,
+  {id:90,name:"Easy Shakshuka",emoji:"🍳",method:"Stovetop",type:"fresh",ezLevel:3,spiceLevel:1,
     tags:["Breakfast","Lunch","High Protein","Mediterranean","Vegetarian","Comfort Food"],
     cal:440,protein:30,carbs:26,fat:25,activeTime:12,stepCount:4,
     components:[
@@ -1246,7 +1246,7 @@ export const RECIPES = [
     steps:["Heat pan over medium. Add jar onions and cook 2 min until softened and fragrant.","Pour in Rao's marinara. Stir in garlic powder and onion powder. Simmer 3 min.","Create 4 wells in the sauce using a spoon. Crack one egg into each well.","Cover pan with lid. Cook 5-7 min until whites are set but yolks still slightly runny. Crumble feta over top. Serve with sourdough for dipping."],
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
 
-  {id:91,name:"Shakshuka from Scratch",emoji:"🍅",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:2,
+  {id:91,name:"Shakshuka from Scratch",emoji:"🍅",method:"Stovetop",type:"fresh",ezLevel:3,spiceLevel:2,
     tags:["Breakfast","Lunch","High Protein","Mediterranean","Vegetarian","Comfort Food"],
     cal:556,protein:30,carbs:33,fat:33,activeTime:15,stepCount:5,
     components:[
