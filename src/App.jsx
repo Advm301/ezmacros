@@ -73,7 +73,10 @@ export default function App() {
           .maybeSingle();
 
         if (goalsData?.ez_level !== null && goalsData?.ez_level !== undefined) {
-          setEzLevel(goalsData.ez_level);
+          const level = goalsData.ez_level;
+          if (level in ezLevelNames) {
+            setEzLevel(level);
+          }
         }
       } catch (err) {
         console.error('Error fetching ez_level:', err);
@@ -137,7 +140,7 @@ export default function App() {
               e.target.style.borderColor = "var(--lime)";
             }}
             style={{background: "var(--s2)", border: "1px solid var(--lime)", borderRadius: 20, padding: "4px 12px", fontSize: 12, fontWeight: 600, color: "var(--lime)", cursor: "pointer", transition: "all 0.15s"}}>
-            {ezLevelNames[ezLevel].icon} {ezLevelNames[ezLevel].name}
+            {ezLevelNames[ezLevel]?.icon || '⚡⚡'} {ezLevelNames[ezLevel]?.name || 'Easy'}
           </div>
         </div>
 
