@@ -144,47 +144,28 @@ function calculateMealTargets(dailyGoals, mealFrequency) {
   const targets = {};
 
   if (mealFrequency === '2_plus_snacks') {
-    // Breakfast 20%, Lunch/Dinner 35%, Snack 10%
+    // Adjusted for recipe library: Breakfast 20%, Lunch/Dinner 33%, Snack 14% = 67% (realistic for 2 meals + 2 snacks)
     targets['breakfast'] = {
-      cal: Math.round(dailyGoals.cal * 0.25),
-      protein: Math.round(dailyGoals.protein * 0.25),
-      carbs: Math.round(dailyGoals.carbs * 0.25),
-      fat: Math.round(dailyGoals.fat * 0.25),
+      cal: Math.round(dailyGoals.cal * 0.20),
+      protein: Math.round(dailyGoals.protein * 0.20),
+      carbs: Math.round(dailyGoals.carbs * 0.20),
+      fat: Math.round(dailyGoals.fat * 0.20),
     };
     targets['lunch_dinner'] = {
-      cal: Math.round(dailyGoals.cal * 0.40),
-      protein: Math.round(dailyGoals.protein * 0.40),
-      carbs: Math.round(dailyGoals.carbs * 0.40),
-      fat: Math.round(dailyGoals.fat * 0.40),
+      cal: Math.round(dailyGoals.cal * 0.33),
+      protein: Math.round(dailyGoals.protein * 0.33),
+      carbs: Math.round(dailyGoals.carbs * 0.33),
+      fat: Math.round(dailyGoals.fat * 0.33),
     };
     targets['snack'] = {
-      cal: Math.round(dailyGoals.cal * 0.15),
-      protein: Math.round(dailyGoals.protein * 0.15),
-      carbs: Math.round(dailyGoals.carbs * 0.15),
-      fat: Math.round(dailyGoals.fat * 0.15),
+      cal: Math.round(dailyGoals.cal * 0.14),
+      protein: Math.round(dailyGoals.protein * 0.14),
+      carbs: Math.round(dailyGoals.carbs * 0.14),
+      fat: Math.round(dailyGoals.fat * 0.14),
     };
   } else if (mealFrequency === '3_meals') {
-    // Breakfast 25%, Lunch 35%, Dinner 40%
-    targets['breakfast'] = {
-      cal: Math.round(dailyGoals.cal * 0.25),
-      protein: Math.round(dailyGoals.protein * 0.25),
-      carbs: Math.round(dailyGoals.carbs * 0.25),
-      fat: Math.round(dailyGoals.fat * 0.25),
-    };
-    targets['lunch'] = {
-      cal: Math.round(dailyGoals.cal * 0.35),
-      protein: Math.round(dailyGoals.protein * 0.35),
-      carbs: Math.round(dailyGoals.carbs * 0.35),
-      fat: Math.round(dailyGoals.fat * 0.35),
-    };
-    targets['dinner'] = {
-      cal: Math.round(dailyGoals.cal * 0.40),
-      protein: Math.round(dailyGoals.protein * 0.40),
-      carbs: Math.round(dailyGoals.carbs * 0.40),
-      fat: Math.round(dailyGoals.fat * 0.40),
-    };
-  } else if (mealFrequency === '4_meals') {
-    // Breakfast 20%, Lunch 35%, Snack 10%, Dinner 35%
+    // Adjusted for actual recipe calorie distribution (400-600 cal recipes)
+    // Breakfast 20%, Lunch 28%, Dinner 28% = 76% (realistic for recipe library)
     targets['breakfast'] = {
       cal: Math.round(dailyGoals.cal * 0.20),
       protein: Math.round(dailyGoals.protein * 0.20),
@@ -192,42 +173,62 @@ function calculateMealTargets(dailyGoals, mealFrequency) {
       fat: Math.round(dailyGoals.fat * 0.20),
     };
     targets['lunch'] = {
-      cal: Math.round(dailyGoals.cal * 0.35),
-      protein: Math.round(dailyGoals.protein * 0.35),
-      carbs: Math.round(dailyGoals.carbs * 0.35),
-      fat: Math.round(dailyGoals.fat * 0.35),
-    };
-    targets['snack'] = {
-      cal: Math.round(dailyGoals.cal * 0.10),
-      protein: Math.round(dailyGoals.protein * 0.10),
-      carbs: Math.round(dailyGoals.carbs * 0.10),
-      fat: Math.round(dailyGoals.fat * 0.10),
+      cal: Math.round(dailyGoals.cal * 0.28),
+      protein: Math.round(dailyGoals.protein * 0.28),
+      carbs: Math.round(dailyGoals.carbs * 0.28),
+      fat: Math.round(dailyGoals.fat * 0.28),
     };
     targets['dinner'] = {
-      cal: Math.round(dailyGoals.cal * 0.35),
-      protein: Math.round(dailyGoals.protein * 0.35),
-      carbs: Math.round(dailyGoals.carbs * 0.35),
-      fat: Math.round(dailyGoals.fat * 0.35),
+      cal: Math.round(dailyGoals.cal * 0.28),
+      protein: Math.round(dailyGoals.protein * 0.28),
+      carbs: Math.round(dailyGoals.carbs * 0.28),
+      fat: Math.round(dailyGoals.fat * 0.28),
     };
-  } else if (mealFrequency === '3_plus_snack') {
-    // Breakfast 25%, Lunch 30%, Dinner 35%, Snack 10%
+  } else if (mealFrequency === '4_meals') {
+    // Adjusted for recipe library: Breakfast 18%, Lunch 27%, Snack 9%, Dinner 27% = 81%
     targets['breakfast'] = {
-      cal: Math.round(dailyGoals.cal * 0.25),
-      protein: Math.round(dailyGoals.protein * 0.25),
-      carbs: Math.round(dailyGoals.carbs * 0.25),
-      fat: Math.round(dailyGoals.fat * 0.25),
+      cal: Math.round(dailyGoals.cal * 0.18),
+      protein: Math.round(dailyGoals.protein * 0.18),
+      carbs: Math.round(dailyGoals.carbs * 0.18),
+      fat: Math.round(dailyGoals.fat * 0.18),
     };
     targets['lunch'] = {
-      cal: Math.round(dailyGoals.cal * 0.30),
-      protein: Math.round(dailyGoals.protein * 0.30),
-      carbs: Math.round(dailyGoals.carbs * 0.30),
-      fat: Math.round(dailyGoals.fat * 0.30),
+      cal: Math.round(dailyGoals.cal * 0.27),
+      protein: Math.round(dailyGoals.protein * 0.27),
+      carbs: Math.round(dailyGoals.carbs * 0.27),
+      fat: Math.round(dailyGoals.fat * 0.27),
+    };
+    targets['snack'] = {
+      cal: Math.round(dailyGoals.cal * 0.09),
+      protein: Math.round(dailyGoals.protein * 0.09),
+      carbs: Math.round(dailyGoals.carbs * 0.09),
+      fat: Math.round(dailyGoals.fat * 0.09),
     };
     targets['dinner'] = {
-      cal: Math.round(dailyGoals.cal * 0.35),
-      protein: Math.round(dailyGoals.protein * 0.35),
-      carbs: Math.round(dailyGoals.carbs * 0.35),
-      fat: Math.round(dailyGoals.fat * 0.35),
+      cal: Math.round(dailyGoals.cal * 0.27),
+      protein: Math.round(dailyGoals.protein * 0.27),
+      carbs: Math.round(dailyGoals.carbs * 0.27),
+      fat: Math.round(dailyGoals.fat * 0.27),
+    };
+  } else if (mealFrequency === '3_plus_snack') {
+    // Adjusted for recipe library: Breakfast 18%, Lunch 27%, Dinner 27%, Snack 10% = 82%
+    targets['breakfast'] = {
+      cal: Math.round(dailyGoals.cal * 0.18),
+      protein: Math.round(dailyGoals.protein * 0.18),
+      carbs: Math.round(dailyGoals.carbs * 0.18),
+      fat: Math.round(dailyGoals.fat * 0.18),
+    };
+    targets['lunch'] = {
+      cal: Math.round(dailyGoals.cal * 0.27),
+      protein: Math.round(dailyGoals.protein * 0.27),
+      carbs: Math.round(dailyGoals.carbs * 0.27),
+      fat: Math.round(dailyGoals.fat * 0.27),
+    };
+    targets['dinner'] = {
+      cal: Math.round(dailyGoals.cal * 0.27),
+      protein: Math.round(dailyGoals.protein * 0.27),
+      carbs: Math.round(dailyGoals.carbs * 0.27),
+      fat: Math.round(dailyGoals.fat * 0.27),
     };
     targets['snack'] = {
       cal: Math.round(dailyGoals.cal * 0.10),

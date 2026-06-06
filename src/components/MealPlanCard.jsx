@@ -23,11 +23,6 @@ export default function MealPlanCard({ meal, isConfirmed, onConfirm, onSwap, onV
     return colors[type] || 'var(--cream)';
   };
 
-  const macroAccuracy = targetMacros ? {
-    calPercent: Math.round((recipe.cal / targetMacros.cal) * 100),
-    proteinPercent: Math.round((recipe.protein / targetMacros.protein) * 100),
-  } : null;
-
   return (
     <div
       style={{
@@ -66,41 +61,9 @@ export default function MealPlanCard({ meal, isConfirmed, onConfirm, onSwap, onV
       </div>
 
       {/* Macros line */}
-      <div style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 10 }}>
+      <div style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 12 }}>
         {recipe.cal} cal · {recipe.protein}g P · {recipe.carbs}g C · {recipe.fat}g F
       </div>
-
-      {/* Accuracy bars (if target exists) */}
-      {macroAccuracy && (
-        <div style={{ display: 'flex', gap: 8, fontSize: 10, marginBottom: 10 }}>
-          <div style={{ flex: 1 }}>
-            <div style={{ color: 'var(--muted)', marginBottom: 3 }}>Cals</div>
-            <div style={{ background: 'var(--s1)', height: 4, borderRadius: 2, overflow: 'hidden' }}>
-              <div
-                style={{
-                  height: '100%',
-                  background: macroAccuracy.calPercent > 105 ? 'var(--orange)' : macroAccuracy.calPercent < 95 ? 'var(--orange)' : 'var(--lime)',
-                  width: `${Math.min(macroAccuracy.calPercent, 100)}%`,
-                }}
-              />
-            </div>
-            <div style={{ color: 'var(--muted)', marginTop: 2 }}>{macroAccuracy.calPercent}%</div>
-          </div>
-          <div style={{ flex: 1 }}>
-            <div style={{ color: 'var(--muted)', marginBottom: 3 }}>Protein</div>
-            <div style={{ background: 'var(--s1)', height: 4, borderRadius: 2, overflow: 'hidden' }}>
-              <div
-                style={{
-                  height: '100%',
-                  background: macroAccuracy.proteinPercent > 105 ? 'var(--lime)' : macroAccuracy.proteinPercent < 95 ? 'var(--orange)' : 'var(--lime)',
-                  width: `${Math.min(macroAccuracy.proteinPercent, 100)}%`,
-                }}
-              />
-            </div>
-            <div style={{ color: 'var(--muted)', marginTop: 2 }}>{macroAccuracy.proteinPercent}%</div>
-          </div>
-        </div>
-      )}
 
       {/* Action buttons */}
       <div style={{ display: 'flex', gap: 8 }}>
