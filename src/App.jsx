@@ -172,7 +172,7 @@ export default function App() {
         </div>
 
         {/* Page content */}
-        {tab === "today" && <Today onTabFocus={() => setTodayBadge(false)} onUpdateEzLevel={updateEzLevel}/>}
+        {tab === "today" && <Today goals={goals} onTabFocus={() => setTodayBadge(false)} onUpdateEzLevel={updateEzLevel}/>}
         {tab === "kitchen" && <Kitchen ezLevel={ezLevel} goals={goals} onOpen={setOpenRecipe}/>}
         {tab === "browse" && <Browse ezLevel={ezLevel} onOpen={setOpenRecipe}/>}
 

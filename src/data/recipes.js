@@ -194,7 +194,7 @@ export const RECIPES = [
     steps:["Mix oats, yogurt, protein powder, almond milk, honey in container.","Refrigerate overnight. Stir before eating. Top with berries and seeds."],
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
 
-  {id:16,name:"Scrambled Eggs & Turkey Sausage",emoji:"🍳",method:"Stovetop",type:"fresh",ezLevel:1,spiceLevel:0,
+  {id:16,name:"Scrambled Eggs & Turkey Sausage",emoji:"🍳",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:0,
     tags:["Breakfast","High Protein","Quick","Low Carb"],
     cal:380,protein:34,carbs:2,fat:28,activeTime:6,stepCount:3,
     components:[
@@ -358,7 +358,7 @@ export const RECIPES = [
     steps:["Heat oil in skillet over medium-high. Brown beef 4–5 min, breaking it up as it cooks.","Add taco seasoning + water. Simmer 2 min. Microwave rice 90 sec + beans 60 sec.","Build bowl — toppings on side."],
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
 
-  {id:28,name:"Pork Tenderloin Bowl",emoji:"🐷",method:"Air Fryer",type:"fresh",ezLevel:1,spiceLevel:0,
+  {id:28,name:"Pork Tenderloin Bowl",emoji:"🐷",method:"Air Fryer",type:"fresh",ezLevel:2,spiceLevel:0,
     tags:["High Protein","Neutral","Lean","Quick"],
     cal:400,protein:44,carbs:38,fat:8,activeTime:6,stepCount:3,
     components:[
@@ -386,7 +386,7 @@ export const RECIPES = [
     steps:["Pat shrimp dry. Spray with oil + season with lemon pepper.","Air fry 380°F for 8–10 min, shaking halfway. Microwave rice 90 sec + broccoli 3 min.","Build bowl — toppings separate."],
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
 
-  {id:30,name:"Greek Chicken Bowl",emoji:"🇬🇷",method:"Air Fryer",type:"fresh",ezLevel:1,spiceLevel:0,
+  {id:30,name:"Greek Chicken Bowl",emoji:"🇬🇷",method:"Air Fryer",type:"fresh",ezLevel:2,spiceLevel:0,
     tags:["High Protein","Mediterranean","Neutral","Quick"],
     cal:440,protein:40,carbs:48,fat:10,activeTime:6,stepCount:3,
     components:[
@@ -494,7 +494,7 @@ export const RECIPES = [
     steps:["Heat sesame oil in large skillet over high heat. Scramble eggs 2 min, remove to plate.","Add rice to skillet, break up clumps. Stir 2 min. Add peas + soy sauce.","Return eggs to skillet, toss everything 1 min. Toppings on side."],
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
 
-  {id:38,name:"Chipotle Style Chicken Bowl",emoji:"🌶️",method:"Air Fryer",type:"fresh",ezLevel:1,spiceLevel:2,
+  {id:38,name:"Chipotle Style Chicken Bowl",emoji:"🌶️",method:"Air Fryer",type:"fresh",ezLevel:2,spiceLevel:2,
     tags:["High Protein","Hot","Mexican-Inspired","Quick"],
     cal:510,protein:44,carbs:48,fat:12,activeTime:6,stepCount:3,
     components:[
@@ -690,7 +690,7 @@ export const RECIPES = [
     steps:["Heat skillet medium-high. Form beef into patty. Cook 3–4 min per side (~160°F internal).","Microwave bacon strips 2 min. Add cheese to burger last min.","Toast bun. Brush BBQ sauce on inside.","Stack burger + bacon on bun."],
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
 
-  {id:53,name:"Turkey Burger",emoji:"🍗",method:"Stovetop",type:"fresh",ezLevel:1,spiceLevel:0,
+  {id:53,name:"Turkey Burger",emoji:"🍗",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:0,
     tags:["High Protein","Lean","Quick","Neutral"],
     cal:420,protein:36,carbs:40,fat:12,activeTime:7,stepCount:3,
     components:[
@@ -719,7 +719,7 @@ export const RECIPES = [
     steps:["Air fry chicken breast 400°F for 16–18 min.","Toss cooked chicken in Frank's sauce. Toast bun.","Spread mayo on bun. Stack chicken + pickles."],
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
 
-  {id:55,name:"Tuna Melt",emoji:"🐟",method:"Air Fryer",type:"fresh",ezLevel:1,spiceLevel:0,
+  {id:55,name:"Tuna Melt",emoji:"🐟",method:"Air Fryer",type:"fresh",ezLevel:2,spiceLevel:0,
     tags:["High Protein","Omega-3","Quick","Comfort Food"],
     cal:380,protein:32,carbs:32,fat:14,activeTime:6,stepCount:3,
     components:[
@@ -733,7 +733,7 @@ export const RECIPES = [
     steps:["Mix drained tuna with mayo + mustard in bowl. Spread on bread slices.","Top with cheese slice. Place on foil in air fryer basket.","Air fry 350°F for 6–8 min until cheese melts. Squeeze lemon on top."],
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
 
-  {id:56,name:"Egg & Cheese Breakfast Sandwich",emoji:"🥚",method:"Stovetop",type:"fresh",ezLevel:1,spiceLevel:0,
+  {id:56,name:"Egg & Cheese Breakfast Sandwich",emoji:"🥚",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:0,
     tags:["Breakfast","High Protein","Quick","Sandwich"],
     cal:380,protein:30,carbs:30,fat:14,activeTime:6,stepCount:3,
     components:[
@@ -828,7 +828,7 @@ export const RECIPES = [
     steps:["Place naan on foil in air fryer. Spread pesto evenly.","Top with chicken + mozzarella + sun-dried tomatoes.","Air fry 375°F for 8 min until cheese melts."],
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
 
-  {id:63,name:"Beef & Rice Power Bowl",emoji:"🥩",method:"Stovetop",type:"fresh",ezLevel:1,spiceLevel:0,
+  {id:63,name:"Beef & Rice Power Bowl",emoji:"🥩",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:0,
     tags:["High Protein","Asian-Inspired","Quick","Bulk Friendly"],
     cal:520,protein:42,carbs:50,fat:14,activeTime:7,stepCount:3,
     components:[
@@ -886,7 +886,7 @@ export const RECIPES = [
     steps:["Poke potato with fork. Microwave on HIGH 8–10 min until tender.","Microwave chili 2 min in separate bowl. Split potato open. Top with chili, cheese, yogurt."],
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
 
-  {id:67,name:"Protein French Toast",emoji:"🍞",method:"Stovetop",type:"fresh",ezLevel:1,spiceLevel:0,
+  {id:67,name:"Protein French Toast",emoji:"🍞",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:0,
     tags:["Breakfast","High Protein","Sweet","Quick"],
     cal:360,protein:28,carbs:36,fat:10,activeTime:7,stepCount:3,
     components:[
@@ -914,7 +914,7 @@ export const RECIPES = [
     steps:["Microwave frozen meatballs 3–4 min. Microwave marinara 90 sec.","Toss meatballs in sauce. Warm hoagie roll 30 sec in microwave.","Stuff roll with meatballs, sauce, and mozzarella. Top with seasonings."],
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
 
-  {id:69,name:"Spicy Korean Ground Beef Bowl",emoji:"🌶️",method:"Stovetop",type:"fresh",ezLevel:1,spiceLevel:3,
+  {id:69,name:"Spicy Korean Ground Beef Bowl",emoji:"🌶️",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:3,
     tags:["High Protein","Hot","Asian-Inspired","Quick"],
     cal:520,protein:38,carbs:50,fat:14,activeTime:7,stepCount:3,
     components:[
@@ -1033,7 +1033,7 @@ export const RECIPES = [
     steps:["Mix drained tuna with soy sauce + rice vinegar + sesame oil in bowl.","Add cucumber slices + chili crisp + sesame seeds. Toss gently. Serve cold."],
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
 
-  {id:77,name:"High Protein Sushi Bake",emoji:"🍣",method:"Bake",type:"fresh",ezLevel:1,spiceLevel:1,
+  {id:77,name:"High Protein Sushi Bake",emoji:"🍣",method:"Bake",type:"fresh",ezLevel:2,spiceLevel:1,
     tags:["High Protein","Viral","Asian-Inspired","Comfort Food"],
     cal:460,protein:28,carbs:46,fat:14,activeTime:6,stepCount:3,
     components:[
@@ -1063,7 +1063,7 @@ export const RECIPES = [
     steps:["Top each cucumber round with 1 tsp cottage cheese. Layer salmon piece on top. Sprinkle everything seasoning + dill. Drizzle lemon."],
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
 
-  {id:79,name:"Egg White Fried Rice",emoji:"🍚",method:"Stovetop",type:"fresh",ezLevel:1,spiceLevel:0,
+  {id:79,name:"Egg White Fried Rice",emoji:"🍚",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:0,
     tags:["High Protein","Viral","Asian-Inspired","Low Fat"],
     cal:340,protein:24,carbs:42,fat:6,activeTime:7,stepCount:3,
     components:[
@@ -1108,7 +1108,7 @@ export const RECIPES = [
     steps:["Place salmon skin-down on foil-lined sheet. Brush generously with Mike's Hot Honey.","Sprinkle garlic powder. Bake 425°F for 12–14 min. Microwave broccoli 3 min. Squeeze lemon over salmon."],
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
 
-  {id:82,name:"Spicy Garlic Shrimp Bowl",emoji:"🌶️",method:"Stovetop",type:"fresh",ezLevel:1,spiceLevel:3,
+  {id:82,name:"Spicy Garlic Shrimp Bowl",emoji:"🌶️",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:3,
     tags:["High Protein","Spicy","Asian-Inspired","Quick"],
     cal:400,protein:34,carbs:40,fat:8,activeTime:7,stepCount:3,
     components:[
@@ -1125,7 +1125,7 @@ export const RECIPES = [
     steps:["Heat oil in skillet over high heat. Add shrimp, cook 2–3 min per side.","Mix sriracha + soy sauce + garlic powder + honey. Toss cooked shrimp in sauce.","Microwave rice 90 sec + broccoli 3 min. Build bowl — toppings on side."],
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
 
-  {id:83,name:"Nashville Hot Chicken Tenders",emoji:"🔥",method:"Air Fryer",type:"fresh",ezLevel:1,spiceLevel:3,
+  {id:83,name:"Nashville Hot Chicken Tenders",emoji:"🔥",method:"Air Fryer",type:"fresh",ezLevel:2,spiceLevel:3,
     tags:["High Protein","Spicy","Comfort Food","Quick"],
     cal:460,protein:42,carbs:34,fat:14,activeTime:6,stepCount:3,
     components:[
@@ -1156,7 +1156,7 @@ export const RECIPES = [
     steps:["Mix gochujang + soy sauce. Place salmon on foil-lined sheet. Brush sauce over top.","Bake 425°F for 12–14 min. Microwave rice 90 sec + edamame 3 min.","Build bowl. Drizzle mayo on salmon. Toppings on side."],
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
 
-  {id:85,name:"Chili Lime Shrimp Tacos",emoji:"🌮",method:"Air Fryer",type:"fresh",ezLevel:1,spiceLevel:2,
+  {id:85,name:"Chili Lime Shrimp Tacos",emoji:"🌮",method:"Air Fryer",type:"fresh",ezLevel:2,spiceLevel:2,
     tags:["High Protein","Spicy","Mexican-Inspired","Quick"],
     cal:380,protein:30,carbs:42,fat:8,activeTime:6,stepCount:3,
     components:[
@@ -1171,7 +1171,7 @@ export const RECIPES = [
     steps:["Spray shrimp with oil. Season with Tajin. Air fry 380°F for 8–10 min.","Warm tortillas 30 sec in microwave. Fill with shrimp.","Top with yogurt + salsa verde + lime + cilantro."],
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
 
-  {id:86,name:"Spicy Turkey Taco Bowl",emoji:"🌶️",method:"Stovetop",type:"fresh",ezLevel:1,spiceLevel:2,
+  {id:86,name:"Spicy Turkey Taco Bowl",emoji:"🌶️",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:2,
     tags:["High Protein","Spicy","Mexican-Inspired","Quick"],
     cal:460,protein:38,carbs:46,fat:10,activeTime:7,stepCount:3,
     components:[
@@ -1202,7 +1202,7 @@ export const RECIPES = [
     steps:["Boil water in pot. Add ramen noodles, cook 3 min. Drain.","In skillet, brown ground meat 4–5 min. Add soy sauce + PB2 + chili crisp + sesame oil. Toss noodles into mixture.","Cook 1 min more. Toppings on side."],
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
 
-  {id:88,name:"Spicy Beef & Broccoli",emoji:"🥦",method:"Stovetop",type:"fresh",ezLevel:1,spiceLevel:2,
+  {id:88,name:"Spicy Beef & Broccoli",emoji:"🥦",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:2,
     tags:["High Protein","Spicy","Asian-Inspired","Quick"],
     cal:500,protein:38,carbs:48,fat:12,activeTime:7,stepCount:3,
     components:[

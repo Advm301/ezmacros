@@ -35,7 +35,11 @@ function GoalsModal({ goals, user, onClose, onSave, selectedTab = "calculate", o
   const [showEzInfo, setShowEzInfo] = useState(false);
   const [saveError, setSaveError] = useState(null);
   const [isCustomMode, setIsCustomMode] = useState(selectedTab === "custom");
-  const [customMacros, setCustomMacros] = useState({ protein: '', carbs: '', fat: '' });
+  const [customMacros, setCustomMacros] = useState({
+    protein: goals?.protein || '',
+    carbs: goals?.carbs || '',
+    fat: goals?.fat || ''
+  });
 
   const ACTIVITY_MULTIPLIERS = {
     'Sedentary': 1.2,
@@ -167,6 +171,18 @@ function GoalsModal({ goals, user, onClose, onSave, selectedTab = "calculate", o
       }
     }
   }, [visiblePresets, presetsWithCarbs]);
+
+  // Sync customMacros when switching between modes or when goals prop changes
+  useEffect(() => {
+    if (isCustomMode && goals?.protein && goals?.carbs && goals?.fat) {
+      setCustomMacros({
+        protein: goals.protein.toString(),
+        carbs: goals.carbs.toString(),
+        fat: goals.fat.toString()
+      });
+      console.log('[DEBUG] Synced customMacros from goals prop:', { protein: goals.protein, carbs: goals.carbs, fat: goals.fat });
+    }
+  }, [isCustomMode, goals?.protein, goals?.carbs, goals?.fat]);
 
   const applyPreset = (presetName) => {
     const preset = presetsWithCarbs[presetName];

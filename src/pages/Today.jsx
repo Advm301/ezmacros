@@ -3,8 +3,8 @@ import { supabase } from '../lib/supabase';
 import { RECIPES } from '../data/recipes.js';
 import RecipeModal from '../components/RecipeModal';
 
-export default function Today({onTabFocus, onUpdateEzLevel}) {
-  const [goals, setGoals] = useState(null);
+export default function Today({goals: propsGoals, onTabFocus, onUpdateEzLevel}) {
+  const [goals, setGoals] = useState(propsGoals || null);
   const [meals, setMeals] = useState([]);
   const [totals, setTotals] = useState({ cal: 0, protein: 0, carbs: 0, fat: 0 });
   const [loading, setLoading] = useState(true);
@@ -188,6 +188,14 @@ export default function Today({onTabFocus, onUpdateEzLevel}) {
       fetchLoggedDatesForMonth(user.id);
     }
   }, [calendarMonth, user?.id, showCalendar]);
+
+  // Sync local goals state when goals are updated from parent (App.jsx)
+  useEffect(() => {
+    if (propsGoals && (propsGoals.protein !== goals?.protein || propsGoals.carbs !== goals?.carbs || propsGoals.fat !== goals?.fat || propsGoals.cal !== goals?.cal)) {
+      console.log('[DEBUG] Today.jsx syncing goals from parent:', { protein: propsGoals.protein, carbs: propsGoals.carbs, fat: propsGoals.fat, cal: propsGoals.cal });
+      setGoals(propsGoals);
+    }
+  }, [propsGoals?.protein, propsGoals?.carbs, propsGoals?.fat, propsGoals?.cal]);
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
