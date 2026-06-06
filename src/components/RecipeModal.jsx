@@ -454,7 +454,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
     const oldName = originalComponent.name;
     const newMacros = getMacroValues(newName);
 
-    // Update component name
+    // Update component name and preserve userAdded status
     if (newMacros) {
       // If we found macros, calculate new values
       updatedComponents[index] = {
@@ -464,12 +464,14 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
         protein: Math.round((newMacros.protein * (originalComponent.grams / 100)) * 10) / 10,
         carbs: Math.round((newMacros.carbs * (originalComponent.grams / 100)) * 10) / 10,
         fat: Math.round((newMacros.fat * (originalComponent.grams / 100)) * 10) / 10,
+        userAdded: originalComponent.userAdded || false,
       };
     } else {
       // If no macros found, just update the name but keep the original macros
       updatedComponents[index] = {
         ...originalComponent,
         name: newName,
+        userAdded: originalComponent.userAdded || false,
       };
     }
 
@@ -556,7 +558,13 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
   };
 
   const isEggComponent = (componentName, weighRaw) => {
-    return componentName.toLowerCase().includes('egg') && weighRaw === false;
+    const lowerName = componentName.toLowerCase();
+    // Only whole eggs show count display, not egg whites or egg products
+    const isWholeEgg = lowerName.includes('whole egg');
+    const isNotEggWhiteOrProduct = !lowerName.includes('egg white') &&
+                                    !lowerName.includes('liquid egg') &&
+                                    !lowerName.includes('egg substitute');
+    return isWholeEgg && isNotEggWhiteOrProduct && weighRaw === false;
   };
 
   const handleEggCountChange = (index, newCount) => {
