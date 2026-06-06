@@ -212,6 +212,17 @@ export default function Today({goals: propsGoals, onTabFocus, onUpdateEzLevel, f
     }
   }, [selectedDate]);
 
+  // Debug: Track showGenerateMealModal state changes
+  useEffect(() => {
+    console.log('[DEBUG] showGenerateMealModal changed to:', showGenerateMealModal);
+  }, [showGenerateMealModal]);
+
+  // Debug: Track component render and date
+  useEffect(() => {
+    const today = new Date().toISOString().split('T')[0];
+    console.log('[DEBUG] Today.jsx render - selectedDate:', selectedDate, 'today:', today, 'isToday:', selectedDate === today);
+  });
+
   // Sync local goals state when goals are updated from parent (App.jsx)
   useEffect(() => {
     if (propsGoals && (propsGoals.protein !== goals?.protein || propsGoals.carbs !== goals?.carbs || propsGoals.fat !== goals?.fat || propsGoals.cal !== goals?.cal)) {
@@ -687,6 +698,7 @@ export default function Today({goals: propsGoals, onTabFocus, onUpdateEzLevel, f
         {/* Meal Planner Section */}
         {selectedDate === new Date().toISOString().split('T')[0] && (
           <div style={{marginBottom: 28}}>
+            {console.log('[DEBUG] Meal planner section rendering. mealPlan:', mealPlanner.mealPlan, 'showGenerateMealModal:', showGenerateMealModal)}
             {mealPlanner.mealPlan ? (
               <MealPlanDisplay
                 mealPlan={mealPlanner.mealPlan}
@@ -712,7 +724,12 @@ export default function Today({goals: propsGoals, onTabFocus, onUpdateEzLevel, f
                   No meal plan generated yet.
                 </div>
                 <button
-                  onClick={() => setShowGenerateMealModal(true)}
+                  onClick={() => {
+                    console.log('[DEBUG] Generate button clicked');
+                    console.log('[DEBUG] Current showGenerateMealModal:', showGenerateMealModal);
+                    console.log('[DEBUG] mealPlanner.loading:', mealPlanner.loading);
+                    setShowGenerateMealModal(true);
+                  }}
                   disabled={mealPlanner.loading}
                   style={{
                     background: 'var(--lime)',

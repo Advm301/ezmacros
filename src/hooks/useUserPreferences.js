@@ -10,9 +10,11 @@ const DEFAULT_PREFERENCES = {
 };
 
 export default function useUserPreferences() {
+  console.log('[DEBUG] useUserPreferences hook initialized');
   const [preferences, setPreferences] = useState(DEFAULT_PREFERENCES);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  console.log('[DEBUG] useUserPreferences initial state:', { preferences, loading, error });
 
   // Load preferences from database on mount
   useEffect(() => {

@@ -4,9 +4,11 @@ import { selectMealsForDay, findAlternateRecipes } from '../lib/mealPlannerAlgor
 import { generateShakeRecipe } from '../lib/shakeGenerator';
 
 export default function useMealPlanner() {
+  console.log('[DEBUG] useMealPlanner hook initialized');
   const [mealPlan, setMealPlan] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  console.log('[DEBUG] useMealPlanner initial state:', { mealPlan, loading, error });
 
   // Generate a new meal plan for today
   const generateMealPlan = async (date, goals, preferences) => {
@@ -85,11 +87,14 @@ export default function useMealPlanner() {
   // Load meal plan from database for a specific date
   const loadMealPlan = async (date) => {
     try {
+      console.log('[DEBUG] loadMealPlan called with date:', date);
       setLoading(true);
       const { data: { user } } = await supabase.auth.getUser();
+      console.log('[DEBUG] loadMealPlan user:', user?.id);
       if (!user) throw new Error('No user logged in');
 
       const dateStr = date instanceof Date ? date.toISOString().split('T')[0] : date;
+      console.log('[DEBUG] loadMealPlan dateStr:', dateStr);
 
       const { data: plan, error: fetchError } = await supabase
         .from('meal_plans')
@@ -98,9 +103,12 @@ export default function useMealPlanner() {
         .eq('plan_date', dateStr)
         .maybeSingle();
 
+      console.log('[DEBUG] loadMealPlan result:', { plan, fetchError });
+
       if (fetchError) throw fetchError;
 
       if (plan) {
+        console.log('[DEBUG] loadMealPlan found existing plan:', plan.id);
         setMealPlan({
           savedPlanId: plan.id,
           planDate: plan.plan_date,
@@ -116,10 +124,12 @@ export default function useMealPlanner() {
           },
         });
       } else {
+        console.log('[DEBUG] loadMealPlan no plan found, setting to null');
         setMealPlan(null);
       }
     } catch (err) {
       console.error('Error loading meal plan:', err);
+      console.log('[DEBUG] loadMealPlan caught error, setting error state');
       setError(err.message);
     } finally {
       setLoading(false);
