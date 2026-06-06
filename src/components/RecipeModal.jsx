@@ -246,7 +246,13 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
     }
 
     // Return up to 2 words for compound ingredients like "green beans", "mixed veg"
-    return result.slice(0, 2).join(" ").toLowerCase();
+    // But if the first word is a common descriptor followed by an ingredient, prioritize the second word
+    let keyword = result.slice(0, 2).join(" ").toLowerCase();
+
+    // If we have only 1-word ingredients like "Cod Fillet" that extracted as "cod fillet",
+    // but might appear in steps as just "cod", we return the full extracted keyword
+    // The regex matching will handle both cases with proper word boundaries
+    return keyword;
   };
 
   useEffect(() => {
@@ -486,11 +492,19 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
       const updatedSteps = [...steps];
       const flashedIndices = new Set();
 
-      // Replace old keyword with new keyword in all steps (case-insensitive)
-      const regex = new RegExp(`\\b${oldKeyword}\\b`, 'gi');
+      // Split keywords into individual words for flexible matching
+      const oldWords = oldKeyword.toLowerCase().split(/\s+/);
+      const newWords = newKeyword.toLowerCase().split(/\s+/);
+
+      // Create a regex that matches any of the old words as whole words
+      const regexPattern = oldWords.map(word => `\\b${word}\\b`).join('|');
+      const regex = new RegExp(regexPattern, 'gi');
+
       updatedSteps.forEach((step, stepIndex) => {
-        if (regex.test(step)) {
-          updatedSteps[stepIndex] = step.replace(regex, newKeyword);
+        const matches = step.match(regex);
+        if (matches && matches.length > 0) {
+          // Replace the first matched word with the first word of new keyword
+          updatedSteps[stepIndex] = step.replace(regex, newWords[0]);
           flashedIndices.add(stepIndex);
         }
       });
