@@ -13,12 +13,13 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState("today");
   const [openRecipe, setOpenRecipe] = useState(null);
-  const [goals, setGoals] = useState({cal: 2200, protein: 180, carbs: 220, fat: 60});
+  const [goals, setGoals] = useState({cal: 2200, protein: 180, carbs: 220, fat: 60, goal_weight_lbs: null});
   const [mealLoggedNotification, setMealLoggedNotification] = useState(false);
   const [todayBadge, setTodayBadge] = useState(false);
   const [ezLevel, setEzLevel] = useState(2);
   const [openGoalsModal, setOpenGoalsModal] = useState(false);
   const [user, setUser] = useState(null);
+  const [selectedGoalsTab, setSelectedGoalsTab] = useState("calculate");
 
   const ezLevelNames = {
     1: { name: 'Effortless', icon: '⚡', bolts: '⚡' },
@@ -212,12 +213,18 @@ export default function App() {
           <GoalsModal
             goals={{...goals, ez_level: ezLevel}}
             user={user}
+            selectedTab={selectedGoalsTab}
+            onTabChange={(tab) => {
+              console.log('[DEBUG] GoalsModal tab changed to:', tab);
+              setSelectedGoalsTab(tab);
+            }}
             onClose={() => {
               console.log('[DEBUG] GoalsModal onClose called');
               setOpenGoalsModal(false);
             }}
             onSave={(newGoals) => {
               console.log('[DEBUG] GoalsModal onSave called with:', newGoals);
+              console.log('[DEBUG] Updated goals with goal_weight_lbs:', newGoals.goal_weight_lbs);
               setGoals(newGoals);
               if (newGoals.ez_level) {
                 const levelNames = { 1: 'Effortless', 2: 'Easy', 3: 'Relaxed' };

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 
-function GoalsModal({ goals, user, onClose, onSave }) {
+function GoalsModal({ goals, user, onClose, onSave, selectedTab = "calculate", onTabChange = () => {} }) {
   // Personal stats
   const [sex, setSex] = useState(goals?.sex || 'Male');
   const [age, setAge] = useState(goals?.age || 30);
@@ -34,7 +34,7 @@ function GoalsModal({ goals, user, onClose, onSave }) {
   const [selectedPreset, setSelectedPreset] = useState(null);
   const [showEzInfo, setShowEzInfo] = useState(false);
   const [saveError, setSaveError] = useState(null);
-  const [isCustomMode, setIsCustomMode] = useState(false);
+  const [isCustomMode, setIsCustomMode] = useState(selectedTab === "custom");
   const [customMacros, setCustomMacros] = useState({ protein: '', carbs: '', fat: '' });
 
   const ACTIVITY_MULTIPLIERS = {
@@ -186,6 +186,17 @@ function GoalsModal({ goals, user, onClose, onSave }) {
     if (!goalWeightLbs || goalWeightLbs < 50) errors.goalWeight = 'Goal weight is required';
     if (!heightCm || heightCm < 100) errors.height = 'Height is required';
 
+    // Validate custom macros if in custom mode
+    if (isCustomMode) {
+      const proteinVal = parseInt(customMacros.protein) || 0;
+      const carbsVal = parseInt(customMacros.carbs) || 0;
+      const fatVal = parseInt(customMacros.fat) || 0;
+
+      if (!customMacros.protein || proteinVal === 0) errors.protein = 'Protein is required';
+      if (!customMacros.carbs || carbsVal === 0) errors.carbs = 'Carbs are required';
+      if (!customMacros.fat || fatVal === 0) errors.fat = 'Fat is required';
+    }
+
     if (Object.keys(errors).length > 0) {
       setValidationErrors(errors);
       return;
@@ -325,7 +336,10 @@ function GoalsModal({ goals, user, onClose, onSave }) {
         {/* Macro Mode Selector */}
         <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 24}}>
           <button
-            onClick={() => setIsCustomMode(false)}
+            onClick={() => {
+              setIsCustomMode(false);
+              onTabChange("calculate");
+            }}
             style={{
               padding: '12px 16px',
               borderRadius: 20,
@@ -353,7 +367,10 @@ function GoalsModal({ goals, user, onClose, onSave }) {
             📊 Calculate for me
           </button>
           <button
-            onClick={() => setIsCustomMode(true)}
+            onClick={() => {
+              setIsCustomMode(true);
+              onTabChange("custom");
+            }}
             style={{
               padding: '12px 16px',
               borderRadius: 20,
@@ -787,7 +804,7 @@ function GoalsModal({ goals, user, onClose, onSave }) {
                     width: '100%',
                     padding: '10px 12px',
                     background: 'var(--s1)',
-                    border: '1px solid var(--border)',
+                    border: validationErrors[macro.key] ? '1px solid var(--red)' : '1px solid var(--border)',
                     borderRadius: 8,
                     color: 'var(--cream)',
                     fontSize: 14,
@@ -798,6 +815,7 @@ function GoalsModal({ goals, user, onClose, onSave }) {
                     transition: 'all 0.15s',
                   }}
                 />
+                {validationErrors[macro.key] && <div style={{fontSize: 9, color: 'var(--red)', marginTop: 4}}>{validationErrors[macro.key]}</div>}
               </div>
             ))}
           </div>
