@@ -228,8 +228,8 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
   // Helper function to extract keyword from component name
   const extractKeyword = (name) => {
     if (!name) return "";
-    // List of words to skip at the beginning
-    const skipWords = ["frozen", "canned", "white", "ground", "pre-cooked", "pre-cut", "low-sodium", "heavy", "light", "reduced", "extra", "lean", "skinless", "boneless"];
+    // List of words to skip (descriptors and packaging that shouldn't be part of the keyword)
+    const skipWords = ["frozen", "canned", "white", "brown", "ground", "pre-cooked", "pre-cut", "low-sodium", "heavy", "light", "reduced", "extra", "lean", "skinless", "boneless", "pouch", "bag", "carton", "bottle", "can"];
 
     // Remove everything in parentheses
     let cleaned = name.replace(/\s*\([^)]*\)/g, "").trim();
@@ -245,13 +245,10 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
       }
     }
 
-    // Return up to 2 words for compound ingredients like "green beans", "mixed veg"
-    // But if the first word is a common descriptor followed by an ingredient, prioritize the second word
+    // Return up to 2 words for compound ingredients like "green beans", "mixed veg", "cauliflower rice"
     let keyword = result.slice(0, 2).join(" ").toLowerCase();
 
-    // If we have only 1-word ingredients like "Cod Fillet" that extracted as "cod fillet",
-    // but might appear in steps as just "cod", we return the full extracted keyword
-    // The regex matching will handle both cases with proper word boundaries
+    // Return the extracted keyword (handles both single and multi-word ingredients)
     return keyword;
   };
 
@@ -454,6 +451,59 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
     return null;
   };
 
+  // Cooking methods and prep instructions for different ingredients
+  const COOKING_METHODS = {
+    // Proteins
+    "salmon": "Bake at 425°F for 12–14 minutes until it flakes easily with a fork.",
+    "cod": "Bake at 425°F for 12–14 minutes until the fish flakes easily.",
+    "chicken breast": "Air fry at 400°F for 18–22 minutes, flipping once halfway.",
+    "chicken thigh": "Air fry at 400°F for 18–20 minutes, flipping once at 10 minutes.",
+    "ground beef": "Brown in a skillet over medium-high heat for 5–6 minutes, breaking it apart. Drain excess fat.",
+    "ground turkey": "Cook in a skillet over medium-high heat for 5–6 minutes, breaking apart until no pink remains.",
+    "shrimp": "Cook in a hot pan for 2 minutes per side until pink and curled. Do not overcook.",
+    "tuna": "Drain the can. No cooking needed.",
+    "egg": "Crack into a bowl, whisk, cook in buttered pan over medium-low heat, stirring gently.",
+    // Vegetables
+    "baby spinach": "Heat a pan over medium with a small spray of oil. Add spinach and toss for 1–2 minutes until wilted. Season with salt.",
+    "fresh spinach": "Heat a pan over medium with a small spray of oil. Add spinach and toss for 1–2 minutes until wilted. Season with salt.",
+    "frozen spinach": "Microwave frozen spinach for 2 minutes. Squeeze out all excess water using a paper towel.",
+    "broccoli": "Microwave the frozen broccoli bag for 4 minutes. Drain any water.",
+    "green beans": "Microwave the green beans steam bag for 3 minutes.",
+    "mixed veg": "Microwave the frozen vegetable bag for 3–4 minutes following package directions.",
+    "edamame": "Microwave the frozen edamame bag for 3 minutes. Season with a pinch of salt.",
+    "kale": "Heat a pan with a small spray of oil. Add kale and toss for 2–3 minutes until slightly wilted.",
+    "asparagus": "Air fry at 400°F for 6–8 minutes, or roast in oven at 425°F for 10 minutes.",
+    "zucchini": "Slice and air fry at 400°F for 8–10 minutes until golden.",
+    "brussels sprouts": "Air fry at 400°F for 12–15 minutes, shaking halfway.",
+    "cauliflower rice": "Microwave the frozen cauliflower rice bag for 4 minutes.",
+    "sweet potato": "Microwave whole for 5–6 minutes until soft, or air fry cubes at 400°F for 15 minutes.",
+    // Carbs
+    "rice": "Microwave the rice pouch for 90 seconds.",
+    "quinoa": "Cook quinoa per package directions (usually 2:1 water ratio, 15 minutes simmering) OR use a microwave quinoa pouch for 90 seconds.",
+    "pasta": "Cook pasta in boiling salted water per package directions. Drain well.",
+    "naan": "No cooking needed, or warm in air fryer at 350°F for 2 minutes.",
+    "tortilla": "No cooking needed, or warm in a dry pan for 30 seconds per side.",
+    // Sauces/Condiments
+    "sauce": "No preparation needed — pour directly from the bottle.",
+  };
+
+  const getCookingMethod = (ingredientName) => {
+    if (!ingredientName) return null;
+    const lower = ingredientName.toLowerCase();
+
+    // Check for exact matches first
+    if (COOKING_METHODS[lower]) return COOKING_METHODS[lower];
+
+    // Check for partial matches
+    for (const key in COOKING_METHODS) {
+      if (lower.includes(key)) {
+        return COOKING_METHODS[key];
+      }
+    }
+
+    return null;
+  };
+
   const handleSwapComponent = (index, newName) => {
     // Update the component at this index
     const updatedComponents = [...components];
@@ -505,6 +555,23 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
           flashedIndices.add(stepIndex);
         }
       });
+
+      // Special handling for cooking method updates when swapping fresh spinach
+      const oldCookingMethod = getCookingMethod(oldName);
+      const newCookingMethod = getCookingMethod(newName);
+
+      if (oldCookingMethod && newCookingMethod && oldCookingMethod !== newCookingMethod) {
+        // If swapping to fresh spinach, replace microwave instruction with sauté instruction
+        if ((newName.toLowerCase().includes("baby spinach") || newName.toLowerCase().includes("fresh spinach")) &&
+            oldCookingMethod.toLowerCase().includes("microwave")) {
+          updatedSteps.forEach((step, stepIndex) => {
+            if (step.toLowerCase().includes("microwave") && step.toLowerCase().includes("spinach")) {
+              updatedSteps[stepIndex] = "Heat a pan over medium with a small spray of olive oil. Add the fresh spinach and toss for 1–2 minutes until just wilted. Season with a pinch of salt.";
+              flashedIndices.add(stepIndex);
+            }
+          });
+        }
+      }
 
       // Only update if we made changes
       if (flashedIndices.size > 0) {

@@ -147,26 +147,51 @@ export function classifyIngredient(name) {
   return "other";
 }
 
-// Helper function to provide appropriate prep instructions based on vegetable type
+// Helper function to provide appropriate prep instructions based on ingredient type and name
+function getIngredientPrepNote(ingredientName) {
+  if (!ingredientName) return "";
+  const lower = ingredientName.toLowerCase();
+
+  // Proteins
+  if (lower.includes("salmon")) return "Bake at 425°F for 12–14 minutes until it flakes easily with a fork.";
+  if (lower.includes("cod")) return "Bake at 425°F for 12–14 minutes until the fish flakes easily.";
+  if (lower.includes("chicken breast")) return "Air fry at 400°F for 18–22 minutes, flipping once halfway.";
+  if (lower.includes("chicken thigh")) return "Air fry at 400°F for 18–20 minutes, flipping once at 10 minutes.";
+  if (lower.includes("ground beef")) return "Brown in a skillet over medium-high heat for 5–6 minutes, breaking it apart. Drain excess fat.";
+  if (lower.includes("ground turkey")) return "Cook in a skillet over medium-high heat for 5–6 minutes, breaking apart until no pink remains.";
+  if (lower.includes("shrimp")) return "Cook in a hot pan for 2 minutes per side until pink and curled. Do not overcook.";
+  if (lower.includes("tuna")) return "Drain the can. No cooking needed.";
+
+  // Vegetables
+  if (lower.includes("baby spinach") || lower.includes("fresh spinach")) return "Heat a pan over medium with a small spray of oil. Add spinach and toss for 1–2 minutes until wilted. Season with salt.";
+  if (lower.includes("frozen spinach")) return "Microwave frozen spinach for 2 minutes. Squeeze out all excess water using a paper towel.";
+  if (lower.includes("broccoli")) return "Microwave the frozen broccoli bag for 4 minutes. Drain any water.";
+  if (lower.includes("green bean")) return "Microwave the green beans steam bag for 3 minutes.";
+  if (lower.includes("edamame")) return "Microwave the frozen edamame bag for 3 minutes. Season with a pinch of salt.";
+  if (lower.includes("kale")) return "Heat a pan with a small spray of oil. Add kale and toss for 2–3 minutes until slightly wilted.";
+  if (lower.includes("asparagus")) return "Air fry at 400°F for 6–8 minutes, or roast in oven at 425°F for 10 minutes.";
+  if (lower.includes("zucchini")) return "Slice and air fry at 400°F for 8–10 minutes until golden.";
+  if (lower.includes("brussels sprouts")) return "Air fry at 400°F for 12–15 minutes, shaking halfway.";
+  if (lower.includes("cauliflower rice")) return "Microwave the frozen cauliflower rice bag for 4 minutes.";
+  if (lower.includes("sweet potato")) return "Microwave whole for 5–6 minutes until soft, or air fry cubes at 400°F for 15 minutes.";
+  if (lower.includes("mixed veg") || lower.includes("vegetable")) return "Microwave the frozen vegetable bag for 3–4 minutes following package directions.";
+
+  // Carbs
+  if (lower.includes("rice pouch") || (lower.includes("rice") && !lower.includes("cauliflower"))) return "Microwave the rice pouch for 90 seconds.";
+  if (lower.includes("quinoa")) return "Cook quinoa per package directions (usually 2:1 water ratio, 15 minutes simmering) OR use a microwave quinoa pouch for 90 seconds.";
+  if (lower.includes("pasta")) return "Cook pasta in boiling salted water per package directions. Drain well.";
+  if (lower.includes("naan")) return "No cooking needed, or warm in air fryer at 350°F for 2 minutes.";
+  if (lower.includes("tortilla")) return "No cooking needed, or warm in a dry pan for 30 seconds per side.";
+
+  // Sauces/Condiments - bottled items need no prep
+  if (lower.includes("sauce") || lower.includes("sriracha") || lower.includes("soy") || lower.includes("ponzu")) return "";
+
+  return "";
+}
+
+// Helper function to provide appropriate veg prep instructions (legacy name, calls getIngredientPrepNote)
 function getVegPrepInstruction(vegName) {
-  if (!vegName) return "Microwave the frozen vegetable bag for 3 minutes following package directions.";
-  const lower = vegName.toLowerCase();
-
-  if (lower.includes("broccoli")) {
-    return "Microwave the frozen broccoli bag for 4 minutes. Drain any water.";
-  } else if (lower.includes("green bean")) {
-    return "Microwave the green beans steam bag for 3 minutes.";
-  } else if (lower.includes("spinach")) {
-    return "Microwave frozen spinach for 2 minutes. Squeeze out all excess water with a paper towel before using.";
-  } else if (lower.includes("edamame")) {
-    return "Microwave the frozen edamame bag for 3 minutes. Season with a pinch of salt.";
-  } else if (lower.includes("peas")) {
-    return "Microwave frozen peas for 2 minutes.";
-  } else if (lower.includes("mixed veg") || lower.includes("vegetable")) {
-    return "Microwave the frozen vegetable bag for 3-4 minutes following package directions.";
-  }
-
-  return "Microwave the frozen vegetable bag for 3 minutes following package directions.";
+  return getIngredientPrepNote(vegName);
 }
 
 export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMethod, goals, heatLevel = null) {
