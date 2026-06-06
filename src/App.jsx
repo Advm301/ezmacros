@@ -27,13 +27,15 @@ export default function App() {
   };
 
   const updateEzLevel = (levelName) => {
-    console.log('onUpdateEzLevel called with:', levelName);
+    console.log('[DEBUG] updateEzLevel called with:', levelName);
     // Convert levelName to numeric level: Effortless->1, Easy->2, Relaxed->3
     const levelMap = { 'Effortless': 1, 'Easy': 2, 'Relaxed': 3 };
     const level = levelMap[levelName];
     if (level) {
-      console.log('Setting ezLevel to:', level);
+      console.log('[DEBUG] Setting ezLevel to:', level);
       setEzLevel(level);
+    } else {
+      console.warn('[DEBUG] Invalid levelName:', levelName, '- levelMap:', levelMap);
     }
   };
 
@@ -42,8 +44,10 @@ export default function App() {
     const checkSession = async () => {
       try {
         const { data: { session: currentSession } } = await supabase.auth.getSession();
+        console.log('[DEBUG] Session check:', currentSession ? 'logged in' : 'logged out');
         setSession(currentSession);
         if (currentSession?.user) {
+          console.log('[DEBUG] Setting user:', currentSession.user.email);
           setUser(currentSession.user);
         }
       } catch (err) {
@@ -73,7 +77,10 @@ export default function App() {
   // Fetch saved ez_level from Supabase on mount
   useEffect(() => {
     const fetchSavedEzLevel = async () => {
-      if (!session?.user?.id) return;
+      if (!session?.user?.id) {
+        console.log('[DEBUG] No session yet, skipping ez_level fetch');
+        return;
+      }
 
       try {
         const { data: goalsData } = await supabase
@@ -82,12 +89,20 @@ export default function App() {
           .eq('user_id', session.user.id)
           .maybeSingle();
 
+        console.log('[DEBUG] Fetched goals data:', goalsData);
+
         if (goalsData?.ez_level !== null && goalsData?.ez_level !== undefined) {
           const level = goalsData.ez_level;
+          console.log('[DEBUG] Found saved ez_level:', level);
           // Database stores 1, 2, 3 - check if valid
           if (level >= 1 && level <= 3) {
+            console.log('[DEBUG] Setting ezLevel to:', level);
             setEzLevel(level);
+          } else {
+            console.warn('[DEBUG] Invalid ez_level from DB:', level);
           }
+        } else {
+          console.log('[DEBUG] No saved ez_level found, using default');
         }
       } catch (err) {
         console.error('Error fetching ez_level:', err);
@@ -139,6 +154,7 @@ export default function App() {
           </div>
           <div
             onClick={() => {
+              console.log('[DEBUG] EZ selector button clicked. Current openGoalsModal:', openGoalsModal, 'Current ezLevel:', ezLevel);
               setOpenGoalsModal(true);
             }}
             onMouseEnter={(e) => {
@@ -191,19 +207,27 @@ export default function App() {
       {openRecipe && <RecipeModal recipe={openRecipe} onClose={() => setOpenRecipe(null)} onMealLogged={handleMealLogged}/>}
 
       {openGoalsModal && (
-        <GoalsModal
-          goals={goals}
-          user={user}
-          onClose={() => setOpenGoalsModal(false)}
-          onSave={(newGoals) => {
-            setGoals(newGoals);
-            if (newGoals.ez_level) {
-              const levelNames = { 1: 'Effortless', 2: 'Easy', 3: 'Relaxed' };
-              const levelName = levelNames[newGoals.ez_level] || 'Easy';
-              updateEzLevel(levelName);
-            }
-          }}
-        />
+        <>
+          {console.log('[DEBUG] GoalsModal rendering with props:', { goals, user: !!user, openGoalsModal })}
+          <GoalsModal
+            goals={goals}
+            user={user}
+            onClose={() => {
+              console.log('[DEBUG] GoalsModal onClose called');
+              setOpenGoalsModal(false);
+            }}
+            onSave={(newGoals) => {
+              console.log('[DEBUG] GoalsModal onSave called with:', newGoals);
+              setGoals(newGoals);
+              if (newGoals.ez_level) {
+                const levelNames = { 1: 'Effortless', 2: 'Easy', 3: 'Relaxed' };
+                const levelName = levelNames[newGoals.ez_level] || 'Easy';
+                console.log('[DEBUG] Calling updateEzLevel with levelName:', levelName);
+                updateEzLevel(levelName);
+              }
+            }}
+          />
+        </>
       )}
     </>
   );
