@@ -207,7 +207,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
   const usdaDebounceRef = useRef(null);
   const [updatedStepIndices, setUpdatedStepIndices] = useState(new Set());
   const stepFlashTimeoutRef = useRef(null);
-  const [hasBeenOpened, setHasBeenOpened] = useState(false);
+  const [userHasModified, setUserHasModified] = useState(false);
 
   // Track original state to enable reset functionality
   const originalComponents = useRef([]);
@@ -296,21 +296,22 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
       setComponents(initialComponents);
       setSteps(initialSteps);
       setRecipeName(initialName);
+
+      // Initialize macros with correct field names for both Kitchen recipes (totalCal) and Browse recipes (cal)
+      const initialCal = recipe.totalCal ?? recipe.cal ?? 0;
+      const initialProtein = recipe.totalProtein ?? recipe.protein ?? 0;
+      const initialCarbs = recipe.totalCarbs ?? recipe.carbs ?? 0;
+      const initialFat = recipe.totalFat ?? recipe.fat ?? 0;
+
       setMacros({
-        cal: recipe.cal || recipe.totalCal || 0,
-        protein: recipe.protein || recipe.totalProtein || 0,
-        carbs: recipe.carbs || recipe.totalCarbs || 0,
-        fat: recipe.fat || recipe.totalFat || 0,
+        cal: initialCal,
+        protein: initialProtein,
+        carbs: initialCarbs,
+        fat: initialFat,
       });
 
-      // If isBrowseRecipe flag is set, ensure isModified stays false
-      if (recipe.isBrowseRecipe) {
-        setIsModified(false);
-      }
-      // If wasModified is true on load, set isModified immediately (for logged meals)
-      else if (recipe.wasModified) {
-        setIsModified(true);
-      }
+      // Reset userHasModified on new recipe open
+      setUserHasModified(false);
     }
 
     return () => {
@@ -321,41 +322,27 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
     };
   }, [recipe?.id]);
 
-  // Set hasBeenOpened to true after the first render
-  useEffect(() => {
-    setHasBeenOpened(true);
-  }, []);
-
   // Recalculate totals whenever components change
   useEffect(() => {
     if (components && components.length > 0) {
-      const newTotals = components.reduce(
-        (acc, comp) => ({
-          cal: acc.cal + (comp.cal || 0),
-          protein: acc.protein + (comp.protein || 0),
-          carbs: acc.carbs + (comp.carbs || 0),
-          fat: acc.fat + (comp.fat || 0),
-        }),
-        { cal: 0, protein: 0, carbs: 0, fat: 0 }
-      );
-      setMacros(newTotals);
-      if (r.isLoggedView) setHasChanges(true);
-    }
-  }, [components]);
+      const totalCal = components.reduce((sum, c) => sum + (c.cal || 0), 0);
+      const totalProtein = components.reduce((sum, c) => sum + (c.protein ?? c.p ?? 0), 0);
+      const totalCarbs = components.reduce((sum, c) => sum + (c.carbs ?? c.c ?? 0), 0);
+      const totalFat = components.reduce((sum, c) => sum + (c.fat ?? c.f ?? 0), 0);
 
-  // Check if current state matches original and update isModified accordingly
-  // Skip this check on the very first render (when !hasBeenOpened) to keep Browse recipes unmodified initially
+      setMacros({
+        cal: totalCal,
+        protein: totalProtein,
+        carbs: totalCarbs,
+        fat: totalFat,
+      });
+      if (recipe?.isLoggedView) setHasChanges(true);
+    }
+  }, [components, recipe?.isLoggedView]);
+
+  // Update recipeName display based on userHasModified flag
   useEffect(() => {
-    // On first render, skip modification check to keep recipes unmodified initially
-    if (!hasBeenOpened) {
-      return;
-    }
-
-    const modified = isCurrentStateModified();
-    setIsModified(modified);
-
-    // Update recipeName based on isModified - explicitly set to originalName when not modified
-    if (modified) {
+    if (userHasModified) {
       if (recipeName !== originalName.current + " (Modified)") {
         setRecipeName(originalName.current + " (Modified)");
       }
@@ -364,7 +351,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
         setRecipeName(originalName.current);
       }
     }
-  }, [components, steps, hasBeenOpened]);
+  }, [userHasModified]);
 
   // For logged meals, track if there are unsaved changes from what was loaded from database
   useEffect(() => {
@@ -509,6 +496,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
     }
 
     if (recipe?.isLoggedView) setHasUnsavedChanges(true);
+    setUserHasModified(true);
     setExpandedSwap(null);
   };
 
@@ -523,6 +511,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
       updatedSteps[editingStepIndex] = editingStepText;
       setSteps(updatedSteps);
       setEditingStepIndex(null);
+      setUserHasModified(true);
       if (recipe?.isLoggedView) setHasUnsavedChanges(true);
     }
   };
@@ -547,6 +536,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
       setSteps([...originalSteps.current]);
       setRecipeName(originalName.current);
       setResetConfirming(false);
+      setUserHasModified(false);
       if (resetConfirmTimeoutRef.current) clearTimeout(resetConfirmTimeoutRef.current);
       // If in logged view, ensure Save Changes button appears
       if (recipe?.isLoggedView) setHasUnsavedChanges(true);
@@ -558,6 +548,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
       const updatedSteps = [...steps];
       [updatedSteps[index - 1], updatedSteps[index]] = [updatedSteps[index], updatedSteps[index - 1]];
       setSteps(updatedSteps);
+      setUserHasModified(true);
       if (recipe?.isLoggedView) setHasUnsavedChanges(true);
     }
   };
@@ -567,6 +558,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
       const updatedSteps = [...steps];
       [updatedSteps[index], updatedSteps[index + 1]] = [updatedSteps[index + 1], updatedSteps[index]];
       setSteps(updatedSteps);
+      setUserHasModified(true);
       if (recipe?.isLoggedView) setHasUnsavedChanges(true);
     }
   };
