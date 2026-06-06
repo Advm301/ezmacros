@@ -12,6 +12,7 @@ export const BANNED = ["Mincing fresh garlic","Peeling anything","From-scratch s
 export const RECIPES = [
   {id:1,name:"Teriyaki Cod Bowl",emoji:"🐟",method:"Bake",type:"fresh",ezLevel:1,spiceLevel:0,
     tags:["High Protein","Asian-Inspired","Neutral","Omega-3"],
+    mealType:"Lunch/Dinner",
     cal:420,protein:38,carbs:42,fat:8,activeTime:3,stepCount:3,
     components:[
       {name:"Cod Fillet",type:"Protein",cal:140,p:30,c:0,f:1,grams:170,weighRaw:true},
@@ -24,6 +25,7 @@ export const RECIPES = [
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
   {id:2,name:"Spicy Asian Cod Bowl",emoji:"🌶️",method:"Bake",type:"fresh",ezLevel:2,spiceLevel:2,
     tags:["High Protein","Asian-Inspired","Medium Heat","Omega-3"],
+    mealType:"Lunch/Dinner",
     cal:440,protein:40,carbs:44,fat:10,activeTime:5,stepCount:5,
     components:[
       {name:"Cod Fillet",type:"Protein",cal:140,p:30,c:0,f:1,grams:170,weighRaw:true},
@@ -37,6 +39,7 @@ export const RECIPES = [
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
   {id:3,name:"Air Fryer Chicken Thighs",emoji:"🍗",method:"Air Fryer",type:"fresh",ezLevel:1,spiceLevel:0,
     tags:["High Protein","Neutral","Gluten-Free","Keto"],
+    mealType:"Lunch/Dinner",
     cal:310,protein:38,carbs:2,fat:16,activeTime:4,stepCount:3,
     components:[
       {name:"Chicken Thighs (boneless, skinless)",type:"Protein",cal:220,p:35,c:0,f:9,grams:170,weighRaw:true},
@@ -48,6 +51,7 @@ export const RECIPES = [
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
   {id:4,name:"Maverick Jerk Chicken Bowl",emoji:"📦",method:"Microwave",type:"packaged",ezLevel:1,spiceLevel:3,
     tags:["High Protein","Hot","Caribbean","Ready in 3 min"],
+    mealType:"Lunch/Dinner",
     cal:380,protein:40,carbs:28,fat:12,activeTime:1,stepCount:2,
     components:[
       {name:"Maverick Foods Jerk Chicken Bowl (9oz)",type:"Packaged Meal",cal:380,p:40,c:28,f:12,grams:255,weighRaw:false},
@@ -57,6 +61,7 @@ export const RECIPES = [
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
   {id:5,name:"Deviled Eggs",emoji:"🥚",method:"No Cook",type:"fresh",ezLevel:1,spiceLevel:0,
     tags:["High Protein","Keto","Neutral","Low Carb","Snack"],
+    mealType:"Snack",
     cal:210,protein:18,carbs:2,fat:14,activeTime:5,stepCount:3,
     components:[
       {name:"Pre-Boiled Eggs",type:"Protein",cal:210,p:18,c:2,f:14,grams:150,weighRaw:false},
@@ -68,6 +73,7 @@ export const RECIPES = [
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
   {id:6,name:"Slow Cooker Beef Rice Bowl",emoji:"🥩",method:"Slow Cooker",type:"fresh",ezLevel:2,spiceLevel:0,
     tags:["High Protein","Neutral","Bulk Friendly","Meal Prep"],
+    mealType:"Lunch/Dinner",
     cal:520,protein:45,carbs:48,fat:14,activeTime:5,stepCount:4,
     components:[
       {name:"Ground Beef (93% lean)",type:"Protein",cal:195,p:30,c:0,f:7,grams:142,weighRaw:true},
@@ -80,6 +86,7 @@ export const RECIPES = [
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
   {id:7,name:"Sheet Pan Turkey Meatballs",emoji:"🧆",method:"Bake",type:"fresh",ezLevel:2,spiceLevel:0,
     tags:["High Protein","Italian-Inspired","Neutral","Meal Prep"],
+    mealType:"Lunch/Dinner",
     cal:310,protein:36,carbs:8,fat:12,activeTime:8,stepCount:4,
     components:[
       {name:"Ground Turkey (93% lean)",type:"Protein",cal:175,p:28,c:0,f:7,grams:142,weighRaw:true},
@@ -91,6 +98,7 @@ export const RECIPES = [
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
   {id:8,name:"Salmon Lemon Herb Bake",emoji:"🐠",method:"Bake",type:"fresh",ezLevel:1,spiceLevel:0,
     tags:["High Protein","Neutral","Omega-3","Gluten-Free"],
+    mealType:"Lunch/Dinner",
     cal:380,protein:40,carbs:2,fat:22,activeTime:3,stepCount:3,
     components:[
       {name:"Salmon Fillet",type:"Protein",cal:280,p:36,c:0,f:14,grams:170,weighRaw:true},
@@ -104,6 +112,7 @@ export const RECIPES = [
 
   {id:9,name:"Greek Yogurt Power Bowl",emoji:"🥣",method:"No Cook",type:"fresh",ezLevel:1,spiceLevel:0,
     tags:["Breakfast","High Protein","No Cook","Quick","Low Fat"],
+    mealType:"Breakfast",
     cal:370,protein:35,carbs:35,fat:4,activeTime:2,stepCount:2,
     components:[
       {name:"Fage 0% Greek Yogurt",type:"Protein",cal:170,p:28,c:8,f:0,grams:200,weighRaw:false},
@@ -117,6 +126,7 @@ export const RECIPES = [
 
   {id:10,name:"Egg White Scramble",emoji:"🍳",method:"Stovetop",type:"fresh",ezLevel:1,spiceLevel:0,
     tags:["Breakfast","High Protein","Low Fat","Low Carb","Quick"],
+    mealType:"Breakfast",
     cal:280,protein:38,carbs:6,fat:8,activeTime:5,stepCount:3,
     components:[
       {name:"Egg White Carton (liquid)",type:"Protein",cal:130,p:27,c:2,f:0,grams:240,weighRaw:false},
@@ -129,6 +139,7 @@ export const RECIPES = [
 
   {id:11,name:"Kodiak Protein Pancakes",emoji:"🥞",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:0,
     tags:["Breakfast","High Protein","Sweet","Quick"],
+    mealType:"Breakfast",
     cal:400,protein:30,carbs:44,fat:10,activeTime:8,stepCount:3,
     components:[
       {name:"Kodiak Cakes Mix (dry 1 cup)",type:"Carb",cal:200,p:10,c:38,f:3,grams:100,weighRaw:true},
@@ -142,6 +153,7 @@ export const RECIPES = [
 
   {id:12,name:"PB Banana Protein Shake",emoji:"🍌",method:"No Cook",type:"packaged",ezLevel:1,spiceLevel:0,
     tags:["Breakfast","High Protein","No Cook","Quick","Sweet"],
+    mealType:"Breakfast",
     cal:380,protein:35,carbs:36,fat:12,activeTime:2,stepCount:2,
     components:[
       {name:"Chocolate Protein Powder (1 scoop)",type:"Protein",cal:120,p:25,c:2,f:2,grams:30,weighRaw:false},
@@ -156,6 +168,7 @@ export const RECIPES = [
 
   {id:13,name:"Smoked Salmon Bagel",emoji:"🍣",method:"No Cook",type:"fresh",ezLevel:1,spiceLevel:0,
     tags:["Breakfast","High Protein","Omega-3","No Cook"],
+    mealType:"Breakfast",
     cal:340,protein:28,carbs:32,fat:10,activeTime:3,stepCount:2,
     components:[
       {name:"Bagel Thin",type:"Carb",cal:110,p:4,c:22,f:1,grams:45,weighRaw:false},
@@ -169,6 +182,7 @@ export const RECIPES = [
 
   {id:14,name:"Cottage Cheese Toast",emoji:"🧀",method:"No Cook",type:"fresh",ezLevel:1,spiceLevel:0,
     tags:["Breakfast","High Protein","No Cook","Quick"],
+    mealType:"Breakfast",
     cal:320,protein:24,carbs:32,fat:10,activeTime:3,stepCount:2,
     components:[
       {name:"Whole Grain Toast (2 slices)",type:"Carb",cal:160,p:8,c:28,f:3,grams:60,weighRaw:false},
@@ -182,6 +196,7 @@ export const RECIPES = [
 
   {id:15,name:"Protein Overnight Oats",emoji:"🥣",method:"No Cook",type:"packaged",ezLevel:1,spiceLevel:0,
     tags:["Breakfast","High Protein","Meal Prep","No Cook"],
+    mealType:"Breakfast",
     cal:410,protein:36,carbs:40,fat:8,activeTime:3,stepCount:2,
     components:[
       {name:"Rolled Oats (dry ½ cup)",type:"Carb",cal:150,p:5,c:27,f:3,grams:45,weighRaw:true},
@@ -196,6 +211,7 @@ export const RECIPES = [
 
   {id:16,name:"Scrambled Eggs & Turkey Sausage",emoji:"🍳",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:0,
     tags:["Breakfast","High Protein","Quick","Low Carb"],
+    mealType:"Breakfast",
     cal:380,protein:34,carbs:2,fat:28,activeTime:6,stepCount:3,
     components:[
       {name:"Whole Eggs (3 large)",type:"Protein",cal:210,p:18,c:2,f:15,grams:150,weighRaw:true},
@@ -209,6 +225,7 @@ export const RECIPES = [
 
   {id:17,name:"High Protein Bagel",emoji:"🛡️",method:"No Cook",type:"fresh",ezLevel:1,spiceLevel:0,
     tags:["Breakfast","High Protein","Quick","No Cook"],
+    mealType:"Breakfast",
     cal:350,protein:30,carbs:32,fat:10,activeTime:3,stepCount:2,
     components:[
       {name:"Everything Bagel Thin",type:"Carb",cal:110,p:4,c:22,f:1,grams:45,weighRaw:false},
@@ -223,6 +240,7 @@ export const RECIPES = [
 
   {id:18,name:"Avocado Egg Toast",emoji:"🥑",method:"No Cook",type:"fresh",ezLevel:1,spiceLevel:0,
     tags:["Breakfast","High Protein","Healthy Fats","Quick"],
+    mealType:"Breakfast",
     cal:360,protein:20,carbs:26,fat:20,activeTime:3,stepCount:2,
     components:[
       {name:"Whole Grain Toast (2 slices)",type:"Carb",cal:160,p:8,c:28,f:3,grams:60,weighRaw:false},
@@ -236,6 +254,7 @@ export const RECIPES = [
 
   {id:19,name:"Greek Yogurt Parfait",emoji:"🍨",method:"No Cook",type:"fresh",ezLevel:1,spiceLevel:0,
     tags:["Breakfast","High Protein","Sweet","No Cook"],
+    mealType:"Breakfast",
     cal:320,protein:26,carbs:38,fat:4,activeTime:2,stepCount:2,
     components:[
       {name:"Fage 0% Greek Yogurt",type:"Protein",cal:170,p:28,c:8,f:0,grams:200,weighRaw:false},
@@ -249,6 +268,7 @@ export const RECIPES = [
 
   {id:20,name:"Microwave Egg Mug",emoji:"☕",method:"Microwave",type:"fresh",ezLevel:1,spiceLevel:0,
     tags:["Breakfast","High Protein","Fastest","Low Carb"],
+    mealType:"Breakfast",
     cal:280,protein:28,carbs:1,fat:18,activeTime:3,stepCount:2,
     components:[
       {name:"Egg Whites (carton, ¾ cup)",type:"Protein",cal:100,p:21,c:1,f:0,grams:180,weighRaw:false},
@@ -262,6 +282,7 @@ export const RECIPES = [
 
   {id:21,name:"Buffalo Chicken Rice Bowl",emoji:"🔥",method:"Air Fryer",type:"fresh",ezLevel:1,spiceLevel:2,
     tags:["High Protein","Hot","Asian-Inspired","Quick"],
+    mealType:"Lunch/Dinner",
     cal:460,protein:44,carbs:46,fat:10,activeTime:4,stepCount:3,
     components:[
       {name:"Chicken Breast (boneless, skinless)",type:"Protein",cal:165,p:35,c:0,f:4,grams:170,weighRaw:true},
@@ -276,6 +297,7 @@ export const RECIPES = [
 
   {id:22,name:"BBQ Chicken Rice Bowl",emoji:"🍖",method:"Air Fryer",type:"fresh",ezLevel:1,spiceLevel:0,
     tags:["High Protein","Sweet","Neutral","Quick"],
+    mealType:"Lunch/Dinner",
     cal:490,protein:42,carbs:48,fat:12,activeTime:4,stepCount:3,
     components:[
       {name:"Chicken Thighs (boneless, skinless)",type:"Protein",cal:220,p:30,c:0,f:11,grams:170,weighRaw:true},
@@ -289,6 +311,7 @@ export const RECIPES = [
 
   {id:23,name:"Canned Chicken Rice Bowl",emoji:"🥫",method:"No Cook",type:"packaged",ezLevel:1,spiceLevel:0,
     tags:["High Protein","No Cook","Quick","Budget-Friendly"],
+    mealType:"Lunch/Dinner",
     cal:380,protein:40,carbs:38,fat:8,activeTime:2,stepCount:2,
     components:[
       {name:"Canned Chicken (drained, 5 oz)",type:"Protein",cal:130,p:28,c:0,f:2,grams:142,weighRaw:false},
@@ -303,6 +326,7 @@ export const RECIPES = [
 
   {id:24,name:"Rotisserie Chicken Bowl",emoji:"🍗",method:"No Cook",type:"packaged",ezLevel:1,spiceLevel:1,
     tags:["High Protein","No Cook","Quick","Meal Prep"],
+    mealType:"Lunch/Dinner",
     cal:420,protein:44,carbs:40,fat:8,activeTime:3,stepCount:2,
     components:[
       {name:"Rotisserie Chicken (pre-shredded, 6 oz)",type:"Protein",cal:240,p:44,c:0,f:8,grams:170,weighRaw:false},
@@ -316,6 +340,7 @@ export const RECIPES = [
 
   {id:25,name:"Salmon Poke Bowl",emoji:"🍣",method:"No Cook",type:"packaged",ezLevel:1,spiceLevel:0,
     tags:["High Protein","Omega-3","No Cook","Quick"],
+    mealType:"Lunch/Dinner",
     cal:480,protein:36,carbs:44,fat:14,activeTime:3,stepCount:2,
     components:[
       {name:"Smoked Salmon Pouch (drained, 6 oz)",type:"Protein",cal:210,p:30,c:0,f:9,grams:170,weighRaw:false},
@@ -330,6 +355,7 @@ export const RECIPES = [
 
   {id:26,name:"Honey Garlic Cod Bowl",emoji:"🐟",method:"Bake",type:"fresh",ezLevel:1,spiceLevel:0,
     tags:["High Protein","Omega-3","Neutral","Quick"],
+    mealType:"Lunch/Dinner",
     cal:420,protein:36,carbs:46,fat:8,activeTime:4,stepCount:3,
     components:[
       {name:"Cod Fillet",type:"Protein",cal:140,p:30,c:0,f:1,grams:170,weighRaw:true},
@@ -345,6 +371,7 @@ export const RECIPES = [
 
   {id:27,name:"Ground Beef Taco Bowl",emoji:"🌮",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:1,
     tags:["High Protein","Mexican-Inspired","Quick","Bulk Friendly"],
+    mealType:"Lunch/Dinner",
     cal:510,protein:42,carbs:48,fat:14,activeTime:8,stepCount:3,
     components:[
       {name:"Ground Beef (93% lean)",type:"Protein",cal:195,p:30,c:0,f:7,grams:142,weighRaw:true},
@@ -360,6 +387,7 @@ export const RECIPES = [
 
   {id:28,name:"Pork Tenderloin Bowl",emoji:"🐷",method:"Air Fryer",type:"fresh",ezLevel:2,spiceLevel:0,
     tags:["High Protein","Neutral","Lean","Quick"],
+    mealType:"Lunch/Dinner",
     cal:400,protein:44,carbs:38,fat:8,activeTime:6,stepCount:3,
     components:[
       {name:"Pork Tenderloin",type:"Protein",cal:240,p:45,c:0,f:7,grams:170,weighRaw:true},
@@ -374,6 +402,7 @@ export const RECIPES = [
 
   {id:29,name:"Lemon Pepper Shrimp Bowl",emoji:"🦐",method:"Air Fryer",type:"fresh",ezLevel:1,spiceLevel:0,
     tags:["High Protein","Omega-3","Quick","Low Fat"],
+    mealType:"Lunch/Dinner",
     cal:380,protein:38,carbs:40,fat:6,activeTime:5,stepCount:3,
     components:[
       {name:"Frozen Shrimp (16/20 count, thawed)",type:"Protein",cal:160,p:36,c:0,f:1,grams:150,weighRaw:true},
@@ -388,6 +417,7 @@ export const RECIPES = [
 
   {id:30,name:"Greek Chicken Bowl",emoji:"🇬🇷",method:"Air Fryer",type:"fresh",ezLevel:2,spiceLevel:0,
     tags:["High Protein","Mediterranean","Neutral","Quick"],
+    mealType:"Lunch/Dinner",
     cal:440,protein:40,carbs:48,fat:10,activeTime:6,stepCount:3,
     components:[
       {name:"Chicken Thighs (boneless, skinless)",type:"Protein",cal:220,p:30,c:0,f:11,grams:170,weighRaw:true},
@@ -402,6 +432,7 @@ export const RECIPES = [
 
   {id:31,name:"Slow Cooker Chicken Thighs",emoji:"🍗",method:"Slow Cooker",type:"fresh",ezLevel:1,spiceLevel:0,
     tags:["High Protein","Neutral","Meal Prep","Set-and-Forget"],
+    mealType:"Lunch/Dinner",
     cal:320,protein:40,carbs:2,fat:16,activeTime:5,stepCount:2,
     components:[
       {name:"Chicken Thighs (boneless, skinless, 6 oz)",type:"Protein",cal:220,p:30,c:0,f:11,grams:170,weighRaw:true},
@@ -415,6 +446,7 @@ export const RECIPES = [
 
   {id:32,name:"Tuna Pasta Salad",emoji:"🍝",method:"No Cook",type:"packaged",ezLevel:1,spiceLevel:0,
     tags:["High Protein","Omega-3","No Cook","Quick"],
+    mealType:"Lunch/Dinner",
     cal:460,protein:36,carbs:44,fat:12,activeTime:4,stepCount:2,
     components:[
       {name:"Banza Chickpea Pasta (cooked, 1.5 cups)",type:"Carb",cal:280,p:18,c:32,f:9,grams:210,weighRaw:false},
@@ -428,6 +460,7 @@ export const RECIPES = [
 
   {id:33,name:"Black Bean Quesadilla",emoji:"🌯",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:0,
     tags:["High Protein","Mexican-Inspired","Quick","Vegetarian"],
+    mealType:"Lunch/Dinner",
     cal:440,protein:24,carbs:46,fat:14,activeTime:8,stepCount:3,
     components:[
       {name:"Flour Tortillas (2 large)",type:"Carb",cal:280,p:8,c:40,f:8,grams:120,weighRaw:false},
@@ -441,6 +474,7 @@ export const RECIPES = [
 
   {id:34,name:"Microwave Salmon Pouch Bowl",emoji:"🐟",method:"Microwave",type:"packaged",ezLevel:1,spiceLevel:0,
     tags:["High Protein","Omega-3","No Cook","Fastest"],
+    mealType:"Lunch/Dinner",
     cal:400,protein:36,carbs:42,fat:10,activeTime:2,stepCount:2,
     components:[
       {name:"Bumble Bee Salmon Pouch (6 oz)",type:"Protein",cal:180,p:30,c:0,f:7,grams:170,weighRaw:false},
@@ -454,6 +488,7 @@ export const RECIPES = [
 
   {id:35,name:"High Protein Chili",emoji:"🌶️",method:"Slow Cooker",type:"fresh",ezLevel:2,spiceLevel:2,
     tags:["High Protein","Hot","Meal Prep","Bulk Friendly"],
+    mealType:"Lunch/Dinner",
     cal:480,protein:44,carbs:42,fat:10,activeTime:8,stepCount:3,
     components:[
       {name:"Ground Turkey (93% lean)",type:"Protein",cal:175,p:28,c:0,f:7,grams:142,weighRaw:true},
@@ -468,6 +503,7 @@ export const RECIPES = [
 
   {id:36,name:"Honey Sriracha Salmon",emoji:"🔥",method:"Bake",type:"fresh",ezLevel:1,spiceLevel:2,
     tags:["High Protein","Hot-Sweet","Omega-3","Quick"],
+    mealType:"Lunch/Dinner",
     cal:420,protein:36,carbs:28,fat:18,activeTime:5,stepCount:3,
     components:[
       {name:"Salmon Fillet",type:"Protein",cal:280,p:36,c:0,f:14,grams:170,weighRaw:true},
@@ -482,6 +518,7 @@ export const RECIPES = [
 
   {id:37,name:"Egg Fried Rice",emoji:"🍚",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:0,
     tags:["High Protein","Asian-Inspired","Quick","Meal Prep"],
+    mealType:"Breakfast",
     cal:430,protein:22,carbs:42,fat:16,activeTime:8,stepCount:3,
     components:[
       {name:"White Rice Pouch (cooked, day-old or microwaved 90 sec + cooled)",type:"Carb",cal:200,p:4,c:44,f:1,grams:200,weighRaw:false},
@@ -496,6 +533,7 @@ export const RECIPES = [
 
   {id:38,name:"Chipotle Style Chicken Bowl",emoji:"🌶️",method:"Air Fryer",type:"fresh",ezLevel:2,spiceLevel:2,
     tags:["High Protein","Hot","Mexican-Inspired","Quick"],
+    mealType:"Lunch/Dinner",
     cal:510,protein:44,carbs:48,fat:12,activeTime:6,stepCount:3,
     components:[
       {name:"Chicken Thighs (boneless, skinless)",type:"Protein",cal:220,p:30,c:0,f:11,grams:170,weighRaw:true},
@@ -511,6 +549,7 @@ export const RECIPES = [
 
   {id:39,name:"Turkey Lettuce Wraps",emoji:"🥬",method:"No Cook",type:"fresh",ezLevel:1,spiceLevel:0,
     tags:["High Protein","No Cook","Quick","Low Carb"],
+    mealType:"Lunch/Dinner",
     cal:280,protein:26,carbs:14,fat:14,activeTime:3,stepCount:2,
     components:[
       {name:"Deli Turkey (6 slices)",type:"Protein",cal:120,p:16,c:0,f:6,grams:112,weighRaw:false},
@@ -524,6 +563,7 @@ export const RECIPES = [
 
   {id:40,name:"Teriyaki Salmon Bowl",emoji:"🐠",method:"Bake",type:"fresh",ezLevel:1,spiceLevel:0,
     tags:["High Protein","Asian-Inspired","Omega-3","Quick"],
+    mealType:"Lunch/Dinner",
     cal:460,protein:36,carbs:46,fat:12,activeTime:4,stepCount:3,
     components:[
       {name:"Salmon Fillet",type:"Protein",cal:280,p:36,c:0,f:14,grams:170,weighRaw:true},
@@ -538,6 +578,7 @@ export const RECIPES = [
 
   {id:41,name:"Beef Jerky & Rice Cakes",emoji:"🍘",method:"No Cook",type:"packaged",ezLevel:1,spiceLevel:0,
     tags:["High Protein","Snack","No Cook","Budget-Friendly"],
+    mealType:"Snack",
     cal:220,protein:18,carbs:24,fat:4,activeTime:1,stepCount:1,
     components:[
       {name:"Jack Links Teriyaki Beef Jerky (1 oz)",type:"Protein",cal:80,p:11,c:7,f:1,grams:28,weighRaw:false},
@@ -550,6 +591,7 @@ export const RECIPES = [
 
   {id:42,name:"String Cheese & Turkey Roll-Ups",emoji:"🧀",method:"No Cook",type:"packaged",ezLevel:1,spiceLevel:0,
     tags:["High Protein","Snack","No Cook","Quick"],
+    mealType:"Snack",
     cal:180,protein:22,carbs:0,fat:10,activeTime:2,stepCount:1,
     components:[
       {name:"Deli Turkey (4 slices)",type:"Protein",cal:80,p:11,c:0,f:3,grams:75,weighRaw:false},
@@ -562,6 +604,7 @@ export const RECIPES = [
 
   {id:43,name:"Cottage Cheese & Pineapple",emoji:"🍍",method:"No Cook",type:"packaged",ezLevel:1,spiceLevel:0,
     tags:["High Protein","Snack","No Cook","Sweet"],
+    mealType:"Snack",
     cal:200,protein:20,carbs:20,fat:2,activeTime:2,stepCount:1,
     components:[
       {name:"Good Culture Cottage Cheese",type:"Protein",cal:120,p:14,c:3,f:5,grams:112,weighRaw:false},
@@ -574,6 +617,7 @@ export const RECIPES = [
 
   {id:44,name:"Hard Boiled Eggs with Hot Sauce",emoji:"🥚",method:"No Cook",type:"packaged",ezLevel:1,spiceLevel:1,
     tags:["High Protein","Snack","No Cook","Quick"],
+    mealType:"Snack",
     cal:210,protein:18,carbs:1,fat:15,activeTime:2,stepCount:1,
     components:[
       {name:"Pre-Boiled Eggs (2 large)",type:"Protein",cal:140,p:12,c:1,f:10,grams:100,weighRaw:false},
@@ -586,6 +630,7 @@ export const RECIPES = [
 
   {id:45,name:"Sardines on Toast",emoji:"🐟",method:"No Cook",type:"packaged",ezLevel:1,spiceLevel:0,
     tags:["High Protein","Omega-3","Snack","Quick"],
+    mealType:"Snack",
     cal:290,protein:26,carbs:22,fat:12,activeTime:3,stepCount:2,
     components:[
       {name:"King Oscar Sardines in Olive Oil (1 tin, drained)",type:"Protein",cal:120,p:18,c:0,f:6,grams:85,weighRaw:false},
@@ -599,6 +644,7 @@ export const RECIPES = [
 
   {id:46,name:"Skyr & Berries",emoji:"🫐",method:"No Cook",type:"packaged",ezLevel:1,spiceLevel:0,
     tags:["High Protein","Snack","No Cook","Sweet"],
+    mealType:"Snack",
     cal:190,protein:18,carbs:16,fat:4,activeTime:2,stepCount:1,
     components:[
       {name:"Siggi's Plain Skyr (5.3 oz)",type:"Protein",cal:130,p:18,c:4,f:2,grams:150,weighRaw:false},
@@ -611,6 +657,7 @@ export const RECIPES = [
 
   {id:47,name:"Chicken & Salsa Wrap",emoji:"🌯",method:"No Cook",type:"packaged",ezLevel:1,spiceLevel:1,
     tags:["High Protein","Snack","No Cook","Quick"],
+    mealType:"Snack",
     cal:360,protein:34,carbs:32,fat:10,activeTime:3,stepCount:2,
     components:[
       {name:"Rotisserie Chicken (pre-shredded, 4 oz)",type:"Protein",cal:160,p:29,c:0,f:5,grams:113,weighRaw:false},
@@ -624,6 +671,7 @@ export const RECIPES = [
 
   {id:48,name:"Protein Pudding",emoji:"🍮",method:"No Cook",type:"packaged",ezLevel:1,spiceLevel:0,
     tags:["High Protein","Snack","No Cook","Sweet"],
+    mealType:"Snack",
     cal:280,protein:32,carbs:18,fat:4,activeTime:2,stepCount:2,
     components:[
       {name:"Fage 0% Greek Yogurt",type:"Protein",cal:120,p:22,c:6,f:0,grams:170,weighRaw:false},
@@ -637,6 +685,7 @@ export const RECIPES = [
 
   {id:49,name:"Edamame Bowl",emoji:"🌱",method:"Microwave",type:"packaged",ezLevel:1,spiceLevel:1,
     tags:["High Protein","Snack","Quick","Low Fat"],
+    mealType:"Snack",
     cal:200,protein:16,carbs:14,fat:6,activeTime:3,stepCount:2,
     components:[
       {name:"Frozen Edamame (steam-bag)",type:"Protein/Veg",cal:190,p:18,c:8,f:9,grams:227,weighRaw:false},
@@ -650,6 +699,7 @@ export const RECIPES = [
 
   {id:50,name:"Canned Chicken & Crackers",emoji:"🧀",method:"No Cook",type:"packaged",ezLevel:1,spiceLevel:0,
     tags:["High Protein","Snack","No Cook","Quick"],
+    mealType:"Snack",
     cal:260,protein:28,carbs:18,fat:8,activeTime:2,stepCount:2,
     components:[
       {name:"Canned Chicken (drained, 5 oz)",type:"Protein",cal:130,p:28,c:0,f:2,grams:142,weighRaw:false},
@@ -663,6 +713,7 @@ export const RECIPES = [
 
   {id:51,name:"Classic Smash Burger",emoji:"🍔",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:0,
     tags:["High Protein","Comfort Food","Classic","Quick"],
+    mealType:"Lunch/Dinner",
     cal:580,protein:32,carbs:42,fat:26,activeTime:6,stepCount:4,
     components:[
       {name:"Ground Beef (80/20)",type:"Protein",cal:280,p:20,c:0,f:23,grams:142,weighRaw:true},
@@ -678,6 +729,7 @@ export const RECIPES = [
 
   {id:52,name:"BBQ Bacon Burger",emoji:"🥓",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:0,
     tags:["High Protein","Comfort Food","BBQ","Quick"],
+    mealType:"Lunch/Dinner",
     cal:560,protein:38,carbs:36,fat:24,activeTime:8,stepCount:4,
     components:[
       {name:"Ground Beef (93% lean)",type:"Protein",cal:195,p:30,c:0,f:7,grams:142,weighRaw:true},
@@ -692,6 +744,7 @@ export const RECIPES = [
 
   {id:53,name:"Turkey Burger",emoji:"🍗",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:0,
     tags:["High Protein","Lean","Quick","Neutral"],
+    mealType:"Lunch/Dinner",
     cal:420,protein:36,carbs:40,fat:12,activeTime:7,stepCount:3,
     components:[
       {name:"Ground Turkey (93% lean)",type:"Protein",cal:175,p:28,c:0,f:7,grams:142,weighRaw:true},
@@ -707,6 +760,7 @@ export const RECIPES = [
 
   {id:54,name:"Spicy Chicken Sandwich",emoji:"🌶️",method:"Air Fryer",type:"fresh",ezLevel:1,spiceLevel:2,
     tags:["High Protein","Hot","Quick","Comfort Food"],
+    mealType:"Lunch/Dinner",
     cal:480,protein:42,carbs:38,fat:14,activeTime:5,stepCount:3,
     components:[
       {name:"Chicken Breast (boneless, skinless)",type:"Protein",cal:165,p:35,c:0,f:4,grams:170,weighRaw:true},
@@ -721,6 +775,7 @@ export const RECIPES = [
 
   {id:55,name:"Tuna Melt",emoji:"🐟",method:"Air Fryer",type:"fresh",ezLevel:2,spiceLevel:0,
     tags:["High Protein","Omega-3","Quick","Comfort Food"],
+    mealType:"Lunch/Dinner",
     cal:380,protein:32,carbs:32,fat:14,activeTime:6,stepCount:3,
     components:[
       {name:"Canned Tuna in Water (drained, 5 oz)",type:"Protein",cal:120,p:26,c:0,f:1,grams:142,weighRaw:false},
@@ -735,6 +790,7 @@ export const RECIPES = [
 
   {id:56,name:"Egg & Cheese Breakfast Sandwich",emoji:"🥚",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:0,
     tags:["Breakfast","High Protein","Quick","Sandwich"],
+    mealType:"Breakfast",
     cal:380,protein:30,carbs:30,fat:14,activeTime:6,stepCount:3,
     components:[
       {name:"Egg Whites (carton, ½ cup)",type:"Protein",cal:60,p:14,c:1,f:0,grams:120,weighRaw:false},
@@ -749,6 +805,7 @@ export const RECIPES = [
 
   {id:57,name:"Rotisserie Chicken Wrap",emoji:"🌯",method:"No Cook",type:"packaged",ezLevel:1,spiceLevel:0,
     tags:["High Protein","No Cook","Quick","Comfort Food"],
+    mealType:"Lunch/Dinner",
     cal:420,protein:38,carbs:32,fat:14,activeTime:3,stepCount:2,
     components:[
       {name:"Rotisserie Chicken (pre-shredded, 5 oz)",type:"Protein",cal:200,p:37,c:0,f:6,grams:142,weighRaw:false},
@@ -763,6 +820,7 @@ export const RECIPES = [
 
   {id:58,name:"BLT Protein Wrap",emoji:"🥓",method:"No Cook",type:"packaged",ezLevel:1,spiceLevel:0,
     tags:["High Protein","No Cook","Quick","Classic"],
+    mealType:"Lunch/Dinner",
     cal:380,protein:28,carbs:30,fat:16,activeTime:3,stepCount:2,
     components:[
       {name:"Deli Turkey (5 slices)",type:"Protein",cal:100,p:13,c:0,f:5,grams:94,weighRaw:false},
@@ -777,6 +835,7 @@ export const RECIPES = [
 
   {id:59,name:"Air Fryer Protein Pizza",emoji:"🍕",method:"Air Fryer",type:"fresh",ezLevel:1,spiceLevel:1,
     tags:["High Protein","Pizza","Quick","Comfort Food"],
+    mealType:"Lunch/Dinner",
     cal:480,protein:32,carbs:42,fat:16,activeTime:5,stepCount:3,
     components:[
       {name:"Naan Flatbread",type:"Carb",cal:260,p:9,c:42,f:4,grams:100,weighRaw:false},
@@ -790,6 +849,7 @@ export const RECIPES = [
 
   {id:60,name:"Cottage Cheese Pizza Bowl",emoji:"🍕",method:"Microwave",type:"fresh",ezLevel:1,spiceLevel:0,
     tags:["High Protein","Pizza","No Cook","Quick"],
+    mealType:"Breakfast",
     cal:360,protein:34,carbs:24,fat:12,activeTime:3,stepCount:2,
     components:[
       {name:"Good Culture Cottage Cheese",type:"Protein",cal:120,p:14,c:3,f:5,grams:112,weighRaw:false},
@@ -803,6 +863,7 @@ export const RECIPES = [
 
   {id:61,name:"BBQ Chicken Flatbread",emoji:"🍗",method:"Air Fryer",type:"fresh",ezLevel:1,spiceLevel:0,
     tags:["High Protein","BBQ","Pizza","Quick"],
+    mealType:"Lunch/Dinner",
     cal:460,protein:34,carbs:44,fat:14,activeTime:5,stepCount:3,
     components:[
       {name:"Naan Flatbread",type:"Carb",cal:260,p:9,c:42,f:4,grams:100,weighRaw:false},
@@ -816,6 +877,7 @@ export const RECIPES = [
 
   {id:62,name:"Pesto Chicken Flatbread",emoji:"🌿",method:"Air Fryer",type:"fresh",ezLevel:1,spiceLevel:0,
     tags:["High Protein","Mediterranean","Pizza","Quick"],
+    mealType:"Lunch/Dinner",
     cal:480,protein:32,carbs:42,fat:18,activeTime:5,stepCount:3,
     components:[
       {name:"Naan Flatbread",type:"Carb",cal:260,p:9,c:42,f:4,grams:100,weighRaw:false},
@@ -830,6 +892,7 @@ export const RECIPES = [
 
   {id:63,name:"Beef & Rice Power Bowl",emoji:"🥩",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:0,
     tags:["High Protein","Asian-Inspired","Quick","Bulk Friendly"],
+    mealType:"Lunch/Dinner",
     cal:520,protein:42,carbs:50,fat:14,activeTime:7,stepCount:3,
     components:[
       {name:"Ground Beef (93% lean)",type:"Protein",cal:195,p:30,c:0,f:7,grams:142,weighRaw:true},
@@ -846,6 +909,7 @@ export const RECIPES = [
 
   {id:64,name:"Chicken Teriyaki Noodles",emoji:"🍜",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:0,
     tags:["High Protein","Asian-Inspired","Comfort Food","Quick"],
+    mealType:"Lunch/Dinner",
     cal:480,protein:36,carbs:48,fat:12,activeTime:8,stepCount:3,
     components:[
       {name:"Chicken Thighs (boneless, skinless)",type:"Protein",cal:220,p:30,c:0,f:11,grams:170,weighRaw:true},
@@ -860,6 +924,7 @@ export const RECIPES = [
 
   {id:65,name:"Shrimp Fried Rice",emoji:"🦐",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:0,
     tags:["High Protein","Asian-Inspired","Quick","Low Fat"],
+    mealType:"Lunch/Dinner",
     cal:420,protein:32,carbs:42,fat:10,activeTime:8,stepCount:3,
     components:[
       {name:"Frozen Shrimp (16/20 count, thawed)",type:"Protein",cal:160,p:36,c:0,f:1,grams:150,weighRaw:true},
@@ -875,6 +940,7 @@ export const RECIPES = [
 
   {id:66,name:"Loaded Baked Potato",emoji:"🥔",method:"Microwave",type:"fresh",ezLevel:1,spiceLevel:1,
     tags:["High Protein","Comfort Food","Loaded","Quick"],
+    mealType:"Lunch/Dinner",
     cal:480,protein:24,carbs:54,fat:12,activeTime:5,stepCount:2,
     components:[
       {name:"Russet Potato (medium)",type:"Carb",cal:165,p:4,c:37,f:0,grams:180,weighRaw:true},
@@ -888,6 +954,7 @@ export const RECIPES = [
 
   {id:67,name:"Protein French Toast",emoji:"🍞",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:0,
     tags:["Breakfast","High Protein","Sweet","Quick"],
+    mealType:"Breakfast",
     cal:360,protein:28,carbs:36,fat:10,activeTime:7,stepCount:3,
     components:[
       {name:"Whole Grain Bread (2 slices)",type:"Carb",cal:160,p:8,c:28,f:3,grams:60,weighRaw:false},
@@ -903,6 +970,7 @@ export const RECIPES = [
 
   {id:68,name:"Turkey Meatball Sub",emoji:"🥪",method:"Microwave",type:"packaged",ezLevel:1,spiceLevel:0,
     tags:["High Protein","Italian-Inspired","Comfort Food","Quick"],
+    mealType:"Lunch/Dinner",
     cal:480,protein:32,carbs:44,fat:16,activeTime:5,stepCount:3,
     components:[
       {name:"Frozen Turkey Meatballs (6 oz bag)",type:"Protein",cal:240,p:28,c:0,f:12,grams:170,weighRaw:false},
@@ -916,6 +984,7 @@ export const RECIPES = [
 
   {id:69,name:"Spicy Korean Ground Beef Bowl",emoji:"🌶️",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:3,
     tags:["High Protein","Hot","Asian-Inspired","Quick"],
+    mealType:"Lunch/Dinner",
     cal:520,protein:38,carbs:50,fat:14,activeTime:7,stepCount:3,
     components:[
       {name:"Ground Beef (93% lean)",type:"Protein",cal:195,p:30,c:0,f:7,grams:142,weighRaw:true},
@@ -932,6 +1001,7 @@ export const RECIPES = [
 
   {id:70,name:"Canned Salmon Caesar Wrap",emoji:"🐟",method:"No Cook",type:"packaged",ezLevel:1,spiceLevel:0,
     tags:["High Protein","Omega-3","No Cook","Quick"],
+    mealType:"Lunch/Dinner",
     cal:380,protein:32,carbs:30,fat:14,activeTime:3,stepCount:2,
     components:[
       {name:"Canned Salmon (drained, 5 oz)",type:"Protein",cal:200,p:28,c:0,f:9,grams:142,weighRaw:false},
@@ -946,6 +1016,7 @@ export const RECIPES = [
 
   {id:71,name:"Sweet Potato Cottage Cheese Power Bowl",emoji:"🍠",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:1,
     tags:["High Protein","Viral","Comfort Food","Meal Prep"],
+    mealType:"Breakfast",
     cal:520,protein:38,carbs:48,fat:14,activeTime:8,stepCount:4,
     components:[
       {name:"Frozen Sweet Potato Cubes (pre-cut, 1.5 cups)",type:"Carb",cal:150,p:2,c:34,f:0,grams:225,weighRaw:true},
@@ -962,6 +1033,7 @@ export const RECIPES = [
 
   {id:72,name:"Viral Baked Feta Pasta",emoji:"🧀",method:"Bake",type:"fresh",ezLevel:2,spiceLevel:0,
     tags:["High Protein","Viral","Italian-Inspired","Vegetarian"],
+    mealType:"Lunch/Dinner",
     cal:480,protein:28,carbs:52,fat:16,activeTime:8,stepCount:3,
     components:[
       {name:"Banza Chickpea Pasta (dry, 1.5 cups uncooked)",type:"Carb",cal:280,p:18,c:32,f:9,grams:210,weighRaw:true},
@@ -977,6 +1049,7 @@ export const RECIPES = [
 
   {id:73,name:"Cottage Cheese Flatbread",emoji:"🥪",method:"Bake",type:"fresh",ezLevel:1,spiceLevel:0,
     tags:["High Protein","Viral","Low Carb","Gluten-Free","Keto"],
+    mealType:"Breakfast",
     cal:220,protein:28,carbs:4,fat:10,activeTime:3,stepCount:3,
     components:[
       {name:"Good Culture Cottage Cheese (1 cup)",type:"Protein",cal:240,p:28,c:6,f:10,grams:224,weighRaw:false},
@@ -989,6 +1062,7 @@ export const RECIPES = [
 
   {id:74,name:"Bang Bang Shrimp Bowl",emoji:"🦐",method:"Air Fryer",type:"fresh",ezLevel:1,spiceLevel:2,
     tags:["High Protein","Viral","Asian-Inspired","Spicy"],
+    mealType:"Lunch/Dinner",
     cal:420,protein:32,carbs:42,fat:12,activeTime:5,stepCount:3,
     components:[
       {name:"Frozen Shrimp (16/20 count, thawed)",type:"Protein",cal:160,p:36,c:0,f:1,grams:150,weighRaw:true},
@@ -1003,6 +1077,7 @@ export const RECIPES = [
 
   {id:75,name:"Marry Me Chicken",emoji:"💕",method:"Slow Cooker",type:"fresh",ezLevel:1,spiceLevel:0,
     tags:["High Protein","Viral","Italian-Inspired","Comfort Food","Set and Forget"],
+    mealType:"Lunch/Dinner",
     cal:480,protein:38,carbs:26,fat:18,activeTime:5,stepCount:2,
     components:[
       {name:"Chicken Thighs (boneless, skinless, 6 oz)",type:"Protein",cal:220,p:30,c:0,f:11,grams:170,weighRaw:true},
@@ -1019,6 +1094,7 @@ export const RECIPES = [
 
   {id:76,name:"Viral Cucumber Tuna Salad",emoji:"🥒",method:"No Cook",type:"packaged",ezLevel:1,spiceLevel:2,
     tags:["High Protein","Viral","Asian-Inspired","No Cook","Low Carb"],
+    mealType:"Lunch/Dinner",
     cal:280,protein:32,carbs:8,fat:12,activeTime:4,stepCount:2,
     components:[
       {name:"Canned Tuna in Water (drained, 5 oz)",type:"Protein",cal:120,p:26,c:0,f:1,grams:142,weighRaw:false},
@@ -1035,6 +1111,7 @@ export const RECIPES = [
 
   {id:77,name:"High Protein Sushi Bake",emoji:"🍣",method:"Bake",type:"fresh",ezLevel:2,spiceLevel:1,
     tags:["High Protein","Viral","Asian-Inspired","Comfort Food"],
+    mealType:"Lunch/Dinner",
     cal:460,protein:28,carbs:46,fat:14,activeTime:6,stepCount:3,
     components:[
       {name:"White Rice Pouch (cooked)",type:"Carb",cal:200,p:4,c:44,f:1,grams:200,weighRaw:false},
@@ -1050,6 +1127,7 @@ export const RECIPES = [
 
   {id:78,name:"Smoked Salmon Everything Bites",emoji:"🍋",method:"No Cook",type:"packaged",ezLevel:1,spiceLevel:0,
     tags:["High Protein","Viral","Omega-3","No Cook","Snack","Low Carb"],
+    mealType:"Snack",
     cal:200,protein:22,carbs:6,fat:10,activeTime:3,stepCount:1,
     components:[
       {name:"Pre-Cut Cucumber Rounds (bag, 12 rounds)",type:"Veg",cal:15,p:1,c:3,f:0,grams:180,weighRaw:false},
@@ -1065,6 +1143,7 @@ export const RECIPES = [
 
   {id:79,name:"Egg White Fried Rice",emoji:"🍚",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:0,
     tags:["High Protein","Viral","Asian-Inspired","Low Fat"],
+    mealType:"Breakfast",
     cal:340,protein:24,carbs:42,fat:6,activeTime:7,stepCount:3,
     components:[
       {name:"Egg White Carton (liquid, 1 cup)",type:"Protein",cal:130,p:27,c:2,f:0,grams:240,weighRaw:false},
@@ -1080,6 +1159,7 @@ export const RECIPES = [
 
   {id:80,name:"High Protein Birria Tacos",emoji:"🌮",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:2,
     tags:["High Protein","Viral","Mexican-Inspired","Comfort Food","Spicy"],
+    mealType:"Lunch/Dinner",
     cal:480,protein:36,carbs:42,fat:14,activeTime:10,stepCount:4,
     components:[
       {name:"Ground Beef (93% lean)",type:"Protein",cal:195,p:30,c:0,f:7,grams:142,weighRaw:true},
@@ -1095,6 +1175,7 @@ export const RECIPES = [
 
   {id:81,name:"Hot Honey Salmon",emoji:"🔥",method:"Bake",type:"fresh",ezLevel:1,spiceLevel:2,
     tags:["High Protein","Viral","Omega-3","Sweet","Spicy"],
+    mealType:"Lunch/Dinner",
     cal:420,protein:36,carbs:24,fat:18,activeTime:4,stepCount:2,
     components:[
       {name:"Salmon Fillet",type:"Protein",cal:280,p:36,c:0,f:14,grams:170,weighRaw:true},
@@ -1110,6 +1191,7 @@ export const RECIPES = [
 
   {id:82,name:"Spicy Garlic Shrimp Bowl",emoji:"🌶️",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:3,
     tags:["High Protein","Spicy","Asian-Inspired","Quick"],
+    mealType:"Lunch/Dinner",
     cal:400,protein:34,carbs:40,fat:8,activeTime:7,stepCount:3,
     components:[
       {name:"Frozen Shrimp (16/20 count, thawed)",type:"Protein",cal:160,p:36,c:0,f:1,grams:150,weighRaw:true},
@@ -1127,6 +1209,7 @@ export const RECIPES = [
 
   {id:83,name:"Nashville Hot Chicken Tenders",emoji:"🔥",method:"Air Fryer",type:"fresh",ezLevel:2,spiceLevel:3,
     tags:["High Protein","Spicy","Comfort Food","Quick"],
+    mealType:"Lunch/Dinner",
     cal:460,protein:42,carbs:34,fat:14,activeTime:6,stepCount:3,
     components:[
       {name:"Chicken Breast (boneless, skinless, sliced into strips)",type:"Protein",cal:165,p:35,c:0,f:4,grams:170,weighRaw:true},
@@ -1143,6 +1226,7 @@ export const RECIPES = [
 
   {id:84,name:"Spicy Salmon Bowl",emoji:"🐟",method:"Bake",type:"fresh",ezLevel:1,spiceLevel:3,
     tags:["High Protein","Spicy","Omega-3","Asian-Inspired"],
+    mealType:"Lunch/Dinner",
     cal:480,protein:36,carbs:44,fat:14,activeTime:5,stepCount:3,
     components:[
       {name:"Salmon Fillet",type:"Protein",cal:280,p:36,c:0,f:14,grams:170,weighRaw:true},
@@ -1158,6 +1242,7 @@ export const RECIPES = [
 
   {id:85,name:"Chili Lime Shrimp Tacos",emoji:"🌮",method:"Air Fryer",type:"fresh",ezLevel:2,spiceLevel:2,
     tags:["High Protein","Spicy","Mexican-Inspired","Quick"],
+    mealType:"Lunch/Dinner",
     cal:380,protein:30,carbs:42,fat:8,activeTime:6,stepCount:3,
     components:[
       {name:"Frozen Shrimp (16/20 count, thawed)",type:"Protein",cal:160,p:36,c:0,f:1,grams:150,weighRaw:true},
@@ -1173,6 +1258,7 @@ export const RECIPES = [
 
   {id:86,name:"Spicy Turkey Taco Bowl",emoji:"🌶️",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:2,
     tags:["High Protein","Spicy","Mexican-Inspired","Quick"],
+    mealType:"Lunch/Dinner",
     cal:460,protein:38,carbs:46,fat:10,activeTime:7,stepCount:3,
     components:[
       {name:"Ground Turkey (93% lean)",type:"Protein",cal:175,p:28,c:0,f:7,grams:142,weighRaw:true},
@@ -1188,6 +1274,7 @@ export const RECIPES = [
 
   {id:87,name:"Dan Dan Noodles (EZ Version)",emoji:"🌶️",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:3,
     tags:["High Protein","Spicy","Asian-Inspired","Comfort Food"],
+    mealType:"Lunch/Dinner",
     cal:480,protein:28,carbs:50,fat:14,activeTime:8,stepCount:3,
     components:[
       {name:"Ramen Noodles (1 packet, discard seasoning)",type:"Carb",cal:190,p:5,c:27,f:8,grams:56,weighRaw:true},
@@ -1204,6 +1291,7 @@ export const RECIPES = [
 
   {id:88,name:"Spicy Beef & Broccoli",emoji:"🥦",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:2,
     tags:["High Protein","Spicy","Asian-Inspired","Quick"],
+    mealType:"Lunch/Dinner",
     cal:500,protein:38,carbs:48,fat:12,activeTime:7,stepCount:3,
     components:[
       {name:"Ground Beef (93% lean)",type:"Protein",cal:195,p:30,c:0,f:7,grams:142,weighRaw:true},
@@ -1219,6 +1307,7 @@ export const RECIPES = [
 
   {id:89,name:"Buffalo Shrimp Rice Bowl",emoji:"🦐",method:"Air Fryer",type:"fresh",ezLevel:1,spiceLevel:2,
     tags:["High Protein","Spicy","Asian-Inspired","Quick"],
+    mealType:"Lunch/Dinner",
     cal:400,protein:32,carbs:42,fat:8,activeTime:5,stepCount:3,
     components:[
       {name:"Frozen Shrimp (16/20 count, thawed)",type:"Protein",cal:160,p:36,c:0,f:1,grams:150,weighRaw:true},
@@ -1234,6 +1323,7 @@ export const RECIPES = [
 
   {id:90,name:"Easy Shakshuka",emoji:"🍳",method:"Stovetop",type:"fresh",ezLevel:3,spiceLevel:1,
     tags:["Breakfast","Lunch","High Protein","Mediterranean","Vegetarian","Comfort Food"],
+    mealType:"Breakfast",
     cal:440,protein:30,carbs:26,fat:25,activeTime:12,stepCount:4,
     components:[
       {name:"Rao's Marinara Sauce (jar)",type:"Sauce",cal:120,p:4,c:16,f:6,grams:240,weighRaw:false},
@@ -1248,6 +1338,7 @@ export const RECIPES = [
 
   {id:91,name:"Shakshuka from Scratch",emoji:"🍅",method:"Stovetop",type:"fresh",ezLevel:3,spiceLevel:2,
     tags:["Breakfast","Lunch","High Protein","Mediterranean","Vegetarian","Comfort Food"],
+    mealType:"Breakfast",
     cal:556,protein:30,carbs:33,fat:33,activeTime:15,stepCount:5,
     components:[
       {name:"Canned Crushed Tomatoes",type:"Veg/Sauce",cal:100,p:4,c:20,f:0,grams:400,weighRaw:false},
