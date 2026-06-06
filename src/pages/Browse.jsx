@@ -4,20 +4,20 @@ import { SPICE_LEVELS } from '../lib/generator.js';
 
 export default function Browse({ezLevel, onOpen}) {
   const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState("All");
+  const [filter, setFilter] = useState("");
   const [spiceFilter, setSpiceFilter] = useState("Any Spice");
   const [showAll, setShowAll] = useState(false);
   const [sortBy, setSortBy] = useState("default");
-  const filters = ["All","Breakfast","Lunch/Dinner","Snack"];
+  const filters = ["Breakfast","Lunch/Dinner","Snack"];
   const spiceFilters = ["Any Spice","No Spice","Mild","Medium","Hot"];
   const sortOptions = ["Default","Protein (High→Low)","Calories (High→Low)","Time (Short→Long)"];
 
   const filtered = RECIPES.filter(r => {
     const matchSearch = r.name.toLowerCase().includes(search.toLowerCase());
 
-    // Case-insensitive tag matching
-    let matchFilter = filter === "All";
-    if (!matchFilter) {
+    // Case-insensitive tag matching - empty filter shows all meals
+    let matchFilter = !filter;
+    if (filter) {
       if (filter === "Lunch/Dinner") {
         // Match recipes that have either "Lunch" or "Dinner" in their tags
         matchFilter = (r.tags || []).some(t => t.toLowerCase() === "lunch" || t.toLowerCase() === "dinner");
@@ -81,7 +81,14 @@ export default function Browse({ezLevel, onOpen}) {
             onClick={() => setShowAll(!showAll)}
             style={{whiteSpace: "nowrap"}}
           >
-            {showAll ? "✓ All" : "All"}
+            {showAll ? "✓ All (EZ)" : "All (EZ)"}
+          </div>
+          <div
+            className={`pill ${!filter ? "active" : ""}`}
+            onClick={() => setFilter("")}
+            style={{whiteSpace: "nowrap"}}
+          >
+            {!filter ? "✓ All Meals" : "All Meals"}
           </div>
           {filters.map(f => <div key={f} className={`pill ${filter === f ? "active" : ""}`} onClick={() => setFilter(f)}>{f}</div>)}
         </div>
