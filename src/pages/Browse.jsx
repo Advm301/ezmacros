@@ -8,7 +8,7 @@ export default function Browse({ezLevel, onOpen}) {
   const [spiceFilter, setSpiceFilter] = useState("Any Spice");
   const [showAll, setShowAll] = useState(false);
   const [sortBy, setSortBy] = useState("default");
-  const filters = ["All","Breakfast","Lunch/Dinner","Snack","Quick","Meal Prep"];
+  const filters = ["All","Breakfast","Lunch/Dinner","Snack"];
   const spiceFilters = ["Any Spice","No Spice","Mild","Medium","Hot"];
   const sortOptions = ["Default","Protein (High→Low)","Calories (High→Low)","Time (Short→Long)"];
 
