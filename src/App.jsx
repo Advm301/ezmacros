@@ -16,22 +16,24 @@ export default function App() {
   const [goals, setGoals] = useState({cal: 2200, protein: 180, carbs: 220, fat: 60});
   const [mealLoggedNotification, setMealLoggedNotification] = useState(false);
   const [todayBadge, setTodayBadge] = useState(false);
-  const [ezLevel, setEzLevel] = useState(1);
+  const [ezLevel, setEzLevel] = useState(2);
   const [openGoalsModal, setOpenGoalsModal] = useState(false);
   const [user, setUser] = useState(null);
 
   const ezLevelNames = {
-    0: { name: 'Effortless', icon: '⚡', bolts: '⚡' },
-    1: { name: 'Easy', icon: '⚡⚡', bolts: '⚡⚡' },
-    2: { name: 'Relaxed', icon: '⚡⚡⚡', bolts: '⚡⚡⚡' },
+    1: { name: 'Effortless', icon: '⚡', bolts: '⚡' },
+    2: { name: 'Easy', icon: '⚡⚡', bolts: '⚡⚡' },
+    3: { name: 'Relaxed', icon: '⚡⚡⚡', bolts: '⚡⚡⚡' },
   };
 
   const updateEzLevel = (levelName) => {
     console.log('onUpdateEzLevel called with:', levelName);
-    const levelIndex = Object.values(ezLevelNames).findIndex(l => l.name === levelName);
-    if (levelIndex !== -1) {
-      console.log('Setting ezLevel to index:', levelIndex);
-      setEzLevel(levelIndex);
+    // Convert levelName to numeric level: Effortless->1, Easy->2, Relaxed->3
+    const levelMap = { 'Effortless': 1, 'Easy': 2, 'Relaxed': 3 };
+    const level = levelMap[levelName];
+    if (level) {
+      console.log('Setting ezLevel to:', level);
+      setEzLevel(level);
     }
   };
 
@@ -82,7 +84,8 @@ export default function App() {
 
         if (goalsData?.ez_level !== null && goalsData?.ez_level !== undefined) {
           const level = goalsData.ez_level;
-          if (level in ezLevelNames) {
+          // Database stores 1, 2, 3 - check if valid
+          if (level >= 1 && level <= 3) {
             setEzLevel(level);
           }
         }
