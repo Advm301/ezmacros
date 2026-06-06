@@ -1237,7 +1237,7 @@ export const RECIPES = [
     cal:440,protein:30,carbs:26,fat:25,activeTime:12,stepCount:4,
     components:[
       {name:"Rao's Marinara Sauce (jar)",type:"Sauce",cal:120,p:4,c:16,f:6,grams:240,weighRaw:false},
-      {name:"Whole Eggs (4 large)",type:"Protein",cal:286,p:25,c:3,f:19,grams:200,weighRaw:true},
+      {name:"Whole Eggs",type:"Protein",cal:286,p:25,c:3,f:19,grams:200,weighRaw:false},
       {name:"Diced Onions (jar, drained)",type:"Veg",cal:24,p:1,c:5,f:0,grams:60,weighRaw:false},
       {name:"Onion Powder (seasoning)",type:"Seasoning",cal:5,p:0,c:1,f:0,grams:2,weighRaw:false},
       {name:"Garlic Powder (seasoning)",type:"Seasoning",cal:5,p:0,c:1,f:0,grams:2,weighRaw:false},
@@ -1251,7 +1251,7 @@ export const RECIPES = [
     cal:556,protein:30,carbs:33,fat:33,activeTime:15,stepCount:5,
     components:[
       {name:"Canned Crushed Tomatoes",type:"Veg/Sauce",cal:100,p:4,c:20,f:0,grams:400,weighRaw:false},
-      {name:"Whole Eggs (4 large)",type:"Protein",cal:286,p:25,c:3,f:19,grams:200,weighRaw:true},
+      {name:"Whole Eggs",type:"Protein",cal:286,p:25,c:3,f:19,grams:200,weighRaw:false},
       {name:"Diced Onions (jar, drained)",type:"Veg",cal:32,p:1,c:7,f:0,grams:80,weighRaw:false},
       {name:"Olive Oil",type:"Fat",cal:120,p:0,c:0,f:14,grams:14,weighRaw:false},
       {name:"Garlic Powder",type:"Seasoning",cal:5,p:0,c:1,f:0,grams:2,weighRaw:false},

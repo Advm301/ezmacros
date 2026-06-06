@@ -362,10 +362,6 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
     }
   }, [userHasModified]);
 
-  // Debug: Log userHasModified changes
-  useEffect(() => {
-    console.log('userHasModified changed:', userHasModified);
-  }, [userHasModified]);
 
   // For logged meals, track if there are unsaved changes from what was loaded from database
   useEffect(() => {
@@ -457,11 +453,6 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
     const originalComponent = updatedComponents[index];
     const oldName = originalComponent.name;
     const newMacros = getMacroValues(newName);
-
-    // Debug logs for preset pill macros
-    console.log('handleSwapComponent - newName:', newName);
-    console.log('handleSwapComponent - getMacroValues result:', newMacros);
-    console.log('handleSwapComponent - macros applied:', !!newMacros);
 
     // Update component name
     if (newMacros) {
@@ -562,6 +553,41 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
     setEditingGramIndex(null);
     setUserHasModified(true);
     if (recipe?.isLoggedView) setHasUnsavedChanges(true);
+  };
+
+  const isEggComponent = (componentName, weighRaw) => {
+    return componentName.toLowerCase().includes('egg') && weighRaw === false;
+  };
+
+  const handleEggCountChange = (index, newCount) => {
+    const count = parseInt(newCount) || 1;
+    if (count <= 0) return;
+
+    const newGrams = count * 50; // One large egg ≈ 50g
+    const updatedComponents = [...components];
+    const component = updatedComponents[index];
+
+    // Scale macros based on new gram amount
+    updatedComponents[index] = {
+      ...component,
+      grams: newGrams,
+      cal: Math.round((component.cal / component.grams) * newGrams),
+      protein: Math.round(((component.protein || component.p || 0) / component.grams) * newGrams * 10) / 10,
+      carbs: Math.round(((component.carbs || component.c || 0) / component.grams) * newGrams * 10) / 10,
+      fat: Math.round(((component.fat || component.f || 0) / component.grams) * newGrams * 10) / 10,
+    };
+
+    setComponents(updatedComponents);
+    setEditingGramIndex(null);
+    setUserHasModified(true);
+    if (recipe?.isLoggedView) setHasUnsavedChanges(true);
+  };
+
+  const shouldShowRawSuffix = (componentName, weighRaw, componentType) => {
+    if (!weighRaw) return false;
+    if (componentName.toLowerCase().includes('egg')) return false;
+    if (componentType === 'Sauce' || componentType === 'Seasoning' || componentType === 'Veg/Sauce') return false;
+    return true;
   };
 
   const handleReset = () => {
@@ -980,45 +1006,87 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
                       <div style={{fontSize: 13, fontWeight: 600, color: c.userAdded ? "var(--lime)" : "var(--cream)", marginBottom: 4}}>{c.name}</div>
                       <div style={{display: "flex", gap: 6, alignItems: "center", flexWrap: "wrap"}}>
                         <span style={{fontSize: 11, color: "var(--muted)"}}>{c.type}</span>
-                        <div style={{display: "flex", alignItems: "center", gap: 4}}>
-                          <span style={{fontSize: 11, fontWeight: 600, color: "var(--lime)"}}>⚖️</span>
-                          {editingGramIndex === i ? (
-                            <input
-                              type="number"
-                              className="goals-modal-input"
-                              value={editingGramValue}
-                              onChange={(e) => setEditingGramValue(e.target.value)}
-                              onBlur={() => handleGramChange(i, editingGramValue || c.grams)}
-                              onKeyDown={(e) => {
-                                if (e.key === 'Enter') handleGramChange(i, editingGramValue || c.grams);
-                              }}
-                              autoFocus
-                              style={{width: 60, textAlign: "center", fontSize: 11}}
-                            />
-                          ) : (
-                            <span
-                              onClick={() => {
-                                setEditingGramIndex(i);
-                                setEditingGramValue(c.grams.toString());
-                              }}
-                              style={{
-                                fontSize: 11,
-                                fontWeight: 600,
-                                color: "var(--lime)",
-                                border: "1px solid var(--lime)",
-                                borderRadius: 6,
-                                padding: "2px 6px",
-                                backgroundColor: "rgba(0, 255, 100, 0.05)",
-                                cursor: "pointer",
-                                minWidth: 40,
-                                textAlign: "center",
-                              }}
-                            >
-                              {c.grams}
-                            </span>
-                          )}
-                          <span style={{fontSize: 11, fontWeight: 600, color: "var(--lime)"}}>g{c.weighRaw ? " raw" : ""}</span>
-                        </div>
+                        {isEggComponent(c.name, c.weighRaw) ? (
+                          <div style={{display: "flex", alignItems: "center", gap: 4}}>
+                            <span style={{fontSize: 11}}>🥚</span>
+                            {editingGramIndex === i ? (
+                              <input
+                                type="number"
+                                className="goals-modal-input"
+                                value={editingGramValue}
+                                onChange={(e) => setEditingGramValue(e.target.value)}
+                                onBlur={() => handleEggCountChange(i, editingGramValue || Math.round(c.grams / 50))}
+                                onKeyDown={(e) => {
+                                  if (e.key === 'Enter') handleEggCountChange(i, editingGramValue || Math.round(c.grams / 50));
+                                }}
+                                autoFocus
+                                style={{width: 40, textAlign: "center", fontSize: 11}}
+                              />
+                            ) : (
+                              <span
+                                onClick={() => {
+                                  setEditingGramIndex(i);
+                                  setEditingGramValue(Math.round(c.grams / 50).toString());
+                                }}
+                                style={{
+                                  fontSize: 11,
+                                  fontWeight: 600,
+                                  color: "var(--lime)",
+                                  border: "1px solid var(--lime)",
+                                  borderRadius: 6,
+                                  padding: "2px 6px",
+                                  backgroundColor: "rgba(0, 255, 100, 0.05)",
+                                  cursor: "pointer",
+                                  minWidth: 30,
+                                  textAlign: "center",
+                                }}
+                              >
+                                {Math.round(c.grams / 50)}
+                              </span>
+                            )}
+                            <span style={{fontSize: 11, color: "var(--muted)"}}>eggs</span>
+                          </div>
+                        ) : (
+                          <div style={{display: "flex", alignItems: "center", gap: 4}}>
+                            <span style={{fontSize: 11}}>⚖️</span>
+                            {editingGramIndex === i ? (
+                              <input
+                                type="number"
+                                className="goals-modal-input"
+                                value={editingGramValue}
+                                onChange={(e) => setEditingGramValue(e.target.value)}
+                                onBlur={() => handleGramChange(i, editingGramValue || c.grams)}
+                                onKeyDown={(e) => {
+                                  if (e.key === 'Enter') handleGramChange(i, editingGramValue || c.grams);
+                                }}
+                                autoFocus
+                                style={{width: 60, textAlign: "center", fontSize: 11}}
+                              />
+                            ) : (
+                              <span
+                                onClick={() => {
+                                  setEditingGramIndex(i);
+                                  setEditingGramValue(c.grams.toString());
+                                }}
+                                style={{
+                                  fontSize: 11,
+                                  fontWeight: 600,
+                                  color: "var(--lime)",
+                                  border: "1px solid var(--lime)",
+                                  borderRadius: 6,
+                                  padding: "2px 6px",
+                                  backgroundColor: "rgba(0, 255, 100, 0.05)",
+                                  cursor: "pointer",
+                                  minWidth: 40,
+                                  textAlign: "center",
+                                }}
+                              >
+                                {c.grams}
+                              </span>
+                            )}
+                            <span style={{fontSize: 11, color: "var(--muted)"}}>g{shouldShowRawSuffix(c.name, c.weighRaw, c.type) ? " raw" : ""}</span>
+                          </div>
+                        )}
                         <span style={{
                           fontSize: 10,
                           fontWeight: 600,
@@ -1077,7 +1145,6 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
                               <button
                                 key={j}
                                 onClick={() => {
-                                  console.log('Preset pill clicked:', sub, 'for component index:', i);
                                   handleSwapComponent(i, sub);
                                   setSearchQuery("");
                                   setSearchComponentIndex(null);
