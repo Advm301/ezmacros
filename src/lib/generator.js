@@ -39,6 +39,87 @@ const USDA_MACROS = {
   "lemon pepper seasoning": { cal: 233, protein: 8.7, carbs: 41.5, fat: 5.4 },
 };
 
+// GROUND PROTEIN RECIPE POOLS
+const GROUND_BEEF_RECIPES = {
+  "Asian-Inspired,Skillet": [92],
+  "BBQ,Skillet": [93],
+  "Saucy,Skillet": [94],
+  "Spicy,Skillet": [95],
+  "Italian-Inspired,Skillet": [96],
+  "Neutral,Skillet": [92, 99],
+  "All": [92, 93, 94, 95, 96, 97, 98, 99],
+};
+
+const GROUND_CHICKEN_RECIPES = {
+  "Asian-Inspired,Skillet": [100],
+  "BBQ,Skillet": [101],
+  "Saucy,Skillet": [102],
+  "Spicy,Skillet": [103],
+  "Italian-Inspired,Skillet": [104],
+  "Neutral,Skillet": [100, 107],
+  "All": [100, 101, 102, 103, 104, 105, 106, 107],
+};
+
+const GROUND_PORK_RECIPES = {
+  "Asian-Inspired,Skillet": [108],
+  "BBQ,Skillet": [109],
+  "Saucy,Skillet": [110],
+  "Spicy,Skillet": [111],
+  "Italian-Inspired,Skillet": [112],
+  "Neutral,Skillet": [108, 115],
+  "All": [108, 109, 110, 111, 112, 113, 114, 115],
+};
+
+const GROUND_TURKEY_RECIPES = {
+  "Asian-Inspired,Skillet": [116],
+  "BBQ,Skillet": [117],
+  "Saucy,Skillet": [118],
+  "Spicy,Skillet": [119],
+  "Italian-Inspired,Skillet": [120],
+  "Neutral,Skillet": [116, 123],
+  "All": [116, 117, 118, 119, 120, 121, 122, 123],
+};
+
+// Helper function to pick recipes from a pool based on flavor and method
+function pickRecipesByFlavorAndMethod(proteinType, flavorTags, cookMethod) {
+  const poolMap = {
+    beef: GROUND_BEEF_RECIPES,
+    chicken: GROUND_CHICKEN_RECIPES,
+    pork: GROUND_PORK_RECIPES,
+    turkey: GROUND_TURKEY_RECIPES,
+  };
+
+  const pool = poolMap[proteinType];
+  if (!pool) return [];
+
+  // Build flavor key based on flavorTags
+  let flavorKey = flavorTags.length > 0 ? flavorTags[0] : "Neutral";
+  if (flavorTags.includes("Saucy") && flavorTags.includes("Spicy")) {
+    flavorKey = "Saucy,Spicy";
+  } else if (flavorTags.includes("Saucy") && flavorTags.includes("Asian-Inspired")) {
+    flavorKey = "Saucy,Asian-Inspired";
+  } else if (flavorTags.includes("Saucy")) {
+    flavorKey = "Saucy";
+  } else if (flavorTags.includes("Spicy")) {
+    flavorKey = "Spicy";
+  } else if (flavorTags.includes("Asian-Inspired")) {
+    flavorKey = "Asian-Inspired";
+  } else if (flavorTags.includes("BBQ")) {
+    flavorKey = "BBQ";
+  } else if (flavorTags.includes("Italian-Inspired")) {
+    flavorKey = "Italian-Inspired";
+  } else {
+    flavorKey = "Neutral";
+  }
+
+  // Build composite key with method
+  const methodPart = cookMethod && cookMethod !== "Any" ? cookMethod : "Skillet";
+  const compositeKey = `${flavorKey},${methodPart}`;
+
+  // Try exact match first, then fallback to flavor only, then all
+  return pool[compositeKey] || pool[flavorKey] || pool["All"] || [];
+}
+
 // Fallback macro values for missing ingredients
 const FALLBACK_MACROS = {
   seasoning: { cal: 8, protein: 0, carbs: 1, fat: 0 },
@@ -696,3 +777,6 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
 
   return results.slice(0, 3);
 }
+
+// Export recipe pools and helper for reference/debugging
+export { GROUND_BEEF_RECIPES, GROUND_CHICKEN_RECIPES, GROUND_PORK_RECIPES, GROUND_TURKEY_RECIPES, pickRecipesByFlavorAndMethod };
