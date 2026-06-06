@@ -319,8 +319,12 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
         fat: initialFat,
       });
 
-      // Reset userHasModified on new recipe open
-      setUserHasModified(false);
+      // Reset userHasModified on new recipe open, but preserve if meal was previously modified
+      if (recipe.wasModified) {
+        setUserHasModified(true);
+      } else {
+        setUserHasModified(false);
+      }
     }
 
     return () => {
