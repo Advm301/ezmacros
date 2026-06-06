@@ -5,6 +5,7 @@ import Today from './pages/Today';
 import Kitchen from './pages/Kitchen';
 import Browse from './pages/Browse';
 import RecipeModal from './components/RecipeModal';
+import GoalsModal from './components/GoalsModal';
 import './styles/globals.css';
 
 export default function App() {
@@ -12,11 +13,12 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState("today");
   const [openRecipe, setOpenRecipe] = useState(null);
-  const [goals] = useState({cal: 2200, protein: 180, carbs: 220, fat: 60});
+  const [goals, setGoals] = useState({cal: 2200, protein: 180, carbs: 220, fat: 60});
   const [mealLoggedNotification, setMealLoggedNotification] = useState(false);
   const [todayBadge, setTodayBadge] = useState(false);
   const [ezLevel, setEzLevel] = useState(1);
   const [openGoalsModal, setOpenGoalsModal] = useState(false);
+  const [user, setUser] = useState(null);
 
   const ezLevelNames = {
     0: { name: 'Effortless', icon: '⚡', bolts: '⚡' },
@@ -39,6 +41,9 @@ export default function App() {
       try {
         const { data: { session: currentSession } } = await supabase.auth.getSession();
         setSession(currentSession);
+        if (currentSession?.user) {
+          setUser(currentSession.user);
+        }
       } catch (err) {
         console.error("Error checking session:", err);
       } finally {
@@ -52,6 +57,9 @@ export default function App() {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (_event, currentSession) => {
         setSession(currentSession);
+        if (currentSession?.user) {
+          setUser(currentSession.user);
+        }
       }
     );
 
@@ -144,7 +152,7 @@ export default function App() {
         </div>
 
         {/* Page content */}
-        {tab === "today" && <Today onTabFocus={() => setTodayBadge(false)} onUpdateEzLevel={updateEzLevel} openGoalsModal={openGoalsModal} onGoalsModalClosed={() => setOpenGoalsModal(false)}/>}
+        {tab === "today" && <Today onTabFocus={() => setTodayBadge(false)} onUpdateEzLevel={updateEzLevel}/>}
         {tab === "kitchen" && <Kitchen ezLevel={ezLevel} goals={goals} onOpen={setOpenRecipe}/>}
         {tab === "browse" && <Browse ezLevel={ezLevel} onOpen={setOpenRecipe}/>}
 
@@ -178,6 +186,22 @@ export default function App() {
       </div>
 
       {openRecipe && <RecipeModal recipe={openRecipe} onClose={() => setOpenRecipe(null)} onMealLogged={handleMealLogged}/>}
+
+      {openGoalsModal && (
+        <GoalsModal
+          goals={goals}
+          user={user}
+          onClose={() => setOpenGoalsModal(false)}
+          onSave={(newGoals) => {
+            setGoals(newGoals);
+            if (newGoals.ez_level) {
+              const levelNames = { 1: 'Effortless', 2: 'Easy', 3: 'Relaxed' };
+              const levelName = levelNames[newGoals.ez_level] || 'Easy';
+              updateEzLevel(levelName);
+            }
+          }}
+        />
+      )}
     </>
   );
 }
