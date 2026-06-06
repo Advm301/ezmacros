@@ -7,7 +7,7 @@ export default function Browse({ezLevel, onOpen}) {
   const [filter, setFilter] = useState("All");
   const [spiceFilter, setSpiceFilter] = useState("Any Spice");
   const [ezFilter, setEzFilter] = useState("Any Level");
-  const filters = ["All","Breakfast","Lunch","Dinner","Snack","No Cook","Quick","Meal Prep"];
+  const filters = ["All","Breakfast","Lunch/Dinner","Snack","No Cook","Quick","Meal Prep"];
   const spiceFilters = ["Any Spice","No Spice","Mild","Medium","Hot","Extra Hot"];
   const ezFilters = ["Any Level","⚡ Effortless","⚡⚡ Easy","⚡⚡⚡ Relaxed"];
 
@@ -17,7 +17,12 @@ export default function Browse({ezLevel, onOpen}) {
     // Case-insensitive tag matching
     let matchFilter = filter === "All";
     if (!matchFilter) {
-      matchFilter = (r.tags || []).some(t => t.toLowerCase() === filter.toLowerCase());
+      if (filter === "Lunch/Dinner") {
+        // Match recipes that have either "Lunch" or "Dinner" in their tags
+        matchFilter = (r.tags || []).some(t => t.toLowerCase() === "lunch" || t.toLowerCase() === "dinner");
+      } else {
+        matchFilter = (r.tags || []).some(t => t.toLowerCase() === filter.toLowerCase());
+      }
     }
 
     let matchSpice = true;

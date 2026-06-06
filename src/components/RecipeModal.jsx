@@ -207,6 +207,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
   const usdaDebounceRef = useRef(null);
   const [updatedStepIndices, setUpdatedStepIndices] = useState(new Set());
   const stepFlashTimeoutRef = useRef(null);
+  const [hasBeenOpened, setHasBeenOpened] = useState(false);
 
   // Track original state to enable reset functionality
   const originalComponents = useRef([]);
@@ -320,6 +321,11 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
     };
   }, [recipe?.id]);
 
+  // Set hasBeenOpened to true after the first render
+  useEffect(() => {
+    setHasBeenOpened(true);
+  }, []);
+
   // Recalculate totals whenever components change
   useEffect(() => {
     if (components && components.length > 0) {
@@ -338,14 +344,10 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
   }, [components]);
 
   // Check if current state matches original and update isModified accordingly
-  // Skip this check for Browse recipes - they should never show as modified
+  // Skip this check on the very first render (when !hasBeenOpened) to keep Browse recipes unmodified initially
   useEffect(() => {
-    // Don't auto-update modified state if this is a Browse recipe
-    if (recipe?.isBrowseRecipe) {
-      setIsModified(false);
-      if (recipeName !== originalName.current) {
-        setRecipeName(originalName.current);
-      }
+    // On first render, skip modification check to keep recipes unmodified initially
+    if (!hasBeenOpened) {
       return;
     }
 
@@ -362,7 +364,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
         setRecipeName(originalName.current);
       }
     }
-  }, [components, steps, recipe?.isBrowseRecipe]);
+  }, [components, steps, hasBeenOpened]);
 
   // For logged meals, track if there are unsaved changes from what was loaded from database
   useEffect(() => {
