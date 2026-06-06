@@ -776,7 +776,10 @@ export default function Today({onTabFocus, onUpdateEzLevel, openGoalsModal, onGo
           onSave={(newGoals) => {
             setGoals(newGoals);
             if (onUpdateEzLevel && newGoals.ez_level) {
-              onUpdateEzLevel(newGoals.ez_level);
+              // Convert ez_level integer (1/2/3) back to levelName string
+              const levelNames = { 1: 'Effortless', 2: 'Easy', 3: 'Relaxed' };
+              const levelName = levelNames[newGoals.ez_level] || 'Easy';
+              onUpdateEzLevel(levelName);
             }
             setGoalsSavedNotification(true);
             setTimeout(() => setGoalsSavedNotification(false), 2000);
