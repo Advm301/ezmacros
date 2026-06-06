@@ -6,10 +6,8 @@ export default function Browse({ezLevel, onOpen}) {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("All");
   const [spiceFilter, setSpiceFilter] = useState("Any Spice");
-  const [ezFilter, setEzFilter] = useState("Any Level");
   const filters = ["All","Breakfast","Lunch/Dinner","Snack","No Cook","Quick","Meal Prep"];
   const spiceFilters = ["Any Spice","No Spice","Mild","Medium","Hot","Extra Hot"];
-  const ezFilters = ["Any Level","⚡ Effortless","⚡⚡ Easy","⚡⚡⚡ Relaxed"];
 
   const filtered = RECIPES.filter(r => {
     const matchSearch = r.name.toLowerCase().includes(search.toLowerCase());
@@ -32,11 +30,13 @@ export default function Browse({ezLevel, onOpen}) {
     else if (spiceFilter === "Hot") matchSpice = r.spiceLevel === 3;
     else if (spiceFilter === "Extra Hot") matchSpice = r.spiceLevel === 4;
     // "Any Spice" matches all
+
+    // Filter by global EZ level: Effortless shows only level 1, Easy shows <= 2, Relaxed shows all
     let matchEz = true;
-    if (ezFilter === "⚡ Effortless") matchEz = r.ezLevel === 1;
-    else if (ezFilter === "⚡⚡ Easy") matchEz = r.ezLevel === 2;
-    else if (ezFilter === "⚡⚡⚡ Relaxed") matchEz = r.ezLevel === 3;
-    // "Any Level" matches all
+    if (ezLevel === 1) matchEz = r.ezLevel === 1;
+    else if (ezLevel === 2) matchEz = r.ezLevel <= 2;
+    // ezLevel === 3 (Relaxed) matches all
+
     return matchSearch && matchFilter && matchSpice && matchEz;
   });
   return (
@@ -54,11 +54,6 @@ export default function Browse({ezLevel, onOpen}) {
         <div className="filter-label" style={{marginBottom: 8}}>Spice Level</div>
         <div className="scroll-row" style={{marginBottom: 16}}>
           {spiceFilters.map(s => <div key={s} className={`pill ${spiceFilter === s ? "active" : ""}`} onClick={() => setSpiceFilter(s)}>{s}</div>)}
-        </div>
-
-        <div className="filter-label" style={{marginBottom: 8}}>EZ Level</div>
-        <div className="scroll-row" style={{marginBottom: 16}}>
-          {ezFilters.map(e => <div key={e} className={`pill ${ezFilter === e ? "active" : ""}`} onClick={() => setEzFilter(e)}>{e}</div>)}
         </div>
       </div>
       <div className="px">

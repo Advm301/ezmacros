@@ -15,6 +15,9 @@ export default function Today({onTabFocus, onUpdateEzLevel, openGoalsModal, onGo
   const [showGoalsModal, setShowGoalsModal] = useState(false);
   const [goalsSavedNotification, setGoalsSavedNotification] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
+  const [showCalendar, setShowCalendar] = useState(false);
+  const [calendarMonth, setCalendarMonth] = useState(new Date());
+  const [loggedDates, setLoggedDates] = useState(new Set());
 
   const formatDateLabel = (dateString) => {
     const today = new Date().toISOString().split('T')[0];
@@ -38,6 +41,62 @@ export default function Today({onTabFocus, onUpdateEzLevel, openGoalsModal, onGo
     // Don't allow going past today
     if (newDate <= today) {
       setSelectedDate(newDate);
+    }
+  };
+
+  const handlePreviousMonth = () => {
+    const prev = new Date(calendarMonth);
+    prev.setMonth(prev.getMonth() - 1);
+    setCalendarMonth(prev);
+  };
+
+  const handleNextMonth = () => {
+    const next = new Date(calendarMonth);
+    next.setMonth(next.getMonth() + 1);
+    setCalendarMonth(next);
+  };
+
+  const handleSelectDate = (day) => {
+    const year = calendarMonth.getFullYear();
+    const month = String(calendarMonth.getMonth() + 1).padStart(2, '0');
+    const dayStr = String(day).padStart(2, '0');
+    const dateStr = `${year}-${month}-${dayStr}`;
+
+    // Don't allow selecting future dates
+    const today = new Date().toISOString().split('T')[0];
+    if (dateStr <= today) {
+      setSelectedDate(dateStr);
+      setShowCalendar(false);
+    }
+  };
+
+  const fetchLoggedDatesForMonth = async (userId) => {
+    if (!userId) return;
+
+    const year = calendarMonth.getFullYear();
+    const month = calendarMonth.getMonth();
+    const startOfMonth = new Date(year, month, 1).toISOString().split('T')[0];
+    const endOfMonth = new Date(year, month + 1, 0).toISOString().split('T')[0];
+
+    try {
+      const { data } = await supabase
+        .from('meal_logs')
+        .select('logged_at')
+        .eq('user_id', userId)
+        .gte('logged_at', `${startOfMonth}T00:00:00`)
+        .lte('logged_at', `${endOfMonth}T23:59:59`);
+
+      // Extract unique dates
+      const dates = new Set();
+      if (data) {
+        data.forEach(meal => {
+          const date = meal.logged_at.split('T')[0];
+          dates.add(date);
+        });
+      }
+      setLoggedDates(dates);
+    } catch (err) {
+      console.error('Error fetching logged dates:', err);
     }
   };
 
@@ -130,6 +189,13 @@ export default function Today({onTabFocus, onUpdateEzLevel, openGoalsModal, onGo
       onGoalsModalClosed && onGoalsModalClosed();
     }
   }, [openGoalsModal, onGoalsModalClosed]);
+
+  useEffect(() => {
+    // Fetch logged dates for the calendar month when month changes or user changes
+    if (user?.id && showCalendar) {
+      fetchLoggedDatesForMonth(user.id);
+    }
+  }, [calendarMonth, user?.id, showCalendar]);
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
@@ -352,7 +418,20 @@ export default function Today({onTabFocus, onUpdateEzLevel, openGoalsModal, onGo
           >
             ←
           </button>
-          <div style={{fontSize: 13, fontWeight: 600, color: 'var(--cream)', minWidth: 60, textAlign: 'center'}}>
+          <div
+            onClick={() => setShowCalendar(!showCalendar)}
+            style={{fontSize: 13, fontWeight: 600, color: 'var(--cream)', minWidth: 60, textAlign: 'center', cursor: 'pointer', padding: '4px 8px', borderRadius: 6, transition: 'all 0.15s', background: showCalendar ? 'var(--s3)' : 'transparent'}}
+            onMouseEnter={(e) => {
+              e.target.style.background = 'var(--s3)';
+              e.target.style.color = 'var(--lime)';
+            }}
+            onMouseLeave={(e) => {
+              if (!showCalendar) {
+                e.target.style.background = 'transparent';
+              }
+              e.target.style.color = 'var(--cream)';
+            }}
+          >
             {formatDateLabel(selectedDate)}
           </div>
           <button
@@ -385,6 +464,112 @@ export default function Today({onTabFocus, onUpdateEzLevel, openGoalsModal, onGo
             →
           </button>
         </div>
+
+        {/* Calendar Modal */}
+        {showCalendar && (
+          <div style={{background: 'var(--s1)', border: '1px solid var(--border)', borderRadius: 12, padding: 16, marginBottom: 20}}>
+            {/* Month/Year Navigation */}
+            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16}}>
+              <button
+                onClick={handlePreviousMonth}
+                style={{background: 'var(--s2)', border: '1px solid var(--border)', color: 'var(--cream)', borderRadius: 4, padding: '4px 8px', cursor: 'pointer', transition: 'all 0.15s'}}
+                onMouseEnter={(e) => {e.target.style.borderColor = 'var(--lime)'; e.target.style.color = 'var(--lime)';}}
+                onMouseLeave={(e) => {e.target.style.borderColor = 'var(--border)'; e.target.style.color = 'var(--cream)';}}
+              >
+                ←
+              </button>
+              <div style={{fontSize: 14, fontWeight: 700, color: 'var(--cream)', minWidth: 150, textAlign: 'center'}}>
+                {calendarMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+              </div>
+              <button
+                onClick={handleNextMonth}
+                style={{background: 'var(--s2)', border: '1px solid var(--border)', color: 'var(--cream)', borderRadius: 4, padding: '4px 8px', cursor: 'pointer', transition: 'all 0.15s'}}
+                onMouseEnter={(e) => {e.target.style.borderColor = 'var(--lime)'; e.target.style.color = 'var(--lime)';}}
+                onMouseLeave={(e) => {e.target.style.borderColor = 'var(--border)'; e.target.style.color = 'var(--cream)';}}
+              >
+                →
+              </button>
+            </div>
+
+            {/* Calendar Grid */}
+            <div style={{display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 8}}>
+              {/* Day headers */}
+              {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
+                <div key={day} style={{textAlign: 'center', fontSize: 11, fontWeight: 700, color: 'var(--muted)', paddingBottom: 4}}>
+                  {day}
+                </div>
+              ))}
+
+              {/* Days */}
+              {(() => {
+                const year = calendarMonth.getFullYear();
+                const month = calendarMonth.getMonth();
+                const firstDay = new Date(year, month, 1).getDay();
+                const daysInMonth = new Date(year, month + 1, 0).getDate();
+                const today = new Date().toISOString().split('T')[0];
+                const days = [];
+
+                // Empty cells before first day
+                for (let i = 0; i < firstDay; i++) {
+                  days.push(null);
+                }
+
+                // Days of the month
+                for (let day = 1; day <= daysInMonth; day++) {
+                  days.push(day);
+                }
+
+                return days.map((day, idx) => {
+                  if (day === null) {
+                    return <div key={`empty-${idx}`} />;
+                  }
+
+                  const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                  const isToday = dateStr === today;
+                  const isSelected = dateStr === selectedDate;
+                  const isFuture = dateStr > today;
+                  const hasLoggedMeal = loggedDates.has(dateStr);
+
+                  return (
+                    <div
+                      key={`day-${day}`}
+                      onClick={() => !isFuture && handleSelectDate(day)}
+                      style={{
+                        padding: '8px 4px',
+                        textAlign: 'center',
+                        borderRadius: 6,
+                        cursor: isFuture ? 'default' : 'pointer',
+                        background: isSelected ? 'var(--lime)' : isFuture ? 'transparent' : 'var(--s2)',
+                        color: isSelected ? 'var(--bg)' : isFuture ? 'var(--muted)' : 'var(--cream)',
+                        border: isToday ? '2px solid var(--lime)' : 'none',
+                        opacity: isFuture ? 0.4 : 1,
+                        fontSize: 12,
+                        fontWeight: 600,
+                        position: 'relative',
+                        transition: 'all 0.15s',
+                      }}
+                      onMouseEnter={(e) => {
+                        if (!isFuture) {
+                          e.target.style.background = 'var(--s3)';
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (!isSelected && !isFuture) {
+                          e.target.style.background = 'var(--s2)';
+                        }
+                      }}
+                    >
+                      {day}
+                      {hasLoggedMeal && !isSelected && (
+                        <div style={{position: 'absolute', bottom: 2, left: '50%', transform: 'translateX(-50%)', width: 4, height: 4, background: 'var(--lime)', borderRadius: '50%'}} />
+                      )}
+                    </div>
+                  );
+                });
+              })()}
+            </div>
+          </div>
+        )}
 
         {/* Macro Progress Bars */}
         <div style={{marginBottom: 24}}>

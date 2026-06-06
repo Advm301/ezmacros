@@ -25,8 +25,10 @@ export default function App() {
   };
 
   const updateEzLevel = (levelName) => {
+    console.log('onUpdateEzLevel called with:', levelName);
     const levelIndex = Object.values(ezLevelNames).findIndex(l => l.name === levelName);
     if (levelIndex !== -1) {
+      console.log('Setting ezLevel to index:', levelIndex);
       setEzLevel(levelIndex);
     }
   };
@@ -57,6 +59,29 @@ export default function App() {
       subscription?.unsubscribe();
     };
   }, []);
+
+  // Fetch saved ez_level from Supabase on mount
+  useEffect(() => {
+    const fetchSavedEzLevel = async () => {
+      if (!session?.user?.id) return;
+
+      try {
+        const { data: goalsData } = await supabase
+          .from('goals')
+          .select('ez_level')
+          .eq('user_id', session.user.id)
+          .maybeSingle();
+
+        if (goalsData?.ez_level !== null && goalsData?.ez_level !== undefined) {
+          setEzLevel(goalsData.ez_level);
+        }
+      } catch (err) {
+        console.error('Error fetching ez_level:', err);
+      }
+    };
+
+    fetchSavedEzLevel();
+  }, [session]);
 
   const handleMealLogged = () => {
     setMealLoggedNotification(true);
