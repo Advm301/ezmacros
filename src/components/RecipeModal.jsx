@@ -338,10 +338,10 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
   // Recalculate totals whenever components change
   useEffect(() => {
     if (components && components.length > 0) {
-      const totalCal = components.reduce((sum, c) => sum + (c.cal || 0), 0);
-      const totalProtein = components.reduce((sum, c) => sum + (c.protein ?? c.p ?? 0), 0);
-      const totalCarbs = components.reduce((sum, c) => sum + (c.carbs ?? c.c ?? 0), 0);
-      const totalFat = components.reduce((sum, c) => sum + (c.fat ?? c.f ?? 0), 0);
+      const totalCal = components.reduce((sum, c) => sum + (Number(c.cal) || 0), 0);
+      const totalProtein = components.reduce((sum, c) => sum + (Number(c.protein ?? c.p) || 0), 0);
+      const totalCarbs = components.reduce((sum, c) => sum + (Number(c.carbs ?? c.c) || 0), 0);
+      const totalFat = components.reduce((sum, c) => sum + (Number(c.fat ?? c.f) || 0), 0);
 
       setMacros({
         cal: totalCal,
@@ -1115,7 +1115,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
                     <div style={{display: "flex", gap: 12, alignItems: "flex-start", flexDirection: "column"}}>
                       <div style={{textAlign: "right", fontSize: 12, color: "var(--muted)"}}>
                         <div style={{color: "var(--orange)", fontWeight: 600}}>{Math.round(c.cal)} cal</div>
-                        <div>{Math.round((c.protein || c.p)*10)/10}g P</div>
+                        <div>{Math.round(((c.protein ?? c.p) || 0)*10)/10}g P</div>
                       </div>
                       <button
                         onClick={() => setExpandedSwap(expandedSwap === i ? null : i)}
