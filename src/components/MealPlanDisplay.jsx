@@ -8,6 +8,7 @@ export default function MealPlanDisplay({
   onViewRecipe,
   onRegeneratePlan,
   onClearPlan,
+  onUnlogMeal,
   isGenerating,
 }) {
   if (!mealPlan || !mealPlan.meals) {
@@ -139,6 +140,7 @@ export default function MealPlanDisplay({
             meal={meal}
             onSwap={onSwapMeal}
             onViewRecipe={onViewRecipe}
+            onUnlog={onUnlogMeal}
           />
         ))}
       </div>

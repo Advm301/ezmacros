@@ -251,25 +251,127 @@ export default function Today({goals: propsGoals, onTabFocus, onUpdateEzLevel, f
   };
 
   // Handle logging a meal from meal plan (called from RecipeModal)
-  const handleLogMealFromPlan = () => {
-    if (!mealPlanner.mealPlan || !openRecipe) return;
+  const handleLogMealFromPlan = async () => {
+    if (!mealPlanner.mealPlan || !openRecipe || !user) return;
 
-    // Find the meal in the plan by recipe ID
-    const updatedMeals = mealPlanner.mealPlan.meals.map(m => {
-      if (m.recipe && m.recipe.id === openRecipe.id) {
-        return { ...m, confirmed: true };
+    try {
+      // Find the meal in the plan by recipe ID to get full meal data
+      const mealToLog = mealPlanner.mealPlan.meals.find(m => m.recipe && m.recipe.id === openRecipe.id);
+      if (!mealToLog) return;
+
+      // Mark meal as confirmed in the plan
+      const updatedMeals = mealPlanner.mealPlan.meals.map(m => {
+        if (m.recipe && m.recipe.id === openRecipe.id) {
+          return { ...m, confirmed: true };
+        }
+        return m;
+      });
+
+      // Update the meal plan with new confirmed status
+      mealPlanner.mealPlan.meals = updatedMeals;
+
+      // Insert into meal_logs table
+      const recipe = mealToLog.recipe;
+      const { error: insertError } = await supabase
+        .from('meal_logs')
+        .insert({
+          user_id: user.id,
+          recipe_id: String(recipe.id || recipe.name),
+          recipe_name: recipe.name,
+          cal: Math.round(recipe.cal || 0),
+          protein: Math.round(recipe.protein || 0),
+          carbs: Math.round(recipe.carbs || 0),
+          fat: Math.round(recipe.fat || 0),
+          logged_at: new Date().toISOString(),
+          recipe_data: JSON.stringify({
+            components: (recipe.components || []).map(comp => ({
+              ...comp,
+              cal: Math.round(comp.cal || 0),
+              protein: Math.round(comp.protein || 0),
+              carbs: Math.round(comp.carbs || 0),
+              fat: Math.round(comp.fat || 0),
+            })),
+            steps: recipe.steps || [],
+            toppings: recipe.toppings || [],
+            method: recipe.method,
+            activeTime: recipe.activeTime,
+            mealType: mealToLog.mealType,
+            source: 'mealPlan',
+          }),
+        });
+
+      if (insertError) {
+        console.error('[DEBUG] Error inserting meal to logs:', insertError);
+        return;
       }
-      return m;
-    });
 
-    // Update the meal plan with new confirmed status
-    mealPlanner.mealPlan.meals = updatedMeals;
+      // Refresh meals list to show the newly logged meal
+      await loadData(selectedDate);
 
-    console.log('[DEBUG] Meal logged from plan:', {
-      recipeName: openRecipe.name,
-      confirmedCount: updatedMeals.filter(m => m.confirmed).length,
-      totalMeals: updatedMeals.length,
-    });
+      console.log('[DEBUG] Meal logged from plan:', {
+        recipeName: recipe.name,
+        confirmedCount: updatedMeals.filter(m => m.confirmed).length,
+        totalMeals: updatedMeals.length,
+      });
+    } catch (err) {
+      console.error('[DEBUG] Error logging meal from plan:', err);
+    }
+  };
+
+  // Handle unlogging a meal from meal plan
+  const handleUnlogMeal = async (mealType) => {
+    if (!mealPlanner.mealPlan || !user) return;
+
+    try {
+      // Find the meal to unlog by mealType
+      const mealToUnlog = mealPlanner.mealPlan.meals.find(m => m.mealType === mealType);
+      if (!mealToUnlog || !mealToUnlog.recipe) return;
+
+      // Find and unconfirm the meal by mealType
+      const updatedMeals = mealPlanner.mealPlan.meals.map(m => {
+        if (m.mealType === mealType) {
+          return { ...m, confirmed: false };
+        }
+        return m;
+      });
+
+      // Update the meal plan with new confirmed status
+      mealPlanner.mealPlan.meals = updatedMeals;
+
+      // Delete from meal_logs table - find the most recent meal log with this recipe
+      const { data: mealLogs } = await supabase
+        .from('meal_logs')
+        .select('id')
+        .eq('user_id', user.id)
+        .eq('recipe_name', mealToUnlog.recipe.name)
+        .gte('logged_at', `${selectedDate}T00:00:00`)
+        .lte('logged_at', `${selectedDate}T23:59:59`)
+        .order('logged_at', { ascending: false })
+        .limit(1);
+
+      if (mealLogs && mealLogs.length > 0) {
+        const { error: deleteError } = await supabase
+          .from('meal_logs')
+          .delete()
+          .eq('id', mealLogs[0].id);
+
+        if (deleteError) {
+          console.error('[DEBUG] Error deleting meal from logs:', deleteError);
+          return;
+        }
+
+        // Refresh meals list
+        await loadData(selectedDate);
+      }
+
+      console.log('[DEBUG] Meal unlogged from plan:', {
+        mealType,
+        confirmedCount: updatedMeals.filter(m => m.confirmed).length,
+        totalMeals: updatedMeals.length,
+      });
+    } catch (err) {
+      console.error('[DEBUG] Error unlogging meal from plan:', err);
+    }
   };
 
   // Handle meal swap
@@ -751,6 +853,7 @@ export default function Today({goals: propsGoals, onTabFocus, onUpdateEzLevel, f
                 onViewRecipe={(recipe) => setOpenRecipe({ ...recipe, fromMealPlan: true })}
                 onRegeneratePlan={() => setShowGenerateMealModal(true)}
                 onClearPlan={() => mealPlanner.clearMealPlan()}
+                onUnlogMeal={handleUnlogMeal}
                 isGenerating={mealPlanner.loading}
               />
             ) : (

@@ -324,9 +324,17 @@ export function selectMealsForDay(dailyGoals, preferences, includeShakeGenerator
 
     if (bestRecipe) {
       console.log(`[DEBUG] ${mealType}: selected recipe ID ${bestRecipe.id} - ${bestRecipe.name}`);
+      // Snapshot recipe with current macro values to ensure consistency
+      const snapshotRecipe = {
+        ...bestRecipe,
+        cal: bestRecipe.cal,
+        protein: bestRecipe.protein,
+        carbs: bestRecipe.carbs,
+        fat: bestRecipe.fat,
+      };
       selectedRecipes.push({
         mealType,
-        recipe: bestRecipe,
+        recipe: snapshotRecipe,
         targetMacros: targetForSlot,
         confirmed: false,
       });

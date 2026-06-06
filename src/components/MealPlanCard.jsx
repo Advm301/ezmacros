@@ -1,4 +1,4 @@
-export default function MealPlanCard({ meal, onSwap, onViewRecipe }) {
+export default function MealPlanCard({ meal, onSwap, onViewRecipe, onUnlog }) {
   // Safety check: verify meal and recipe exist
   if (!meal) {
     console.error('[DEBUG] MealPlanCard: meal prop is undefined');
@@ -62,7 +62,35 @@ export default function MealPlanCard({ meal, onSwap, onViewRecipe }) {
             <div style={{ fontSize: 15, fontWeight: 700, color: confirmed ? 'var(--muted)' : 'var(--cream)', textDecoration: confirmed ? 'line-through' : 'none', transition: 'all 0.2s' }}>
               {recipe?.name || 'Meal'}
             </div>
-            {confirmed && <div style={{ fontSize: 16, color: 'var(--lime)', fontWeight: 700 }}>✓</div>}
+            {confirmed && (
+              <>
+                <div style={{ fontSize: 16, color: 'var(--lime)', fontWeight: 700 }}>✓</div>
+                {onUnlog && (
+                  <button
+                    onClick={() => onUnlog(mealType)}
+                    style={{
+                      background: 'transparent',
+                      border: 'none',
+                      padding: '2px 6px',
+                      fontSize: 11,
+                      fontWeight: 600,
+                      color: 'var(--muted)',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s',
+                      textDecoration: 'underline',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.color = 'var(--orange)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.color = 'var(--muted)';
+                    }}
+                  >
+                    Unlog
+                  </button>
+                )}
+              </>
+            )}
           </div>
         </div>
       </div>
