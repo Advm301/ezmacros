@@ -6,7 +6,6 @@ export default function Browse({ezLevel, onOpen}) {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("");
   const [spiceFilter, setSpiceFilter] = useState("Any Spice");
-  const [showAll, setShowAll] = useState(false);
   const [sortBy, setSortBy] = useState("default");
   const filters = ["Breakfast","Lunch/Dinner","Snack"];
   const spiceFilters = ["Any Spice","No Spice","Mild","Medium","Hot"];
@@ -15,15 +14,10 @@ export default function Browse({ezLevel, onOpen}) {
   const filtered = RECIPES.filter(r => {
     const matchSearch = r.name.toLowerCase().includes(search.toLowerCase());
 
-    // Case-insensitive tag matching - empty filter shows all meals
+    // Meal type filtering - empty filter shows all meal types
     let matchFilter = !filter;
     if (filter) {
-      if (filter === "Lunch/Dinner") {
-        // Match recipes that have either "Lunch" or "Dinner" in their tags
-        matchFilter = (r.tags || []).some(t => t.toLowerCase() === "lunch" || t.toLowerCase() === "dinner");
-      } else {
-        matchFilter = (r.tags || []).some(t => t.toLowerCase() === filter.toLowerCase());
-      }
+      matchFilter = r.mealType === filter;
     }
 
     let matchSpice = true;
@@ -34,13 +28,10 @@ export default function Browse({ezLevel, onOpen}) {
     // "Any Spice" matches all
 
     // Filter by global EZ level: Effortless shows only level 1, Easy shows <= 2, Relaxed shows all
-    // Skip if "Show All" is toggled
     let matchEz = true;
-    if (!showAll) {
-      if (ezLevel === 1) matchEz = r.ezLevel === 1;
-      else if (ezLevel === 2) matchEz = r.ezLevel <= 2;
-      // ezLevel === 3 (Relaxed) matches all
-    }
+    if (ezLevel === 1) matchEz = r.ezLevel === 1;
+    else if (ezLevel === 2) matchEz = r.ezLevel <= 2;
+    // ezLevel === 3 (Relaxed) matches all
 
     return matchSearch && matchFilter && matchSpice && matchEz;
   }).sort((a, b) => {
@@ -69,27 +60,14 @@ export default function Browse({ezLevel, onOpen}) {
           </select>
         </div>
         <div className="sub" style={{marginBottom: 12}}>
-          {showAll ? `${RECIPES.length} curated recipes` : `${filtered.length} filtered recipe${filtered.length !== 1 ? 's' : ''}`}
+          {filtered.length} recipe{filtered.length !== 1 ? 's' : ''}
         </div>
         <input value={search} onChange={e => setSearch(e.target.value)}
           placeholder="Search recipes..."
           style={{width: "100%", background: "var(--s2)", border: "1px solid var(--border)", borderRadius: 12, padding: "10px 14px", color: "var(--cream)", fontSize: 14, marginBottom: 10, boxSizing: "border-box"}}/>
 
+        <div className="filter-label" style={{marginBottom: 8}}>Meal Type</div>
         <div className="scroll-row" style={{marginBottom: 16}}>
-          <div
-            className={`pill ${showAll ? "active" : ""}`}
-            onClick={() => setShowAll(!showAll)}
-            style={{whiteSpace: "nowrap"}}
-          >
-            {showAll ? "✓ All (EZ)" : "All (EZ)"}
-          </div>
-          <div
-            className={`pill ${!filter ? "active" : ""}`}
-            onClick={() => setFilter("")}
-            style={{whiteSpace: "nowrap"}}
-          >
-            {!filter ? "✓ All Meals" : "All Meals"}
-          </div>
           {filters.map(f => <div key={f} className={`pill ${filter === f ? "active" : ""}`} onClick={() => setFilter(f)}>{f}</div>)}
         </div>
 
