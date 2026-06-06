@@ -55,7 +55,7 @@ export default function MealPlanCard({ meal, isConfirmed, onConfirm, onSwap, onV
             {getMealTypeLabel(mealType)}
           </div>
           <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--cream)', marginTop: 2 }}>
-            {recipe.emoji} {recipe.name}
+            {recipe.name}
           </div>
         </div>
       </div>
