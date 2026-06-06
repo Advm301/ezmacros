@@ -8,8 +8,8 @@ export default function Browse({ezLevel, onOpen}) {
   const [spiceFilter, setSpiceFilter] = useState("Any Spice");
   const [showAll, setShowAll] = useState(false);
   const [sortBy, setSortBy] = useState("default");
-  const filters = ["All","Breakfast","Lunch/Dinner","Snack","No Cook","Quick","Meal Prep"];
-  const spiceFilters = ["Any Spice","No Spice","Mild","Medium","Hot","Extra Hot"];
+  const filters = ["All","Breakfast","Lunch/Dinner","Snack","Quick","Meal Prep"];
+  const spiceFilters = ["Any Spice","No Spice","Mild","Medium","Hot"];
   const sortOptions = ["Default","Protein (High→Low)","Calories (High→Low)","Time (Short→Long)"];
 
   const filtered = RECIPES.filter(r => {
@@ -31,7 +31,6 @@ export default function Browse({ezLevel, onOpen}) {
     else if (spiceFilter === "Mild") matchSpice = r.spiceLevel === 1;
     else if (spiceFilter === "Medium") matchSpice = r.spiceLevel === 2;
     else if (spiceFilter === "Hot") matchSpice = r.spiceLevel === 3;
-    else if (spiceFilter === "Extra Hot") matchSpice = r.spiceLevel === 4;
     // "Any Spice" matches all
 
     // Filter by global EZ level: Effortless shows only level 1, Easy shows <= 2, Relaxed shows all
