@@ -85,7 +85,7 @@ export default function App() {
   }
 
   const tabs = [
-    {id: "today", label: "Today", icon: "📊"},
+    {id: "today", label: "Journal", icon: "📊"},
     {id: "kitchen", label: "Kitchen", icon: "🍳"},
     {id: "browse", label: "Browse", icon: "📖"},
   ];

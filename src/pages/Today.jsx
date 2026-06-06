@@ -14,8 +14,34 @@ export default function Today({onTabFocus, onUpdateEzLevel, openGoalsModal, onGo
   const [deleteConfirmTime, setDeleteConfirmTime] = useState(null);
   const [showGoalsModal, setShowGoalsModal] = useState(false);
   const [goalsSavedNotification, setGoalsSavedNotification] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
 
-  const loadData = async () => {
+  const formatDateLabel = (dateString) => {
+    const today = new Date().toISOString().split('T')[0];
+    if (dateString === today) return 'Today';
+
+    const date = new Date(dateString + 'T00:00:00');
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  };
+
+  const handlePreviousDay = () => {
+    const current = new Date(selectedDate + 'T00:00:00');
+    current.setDate(current.getDate() - 1);
+    setSelectedDate(current.toISOString().split('T')[0]);
+  };
+
+  const handleNextDay = () => {
+    const current = new Date(selectedDate + 'T00:00:00');
+    current.setDate(current.getDate() + 1);
+    const today = new Date().toISOString().split('T')[0];
+    const newDate = current.toISOString().split('T')[0];
+    // Don't allow going past today
+    if (newDate <= today) {
+      setSelectedDate(newDate);
+    }
+  };
+
+  const loadData = async (dateString = null) => {
     try {
       // Get current user
       const { data: { user: currentUser } } = await supabase.auth.getUser();
@@ -38,14 +64,14 @@ export default function Today({onTabFocus, onUpdateEzLevel, openGoalsModal, onGo
       };
       setGoals(userGoals);
 
-      // Fetch today's meal logs
-      const today = new Date().toISOString().split('T')[0];
+      // Use provided date or default to today
+      const targetDate = dateString || new Date().toISOString().split('T')[0];
       const { data: mealsData } = await supabase
         .from('meal_logs')
         .select('*')
         .eq('user_id', currentUser.id)
-        .gte('logged_at', `${today}T00:00:00`)
-        .lt('logged_at', `${today}T23:59:59`)
+        .gte('logged_at', `${targetDate}T00:00:00`)
+        .lte('logged_at', `${targetDate}T23:59:59`)
         .order('logged_at', { ascending: false });
 
       setMeals(mealsData || []);
@@ -73,12 +99,13 @@ export default function Today({onTabFocus, onUpdateEzLevel, openGoalsModal, onGo
   };
 
   useEffect(() => {
-    loadData();
+    setLoading(true);
+    loadData(selectedDate);
 
     // Listen for visibility changes to refresh data when tab comes back into focus
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'visible') {
-        loadData();
+        loadData(selectedDate);
       }
     };
 
@@ -87,7 +114,7 @@ export default function Today({onTabFocus, onUpdateEzLevel, openGoalsModal, onGo
     return () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, []);
+  }, [selectedDate]);
 
   useEffect(() => {
     // Call onTabFocus when tab becomes active
@@ -246,7 +273,7 @@ export default function Today({onTabFocus, onUpdateEzLevel, openGoalsModal, onGo
         alignItems: 'center',
       }}>
         <div style={{fontFamily: "'Clash Display',sans-serif", fontSize: 18, fontWeight: 700}}>
-          Today's Progress
+          Journal
         </div>
         <div style={{display: 'flex', gap: 8, alignItems: 'center'}}>
           <button
@@ -300,6 +327,65 @@ export default function Today({onTabFocus, onUpdateEzLevel, openGoalsModal, onGo
       </div>
 
       <div className="px pt">
+        {/* Date Navigation */}
+        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16, marginBottom: 20}}>
+          <button
+            onClick={handlePreviousDay}
+            style={{
+              background: 'var(--s2)',
+              border: '1px solid var(--border)',
+              color: 'var(--cream)',
+              borderRadius: 6,
+              padding: '4px 8px',
+              fontSize: 14,
+              cursor: 'pointer',
+              transition: 'all 0.15s',
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.borderColor = 'var(--lime)';
+              e.target.style.color = 'var(--lime)';
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.borderColor = 'var(--border)';
+              e.target.style.color = 'var(--cream)';
+            }}
+          >
+            ←
+          </button>
+          <div style={{fontSize: 13, fontWeight: 600, color: 'var(--cream)', minWidth: 60, textAlign: 'center'}}>
+            {formatDateLabel(selectedDate)}
+          </div>
+          <button
+            onClick={handleNextDay}
+            disabled={selectedDate === new Date().toISOString().split('T')[0]}
+            style={{
+              background: 'var(--s2)',
+              border: '1px solid var(--border)',
+              color: selectedDate === new Date().toISOString().split('T')[0] ? 'var(--muted)' : 'var(--cream)',
+              borderRadius: 6,
+              padding: '4px 8px',
+              fontSize: 14,
+              cursor: selectedDate === new Date().toISOString().split('T')[0] ? 'default' : 'pointer',
+              transition: 'all 0.15s',
+              opacity: selectedDate === new Date().toISOString().split('T')[0] ? 0.5 : 1,
+            }}
+            onMouseEnter={(e) => {
+              if (selectedDate !== new Date().toISOString().split('T')[0]) {
+                e.target.style.borderColor = 'var(--lime)';
+                e.target.style.color = 'var(--lime)';
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (selectedDate !== new Date().toISOString().split('T')[0]) {
+                e.target.style.borderColor = 'var(--border)';
+                e.target.style.color = 'var(--cream)';
+              }
+            }}
+          >
+            →
+          </button>
+        </div>
+
         {/* Macro Progress Bars */}
         <div style={{marginBottom: 24}}>
           {macroData.map((macro) => {
@@ -352,7 +438,9 @@ export default function Today({onTabFocus, onUpdateEzLevel, openGoalsModal, onGo
               fontSize: 13,
               lineHeight: 1.6,
             }}>
-              Nothing logged yet today. Head to Kitchen to generate a meal.
+              {selectedDate === new Date().toISOString().split('T')[0]
+                ? 'Nothing logged yet today. Head to Kitchen to generate a meal.'
+                : `Nothing logged on this day.`}
             </div>
           ) : (
             meals.map((meal, i) => (

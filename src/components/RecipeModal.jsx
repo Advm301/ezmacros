@@ -542,7 +542,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
       const updatedSteps = [...steps];
       const flashedIndices = new Set();
 
-      // Escape special regex characters and match the entire old keyword as a phrase (word boundaries)
+      // STEP 1: Keyword replacement - replace old ingredient name with new ingredient name in steps
       const escapedKeyword = oldKeyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       const regex = new RegExp(`\\b${escapedKeyword}\\b`, 'gi');
 
@@ -556,22 +556,27 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
         }
       });
 
-      // Special handling for cooking method updates when swapping fresh spinach
-      const oldCookingMethod = getCookingMethod(oldName);
-      const newCookingMethod = getCookingMethod(newName);
+      // STEP 2: Check if cooking method needs updating after keyword replacement
+      const isFreshSpinach = newName.toLowerCase().includes("spinach, baby") ||
+                              newName.toLowerCase().includes("baby spinach") ||
+                              newName.toLowerCase().includes("fresh spinach");
 
-      if (oldCookingMethod && newCookingMethod && oldCookingMethod !== newCookingMethod) {
-        // If swapping to fresh spinach, replace microwave instruction with sauté instruction
-        if ((newName.toLowerCase().includes("baby spinach") || newName.toLowerCase().includes("fresh spinach")) &&
-            oldCookingMethod.toLowerCase().includes("microwave")) {
-          updatedSteps.forEach((step, stepIndex) => {
-            if (step.toLowerCase().includes("microwave") && step.toLowerCase().includes("spinach")) {
-              updatedSteps[stepIndex] = "Heat a pan over medium with a small spray of olive oil. Add the fresh spinach and toss for 1–2 minutes until just wilted. Season with a pinch of salt.";
-              flashedIndices.add(stepIndex);
-            }
-          });
-        }
+      console.log('Checking cooking method for:', newName);
+      console.log('Is fresh spinach:', isFreshSpinach);
+
+      if (isFreshSpinach) {
+        // Find steps that now contain spinach with microwave/steam cooking method (after keyword replacement)
+        updatedSteps.forEach((step, stepIndex) => {
+          const stepLower = step.toLowerCase();
+          if (stepLower.includes("spinach") && (stepLower.includes("microwave") || stepLower.includes("steam"))) {
+            // Replace the microwave/steam cooking instruction with sauté instruction
+            updatedSteps[stepIndex] = "Heat a pan over medium with a small spray of olive oil. Add the fresh spinach and toss for 1–2 minutes until just wilted.";
+            flashedIndices.add(stepIndex);
+          }
+        });
       }
+
+      console.log('Updated steps:', updatedSteps);
 
       // Only update if we made changes
       if (flashedIndices.size > 0) {
