@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { RECIPES } from '../data/recipes.js';
 import RecipeModal from '../components/RecipeModal';
+import StarIcon from '../components/StarIcon';
 
-export default function Today({goals: propsGoals, onTabFocus, onUpdateEzLevel}) {
+export default function Today({goals: propsGoals, onTabFocus, onUpdateEzLevel, favorites, isFavorited, toggleFavorite}) {
   const [goals, setGoals] = useState(propsGoals || null);
   const [meals, setMeals] = useState([]);
   const [totals, setTotals] = useState({ cal: 0, protein: 0, carbs: 0, fat: 0 });
@@ -696,13 +697,18 @@ export default function Today({goals: propsGoals, onTabFocus, onUpdateEzLevel}) 
                     </div>
                   </div>
 
-                  {/* Right side: macros */}
-                  <div style={{textAlign: 'right', marginLeft: 12}}>
-                    <div style={{fontSize: 12, color: 'var(--orange)', fontWeight: 700}}>
-                      {meal.cal} cal
+                  {/* Right side: macros and star */}
+                  <div style={{textAlign: 'right', marginLeft: 12, display: 'flex', alignItems: 'center', gap: 8}}>
+                    <div>
+                      <div style={{fontSize: 12, color: 'var(--orange)', fontWeight: 700}}>
+                        {meal.cal} cal
+                      </div>
+                      <div style={{fontSize: 11, color: 'var(--lime)', marginTop: 2}}>
+                        {meal.protein}g P
+                      </div>
                     </div>
-                    <div style={{fontSize: 11, color: 'var(--lime)', marginTop: 2}}>
-                      {meal.protein}g P
+                    <div onClick={(e) => { e.stopPropagation(); toggleFavorite(meal.id); }}>
+                      <StarIcon filled={isFavorited(meal.id)} size={20} />
                     </div>
                   </div>
                 </div>
@@ -743,7 +749,7 @@ export default function Today({goals: propsGoals, onTabFocus, onUpdateEzLevel}) 
         </div>
       </div>
 
-      {openRecipe && <RecipeModal recipe={openRecipe} onClose={() => setOpenRecipe(null)} onSave={loadData} />}
+      {openRecipe && <RecipeModal recipe={openRecipe} onClose={() => setOpenRecipe(null)} onSave={loadData} isFavorited={isFavorited} toggleFavorite={toggleFavorite} />}
 
 
       {/* Goals Saved Notification */}

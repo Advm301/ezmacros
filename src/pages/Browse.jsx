@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { RECIPES } from '../data/recipes.js';
 import { SPICE_LEVELS } from '../lib/generator.js';
+import StarIcon from '../components/StarIcon';
 
-export default function Browse({ezLevel, onOpen}) {
+export default function Browse({ezLevel, onOpen, favorites, isFavorited, toggleFavorite}) {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("");
   const [spiceFilter, setSpiceFilter] = useState("Any Spice");
   const [sortBy, setSortBy] = useState("default");
+  const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
   const filters = ["Breakfast","Lunch/Dinner","Snack"];
   const spiceFilters = ["Any Spice","No Spice","Mild","Medium","Hot"];
   const sortOptions = ["Default","Protein (High→Low)","Calories (High→Low)","Time (Short→Long)"];
@@ -33,7 +35,13 @@ export default function Browse({ezLevel, onOpen}) {
     else if (ezLevel === 2) matchEz = r.ezLevel <= 2;
     // ezLevel === 3 (Relaxed) matches all
 
-    return matchSearch && matchFilter && matchSpice && matchEz;
+    // Filter by favorites
+    let matchFavorites = true;
+    if (showFavoritesOnly) {
+      matchFavorites = isFavorited(r.id);
+    }
+
+    return matchSearch && matchFilter && matchSpice && matchEz && matchFavorites;
   }).sort((a, b) => {
     // Apply sorting based on sortBy selection
     if (sortBy === "Protein (High→Low)") {
@@ -75,6 +83,13 @@ export default function Browse({ezLevel, onOpen}) {
           >
             {!filter ? "✓ All Meals" : "All Meals"}
           </div>
+          <div
+            className={`pill ${showFavoritesOnly ? "active" : ""}`}
+            onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
+            style={{whiteSpace: "nowrap"}}
+          >
+            {showFavoritesOnly ? "★ Favorites" : "☆ Favorites"}
+          </div>
           {filters.map(f => <div key={f} className={`pill ${filter === f ? "active" : ""}`} onClick={() => setFilter(f)}>{f}</div>)}
         </div>
 
@@ -85,7 +100,7 @@ export default function Browse({ezLevel, onOpen}) {
       </div>
       <div className="px">
         {filtered.map(r => (
-          <div key={r.id} className="recipe-card" style={{marginBottom: 10, cursor: "pointer"}} onClick={() => onOpen({...r, isBrowseRecipe: true})}>
+          <div key={r.id} className="recipe-card" style={{marginBottom: 10, cursor: "pointer", position: "relative"}} onClick={() => onOpen({...r, isBrowseRecipe: true})}>
             <div style={{display: "flex", alignItems: "center", gap: 10}}>
               <span style={{fontSize: 24}}>{r.emoji}</span>
               <div style={{flex: 1}}>
@@ -95,9 +110,14 @@ export default function Browse({ezLevel, onOpen}) {
                 </div>
                 <div style={{fontSize: 11, color: "var(--muted)"}}>{r.method} · {r.activeTime} min · {r.cal} cal · {r.protein}g P</div>
               </div>
-              <div style={{textAlign: "right"}}>
-                <div style={{fontSize: 18, fontWeight: 700, color: "var(--lime)", fontFamily: "'Clash Display',sans-serif"}}>{r.protein}g</div>
-                <div style={{fontSize: 10, color: "var(--muted)"}}>protein</div>
+              <div style={{textAlign: "right", display: "flex", alignItems: "center", gap: 8}}>
+                <div>
+                  <div style={{fontSize: 18, fontWeight: 700, color: "var(--lime)", fontFamily: "'Clash Display',sans-serif"}}>{r.protein}g</div>
+                  <div style={{fontSize: 10, color: "var(--muted)"}}>protein</div>
+                </div>
+                <div onClick={(e) => { e.stopPropagation(); toggleFavorite(r.id); }}>
+                  <StarIcon filled={isFavorited(r.id)} size={20} />
+                </div>
               </div>
             </div>
           </div>

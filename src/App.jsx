@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from './lib/supabase';
+import useFavorites from './hooks/useFavorites';
 import Login from './pages/Login';
 import Today from './pages/Today';
 import Kitchen from './pages/Kitchen';
@@ -20,6 +21,7 @@ export default function App() {
   const [openGoalsModal, setOpenGoalsModal] = useState(false);
   const [user, setUser] = useState(null);
   const [selectedGoalsTab, setSelectedGoalsTab] = useState("calculate");
+  const { favorites, toggleFavorite, isFavorited } = useFavorites();
 
   const ezLevelNames = {
     1: { name: 'Effortless', icon: '⚡', bolts: '⚡' },
@@ -172,9 +174,9 @@ export default function App() {
         </div>
 
         {/* Page content */}
-        {tab === "today" && <Today goals={goals} onTabFocus={() => setTodayBadge(false)} onUpdateEzLevel={updateEzLevel}/>}
+        {tab === "today" && <Today goals={goals} onTabFocus={() => setTodayBadge(false)} onUpdateEzLevel={updateEzLevel} favorites={favorites} isFavorited={isFavorited} toggleFavorite={toggleFavorite}/>}
         {tab === "kitchen" && <Kitchen ezLevel={ezLevel} goals={goals} onOpen={setOpenRecipe}/>}
-        {tab === "browse" && <Browse ezLevel={ezLevel} onOpen={setOpenRecipe}/>}
+        {tab === "browse" && <Browse ezLevel={ezLevel} onOpen={setOpenRecipe} favorites={favorites} isFavorited={isFavorited} toggleFavorite={toggleFavorite}/>}
 
         {/* Bottom nav */}
         <div style={{position: "fixed", bottom: 0, left: "50%", transform: "translateX(-50%)", width: "100%", maxWidth: 430, background: "var(--s1)", borderTop: "1px solid var(--border)", display: "flex", zIndex: 20}}>
@@ -205,7 +207,7 @@ export default function App() {
         <style>{`@keyframes fadeInOut { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }`}</style>
       </div>
 
-      {openRecipe && <RecipeModal recipe={openRecipe} onClose={() => setOpenRecipe(null)} onMealLogged={handleMealLogged}/>}
+      {openRecipe && <RecipeModal recipe={openRecipe} onClose={() => setOpenRecipe(null)} onMealLogged={handleMealLogged} isFavorited={isFavorited} toggleFavorite={toggleFavorite}/>}
 
       {openGoalsModal && (
         <>

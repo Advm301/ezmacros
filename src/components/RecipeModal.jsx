@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { supabase } from '../lib/supabase';
 import { SPICE_LEVELS } from '../lib/generator.js';
+import StarIcon from './StarIcon';
 
 const MACRO_VALUES = {
   // Proteins
@@ -189,7 +190,7 @@ const SUBSTITUTIONS = {
   "cauliflower rice": ["Brown Rice", "Quinoa", "White Rice"],
 };
 
-export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView, onSave}) {
+export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView, onSave, isFavorited, toggleFavorite}) {
   const [logged, setLogged] = useState(false);
   const [logging, setLogging] = useState(false);
   const [error, setError] = useState(null);
@@ -1026,7 +1027,12 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
               </div>
             )}
           </div>
-          <div style={{display: "flex", flexDirection: "column", gap: 8}}>
+          <div style={{display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 8}}>
+            {toggleFavorite && (
+              <div onClick={(e) => { e.stopPropagation(); toggleFavorite(r.id); }}>
+                <StarIcon filled={isFavorited && isFavorited(r.id)} size={24} />
+              </div>
+            )}
             {r.isLoggedView && hasUnsavedChanges && (
               <button
                 onClick={handleSaveChanges}
