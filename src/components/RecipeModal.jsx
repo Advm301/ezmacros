@@ -18,6 +18,13 @@ const MACRO_VALUES = {
   "rotisserie chicken": { cal: 165, protein: 28, carbs: 0, fat: 6 },
   "ground bison": { cal: 146, protein: 21, carbs: 0, fat: 7 },
 
+  // Egg alternatives
+  "whole eggs": { cal: 143, protein: 12.6, carbs: 0.7, fat: 9.5 },
+  "egg white carton": { cal: 52, protein: 10.9, carbs: 0.7, fat: 0.2 },
+  "liquid egg substitute": { cal: 74, protein: 11, carbs: 1, fat: 3 },
+  "silken tofu": { cal: 55, protein: 5, carbs: 2, fat: 3 },
+  "flax egg": { cal: 37, protein: 1, carbs: 3, fat: 3 },
+
   // Carbs
   "white rice": { cal: 130, protein: 3, carbs: 28, fat: 0 },
   "cauliflower rice": { cal: 25, protein: 2, carbs: 5, fat: 0 },
@@ -208,6 +215,8 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
   const [updatedStepIndices, setUpdatedStepIndices] = useState(new Set());
   const stepFlashTimeoutRef = useRef(null);
   const [userHasModified, setUserHasModified] = useState(false);
+  const [editingGramIndex, setEditingGramIndex] = useState(null);
+  const [editingGramValue, setEditingGramValue] = useState("");
 
   // Track original state to enable reset functionality
   const originalComponents = useRef([]);
@@ -353,6 +362,11 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
     }
   }, [userHasModified]);
 
+  // Debug: Log userHasModified changes
+  useEffect(() => {
+    console.log('userHasModified changed:', userHasModified);
+  }, [userHasModified]);
+
   // For logged meals, track if there are unsaved changes from what was loaded from database
   useEffect(() => {
     if (!recipe?.isLoggedView) return;
@@ -444,6 +458,11 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
     const oldName = originalComponent.name;
     const newMacros = getMacroValues(newName);
 
+    // Debug logs for preset pill macros
+    console.log('handleSwapComponent - newName:', newName);
+    console.log('handleSwapComponent - getMacroValues result:', newMacros);
+    console.log('handleSwapComponent - macros applied:', !!newMacros);
+
     // Update component name
     if (newMacros) {
       // If we found macros, calculate new values
@@ -519,6 +538,30 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
   const handleCancelEdit = () => {
     setEditingStepIndex(null);
     setEditingStepText('');
+  };
+
+  const handleGramChange = (index, newGramValue) => {
+    const newGram = parseInt(newGramValue) || 0;
+    if (newGram <= 0) return;
+
+    const updatedComponents = [...components];
+    const component = updatedComponents[index];
+    const scaleFactor = newGram / component.grams;
+
+    // Scale macros based on new gram amount
+    updatedComponents[index] = {
+      ...component,
+      grams: newGram,
+      cal: Math.round((component.cal / component.grams) * newGram),
+      protein: Math.round(((component.protein || component.p || 0) / component.grams) * newGram * 10) / 10,
+      carbs: Math.round(((component.carbs || component.c || 0) / component.grams) * newGram * 10) / 10,
+      fat: Math.round(((component.fat || component.f || 0) / component.grams) * newGram * 10) / 10,
+    };
+
+    setComponents(updatedComponents);
+    setEditingGramIndex(null);
+    setUserHasModified(true);
+    if (recipe?.isLoggedView) setHasUnsavedChanges(true);
   };
 
   const handleReset = () => {
@@ -629,7 +672,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
       // Filter based on component type
       let resultsToShow = foods;
       if (isProteinType) {
-        const cookedKeywords = ["cooked", "broiled", "baked", "fried", "roasted", "grilled", "dried"];
+        const cookedKeywords = ["cooked", "broiled", "baked", "fried", "roasted", "grilled", "dried", "frozen, pasteurized"];
         const rawFoods = foods.filter(food => {
           const desc = food.name.toLowerCase();
           return !cookedKeywords.some(keyword => desc.includes(keyword));
@@ -877,7 +920,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
                 {saving ? "Saving..." : "Save Changes"}
               </button>
             )}
-            {isModified && r.hasResetButton !== false && (
+            {userHasModified && r.hasResetButton !== false && (
               <button
                 onClick={handleReset}
                 style={{
@@ -937,17 +980,45 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
                       <div style={{fontSize: 13, fontWeight: 600, color: c.userAdded ? "var(--lime)" : "var(--cream)", marginBottom: 4}}>{c.name}</div>
                       <div style={{display: "flex", gap: 6, alignItems: "center", flexWrap: "wrap"}}>
                         <span style={{fontSize: 11, color: "var(--muted)"}}>{c.type}</span>
-                        <span style={{
-                          fontSize: 11,
-                          fontWeight: 600,
-                          color: "var(--lime)",
-                          border: "1px solid var(--lime)",
-                          borderRadius: 12,
-                          padding: "2px 8px",
-                          backgroundColor: "rgba(0, 255, 100, 0.05)",
-                        }}>
-                          ⚖️ {c.grams}g{c.weighRaw ? " raw" : ""}
-                        </span>
+                        <div style={{display: "flex", alignItems: "center", gap: 4}}>
+                          <span style={{fontSize: 11, fontWeight: 600, color: "var(--lime)"}}>⚖️</span>
+                          {editingGramIndex === i ? (
+                            <input
+                              type="number"
+                              className="goals-modal-input"
+                              value={editingGramValue}
+                              onChange={(e) => setEditingGramValue(e.target.value)}
+                              onBlur={() => handleGramChange(i, editingGramValue || c.grams)}
+                              onKeyDown={(e) => {
+                                if (e.key === 'Enter') handleGramChange(i, editingGramValue || c.grams);
+                              }}
+                              autoFocus
+                              style={{width: 60, textAlign: "center", fontSize: 11}}
+                            />
+                          ) : (
+                            <span
+                              onClick={() => {
+                                setEditingGramIndex(i);
+                                setEditingGramValue(c.grams.toString());
+                              }}
+                              style={{
+                                fontSize: 11,
+                                fontWeight: 600,
+                                color: "var(--lime)",
+                                border: "1px solid var(--lime)",
+                                borderRadius: 6,
+                                padding: "2px 6px",
+                                backgroundColor: "rgba(0, 255, 100, 0.05)",
+                                cursor: "pointer",
+                                minWidth: 40,
+                                textAlign: "center",
+                              }}
+                            >
+                              {c.grams}
+                            </span>
+                          )}
+                          <span style={{fontSize: 11, fontWeight: 600, color: "var(--lime)"}}>g{c.weighRaw ? " raw" : ""}</span>
+                        </div>
                         <span style={{
                           fontSize: 10,
                           fontWeight: 600,
@@ -1006,6 +1077,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
                               <button
                                 key={j}
                                 onClick={() => {
+                                  console.log('Preset pill clicked:', sub, 'for component index:', i);
                                   handleSwapComponent(i, sub);
                                   setSearchQuery("");
                                   setSearchComponentIndex(null);
