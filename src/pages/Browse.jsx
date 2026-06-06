@@ -68,6 +68,13 @@ export default function Browse({ezLevel, onOpen}) {
 
         <div className="filter-label" style={{marginBottom: 8}}>Meal Type</div>
         <div className="scroll-row" style={{marginBottom: 16}}>
+          <div
+            className={`pill ${!filter ? "active" : ""}`}
+            onClick={() => setFilter("")}
+            style={{whiteSpace: "nowrap"}}
+          >
+            {!filter ? "✓ All Meals" : "All Meals"}
+          </div>
           {filters.map(f => <div key={f} className={`pill ${filter === f ? "active" : ""}`} onClick={() => setFilter(f)}>{f}</div>)}
         </div>
 
