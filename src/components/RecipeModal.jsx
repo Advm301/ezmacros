@@ -219,6 +219,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
   const [editingGramIndex, setEditingGramIndex] = useState(null);
   const [editingGramValue, setEditingGramValue] = useState("");
   const [completedSteps, setCompletedSteps] = useState({});
+  const [removedComponentIndices, setRemovedComponentIndices] = useState(new Set());
 
   // Track original state to enable reset functionality
   const originalComponents = useRef([]);
@@ -264,6 +265,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
     setHasUnsavedChanges(false);
     setResetConfirming(false);
     setCompletedSteps({});
+    setRemovedComponentIndices(new Set());
     if (resetConfirmTimeoutRef.current) clearTimeout(resetConfirmTimeoutRef.current);
 
     // Initialize components, steps, and macros from recipe
@@ -338,13 +340,16 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
     };
   }, [recipe?.id]);
 
-  // Recalculate totals whenever components change
+  // Recalculate totals whenever components change or removed components change
   useEffect(() => {
     if (components && components.length > 0) {
-      const totalCal = components.reduce((sum, c) => sum + (Number(c.cal) || 0), 0);
-      const totalProtein = components.reduce((sum, c) => sum + (Number(c.protein ?? c.p) || 0), 0);
-      const totalCarbs = components.reduce((sum, c) => sum + (Number(c.carbs ?? c.c) || 0), 0);
-      const totalFat = components.reduce((sum, c) => sum + (Number(c.fat ?? c.f) || 0), 0);
+      // Filter out removed components before calculating totals
+      const visibleComponents = components.filter((c, i) => !removedComponentIndices.has(i));
+
+      const totalCal = visibleComponents.reduce((sum, c) => sum + (Number(c.cal) || 0), 0);
+      const totalProtein = visibleComponents.reduce((sum, c) => sum + (Number(c.protein ?? c.p) || 0), 0);
+      const totalCarbs = visibleComponents.reduce((sum, c) => sum + (Number(c.carbs ?? c.c) || 0), 0);
+      const totalFat = visibleComponents.reduce((sum, c) => sum + (Number(c.fat ?? c.f) || 0), 0);
 
       setMacros({
         cal: totalCal,
@@ -354,7 +359,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
       });
       if (recipe?.isLoggedView) setHasChanges(true);
     }
-  }, [components, recipe?.isLoggedView]);
+  }, [components, removedComponentIndices, recipe?.isLoggedView]);
 
   // Update recipeName display based on userHasModified flag
   useEffect(() => {
@@ -627,6 +632,20 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
     }));
   };
 
+  const handleRemoveComponent = (index) => {
+    setRemovedComponentIndices(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(index)) {
+        newSet.delete(index);
+      } else {
+        newSet.add(index);
+      }
+      return newSet;
+    });
+    setUserHasModified(true);
+    if (recipe?.isLoggedView) setHasUnsavedChanges(true);
+  };
+
   const handleGramChange = (index, newGramValue) => {
     const newGram = parseInt(newGramValue) || 0;
     if (newGram <= 0) return;
@@ -706,6 +725,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
       setComponents([...originalComponents.current]);
       setSteps([...originalSteps.current]);
       setRecipeName(originalName.current);
+      setRemovedComponentIndices(new Set()); // Clear removed components
       setResetConfirming(false);
       setUserHasModified(false);
       if (resetConfirmTimeoutRef.current) clearTimeout(resetConfirmTimeoutRef.current);
@@ -1105,9 +1125,10 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
           <div style={{marginBottom: 16}}>
             <div style={{fontSize: 12, fontWeight: 700, color: "var(--muted)", marginBottom: 8, textTransform: "uppercase", letterSpacing: 1}}>Components</div>
             {components.map((c, i) => {
+              const isRemoved = removedComponentIndices.has(i);
               const substitutions = getSubstitutions(c.name);
               return (
-                <div key={i}>
+                <div key={i} style={{opacity: isRemoved ? 0.4 : 1, transition: "opacity 0.15s"}}>
                   <div style={{display: "flex", justifyContent: "space-between", alignItems: "flex-start", padding: "8px 0", borderBottom: "1px solid var(--border)"}}>
                     <div style={{flex: 1}}>
                       <div style={{fontSize: 13, fontWeight: 600, color: c.userAdded ? "var(--lime)" : "var(--cream)", marginBottom: 4}}>{c.name}</div>
@@ -1212,32 +1233,67 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
                         <div style={{color: "var(--orange)", fontWeight: 600}}>{Math.round(c.cal)} cal</div>
                         <div>{Math.round(((c.protein ?? c.p) || 0)*10)/10}g P</div>
                       </div>
-                      <button
-                        onClick={() => setExpandedSwap(expandedSwap === i ? null : i)}
-                        style={{
-                          background: "transparent",
-                          border: "1px solid var(--border)",
-                          color: "var(--muted)",
-                          borderRadius: 6,
-                          padding: "4px 8px",
-                          fontSize: 11,
-                          fontWeight: 600,
-                          cursor: "pointer",
-                          transition: "all 0.15s",
-                          whiteSpace: "nowrap",
-                          opacity: 1,
-                        }}
-                        onMouseEnter={(e) => {
-                          e.target.style.borderColor = "var(--lime)";
-                          e.target.style.color = "var(--lime)";
-                        }}
-                        onMouseLeave={(e) => {
-                          e.target.style.borderColor = "var(--border)";
-                          e.target.style.color = "var(--muted)";
-                        }}
-                      >
-                        Swap
-                      </button>
+                      <div style={{display: "flex", gap: 8}}>
+                        <button
+                          onClick={() => setExpandedSwap(expandedSwap === i ? null : i)}
+                          style={{
+                            background: "transparent",
+                            border: "1px solid var(--border)",
+                            color: "var(--muted)",
+                            borderRadius: 6,
+                            padding: "4px 8px",
+                            fontSize: 11,
+                            fontWeight: 600,
+                            cursor: "pointer",
+                            transition: "all 0.15s",
+                            whiteSpace: "nowrap",
+                            opacity: isRemoved ? 0.4 : 1,
+                          }}
+                          disabled={isRemoved}
+                          onMouseEnter={(e) => {
+                            if (!isRemoved) {
+                              e.target.style.borderColor = "var(--lime)";
+                              e.target.style.color = "var(--lime)";
+                            }
+                          }}
+                          onMouseLeave={(e) => {
+                            e.target.style.borderColor = "var(--border)";
+                            e.target.style.color = "var(--muted)";
+                          }}
+                        >
+                          Swap
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleRemoveComponent(i);
+                          }}
+                          style={{
+                            background: "transparent",
+                            border: "1px solid var(--border)",
+                            color: isRemoved ? "var(--lime)" : "var(--muted)",
+                            borderRadius: 6,
+                            padding: "4px 8px",
+                            fontSize: 14,
+                            fontWeight: 600,
+                            cursor: "pointer",
+                            transition: "all 0.15s",
+                            whiteSpace: "nowrap",
+                            borderColor: isRemoved ? "var(--lime)" : "var(--border)",
+                          }}
+                          onMouseEnter={(e) => {
+                            e.target.style.borderColor = "var(--lime)";
+                            e.target.style.color = "var(--lime)";
+                          }}
+                          onMouseLeave={(e) => {
+                            e.target.style.borderColor = isRemoved ? "var(--lime)" : "var(--border)";
+                            e.target.style.color = isRemoved ? "var(--lime)" : "var(--muted)";
+                          }}
+                          title={isRemoved ? "Click to restore" : "Click to remove"}
+                        >
+                          ✕
+                        </button>
+                      </div>
                     </div>
                   </div>
 
@@ -1586,6 +1642,39 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
                 <div style={{fontSize: 11, color: "var(--muted)"}}>{t.info}</div>
               </div>
             ))}
+          </div>
+        )}
+
+        {/* Removed Components Info */}
+        {removedComponentIndices.size > 0 && (
+          <div style={{marginBottom: 16, padding: 12, background: "rgba(255, 200, 0, 0.05)", border: "1px solid rgba(255, 200, 0, 0.2)", borderRadius: 8}}>
+            <div style={{fontSize: 12, fontWeight: 700, color: "var(--muted)", marginBottom: 8}}>
+              Removed: {Array.from(removedComponentIndices).map(i => components[i]?.name || "Unknown").join(", ")}
+            </div>
+            <button
+              onClick={() => setRemovedComponentIndices(new Set())}
+              style={{
+                background: "transparent",
+                border: "1px solid rgba(255, 200, 0, 0.3)",
+                color: "var(--muted)",
+                borderRadius: 6,
+                padding: "6px 12px",
+                fontSize: 11,
+                fontWeight: 600,
+                cursor: "pointer",
+                transition: "all 0.15s",
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.borderColor = "var(--lime)";
+                e.target.style.color = "var(--lime)";
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.borderColor = "rgba(255, 200, 0, 0.3)";
+                e.target.style.color = "var(--muted)";
+              }}
+            >
+              Restore All
+            </button>
           </div>
         )}
 

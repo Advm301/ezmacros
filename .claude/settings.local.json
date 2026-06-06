@@ -11,7 +11,10 @@
       "Bash(npm run:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(cd:*)",
+      "Bash(node -c src/App.jsx)",
+      "Bash(node -c /c/Users/adamc/Projects/ezmacros/src/lib/generator.js)"
     ]
   }
 }

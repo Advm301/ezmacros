@@ -299,6 +299,13 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
   const hasMixedVeg = lower.some(i => /mixed veg|vegetable/.test(i));
   const hasSpinach = lower.some(i => /spinach/.test(i));
   const hasEdamame = lower.some(i => /edamame/.test(i));
+
+  // Detect ground proteins specifically (match "ground beef", "ground chicken", etc. at start of ingredient name)
+  const hasGroundBeef = lower.some(i => i.startsWith("ground beef"));
+  const hasGroundChicken = lower.some(i => i.startsWith("ground chicken"));
+  const hasGroundPork = lower.some(i => i.startsWith("ground pork"));
+  const hasGroundTurkey = lower.some(i => i.startsWith("ground turkey"));
+
   const isSpicy = flavorTags.includes("Spicy");
   const isSaucy = flavorTags.includes("Saucy");
   const isAsian = flavorTags.includes("Asian-Inspired");
@@ -314,6 +321,46 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
   const carbCal = 260; const carbP = 6; const carbC = 56; const carbF = 0; const carbGrams = 200;
 
   const results = [];
+
+  // GROUND PROTEIN RECIPE POOL MATCHING
+  // When user adds a ground protein, return multiple recipe options from the pool
+  if (hasGroundBeef || hasGroundChicken || hasGroundPork || hasGroundTurkey) {
+    let proteinType = null;
+    if (hasGroundBeef) proteinType = "beef";
+    else if (hasGroundChicken) proteinType = "chicken";
+    else if (hasGroundPork) proteinType = "pork";
+    else if (hasGroundTurkey) proteinType = "turkey";
+
+    // Pick recipe IDs from the pool based on flavor and cooking method
+    const recipeIds = pickRecipesByFlavorAndMethod(proteinType, flavorTags, cookMethod);
+
+    console.log(`[GROUND PROTEIN DEBUG] proteinType: ${proteinType}, flavorTags: ${JSON.stringify(flavorTags)}, cookMethod: ${cookMethod}, recipeIds: ${JSON.stringify(recipeIds)}`);
+
+    // For now, return a message indicating pool matching is active
+    // In a full implementation, these would be looked up from a recipe database
+    if (recipeIds.length > 0) {
+      results.push({
+        name: `Ground ${proteinType.charAt(0).toUpperCase() + proteinType.slice(1)} Recipe Pool`,
+        emoji: proteinType === "beef" ? "🥩" : proteinType === "chicken" ? "🍗" : proteinType === "pork" ? "🐷" : "🦃",
+        method: cookMethod !== "Any" ? cookMethod : "Skillet",
+        ezLevel,
+        tags: ["Recipe Pool", "Multiple Options"],
+        totalCal: 0,
+        totalProtein: 0,
+        totalCarbs: 0,
+        totalFat: 0,
+        activeMinutes: 0,
+        stepCount: 0,
+        isRecipePool: true,
+        recipePoolIds: recipeIds,
+        poolProteinType: proteinType,
+        components: [],
+        toppings: [],
+        steps: [`This ground ${proteinType} recipe pool contains ${recipeIds.length} variations. Recipe IDs: ${recipeIds.join(", ")}`],
+      });
+      return results;
+    }
+  }
 
   if (hasCod) {
     const codSauce = isSpicy||isSpicy&&isAsian?"Soy+Sriracha+Garlic+Honey":

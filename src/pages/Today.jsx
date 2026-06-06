@@ -3,6 +3,12 @@ import { supabase } from '../lib/supabase';
 import { RECIPES } from '../data/recipes.js';
 import RecipeModal from '../components/RecipeModal';
 import StarIcon from '../components/StarIcon';
+import useMealPlanner from '../hooks/useMealPlanner';
+import useUserPreferences from '../hooks/useUserPreferences';
+import MealPlanDisplay from '../components/MealPlanDisplay';
+import MealSwapModal from '../components/MealSwapModal';
+import UserPreferencesModal from '../components/UserPreferencesModal';
+import GenerateMealPlanModal from '../components/GenerateMealPlanModal';
 
 export default function Today({goals: propsGoals, onTabFocus, onUpdateEzLevel, favorites, isFavorited, toggleFavorite}) {
   const [goals, setGoals] = useState(propsGoals || null);
@@ -18,6 +24,15 @@ export default function Today({goals: propsGoals, onTabFocus, onUpdateEzLevel, f
   const [showCalendar, setShowCalendar] = useState(false);
   const [calendarMonth, setCalendarMonth] = useState(new Date());
   const [loggedDates, setLoggedDates] = useState(new Set());
+
+  // Meal planner state
+  const mealPlanner = useMealPlanner();
+  const { preferences, savePreferences } = useUserPreferences();
+  const [confirmedMeals, setConfirmedMeals] = useState(new Set());
+  const [showGenerateMealModal, setShowGenerateMealModal] = useState(false);
+  const [showPreferencesModal, setShowPreferencesModal] = useState(false);
+  const [swapMealType, setSwapMealType] = useState(null);
+  const [swapAlternatives, setSwapAlternatives] = useState([]);
 
   const formatDateLabel = (dateString) => {
     const today = new Date().toISOString().split('T')[0];
@@ -190,6 +205,13 @@ export default function Today({goals: propsGoals, onTabFocus, onUpdateEzLevel, f
     }
   }, [calendarMonth, user?.id, showCalendar]);
 
+  // Load meal plan when date changes
+  useEffect(() => {
+    if (selectedDate === new Date().toISOString().split('T')[0]) {
+      mealPlanner.loadMealPlan(selectedDate);
+    }
+  }, [selectedDate]);
+
   // Sync local goals state when goals are updated from parent (App.jsx)
   useEffect(() => {
     if (propsGoals && (propsGoals.protein !== goals?.protein || propsGoals.carbs !== goals?.carbs || propsGoals.fat !== goals?.fat || propsGoals.cal !== goals?.cal)) {
@@ -200,6 +222,60 @@ export default function Today({goals: propsGoals, onTabFocus, onUpdateEzLevel, f
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
+  };
+
+  // Generate meal plan for today
+  const generateMealPlan = async () => {
+    if (!goals) return;
+    setShowGenerateMealModal(false);
+    await mealPlanner.generateMealPlan(selectedDate, goals, preferences);
+    setConfirmedMeals(new Set());
+  };
+
+  // Handle meal confirmation (checkbox toggle)
+  const handleMealConfirm = async (mealType, isConfirmed) => {
+    const newConfirmed = new Set(confirmedMeals);
+    if (isConfirmed) {
+      newConfirmed.add(mealType);
+    } else {
+      newConfirmed.delete(mealType);
+    }
+    setConfirmedMeals(newConfirmed);
+
+    // TODO: Save confirmation status to database
+    // Will update meal_logs with confirmed_at timestamp
+  };
+
+  // Handle meal swap
+  const handleSwapMeal = (mealType) => {
+    const currentMeal = mealPlanner.mealPlan?.meals.find(m => m.mealType === mealType);
+    if (!currentMeal) return;
+
+    // Get alternatives
+    const alts = mealPlanner.getAlternatives(mealType, currentMeal.targetMacros);
+    setSwapAlternatives(alts);
+    setSwapMealType(mealType);
+  };
+
+  // Handle swap confirmation
+  const handleSwapConfirm = async (selectedRecipe) => {
+    if (!swapMealType) return;
+    await mealPlanner.swapRecipe(swapMealType, selectedRecipe, preferences);
+    setConfirmedMeals(newSet => {
+      const updated = new Set(newSet);
+      updated.delete(swapMealType);
+      return updated;
+    });
+    setSwapMealType(null);
+  };
+
+  // Handle saving preferences
+  const handleSavePreferences = async (newPreferences) => {
+    const result = await savePreferences(newPreferences);
+    if (result?.success !== false) {
+      setShowPreferencesModal(false);
+    }
+    return result;
   };
 
   const handleDeleteMeal = async (mealId) => {
@@ -343,6 +419,30 @@ export default function Today({goals: propsGoals, onTabFocus, onUpdateEzLevel, f
           Journal
         </div>
         <div style={{display: 'flex', gap: 8, alignItems: 'center'}}>
+          <button
+            onClick={() => setShowPreferencesModal(true)}
+            style={{
+              background: 'var(--s2)',
+              border: '1px solid var(--border)',
+              color: 'var(--muted)',
+              borderRadius: 8,
+              padding: '6px 12px',
+              fontSize: 12,
+              fontWeight: 600,
+              cursor: 'pointer',
+              transition: 'all 0.15s',
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.borderColor = 'var(--lime)';
+              e.target.style.color = 'var(--lime)';
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.borderColor = 'var(--border)';
+              e.target.style.color = 'var(--muted)';
+            }}
+          >
+            ⚙️ Preferences
+          </button>
           <button
             onClick={handleSignOut}
             style={{
@@ -584,6 +684,58 @@ export default function Today({goals: propsGoals, onTabFocus, onUpdateEzLevel, f
           })}
         </div>
 
+        {/* Meal Planner Section */}
+        {selectedDate === new Date().toISOString().split('T')[0] && (
+          <div style={{marginBottom: 28}}>
+            {mealPlanner.mealPlan ? (
+              <MealPlanDisplay
+                mealPlan={mealPlanner.mealPlan}
+                goals={goals}
+                confirmedMeals={confirmedMeals}
+                onMealConfirm={handleMealConfirm}
+                onSwapMeal={handleSwapMeal}
+                onViewRecipe={setOpenRecipe}
+                onRegeneratePlan={() => setShowGenerateMealModal(true)}
+                onClearPlan={() => mealPlanner.clearMealPlan()}
+                isGenerating={mealPlanner.loading}
+              />
+            ) : (
+              <div style={{
+                background: 'var(--s2)',
+                borderRadius: 12,
+                padding: 20,
+                textAlign: 'center',
+                marginBottom: 20,
+              }}>
+                <div style={{ fontSize: 24, marginBottom: 10 }}>📋</div>
+                <div style={{ fontSize: 14, color: 'var(--muted)', marginBottom: 16 }}>
+                  No meal plan generated yet.
+                </div>
+                <button
+                  onClick={() => setShowGenerateMealModal(true)}
+                  disabled={mealPlanner.loading}
+                  style={{
+                    background: 'var(--lime)',
+                    border: 'none',
+                    borderRadius: 8,
+                    padding: '10px 16px',
+                    fontSize: 14,
+                    fontWeight: 700,
+                    color: 'var(--bg)',
+                    cursor: mealPlanner.loading ? 'not-allowed' : 'pointer',
+                    opacity: mealPlanner.loading ? 0.6 : 1,
+                    transition: 'all 0.2s',
+                  }}
+                  onMouseEnter={(e) => !mealPlanner.loading && (e.target.style.opacity = '0.8')}
+                  onMouseLeave={(e) => !mealPlanner.loading && (e.target.style.opacity = '1')}
+                >
+                  {mealPlanner.loading ? 'Generating...' : '⊕ Generate Meal Plan'}
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Logged Meals */}
         <div style={{marginTop: 28}}>
           <div style={{fontSize: 12, fontWeight: 700, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 12}}>
@@ -751,6 +903,31 @@ export default function Today({goals: propsGoals, onTabFocus, onUpdateEzLevel, f
 
       {openRecipe && <RecipeModal recipe={openRecipe} onClose={() => setOpenRecipe(null)} onSave={loadData} isFavorited={isFavorited} toggleFavorite={toggleFavorite} />}
 
+      {/* Meal Planner Modals */}
+      {showGenerateMealModal && (
+        <GenerateMealPlanModal
+          isGenerating={mealPlanner.loading}
+          onGenerate={generateMealPlan}
+          onCancel={() => setShowGenerateMealModal(false)}
+        />
+      )}
+
+      {showPreferencesModal && (
+        <UserPreferencesModal
+          preferences={preferences}
+          onSave={handleSavePreferences}
+          onCancel={() => setShowPreferencesModal(false)}
+        />
+      )}
+
+      {swapMealType && (
+        <MealSwapModal
+          mealType={swapMealType}
+          alternatives={swapAlternatives}
+          onSwapConfirm={handleSwapConfirm}
+          onCancel={() => setSwapMealType(null)}
+        />
+      )}
 
       {/* Goals Saved Notification */}
       {goalsSavedNotification && (
