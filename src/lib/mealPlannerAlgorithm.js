@@ -10,22 +10,36 @@ function calculateMacroDistance(recipe, targetMacros) {
   const proteinDiff = Math.abs((recipe.protein || 0) - targetMacros.protein);
 
   // Weight calories more heavily than protein
-  return calDiff + (proteinDiff * 0.5);
+  const distance = calDiff + (proteinDiff * 0.5);
+  // Uncomment for very verbose logging:
+  // console.log(`[DEBUG]   Distance for ${recipe.name}: cal_diff=${calDiff} + protein_diff=${proteinDiff}*0.5 = ${distance}`);
+  return distance;
 }
 
 /**
  * Filter recipes based on user preferences
  */
 function filterRecipesByPreferences(recipes, preferences, excludeRecipeIds = []) {
-  return recipes.filter(recipe => {
+  console.log('[DEBUG] filterRecipesByPreferences called');
+  console.log('[DEBUG]   Input recipes:', recipes.length);
+  console.log('[DEBUG]   Preferences:', preferences);
+  console.log('[DEBUG]   Exclude IDs:', excludeRecipeIds);
+
+  const filtered = recipes.filter(recipe => {
     // Exclude already-selected recipes
-    if (excludeRecipeIds.includes(recipe.id)) return false;
+    if (excludeRecipeIds.includes(recipe.id)) {
+      console.log(`[DEBUG]   Recipe ${recipe.id} excluded (already used)`);
+      return false;
+    }
 
     // Filter by spice level
     if (preferences.spice_level !== 'any') {
       const spiceMap = { 'low': 0, 'medium': 1, 'medium-hot': 2, 'hot': 3 };
       const targetSpice = spiceMap[preferences.spice_level];
-      if (targetSpice !== undefined && recipe.spiceLevel !== targetSpice) return false;
+      if (targetSpice !== undefined && recipe.spiceLevel !== targetSpice) {
+        console.log(`[DEBUG]   Recipe ${recipe.id} filtered out by spice (has ${recipe.spiceLevel}, want ${targetSpice})`);
+        return false;
+      }
     }
 
     // Filter by protein preferences (check if recipe contains preferred protein)
@@ -33,10 +47,17 @@ function filterRecipesByPreferences(recipes, preferences, excludeRecipeIds = [])
     const hasPreferredProtein = preferences.protein_preferences.some(pref =>
       proteinNames.some(tag => tag.includes(pref.toLowerCase()))
     );
-    if (!hasPreferredProtein && preferences.protein_preferences.length > 0) return false;
+    if (!hasPreferredProtein && preferences.protein_preferences.length > 0) {
+      console.log(`[DEBUG]   Recipe ${recipe.id} (tags: ${recipe.tags}) filtered out by protein (prefs: ${preferences.protein_preferences})`);
+      return false;
+    }
 
+    console.log(`[DEBUG]   Recipe ${recipe.id} - ${recipe.name} passed all filters`);
     return true;
   });
+
+  console.log('[DEBUG] filterRecipesByPreferences result:', filtered.length, 'recipes passed');
+  return filtered;
 }
 
 /**
@@ -44,16 +65,29 @@ function filterRecipesByPreferences(recipes, preferences, excludeRecipeIds = [])
  * Returns the recipe closest to target macros within acceptable range
  */
 function selectBestRecipe(recipes, targetMacros, preferences, excludeRecipeIds = []) {
-  const filtered = filterRecipesByPreferences(recipes, preferences, excludeRecipeIds);
+  console.log('[DEBUG] selectBestRecipe called');
+  console.log('[DEBUG]   Input recipes:', recipes.length);
+  console.log('[DEBUG]   Target macros:', targetMacros);
 
-  if (filtered.length === 0) return null;
+  const filtered = filterRecipesByPreferences(recipes, preferences, excludeRecipeIds);
+  console.log('[DEBUG]   After preference filtering:', filtered.length);
+
+  if (filtered.length === 0) {
+    console.log('[DEBUG]   No recipes passed filter - returning null');
+    return null;
+  }
 
   // Sort by distance to target
-  return filtered.reduce((best, recipe) => {
+  const best = filtered.reduce((best, recipe) => {
     const distance = calculateMacroDistance(recipe, targetMacros);
     const bestDistance = calculateMacroDistance(best, targetMacros);
-    return distance < bestDistance ? recipe : best;
+    const isBetter = distance < bestDistance;
+    console.log(`[DEBUG]   Recipe ${recipe.id} - ${recipe.name}: distance=${distance} (${isBetter ? 'BETTER' : 'worse'} than current best)`);
+    return isBetter ? recipe : best;
   });
+
+  console.log('[DEBUG]   selectBestRecipe returning:', best.id, '-', best.name);
+  return best;
 }
 
 /**
@@ -210,15 +244,27 @@ function calculateAccuracy(planMacros, dailyGoals) {
  * Output: array of selected recipes for each meal slot with accuracy score
  */
 export function selectMealsForDay(dailyGoals, preferences, includeShakeGenerator = null) {
+  console.log('[DEBUG] mealPlannerAlgorithm.selectMealsForDay called');
+  console.log('[DEBUG] Input goals:', dailyGoals);
+  console.log('[DEBUG] Input preferences:', preferences);
+
   const mealFrequency = preferences.meal_frequency || '3_meals';
+  console.log('[DEBUG] Meal frequency:', mealFrequency);
+
   const mealTargets = calculateMealTargets(dailyGoals, mealFrequency);
+  console.log('[DEBUG] Calculated meal targets:', mealTargets);
+
   const mealTypes = getMealTypes(mealFrequency);
+  console.log('[DEBUG] Meal types to fill:', mealTypes);
+  console.log('[DEBUG] Total recipes available:', RECIPES.length);
+
   const selectedRecipes = [];
   const excludedIds = [];
   let totalMacros = { cal: 0, protein: 0, carbs: 0, fat: 0 };
 
   // Filter recipes by meal type and select best match for each slot
   for (const mealType of mealTypes) {
+    console.log(`[DEBUG] Processing meal type: ${mealType}`);
     let mealFilter = [];
 
     if (mealType === 'breakfast') {
@@ -234,14 +280,22 @@ export function selectMealsForDay(dailyGoals, preferences, includeShakeGenerator
 
       // Add shake as option if requested and callback provided
       if (preferences.include_shakes && includeShakeGenerator) {
+        console.log('[DEBUG] Shake generation enabled for snack');
         // Will be handled after selection
       }
     }
 
+    console.log(`[DEBUG] ${mealType}: ${mealFilter.length} recipes available by meal type`);
+    console.log(`[DEBUG] ${mealType}: recipe IDs: ${mealFilter.map(r => r.id).join(', ')}`);
+
     const targetForSlot = mealTargets[mealType];
+    console.log(`[DEBUG] ${mealType}: target macros:`, targetForSlot);
+
     const bestRecipe = selectBestRecipe(mealFilter, targetForSlot, preferences, excludedIds);
+    console.log(`[DEBUG] ${mealType}: selectBestRecipe returned:`, bestRecipe ? `${bestRecipe.name} (${bestRecipe.cal} cal, ${bestRecipe.protein}g P)` : 'null');
 
     if (bestRecipe) {
+      console.log(`[DEBUG] ${mealType}: selected recipe ID ${bestRecipe.id} - ${bestRecipe.name}`);
       selectedRecipes.push({
         mealType,
         recipe: bestRecipe,
@@ -252,17 +306,27 @@ export function selectMealsForDay(dailyGoals, preferences, includeShakeGenerator
       totalMacros.protein += bestRecipe.protein || 0;
       totalMacros.carbs += bestRecipe.carbs || 0;
       totalMacros.fat += bestRecipe.fat || 0;
+    } else {
+      console.log(`[DEBUG] ${mealType}: NO RECIPE FOUND - skipping this meal slot`);
     }
   }
 
-  const accuracy = calculateAccuracy(totalMacros, dailyGoals);
+  console.log('[DEBUG] Total meals selected:', selectedRecipes.length);
+  console.log('[DEBUG] Selected meals array:', selectedRecipes);
 
-  return {
+  const accuracy = calculateAccuracy(totalMacros, dailyGoals);
+  console.log('[DEBUG] Final accuracy score:', accuracy);
+  console.log('[DEBUG] Final total macros:', totalMacros);
+
+  const result = {
     meals: selectedRecipes,
     totalMacros,
     accuracy,
     mealFrequency,
   };
+
+  console.log('[DEBUG] selectMealsForDay returning:', result);
+  return result;
 }
 
 /**
