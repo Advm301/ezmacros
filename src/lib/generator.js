@@ -227,10 +227,10 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
       toppings:isSpicy?[{name:"Extra sriracha",info:"1 tsp = 5 cal"},{name:"Lime squeeze",info:"5 cal"}]
               :[{name:"Lemon squeeze",info:"5 cal"},{name:"Parmesan",info:"1 tbsp = 22 cal"}],
       steps:[
-        "Pat cod dry. Place on foil-lined baking sheet.",
-        isAsian||isSpicy?"Mix soy+sriracha+garlic powder+a squeeze of honey. Brush over cod.":"Brush/drizzle "+codSauce+" over cod.",
-        "Bake 425°F 12–14 min.",
-        "Microwave rice 90 sec + steam veg 3 min. Build bowl.",
+        "Pat cod dry with paper towels. Place on foil-lined baking sheet.",
+        isAsian||isSpicy?"Mix soy sauce, sriracha, garlic powder, and a small squeeze of honey in a small bowl. Brush the mixture over the cod.":"Drizzle "+codSauce+" over the cod and spread evenly.",
+        "Bake at 425°F for 12–14 minutes until the fish flakes easily with a fork.",
+        "While baking, microwave rice pouch for 90 seconds. Microwave "+(hasGreenBeans?"green beans":hasBroccoli?"broccoli":hasMixedVeg?"mixed vegetables":"broccoli")+" steam-bag for 3 minutes. Arrange rice on a plate, top with cod, and add vegetables to the side.",
       ],
     });
   }
@@ -278,9 +278,9 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
                :isSpicy?[{name:"Extra Hot Sauce",info:"1 tsp = 0 cal"},{name:"Lime squeeze",info:"5 cal"}]
                :[{name:"Hot Sauce",info:"1 tsp = 0 cal"},{name:"Parmesan",info:"1 tbsp = 22 cal"}],
       steps:[
-        (isSaucy?"Generously coat":"Coat")+" chicken with "+sauceLabel+(isSaucy?" — don't be shy.":".")+" "+(cookMethod==="Bake"?"Place on foil-lined sheet.":"Place in air fryer."),
-        cookMethod==="Bake"?"Bake 400°F 20–22 min.":"Air fry 400°F 18–20 min, flip at 10 min.",
-        "Microwave rice 90 sec + steam veg 3 min."+(isSaucy?" Spoon extra sauce over bowl.":""),
+        (isSaucy?"Generously coat the chicken":"Coat the chicken evenly")+" with "+sauceLabel+(isSaucy?" — don't hold back.":".")+" "+(cookMethod==="Bake"?"Place on a foil-lined baking sheet.":"Place in the air fryer basket."),
+        cookMethod==="Bake"?"Bake at 400°F for 20–22 minutes until cooked through.":"Air fry at 400°F for 18–20 minutes, flipping halfway through at the 10-minute mark.",
+        "While cooking, microwave rice pouch for 90 seconds. Microwave "+(hasGreenBeans?"green beans":hasBroccoli?"broccoli":hasMixedVeg?"mixed vegetables":"broccoli")+" steam-bag for 3 minutes."+(isSaucy?" Spoon extra sauce over the finished bowl.":""),
       ],
     });
   }
@@ -328,11 +328,11 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
               :isSpicy?[{name:"Extra Sriracha",info:"1 tsp = 5 cal"},{name:"Cheddar",info:"¼ cup = 110 cal"}]
               :[{name:"Cheddar",info:"¼ cup = 110 cal"},{name:"Sour Cream",info:"2 tbsp = 60 cal"}],
       steps:[
-        isAsian||isSpicy?"Mix: 2 tbsp soy + 1 tbsp sriracha + 1 tsp garlic powder + 1 tsp honey. Add beef + sauce to slow cooker."
-          :"Add beef + "+(isSaucy?"generous sauce":"canned tomatoes")+" to slow cooker. Break up beef.",
-        "Cook HIGH 2 hrs or LOW 4 hrs.",
-        "Microwave rice 90 sec + steam veg 3 min.",
-        "Build bowl."+(isSaucy?" Spoon extra sauce over top.":""),
+        isAsian||isSpicy?"In a small bowl, mix 2 tablespoons soy sauce, 1 tablespoon sriracha, 1 teaspoon garlic powder, and 1 teaspoon honey. Add beef and sauce to slow cooker and break up the beef with a wooden spoon."
+          :"Add ground beef and "+(isSaucy?"2 tablespoons sauce":"1 can (14 oz) diced tomatoes")+" to slow cooker. Break up the beef with a spoon so it cooks evenly.",
+        "Cover and cook on HIGH for 2 hours or LOW for 4 hours until beef is fully cooked and crumbly.",
+        "While the slow cooker finishes, microwave rice pouch for 90 seconds. Microwave "+(hasGreenBeans?"green beans":hasBroccoli?"broccoli":hasMixedVeg?"mixed vegetables":"broccoli")+" steam-bag for 3 minutes.",
+        "Scoop rice into a bowl, top with beef mixture."+(isSaucy?" Spoon extra sauce over the top.":""),
       ],
     });
   }
@@ -378,10 +378,10 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
               :isSpicy?[{name:"Extra Sriracha",info:"1 tsp = 5 cal"},{name:"Black Pepper",info:"to taste"}]
               :[{name:"Parmesan",info:"1 tbsp = 22 cal"},{name:"Fresh Herbs",info:"basil or oregano"}],
       steps:[
-        isAsian||isSpicy?"Heat skillet. Add ground turkey + mix in soy+sriracha+garlic+honey. Brown 4-5 min.":"Heat skillet over med-high. Add turkey, break it apart, and cook 5-6 min until no pink remains. "+(isSaucy?"Add sauce generously.":"Add seasoning."),
-        "Stir "+(isSaucy?"frequently":"occasionally")+". Cook 2-3 min more.",
-        "Microwave rice 90 sec + steam veg 3 min.",
-        "Build bowl."+(isSaucy?" Spoon extra sauce over top.":""),
+        isAsian||isSpicy?"Heat a skillet over medium-high heat. Add ground turkey, break it apart with a spoon, and stir in soy sauce, sriracha, garlic powder, and honey. Cook 4–5 minutes until the turkey is browned.":"Heat a skillet over medium-high heat. Add ground turkey, breaking it apart with a spoon. Cook 5–6 minutes, stirring occasionally, until no pink remains. "+(isSaucy?"Stir in sauce generously.":"Add seasoning to taste."),
+        "Stir "+(isSaucy?"frequently":"occasionally")+". Cook for 2–3 more minutes to finish cooking through.",
+        "While the turkey finishes, microwave rice pouch for 90 seconds. Microwave "+(hasGreenBeans?"green beans":hasBroccoli?"broccoli":hasMixedVeg?"mixed vegetables":"broccoli")+" steam-bag for 3 minutes.",
+        "Spoon rice and turkey mixture into a bowl. Add vegetables to the side."+(isSaucy?" Drizzle extra sauce over the top.":""),
       ],
     });
   }
@@ -426,9 +426,9 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
       toppings:isSaucy?[{name:"Pour pan drippings over bowl",info:"don't waste it"},{name:"Sesame seeds",info:"1 tsp = 17 cal"}]
               :[{name:"Sesame seeds",info:"1 tsp = 17 cal"},{name:isSpicy?"Extra Sriracha":"Lemon squeeze",info:"5 cal"}],
       steps:[
-        "Place salmon skin-down on foil-lined sheet. "+(isSaucy?"Generously pour":"Drizzle")+" "+salmonSauce+" over top.",
-        "Bake 425°F 12–14 min.",
-        "Microwave rice 90 sec + steam veg 3 min."+(isSaucy?" Pour pan drippings over bowl.":""),
+        "Place salmon skin-down on a foil-lined baking sheet. "+(isSaucy?"Generously pour":"Drizzle")+" "+salmonSauce+" over the fish.",
+        "Bake at 425°F for 12–14 minutes until the salmon is cooked through and flakes easily.",
+        "While baking, microwave rice pouch for 90 seconds. Microwave "+(hasGreenBeans?"green beans":hasBroccoli?"broccoli":hasMixedVeg?"mixed vegetables":"broccoli")+" steam-bag for 3 minutes. Arrange on a plate."+(isSaucy?" Save any pan drippings and drizzle over the bowl.":""),
       ],
     });
   }
@@ -468,8 +468,8 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
         components,
         toppings: [{name: "Extra Sriracha", info: "1 tsp = 5 cal"}, {name: "Black Pepper", info: "pinch = 0 cal"}],
         steps: [
-          "Heat butter in pan over medium heat.",
-          "Crack 3 eggs, scramble until just set. Top with cheese and sriracha.",
+          "Melt butter in a non-stick pan over medium heat, swirling to coat the bottom.",
+          "Crack 3 eggs into the pan. Stir gently and continuously with a spatula for 3–4 minutes until the eggs are mostly cooked but still slightly soft (they'll continue to cook off heat). Top with shredded cheese and sriracha to taste.",
         ],
         ezChecks: {stepsOk: true, noKnifeWork: true, microwaveCarbs: false, bottledSauces: true, noPeeling: true, noScratchSauce: true},
       });
@@ -504,8 +504,8 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
         components,
         toppings: [{name: "Sea Salt", info: "pinch = 0 cal"}, {name: "Black Pepper", info: "pinch = 0 cal"}],
         steps: [
-          "Heat butter in pan over medium heat.",
-          "Crack 3 eggs, scramble until just set. Top with cheese, salt, and pepper.",
+          "Melt butter in a non-stick pan over medium heat, swirling to coat the bottom.",
+          "Crack 3 eggs into the pan. Stir gently and continuously with a spatula for 3–4 minutes until the eggs are mostly cooked but still slightly soft (they'll continue to cook off heat). Top with shredded cheese, salt, and pepper to taste.",
         ],
         ezChecks: {stepsOk: true, noKnifeWork: true, microwaveCarbs: false, bottledSauces: true, noPeeling: true, noScratchSauce: true},
       });
@@ -541,9 +541,9 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
         components,
         toppings: [{name: "Hot Sauce", info: "1 tsp = 0 cal"}, {name: "Salsa", info: "2 tbsp = 10 cal"}],
         steps: [
-          "Cook hash browns in skillet 3–4 min per side until golden. Set aside.",
-          "In same pan, crack eggs and scramble until just set.",
-          "Top with cheese and hash browns. Serve with hot sauce.",
+          "Heat a skillet over medium-high heat with butter. Add frozen hash browns and cook for 3–4 minutes per side until they're golden brown and crispy. Set aside on a plate.",
+          "In the same skillet, crack 2 eggs and scramble gently for 2–3 minutes until just cooked through.",
+          "Transfer eggs to a plate. Top with shredded cheese and hash browns. Serve with hot sauce or salsa on the side.",
         ],
         ezChecks: {stepsOk: true, noKnifeWork: true, microwaveCarbs: false, bottledSauces: true, noPeeling: true, noScratchSauce: true},
       });
@@ -580,9 +580,9 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
         components,
         toppings: [{name: "Salt & Pepper", info: "pinch = 0 cal"}, {name: "Hot Sauce", info: "1 tsp = 0 cal"}],
         steps: [
-          "Microwave spinach 2 min. Squeeze out all water.",
-          "Heat butter in pan, add spinach, then crack eggs and scramble.",
-          "Top with cheese and serve.",
+          "Microwave frozen spinach in a microwave-safe container for 2 minutes. Once thawed, transfer to a kitchen towel or strainer and squeeze out all excess water (this is important for texture).",
+          "Heat butter in a skillet over medium heat. Add the spinach and stir for about 1 minute. Crack 3 eggs directly into the pan and scramble everything together for 3–4 minutes until the eggs are cooked through.",
+          "Transfer to a plate, top with shredded cheese, and season with salt and pepper. Serve hot with hot sauce on the side if desired.",
         ],
         ezChecks: {stepsOk: true, noKnifeWork: true, microwaveCarbs: false, bottledSauces: true, noPeeling: true, noScratchSauce: true},
       });

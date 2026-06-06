@@ -237,19 +237,16 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
     // Split into words
     let words = cleaned.toLowerCase().split(/\s+/);
 
-    // Find the first non-skip word (or first 2 words for compound ingredients)
+    // Find meaningful words (skip prefix words)
     let result = [];
     for (let word of words) {
       if (!skipWords.includes(word)) {
         result.push(word);
-        // Take 2 words for compound ingredients like "green beans"
-        if (result.length >= 2) break;
-        // Single word is usually enough
-        if (result.length === 1 && word.length > 4) break;
       }
     }
 
-    return result.join(" ").toLowerCase();
+    // Return up to 2 words for compound ingredients like "green beans", "mixed veg"
+    return result.slice(0, 2).join(" ").toLowerCase();
   };
 
   useEffect(() => {

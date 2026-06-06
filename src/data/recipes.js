@@ -20,7 +20,7 @@ export const RECIPES = [
       {name:"Green Beans (steam-bag frozen)",type:"Veg",cal:40,p:2,c:8,f:0,grams:85,weighRaw:false},
     ],
     toppings:[{name:"Sesame Seeds",info:"1 tsp = 17 cal · 0.5g P"},{name:"Sriracha",info:"1 tsp = 5 cal"}],
-    steps:["Place cod on foil-lined baking sheet. Drizzle teriyaki sauce over top.","Bake 425°F for 12–14 min.","Microwave rice 90 sec + steam-bag green beans 3 min. Build bowl — toppings separate."],
+    steps:["Pat cod dry with paper towels. Place on foil-lined baking sheet. Drizzle teriyaki sauce over the fish.","Bake at 425°F for 12–14 minutes until the fish flakes easily with a fork.","While the oven heats, microwave rice pouch for 90 seconds. Microwave green beans steam-bag for 3 minutes. Arrange rice on a plate, top with cod, and add green beans to the side."],
     ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
   {id:2,name:"Spicy Asian Cod Bowl",emoji:"🌶️",method:"Bake",type:"fresh",ezLevel:2,spiceLevel:2,
     tags:["High Protein","Asian-Inspired","Medium Heat","Omega-3"],
