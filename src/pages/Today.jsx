@@ -412,11 +412,35 @@ export default function Today({goals: propsGoals, onTabFocus, onUpdateEzLevel, f
     return goal > 0 ? Math.min((consumed / goal) * 100, 100) : 0;
   };
 
+  // Calculate confirmed meals macros from meal plan
+  const getConfirmedMealPlanMacros = () => {
+    if (!mealPlanner.mealPlan || !mealPlanner.mealPlan.meals) {
+      return { cal: 0, protein: 0, carbs: 0, fat: 0 };
+    }
+
+    return mealPlanner.mealPlan.meals.reduce((sum, meal) => {
+      if (meal.confirmed && meal.recipe) {
+        return {
+          cal: sum.cal + (meal.recipe.cal || 0),
+          protein: sum.protein + (meal.recipe.protein || 0),
+          carbs: sum.carbs + (meal.recipe.carbs || 0),
+          fat: sum.fat + (meal.recipe.fat || 0),
+        };
+      }
+      return sum;
+    }, { cal: 0, protein: 0, carbs: 0, fat: 0 });
+  };
+
+  const confirmedMealPlanMacros = getConfirmedMealPlanMacros();
+
+  // Show meal plan progress if plan exists, otherwise show logged meals
+  const displayMacros = mealPlanner.mealPlan ? confirmedMealPlanMacros : totals;
+
   const macroData = [
-    { label: 'Calories', key: 'cal', color: 'var(--orange)', consumed: totals.cal, goal: goals?.cal || 2200 },
-    { label: 'Protein', key: 'protein', color: 'var(--lime)', consumed: totals.protein, goal: goals?.protein || 180, unit: 'g' },
-    { label: 'Carbs', key: 'carbs', color: 'var(--blue)', consumed: totals.carbs, goal: goals?.carbs || 220, unit: 'g' },
-    { label: 'Fat', key: 'fat', color: 'var(--pink)', consumed: totals.fat, goal: goals?.fat || 60, unit: 'g' },
+    { label: 'Calories', key: 'cal', color: 'var(--orange)', consumed: displayMacros.cal, goal: goals?.cal || 2200 },
+    { label: 'Protein', key: 'protein', color: 'var(--lime)', consumed: displayMacros.protein, goal: goals?.protein || 180, unit: 'g' },
+    { label: 'Carbs', key: 'carbs', color: 'var(--blue)', consumed: displayMacros.carbs, goal: goals?.carbs || 220, unit: 'g' },
+    { label: 'Fat', key: 'fat', color: 'var(--pink)', consumed: displayMacros.fat, goal: goals?.fat || 60, unit: 'g' },
   ];
 
   if (loading) {
@@ -677,6 +701,11 @@ export default function Today({goals: propsGoals, onTabFocus, onUpdateEzLevel, f
 
         {/* Macro Progress Bars */}
         <div style={{marginBottom: 24}}>
+          {mealPlanner.mealPlan && (
+            <div style={{fontSize: 12, color: 'var(--muted)', marginBottom: 12, fontStyle: 'italic'}}>
+              Meal Plan Progress (Confirmed Meals)
+            </div>
+          )}
           {macroData.map((macro) => {
             const progress = getProgress(macro.consumed, macro.goal);
             return (
