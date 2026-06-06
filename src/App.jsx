@@ -128,7 +128,6 @@ export default function App() {
           </div>
           <div
             onClick={() => {
-              setTab("today");
               setOpenGoalsModal(true);
             }}
             onMouseEnter={(e) => {
