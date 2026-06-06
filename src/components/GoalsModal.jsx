@@ -18,8 +18,16 @@ function GoalsModal({ goals, user, onClose, onSave }) {
   // Convert ez_level from integer to string: 1→'Effortless', 2→'Easy', 3→'Relaxed'
   const [ezLevel, setEzLevel] = useState(() => {
     const storedEzLevel = goals?.ez_level;
-    if (storedEzLevel === 1 || storedEzLevel === '1') return 'Effortless';
-    if (storedEzLevel === 3 || storedEzLevel === '3') return 'Relaxed';
+    console.log('[DEBUG] GoalsModal initializing ezLevel from props.goals.ez_level:', storedEzLevel);
+    if (storedEzLevel === 1 || storedEzLevel === '1') {
+      console.log('[DEBUG] Mapping ez_level 1 → Effortless');
+      return 'Effortless';
+    }
+    if (storedEzLevel === 3 || storedEzLevel === '3') {
+      console.log('[DEBUG] Mapping ez_level 3 → Relaxed');
+      return 'Relaxed';
+    }
+    console.log('[DEBUG] Defaulting to Easy (either ez_level is 2 or undefined)');
     return 'Easy'; // Default to Easy (2)
   });
   const [saving, setSaving] = useState(false);

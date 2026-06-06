@@ -208,9 +208,9 @@ export default function App() {
 
       {openGoalsModal && (
         <>
-          {console.log('[DEBUG] GoalsModal rendering with props:', { goals, user: !!user, openGoalsModal })}
+          {console.log('[DEBUG] GoalsModal rendering with props:', { goals, ezLevel, user: !!user, openGoalsModal })}
           <GoalsModal
-            goals={goals}
+            goals={{...goals, ez_level: ezLevel}}
             user={user}
             onClose={() => {
               console.log('[DEBUG] GoalsModal onClose called');
