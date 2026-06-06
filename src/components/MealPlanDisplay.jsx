@@ -127,7 +127,7 @@ export default function MealPlanDisplay({
 
       {/* Meal Cards */}
       <div>
-        {mealPlan.meals.map((meal) => (
+        {mealPlan.meals && mealPlan.meals.filter(m => m && m.recipe).map((meal) => (
           <MealPlanCard
             key={meal.mealType}
             meal={meal}

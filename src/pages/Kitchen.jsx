@@ -273,7 +273,6 @@ export default function Kitchen({ezLevel, goals, onOpen}) {
                     ezChecks: r.ezChecks || {stepsOk: true, noKnifeWork: true, microwaveCarbs: true, bottledSauces: true, noPeeling: true, noScratchSauce: true},
                   })}>
                   <div style={{display: "flex", alignItems: "center", gap: 8, marginBottom: 6}}>
-                    <span style={{fontSize: 22}}>{r.emoji}</span>
                     <div style={{flex: 1}}>
                       <div style={{fontWeight: 700, fontSize: 15}}>
                         {r.name}

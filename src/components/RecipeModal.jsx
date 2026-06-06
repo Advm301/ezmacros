@@ -886,7 +886,6 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
           })),
           steps: steps,
           toppings: r.toppings || [],
-          emoji: r.emoji,
           method: r.method,
           activeTime: r.activeTime,
           originalData: {
@@ -976,7 +975,6 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
             })),
             steps: steps,
             toppings: r.toppings || [],
-            emoji: r.emoji,
             method: r.method,
             activeTime: r.activeTime,
             originalData: {
@@ -1016,7 +1014,6 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
       <div style={{background: "var(--s1)", margin: "20px auto", maxWidth: 430, borderRadius: 20, padding: 24, border: "1px solid var(--border)"}} onClick={e => e.stopPropagation()}>
         <div style={{display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16}}>
           <div style={{flex: 1}}>
-            <div style={{fontSize: 32, marginBottom: 4}}>{r.emoji}</div>
             <div style={{fontFamily: "'Clash Display',sans-serif", fontSize: 22, fontWeight: 700, marginBottom: 2}}>
               {recipeName.includes(" (Modified)") ? (
                 <>

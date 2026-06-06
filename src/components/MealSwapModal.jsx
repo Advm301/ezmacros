@@ -98,7 +98,6 @@ export default function MealSwapModal({ mealType, alternatives, onSwapConfirm, o
                 >
                   {/* Recipe name */}
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
-                    <div style={{ fontSize: 20 }}>{recipe.emoji}</div>
                     <div style={{ flex: 1 }}>
                       <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--cream)' }}>
                         {recipe.name}

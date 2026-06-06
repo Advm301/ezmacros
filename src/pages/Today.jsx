@@ -824,7 +824,6 @@ export default function Today({goals: propsGoals, onTabFocus, onUpdateEzLevel, f
                         if (parsed.components) recipeData.components = parsed.components;
                         if (parsed.steps) recipeData.steps = parsed.steps;
                         if (parsed.toppings) recipeData.toppings = parsed.toppings;
-                        if (parsed.emoji) recipeData.emoji = parsed.emoji;
                         if (parsed.method) recipeData.method = parsed.method;
                         if (parsed.activeTime) recipeData.activeTime = parsed.activeTime;
                         // Store originalData for reset comparison in RecipeModal

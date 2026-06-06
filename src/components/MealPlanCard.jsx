@@ -1,5 +1,22 @@
 export default function MealPlanCard({ meal, isConfirmed, onConfirm, onSwap, onViewRecipe }) {
+  // Safety check: verify meal and recipe exist
+  if (!meal) {
+    console.error('[DEBUG] MealPlanCard: meal prop is undefined');
+    return null;
+  }
+
+  if (!meal.recipe) {
+    console.error('[DEBUG] MealPlanCard: meal.recipe is undefined', { meal });
+    return null;
+  }
+
   const { mealType, recipe, targetMacros } = meal;
+
+  // Verify recipe has required properties
+  if (!recipe.name || recipe.cal === undefined) {
+    console.error('[DEBUG] MealPlanCard: recipe missing required properties', { recipe });
+    return null;
+  }
 
   const getMealTypeLabel = (type) => {
     const labels = {
@@ -55,14 +72,14 @@ export default function MealPlanCard({ meal, isConfirmed, onConfirm, onSwap, onV
             {getMealTypeLabel(mealType)}
           </div>
           <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--cream)', marginTop: 2 }}>
-            {recipe.name}
+            {recipe?.name || 'Meal'}
           </div>
         </div>
       </div>
 
       {/* Macros line */}
       <div style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 12 }}>
-        {recipe.cal} cal · {recipe.protein}g P · {recipe.carbs}g C · {recipe.fat}g F
+        {recipe?.cal || 0} cal · {recipe?.protein || 0}g P · {recipe?.carbs || 0}g C · {recipe?.fat || 0}g F
       </div>
 
       {/* Action buttons */}
@@ -93,7 +110,13 @@ export default function MealPlanCard({ meal, isConfirmed, onConfirm, onSwap, onV
           Swap
         </button>
         <button
-          onClick={() => onViewRecipe(recipe)}
+          onClick={() => {
+            if (recipe) {
+              onViewRecipe(recipe);
+            } else {
+              console.error('[DEBUG] Cannot view recipe: recipe is undefined');
+            }
+          }}
           style={{
             flex: 1,
             background: 'var(--s1)',

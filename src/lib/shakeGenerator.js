@@ -97,7 +97,6 @@ export function generateShakeRecipe(proteinTarget = 30, carbTarget = 20, fatTarg
   const finalRecipe = {
     id: `shake_${Date.now()}`,
     name: template.name,
-    emoji: template.emoji,
     method: 'Blended',
     type: 'protein_shake',
     mealType: 'Snack',

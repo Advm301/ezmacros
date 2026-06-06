@@ -102,7 +102,6 @@ export default function Browse({ezLevel, onOpen, favorites, isFavorited, toggleF
         {filtered.map(r => (
           <div key={r.id} className="recipe-card" style={{marginBottom: 10, cursor: "pointer", position: "relative"}} onClick={() => onOpen({...r, isBrowseRecipe: true})}>
             <div style={{display: "flex", alignItems: "center", gap: 10}}>
-              <span style={{fontSize: 24}}>{r.emoji}</span>
               <div style={{flex: 1}}>
                 <div style={{fontWeight: 700, fontSize: 15, color: "var(--cream)", marginBottom: 2}}>
                   {r.name}

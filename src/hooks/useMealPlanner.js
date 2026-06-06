@@ -72,7 +72,6 @@ export default function useMealPlanner() {
               mealType: m.mealType,
               recipeId: m.recipe.id,
               recipeName: m.recipe.name,
-              recipeEmoji: m.recipe.emoji,
               targetMacros: m.targetMacros,
             })),
             total_calories: planData.totalMacros.cal,
@@ -167,7 +166,6 @@ export default function useMealPlanner() {
           ...m,
           recipeId: newRecipe.id,
           recipeName: newRecipe.name,
-          recipeEmoji: newRecipe.emoji,
         };
       }
       return m;
