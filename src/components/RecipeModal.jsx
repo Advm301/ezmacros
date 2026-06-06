@@ -492,19 +492,16 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
       const updatedSteps = [...steps];
       const flashedIndices = new Set();
 
-      // Split keywords into individual words for flexible matching
-      const oldWords = oldKeyword.toLowerCase().split(/\s+/);
-      const newWords = newKeyword.toLowerCase().split(/\s+/);
-
-      // Create a regex that matches any of the old words as whole words
-      const regexPattern = oldWords.map(word => `\\b${word}\\b`).join('|');
-      const regex = new RegExp(regexPattern, 'gi');
+      // Escape special regex characters and match the entire old keyword as a phrase (word boundaries)
+      const escapedKeyword = oldKeyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const regex = new RegExp(`\\b${escapedKeyword}\\b`, 'gi');
 
       updatedSteps.forEach((step, stepIndex) => {
-        const matches = step.match(regex);
-        if (matches && matches.length > 0) {
-          // Replace the first matched word with the first word of new keyword
-          updatedSteps[stepIndex] = step.replace(regex, newWords[0]);
+        if (regex.test(step)) {
+          // Reset regex internal pointer after test()
+          regex.lastIndex = 0;
+          // Replace old keyword with new keyword in a single pass
+          updatedSteps[stepIndex] = step.replace(regex, newKeyword);
           flashedIndices.add(stepIndex);
         }
       });

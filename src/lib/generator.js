@@ -147,6 +147,28 @@ export function classifyIngredient(name) {
   return "other";
 }
 
+// Helper function to provide appropriate prep instructions based on vegetable type
+function getVegPrepInstruction(vegName) {
+  if (!vegName) return "Microwave the frozen vegetable bag for 3 minutes following package directions.";
+  const lower = vegName.toLowerCase();
+
+  if (lower.includes("broccoli")) {
+    return "Microwave the frozen broccoli bag for 4 minutes. Drain any water.";
+  } else if (lower.includes("green bean")) {
+    return "Microwave the green beans steam bag for 3 minutes.";
+  } else if (lower.includes("spinach")) {
+    return "Microwave frozen spinach for 2 minutes. Squeeze out all excess water with a paper towel before using.";
+  } else if (lower.includes("edamame")) {
+    return "Microwave the frozen edamame bag for 3 minutes. Season with a pinch of salt.";
+  } else if (lower.includes("peas")) {
+    return "Microwave frozen peas for 2 minutes.";
+  } else if (lower.includes("mixed veg") || lower.includes("vegetable")) {
+    return "Microwave the frozen vegetable bag for 3-4 minutes following package directions.";
+  }
+
+  return "Microwave the frozen vegetable bag for 3 minutes following package directions.";
+}
+
 export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMethod, goals, heatLevel = null) {
   const lev = EZ[ezLevel];
   const lower = ingredients.map(i => i.toLowerCase());
@@ -230,7 +252,7 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
         "Pat cod dry with paper towels. Place on foil-lined baking sheet.",
         isAsian||isSpicy?"Mix soy sauce, sriracha, garlic powder, and a small squeeze of honey in a small bowl. Brush the mixture over the cod.":"Drizzle "+codSauce+" over the cod and spread evenly.",
         "Bake at 425°F for 12–14 minutes until the fish flakes easily with a fork.",
-        "While baking, microwave rice pouch for 90 seconds. Microwave "+(hasGreenBeans?"green beans":hasBroccoli?"broccoli":hasMixedVeg?"mixed vegetables":"broccoli")+" steam-bag for 3 minutes. Arrange rice on a plate, top with cod, and add vegetables to the side.",
+        "While baking, microwave rice pouch for 90 seconds. "+getVegPrepInstruction(veg)+" Arrange rice on a plate, top with cod, and add vegetables to the side.",
       ],
     });
   }
@@ -280,7 +302,7 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
       steps:[
         (isSaucy?"Generously coat the chicken":"Coat the chicken evenly")+" with "+sauceLabel+(isSaucy?" — don't hold back.":".")+" "+(cookMethod==="Bake"?"Place on a foil-lined baking sheet.":"Place in the air fryer basket."),
         cookMethod==="Bake"?"Bake at 400°F for 20–22 minutes until cooked through.":"Air fry at 400°F for 18–20 minutes, flipping halfway through at the 10-minute mark.",
-        "While cooking, microwave rice pouch for 90 seconds. Microwave "+(hasGreenBeans?"green beans":hasBroccoli?"broccoli":hasMixedVeg?"mixed vegetables":"broccoli")+" steam-bag for 3 minutes."+(isSaucy?" Spoon extra sauce over the finished bowl.":""),
+        "While cooking, microwave rice pouch for 90 seconds. "+getVegPrepInstruction(veg)+(isSaucy?" Spoon extra sauce over the finished bowl.":""),
       ],
     });
   }
@@ -331,7 +353,7 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
         isAsian||isSpicy?"In a small bowl, mix 2 tablespoons soy sauce, 1 tablespoon sriracha, 1 teaspoon garlic powder, and 1 teaspoon honey. Add beef and sauce to slow cooker and break up the beef with a wooden spoon."
           :"Add ground beef and "+(isSaucy?"2 tablespoons sauce":"1 can (14 oz) diced tomatoes")+" to slow cooker. Break up the beef with a spoon so it cooks evenly.",
         "Cover and cook on HIGH for 2 hours or LOW for 4 hours until beef is fully cooked and crumbly.",
-        "While the slow cooker finishes, microwave rice pouch for 90 seconds. Microwave "+(hasGreenBeans?"green beans":hasBroccoli?"broccoli":hasMixedVeg?"mixed vegetables":"broccoli")+" steam-bag for 3 minutes.",
+        "While the slow cooker finishes, microwave rice pouch for 90 seconds. "+getVegPrepInstruction(veg),
         "Scoop rice into a bowl, top with beef mixture."+(isSaucy?" Spoon extra sauce over the top.":""),
       ],
     });
@@ -380,7 +402,7 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
       steps:[
         isAsian||isSpicy?"Heat a skillet over medium-high heat. Add ground turkey, break it apart with a spoon, and stir in soy sauce, sriracha, garlic powder, and honey. Cook 4–5 minutes until the turkey is browned.":"Heat a skillet over medium-high heat. Add ground turkey, breaking it apart with a spoon. Cook 5–6 minutes, stirring occasionally, until no pink remains. "+(isSaucy?"Stir in sauce generously.":"Add seasoning to taste."),
         "Stir "+(isSaucy?"frequently":"occasionally")+". Cook for 2–3 more minutes to finish cooking through.",
-        "While the turkey finishes, microwave rice pouch for 90 seconds. Microwave "+(hasGreenBeans?"green beans":hasBroccoli?"broccoli":hasMixedVeg?"mixed vegetables":"broccoli")+" steam-bag for 3 minutes.",
+        "While the turkey finishes, microwave rice pouch for 90 seconds. "+getVegPrepInstruction(veg),
         "Spoon rice and turkey mixture into a bowl. Add vegetables to the side."+(isSaucy?" Drizzle extra sauce over the top.":""),
       ],
     });
@@ -428,7 +450,7 @@ export function generateLocalRecipes(ingredients, ezLevel, flavorTags, cookMetho
       steps:[
         "Place salmon skin-down on a foil-lined baking sheet. "+(isSaucy?"Generously pour":"Drizzle")+" "+salmonSauce+" over the fish.",
         "Bake at 425°F for 12–14 minutes until the salmon is cooked through and flakes easily.",
-        "While baking, microwave rice pouch for 90 seconds. Microwave "+(hasGreenBeans?"green beans":hasBroccoli?"broccoli":hasMixedVeg?"mixed vegetables":"broccoli")+" steam-bag for 3 minutes. Arrange on a plate."+(isSaucy?" Save any pan drippings and drizzle over the bowl.":""),
+        "While baking, microwave rice pouch for 90 seconds. "+getVegPrepInstruction(veg)+" Arrange on a plate."+(isSaucy?" Save any pan drippings and drizzle over the bowl.":""),
       ],
     });
   }
