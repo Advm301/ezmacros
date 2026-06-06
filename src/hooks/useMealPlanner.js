@@ -40,6 +40,27 @@ export default function useMealPlanner() {
 
       const dateStr = date instanceof Date ? date.toISOString().split('T')[0] : date;
 
+      // Round macro values to integers for database storage
+      console.log('[DEBUG] Before rounding - totalMacros:', planData.totalMacros);
+      planData.totalMacros = {
+        cal: Math.round(planData.totalMacros.cal),
+        protein: Math.round(planData.totalMacros.protein),
+        carbs: Math.round(planData.totalMacros.carbs),
+        fat: Math.round(planData.totalMacros.fat),
+      };
+      console.log('[DEBUG] After rounding - totalMacros:', planData.totalMacros);
+
+      // Round accuracy values to integers for database storage
+      console.log('[DEBUG] Before rounding - accuracy:', planData.accuracy);
+      planData.accuracy = {
+        overall: Math.round(planData.accuracy.overall),
+        calories: Math.round(planData.accuracy.calories),
+        protein: Math.round(planData.accuracy.protein),
+        carbs: Math.round(planData.accuracy.carbs),
+        fat: Math.round(planData.accuracy.fat),
+      };
+      console.log('[DEBUG] After rounding - accuracy:', planData.accuracy);
+
       // Save to meal_plans table
       const { data: savedPlan, error: saveError } = await supabase
         .from('meal_plans')
