@@ -6,8 +6,11 @@ export default function Browse({ezLevel, onOpen}) {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("All");
   const [spiceFilter, setSpiceFilter] = useState("Any Spice");
+  const [showAll, setShowAll] = useState(false);
+  const [sortBy, setSortBy] = useState("default");
   const filters = ["All","Breakfast","Lunch/Dinner","Snack","No Cook","Quick","Meal Prep"];
   const spiceFilters = ["Any Spice","No Spice","Mild","Medium","Hot","Extra Hot"];
+  const sortOptions = ["Default","Protein (High→Low)","Calories (High→Low)","Time (Short→Long)"];
 
   const filtered = RECIPES.filter(r => {
     const matchSearch = r.name.toLowerCase().includes(search.toLowerCase());
@@ -32,22 +35,55 @@ export default function Browse({ezLevel, onOpen}) {
     // "Any Spice" matches all
 
     // Filter by global EZ level: Effortless shows only level 1, Easy shows <= 2, Relaxed shows all
+    // Skip if "Show All" is toggled
     let matchEz = true;
-    if (ezLevel === 1) matchEz = r.ezLevel === 1;
-    else if (ezLevel === 2) matchEz = r.ezLevel <= 2;
-    // ezLevel === 3 (Relaxed) matches all
+    if (!showAll) {
+      if (ezLevel === 1) matchEz = r.ezLevel === 1;
+      else if (ezLevel === 2) matchEz = r.ezLevel <= 2;
+      // ezLevel === 3 (Relaxed) matches all
+    }
 
     return matchSearch && matchFilter && matchSpice && matchEz;
+  }).sort((a, b) => {
+    // Apply sorting based on sortBy selection
+    if (sortBy === "Protein (High→Low)") {
+      return b.protein - a.protein;
+    } else if (sortBy === "Calories (High→Low)") {
+      return b.cal - a.cal;
+    } else if (sortBy === "Time (Short→Long)") {
+      return a.activeTime - b.activeTime;
+    }
+    // Default: return in original order
+    return 0;
   });
   return (
     <div style={{paddingBottom: 20}}>
       <div className="px pt">
-        <div className="h1">Browse Recipes</div>
-        <div className="sub" style={{marginBottom: 12}}>{RECIPES.length} curated EZ-certified recipes</div>
+        <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12}}>
+          <div className="h1">Browse Recipes</div>
+          <select
+            value={sortBy}
+            onChange={e => setSortBy(e.target.value)}
+            style={{background: "var(--s2)", border: "1px solid var(--border)", borderRadius: 8, padding: "6px 10px", color: "var(--cream)", fontSize: 12, fontWeight: 600, cursor: "pointer"}}
+          >
+            {sortOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+          </select>
+        </div>
+        <div className="sub" style={{marginBottom: 12}}>
+          {showAll ? `${RECIPES.length} curated recipes` : `${filtered.length} filtered recipe${filtered.length !== 1 ? 's' : ''}`}
+        </div>
         <input value={search} onChange={e => setSearch(e.target.value)}
           placeholder="Search recipes..."
           style={{width: "100%", background: "var(--s2)", border: "1px solid var(--border)", borderRadius: 12, padding: "10px 14px", color: "var(--cream)", fontSize: 14, marginBottom: 10, boxSizing: "border-box"}}/>
+
         <div className="scroll-row" style={{marginBottom: 16}}>
+          <div
+            className={`pill ${showAll ? "active" : ""}`}
+            onClick={() => setShowAll(!showAll)}
+            style={{whiteSpace: "nowrap"}}
+          >
+            {showAll ? "✓ All" : "All"}
+          </div>
           {filters.map(f => <div key={f} className={`pill ${filter === f ? "active" : ""}`} onClick={() => setFilter(f)}>{f}</div>)}
         </div>
 
