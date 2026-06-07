@@ -272,16 +272,31 @@ export default function Today({goals: propsGoals, onTabFocus, onUpdateEzLevel, f
 
       // Insert into meal_logs table
       const recipe = mealToLog.recipe;
+
+      // Defensive: ensure macros are valid numbers
+      const mealCal = Math.round(Number(recipe.cal) || 0);
+      const mealProtein = Math.round(Number(recipe.protein) || 0);
+      const mealCarbs = Math.round(Number(recipe.carbs) || 0);
+      const mealFat = Math.round(Number(recipe.fat) || 0);
+
+      console.log('[DEBUG] Logging meal from plan:', {
+        recipeName: recipe.name,
+        cal: mealCal,
+        protein: mealProtein,
+        carbs: mealCarbs,
+        fat: mealFat,
+      });
+
       const { error: insertError } = await supabase
         .from('meal_logs')
         .insert({
           user_id: user.id,
           recipe_id: String(recipe.id || recipe.name),
           recipe_name: recipe.name,
-          cal: Math.round(recipe.cal || 0),
-          protein: Math.round(recipe.protein || 0),
-          carbs: Math.round(recipe.carbs || 0),
-          fat: Math.round(recipe.fat || 0),
+          cal: mealCal,
+          protein: mealProtein,
+          carbs: mealCarbs,
+          fat: mealFat,
           logged_at: new Date().toISOString(),
           recipe_data: JSON.stringify({
             components: (recipe.components || []).map(comp => ({
@@ -512,6 +527,19 @@ export default function Today({goals: propsGoals, onTabFocus, onUpdateEzLevel, f
 
   const getProgress = (consumed, goal) => {
     return goal > 0 ? Math.min((consumed / goal) * 100, 100) : 0;
+  };
+
+  // Check if a recipe is already logged today
+  const isRecipeLoggedToday = (recipeId) => {
+    if (!recipeId || !meals || meals.length === 0) return false;
+
+    const today = new Date().toDateString();
+    return meals.some(m => {
+      // Match by recipe_id if available, otherwise by recipe_name
+      const recipeMatch = m.recipe_id === String(recipeId) || m.recipe_id === recipeId;
+      const dateMatch = new Date(m.logged_at).toDateString() === today;
+      return recipeMatch && dateMatch;
+    });
   };
 
   // Calculate confirmed meals macros from meal plan
@@ -937,17 +965,31 @@ export default function Today({goals: propsGoals, onTabFocus, onUpdateEzLevel, f
                     const modified = isMealModified(meal);
                     const originalData = getOriginalRecipeData(meal);
 
+                    // Ensure macros are numbers, not null/undefined
+                    const macrosCal = Number(meal.cal) || 0;
+                    const macrosProtein = Number(meal.protein) || 0;
+                    const macrosCarbs = Number(meal.carbs) || 0;
+                    const macrosFat = Number(meal.fat) || 0;
+
+                    console.log('[DEBUG] Opening logged meal:', {
+                      name: meal.recipe_name,
+                      cal: macrosCal,
+                      protein: macrosProtein,
+                      carbs: macrosCarbs,
+                      fat: macrosFat,
+                      hasRecipeData: !!meal.recipe_data,
+                    });
+
                     let recipeData = {
                       name: meal.recipe_name || 'Logged Meal',
-                      emoji: '🍽️',
-                      cal: meal.cal,
-                      totalCal: meal.cal,
-                      protein: meal.protein,
-                      totalProtein: meal.protein,
-                      carbs: meal.carbs,
-                      totalCarbs: meal.carbs,
-                      fat: meal.fat,
-                      totalFat: meal.fat,
+                      cal: macrosCal,
+                      totalCal: macrosCal,
+                      protein: macrosProtein,
+                      totalProtein: macrosProtein,
+                      carbs: macrosCarbs,
+                      totalCarbs: macrosCarbs,
+                      fat: macrosFat,
+                      totalFat: macrosFat,
                       loggedTime: meal.logged_at,
                       logId: meal.id,
                       isLoggedView: true,
@@ -978,6 +1020,7 @@ export default function Today({goals: propsGoals, onTabFocus, onUpdateEzLevel, f
                       recipeData.stepCount = recipeData.steps.length;
                     }
 
+                    console.log('[DEBUG] recipeData being passed to modal:', recipeData);
                     setOpenRecipe(recipeData);
                   }}
                   style={{
@@ -1070,6 +1113,7 @@ export default function Today({goals: propsGoals, onTabFocus, onUpdateEzLevel, f
           isFavorited={isFavorited}
           toggleFavorite={toggleFavorite}
           onLogMealFromPlan={openRecipe.fromMealPlan ? handleLogMealFromPlan : undefined}
+          isAlreadyLogged={isRecipeLoggedToday(openRecipe.id || openRecipe.recipe_id)}
         />
       )}
 

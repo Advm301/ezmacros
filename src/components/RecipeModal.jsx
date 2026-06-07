@@ -190,7 +190,7 @@ const SUBSTITUTIONS = {
   "cauliflower rice": ["Brown Rice", "Quinoa", "White Rice"],
 };
 
-export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView, onSave, isFavorited, toggleFavorite, onLogMealFromPlan}) {
+export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView, onSave, isFavorited, toggleFavorite, onLogMealFromPlan, isAlreadyLogged}) {
   const [logged, setLogged] = useState(false);
   const [logging, setLogging] = useState(false);
   const [error, setError] = useState(null);
@@ -312,10 +312,37 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
       setRecipeName(initialName);
 
       // Initialize macros with correct field names for both Kitchen recipes (totalCal) and Browse recipes (cal)
-      const initialCal = recipe.totalCal ?? recipe.cal ?? 0;
-      const initialProtein = recipe.totalProtein ?? recipe.protein ?? 0;
-      const initialCarbs = recipe.totalCarbs ?? recipe.carbs ?? 0;
-      const initialFat = recipe.totalFat ?? recipe.fat ?? 0;
+      let initialCal = recipe.totalCal ?? recipe.cal ?? 0;
+      let initialProtein = recipe.totalProtein ?? recipe.protein ?? 0;
+      let initialCarbs = recipe.totalCarbs ?? recipe.carbs ?? 0;
+      let initialFat = recipe.totalFat ?? recipe.fat ?? 0;
+
+      // Fallback: if macros are 0 but we have components, calculate from them
+      if (initialCal === 0 && initialComponents.length > 0) {
+        console.log('[DEBUG] Macros are 0 but have components, calculating from components');
+        const calcCal = initialComponents.reduce((sum, c) => sum + (Number(c.cal) || 0), 0);
+        const calcProtein = initialComponents.reduce((sum, c) => sum + (Number(c.protein ?? c.p) || 0), 0);
+        const calcCarbs = initialComponents.reduce((sum, c) => sum + (Number(c.carbs ?? c.c) || 0), 0);
+        const calcFat = initialComponents.reduce((sum, c) => sum + (Number(c.fat ?? c.f) || 0), 0);
+
+        if (calcCal > 0) {
+          initialCal = calcCal;
+          initialProtein = calcProtein;
+          initialCarbs = calcCarbs;
+          initialFat = calcFat;
+        }
+      }
+
+      console.log('[DEBUG] RecipeModal macro initialization:', {
+        recipeName: recipe.name,
+        isLoggedView: recipe.isLoggedView,
+        hasComponents: (recipe.components || []).length > 0,
+        cal: initialCal,
+        protein: initialProtein,
+        carbs: initialCarbs,
+        fat: initialFat,
+        recipeObject: { cal: recipe.cal, totalCal: recipe.totalCal, protein: recipe.protein, totalProtein: recipe.totalProtein },
+      });
 
       setMacros({
         cal: initialCal,
@@ -341,6 +368,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
   }, [recipe?.id]);
 
   // Recalculate totals whenever components change or removed components change
+  // IMPORTANT: For logged meals, preserve snapshotted macros and only recalculate if user makes changes
   useEffect(() => {
     if (components && components.length > 0) {
       // Filter out removed components before calculating totals
@@ -350,6 +378,13 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
       const totalProtein = visibleComponents.reduce((sum, c) => sum + (Number(c.protein ?? c.p) || 0), 0);
       const totalCarbs = visibleComponents.reduce((sum, c) => sum + (Number(c.carbs ?? c.c) || 0), 0);
       const totalFat = visibleComponents.reduce((sum, c) => sum + (Number(c.fat ?? c.f) || 0), 0);
+
+      console.log('[DEBUG] Recalculating macros from components:', {
+        isLoggedView: recipe?.isLoggedView,
+        componentCount: visibleComponents.length,
+        calculatedCal: totalCal,
+        calculatedProtein: totalProtein,
+      });
 
       setMacros({
         cal: totalCal,
@@ -677,7 +712,8 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
     const isNotEggWhiteOrProduct = !lowerName.includes('egg white') &&
                                     !lowerName.includes('liquid egg') &&
                                     !lowerName.includes('egg substitute');
-    return isWholeEgg && isNotEggWhiteOrProduct && weighRaw === false;
+    // weighRaw should be false or undefined (undefined is treated as false for eggs)
+    return isWholeEgg && isNotEggWhiteOrProduct && weighRaw !== true;
   };
 
   const handleEggCountChange = (index, newCount) => {
@@ -956,6 +992,7 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
 
       // If logging from meal plan, call the callback instead of inserting to meal_logs
       if (onLogMealFromPlan) {
+        console.log('[DEBUG] Logging meal from meal plan via callback');
         onLogMealFromPlan();
         setLogged(true);
         setTimeout(() => {
@@ -963,6 +1000,14 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
         }, 500);
         return;
       }
+
+      console.log('[DEBUG] Logging meal manually:', {
+        recipeName: recipeName,
+        cal: macros.cal,
+        protein: macros.protein,
+        carbs: macros.carbs,
+        fat: macros.fat,
+      });
 
       const { error: insertError } = await supabase
         .from('meal_logs')
@@ -1690,24 +1735,25 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
           <>
             <button
               onClick={handleLogMeal}
-              disabled={logging || logged}
+              disabled={logging || logged || isAlreadyLogged}
+              title={isAlreadyLogged ? "Already logged today" : ""}
               style={{
                 width: "100%",
-                background: logged ? "var(--s2)" : "var(--lime)",
-                color: logged ? "var(--muted)" : "#000",
+                background: logged || isAlreadyLogged ? "var(--s2)" : "var(--lime)",
+                color: logged || isAlreadyLogged ? "var(--muted)" : "#000",
                 border: "none",
                 borderRadius: 12,
                 padding: "14px 16px",
                 fontSize: 15,
                 fontWeight: 700,
                 fontFamily: "'Clash Display', sans-serif",
-                cursor: logged || logging ? "not-allowed" : "pointer",
-                opacity: logged ? 0.6 : 1,
+                cursor: logged || logging || isAlreadyLogged ? "not-allowed" : "pointer",
+                opacity: logged || isAlreadyLogged ? 0.6 : 1,
                 transition: "all 0.15s",
                 marginBottom: error ? 12 : 0,
               }}
             >
-              {logged ? "✓ Logged" : logging ? "Logging..." : "Log This Meal"}
+              {isAlreadyLogged ? "Already Logged Today" : logged ? "✓ Logged" : logging ? "Logging..." : "Log This Meal"}
             </button>
 
             {/* Error Message */}
