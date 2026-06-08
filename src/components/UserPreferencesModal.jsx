@@ -5,6 +5,8 @@ export default function UserPreferencesModal({ preferences, onSave, onCancel }) 
   const [varietyLevel, setVarietyLevel] = useState(preferences?.variety_level || 'some_repeat');
   const [includeShakes, setIncludeShakes] = useState(preferences?.include_shakes !== false);
   const [proteinPrefs, setProteinPrefs] = useState(preferences?.protein_preferences || []);
+  const [includeSnacks, setIncludeSnacks] = useState(preferences?.include_snacks === true);
+  const [snackTiming, setSnackTiming] = useState(preferences?.snack_timing || []);
   const [saving, setSaving] = useState(false);
 
   const PROTEIN_OPTIONS = [
@@ -26,6 +28,12 @@ export default function UserPreferencesModal({ preferences, onSave, onCancel }) 
     );
   };
 
+  const toggleSnackTiming = (timing) => {
+    setSnackTiming(prev =>
+      prev.includes(timing) ? prev.filter(t => t !== timing) : [...prev, timing]
+    );
+  };
+
   const handleSave = async () => {
     setSaving(true);
     const result = await onSave({
@@ -33,6 +41,8 @@ export default function UserPreferencesModal({ preferences, onSave, onCancel }) 
       variety_level: varietyLevel,
       include_shakes: includeShakes,
       protein_preferences: proteinPrefs,
+      include_snacks: includeSnacks,
+      snack_timing: snackTiming,
     });
     setSaving(false);
     if (result?.success !== false) {
@@ -193,6 +203,66 @@ export default function UserPreferencesModal({ preferences, onSave, onCancel }) 
             <div style={{ fontSize: 11, color: 'var(--muted)', marginTop: 8, marginLeft: 26 }}>
               Auto-generate protein shakes for snack meals
             </div>
+          </div>
+
+          {/* Snacks (Optional) */}
+          <div style={{ marginBottom: 20, paddingTop: 16, borderTop: '1px solid var(--border)' }}>
+            <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', marginBottom: 12 }}>
+              <input
+                type="checkbox"
+                checked={includeSnacks}
+                onChange={(e) => {
+                  setIncludeSnacks(e.target.checked);
+                  if (!e.target.checked) {
+                    setSnackTiming([]);
+                  }
+                }}
+                style={{ cursor: 'pointer', width: 18, height: 18 }}
+              />
+              <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--cream)' }}>
+                Include Snacks in Meal Plan
+              </span>
+            </label>
+
+            {includeSnacks && (
+              <>
+                <div style={{ fontSize: 11, color: 'var(--muted)', marginBottom: 12, marginLeft: 26 }}>
+                  Select when to add snacks (~300-350 cal each)
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginLeft: 26 }}>
+                  {[
+                    { key: 'after_breakfast', label: '🥣 After Breakfast' },
+                    { key: 'after_lunch', label: '🥗 After Lunch' },
+                    { key: 'after_dinner', label: '🍽️ After Dinner' },
+                  ].map(option => (
+                    <label
+                      key={option.key}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 8,
+                        padding: '8px 10px',
+                        background: snackTiming.includes(option.key) ? 'var(--s2)' : 'var(--bg)',
+                        borderRadius: 8,
+                        border: snackTiming.includes(option.key) ? '2px solid var(--orange)' : '1px solid var(--border)',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s',
+                      }}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={snackTiming.includes(option.key)}
+                        onChange={() => toggleSnackTiming(option.key)}
+                        style={{ cursor: 'pointer', width: 16, height: 16 }}
+                      />
+                      <span style={{ fontSize: 12, color: 'var(--cream)' }}>
+                        {option.label}
+                      </span>
+                    </label>
+                  ))}
+                </div>
+              </>
+            )}
           </div>
         </div>
 

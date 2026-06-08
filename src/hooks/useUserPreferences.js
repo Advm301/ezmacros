@@ -6,6 +6,8 @@ const DEFAULT_PREFERENCES = {
   protein_preferences: ['chicken', 'beef', 'fish', 'pork', 'ground_beef', 'ground_chicken', 'ground_pork', 'ground_turkey', 'vegetarian', 'eggs'],
   variety_level: 'some_repeat',
   include_shakes: true,
+  include_snacks: false,
+  snack_timing: [],
 };
 
 // Handle migration: if user had 'same_daily', convert to 'some_repeat'
@@ -45,6 +47,8 @@ export default function useUserPreferences() {
             protein_preferences: settings.protein_preferences || DEFAULT_PREFERENCES.protein_preferences,
             variety_level: sanitizeVarietyLevel(settings.variety_level),
             include_shakes: settings.include_shakes !== null ? settings.include_shakes : DEFAULT_PREFERENCES.include_shakes,
+            include_snacks: settings.include_snacks !== null ? settings.include_snacks : DEFAULT_PREFERENCES.include_snacks,
+            snack_timing: settings.snack_timing || DEFAULT_PREFERENCES.snack_timing,
           });
         } else {
           // Create default preferences for this user
@@ -83,6 +87,8 @@ export default function useUserPreferences() {
           protein_preferences: newPreferences.protein_preferences,
           variety_level: newPreferences.variety_level,
           include_shakes: newPreferences.include_shakes,
+          include_snacks: newPreferences.include_snacks,
+          snack_timing: newPreferences.snack_timing,
         })
         .eq('user_id', user.id);
 

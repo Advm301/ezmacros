@@ -263,6 +263,85 @@ function getMacroScore(recipe, remainingMacros) {
 }
 
 /**
+ * Insert snacks at specified times in the meal plan
+ */
+function insertSnacksAtTiming(selectedRecipes, snackTiming, calorieGoal, dailyGoals, usedRecipeIds, totalMacros) {
+  if (!snackTiming || snackTiming.length === 0) {
+    return { selectedRecipes, totalMacros };
+  }
+
+  console.log('[DEBUG] Inserting snacks at timing positions:', snackTiming);
+
+  // Get snack recipes: calories < 400, and (protein > 15 OR carbs > 40)
+  const snackCandidates = RECIPES.filter(r =>
+    r.cal < 400 && (r.protein > 15 || r.carbs > 40)
+  );
+  console.log(`[DEBUG] Found ${snackCandidates.length} snack candidates`);
+
+  if (snackCandidates.length === 0) {
+    console.log('[DEBUG] No snack candidates available');
+    return { selectedRecipes, totalMacros };
+  }
+
+  // Shuffle snack pool for randomization
+  const shuffledSnacks = shuffleArray(snackCandidates);
+  let snackIndex = 0;
+  const snackTarget = 325; // ~300-350 cal target
+
+  // Map timing to position in selectedRecipes
+  const timingToPosition = {
+    'after_breakfast': 1,    // After breakfast (index 0)
+    'after_lunch': 3,        // After lunch (index 2)
+    'after_dinner': 5,       // After dinner (index 4)
+  };
+
+  // Insert snacks in reverse order to avoid index shifting
+  const timingsToProcess = snackTiming
+    .map(timing => ({ timing, position: timingToPosition[timing] }))
+    .sort((a, b) => b.position - a.position);
+
+  for (const { timing, position } of timingsToProcess) {
+    // Find next snack that hasn't been used
+    let snackRecipe = null;
+    while (snackIndex < shuffledSnacks.length) {
+      const candidate = shuffledSnacks[snackIndex];
+      snackIndex++;
+      if (!usedRecipeIds.has(candidate.id)) {
+        snackRecipe = candidate;
+        break;
+      }
+    }
+
+    if (!snackRecipe) {
+      console.log(`[DEBUG] No more snacks available for ${timing}`);
+      continue;
+    }
+
+    usedRecipeIds.add(snackRecipe.id);
+
+    // Scale snack to 300-350 cal target
+    const scaledSnack = scaleRecipeToTarget(snackRecipe, snackTarget);
+
+    selectedRecipes.splice(position, 0, {
+      mealType: 'snack',
+      recipe: scaledSnack,
+      confirmed: false,
+    });
+
+    // Update macros
+    totalMacros.cal += scaledSnack.cal || 0;
+    totalMacros.protein += scaledSnack.protein || 0;
+    totalMacros.carbs += scaledSnack.carbs || 0;
+    totalMacros.fat += scaledSnack.fat || 0;
+
+    const scaledNote = scaledSnack.scaled ? ` [scaled ${scaledSnack.scaleRatio.toFixed(2)}x]` : '';
+    console.log(`[DEBUG] Inserted snack at ${timing}: ${snackRecipe.name} (${scaledSnack.cal} cal)${scaledNote}`);
+  }
+
+  return { selectedRecipes, totalMacros };
+}
+
+/**
  * Main algorithm: Generate a meal plan for the day with dynamic meal count
  * Starts with breakfast + lunch + dinner, then adds meals until 88% of calorie goal
  */
@@ -373,6 +452,21 @@ export function selectMealsForDay(dailyGoals, preferences, includeShakeGenerator
     } else {
       console.log(`[DEBUG] NO RECIPE FOUND for required meal: ${mealType}`);
     }
+  }
+
+  // Insert snacks at specified timing if enabled
+  if (preferences?.include_snacks === true) {
+    const snackResult = insertSnacksAtTiming(
+      selectedRecipes,
+      preferences.snack_timing,
+      calorieGoal,
+      dailyGoals,
+      usedRecipeIds,
+      totalMacros
+    );
+    selectedRecipes.length = 0;
+    selectedRecipes.push(...snackResult.selectedRecipes);
+    totalMacros = snackResult.totalMacros;
   }
 
   // Add snacks/meals until goal reached or max meals hit
