@@ -30,26 +30,50 @@ function calculateMacroDistance(recipe, targetMacros) {
 
 /**
  * Scale recipe components proportionally to hit target calories
+ * With macro limits to prevent overshooting protein/fat/carbs
  * Only scales if difference is >10% from target
  * Caps scaling between 0.6x and 1.75x to avoid unrealistic portions
  */
-function scaleRecipeToTarget(recipe, targetCal) {
+function scaleRecipeToTarget(recipe, targetCal, macroLimits = {}) {
   if (!recipe || !targetCal || targetCal <= 0) return recipe;
 
   const currentCal = recipe.cal;
   if (!currentCal || currentCal <= 0) return recipe;
 
   // Only scale if difference is more than 10%
-  const ratio = targetCal / currentCal;
+  let ratio = targetCal / currentCal;
   if (ratio > 0.9 && ratio < 1.1) {
     console.log(`[DEBUG] Recipe ${recipe.id} within 10% of target (${currentCal} → ${targetCal}), no scaling needed`);
     return recipe;
   }
 
   // Cap scaling: never scale more than 1.75x or less than 0.6x
-  const clampedRatio = Math.min(1.75, Math.max(0.6, ratio));
+  ratio = Math.min(1.75, Math.max(0.6, ratio));
 
-  console.log(`[DEBUG] Scaling recipe ${recipe.id} from ${currentCal} cal to ${targetCal} cal (ratio: ${ratio.toFixed(2)}, clamped: ${clampedRatio.toFixed(2)})`);
+  // Check if scaling would overshoot any macro limits
+  const scaledFat = recipe.fat * ratio;
+  const scaledProtein = recipe.protein * ratio;
+  const scaledCarbs = recipe.carbs * ratio;
+
+  // If fat would overshoot, reduce ratio to respect fat limit
+  if (macroLimits?.maxFat && scaledFat > macroLimits.maxFat) {
+    const fatRatio = macroLimits.maxFat / recipe.fat;
+    const newRatio = Math.min(ratio, fatRatio);
+    console.log(`[DEBUG] Recipe ${recipe.id} fat overshoot (${Math.round(scaledFat)}g > ${macroLimits.maxFat}g limit), reducing ratio from ${ratio.toFixed(2)} to ${newRatio.toFixed(2)}`);
+    ratio = newRatio;
+  }
+
+  // If protein would overshoot, reduce ratio to respect protein limit
+  if (macroLimits?.maxProtein && scaledProtein > macroLimits.maxProtein) {
+    const proteinRatio = macroLimits.maxProtein / recipe.protein;
+    const newRatio = Math.min(ratio, proteinRatio);
+    console.log(`[DEBUG] Recipe ${recipe.id} protein overshoot (${Math.round(scaledProtein)}g > ${macroLimits.maxProtein}g limit), reducing ratio from ${ratio.toFixed(2)} to ${newRatio.toFixed(2)}`);
+    ratio = newRatio;
+  }
+
+  const clampedRatio = ratio;
+
+  console.log(`[DEBUG] Scaling recipe ${recipe.id} from ${currentCal} cal (ratio: ${(targetCal / currentCal).toFixed(2)}, clamped: ${clampedRatio.toFixed(2)})`);
 
   // Scale all macros proportionally
   const scaledRecipe = {
@@ -58,8 +82,8 @@ function scaleRecipeToTarget(recipe, targetCal) {
     protein: Math.round(recipe.protein * clampedRatio),
     carbs: Math.round(recipe.carbs * clampedRatio),
     fat: Math.round(recipe.fat * clampedRatio),
-    scaled: true,
-    scaleRatio: clampedRatio,
+    scaled: clampedRatio !== 1,
+    scaleRatio: Math.round(clampedRatio * 100) / 100,
     scaledFrom: currentCal,
     // Scale each component quantity proportionally
     components: recipe.components?.map(component => ({
@@ -223,7 +247,7 @@ export function selectMealsForDay(dailyGoals, preferences, includeShakeGenerator
   let totalMacros = { cal: 0, protein: 0, carbs: 0, fat: 0 };
 
   // Helper to select meal of a given type
-  const selectMeal = (mealType) => {
+  const selectMeal = (mealType, remainingFat = null) => {
     const mealTypeMap = {
       breakfast: 'Breakfast',
       lunch: 'Lunch/Dinner',
@@ -231,8 +255,17 @@ export function selectMealsForDay(dailyGoals, preferences, includeShakeGenerator
       snack: 'Snack',
     };
 
-    const recipesByMealType = RECIPES.filter(r => r.mealType === mealTypeMap[mealType]);
+    let recipesByMealType = RECIPES.filter(r => r.mealType === mealTypeMap[mealType]);
     console.log(`[DEBUG] ${mealType}: ${recipesByMealType.length} recipes available`);
+
+    // When fat budget is tight, prefer low-fat recipes
+    if (remainingFat !== null && remainingFat < 15) {
+      const lowFatCandidates = recipesByMealType.filter(r => r.fat < 10);
+      if (lowFatCandidates.length >= 3) {
+        console.log(`[DEBUG] Fat budget tight (${remainingFat}g remaining), filtering to ${lowFatCandidates.length} low-fat recipes`);
+        recipesByMealType = lowFatCandidates;
+      }
+    }
 
     // For dynamic meals, just aim for general calorie target (calorie goal / 4 as rough estimate)
     const estimatedTarget = { cal: Math.round(calorieGoal / 4), protein: Math.round(dailyGoals.protein / 4) };
@@ -252,14 +285,23 @@ export function selectMealsForDay(dailyGoals, preferences, includeShakeGenerator
 
   for (const mealType of requiredMeals) {
     console.log(`[DEBUG] Adding required meal: ${mealType}`);
-    const recipe = selectMeal(mealType);
+    const remainingFat = dailyGoals.fat - totalMacros.fat;
+    const recipe = selectMeal(mealType, remainingFat);
 
     if (recipe) {
       usedRecipeIds.add(recipe.id);
 
-      // Scale recipe to match this meal slot's calorie target
+      // Calculate remaining macro budget with tolerance
+      const macroLimits = {
+        maxProtein: (dailyGoals.protein + 15) - totalMacros.protein,  // +15g tolerance
+        maxCarbs: (dailyGoals.carbs + 5) - totalMacros.carbs,          // +5g tolerance
+        maxFat: (dailyGoals.fat + 7) - totalMacros.fat,                // +7g tolerance (STRICT)
+      };
+      console.log(`[DEBUG] Macro limits for ${mealType}: P=${macroLimits.maxProtein}g, C=${macroLimits.maxCarbs}g, F=${macroLimits.maxFat}g`);
+
+      // Scale recipe to match this meal slot's calorie target with macro guardrails
       const mealTarget = mealTargets[mealType] || Math.round(calorieGoal / 3);
-      const scaledRecipe = scaleRecipeToTarget(recipe, mealTarget);
+      const scaledRecipe = scaleRecipeToTarget(recipe, mealTarget, macroLimits);
 
       selectedRecipes.push({
         mealType,
@@ -282,11 +324,13 @@ export function selectMealsForDay(dailyGoals, preferences, includeShakeGenerator
   let mealCount = selectedRecipes.length;
   while (totalMacros.cal < targetMin && mealCount < MAX_MEALS) {
     const remainingCal = calorieGoal - totalMacros.cal;
+    const remainingFat = dailyGoals.fat - totalMacros.fat;
+
     // Pick meal type that best fills remaining gap
     const mealType = remainingCal > 400 ? 'lunch' : 'snack';
-    console.log(`[DEBUG] Adding additional meal: ${mealType} (remaining cal: ${remainingCal})`);
+    console.log(`[DEBUG] Adding additional meal: ${mealType} (remaining cal: ${remainingCal}, remaining fat: ${remainingFat}g)`);
 
-    const recipe = selectMeal(mealType);
+    const recipe = selectMeal(mealType, remainingFat);
     if (!recipe) {
       console.log(`[DEBUG] No more matching recipes available, stopping`);
       break;
@@ -294,8 +338,16 @@ export function selectMealsForDay(dailyGoals, preferences, includeShakeGenerator
 
     usedRecipeIds.add(recipe.id);
 
-    // Scale additional meal to fill the exact remaining calorie gap (capped at 1.75x)
-    const scaledRecipe = scaleRecipeToTarget(recipe, remainingCal);
+    // Calculate remaining macro budget with tolerance
+    const macroLimits = {
+      maxProtein: (dailyGoals.protein + 15) - totalMacros.protein,  // +15g tolerance
+      maxCarbs: (dailyGoals.carbs + 5) - totalMacros.carbs,          // +5g tolerance
+      maxFat: (dailyGoals.fat + 7) - totalMacros.fat,                // +7g tolerance (STRICT)
+    };
+    console.log(`[DEBUG] Macro limits for additional meal: P=${macroLimits.maxProtein}g, C=${macroLimits.maxCarbs}g, F=${macroLimits.maxFat}g`);
+
+    // Scale additional meal to fill the exact remaining calorie gap with macro guardrails
+    const scaledRecipe = scaleRecipeToTarget(recipe, remainingCal, macroLimits);
 
     selectedRecipes.push({
       mealType,
