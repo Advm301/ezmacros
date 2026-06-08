@@ -20,6 +20,9 @@ export default function MacroSummaryTable({ loggedMeals = [], mealPlan, userGoal
   // Get goal totals
   const goals = userGoals || { cal: 0, protein: 0, carbs: 0, fat: 0 };
 
+  // Check if meal plan exists
+  const showPlanned = mealPlan?.totalMacros;
+
   const macroData = [
     {
       name: 'Calories',
@@ -85,6 +88,14 @@ export default function MacroSummaryTable({ loggedMeals = [], mealPlan, userGoal
       text-align: left;
     }
 
+    .planned-column-header {
+      color: #a3e635 !important;
+    }
+
+    .goal-column-header {
+      color: #a78bfa !important;
+    }
+
     .macro-table td {
       padding: 12px;
       border-bottom: 1px solid var(--s1);
@@ -123,12 +134,12 @@ export default function MacroSummaryTable({ loggedMeals = [], mealPlan, userGoal
     }
 
     .planned-value {
-      color: ${MACRO_COLORS.protein};
+      color: #a3e635;
       font-weight: 600;
     }
 
     .goal-value {
-      color: #999;
+      color: #a78bfa;
       font-weight: 500;
     }
   `;
@@ -141,8 +152,8 @@ export default function MacroSummaryTable({ loggedMeals = [], mealPlan, userGoal
           <tr>
             <th>Macro</th>
             <th>Confirmed</th>
-            <th>Planned</th>
-            <th>Goal</th>
+            {showPlanned && <th className="planned-column-header">Planned</th>}
+            <th className="goal-column-header">Goal</th>
           </tr>
         </thead>
         <tbody>
@@ -154,9 +165,11 @@ export default function MacroSummaryTable({ loggedMeals = [], mealPlan, userGoal
               <td className="confirmed-value">
                 {macro.confirmed}{macro.unit}
               </td>
-              <td className="planned-value">
-                {macro.planned}{macro.unit}
-              </td>
+              {showPlanned && (
+                <td className="planned-value">
+                  {macro.planned}{macro.unit}
+                </td>
+              )}
               <td className="goal-value">
                 {macro.goal}{macro.unit}
               </td>

@@ -110,8 +110,11 @@ export default function MealSwapModal({ mealType, alternatives, onSwapConfirm, o
                   </div>
 
                   {/* Macros */}
-                  <div style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 8 }}>
-                    {recipe.cal} cal · {recipe.protein}g P · {recipe.carbs}g C · {recipe.fat}g F
+                  <div style={{ fontSize: 12, marginBottom: 8 }}>
+                    <span style={{ color: '#f97316' }}>{recipe.cal}</span> cal ·
+                    <span style={{ color: '#a3e635' }}>{recipe.protein}g</span> P ·
+                    <span style={{ color: '#60a5fa' }}>{recipe.carbs}g</span> C ·
+                    <span style={{ color: '#ef4444' }}>{recipe.fat}g</span> F
                   </div>
 
                   {/* Distance from target (if available) */}

@@ -1151,8 +1151,8 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
         <div style={{marginBottom: 16}}>
           <div style={{background: "var(--s2)", borderRadius: 14, padding: 14, marginBottom: 8, border: "1px solid var(--border)"}}>
             <div style={{display: "flex", justifyContent: "space-around"}}>
-              {[["cal", Math.round(macros.cal), "var(--orange)"],["protein", Math.round(macros.protein*10)/10 + "g", "var(--lime)"],
-                ["carbs", Math.round(macros.carbs*10)/10 + "g", "var(--blue)"],["fat", Math.round(macros.fat*10)/10 + "g", "var(--muted)"]].map(([l,v,c]) => (
+              {[["cal", Math.round(macros.cal), "#f97316"],["protein", Math.round(macros.protein*10)/10 + "g", "#a3e635"],
+                ["carbs", Math.round(macros.carbs*10)/10 + "g", "#60a5fa"],["fat", Math.round(macros.fat*10)/10 + "g", "#ef4444"]].map(([l,v,c]) => (
                 <div key={l} style={{textAlign: "center"}}>
                   <div style={{fontSize: 22, fontWeight: 700, color: c, fontFamily: "'Clash Display',sans-serif"}}>{v}</div>
                   <div style={{fontSize: 10, color: "var(--muted)"}}>{l}</div>
