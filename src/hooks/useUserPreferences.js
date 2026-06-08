@@ -8,6 +8,12 @@ const DEFAULT_PREFERENCES = {
   include_shakes: true,
 };
 
+// Handle migration: if user had 'same_daily', convert to 'some_repeat'
+const sanitizeVarietyLevel = (level) => {
+  if (level === 'same_daily') return 'some_repeat';
+  return level || 'some_repeat';
+};
+
 export default function useUserPreferences() {
   console.log('[DEBUG] useUserPreferences hook initialized');
   const [preferences, setPreferences] = useState(DEFAULT_PREFERENCES);
@@ -37,7 +43,7 @@ export default function useUserPreferences() {
           setPreferences({
             spice_level: settings.spice_level || DEFAULT_PREFERENCES.spice_level,
             protein_preferences: settings.protein_preferences || DEFAULT_PREFERENCES.protein_preferences,
-            variety_level: settings.variety_level || DEFAULT_PREFERENCES.variety_level,
+            variety_level: sanitizeVarietyLevel(settings.variety_level),
             include_shakes: settings.include_shakes !== null ? settings.include_shakes : DEFAULT_PREFERENCES.include_shakes,
           });
         } else {

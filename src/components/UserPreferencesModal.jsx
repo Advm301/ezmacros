@@ -157,9 +157,8 @@ export default function UserPreferencesModal({ preferences, onSave, onCancel }) 
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {[
-                { key: 'same_daily', label: 'Same daily (repeat favorite meals)' },
                 { key: 'some_repeat', label: 'Some repeat (mix old & new)' },
-                { key: 'always_different', label: 'Always different (5+ day gap)' },
+                { key: 'always_different', label: 'Always different' },
               ].map(option => (
                 <label key={option.key} style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer' }}>
                   <input

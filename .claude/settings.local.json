@@ -15,7 +15,9 @@
       "Bash(cd:*)",
       "Bash(node -c src/App.jsx)",
       "Bash(node -c /c/Users/adamc/Projects/ezmacros/src/lib/generator.js)",
-      "Bash(curl -s http://localhost:5173/)"
+      "Bash(curl -s http://localhost:5173/)",
+      "Bash(cat)",
+      "Bash(bash /tmp/verify_variety_fix.sh)"
     ]
   }
 }
