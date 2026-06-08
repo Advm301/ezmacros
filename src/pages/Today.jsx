@@ -6,6 +6,7 @@ import StarIcon from '../components/StarIcon';
 import useMealPlanner from '../hooks/useMealPlanner';
 import useUserPreferences from '../hooks/useUserPreferences';
 import MealPlanDisplay from '../components/MealPlanDisplay';
+import MacroSummaryTable from '../components/MacroSummaryTable';
 import MealSwapModal from '../components/MealSwapModal';
 import UserPreferencesModal from '../components/UserPreferencesModal';
 import GenerateMealPlanModal from '../components/GenerateMealPlanModal';
@@ -850,45 +851,12 @@ export default function Today({goals: propsGoals, onTabFocus, onUpdateEzLevel, o
           </div>
         )}
 
-        {/* Macro Progress Bars */}
-        <div style={{marginBottom: 24}}>
-          {mealPlanner.mealPlan && (
-            <div style={{fontSize: 12, color: 'var(--muted)', marginBottom: 12, fontStyle: 'italic'}}>
-              Meal Plan Progress (Confirmed Meals)
-            </div>
-          )}
-          {macroData.map((macro) => {
-            const progress = getProgress(macro.consumed, macro.goal);
-            return (
-              <div key={macro.key} style={{marginBottom: 20}}>
-                <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: 8}}>
-                  <div style={{fontSize: 13, fontWeight: 600, color: 'var(--cream)'}}>
-                    {macro.label}
-                  </div>
-                  <div style={{fontSize: 13, fontWeight: 700, color: macro.color}}>
-                    {Math.round(macro.consumed)}{macro.unit || ''} / {macro.goal}{macro.unit || ''}
-                  </div>
-                </div>
-                <div style={{
-                  height: 8,
-                  background: 'var(--s3)',
-                  borderRadius: 10,
-                  overflow: 'hidden',
-                }}>
-                  <div
-                    style={{
-                      height: '100%',
-                      background: macro.color,
-                      width: `${progress}%`,
-                      transition: 'width 0.3s ease',
-                      borderRadius: 10,
-                    }}
-                  />
-                </div>
-              </div>
-            );
-          })}
-        </div>
+        {/* Macro Summary Table - Consolidated View */}
+        <MacroSummaryTable
+          loggedMeals={meals}
+          mealPlan={mealPlanner.mealPlan}
+          userGoals={goals}
+        />
 
         {/* Meal Planner Section */}
         {selectedDate === new Date().toISOString().split('T')[0] && (
@@ -898,7 +866,6 @@ export default function Today({goals: propsGoals, onTabFocus, onUpdateEzLevel, o
               <MealPlanDisplay
                 mealPlan={mealPlanner.mealPlan}
                 goals={goals}
-                loggedMeals={meals}
                 onSwapMeal={handleSwapMeal}
                 onViewRecipe={(recipe) => setOpenRecipe({ ...recipe, fromMealPlan: true })}
                 onRegeneratePlan={() => setShowGenerateMealModal(true)}
