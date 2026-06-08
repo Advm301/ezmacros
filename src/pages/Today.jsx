@@ -130,12 +130,20 @@ export default function Today({goals: propsGoals, onTabFocus, onUpdateEzLevel, f
         .eq('user_id', currentUser.id)
         .maybeSingle();
 
+      console.log('[DEBUG] Fetched goalsData from Supabase:', goalsData);
+      console.log('[DEBUG] goalsError:', goalsError);
+      if (goalsData) {
+        console.log('[DEBUG] Goal weight from DB:', goalsData.goal_weight_lbs);
+      }
+
       const userGoals = (goalsData && !goalsError) ? goalsData : {
         cal: 2200,
         protein: 180,
         carbs: 220,
         fat: 60,
       };
+
+      console.log('[DEBUG] Setting goals state to:', userGoals);
       setGoals(userGoals);
 
       // Use provided date or default to today

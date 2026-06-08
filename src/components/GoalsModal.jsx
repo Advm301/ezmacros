@@ -13,10 +13,13 @@ function GoalsModal({ goals, user, onClose, onSave, selectedTab = "calculate", o
 
   // Log goal weight on initialization for debugging persistence issues
   useEffect(() => {
-    if (goals?.goal_weight_lbs) {
-      console.log('[DEBUG] GoalsModal initialized with goal_weight_lbs:', goals.goal_weight_lbs);
+    console.log('[DEBUG] GoalsModal mounted with props.goals:', goals);
+    console.log('[DEBUG] GoalsModal goalWeightLbs state:', goalWeightLbs);
+    console.log('[DEBUG] props.goals?.goal_weight_lbs:', goals?.goal_weight_lbs);
+    if (!goals?.goal_weight_lbs) {
+      console.warn('[WARN] No goal_weight_lbs in goals prop - persistence issue likely');
     }
-  }, []);
+  }, [goals]);
 
   // Macro goals
   const [protein, setProtein] = useState(goals?.protein || 180);
@@ -267,6 +270,9 @@ function GoalsModal({ goals, user, onClose, onSave, selectedTab = "calculate", o
         // If column missing, add with: ALTER TABLE goals ADD COLUMN goal_weight_lbs integer;
       };
 
+      console.log('[DEBUG] About to save goalsData:', goalsData);
+      console.log('[DEBUG] goalWeightLbs state value:', goalWeightLbs);
+
       // Check if goals record exists
       const { data: existingGoals } = await supabase
         .from('goals')
@@ -274,28 +280,35 @@ function GoalsModal({ goals, user, onClose, onSave, selectedTab = "calculate", o
         .eq('user_id', freshUser.id)
         .maybeSingle();
 
+      console.log('[DEBUG] Existing goals record:', existingGoals);
+
       let error;
       if (existingGoals) {
         // Update existing record (don't include user_id in update)
         const updateData = { ...goalsData };
         delete updateData.user_id;
+        console.log('[DEBUG] Updating with data:', updateData);
         const result = await supabase
           .from('goals')
           .update(updateData)
           .eq('user_id', freshUser.id);
         error = result.error;
+        console.log('[DEBUG] Update result - error:', error, 'data:', result.data);
       } else {
         // Insert new record
+        console.log('[DEBUG] Inserting new record with data:', goalsData);
         const result = await supabase
           .from('goals')
           .insert(goalsData);
         error = result.error;
+        console.log('[DEBUG] Insert result - error:', error, 'data:', result.data);
       }
 
       if (error) {
-        console.error('Error saving goals:', error.message);
+        console.error('[ERROR] Supabase error:', error);
         throw new Error(error.message || 'Failed to save goals to database');
       }
+      console.log('[DEBUG] Save successful, notifying parent with goalsData:', goalsData);
       // Success - notify parent and close
       onSave(goalsData);
       onClose();
@@ -633,9 +646,13 @@ function GoalsModal({ goals, user, onClose, onSave, selectedTab = "calculate", o
                 value={isMetric && goalWeightLbs ? Math.round(goalWeightLbs / 2.205) : goalWeightLbs || ''}
                 onChange={(e) => {
                   const val = parseInt(e.target.value);
+                  console.log('[DEBUG] Goal weight input changed:', e.target.value, '→ parsed:', val);
                   if (val) {
-                    setGoalWeightLbs(isMetric ? Math.round(val * 2.205) : val);
+                    const newVal = isMetric ? Math.round(val * 2.205) : val;
+                    console.log('[DEBUG] Setting goalWeightLbs to:', newVal);
+                    setGoalWeightLbs(newVal);
                   } else {
+                    console.log('[DEBUG] Setting goalWeightLbs to null');
                     setGoalWeightLbs(null);
                   }
                 }}
