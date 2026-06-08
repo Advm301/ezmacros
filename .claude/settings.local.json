@@ -22,7 +22,8 @@
       "Bash(bash /tmp/verify_macro_base_fix.sh)",
       "Bash(bash /tmp/verify_all_fixes.sh)",
       "Bash(bash /tmp/verify_logging.sh)",
-      "Bash(bash /tmp/verify_goal_weight_fix.sh)"
+      "Bash(bash /tmp/verify_goal_weight_fix.sh)",
+      "Bash(bash /tmp/verify_scaling.sh)"
     ]
   }
 }

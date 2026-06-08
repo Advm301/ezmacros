@@ -29,6 +29,53 @@ function calculateMacroDistance(recipe, targetMacros) {
 }
 
 /**
+ * Scale recipe components proportionally to hit target calories
+ * Only scales if difference is >10% from target
+ * Caps scaling between 0.6x and 1.75x to avoid unrealistic portions
+ */
+function scaleRecipeToTarget(recipe, targetCal) {
+  if (!recipe || !targetCal || targetCal <= 0) return recipe;
+
+  const currentCal = recipe.cal;
+  if (!currentCal || currentCal <= 0) return recipe;
+
+  // Only scale if difference is more than 10%
+  const ratio = targetCal / currentCal;
+  if (ratio > 0.9 && ratio < 1.1) {
+    console.log(`[DEBUG] Recipe ${recipe.id} within 10% of target (${currentCal} → ${targetCal}), no scaling needed`);
+    return recipe;
+  }
+
+  // Cap scaling: never scale more than 1.75x or less than 0.6x
+  const clampedRatio = Math.min(1.75, Math.max(0.6, ratio));
+
+  console.log(`[DEBUG] Scaling recipe ${recipe.id} from ${currentCal} cal to ${targetCal} cal (ratio: ${ratio.toFixed(2)}, clamped: ${clampedRatio.toFixed(2)})`);
+
+  // Scale all macros proportionally
+  const scaledRecipe = {
+    ...recipe,
+    cal: Math.round(recipe.cal * clampedRatio),
+    protein: Math.round(recipe.protein * clampedRatio),
+    carbs: Math.round(recipe.carbs * clampedRatio),
+    fat: Math.round(recipe.fat * clampedRatio),
+    scaled: true,
+    scaleRatio: clampedRatio,
+    scaledFrom: currentCal,
+    // Scale each component quantity proportionally
+    components: recipe.components?.map(component => ({
+      ...component,
+      quantity: component.quantity
+        ? Math.round(component.quantity * clampedRatio * 10) / 10
+        : component.quantity
+    })) || recipe.components
+  };
+
+  console.log(`[DEBUG] Scaled recipe macros: cal=${scaledRecipe.cal}, protein=${scaledRecipe.protein}, carbs=${scaledRecipe.carbs}, fat=${scaledRecipe.fat}`);
+
+  return scaledRecipe;
+}
+
+/**
  * Filter recipes based on user preferences with progressive fallback for wider pool
  */
 function filterRecipesByPreferences(recipes, preferences, excludeRecipeIds = []) {
@@ -196,22 +243,36 @@ export function selectMealsForDay(dailyGoals, preferences, includeShakeGenerator
 
   // Always add breakfast, lunch, dinner first
   const requiredMeals = ['breakfast', 'lunch', 'dinner'];
+  // Rough meal targets: breakfast 20%, lunch 27%, dinner 27% of TDEE
+  const mealTargets = {
+    breakfast: Math.round(calorieGoal * 0.20),
+    lunch: Math.round(calorieGoal * 0.27),
+    dinner: Math.round(calorieGoal * 0.27)
+  };
+
   for (const mealType of requiredMeals) {
     console.log(`[DEBUG] Adding required meal: ${mealType}`);
     const recipe = selectMeal(mealType);
 
     if (recipe) {
       usedRecipeIds.add(recipe.id);
+
+      // Scale recipe to match this meal slot's calorie target
+      const mealTarget = mealTargets[mealType] || Math.round(calorieGoal / 3);
+      const scaledRecipe = scaleRecipeToTarget(recipe, mealTarget);
+
       selectedRecipes.push({
         mealType,
-        recipe: { ...recipe },
+        recipe: scaledRecipe,
         confirmed: false,
       });
-      totalMacros.cal += recipe.cal || 0;
-      totalMacros.protein += recipe.protein || 0;
-      totalMacros.carbs += recipe.carbs || 0;
-      totalMacros.fat += recipe.fat || 0;
-      console.log(`[DEBUG] Added ${mealType}: ${recipe.name} (${recipe.cal} cal). Running total: ${totalMacros.cal} cal`);
+      totalMacros.cal += scaledRecipe.cal || 0;
+      totalMacros.protein += scaledRecipe.protein || 0;
+      totalMacros.carbs += scaledRecipe.carbs || 0;
+      totalMacros.fat += scaledRecipe.fat || 0;
+
+      const scaledNote = scaledRecipe.scaled ? ` [scaled ${(scaledRecipe.scaleRatio).toFixed(2)}x]` : '';
+      console.log(`[DEBUG] Added ${mealType}: ${recipe.name} (${scaledRecipe.cal} cal)${scaledNote}. Running total: ${totalMacros.cal} cal`);
     } else {
       console.log(`[DEBUG] NO RECIPE FOUND for required meal: ${mealType}`);
     }
@@ -232,17 +293,23 @@ export function selectMealsForDay(dailyGoals, preferences, includeShakeGenerator
     }
 
     usedRecipeIds.add(recipe.id);
+
+    // Scale additional meal to fill the exact remaining calorie gap (capped at 1.75x)
+    const scaledRecipe = scaleRecipeToTarget(recipe, remainingCal);
+
     selectedRecipes.push({
       mealType,
-      recipe: { ...recipe },
+      recipe: scaledRecipe,
       confirmed: false,
     });
-    totalMacros.cal += recipe.cal || 0;
-    totalMacros.protein += recipe.protein || 0;
-    totalMacros.carbs += recipe.carbs || 0;
-    totalMacros.fat += recipe.fat || 0;
+    totalMacros.cal += scaledRecipe.cal || 0;
+    totalMacros.protein += scaledRecipe.protein || 0;
+    totalMacros.carbs += scaledRecipe.carbs || 0;
+    totalMacros.fat += scaledRecipe.fat || 0;
     mealCount++;
-    console.log(`[DEBUG] Added ${mealType}: ${recipe.name} (${recipe.cal} cal). Running total: ${totalMacros.cal} cal (${Math.round(totalMacros.cal / calorieGoal * 100)}% of goal)`);
+
+    const scaledNote = scaledRecipe.scaled ? ` [scaled ${(scaledRecipe.scaleRatio).toFixed(2)}x]` : '';
+    console.log(`[DEBUG] Added ${mealType}: ${recipe.name} (${scaledRecipe.cal} cal)${scaledNote}. Running total: ${totalMacros.cal} cal (${Math.round(totalMacros.cal / calorieGoal * 100)}% of goal)`);
   }
 
   console.log('[DEBUG] Final meal count:', selectedRecipes.length);
