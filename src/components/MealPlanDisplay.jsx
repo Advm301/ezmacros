@@ -94,35 +94,6 @@ export default function MealPlanDisplay({
         </div>
       </div>
 
-      {/* Confirmed Meals Summary */}
-      {confirmedCount > 0 && (
-        <div style={{
-          background: 'var(--s3)',
-          borderRadius: 12,
-          padding: 14,
-          marginBottom: 12,
-          border: '1px solid rgba(0, 255, 100, 0.2)',
-        }}>
-          <div style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 8, fontWeight: 600 }}>
-            Confirmed Meals ({confirmedCount}/{totalMeals})
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
-            {[
-              { label: 'Cal', value: Math.round(mealPlan.meals.filter(m => m.confirmed && m.recipe).reduce((sum, m) => sum + (m.recipe.cal || 0), 0)) },
-              { label: 'Protein', value: Math.round(mealPlan.meals.filter(m => m.confirmed && m.recipe).reduce((sum, m) => sum + (m.recipe.protein || 0), 0)), unit: 'g' },
-              { label: 'Carbs', value: Math.round(mealPlan.meals.filter(m => m.confirmed && m.recipe).reduce((sum, m) => sum + (m.recipe.carbs || 0), 0)), unit: 'g' },
-              { label: 'Fat', value: Math.round(mealPlan.meals.filter(m => m.confirmed && m.recipe).reduce((sum, m) => sum + (m.recipe.fat || 0), 0)), unit: 'g' },
-            ].map((macro) => (
-              <div key={macro.label} style={{ fontSize: 11 }}>
-                <div style={{ color: 'var(--muted)', marginBottom: 2 }}>{macro.label}</div>
-                <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--lime)' }}>
-                  {macro.value}{macro.unit || ''}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
 
 
       {/* Meal Cards */}

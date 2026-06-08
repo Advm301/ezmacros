@@ -1,4 +1,11 @@
 export default function MacroSummaryTable({ loggedMeals = [], mealPlan, userGoals }) {
+  const MACRO_COLORS = {
+    calories: '#f97316',  // orange
+    protein: '#a3e635',   // lime green
+    carbs: '#60a5fa',     // blue
+    fat: '#ef4444',       // red
+  };
+
   // Calculate confirmed totals from logged meals
   const confirmedTotals = loggedMeals.reduce((acc, meal) => ({
     cal: acc.cal + (meal.cal || 0),
@@ -16,6 +23,7 @@ export default function MacroSummaryTable({ loggedMeals = [], mealPlan, userGoal
   const macroData = [
     {
       name: 'Calories',
+      key: 'calories',
       confirmed: Math.round(confirmedTotals.cal),
       planned: Math.round(plannedTotals.cal),
       goal: goals.cal,
@@ -23,6 +31,7 @@ export default function MacroSummaryTable({ loggedMeals = [], mealPlan, userGoal
     },
     {
       name: 'Protein',
+      key: 'protein',
       confirmed: Math.round(confirmedTotals.protein),
       planned: Math.round(plannedTotals.protein),
       goal: goals.protein,
@@ -30,6 +39,7 @@ export default function MacroSummaryTable({ loggedMeals = [], mealPlan, userGoal
     },
     {
       name: 'Carbs',
+      key: 'carbs',
       confirmed: Math.round(confirmedTotals.carbs),
       planned: Math.round(plannedTotals.carbs),
       goal: goals.carbs,
@@ -37,6 +47,7 @@ export default function MacroSummaryTable({ loggedMeals = [], mealPlan, userGoal
     },
     {
       name: 'Fat',
+      key: 'fat',
       confirmed: Math.round(confirmedTotals.fat),
       planned: Math.round(plannedTotals.fat),
       goal: goals.fat,
@@ -44,67 +55,115 @@ export default function MacroSummaryTable({ loggedMeals = [], mealPlan, userGoal
     },
   ];
 
-  const headerStyle = {
-    fontSize: 12,
-    fontWeight: 700,
-    color: 'var(--cream)',
-    background: 'var(--s2)',
-    padding: '10px 8px',
-    textAlign: 'left',
-    borderBottom: '2px solid var(--s1)',
-  };
+  const styles = `
+    .macro-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-bottom: 1.5rem;
+      border: 1px solid var(--s1);
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--s1);
+    }
 
-  const cellStyle = {
-    fontSize: 13,
-    padding: '8px',
-    color: 'var(--cream)',
-    borderBottom: '1px solid var(--border)',
-    textAlign: 'right',
-  };
+    .macro-table thead {
+      background: var(--s2);
+    }
 
-  const firstColStyle = {
-    ...cellStyle,
-    textAlign: 'left',
-    fontWeight: 600,
-    color: 'var(--cream)',
-  };
+    .macro-table th {
+      padding: 10px 12px;
+      text-align: right;
+      font-weight: 700;
+      font-size: 11px;
+      color: #999;
+      border-bottom: 2px solid var(--s1);
+      letter-spacing: 0.5px;
+    }
 
-  const firstHeaderStyle = {
-    ...headerStyle,
-    textAlign: 'left',
-  };
+    .macro-table th:first-child {
+      text-align: left;
+    }
+
+    .macro-table td {
+      padding: 12px;
+      border-bottom: 1px solid var(--s1);
+      text-align: right;
+      font-weight: 500;
+    }
+
+    .macro-table td:first-child {
+      text-align: left;
+    }
+
+    .macro-label {
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .macro-label.calories-label {
+      color: ${MACRO_COLORS.calories};
+    }
+
+    .macro-label.protein-label {
+      color: ${MACRO_COLORS.protein};
+    }
+
+    .macro-label.carbs-label {
+      color: ${MACRO_COLORS.carbs};
+    }
+
+    .macro-label.fat-label {
+      color: ${MACRO_COLORS.fat};
+    }
+
+    .confirmed-value {
+      color: #7fb069;
+      font-weight: 600;
+    }
+
+    .planned-value {
+      color: ${MACRO_COLORS.protein};
+      font-weight: 600;
+    }
+
+    .goal-value {
+      color: #999;
+      font-weight: 500;
+    }
+  `;
 
   return (
-    <div style={{
-      background: 'var(--s1)',
-      borderRadius: 8,
-      overflow: 'hidden',
-      marginBottom: 20,
-      border: '1px solid var(--border)',
-    }}>
-      <table style={{
-        width: '100%',
-        borderCollapse: 'collapse',
-      }}>
+    <>
+      <style>{styles}</style>
+      <table className="macro-table">
         <thead>
           <tr>
-            <th style={firstHeaderStyle}>Macro</th>
-            <th style={headerStyle}>Confirmed</th>
-            <th style={headerStyle}>Planned</th>
-            <th style={headerStyle}>Goal</th>
+            <th>Macro</th>
+            <th>Confirmed</th>
+            <th>Planned</th>
+            <th>Goal</th>
           </tr>
         </thead>
         <tbody>
           {macroData.map((macro) => (
-            <tr key={macro.name}>
-              <td style={firstColStyle}>{macro.name}</td>
-              <td style={cellStyle}>{macro.confirmed}{macro.unit}</td>
-              <td style={cellStyle}>{macro.planned}{macro.unit}</td>
-              <td style={cellStyle}>{macro.goal}{macro.unit}</td>
+            <tr key={macro.key}>
+              <td className={`macro-label ${macro.key}-label`}>
+                {macro.name}
+              </td>
+              <td className="confirmed-value">
+                {macro.confirmed}{macro.unit}
+              </td>
+              <td className="planned-value">
+                {macro.planned}{macro.unit}
+              </td>
+              <td className="goal-value">
+                {macro.goal}{macro.unit}
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
-    </div>
+    </>
   );
 }
