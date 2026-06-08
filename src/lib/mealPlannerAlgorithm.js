@@ -266,7 +266,11 @@ function getMacroScore(recipe, remainingMacros) {
  * Insert snacks at specified times in the meal plan
  */
 function insertSnacksAtTiming(selectedRecipes, snackTiming, calorieGoal, dailyGoals, usedRecipeIds, totalMacros) {
+  console.log('[DEBUG] insertSnacksAtTiming START - selectedRecipes length:', selectedRecipes.length);
+  console.log('[DEBUG] Initial meals:', selectedRecipes.map(m => `${m.mealType}:${m.recipe?.name}`).join(', '));
+
   if (!snackTiming || snackTiming.length === 0) {
+    console.log('[DEBUG] No snack timing specified, returning unchanged');
     return { selectedRecipes, totalMacros };
   }
 
@@ -276,7 +280,7 @@ function insertSnacksAtTiming(selectedRecipes, snackTiming, calorieGoal, dailyGo
   const snackCandidates = RECIPES.filter(r =>
     r.cal < 400 && (r.protein > 15 || r.carbs > 40)
   );
-  console.log(`[DEBUG] Found ${snackCandidates.length} snack candidates`);
+  console.log(`[DEBUG] Snack pool after filtering: ${snackCandidates.length} candidates`);
 
   if (snackCandidates.length === 0) {
     console.log('[DEBUG] No snack candidates available');
@@ -300,7 +304,11 @@ function insertSnacksAtTiming(selectedRecipes, snackTiming, calorieGoal, dailyGo
     .map(timing => ({ timing, position: timingToPosition[timing] }))
     .sort((a, b) => b.position - a.position);
 
+  console.log('[DEBUG] Snacks to process (in reverse order):', timingsToProcess.map(t => `${t.timing} at pos ${t.position}`).join(', '));
+
   for (const { timing, position } of timingsToProcess) {
+    console.log(`[DEBUG] About to insert snack at position: ${position}, current array length: ${selectedRecipes.length}`);
+
     // Find next snack that hasn't been used
     let snackRecipe = null;
     while (snackIndex < shuffledSnacks.length) {
@@ -322,6 +330,7 @@ function insertSnacksAtTiming(selectedRecipes, snackTiming, calorieGoal, dailyGo
     // Scale snack to 300-350 cal target
     const scaledSnack = scaleRecipeToTarget(snackRecipe, snackTarget);
 
+    // Insert snack at correct position
     selectedRecipes.splice(position, 0, {
       mealType: 'snack',
       recipe: scaledSnack,
@@ -335,8 +344,12 @@ function insertSnacksAtTiming(selectedRecipes, snackTiming, calorieGoal, dailyGo
     totalMacros.fat += scaledSnack.fat || 0;
 
     const scaledNote = scaledSnack.scaled ? ` [scaled ${scaledSnack.scaleRatio.toFixed(2)}x]` : '';
+    console.log(`[DEBUG] After snack insertion - array length: ${selectedRecipes.length}, meals: ${selectedRecipes.map(m => `${m.mealType}:${m.recipe?.name}`).join(', ')}`);
     console.log(`[DEBUG] Inserted snack at ${timing}: ${snackRecipe.name} (${scaledSnack.cal} cal)${scaledNote}`);
   }
+
+  console.log('[DEBUG] insertSnacksAtTiming END - selectedRecipes length:', selectedRecipes.length);
+  console.log('[DEBUG] Final meals array:', selectedRecipes.map(m => `${m.mealType}:${m.recipe?.name}`).join(', '));
 
   return { selectedRecipes, totalMacros };
 }
@@ -455,7 +468,9 @@ export function selectMealsForDay(dailyGoals, preferences, includeShakeGenerator
   }
 
   // Insert snacks at specified timing if enabled
+  console.log('[DEBUG] Before snack insertion - selectedRecipes length:', selectedRecipes.length, 'meals:', selectedRecipes.map(m => `${m.mealType}:${m.recipe?.name}`).join(', '));
   if (preferences?.include_snacks === true) {
+    console.log('[DEBUG] Calling insertSnacksAtTiming with timing:', preferences.snack_timing);
     const snackResult = insertSnacksAtTiming(
       selectedRecipes,
       preferences.snack_timing,
@@ -464,12 +479,15 @@ export function selectMealsForDay(dailyGoals, preferences, includeShakeGenerator
       usedRecipeIds,
       totalMacros
     );
-    selectedRecipes.length = 0;
-    selectedRecipes.push(...snackResult.selectedRecipes);
+    console.log('[DEBUG] snackResult.selectedRecipes length:', snackResult.selectedRecipes.length, 'meals:', snackResult.selectedRecipes.map(m => `${m.mealType}:${m.recipe?.name}`).join(', '));
+    // NOTE: snackResult.selectedRecipes is the SAME reference as selectedRecipes because splice() mutates in place
+    // So we do NOT need to clear and repush - the array is already mutated!
     totalMacros = snackResult.totalMacros;
+    console.log('[DEBUG] After snack insertion - selectedRecipes length:', selectedRecipes.length, 'meals:', selectedRecipes.map(m => `${m.mealType}:${m.recipe?.name}`).join(', '));
   }
 
   // Add snacks/meals until goal reached or max meals hit
+  console.log('[DEBUG] Starting dynamic meals loop - mealCount:', selectedRecipes.length);
   let mealCount = selectedRecipes.length;
   while (totalMacros.cal < targetMin && mealCount < MAX_MEALS) {
     const remainingCal = calorieGoal - totalMacros.cal;
