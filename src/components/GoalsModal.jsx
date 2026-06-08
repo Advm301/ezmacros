@@ -91,8 +91,9 @@ function GoalsModal({ goals, user, onClose, onSave, selectedTab = "calculate", o
   const maintainCal = tdee;
   const bulkCal = tdee + 250;
 
-  // Build presets using ISSN methodology
-  // All protein/fat based on current weight (lbs), not goal weight
+  // Build presets using evidence-based methodology
+  // Bulk: High-protein formula using goal weight
+  // Cut/Maintain: Standard formulas using current weight
   const PRESETS = {
     cut: {
       cal: cutCal,
@@ -106,22 +107,22 @@ function GoalsModal({ goals, user, onClose, onSave, selectedTab = "calculate", o
     },
     bulk: {
       cal: bulkCal,
-      protein: Math.round(lbs * 0.75),
-      fat: Math.round(lbs * 0.45),
+      // For bulk: protein = 1g per lb of goal weight (high-protein bulk formula)
+      protein: goalWeightLbs ? Math.round(parseFloat(goalWeightLbs) * 1.0) : Math.round(lbs * 1.0),
+      // Fat = 25% of total calories
+      fat: Math.round((bulkCal * 0.25) / 9),
     },
   };
 
-  // Calculate carbs for each preset with realistic caps
-  // Carbs fill remainder but capped to prevent unrealistic targets
+  // Calculate carbs for each preset
+  // Carbs fill remainder after protein and fat are allocated
   const presetsWithCarbs = Object.entries(PRESETS).reduce((acc, [key, preset]) => {
     const proteinCal = preset.protein * 4;
     const fatCal = preset.fat * 9;
     const remaining = preset.cal - proteinCal - fatCal;
 
-    // Carb caps: Cut 200g, Maintain 280g, Bulk 350g
-    const minCarbs = key === 'bulk' ? 150 : key === 'maintain' ? 100 : 50;
-    const maxCarbs = key === 'bulk' ? 350 : key === 'maintain' ? 280 : 200;
-    const carbs = Math.min(maxCarbs, Math.max(minCarbs, Math.round(remaining / 4)));
+    // Calculate carbs from remaining calories (no artificial caps)
+    const carbs = Math.round(remaining / 4);
 
     acc[key] = {
       ...preset,
@@ -851,13 +852,19 @@ function GoalsModal({ goals, user, onClose, onSave, selectedTab = "calculate", o
               const c = parseInt(customMacros.carbs) || 0;
               const f = parseInt(customMacros.fat) || 0;
               const totalCal = (p * 4) + (c * 4) + (f * 9);
+              const proteinPct = totalCal > 0 ? Math.round((p * 4 / totalCal) * 100) : 0;
+              const carbsPct = totalCal > 0 ? Math.round((c * 4 / totalCal) * 100) : 0;
+              const fatPct = totalCal > 0 ? Math.round((f * 9 / totalCal) * 100) : 0;
               return (
                 <>
                   <div style={{fontSize: 18, fontWeight: 700, color: 'var(--orange)'}}>
                     {totalCal} cal
                   </div>
-                  <div style={{fontSize: 9, color: 'var(--muted)', marginTop: 6}}>
+                  <div style={{fontSize: 9, color: 'var(--muted)', marginTop: 4}}>
                     ({p}g × 4) + ({c}g × 4) + ({f}g × 9)
+                  </div>
+                  <div style={{fontSize: 9, color: 'var(--lime)', marginTop: 6, fontWeight: 600, letterSpacing: 0.5}}>
+                    💪 {proteinPct}% · 🍚 {carbsPct}% · 🥑 {fatPct}%
                   </div>
                 </>
               );
@@ -993,13 +1000,19 @@ function GoalsModal({ goals, user, onClose, onSave, selectedTab = "calculate", o
                 const c = carbs;
                 const f = fat;
                 const totalCal = (p * 4) + (c * 4) + (f * 9);
+                const proteinPct = totalCal > 0 ? Math.round((p * 4 / totalCal) * 100) : 0;
+                const carbsPct = totalCal > 0 ? Math.round((c * 4 / totalCal) * 100) : 0;
+                const fatPct = totalCal > 0 ? Math.round((f * 9 / totalCal) * 100) : 0;
                 return (
                   <>
                     <div style={{fontSize: 18, fontWeight: 700, color: 'var(--orange)'}}>
                       {totalCal} cal
                     </div>
-                    <div style={{fontSize: 9, color: 'var(--muted)', marginTop: 6}}>
+                    <div style={{fontSize: 9, color: 'var(--muted)', marginTop: 4}}>
                       ({p}g × 4) + ({c}g × 4) + ({f}g × 9)
+                    </div>
+                    <div style={{fontSize: 9, color: 'var(--lime)', marginTop: 6, fontWeight: 600, letterSpacing: 0.5}}>
+                      💪 {proteinPct}% · 🍚 {carbsPct}% · 🥑 {fatPct}%
                     </div>
                   </>
                 );
