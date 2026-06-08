@@ -25,7 +25,8 @@
       "Bash(bash /tmp/verify_goal_weight_fix.sh)",
       "Bash(bash /tmp/verify_scaling.sh)",
       "Bash(bash /tmp/verify_macro_guardrails.sh)",
-      "Bash(npm start *)"
+      "Bash(npm start *)",
+      "PowerShell(Start-Sleep -Seconds 3; \\(Invoke-WebRequest http://localhost:5173 -UseBasicParsing -ErrorAction SilentlyContinue\\).StatusCode)"
     ]
   }
 }
