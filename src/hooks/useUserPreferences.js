@@ -4,7 +4,6 @@ import { supabase } from '../lib/supabase';
 const DEFAULT_PREFERENCES = {
   spice_level: 'any',
   protein_preferences: ['chicken', 'beef', 'fish', 'pork', 'ground_beef', 'ground_chicken', 'ground_pork', 'ground_turkey', 'vegetarian', 'eggs'],
-  meal_frequency: '3_meals',
   variety_level: 'some_repeat',
   include_shakes: true,
 };
@@ -38,7 +37,6 @@ export default function useUserPreferences() {
           setPreferences({
             spice_level: settings.spice_level || DEFAULT_PREFERENCES.spice_level,
             protein_preferences: settings.protein_preferences || DEFAULT_PREFERENCES.protein_preferences,
-            meal_frequency: settings.meal_frequency || DEFAULT_PREFERENCES.meal_frequency,
             variety_level: settings.variety_level || DEFAULT_PREFERENCES.variety_level,
             include_shakes: settings.include_shakes !== null ? settings.include_shakes : DEFAULT_PREFERENCES.include_shakes,
           });
@@ -77,7 +75,6 @@ export default function useUserPreferences() {
         .update({
           spice_level: newPreferences.spice_level,
           protein_preferences: newPreferences.protein_preferences,
-          meal_frequency: newPreferences.meal_frequency,
           variety_level: newPreferences.variety_level,
           include_shakes: newPreferences.include_shakes,
         })

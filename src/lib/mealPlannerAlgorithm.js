@@ -29,73 +29,77 @@ function calculateMacroDistance(recipe, targetMacros) {
 }
 
 /**
- * Filter recipes based on user preferences
+ * Filter recipes based on user preferences with progressive fallback for wider pool
  */
 function filterRecipesByPreferences(recipes, preferences, excludeRecipeIds = []) {
   console.log('[DEBUG] filterRecipesByPreferences called');
   console.log('[DEBUG]   Input recipes:', recipes.length);
-  console.log('[DEBUG]   Preferences:', preferences);
-  console.log('[DEBUG]   Exclude IDs:', excludeRecipeIds);
+  console.log('[DEBUG]   Protein preferences:', preferences.protein_preferences.length, preferences.protein_preferences);
 
-  const filtered = recipes.filter(recipe => {
-    // Exclude already-selected recipes
-    if (excludeRecipeIds.includes(recipe.id)) {
-      console.log(`[DEBUG]   Recipe ${recipe.id} excluded (already used)`);
-      return false;
-    }
+  // If user selected 8+ proteins (most of available), treat as "any protein"
+  const skipProteinFilter = preferences.protein_preferences.length >= 8;
+  if (skipProteinFilter) {
+    console.log('[DEBUG]   8+ proteins selected - treating as "any protein"');
+  }
 
-    // Filter by spice level
-    if (preferences.spice_level !== 'any') {
-      const spiceMap = { 'low': 0, 'medium': 1, 'medium-hot': 2, 'hot': 3 };
-      const targetSpice = spiceMap[preferences.spice_level];
-      if (targetSpice !== undefined && recipe.spiceLevel !== targetSpice) {
-        console.log(`[DEBUG]   Recipe ${recipe.id} filtered out by spice (has ${recipe.spiceLevel}, want ${targetSpice})`);
-        return false;
-      }
-    }
+  // Helper to apply all filters
+  const applyAllFilters = (recipeList) => {
+    return recipeList.filter(recipe => {
+      if (excludeRecipeIds.includes(recipe.id)) return false;
 
-    // Filter by protein preferences (check recipe components, not tags)
-    // Main protein is typically the first component
-    if (preferences.protein_preferences.length > 0) {
-      const mainComponent = recipe.components && recipe.components[0];
-
-      if (!mainComponent) {
-        console.log(`[DEBUG]   Recipe ${recipe.id} - no components found, filtering out`);
-        return false;
+      // Spice filter
+      if (preferences.spice_level !== 'any') {
+        const spiceMap = { 'low': 0, 'medium': 1, 'medium-hot': 2, 'hot': 3 };
+        const targetSpice = spiceMap[preferences.spice_level];
+        if (targetSpice !== undefined && recipe.spiceLevel !== targetSpice) return false;
       }
 
-      // Extract protein name from component name (e.g., "Ground Beef (93% lean)" → "Ground Beef")
-      const componentName = mainComponent.name || '';
-      const proteinNameFromComponent = componentName.split('(')[0].trim();
+      // Protein filter (skip if user selected most proteins)
+      if (!skipProteinFilter && preferences.protein_preferences.length > 0) {
+        const mainComponent = recipe.components && recipe.components[0];
+        if (!mainComponent) return false;
 
-      // Normalize to match preference format: "Ground Beef" → "ground_beef", "Eggs" → "eggs"
-      const normalizedProtein = proteinNameFromComponent
-        .toLowerCase()
-        .replace(/\s+/g, '_');
+        const componentName = mainComponent.name || '';
+        const proteinNameFromComponent = componentName.split('(')[0].trim();
+        const normalizedProtein = proteinNameFromComponent.toLowerCase().replace(/\s+/g, '_');
 
-      console.log(`[DEBUG]   Recipe ${recipe.id} - main component: "${componentName}" → normalized: "${normalizedProtein}"`);
+        const hasPreferredProtein = preferences.protein_preferences.some(pref => {
+          const prefNormalized = pref.toLowerCase().replace(/\s+/g, '_');
+          return normalizedProtein === prefNormalized || normalizedProtein.includes(prefNormalized);
+        });
 
-      // Check if this protein matches any user preference
-      const hasPreferredProtein = preferences.protein_preferences.some(pref => {
-        const prefNormalized = pref.toLowerCase().replace(/\s+/g, '_');
-        const matches = normalizedProtein === prefNormalized || normalizedProtein.includes(prefNormalized);
-        if (matches) {
-          console.log(`[DEBUG]   Recipe ${recipe.id} - protein match: "${normalizedProtein}" matches preference "${pref}"`);
-        }
-        return matches;
-      });
-
-      if (!hasPreferredProtein) {
-        console.log(`[DEBUG]   Recipe ${recipe.id} (main protein: ${proteinNameFromComponent}) filtered out by protein (prefs: ${preferences.protein_preferences.join(', ')})`);
-        return false;
+        if (!hasPreferredProtein) return false;
       }
-    }
 
-    console.log(`[DEBUG]   Recipe ${recipe.id} - ${recipe.name} passed all filters`);
-    return true;
-  });
+      return true;
+    });
+  };
 
-  console.log('[DEBUG] filterRecipesByPreferences result:', filtered.length, 'recipes passed');
+  let filtered = applyAllFilters(recipes);
+  console.log('[DEBUG] After all filters:', filtered.length, 'recipes');
+
+  // Fallback 1: If fewer than 10, relax protein filter
+  if (filtered.length < 10 && preferences.protein_preferences.length > 0) {
+    console.log('[DEBUG] < 10 recipes, relaxing protein filter...');
+    filtered = recipes.filter(recipe => {
+      if (excludeRecipeIds.includes(recipe.id)) return false;
+      if (preferences.spice_level !== 'any') {
+        const spiceMap = { 'low': 0, 'medium': 1, 'medium-hot': 2, 'hot': 3 };
+        const targetSpice = spiceMap[preferences.spice_level];
+        if (targetSpice !== undefined && recipe.spiceLevel !== targetSpice) return false;
+      }
+      return true;
+    });
+    console.log('[DEBUG] After relaxing protein filter:', filtered.length, 'recipes');
+  }
+
+  // Fallback 2: If still fewer than 5, use only meal type filter (applied by caller)
+  if (filtered.length < 5) {
+    console.log('[DEBUG] < 5 recipes, returning all non-excluded for meal type caller to filter');
+    filtered = recipes.filter(r => !excludeRecipeIds.includes(r.id));
+    console.log('[DEBUG] After removing only excludes:', filtered.length, 'recipes');
+  }
+
   return filtered;
 }
 
@@ -128,130 +132,6 @@ function selectBestRecipe(recipes, targetMacros, preferences, excludeRecipeIds =
 }
 
 /**
- * Get meal type from frequency setting
- * Returns array like ['breakfast', 'lunch', 'dinner'] or ['breakfast', 'lunch', 'dinner', 'snack']
- */
-function getMealTypes(mealFrequency) {
-  switch (mealFrequency) {
-    case '2_plus_snacks':
-      return ['breakfast', 'lunch_dinner', 'snack', 'snack'];
-    case '3_meals':
-      return ['breakfast', 'lunch', 'dinner'];
-    case '4_meals':
-      return ['breakfast', 'lunch', 'snack', 'dinner'];
-    case '3_plus_snack':
-      return ['breakfast', 'lunch', 'dinner', 'snack'];
-    default:
-      return ['breakfast', 'lunch', 'dinner'];
-  }
-}
-
-/**
- * Calculate macro targets per meal based on daily goals and meal frequency
- */
-function calculateMealTargets(dailyGoals, mealFrequency) {
-  const meals = getMealTypes(mealFrequency);
-  const targets = {};
-
-  if (mealFrequency === '2_plus_snacks') {
-    // Adjusted for recipe library: Breakfast 20%, Lunch/Dinner 33%, Snack 14% = 67% (realistic for 2 meals + 2 snacks)
-    targets['breakfast'] = {
-      cal: Math.round(dailyGoals.cal * 0.20),
-      protein: Math.round(dailyGoals.protein * 0.20),
-      carbs: Math.round(dailyGoals.carbs * 0.20),
-      fat: Math.round(dailyGoals.fat * 0.20),
-    };
-    targets['lunch_dinner'] = {
-      cal: Math.round(dailyGoals.cal * 0.33),
-      protein: Math.round(dailyGoals.protein * 0.33),
-      carbs: Math.round(dailyGoals.carbs * 0.33),
-      fat: Math.round(dailyGoals.fat * 0.33),
-    };
-    targets['snack'] = {
-      cal: Math.round(dailyGoals.cal * 0.14),
-      protein: Math.round(dailyGoals.protein * 0.14),
-      carbs: Math.round(dailyGoals.carbs * 0.14),
-      fat: Math.round(dailyGoals.fat * 0.14),
-    };
-  } else if (mealFrequency === '3_meals') {
-    // Adjusted for actual recipe calorie distribution (400-600 cal recipes)
-    // Breakfast 20%, Lunch 28%, Dinner 28% = 76% (realistic for recipe library)
-    targets['breakfast'] = {
-      cal: Math.round(dailyGoals.cal * 0.20),
-      protein: Math.round(dailyGoals.protein * 0.20),
-      carbs: Math.round(dailyGoals.carbs * 0.20),
-      fat: Math.round(dailyGoals.fat * 0.20),
-    };
-    targets['lunch'] = {
-      cal: Math.round(dailyGoals.cal * 0.28),
-      protein: Math.round(dailyGoals.protein * 0.28),
-      carbs: Math.round(dailyGoals.carbs * 0.28),
-      fat: Math.round(dailyGoals.fat * 0.28),
-    };
-    targets['dinner'] = {
-      cal: Math.round(dailyGoals.cal * 0.28),
-      protein: Math.round(dailyGoals.protein * 0.28),
-      carbs: Math.round(dailyGoals.carbs * 0.28),
-      fat: Math.round(dailyGoals.fat * 0.28),
-    };
-  } else if (mealFrequency === '4_meals') {
-    // Adjusted for recipe library: Breakfast 18%, Lunch 27%, Snack 9%, Dinner 27% = 81%
-    targets['breakfast'] = {
-      cal: Math.round(dailyGoals.cal * 0.18),
-      protein: Math.round(dailyGoals.protein * 0.18),
-      carbs: Math.round(dailyGoals.carbs * 0.18),
-      fat: Math.round(dailyGoals.fat * 0.18),
-    };
-    targets['lunch'] = {
-      cal: Math.round(dailyGoals.cal * 0.27),
-      protein: Math.round(dailyGoals.protein * 0.27),
-      carbs: Math.round(dailyGoals.carbs * 0.27),
-      fat: Math.round(dailyGoals.fat * 0.27),
-    };
-    targets['snack'] = {
-      cal: Math.round(dailyGoals.cal * 0.09),
-      protein: Math.round(dailyGoals.protein * 0.09),
-      carbs: Math.round(dailyGoals.carbs * 0.09),
-      fat: Math.round(dailyGoals.fat * 0.09),
-    };
-    targets['dinner'] = {
-      cal: Math.round(dailyGoals.cal * 0.27),
-      protein: Math.round(dailyGoals.protein * 0.27),
-      carbs: Math.round(dailyGoals.carbs * 0.27),
-      fat: Math.round(dailyGoals.fat * 0.27),
-    };
-  } else if (mealFrequency === '3_plus_snack') {
-    // Adjusted for recipe library: Breakfast 18%, Lunch 27%, Dinner 27%, Snack 10% = 82%
-    targets['breakfast'] = {
-      cal: Math.round(dailyGoals.cal * 0.18),
-      protein: Math.round(dailyGoals.protein * 0.18),
-      carbs: Math.round(dailyGoals.carbs * 0.18),
-      fat: Math.round(dailyGoals.fat * 0.18),
-    };
-    targets['lunch'] = {
-      cal: Math.round(dailyGoals.cal * 0.27),
-      protein: Math.round(dailyGoals.protein * 0.27),
-      carbs: Math.round(dailyGoals.carbs * 0.27),
-      fat: Math.round(dailyGoals.fat * 0.27),
-    };
-    targets['dinner'] = {
-      cal: Math.round(dailyGoals.cal * 0.27),
-      protein: Math.round(dailyGoals.protein * 0.27),
-      carbs: Math.round(dailyGoals.carbs * 0.27),
-      fat: Math.round(dailyGoals.fat * 0.27),
-    };
-    targets['snack'] = {
-      cal: Math.round(dailyGoals.cal * 0.10),
-      protein: Math.round(dailyGoals.protein * 0.10),
-      carbs: Math.round(dailyGoals.carbs * 0.10),
-      fat: Math.round(dailyGoals.fat * 0.10),
-    };
-  }
-
-  return targets;
-}
-
-/**
  * Calculate accuracy of a meal plan vs daily goals
  * Returns object with overall accuracy % and per-macro breakdowns
  */
@@ -277,99 +157,105 @@ function calculateAccuracy(planMacros, dailyGoals) {
 }
 
 /**
- * Main algorithm: Generate a meal plan for the day
- * Input: daily macro goals, user preferences
- * Output: array of selected recipes for each meal slot with accuracy score
+ * Main algorithm: Generate a meal plan for the day with dynamic meal count
+ * Starts with breakfast + lunch + dinner, then adds meals until 88% of calorie goal
  */
 export function selectMealsForDay(dailyGoals, preferences, includeShakeGenerator = null) {
-  console.log('[DEBUG] mealPlannerAlgorithm.selectMealsForDay called');
+  console.log('[DEBUG] selectMealsForDay called');
   console.log('[DEBUG] Input goals:', dailyGoals);
   console.log('[DEBUG] Input preferences:', preferences);
 
-  const mealFrequency = preferences.meal_frequency || '3_meals';
-  console.log('[DEBUG] Meal frequency:', mealFrequency);
+  const calorieGoal = dailyGoals.cal;
+  const targetMin = calorieGoal * 0.88; // 88% minimum
+  const MAX_MEALS = 10;
 
-  const mealTargets = calculateMealTargets(dailyGoals, mealFrequency);
-  console.log('[DEBUG] Calculated meal targets:', mealTargets);
-
-  const mealTypes = getMealTypes(mealFrequency);
-  console.log('[DEBUG] Meal types to fill:', mealTypes);
-  console.log('[DEBUG] Total recipes available:', RECIPES.length);
+  console.log('[DEBUG] Calorie goal:', calorieGoal, '| Target min (88%):', Math.round(targetMin));
 
   const selectedRecipes = [];
-  const excludedIds = [];
+  const usedRecipeIds = new Set();
   let totalMacros = { cal: 0, protein: 0, carbs: 0, fat: 0 };
 
-  // Filter recipes by meal type and select best match for each slot
-  for (const mealType of mealTypes) {
-    console.log(`[DEBUG] Processing meal type: ${mealType}`);
-    let mealFilter = [];
+  // Helper to select meal of a given type
+  const selectMeal = (mealType) => {
+    const mealTypeMap = {
+      breakfast: 'Breakfast',
+      lunch: 'Lunch/Dinner',
+      dinner: 'Lunch/Dinner',
+      snack: 'Snack',
+    };
 
-    if (mealType === 'breakfast') {
-      mealFilter = RECIPES.filter(r => r.mealType === 'Breakfast');
-    } else if (mealType === 'lunch') {
-      mealFilter = RECIPES.filter(r => r.mealType === 'Lunch/Dinner');
-    } else if (mealType === 'lunch_dinner') {
-      mealFilter = RECIPES.filter(r => r.mealType === 'Lunch/Dinner');
-    } else if (mealType === 'dinner') {
-      mealFilter = RECIPES.filter(r => r.mealType === 'Lunch/Dinner');
-    } else if (mealType === 'snack') {
-      mealFilter = RECIPES.filter(r => r.mealType === 'Snack');
+    const recipesByMealType = RECIPES.filter(r => r.mealType === mealTypeMap[mealType]);
+    console.log(`[DEBUG] ${mealType}: ${recipesByMealType.length} recipes available`);
 
-      // Add shake as option if requested and callback provided
-      if (preferences.include_shakes && includeShakeGenerator) {
-        console.log('[DEBUG] Shake generation enabled for snack');
-        // Will be handled after selection
-      }
-    }
+    // For dynamic meals, just aim for general calorie target (calorie goal / 4 as rough estimate)
+    const estimatedTarget = { cal: Math.round(calorieGoal / 4), protein: Math.round(dailyGoals.protein / 4) };
 
-    console.log(`[DEBUG] ${mealType}: ${mealFilter.length} recipes available by meal type`);
-    console.log(`[DEBUG] ${mealType}: recipe IDs: ${mealFilter.map(r => r.id).join(', ')}`);
+    const recipe = selectBestRecipe(recipesByMealType, estimatedTarget, preferences, Array.from(usedRecipeIds));
+    return recipe;
+  };
 
-    const targetForSlot = mealTargets[mealType];
-    console.log(`[DEBUG] ${mealType}: target macros:`, targetForSlot);
+  // Always add breakfast, lunch, dinner first
+  const requiredMeals = ['breakfast', 'lunch', 'dinner'];
+  for (const mealType of requiredMeals) {
+    console.log(`[DEBUG] Adding required meal: ${mealType}`);
+    const recipe = selectMeal(mealType);
 
-    const bestRecipe = selectBestRecipe(mealFilter, targetForSlot, preferences, excludedIds);
-    console.log(`[DEBUG] ${mealType}: selectBestRecipe returned:`, bestRecipe ? `${bestRecipe.name} (${bestRecipe.cal} cal, ${bestRecipe.protein}g P)` : 'null');
-
-    if (bestRecipe) {
-      console.log(`[DEBUG] ${mealType}: selected recipe ID ${bestRecipe.id} - ${bestRecipe.name}`);
-      // Snapshot recipe with current macro values to ensure consistency
-      const snapshotRecipe = {
-        ...bestRecipe,
-        cal: bestRecipe.cal,
-        protein: bestRecipe.protein,
-        carbs: bestRecipe.carbs,
-        fat: bestRecipe.fat,
-      };
+    if (recipe) {
+      usedRecipeIds.add(recipe.id);
       selectedRecipes.push({
         mealType,
-        recipe: snapshotRecipe,
-        targetMacros: targetForSlot,
+        recipe: { ...recipe },
         confirmed: false,
       });
-      excludedIds.push(bestRecipe.id);
-      totalMacros.cal += bestRecipe.cal || 0;
-      totalMacros.protein += bestRecipe.protein || 0;
-      totalMacros.carbs += bestRecipe.carbs || 0;
-      totalMacros.fat += bestRecipe.fat || 0;
+      totalMacros.cal += recipe.cal || 0;
+      totalMacros.protein += recipe.protein || 0;
+      totalMacros.carbs += recipe.carbs || 0;
+      totalMacros.fat += recipe.fat || 0;
+      console.log(`[DEBUG] Added ${mealType}: ${recipe.name} (${recipe.cal} cal). Running total: ${totalMacros.cal} cal`);
     } else {
-      console.log(`[DEBUG] ${mealType}: NO RECIPE FOUND - skipping this meal slot`);
+      console.log(`[DEBUG] NO RECIPE FOUND for required meal: ${mealType}`);
     }
   }
 
-  console.log('[DEBUG] Total meals selected:', selectedRecipes.length);
-  console.log('[DEBUG] Selected meals array:', selectedRecipes);
+  // Add snacks/meals until goal reached or max meals hit
+  let mealCount = selectedRecipes.length;
+  while (totalMacros.cal < targetMin && mealCount < MAX_MEALS) {
+    const remainingCal = calorieGoal - totalMacros.cal;
+    // Pick meal type that best fills remaining gap
+    const mealType = remainingCal > 400 ? 'lunch' : 'snack';
+    console.log(`[DEBUG] Adding additional meal: ${mealType} (remaining cal: ${remainingCal})`);
+
+    const recipe = selectMeal(mealType);
+    if (!recipe) {
+      console.log(`[DEBUG] No more matching recipes available, stopping`);
+      break;
+    }
+
+    usedRecipeIds.add(recipe.id);
+    selectedRecipes.push({
+      mealType,
+      recipe: { ...recipe },
+      confirmed: false,
+    });
+    totalMacros.cal += recipe.cal || 0;
+    totalMacros.protein += recipe.protein || 0;
+    totalMacros.carbs += recipe.carbs || 0;
+    totalMacros.fat += recipe.fat || 0;
+    mealCount++;
+    console.log(`[DEBUG] Added ${mealType}: ${recipe.name} (${recipe.cal} cal). Running total: ${totalMacros.cal} cal (${Math.round(totalMacros.cal / calorieGoal * 100)}% of goal)`);
+  }
+
+  console.log('[DEBUG] Final meal count:', selectedRecipes.length);
+  console.log('[DEBUG] Final total macros:', totalMacros);
+  console.log('[DEBUG] Accuracy:', Math.round(totalMacros.cal / calorieGoal * 100) + '%');
 
   const accuracy = calculateAccuracy(totalMacros, dailyGoals);
-  console.log('[DEBUG] Final accuracy score:', accuracy);
-  console.log('[DEBUG] Final total macros:', totalMacros);
+  console.log('[DEBUG] Accuracy breakdown:', accuracy);
 
   const result = {
     meals: selectedRecipes,
     totalMacros,
     accuracy,
-    mealFrequency,
   };
 
   console.log('[DEBUG] selectMealsForDay returning:', result);

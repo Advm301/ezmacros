@@ -14,7 +14,8 @@
       "Bash(git push:*)",
       "Bash(cd:*)",
       "Bash(node -c src/App.jsx)",
-      "Bash(node -c /c/Users/adamc/Projects/ezmacros/src/lib/generator.js)"
+      "Bash(node -c /c/Users/adamc/Projects/ezmacros/src/lib/generator.js)",
+      "Bash(curl -s http://localhost:5173/)"
     ]
   }
 }

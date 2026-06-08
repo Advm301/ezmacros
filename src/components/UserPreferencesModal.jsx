@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 
 export default function UserPreferencesModal({ preferences, onSave, onCancel }) {
   const [spiceLevel, setSpiceLevel] = useState(preferences?.spice_level || 'any');
-  const [mealFrequency, setMealFrequency] = useState(preferences?.meal_frequency || '3_meals');
   const [varietyLevel, setVarietyLevel] = useState(preferences?.variety_level || 'some_repeat');
   const [includeShakes, setIncludeShakes] = useState(preferences?.include_shakes !== false);
   const [proteinPrefs, setProteinPrefs] = useState(preferences?.protein_preferences || []);
@@ -31,7 +30,6 @@ export default function UserPreferencesModal({ preferences, onSave, onCancel }) 
     setSaving(true);
     const result = await onSave({
       spice_level: spiceLevel,
-      meal_frequency: mealFrequency,
       variety_level: varietyLevel,
       include_shakes: includeShakes,
       protein_preferences: proteinPrefs,
@@ -142,35 +140,6 @@ export default function UserPreferencesModal({ preferences, onSave, onCancel }) 
                     type="checkbox"
                     checked={proteinPrefs.includes(option.key)}
                     onChange={() => toggleProtein(option.key)}
-                    style={{ cursor: 'pointer', width: 16, height: 16 }}
-                  />
-                  <span style={{ fontSize: 12, color: 'var(--cream)' }}>
-                    {option.label}
-                  </span>
-                </label>
-              ))}
-            </div>
-          </div>
-
-          {/* Meal Frequency */}
-          <div style={{ marginBottom: 20 }}>
-            <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--cream)', marginBottom: 10 }}>
-              Meal Frequency
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              {[
-                { key: '3_meals', label: '3 Meals (Breakfast, Lunch, Dinner)' },
-                { key: '4_meals', label: '4 Meals (+ Snack)' },
-                { key: '3_plus_snack', label: '3 + Snack' },
-                { key: '2_plus_snacks', label: '2 Meals + 2 Snacks' },
-              ].map(option => (
-                <label key={option.key} style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer' }}>
-                  <input
-                    type="radio"
-                    name="frequency"
-                    value={option.key}
-                    checked={mealFrequency === option.key}
-                    onChange={(e) => setMealFrequency(e.target.value)}
                     style={{ cursor: 'pointer', width: 16, height: 16 }}
                   />
                   <span style={{ fontSize: 12, color: 'var(--cream)' }}>
