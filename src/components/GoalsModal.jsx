@@ -11,6 +11,13 @@ function GoalsModal({ goals, user, onClose, onSave, selectedTab = "calculate", o
   const [activityLevel, setActivityLevel] = useState(goals?.activity_level || 'Moderately Active');
   const [isMetric, setIsMetric] = useState(false);
 
+  // Log goal weight on initialization for debugging persistence issues
+  useEffect(() => {
+    if (goals?.goal_weight_lbs) {
+      console.log('[DEBUG] GoalsModal initialized with goal_weight_lbs:', goals.goal_weight_lbs);
+    }
+  }, []);
+
   // Macro goals
   const [protein, setProtein] = useState(goals?.protein || 180);
   const [carbs, setCarbs] = useState(goals?.carbs || 220);
@@ -92,8 +99,8 @@ function GoalsModal({ goals, user, onClose, onSave, selectedTab = "calculate", o
   const bulkCal = tdee + 250;
 
   // Build presets using evidence-based methodology
-  // Bulk: High-protein formula using goal weight
-  // Cut/Maintain: Standard formulas using current weight
+  // Macros for bulk are based on TDEE, not bulkCal
+  // This prevents inflating carbs unnecessarily
   const PRESETS = {
     cut: {
       cal: cutCal,
@@ -109,17 +116,20 @@ function GoalsModal({ goals, user, onClose, onSave, selectedTab = "calculate", o
       cal: bulkCal,
       // For bulk: protein = 1g per lb of goal weight (high-protein bulk formula)
       protein: goalWeightLbs ? Math.round(parseFloat(goalWeightLbs) * 1.0) : Math.round(lbs * 1.0),
-      // Fat = 25% of total calories
-      fat: Math.round((bulkCal * 0.25) / 9),
+      // Fat = 25% of TDEE (not bulkCal) to prevent inflation
+      fat: Math.round((tdee * 0.25) / 9),
+      // Track TDEE separately for macro calculations
+      macroBase: tdee,
     },
   };
 
   // Calculate carbs for each preset
-  // Carbs fill remainder after protein and fat are allocated
+  // For bulk, carbs are based on TDEE; for others, based on their calorie level
   const presetsWithCarbs = Object.entries(PRESETS).reduce((acc, [key, preset]) => {
+    const macroBase = preset.macroBase || preset.cal;
     const proteinCal = preset.protein * 4;
     const fatCal = preset.fat * 9;
-    const remaining = preset.cal - proteinCal - fatCal;
+    const remaining = macroBase - proteinCal - fatCal;
 
     // Calculate carbs from remaining calories (no artificial caps)
     const carbs = Math.round(remaining / 4);
@@ -253,6 +263,8 @@ function GoalsModal({ goals, user, onClose, onSave, selectedTab = "calculate", o
         height_cm: getCmValue(),
         activity_level: activityLevel,
         goal_weight_lbs: goalWeightLbs,
+        // NOTE: goal_weight_lbs column must exist in Supabase goals table
+        // If column missing, add with: ALTER TABLE goals ADD COLUMN goal_weight_lbs integer;
       };
 
       // Check if goals record exists

@@ -18,7 +18,9 @@
       "Bash(curl -s http://localhost:5173/)",
       "Bash(cat)",
       "Bash(bash /tmp/verify_variety_fix.sh)",
-      "Bash(bash /tmp/verify_macro_fix.sh)"
+      "Bash(bash /tmp/verify_macro_fix.sh)",
+      "Bash(bash /tmp/verify_macro_base_fix.sh)",
+      "Bash(bash /tmp/verify_all_fixes.sh)"
     ]
   }
 }
