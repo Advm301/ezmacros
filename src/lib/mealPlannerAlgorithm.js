@@ -178,7 +178,7 @@ function filterRecipesByPreferences(recipes, preferences, excludeRecipeIds = [])
  * Select a random recipe for a given meal slot from all qualifying recipes
  * Filters by preferences and randomly selects from matches to ensure variety
  */
-function selectBestRecipe(recipes, targetMacros, preferences, excludeRecipeIds = []) {
+function selectBestRecipe(recipes, targetMacros, preferences, excludeRecipeIds = [], remainingMacros = null) {
   console.log('[DEBUG] selectBestRecipe called');
   console.log('[DEBUG]   Input recipes:', recipes.length);
   console.log('[DEBUG]   Target macros:', targetMacros);
@@ -194,7 +194,24 @@ function selectBestRecipe(recipes, targetMacros, preferences, excludeRecipeIds =
   // Shuffle to randomize selection
   const shuffled = shuffleArray(filtered);
 
-  // Pick a random recipe from the shuffled list
+  // If remainingMacros provided, pick the highest-scoring recipe (best for macro balance)
+  if (remainingMacros) {
+    let bestRecipe = shuffled[0];
+    let bestScore = getMacroScore(bestRecipe, remainingMacros);
+
+    for (let i = 1; i < shuffled.length; i++) {
+      const score = getMacroScore(shuffled[i], remainingMacros);
+      if (score > bestScore) {
+        bestScore = score;
+        bestRecipe = shuffled[i];
+      }
+    }
+
+    console.log('[DEBUG]   selectBestRecipe selected by macro score:', bestRecipe.id, '-', bestRecipe.name, '(score:', bestScore.toFixed(2), ')');
+    return bestRecipe;
+  }
+
+  // Pick a random recipe from the shuffled list (when no remainingMacros provided)
   const selectedIndex = Math.floor(Math.random() * shuffled.length);
   const selected = shuffled[selectedIndex];
 
@@ -228,6 +245,24 @@ function calculateAccuracy(planMacros, dailyGoals) {
 }
 
 /**
+ * Score a recipe based on how well it fills the most deficient macro
+ */
+function getMacroScore(recipe, remainingMacros) {
+  const { protein, carbs, fat } = remainingMacros;
+
+  // Calculate how much each macro contributes relative to remaining budget
+  const proteinRatio = protein > 0 ? recipe.protein / protein : 0;
+  const carbRatio = carbs > 0 ? recipe.carbs / carbs : 0;
+  const fatRatio = fat > 0 ? recipe.fat / fat : 0;
+
+  // Reward recipes that contribute to the most needed macro
+  const mostNeededRatio = Math.max(proteinRatio, carbRatio, fatRatio);
+
+  // Return score (higher = better for balancing macros)
+  return mostNeededRatio * 10;
+}
+
+/**
  * Main algorithm: Generate a meal plan for the day with dynamic meal count
  * Starts with breakfast + lunch + dinner, then adds meals until 88% of calorie goal
  */
@@ -247,7 +282,7 @@ export function selectMealsForDay(dailyGoals, preferences, includeShakeGenerator
   let totalMacros = { cal: 0, protein: 0, carbs: 0, fat: 0 };
 
   // Helper to select meal of a given type
-  const selectMeal = (mealType, remainingFat = null) => {
+  const selectMeal = (mealType, remainingFat = null, remainingMacros = null) => {
     const mealTypeMap = {
       breakfast: 'Breakfast',
       lunch: 'Lunch/Dinner',
@@ -267,10 +302,25 @@ export function selectMealsForDay(dailyGoals, preferences, includeShakeGenerator
       }
     }
 
+    // When carbs are under 85% of goal, prioritize high-carb recipes
+    if (remainingMacros && remainingMacros.carbs > 0) {
+      const carbProgress = (dailyGoals.carbs - remainingMacros.carbs) / dailyGoals.carbs;
+      if (carbProgress < 0.85) {
+        const highCarbCandidates = recipesByMealType.filter(r => {
+          const carbCalRatio = (r.carbs * 4) / r.cal;
+          return carbCalRatio > 0.40;
+        });
+        if (highCarbCandidates.length >= 3) {
+          console.log(`[DEBUG] Carbs under 85% (${Math.round(carbProgress * 100)}%), filtering to ${highCarbCandidates.length} high-carb recipes`);
+          recipesByMealType = highCarbCandidates;
+        }
+      }
+    }
+
     // For dynamic meals, just aim for general calorie target (calorie goal / 4 as rough estimate)
     const estimatedTarget = { cal: Math.round(calorieGoal / 4), protein: Math.round(dailyGoals.protein / 4) };
 
-    const recipe = selectBestRecipe(recipesByMealType, estimatedTarget, preferences, Array.from(usedRecipeIds));
+    const recipe = selectBestRecipe(recipesByMealType, estimatedTarget, preferences, Array.from(usedRecipeIds), remainingMacros);
     return recipe;
   };
 
@@ -286,14 +336,19 @@ export function selectMealsForDay(dailyGoals, preferences, includeShakeGenerator
   for (const mealType of requiredMeals) {
     console.log(`[DEBUG] Adding required meal: ${mealType}`);
     const remainingFat = dailyGoals.fat - totalMacros.fat;
-    const recipe = selectMeal(mealType, remainingFat);
+    const remainingMacros = {
+      protein: dailyGoals.protein - totalMacros.protein,
+      carbs: dailyGoals.carbs - totalMacros.carbs,
+      fat: remainingFat,
+    };
+    const recipe = selectMeal(mealType, remainingFat, remainingMacros);
 
     if (recipe) {
       usedRecipeIds.add(recipe.id);
 
       // Calculate remaining macro budget with tolerance
       const macroLimits = {
-        maxProtein: (dailyGoals.protein + 15) - totalMacros.protein,  // +15g tolerance
+        maxProtein: (dailyGoals.protein + 8) - totalMacros.protein,   // +8g tolerance (TIGHTENED)
         maxCarbs: (dailyGoals.carbs + 5) - totalMacros.carbs,          // +5g tolerance
         maxFat: (dailyGoals.fat + 7) - totalMacros.fat,                // +7g tolerance (STRICT)
       };
@@ -325,12 +380,17 @@ export function selectMealsForDay(dailyGoals, preferences, includeShakeGenerator
   while (totalMacros.cal < targetMin && mealCount < MAX_MEALS) {
     const remainingCal = calorieGoal - totalMacros.cal;
     const remainingFat = dailyGoals.fat - totalMacros.fat;
+    const remainingMacros = {
+      protein: dailyGoals.protein - totalMacros.protein,
+      carbs: dailyGoals.carbs - totalMacros.carbs,
+      fat: remainingFat,
+    };
 
     // Pick meal type that best fills remaining gap
     const mealType = remainingCal > 400 ? 'lunch' : 'snack';
     console.log(`[DEBUG] Adding additional meal: ${mealType} (remaining cal: ${remainingCal}, remaining fat: ${remainingFat}g)`);
 
-    const recipe = selectMeal(mealType, remainingFat);
+    const recipe = selectMeal(mealType, remainingFat, remainingMacros);
     if (!recipe) {
       console.log(`[DEBUG] No more matching recipes available, stopping`);
       break;
@@ -340,7 +400,7 @@ export function selectMealsForDay(dailyGoals, preferences, includeShakeGenerator
 
     // Calculate remaining macro budget with tolerance
     const macroLimits = {
-      maxProtein: (dailyGoals.protein + 15) - totalMacros.protein,  // +15g tolerance
+      maxProtein: (dailyGoals.protein + 8) - totalMacros.protein,   // +8g tolerance (TIGHTENED)
       maxCarbs: (dailyGoals.carbs + 5) - totalMacros.carbs,          // +5g tolerance
       maxFat: (dailyGoals.fat + 7) - totalMacros.fat,                // +7g tolerance (STRICT)
     };

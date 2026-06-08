@@ -24,7 +24,8 @@
       "Bash(bash /tmp/verify_logging.sh)",
       "Bash(bash /tmp/verify_goal_weight_fix.sh)",
       "Bash(bash /tmp/verify_scaling.sh)",
-      "Bash(bash /tmp/verify_macro_guardrails.sh)"
+      "Bash(bash /tmp/verify_macro_guardrails.sh)",
+      "Bash(npm start *)"
     ]
   }
 }
