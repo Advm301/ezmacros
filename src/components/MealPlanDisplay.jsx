@@ -1,5 +1,4 @@
 import MealPlanCard from './MealPlanCard';
-import AccuracyIndicator from './AccuracyIndicator';
 
 export default function MealPlanDisplay({
   mealPlan,
@@ -10,6 +9,7 @@ export default function MealPlanDisplay({
   onClearPlan,
   onUnlogMeal,
   isGenerating,
+  loggedMeals = [],
 }) {
   if (!mealPlan || !mealPlan.meals) {
     return (
@@ -51,6 +51,32 @@ export default function MealPlanDisplay({
   // Count confirmed meals
   const confirmedCount = mealPlan.meals.filter(m => m.confirmed)?.length || 0;
   const totalMeals = mealPlan.meals.length;
+
+  // Calculate confirmed totals from logged meals
+  const confirmedTotals = loggedMeals.reduce((acc, meal) => ({
+    cal: acc.cal + (meal.cal || 0),
+    protein: acc.protein + (meal.protein || 0),
+    carbs: acc.carbs + (meal.carbs || 0),
+    fat: acc.fat + (meal.fat || 0),
+  }), { cal: 0, protein: 0, carbs: 0, fat: 0 });
+
+  // Get planned totals
+  const plannedTotals = mealPlan.totalMacros || { cal: 0, protein: 0, carbs: 0, fat: 0 };
+
+  // Helper function to get macro color based on planned value vs goal
+  const getMacroColor = (planned, goal) => {
+    if (!goal || goal === 0) return 'var(--muted)';
+    const ratio = planned / goal;
+    if (ratio >= 0.95 && ratio <= 1.10) return 'var(--lime)';     // Green: on target
+    if (ratio < 0.95) return 'var(--orange)';                      // Orange: under target
+    if (ratio > 1.10) return '#60a5fa';                            // Blue: over target
+  };
+
+  // Helper function to get progress bar width (capped at 100%)
+  const getProgressWidth = (planned, goal) => {
+    if (!goal || goal === 0) return 0;
+    return Math.min((planned / goal) * 100, 100);
+  };
 
   return (
     <div style={{ marginBottom: 20 }}>
@@ -125,12 +151,92 @@ export default function MealPlanDisplay({
         </div>
       )}
 
-      {/* Accuracy Indicator */}
-      <AccuracyIndicator
-        planMacros={mealPlan.totalMacros}
-        goalMacros={goals}
-        accuracy={mealPlan.accuracy}
-      />
+      {/* Macro Progress Bars with Confirmed + Planned + Goal */}
+      <div style={{ marginBottom: 16 }}>
+        {/* Calories */}
+        <div style={{ marginBottom: 16 }}>
+          <div style={{
+            fontSize: 13,
+            fontWeight: 700,
+            color: getMacroColor(plannedTotals.cal, goals.cal),
+            marginBottom: 6,
+          }}>
+            Calories: {Math.round(confirmedTotals.cal)} confirmed · {Math.round(plannedTotals.cal)} planned / {goals.cal}
+          </div>
+          <div style={{ background: 'var(--s1)', height: 6, borderRadius: 3, overflow: 'hidden' }}>
+            <div
+              style={{
+                height: '100%',
+                background: getMacroColor(plannedTotals.cal, goals.cal),
+                width: `${getProgressWidth(plannedTotals.cal, goals.cal)}%`,
+              }}
+            />
+          </div>
+        </div>
+
+        {/* Protein */}
+        <div style={{ marginBottom: 16 }}>
+          <div style={{
+            fontSize: 13,
+            fontWeight: 700,
+            color: getMacroColor(plannedTotals.protein, goals.protein),
+            marginBottom: 6,
+          }}>
+            Protein: {Math.round(confirmedTotals.protein)}g confirmed · {Math.round(plannedTotals.protein)}g planned / {goals.protein}g
+          </div>
+          <div style={{ background: 'var(--s1)', height: 6, borderRadius: 3, overflow: 'hidden' }}>
+            <div
+              style={{
+                height: '100%',
+                background: getMacroColor(plannedTotals.protein, goals.protein),
+                width: `${getProgressWidth(plannedTotals.protein, goals.protein)}%`,
+              }}
+            />
+          </div>
+        </div>
+
+        {/* Carbs */}
+        <div style={{ marginBottom: 16 }}>
+          <div style={{
+            fontSize: 13,
+            fontWeight: 700,
+            color: getMacroColor(plannedTotals.carbs, goals.carbs),
+            marginBottom: 6,
+          }}>
+            Carbs: {Math.round(confirmedTotals.carbs)}g confirmed · {Math.round(plannedTotals.carbs)}g planned / {goals.carbs}g
+          </div>
+          <div style={{ background: 'var(--s1)', height: 6, borderRadius: 3, overflow: 'hidden' }}>
+            <div
+              style={{
+                height: '100%',
+                background: getMacroColor(plannedTotals.carbs, goals.carbs),
+                width: `${getProgressWidth(plannedTotals.carbs, goals.carbs)}%`,
+              }}
+            />
+          </div>
+        </div>
+
+        {/* Fat */}
+        <div style={{ marginBottom: 0 }}>
+          <div style={{
+            fontSize: 13,
+            fontWeight: 700,
+            color: getMacroColor(plannedTotals.fat, goals.fat),
+            marginBottom: 6,
+          }}>
+            Fat: {Math.round(confirmedTotals.fat)}g confirmed · {Math.round(plannedTotals.fat)}g planned / {goals.fat}g
+          </div>
+          <div style={{ background: 'var(--s1)', height: 6, borderRadius: 3, overflow: 'hidden' }}>
+            <div
+              style={{
+                height: '100%',
+                background: getMacroColor(plannedTotals.fat, goals.fat),
+                width: `${getProgressWidth(plannedTotals.fat, goals.fat)}%`,
+              }}
+            />
+          </div>
+        </div>
+      </div>
 
       {/* Meal Cards */}
       <div>

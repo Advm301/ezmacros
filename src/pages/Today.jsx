@@ -898,6 +898,7 @@ export default function Today({goals: propsGoals, onTabFocus, onUpdateEzLevel, o
               <MealPlanDisplay
                 mealPlan={mealPlanner.mealPlan}
                 goals={goals}
+                loggedMeals={meals}
                 onSwapMeal={handleSwapMeal}
                 onViewRecipe={(recipe) => setOpenRecipe({ ...recipe, fromMealPlan: true })}
                 onRegeneratePlan={() => setShowGenerateMealModal(true)}
