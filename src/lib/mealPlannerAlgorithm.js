@@ -1,6 +1,18 @@
 import { RECIPES } from '../data/recipes.js';
 
 /**
+ * Shuffle an array using Fisher-Yates algorithm
+ */
+function shuffleArray(array) {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
+/**
  * Calculate how closely a meal hits a macro target
  * Distance = abs distance to calorie target + (abs distance to protein target * 0.5)
  * Returns a number where lower = better
@@ -88,8 +100,8 @@ function filterRecipesByPreferences(recipes, preferences, excludeRecipeIds = [])
 }
 
 /**
- * Select the best recipe for a given meal slot
- * Returns the recipe closest to target macros within acceptable range
+ * Select a random recipe for a given meal slot from all qualifying recipes
+ * Filters by preferences and randomly selects from matches to ensure variety
  */
 function selectBestRecipe(recipes, targetMacros, preferences, excludeRecipeIds = []) {
   console.log('[DEBUG] selectBestRecipe called');
@@ -104,17 +116,15 @@ function selectBestRecipe(recipes, targetMacros, preferences, excludeRecipeIds =
     return null;
   }
 
-  // Sort by distance to target
-  const best = filtered.reduce((best, recipe) => {
-    const distance = calculateMacroDistance(recipe, targetMacros);
-    const bestDistance = calculateMacroDistance(best, targetMacros);
-    const isBetter = distance < bestDistance;
-    console.log(`[DEBUG]   Recipe ${recipe.id} - ${recipe.name}: distance=${distance} (${isBetter ? 'BETTER' : 'worse'} than current best)`);
-    return isBetter ? recipe : best;
-  });
+  // Shuffle to randomize selection
+  const shuffled = shuffleArray(filtered);
 
-  console.log('[DEBUG]   selectBestRecipe returning:', best.id, '-', best.name);
-  return best;
+  // Pick a random recipe from the shuffled list
+  const selectedIndex = Math.floor(Math.random() * shuffled.length);
+  const selected = shuffled[selectedIndex];
+
+  console.log('[DEBUG]   selectBestRecipe randomly selected index', selectedIndex, ':', selected.id, '-', selected.name);
+  return selected;
 }
 
 /**
