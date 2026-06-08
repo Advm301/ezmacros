@@ -174,7 +174,10 @@ export default function App() {
         </div>
 
         {/* Page content */}
-        {tab === "today" && <Today goals={goals} onTabFocus={() => setTodayBadge(false)} onUpdateEzLevel={updateEzLevel} favorites={favorites} isFavorited={isFavorited} toggleFavorite={toggleFavorite}/>}
+        {tab === "today" && <Today goals={goals} onTabFocus={() => setTodayBadge(false)} onUpdateEzLevel={updateEzLevel} onUpdateGoals={(fetchedGoals) => {
+          console.log('[DEBUG] App.jsx onUpdateGoals called with:', fetchedGoals);
+          setGoals(fetchedGoals);
+        }} favorites={favorites} isFavorited={isFavorited} toggleFavorite={toggleFavorite}/>}
         {tab === "kitchen" && <Kitchen ezLevel={ezLevel} goals={goals} onOpen={setOpenRecipe}/>}
         {tab === "browse" && <Browse ezLevel={ezLevel} onOpen={setOpenRecipe} favorites={favorites} isFavorited={isFavorited} toggleFavorite={toggleFavorite}/>}
 

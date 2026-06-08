@@ -10,7 +10,7 @@ import MealSwapModal from '../components/MealSwapModal';
 import UserPreferencesModal from '../components/UserPreferencesModal';
 import GenerateMealPlanModal from '../components/GenerateMealPlanModal';
 
-export default function Today({goals: propsGoals, onTabFocus, onUpdateEzLevel, favorites, isFavorited, toggleFavorite}) {
+export default function Today({goals: propsGoals, onTabFocus, onUpdateEzLevel, onUpdateGoals, favorites, isFavorited, toggleFavorite}) {
   const [goals, setGoals] = useState(propsGoals || null);
   const [meals, setMeals] = useState([]);
   const [totals, setTotals] = useState({ cal: 0, protein: 0, carbs: 0, fat: 0 });
@@ -141,10 +141,18 @@ export default function Today({goals: propsGoals, onTabFocus, onUpdateEzLevel, f
         protein: 180,
         carbs: 220,
         fat: 60,
+        goal_weight_lbs: null,
       };
 
       console.log('[DEBUG] Setting goals state to:', userGoals);
       setGoals(userGoals);
+
+      // Notify parent (App.jsx) of the fetched goals so it can update its state
+      // This ensures GoalsModal has access to goal_weight_lbs and other fields from DB
+      if (onUpdateGoals) {
+        console.log('[DEBUG] Calling onUpdateGoals callback with:', userGoals);
+        onUpdateGoals(userGoals);
+      }
 
       // Use provided date or default to today
       const targetDate = dateString || new Date().toISOString().split('T')[0];
@@ -235,7 +243,12 @@ export default function Today({goals: propsGoals, onTabFocus, onUpdateEzLevel, f
   useEffect(() => {
     if (propsGoals && (propsGoals.protein !== goals?.protein || propsGoals.carbs !== goals?.carbs || propsGoals.fat !== goals?.fat || propsGoals.cal !== goals?.cal)) {
       console.log('[DEBUG] Today.jsx syncing goals from parent:', { protein: propsGoals.protein, carbs: propsGoals.carbs, fat: propsGoals.fat, cal: propsGoals.cal });
-      setGoals(propsGoals);
+      // Preserve goal_weight_lbs from local state (fetched from DB) when syncing parent goals
+      setGoals({
+        ...propsGoals,
+        goal_weight_lbs: goals?.goal_weight_lbs || propsGoals?.goal_weight_lbs
+      });
+      console.log('[DEBUG] After sync, goals state includes goal_weight_lbs:', goals?.goal_weight_lbs || propsGoals?.goal_weight_lbs);
     }
   }, [propsGoals?.protein, propsGoals?.carbs, propsGoals?.fat, propsGoals?.cal]);
 
