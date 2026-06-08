@@ -214,6 +214,64 @@ export default function useMealPlanner() {
     );
   };
 
+  // Remove a meal from the plan
+  const removeMeal = async (mealType) => {
+    if (!mealPlan) return;
+
+    try {
+      // Filter out the meal to be removed
+      const updatedMeals = mealPlan.meals.filter(m => m.mealType !== mealType);
+
+      // Recalculate totals
+      const newTotals = {
+        cal: updatedMeals.reduce((sum, m) => {
+          const recipe = mealPlan.meals.find(x => x.mealType === m.mealType)?.recipe;
+          return sum + (recipe?.cal || 0);
+        }, 0),
+        protein: updatedMeals.reduce((sum, m) => {
+          const recipe = mealPlan.meals.find(x => x.mealType === m.mealType)?.recipe;
+          return sum + (recipe?.protein || 0);
+        }, 0),
+        carbs: updatedMeals.reduce((sum, m) => {
+          const recipe = mealPlan.meals.find(x => x.mealType === m.mealType)?.recipe;
+          return sum + (recipe?.carbs || 0);
+        }, 0),
+        fat: updatedMeals.reduce((sum, m) => {
+          const recipe = mealPlan.meals.find(x => x.mealType === m.mealType)?.recipe;
+          return sum + (recipe?.fat || 0);
+        }, 0),
+      };
+
+      console.log('[DEBUG] Removed meal:', mealType, 'Updated totalMacros:', newTotals);
+
+      const updatedPlan = {
+        ...mealPlan,
+        meals: updatedMeals,
+        totalMacros: newTotals,
+      };
+
+      setMealPlan(updatedPlan);
+
+      // Update database if plan exists
+      if (mealPlan.savedPlanId) {
+        await supabase
+          .from('meal_plans')
+          .update({
+            meals: updatedMeals,
+            total_calories: Math.round(newTotals.cal),
+            total_protein: Math.round(newTotals.protein),
+            total_carbs: Math.round(newTotals.carbs),
+            total_fat: Math.round(newTotals.fat),
+          })
+          .eq('id', mealPlan.savedPlanId);
+
+        console.log('[DEBUG] Meal removed from database');
+      }
+    } catch (err) {
+      console.error('Error removing meal from plan:', err);
+    }
+  };
+
   // Clear/delete meal plan
   const clearMealPlan = async () => {
     if (!mealPlan?.savedPlanId) return;
@@ -237,6 +295,7 @@ export default function useMealPlanner() {
     generateMealPlan,
     loadMealPlan,
     swapRecipe,
+    removeMeal,
     getAlternatives,
     clearMealPlan,
   };

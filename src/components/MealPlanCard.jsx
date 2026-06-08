@@ -1,4 +1,4 @@
-export default function MealPlanCard({ meal, onSwap, onViewRecipe, onUnlog }) {
+export default function MealPlanCard({ meal, onSwap, onViewRecipe, onUnlog, onRemove }) {
   // Safety check: verify meal and recipe exist
   if (!meal) {
     console.error('[DEBUG] MealPlanCard: meal prop is undefined');
@@ -108,7 +108,7 @@ export default function MealPlanCard({ meal, onSwap, onViewRecipe, onUnlog }) {
       )}
 
       {/* Action buttons */}
-      <div style={{ display: 'flex', gap: 8 }}>
+      <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
         <button
           onClick={() => onSwap(mealType)}
           style={{
@@ -166,6 +166,41 @@ export default function MealPlanCard({ meal, onSwap, onViewRecipe, onUnlog }) {
           View Recipe
         </button>
       </div>
+
+      {/* Remove button */}
+      {onRemove && (
+        <button
+          onClick={() => {
+            if (confirm('Remove this meal from the plan? This action cannot be undone.')) {
+              console.log('[DEBUG] User confirmed meal removal for mealType:', mealType);
+              onRemove(mealType);
+            }
+          }}
+          style={{
+            width: '100%',
+            background: 'var(--s2)',
+            border: '1px solid #ef4444',
+            borderRadius: 8,
+            padding: '8px 12px',
+            fontSize: 12,
+            fontWeight: 600,
+            color: '#ef4444',
+            cursor: 'pointer',
+            transition: 'all 0.2s',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = '#2a2a2a';
+            e.currentTarget.style.borderColor = '#ff6b6b';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = 'var(--s2)';
+            e.currentTarget.style.borderColor = '#ef4444';
+          }}
+          title="Remove this meal from the plan (cannot be re-added)"
+        >
+          🗑️ Remove
+        </button>
+      )}
     </div>
   );
 }

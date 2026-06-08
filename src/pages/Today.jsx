@@ -422,6 +422,14 @@ export default function Today({goals: propsGoals, onTabFocus, onUpdateEzLevel, o
     setSwapMealType(mealType);
   };
 
+  const handleRemoveMeal = async (mealType) => {
+    const mealToRemove = mealPlanner.mealPlan?.meals.find(m => m.mealType === mealType);
+    if (!mealToRemove) return;
+
+    console.log('[DEBUG] Removing meal:', mealToRemove.recipe?.name, 'from plan');
+    await mealPlanner.removeMeal(mealType);
+  };
+
   // Handle swap confirmation
   const handleSwapConfirm = async (selectedRecipe) => {
     if (!swapMealType) return;
@@ -871,6 +879,7 @@ export default function Today({goals: propsGoals, onTabFocus, onUpdateEzLevel, o
                 onRegeneratePlan={() => setShowGenerateMealModal(true)}
                 onClearPlan={() => mealPlanner.clearMealPlan()}
                 onUnlogMeal={handleUnlogMeal}
+                onRemoveMeal={handleRemoveMeal}
                 isGenerating={mealPlanner.loading}
               />
             ) : (
