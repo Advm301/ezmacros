@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '../lib/supabase';
 import { RECIPES } from '../data/recipes.js';
 import { selectMealsForDay, findAlternateRecipes } from '../lib/mealPlannerAlgorithm';
@@ -9,7 +9,19 @@ export default function useMealPlanner() {
   const [mealPlan, setMealPlan] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [userId, setUserId] = useState(null);
   console.log('[DEBUG] useMealPlanner initial state:', { mealPlan, loading, error });
+
+  // Get and store userId on mount
+  useEffect(() => {
+    const getUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user?.id) {
+        setUserId(user.id);
+      }
+    };
+    getUser();
+  }, []);
 
   // Generate a new meal plan for today
   const generateMealPlan = async (date, goals, preferences) => {
@@ -105,14 +117,16 @@ export default function useMealPlanner() {
     }
   };
 
-  // Load meal plan from database for a specific date
-  const loadMealPlan = async (date) => {
+  // Load meal plan from database for a specific date - memoized to prevent infinite loops
+  const loadMealPlan = useCallback(async (date) => {
+    if (!userId) {
+      console.log('[DEBUG] loadMealPlan: no userId yet, skipping');
+      return;
+    }
+
     try {
       console.log('[DEBUG] loadMealPlan called with date:', date);
       setLoading(true);
-      const { data: { user } } = await supabase.auth.getUser();
-      console.log('[DEBUG] loadMealPlan user:', user?.id);
-      if (!user) throw new Error('No user logged in');
 
       const dateStr = date instanceof Date ? date.toISOString().split('T')[0] : date;
       console.log('[DEBUG] loadMealPlan dateStr:', dateStr);
@@ -120,7 +134,7 @@ export default function useMealPlanner() {
       const { data: plan, error: fetchError } = await supabase
         .from('meal_plans')
         .select('*')
-        .eq('user_id', user.id)
+        .eq('user_id', userId)
         .eq('plan_date', dateStr)
         .maybeSingle();
 
@@ -177,7 +191,7 @@ export default function useMealPlanner() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [userId]);
 
   // Swap a recipe in the meal plan
   const swapRecipe = async (mealType, newRecipe, preferences) => {

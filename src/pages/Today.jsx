@@ -224,9 +224,9 @@ export default function Today({goals: propsGoals, onTabFocus, onUpdateEzLevel, o
 
   // Load meal plan when date changes
   useEffect(() => {
-    console.log('[DEBUG] loadMealPlan useEffect triggered for date:', selectedDate);
+    console.log('[DEBUG] Today.jsx useEffect triggered for selectedDate:', selectedDate);
     mealPlanner.loadMealPlan(selectedDate);
-  }, [selectedDate, mealPlanner]);
+  }, [selectedDate]);
 
   // Debug: Track showGenerateMealModal state changes
   useEffect(() => {
