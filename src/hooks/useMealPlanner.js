@@ -4,24 +4,12 @@ import { RECIPES } from '../data/recipes.js';
 import { selectMealsForDay, findAlternateRecipes } from '../lib/mealPlannerAlgorithm';
 import { generateShakeRecipe } from '../lib/shakeGenerator';
 
-export default function useMealPlanner() {
-  console.log('[DEBUG] useMealPlanner hook initialized');
+export default function useMealPlanner(userId) {
+  console.log('[DEBUG] useMealPlanner hook initialized with userId:', userId);
   const [mealPlan, setMealPlan] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [userId, setUserId] = useState(null);
   console.log('[DEBUG] useMealPlanner initial state:', { mealPlan, loading, error });
-
-  // Get and store userId on mount
-  useEffect(() => {
-    const getUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user?.id) {
-        setUserId(user.id);
-      }
-    };
-    getUser();
-  }, []);
 
   // Generate a new meal plan for today
   const generateMealPlan = async (date, goals, preferences) => {
@@ -29,8 +17,7 @@ export default function useMealPlanner() {
       setLoading(true);
       setError(null);
 
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('No user logged in');
+      if (!userId) throw new Error('No user logged in');
 
       // Use the meal selection algorithm
       const planData = selectMealsForDay(goals, preferences, generateShakeRecipe);
@@ -79,7 +66,7 @@ export default function useMealPlanner() {
         .from('meal_plans')
         .upsert(
           {
-            user_id: user.id,
+            user_id: userId,
             plan_date: dateStr,
             meals: planData.meals.map(m => ({
               mealType: m.mealType,

@@ -23,7 +23,7 @@ export default function App() {
   const [user, setUser] = useState(null);
   const [selectedGoalsTab, setSelectedGoalsTab] = useState("calculate");
   const { favorites, toggleFavorite, isFavorited } = useFavorites();
-  const mealPlanner = useMealPlanner();
+  const mealPlanner = useMealPlanner(session?.user?.id || null);
 
   const ezLevelNames = {
     1: { name: 'Effortless', icon: '⚡', bolts: '⚡' },
