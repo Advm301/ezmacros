@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
+import { RECIPES } from '../data/recipes.js';
 import { selectMealsForDay, findAlternateRecipes } from '../lib/mealPlannerAlgorithm';
 import { generateShakeRecipe } from '../lib/shakeGenerator';
 
@@ -123,16 +124,37 @@ export default function useMealPlanner() {
         .eq('plan_date', dateStr)
         .maybeSingle();
 
-      console.log('[DEBUG] loadMealPlan result:', { plan, fetchError });
+      console.log('[DEBUG] loadMealPlan result:', { planId: plan?.id, fetchError });
 
       if (fetchError) throw fetchError;
 
       if (plan) {
-        console.log('[DEBUG] loadMealPlan found existing plan:', plan.id);
+        console.log('[DEBUG] loadMealPlan found existing plan:', plan.id, '- meal count:', plan.meals?.length);
+
+        // Reconstruct meals with full recipe data from RECIPES
+        const hydratedMeals = plan.meals.map(m => {
+          // Find the full recipe from RECIPES array
+          const fullRecipe = RECIPES.find(r => r.id === m.recipeId);
+
+          if (!fullRecipe) {
+            console.warn('[DEBUG] loadMealPlan - Recipe not found for recipeId:', m.recipeId);
+            return null;
+          }
+
+          return {
+            mealType: m.mealType,
+            recipe: fullRecipe,
+            targetMacros: m.targetMacros,
+            confirmed: false,
+          };
+        }).filter(Boolean); // Filter out null entries where recipe wasn't found
+
+        console.log('[DEBUG] loadMealPlan hydrated', hydratedMeals.length, 'meals with full recipe data');
+
         setMealPlan({
           savedPlanId: plan.id,
           planDate: plan.plan_date,
-          meals: plan.meals,
+          meals: hydratedMeals,
           totalMacros: {
             cal: plan.total_calories,
             protein: plan.total_protein,
@@ -143,13 +165,14 @@ export default function useMealPlanner() {
             overall: plan.accuracy_score,
           },
         });
+        console.log('[DEBUG] loadMealPlan complete - mealPlan state set with', hydratedMeals.length, 'meals');
       } else {
-        console.log('[DEBUG] loadMealPlan no plan found, setting to null');
+        console.log('[DEBUG] loadMealPlan no plan found for date:', dateStr);
         setMealPlan(null);
       }
     } catch (err) {
       console.error('Error loading meal plan:', err);
-      console.log('[DEBUG] loadMealPlan caught error, setting error state');
+      console.log('[DEBUG] loadMealPlan caught error:', err.message);
       setError(err.message);
     } finally {
       setLoading(false);
