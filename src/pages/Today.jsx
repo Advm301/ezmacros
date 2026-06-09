@@ -3,7 +3,6 @@ import { supabase } from '../lib/supabase';
 import { RECIPES } from '../data/recipes.js';
 import RecipeModal from '../components/RecipeModal';
 import StarIcon from '../components/StarIcon';
-import useMealPlanner from '../hooks/useMealPlanner';
 import useUserPreferences from '../hooks/useUserPreferences';
 import MealPlanDisplay from '../components/MealPlanDisplay';
 import MacroSummaryTable from '../components/MacroSummaryTable';
@@ -11,7 +10,7 @@ import MealSwapModal from '../components/MealSwapModal';
 import UserPreferencesModal from '../components/UserPreferencesModal';
 import GenerateMealPlanModal from '../components/GenerateMealPlanModal';
 
-export default function Today({goals: propsGoals, onTabFocus, onUpdateEzLevel, onUpdateGoals, favorites, isFavorited, toggleFavorite}) {
+export default function Today({mealPlanner, goals: propsGoals, onTabFocus, onUpdateEzLevel, onUpdateGoals, favorites, isFavorited, toggleFavorite}) {
   const [goals, setGoals] = useState(propsGoals || null);
   const [meals, setMeals] = useState([]);
   const [totals, setTotals] = useState({ cal: 0, protein: 0, carbs: 0, fat: 0 });
@@ -25,9 +24,6 @@ export default function Today({goals: propsGoals, onTabFocus, onUpdateEzLevel, o
   const [showCalendar, setShowCalendar] = useState(false);
   const [calendarMonth, setCalendarMonth] = useState(new Date());
   const [loggedDates, setLoggedDates] = useState(new Set());
-
-  // Meal planner state
-  const mealPlanner = useMealPlanner();
   const { preferences, savePreferences } = useUserPreferences();
   const [confirmedMeals, setConfirmedMeals] = useState(new Set());
   const [showGenerateMealModal, setShowGenerateMealModal] = useState(false);

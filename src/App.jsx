@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from './lib/supabase';
 import useFavorites from './hooks/useFavorites';
+import useMealPlanner from './hooks/useMealPlanner';
 import Login from './pages/Login';
 import Today from './pages/Today';
 import Kitchen from './pages/Kitchen';
@@ -22,6 +23,7 @@ export default function App() {
   const [user, setUser] = useState(null);
   const [selectedGoalsTab, setSelectedGoalsTab] = useState("calculate");
   const { favorites, toggleFavorite, isFavorited } = useFavorites();
+  const mealPlanner = useMealPlanner();
 
   const ezLevelNames = {
     1: { name: 'Effortless', icon: '⚡', bolts: '⚡' },
@@ -174,7 +176,7 @@ export default function App() {
         </div>
 
         {/* Page content */}
-        {tab === "today" && <Today goals={goals} onTabFocus={() => setTodayBadge(false)} onUpdateEzLevel={updateEzLevel} onUpdateGoals={(fetchedGoals) => {
+        {tab === "today" && <Today mealPlanner={mealPlanner} goals={goals} onTabFocus={() => setTodayBadge(false)} onUpdateEzLevel={updateEzLevel} onUpdateGoals={(fetchedGoals) => {
           console.log('[DEBUG] App.jsx onUpdateGoals called with:', fetchedGoals);
           setGoals(fetchedGoals);
         }} favorites={favorites} isFavorited={isFavorited} toggleFavorite={toggleFavorite}/>}
