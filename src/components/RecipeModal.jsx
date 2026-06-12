@@ -191,6 +191,32 @@ const SUBSTITUTIONS = {
 };
 
 export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView, onSave, isFavorited, toggleFavorite, onLogMealFromPlan, isAlreadyLogged}) {
+  // Format quantity for display based on unit type
+  const getDisplayQuantity = (quantity, unit, name) => {
+    if (!unit) unit = 'g';
+
+    switch (unit) {
+      case 'count':
+        // Eggs: 50g = 1 egg
+        const eggCount = Math.round(quantity / 50);
+        const eggLabel = name?.toLowerCase().includes('egg') ? 'egg' : 'item';
+        return `${eggCount} ${eggLabel}${eggCount > 1 ? 's' : ''}`;
+
+      case 'ml':
+        return `${Math.round(quantity)}ml`;
+
+      case 'spray':
+        return `${Math.round(quantity)} spray`;
+
+      case 'each':
+        return `${Math.round(quantity)}`;
+
+      case 'g':
+      default:
+        return `${Math.round(quantity)}g`;
+    }
+  };
+
   const [logged, setLogged] = useState(false);
   const [logging, setLogging] = useState(false);
   const [error, setError] = useState(null);
@@ -1261,10 +1287,12 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
                                   textAlign: "center",
                                 }}
                               >
-                                {c.grams}
+                                {c.unit === 'ml' ? c.grams : c.unit === 'spray' ? c.grams : c.unit === 'each' ? Math.round(c.grams) : c.grams}
                               </span>
                             )}
-                            <span style={{fontSize: 11, color: "var(--muted)"}}>g{shouldShowRawSuffix(c.name, c.weighRaw, c.type) ? " raw" : ""}</span>
+                            <span style={{fontSize: 11, color: "var(--muted)"}}>
+                              {c.unit === 'ml' ? 'ml' : c.unit === 'spray' ? 'spray' : c.unit === 'each' ? '' : `g${shouldShowRawSuffix(c.name, c.weighRaw, c.type) ? " raw" : ""}`}
+                            </span>
                           </div>
                         )}
                         <span style={{
