@@ -18,6 +18,11 @@ function shuffleArray(array) {
  * Returns a number where lower = better
  */
 function calculateMacroDistance(recipe, targetMacros) {
+  if (!recipe || !recipe.cal) {
+    console.log('[DEBUG] calculateMacroDistance: invalid recipe (undefined or missing cal), returning Infinity');
+    return Infinity;
+  }
+
   const calDiff = Math.abs((recipe.cal || 0) - targetMacros.cal);
   const proteinDiff = Math.abs((recipe.protein || 0) - targetMacros.protein);
 
@@ -558,6 +563,7 @@ export function selectMealsForDay(dailyGoals, preferences, includeShakeGenerator
  * Returns up to 5 recipes that fit within ±50 cal of target
  */
 export function findAlternateRecipes(mealType, targetMacros, preferences, excludeRecipeIds = [], limit = 5) {
+  console.log('[DEBUG] getAlternatives called for mealType:', mealType);
   let candidates = [];
 
   if (mealType === 'breakfast') {
@@ -572,12 +578,25 @@ export function findAlternateRecipes(mealType, targetMacros, preferences, exclud
 
   const filtered = filterRecipesByPreferences(candidates, preferences, excludeRecipeIds);
 
+  // Filter out any null/undefined recipes before sorting
+  const validRecipes = filtered.filter(r => {
+    if (!r || !r.cal) {
+      console.log('[DEBUG] Filtered out invalid recipe: undefined or missing cal');
+      return false;
+    }
+    return true;
+  });
+
+  console.log('[DEBUG] Filtered recipes - before:', filtered.length, 'after filtering nulls:', validRecipes.length);
+
   // Sort by distance to target
-  const sorted = filtered.sort((a, b) => {
+  const sorted = validRecipes.sort((a, b) => {
     const distA = calculateMacroDistance(a, targetMacros);
     const distB = calculateMacroDistance(b, targetMacros);
     return distA - distB;
   });
+
+  console.log('[DEBUG] Top 5 alternatives found for swap');
 
   return sorted.slice(0, limit).map(recipe => ({
     recipe,
