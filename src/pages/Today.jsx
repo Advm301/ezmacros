@@ -633,37 +633,6 @@ export default function Today({mealPlanner, goals: propsGoals, onTabFocus, onUpd
           Journal
         </div>
         <div style={{display: 'flex', gap: 6, alignItems: 'center'}}>
-          {mealPlanner.mealPlan && (
-            <button
-              onClick={() => setShowShoppingListModal(true)}
-              title="Shopping List"
-              style={{
-                background: 'var(--s2)',
-                border: '1px solid var(--border)',
-                color: 'var(--muted)',
-                borderRadius: 6,
-                width: 24,
-                height: 24,
-                padding: 0,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: 14,
-                cursor: 'pointer',
-                transition: 'all 0.15s',
-              }}
-              onMouseEnter={(e) => {
-                e.target.style.borderColor = 'var(--lime)';
-                e.target.style.color = 'var(--lime)';
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.borderColor = 'var(--border)';
-                e.target.style.color = 'var(--muted)';
-              }}
-            >
-              🛒
-            </button>
-          )}
           <button
             onClick={() => setShowPreferencesModal(true)}
             title="Preferences"
@@ -921,6 +890,7 @@ export default function Today({mealPlanner, goals: propsGoals, onTabFocus, onUpd
                 onUnlogMeal={handleUnlogMeal}
                 onRemoveMeal={handleRemoveMeal}
                 isGenerating={mealPlanner.loading}
+                onShowShoppingList={() => setShowShoppingListModal(true)}
               />
             ) : (
               <div style={{

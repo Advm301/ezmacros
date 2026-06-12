@@ -10,6 +10,7 @@ export default function MealPlanDisplay({
   onUnlogMeal,
   onRemoveMeal,
   isGenerating,
+  onShowShoppingList,
 }) {
   if (!mealPlan || !mealPlan.meals) {
     return (
@@ -61,11 +62,45 @@ export default function MealPlanDisplay({
         alignItems: 'center',
         marginBottom: 12,
       }}>
-        <div>
-          <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--cream)' }}>Your Meal Plan</div>
-          <div style={{ fontSize: 12, color: 'var(--muted)', marginTop: 4 }}>
-            {confirmedCount === 0 ? 'No meals confirmed' : confirmedCount === totalMeals ? '✓ Fully confirmed' : `${confirmedCount}/${totalMeals} confirmed`}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <div>
+            <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--cream)' }}>Your Meal Plan</div>
+            <div style={{ fontSize: 12, color: 'var(--muted)', marginTop: 4 }}>
+              {confirmedCount === 0 ? 'No meals confirmed' : confirmedCount === totalMeals ? '✓ Fully confirmed' : `${confirmedCount}/${totalMeals} confirmed`}
+            </div>
           </div>
+          {mealPlan && (
+            <button
+              onClick={onShowShoppingList}
+              title="Shopping List"
+              style={{
+                background: 'var(--s1)',
+                border: '1px solid var(--border)',
+                color: 'var(--muted)',
+                borderRadius: 6,
+                width: 24,
+                height: 24,
+                padding: 0,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: 14,
+                cursor: 'pointer',
+                transition: 'all 0.15s',
+                flexShrink: 0,
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.borderColor = 'var(--lime)';
+                e.target.style.color = 'var(--lime)';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.borderColor = 'var(--border)';
+                e.target.style.color = 'var(--muted)';
+              }}
+            >
+              🛒
+            </button>
+          )}
         </div>
         <div style={{ display: 'flex', gap: 8 }}>
           <button

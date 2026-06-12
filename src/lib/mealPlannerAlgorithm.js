@@ -199,21 +199,27 @@ function selectBestRecipe(recipes, targetMacros, preferences, excludeRecipeIds =
   // Shuffle to randomize selection
   const shuffled = shuffleArray(filtered);
 
-  // If remainingMacros provided, pick the highest-scoring recipe (best for macro balance)
+  // If remainingMacros provided, score recipes and pick from top 5 for variety
   if (remainingMacros) {
-    let bestRecipe = shuffled[0];
-    let bestScore = getMacroScore(bestRecipe, remainingMacros);
+    // Score all recipes
+    const scored = shuffled.map(recipe => ({
+      recipe,
+      score: getMacroScore(recipe, remainingMacros)
+    }));
 
-    for (let i = 1; i < shuffled.length; i++) {
-      const score = getMacroScore(shuffled[i], remainingMacros);
-      if (score > bestScore) {
-        bestScore = score;
-        bestRecipe = shuffled[i];
-      }
-    }
+    // Sort by score descending
+    scored.sort((a, b) => b.score - a.score);
 
-    console.log('[DEBUG]   selectBestRecipe selected by macro score:', bestRecipe.id, '-', bestRecipe.name, '(score:', bestScore.toFixed(2), ')');
-    return bestRecipe;
+    // Take top 5 recipes (or fewer if not enough)
+    const topRecipes = scored.slice(0, Math.min(5, scored.length));
+
+    // Randomly select from top 5
+    const randomIndex = Math.floor(Math.random() * topRecipes.length);
+    const selected = topRecipes[randomIndex];
+
+    console.log('[DEBUG] Breakfast variety: randomized from', topRecipes.length, 'recipes');
+    console.log('[DEBUG] selectBestRecipe selected from top 5:', selected.recipe.id, '-', selected.recipe.name, '(score:', selected.score.toFixed(2), ')');
+    return selected.recipe;
   }
 
   // Pick a random recipe from the shuffled list (when no remainingMacros provided)
