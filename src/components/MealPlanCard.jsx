@@ -1,4 +1,4 @@
-export default function MealPlanCard({ meal, onSwap, onViewRecipe, onUnlog, onRemove }) {
+export default function MealPlanCard({ meal, onViewRecipe, onUnlog, onRemove }) {
   // Safety check: verify meal and recipe exist
   if (!meal) {
     console.error('[DEBUG] MealPlanCard: meal prop is undefined');
@@ -109,31 +109,6 @@ export default function MealPlanCard({ meal, onSwap, onViewRecipe, onUnlog, onRe
 
       {/* Action buttons */}
       <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
-        <button
-          onClick={() => onSwap(mealType)}
-          style={{
-            flex: 1,
-            background: 'var(--s1)',
-            border: '1px solid var(--border)',
-            borderRadius: 8,
-            padding: '8px 12px',
-            fontSize: 12,
-            fontWeight: 600,
-            color: 'var(--cream)',
-            cursor: 'pointer',
-            transition: 'all 0.2s',
-          }}
-          onMouseEnter={(e) => {
-            e.target.style.background = 'var(--s2)';
-            e.target.style.borderColor = 'var(--lime)';
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.background = 'var(--s1)';
-            e.target.style.borderColor = 'var(--border)';
-          }}
-        >
-          Swap
-        </button>
         <button
           onClick={() => {
             if (recipe) {
