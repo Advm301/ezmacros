@@ -9,6 +9,7 @@ import MacroSummaryTable from '../components/MacroSummaryTable';
 import MealSwapModal from '../components/MealSwapModal';
 import UserPreferencesModal from '../components/UserPreferencesModal';
 import GenerateMealPlanModal from '../components/GenerateMealPlanModal';
+import ShoppingListModal from '../components/ShoppingListModal';
 
 export default function Today({mealPlanner, goals: propsGoals, onTabFocus, onUpdateEzLevel, onUpdateGoals, favorites, isFavorited, toggleFavorite}) {
   const [goals, setGoals] = useState(propsGoals || null);
@@ -28,6 +29,7 @@ export default function Today({mealPlanner, goals: propsGoals, onTabFocus, onUpd
   const [confirmedMeals, setConfirmedMeals] = useState(new Set());
   const [showGenerateMealModal, setShowGenerateMealModal] = useState(false);
   const [showPreferencesModal, setShowPreferencesModal] = useState(false);
+  const [showShoppingListModal, setShowShoppingListModal] = useState(false);
   const [swapMealType, setSwapMealType] = useState(null);
   const [swapAlternatives, setSwapAlternatives] = useState([]);
 
@@ -624,6 +626,32 @@ export default function Today({mealPlanner, goals: propsGoals, onTabFocus, onUpd
           Journal
         </div>
         <div style={{display: 'flex', gap: 8, alignItems: 'center'}}>
+          {mealPlanner.mealPlan && (
+            <button
+              onClick={() => setShowShoppingListModal(true)}
+              style={{
+                background: 'var(--s2)',
+                border: '1px solid var(--border)',
+                color: 'var(--muted)',
+                borderRadius: 8,
+                padding: '6px 12px',
+                fontSize: 12,
+                fontWeight: 600,
+                cursor: 'pointer',
+                transition: 'all 0.15s',
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.borderColor = 'var(--lime)';
+                e.target.style.color = 'var(--lime)';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.borderColor = 'var(--border)';
+                e.target.style.color = 'var(--muted)';
+              }}
+            >
+              🛒 Shopping List
+            </button>
+          )}
           <button
             onClick={() => setShowPreferencesModal(true)}
             style={{
@@ -1136,6 +1164,13 @@ export default function Today({mealPlanner, goals: propsGoals, onTabFocus, onUpd
           alternatives={swapAlternatives}
           onSwapConfirm={handleSwapConfirm}
           onCancel={() => setSwapMealType(null)}
+        />
+      )}
+
+      {showShoppingListModal && mealPlanner.mealPlan && (
+        <ShoppingListModal
+          mealPlan={mealPlanner.mealPlan}
+          onClose={() => setShowShoppingListModal(false)}
         />
       )}
 
