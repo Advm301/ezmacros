@@ -721,21 +721,15 @@ export function selectMealsForDay(dailyGoals, preferences, includeShakeGenerator
   // Always add breakfast, lunch, dinner first
   const requiredMeals = ['breakfast', 'lunch', 'dinner'];
   // Rough meal targets: breakfast 20%, lunch 27%, dinner 27% of TDEE
-  // Adjust meal targets to account for snack budget
-  const mealsCalGoal = calorieGoal - snackCalBudget;
-  const mealsProteinGoal = dailyGoals.protein - snackProteinBudget;
-  const mealsCarbsGoal = dailyGoals.carbs - snackCarbsBudget;
-  const mealsFatGoal = dailyGoals.fat - snackFatBudget;
+  // NOTE: Use full goals - snacks calculated later based on gaps
 
   const mealTargets = {
-    breakfast: Math.round(mealsCalGoal * 0.20),
-    lunch: Math.round(mealsCalGoal * 0.27),
-    dinner: Math.round(mealsCalGoal * 0.27)
+    breakfast: Math.round(calorieGoal * 0.20),
+    lunch: Math.round(calorieGoal * 0.27),
+    dinner: Math.round(calorieGoal * 0.27)
   };
 
-  if (snackCalBudget > 0) {
-    console.log(`[DEBUG] Adjusted meal targets (accounting for snacks): cal=${mealTargets.breakfast + mealTargets.lunch + mealTargets.dinner}, protein=${Math.round(mealsProteinGoal)}g, carbs=${Math.round(mealsCarbsGoal)}g, fat=${Math.round(mealsFatGoal)}g`);
-  }
+  console.log(`[DEBUG] Meal targets (before snacks): cal=${mealTargets.breakfast + mealTargets.lunch + mealTargets.dinner}, protein=${Math.round(dailyGoals.protein)}g, carbs=${Math.round(dailyGoals.carbs)}g, fat=${Math.round(dailyGoals.fat)}g`);
 
   for (const mealType of requiredMeals) {
     console.log(`[DEBUG] Adding required meal: ${mealType}`);
