@@ -383,6 +383,27 @@ export function selectMealsForDay(dailyGoals, preferences, includeShakeGenerator
 
   console.log('[DEBUG] Calorie goal:', calorieGoal, '| Target min (88%):', Math.round(targetMin));
 
+  // Calculate snack budget FIRST if snacks are enabled
+  let snackCalBudget = 0;
+  let snackProteinBudget = 0;
+  let snackCarbsBudget = 0;
+  let snackFatBudget = 0;
+
+  if (preferences?.include_snacks === true && preferences?.snack_timing?.length > 0) {
+    const snackCount = preferences.snack_timing.length;
+    const CAL_PER_SNACK = 325;
+    const PROTEIN_PER_SNACK = 30;
+    const CARBS_PER_SNACK = 25;
+    const FAT_PER_SNACK = 10;
+
+    snackCalBudget = snackCount * CAL_PER_SNACK;
+    snackProteinBudget = snackCount * PROTEIN_PER_SNACK;
+    snackCarbsBudget = snackCount * CARBS_PER_SNACK;
+    snackFatBudget = snackCount * FAT_PER_SNACK;
+
+    console.log(`[DEBUG] Snack budget (${snackCount} snacks) - cal: ${snackCalBudget}, protein: ${snackProteinBudget}g, carbs: ${snackCarbsBudget}g, fat: ${snackFatBudget}g`);
+  }
+
   const selectedRecipes = [];
   const usedRecipeIds = new Set();
   let totalMacros = { cal: 0, protein: 0, carbs: 0, fat: 0 };
@@ -408,17 +429,28 @@ export function selectMealsForDay(dailyGoals, preferences, includeShakeGenerator
       }
     }
 
-    // When carbs are under 85% of goal, prioritize high-carb recipes
+    // When carbs are under 85% of goal, prioritize carb-friendly recipes
     if (remainingMacros && remainingMacros.carbs > 0) {
       const carbProgress = (dailyGoals.carbs - remainingMacros.carbs) / dailyGoals.carbs;
       if (carbProgress < 0.85) {
-        const highCarbCandidates = recipesByMealType.filter(r => {
+        // Start with medium-high carb filter (carbs > 30% of calories)
+        const mediumCarbCandidates = recipesByMealType.filter(r => {
           const carbCalRatio = (r.carbs * 4) / r.cal;
-          return carbCalRatio > 0.40;
+          return carbCalRatio > 0.30;
         });
-        if (highCarbCandidates.length >= 3) {
-          console.log(`[DEBUG] Carbs under 85% (${Math.round(carbProgress * 100)}%), filtering to ${highCarbCandidates.length} high-carb recipes`);
-          recipesByMealType = highCarbCandidates;
+
+        // Use medium-high if we have enough options
+        if (mediumCarbCandidates.length >= 5) {
+          console.log(`[DEBUG] Carb filter relaxed - filtering to carbs > 30% of target (${mediumCarbCandidates.length} recipes)`);
+          recipesByMealType = mediumCarbCandidates;
+        } else {
+          // If still too few, relax further to carbs > 20% of calories
+          const relaxedCarbCandidates = recipesByMealType.filter(r => {
+            const carbCalRatio = (r.carbs * 4) / r.cal;
+            return carbCalRatio > 0.20;
+          });
+          console.log(`[DEBUG] Carb filter further relaxed - filtering to carbs > 20% (${relaxedCarbCandidates.length} recipes)`);
+          recipesByMealType = relaxedCarbCandidates.length > 0 ? relaxedCarbCandidates : recipesByMealType;
         }
       }
     }
@@ -433,11 +465,21 @@ export function selectMealsForDay(dailyGoals, preferences, includeShakeGenerator
   // Always add breakfast, lunch, dinner first
   const requiredMeals = ['breakfast', 'lunch', 'dinner'];
   // Rough meal targets: breakfast 20%, lunch 27%, dinner 27% of TDEE
+  // Adjust meal targets to account for snack budget
+  const mealsCalGoal = calorieGoal - snackCalBudget;
+  const mealsProteinGoal = dailyGoals.protein - snackProteinBudget;
+  const mealsCarbsGoal = dailyGoals.carbs - snackCarbsBudget;
+  const mealsFatGoal = dailyGoals.fat - snackFatBudget;
+
   const mealTargets = {
-    breakfast: Math.round(calorieGoal * 0.20),
-    lunch: Math.round(calorieGoal * 0.27),
-    dinner: Math.round(calorieGoal * 0.27)
+    breakfast: Math.round(mealsCalGoal * 0.20),
+    lunch: Math.round(mealsCalGoal * 0.27),
+    dinner: Math.round(mealsCalGoal * 0.27)
   };
+
+  if (snackCalBudget > 0) {
+    console.log(`[DEBUG] Adjusted meal targets (accounting for snacks): cal=${mealTargets.breakfast + mealTargets.lunch + mealTargets.dinner}, protein=${Math.round(mealsProteinGoal)}g, carbs=${Math.round(mealsCarbsGoal)}g, fat=${Math.round(mealsFatGoal)}g`);
+  }
 
   for (const mealType of requiredMeals) {
     console.log(`[DEBUG] Adding required meal: ${mealType}`);
