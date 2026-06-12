@@ -20,6 +20,7 @@ export default function ShoppingListModal({ mealPlan, onClose, checkedItems, set
             name: component.name,
             type: component.type,
             quantity: 0,
+            unit: component.unit || 'g',
           };
         }
 
@@ -31,10 +32,35 @@ export default function ShoppingListModal({ mealPlan, onClose, checkedItems, set
     return ingredients;
   };
 
-  // Get unit based on component type
-  const getUnit = (type) => {
-    const liquidTypes = ['Sauce', 'Fat', 'Flavor'];
-    return liquidTypes.includes(type) ? 'ml' : 'g';
+  // Format quantity for display based on unit type
+  const getDisplayQuantity = (quantity, unit, name) => {
+    if (!unit) unit = 'g';
+
+    switch (unit) {
+      case 'count':
+        // Eggs: 50g = 1 egg
+        const count = Math.round(quantity / 50);
+        const eggLabel = name?.toLowerCase().includes('egg') ? 'egg' : 'item';
+        console.log(`[DEBUG] getDisplayQuantity: ${name} grams=${quantity} unit=${unit} display=${count} ${eggLabel}${count > 1 ? 's' : ''}`);
+        return `${count} ${eggLabel}${count > 1 ? 's' : ''}`;
+
+      case 'ml':
+        console.log(`[DEBUG] getDisplayQuantity: ${name} grams=${quantity} unit=${unit} display=${quantity}ml`);
+        return `${Math.round(quantity)}ml`;
+
+      case 'spray':
+        console.log(`[DEBUG] getDisplayQuantity: ${name} grams=${quantity} unit=${unit} display=${quantity} spray`);
+        return `${Math.round(quantity)} spray`;
+
+      case 'each':
+        console.log(`[DEBUG] getDisplayQuantity: ${name} grams=${quantity} unit=${unit} display=${quantity}`);
+        return `${Math.round(quantity)}`;
+
+      case 'g':
+      default:
+        console.log(`[DEBUG] getDisplayQuantity: ${name} grams=${quantity} unit=${unit} display=${quantity}g`);
+        return `${Math.round(quantity)}g`;
+    }
   };
 
   // Group ingredients by type
@@ -95,9 +121,8 @@ export default function ShoppingListModal({ mealPlan, onClose, checkedItems, set
     grouped.forEach(group => {
       lines.push(`${group.emoji} ${group.category.toUpperCase()}`);
       group.items.forEach(item => {
-        const unit = getUnit(item.type);
-        const qty = Math.round(item.quantity);
-        lines.push(`- ${item.name} · ${qty}${unit}`);
+        const displayQuantity = getDisplayQuantity(item.quantity, item.unit, item.name);
+        lines.push(`- ${item.name} · ${displayQuantity}`);
       });
       lines.push('');
     });
@@ -179,8 +204,7 @@ export default function ShoppingListModal({ mealPlan, onClose, checkedItems, set
                 {group.items.map((item) => {
                   const key = formatIngredientKey(item.name, item.type);
                   const isChecked = !!checkedItems[key];
-                  const unit = getUnit(item.type);
-                  const qty = Math.round(item.quantity);
+                  const displayQuantity = getDisplayQuantity(item.quantity, item.unit, item.name);
 
                   return (
                     <div
@@ -228,7 +252,7 @@ export default function ShoppingListModal({ mealPlan, onClose, checkedItems, set
                         </div>
                       </div>
                       <div style={{ fontSize: 12, color: 'var(--muted)', whiteSpace: 'nowrap' }}>
-                        {qty}{unit}
+                        {displayQuantity}
                       </div>
                     </div>
                   );
