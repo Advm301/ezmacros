@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
-export default function ShoppingListModal({ mealPlan, onClose }) {
-  const [checkedItems, setCheckedItems] = useState(new Set());
+export default function ShoppingListModal({ mealPlan, onClose, checkedItems, setCheckedItems }) {
   const [copyFeedback, setCopyFeedback] = useState(false);
 
   // Aggregate ingredients from meal plan
@@ -74,11 +73,11 @@ export default function ShoppingListModal({ mealPlan, onClose }) {
   };
 
   const toggleItem = (itemKey) => {
-    const newChecked = new Set(checkedItems);
-    if (newChecked.has(itemKey)) {
-      newChecked.delete(itemKey);
+    const newChecked = { ...checkedItems };
+    if (newChecked[itemKey]) {
+      delete newChecked[itemKey];
     } else {
-      newChecked.add(itemKey);
+      newChecked[itemKey] = true;
     }
     setCheckedItems(newChecked);
   };
@@ -104,7 +103,7 @@ export default function ShoppingListModal({ mealPlan, onClose }) {
     });
 
     const totalItems = Object.keys(ingredients).length;
-    const checkedCount = checkedItems.size;
+    const checkedCount = Object.keys(checkedItems).length;
 
     lines.push(`Total items: ${totalItems}`);
     lines.push(`Checked: ${checkedCount}`);
@@ -124,7 +123,7 @@ export default function ShoppingListModal({ mealPlan, onClose }) {
   const grouped = groupIngredients();
   const ingredients = aggregateIngredients();
 
-  console.log('[DEBUG] ShoppingListModal opened - ingredient count:', Object.keys(ingredients).length);
+  console.log('[DEBUG] ShoppingListModal re-rendering - ingredient count:', Object.keys(ingredients).length);
 
   return (
     <div
@@ -179,7 +178,7 @@ export default function ShoppingListModal({ mealPlan, onClose }) {
 
                 {group.items.map((item) => {
                   const key = formatIngredientKey(item.name, item.type);
-                  const isChecked = checkedItems.has(key);
+                  const isChecked = !!checkedItems[key];
                   const unit = getUnit(item.type);
                   const qty = Math.round(item.quantity);
 

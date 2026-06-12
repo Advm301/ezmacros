@@ -30,6 +30,7 @@ export default function Today({mealPlanner, goals: propsGoals, onTabFocus, onUpd
   const [showGenerateMealModal, setShowGenerateMealModal] = useState(false);
   const [showPreferencesModal, setShowPreferencesModal] = useState(false);
   const [showShoppingListModal, setShowShoppingListModal] = useState(false);
+  const [checkedShoppingItems, setCheckedShoppingItems] = useState({});
   const [swapMealType, setSwapMealType] = useState(null);
   const [swapAlternatives, setSwapAlternatives] = useState([]);
 
@@ -225,6 +226,12 @@ export default function Today({mealPlanner, goals: propsGoals, onTabFocus, onUpd
     console.log('[DEBUG] Today.jsx useEffect triggered for selectedDate:', selectedDate);
     mealPlanner.loadMealPlan(selectedDate);
   }, [selectedDate]);
+
+  // Reset shopping list checked items when meal plan changes
+  useEffect(() => {
+    console.log('[DEBUG] checkedShoppingItems reset for new meal plan');
+    setCheckedShoppingItems({});
+  }, [mealPlanner.mealPlan?.savedPlanId]);
 
   // Debug: Track showGenerateMealModal state changes
   useEffect(() => {
@@ -625,18 +632,23 @@ export default function Today({mealPlanner, goals: propsGoals, onTabFocus, onUpd
         <div style={{fontFamily: "'Clash Display',sans-serif", fontSize: 18, fontWeight: 700}}>
           Journal
         </div>
-        <div style={{display: 'flex', gap: 8, alignItems: 'center'}}>
+        <div style={{display: 'flex', gap: 6, alignItems: 'center'}}>
           {mealPlanner.mealPlan && (
             <button
               onClick={() => setShowShoppingListModal(true)}
+              title="Shopping List"
               style={{
                 background: 'var(--s2)',
                 border: '1px solid var(--border)',
                 color: 'var(--muted)',
-                borderRadius: 8,
-                padding: '6px 12px',
-                fontSize: 12,
-                fontWeight: 600,
+                borderRadius: 6,
+                width: 24,
+                height: 24,
+                padding: 0,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: 14,
                 cursor: 'pointer',
                 transition: 'all 0.15s',
               }}
@@ -649,19 +661,24 @@ export default function Today({mealPlanner, goals: propsGoals, onTabFocus, onUpd
                 e.target.style.color = 'var(--muted)';
               }}
             >
-              🛒 Shopping List
+              🛒
             </button>
           )}
           <button
             onClick={() => setShowPreferencesModal(true)}
+            title="Preferences"
             style={{
               background: 'var(--s2)',
               border: '1px solid var(--border)',
               color: 'var(--muted)',
-              borderRadius: 8,
-              padding: '6px 12px',
-              fontSize: 12,
-              fontWeight: 600,
+              borderRadius: 6,
+              width: 24,
+              height: 24,
+              padding: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: 14,
               cursor: 'pointer',
               transition: 'all 0.15s',
             }}
@@ -674,7 +691,7 @@ export default function Today({mealPlanner, goals: propsGoals, onTabFocus, onUpd
               e.target.style.color = 'var(--muted)';
             }}
           >
-            ⚙️ Preferences
+            ⚙️
           </button>
           <button
             onClick={handleSignOut}
@@ -1171,6 +1188,8 @@ export default function Today({mealPlanner, goals: propsGoals, onTabFocus, onUpd
         <ShoppingListModal
           mealPlan={mealPlanner.mealPlan}
           onClose={() => setShowShoppingListModal(false)}
+          checkedItems={checkedShoppingItems}
+          setCheckedItems={setCheckedShoppingItems}
         />
       )}
 
