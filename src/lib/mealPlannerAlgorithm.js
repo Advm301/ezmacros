@@ -13,6 +13,99 @@ function shuffleArray(array) {
 }
 
 /**
+ * Validate meal plan macros against goals with ±5% tolerance
+ */
+function validateMealPlan(meals, goals) {
+  const totalMacros = {
+    protein: meals.reduce((sum, m) => sum + (m.recipe?.protein || 0), 0),
+    carbs: meals.reduce((sum, m) => sum + (m.recipe?.carbs || 0), 0),
+    fat: meals.reduce((sum, m) => sum + (m.recipe?.fat || 0), 0),
+  };
+
+  const proteinPercent = totalMacros.protein / goals.protein;
+  const carbsPercent = totalMacros.carbs / goals.carbs;
+  const fatPercent = totalMacros.fat / goals.fat;
+
+  const tolerance = 0.05; // ±5%
+
+  const isValid =
+    proteinPercent >= (1 - tolerance) && proteinPercent <= (1 + tolerance) &&
+    carbsPercent >= (1 - tolerance) && carbsPercent <= (1 + tolerance) &&
+    fatPercent >= (1 - tolerance) && fatPercent <= (1 + tolerance);
+
+  const proteinPercent100 = Math.round(proteinPercent * 100);
+  const carbsPercent100 = Math.round(carbsPercent * 100);
+  const fatPercent100 = Math.round(fatPercent * 100);
+
+  console.log(`[DEBUG] Validation: protein=${proteinPercent100}% (${totalMacros.protein.toFixed(0)}g/${goals.protein}g), carbs=${carbsPercent100}% (${totalMacros.carbs.toFixed(0)}g/${goals.carbs}g), fat=${fatPercent100}% (${totalMacros.fat.toFixed(0)}g/${goals.fat}g)`);
+  console.log(`[DEBUG] Plan valid: ${isValid ? 'YES ✓' : 'NO ✗'} (tolerance: ±5%)`);
+
+  return { isValid, totalMacros, proteinPercent, carbsPercent, fatPercent };
+}
+
+/**
+ * Calculate score for meal plan based on macro accuracy (equal weighting)
+ */
+function calculateMealPlanScore(meals, goals) {
+  const totalMacros = {
+    protein: meals.reduce((sum, m) => sum + (m.recipe?.protein || 0), 0),
+    carbs: meals.reduce((sum, m) => sum + (m.recipe?.carbs || 0), 0),
+    fat: meals.reduce((sum, m) => sum + (m.recipe?.fat || 0), 0),
+  };
+
+  const proteinDiff = Math.abs(totalMacros.protein - goals.protein) / goals.protein;
+  const carbsDiff = Math.abs(totalMacros.carbs - goals.carbs) / goals.carbs;
+  const fatDiff = Math.abs(totalMacros.fat - goals.fat) / goals.fat;
+
+  // Average distance (equal weighting, lower is better)
+  const score = (proteinDiff + carbsDiff + fatDiff) / 3;
+
+  const proteinAcc = Math.round((1 - proteinDiff) * 100);
+  const carbsAcc = Math.round((1 - carbsDiff) * 100);
+  const fatAcc = Math.round((1 - fatDiff) * 100);
+
+  console.log(`[DEBUG] Macro score: protein=${proteinAcc}%, carbs=${carbsAcc}%, fat=${fatAcc}%, overall=${Math.round((1 - score) * 100)}%`);
+
+  return score;
+}
+
+/**
+ * Tier 1: Aggressive scaling - scale all recipes proportionally to hit targets
+ */
+function aggressiveScale(meals, goals) {
+  let currentMacros = { protein: 0, carbs: 0, fat: 0 };
+  meals.forEach(m => {
+    currentMacros.protein += m.recipe?.protein || 0;
+    currentMacros.carbs += m.recipe?.carbs || 0;
+    currentMacros.fat += m.recipe?.fat || 0;
+  });
+
+  const proteinRatio = goals.protein / (currentMacros.protein || 1);
+  const carbsRatio = goals.carbs / (currentMacros.carbs || 1);
+  const fatRatio = goals.fat / (currentMacros.fat || 1);
+
+  // Use average ratio to scale all recipes
+  const avgRatio = (proteinRatio + carbsRatio + fatRatio) / 3;
+
+  console.log(`[DEBUG] Tier 1 Aggressive Scaling: protein=${proteinRatio.toFixed(2)}x, carbs=${carbsRatio.toFixed(2)}x, fat=${fatRatio.toFixed(2)}x, avg=${avgRatio.toFixed(2)}x`);
+
+  const scaled = meals.map(m => ({
+    ...m,
+    recipe: {
+      ...m.recipe,
+      protein: (m.recipe?.protein || 0) * avgRatio,
+      carbs: (m.recipe?.carbs || 0) * avgRatio,
+      fat: (m.recipe?.fat || 0) * avgRatio,
+      cal: (m.recipe?.cal || 0) * avgRatio,
+    },
+    scaled: true,
+    scaleRatio: avgRatio,
+  }));
+
+  return scaled;
+}
+
+/**
  * Calculate how closely a meal hits a macro target
  * Distance = abs distance to calorie target + (abs distance to protein target * 0.5)
  * Returns a number where lower = better
@@ -627,13 +720,49 @@ export function selectMealsForDay(dailyGoals, preferences, includeShakeGenerator
   const accuracy = calculateAccuracy(totalMacros, dailyGoals);
   console.log('[DEBUG] Accuracy breakdown:', accuracy);
 
+  // VALIDATION & SCALING: Tier 1 - Aggressive Scaling
+  console.log('[DEBUG] === TIER 1: AGGRESSIVE SCALING ===');
+  let validation = validateMealPlan(selectedRecipes, { protein: dailyGoals.protein, carbs: dailyGoals.carbs, fat: dailyGoals.fat });
+
+  let finalMeals = selectedRecipes;
+  let finalMacros = totalMacros;
+
+  if (!validation.isValid) {
+    console.log('[DEBUG] Initial plan failed validation, attempting Tier 1 scaling...');
+    const scaledMeals = aggressiveScale(selectedRecipes, { protein: dailyGoals.protein, carbs: dailyGoals.carbs, fat: dailyGoals.fat });
+
+    // Recalculate totals after scaling
+    const scaledMacros = {
+      cal: scaledMeals.reduce((sum, m) => sum + (m.recipe?.cal || 0), 0),
+      protein: scaledMeals.reduce((sum, m) => sum + (m.recipe?.protein || 0), 0),
+      carbs: scaledMeals.reduce((sum, m) => sum + (m.recipe?.carbs || 0), 0),
+      fat: scaledMeals.reduce((sum, m) => sum + (m.recipe?.fat || 0), 0),
+    };
+
+    validation = validateMealPlan(scaledMeals, { protein: dailyGoals.protein, carbs: dailyGoals.carbs, fat: dailyGoals.fat });
+
+    if (validation.isValid) {
+      console.log('[DEBUG] ✓ Plan passed validation at Tier 1 (Aggressive Scaling)');
+      finalMeals = scaledMeals;
+      finalMacros = scaledMacros;
+    } else {
+      console.log('[DEBUG] ✗ Tier 1 scaling did not achieve full validation');
+      console.log('[DEBUG] Returning scaled attempt (best effort)');
+      finalMeals = scaledMeals;
+      finalMacros = scaledMacros;
+    }
+  } else {
+    console.log('[DEBUG] ✓ Plan passed validation without scaling');
+  }
+
   const result = {
-    meals: selectedRecipes,
-    totalMacros,
-    accuracy,
+    meals: finalMeals,
+    totalMacros: finalMacros,
+    accuracy: calculateAccuracy(finalMacros, dailyGoals),
+    validation,
   };
 
-  console.log('[DEBUG] selectMealsForDay returning:', result);
+  console.log('[DEBUG] selectMealsForDay returning meal plan');
   return result;
 }
 
