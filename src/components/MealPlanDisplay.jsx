@@ -1,4 +1,5 @@
 import MealPlanCard from './MealPlanCard';
+import MacroFillerSuggestions from './MacroFillerSuggestions';
 
 export default function MealPlanDisplay({
   mealPlan,
@@ -182,6 +183,15 @@ export default function MealPlanDisplay({
           ));
         })()}
       </div>
+
+      {/* Macro Filler Suggestions */}
+      {mealPlan.macroFillers && mealPlan.macroFillers.length > 0 && (
+        <MacroFillerSuggestions
+          macroFillers={mealPlan.macroFillers}
+          totalMacros={mealPlan.totalMacros}
+          goals={goals}
+        />
+      )}
 
       {/* Regenerate button at bottom */}
       <button

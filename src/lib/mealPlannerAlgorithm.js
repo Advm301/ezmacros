@@ -647,6 +647,103 @@ function selectSnacksByMacroNeed(snackPool, goals, mealMacros, snackCount) {
   return selected;
 }
 
+/**
+ * Simple foods that can close macro gaps
+ */
+const MACRO_FILLERS = {
+  carbs: [
+    { name: 'Rice Cake', macros: { carbs: 30, protein: 1, fat: 0, cal: 120 }, unit: '1 cake' },
+    { name: 'White Bread Slice', macros: { carbs: 20, protein: 4, fat: 1, cal: 100 }, unit: '1 slice' },
+    { name: 'Banana', macros: { carbs: 27, protein: 1, fat: 0, cal: 105 }, unit: '1 medium' },
+    { name: 'Potato', macros: { carbs: 25, protein: 2, fat: 0, cal: 110 }, unit: '1 medium' },
+    { name: 'Apple', macros: { carbs: 25, protein: 0, fat: 0, cal: 95 }, unit: '1 medium' },
+  ],
+  protein: [
+    { name: 'Egg Whites', macros: { protein: 4, carbs: 0, fat: 0, cal: 18 }, unit: '1 white' },
+    { name: 'Protein Powder Shake', macros: { protein: 25, carbs: 3, fat: 1, cal: 130 }, unit: '1 scoop' },
+    { name: 'Greek Yogurt', macros: { protein: 20, carbs: 7, fat: 0, cal: 130 }, unit: '150g' },
+    { name: 'Chicken Breast', macros: { protein: 35, carbs: 0, fat: 2, cal: 165 }, unit: '100g' },
+    { name: 'Turkey Slice', macros: { protein: 10, carbs: 1, fat: 1, cal: 50 }, unit: '1 slice' },
+  ],
+  fat: [
+    { name: 'Olive Oil', macros: { fat: 14, protein: 0, carbs: 0, cal: 120 }, unit: '1 tbsp' },
+    { name: 'Peanut Butter', macros: { fat: 8, protein: 4, carbs: 3, cal: 95 }, unit: '1 tbsp' },
+    { name: 'Almonds', macros: { fat: 14, protein: 6, carbs: 6, cal: 160 }, unit: '1 oz' },
+    { name: 'Cheese', macros: { fat: 9, protein: 7, carbs: 0, cal: 110 }, unit: '1 oz' },
+  ],
+};
+
+/**
+ * Calculate simple fillers to close macro gaps
+ */
+function calculateMacroFillers(totalMacros, goals) {
+  const tolerance = 10; // suggest if gap > 10g
+
+  const fillers = [];
+
+  // Check carbs
+  const carbGap = goals.carbs - totalMacros.carbs;
+  if (carbGap > tolerance) {
+    const bestFiller = MACRO_FILLERS.carbs[0];
+    const needed = Math.ceil(carbGap / bestFiller.macros.carbs);
+    fillers.push({
+      macro: 'carbs',
+      gap: Math.round(carbGap),
+      filler: bestFiller,
+      quantity: needed,
+      totalMacros: {
+        carbs: bestFiller.macros.carbs * needed,
+        protein: bestFiller.macros.protein * needed,
+        fat: bestFiller.macros.fat * needed,
+        cal: bestFiller.macros.cal * needed,
+      },
+    });
+    console.log(`[DEBUG] Carbs gap: ${Math.round(carbGap)}g - suggest ${needed}x ${bestFiller.name}`);
+  }
+
+  // Check protein
+  const proteinGap = goals.protein - totalMacros.protein;
+  if (proteinGap > tolerance) {
+    const bestFiller = MACRO_FILLERS.protein[0];
+    const needed = Math.ceil(proteinGap / bestFiller.macros.protein);
+    fillers.push({
+      macro: 'protein',
+      gap: Math.round(proteinGap),
+      filler: bestFiller,
+      quantity: needed,
+      totalMacros: {
+        protein: bestFiller.macros.protein * needed,
+        carbs: bestFiller.macros.carbs * needed,
+        fat: bestFiller.macros.fat * needed,
+        cal: bestFiller.macros.cal * needed,
+      },
+    });
+    console.log(`[DEBUG] Protein gap: ${Math.round(proteinGap)}g - suggest ${needed}x ${bestFiller.name}`);
+  }
+
+  // Check fat
+  const fatGap = goals.fat - totalMacros.fat;
+  if (fatGap > tolerance) {
+    const bestFiller = MACRO_FILLERS.fat[0];
+    const needed = Math.ceil(fatGap / bestFiller.macros.fat);
+    fillers.push({
+      macro: 'fat',
+      gap: Math.round(fatGap),
+      filler: bestFiller,
+      quantity: needed,
+      totalMacros: {
+        fat: bestFiller.macros.fat * needed,
+        protein: bestFiller.macros.protein * needed,
+        carbs: bestFiller.macros.carbs * needed,
+        cal: bestFiller.macros.cal * needed,
+      },
+    });
+    console.log(`[DEBUG] Fat gap: ${Math.round(fatGap)}g - suggest ${needed}x ${bestFiller.name}`);
+  }
+
+  return fillers;
+}
+
 export function selectMealsForDay(dailyGoals, preferences, includeShakeGenerator = null) {
   console.log('[DEBUG] selectMealsForDay called');
   console.log('[DEBUG] Input goals:', dailyGoals);
@@ -914,11 +1011,25 @@ export function selectMealsForDay(dailyGoals, preferences, includeShakeGenerator
 
   console.log(`[DEBUG] Final validation: protein=${finalProteinPercent}%, carbs=${finalCarbsPercent}%, fat=${finalFatPercent}% (tolerance: ±7%)`);
 
+  // Round all macros to whole numbers
+  const roundedMacros = {
+    cal: Math.round(finalMacros.cal),
+    protein: Math.round(finalMacros.protein),
+    carbs: Math.round(finalMacros.carbs),
+    fat: Math.round(finalMacros.fat),
+  };
+
+  console.log(`[DEBUG] After rounding - totalMacros: {cal: ${roundedMacros.cal}, protein: ${roundedMacros.protein}, carbs: ${roundedMacros.carbs}, fat: ${roundedMacros.fat}}`);
+
+  // Calculate macro fillers to close gaps
+  const macroFillers = calculateMacroFillers(roundedMacros, { protein: dailyGoals.protein, carbs: dailyGoals.carbs, fat: dailyGoals.fat, cal: calorieGoal });
+
   const result = {
     meals,
-    totalMacros: finalMacros,
-    accuracy: calculateAccuracy(finalMacros, dailyGoals),
+    totalMacros: roundedMacros,
+    accuracy: calculateAccuracy(roundedMacros, dailyGoals),
     validation,
+    macroFillers,
   };
 
   console.log('[DEBUG] selectMealsForDay returning meal plan');

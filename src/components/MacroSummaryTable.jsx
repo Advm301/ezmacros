@@ -29,7 +29,7 @@ export default function MacroSummaryTable({ loggedMeals = [], mealPlan, userGoal
       key: 'calories',
       confirmed: Math.round(confirmedTotals.cal),
       planned: Math.round(plannedTotals.cal),
-      goal: goals.cal,
+      goal: Math.round(goals.cal),
       unit: '',
     },
     {
@@ -37,7 +37,7 @@ export default function MacroSummaryTable({ loggedMeals = [], mealPlan, userGoal
       key: 'protein',
       confirmed: Math.round(confirmedTotals.protein),
       planned: Math.round(plannedTotals.protein),
-      goal: goals.protein,
+      goal: Math.round(goals.protein),
       unit: 'g',
     },
     {
@@ -45,7 +45,7 @@ export default function MacroSummaryTable({ loggedMeals = [], mealPlan, userGoal
       key: 'carbs',
       confirmed: Math.round(confirmedTotals.carbs),
       planned: Math.round(plannedTotals.carbs),
-      goal: goals.carbs,
+      goal: Math.round(goals.carbs),
       unit: 'g',
     },
     {
@@ -53,7 +53,7 @@ export default function MacroSummaryTable({ loggedMeals = [], mealPlan, userGoal
       key: 'fat',
       confirmed: Math.round(confirmedTotals.fat),
       planned: Math.round(plannedTotals.fat),
-      goal: goals.fat,
+      goal: Math.round(goals.fat),
       unit: 'g',
     },
   ];

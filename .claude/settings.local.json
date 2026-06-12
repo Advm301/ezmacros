@@ -29,7 +29,8 @@
       "PowerShell(Start-Sleep -Seconds 3; \\(Invoke-WebRequest http://localhost:5173 -UseBasicParsing -ErrorAction SilentlyContinue\\).StatusCode)",
       "Skill(run)",
       "Bash(git reset *)",
-      "Bash(node *)"
+      "Bash(node *)",
+      "Bash(npx eslint *)"
     ]
   }
 }

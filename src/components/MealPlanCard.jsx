@@ -97,7 +97,7 @@ export default function MealPlanCard({ meal, onViewRecipe, onUnlog, onRemove }) 
 
       {/* Macros line */}
       <div style={{ fontSize: 12, color: 'var(--muted)', marginBottom: recipe?.scaled ? 6 : 12 }}>
-        {recipe?.cal || 0} cal · {recipe?.protein || 0}g P · {recipe?.carbs || 0}g C · {recipe?.fat || 0}g F
+        {Math.round(recipe?.cal || 0)} cal · {Math.round(recipe?.protein || 0)}g P · {Math.round(recipe?.carbs || 0)}g C · {Math.round(recipe?.fat || 0)}g F
       </div>
 
       {/* Scaled portion note */}
