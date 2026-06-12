@@ -25,11 +25,13 @@ function calculateMacroDistance(recipe, targetMacros) {
 
   const calDiff = Math.abs((recipe.cal || 0) - targetMacros.cal);
   const proteinDiff = Math.abs((recipe.protein || 0) - targetMacros.protein);
+  const carbsDiff = Math.abs((recipe.carbs || 0) - targetMacros.carbs);
+  const fatDiff = Math.abs((recipe.fat || 0) - targetMacros.fat);
 
-  // Weight calories more heavily than protein
-  const distance = calDiff + (proteinDiff * 0.5);
+  // Equal weighting for all macros (1.0 each) for better adherence
+  const distance = calDiff + proteinDiff + carbsDiff + fatDiff;
   // Uncomment for very verbose logging:
-  // console.log(`[DEBUG]   Distance for ${recipe.name}: cal_diff=${calDiff} + protein_diff=${proteinDiff}*0.5 = ${distance}`);
+  // console.log(`[DEBUG]   Distance for ${recipe.name}: cal=${calDiff} + p=${proteinDiff} + c=${carbsDiff} + f=${fatDiff} = ${distance}`);
   return distance;
 }
 
@@ -186,10 +188,11 @@ function filterRecipesByPreferences(recipes, preferences, excludeRecipeIds = [])
 function selectBestRecipe(recipes, targetMacros, preferences, excludeRecipeIds = [], remainingMacros = null) {
   console.log('[DEBUG] selectBestRecipe called');
   console.log('[DEBUG]   Input recipes:', recipes.length);
-  console.log('[DEBUG]   Target macros:', targetMacros);
+  console.log('[DEBUG]   Excluded (recently used):', excludeRecipeIds.length);
 
   const filtered = filterRecipesByPreferences(recipes, preferences, excludeRecipeIds);
-  console.log('[DEBUG]   After preference filtering:', filtered.length);
+  const avoidedCount = recipes.length - filtered.length;
+  console.log('[DEBUG]   After filtering:', filtered.length, 'available (avoided', avoidedCount, 'recent recipes)');
 
   if (filtered.length === 0) {
     console.log('[DEBUG]   No recipes passed filter - returning null');
@@ -217,8 +220,7 @@ function selectBestRecipe(recipes, targetMacros, preferences, excludeRecipeIds =
     const randomIndex = Math.floor(Math.random() * topRecipes.length);
     const selected = topRecipes[randomIndex];
 
-    console.log('[DEBUG] Breakfast variety: randomized from', topRecipes.length, 'recipes');
-    console.log('[DEBUG] selectBestRecipe selected from top 5:', selected.recipe.id, '-', selected.recipe.name, '(score:', selected.score.toFixed(2), ')');
+    console.log('[DEBUG] selectBestRecipe: ' + selected.recipe.name + ' (avoided ' + avoidedCount + ' recent recipes, score: ' + selected.score.toFixed(2) + ')');
     return selected.recipe;
   }
 
@@ -226,7 +228,7 @@ function selectBestRecipe(recipes, targetMacros, preferences, excludeRecipeIds =
   const selectedIndex = Math.floor(Math.random() * shuffled.length);
   const selected = shuffled[selectedIndex];
 
-  console.log('[DEBUG]   selectBestRecipe randomly selected index', selectedIndex, ':', selected.id, '-', selected.name);
+  console.log('[DEBUG]   selectBestRecipe randomly selected:', selected.id, '-', selected.name);
   return selected;
 }
 
@@ -262,15 +264,16 @@ function getMacroScore(recipe, remainingMacros) {
   const { protein, carbs, fat } = remainingMacros;
 
   // Calculate how much each macro contributes relative to remaining budget
-  const proteinRatio = protein > 0 ? recipe.protein / protein : 0;
-  const carbRatio = carbs > 0 ? recipe.carbs / carbs : 0;
-  const fatRatio = fat > 0 ? recipe.fat / fat : 0;
+  const proteinRatio = protein > 0 ? Math.min(recipe.protein / protein, 1) : 0;
+  const carbRatio = carbs > 0 ? Math.min(recipe.carbs / carbs, 1) : 0;
+  const fatRatio = fat > 0 ? Math.min(recipe.fat / fat, 1) : 0;
 
-  // Reward recipes that contribute to the most needed macro
-  const mostNeededRatio = Math.max(proteinRatio, carbRatio, fatRatio);
+  // Score: average of macro fill ratios (equal weighting, all macros matter)
+  // Capped at 1.0 to avoid overshooting
+  const score = (proteinRatio + carbRatio + fatRatio) / 3;
 
-  // Return score (higher = better for balancing macros)
-  return mostNeededRatio * 10;
+  // Return score (higher = better for balanced macros)
+  return score * 10;
 }
 
 /**
@@ -449,11 +452,15 @@ export function selectMealsForDay(dailyGoals, preferences, includeShakeGenerator
     if (recipe) {
       usedRecipeIds.add(recipe.id);
 
-      // Calculate remaining macro budget with tolerance
+      // Calculate remaining macro budget with percentage-based tolerance (strict)
+      const maxProteinBudget = dailyGoals.protein * 1.10; // 110% (10% overshoot max)
+      const maxFatBudget = dailyGoals.fat * 1.10;         // 110% (10% overshoot max)
+      const maxCarbsBudget = dailyGoals.carbs * 1.05;     // 105% (5% overshoot max)
+
       const macroLimits = {
-        maxProtein: (dailyGoals.protein + 8) - totalMacros.protein,   // +8g tolerance (TIGHTENED)
-        maxCarbs: (dailyGoals.carbs + 5) - totalMacros.carbs,          // +5g tolerance
-        maxFat: (dailyGoals.fat + 7) - totalMacros.fat,                // +7g tolerance (STRICT)
+        maxProtein: Math.round(maxProteinBudget - totalMacros.protein),
+        maxCarbs: Math.round(maxCarbsBudget - totalMacros.carbs),
+        maxFat: Math.round(maxFatBudget - totalMacros.fat),
       };
       console.log(`[DEBUG] Macro limits for ${mealType}: P=${macroLimits.maxProtein}g, C=${macroLimits.maxCarbs}g, F=${macroLimits.maxFat}g`);
 
@@ -521,11 +528,15 @@ export function selectMealsForDay(dailyGoals, preferences, includeShakeGenerator
 
     usedRecipeIds.add(recipe.id);
 
-    // Calculate remaining macro budget with tolerance
+    // Calculate remaining macro budget with percentage-based tolerance (strict)
+    const maxProteinBudget = dailyGoals.protein * 1.10; // 110% (10% overshoot max)
+    const maxFatBudget = dailyGoals.fat * 1.10;         // 110% (10% overshoot max)
+    const maxCarbsBudget = dailyGoals.carbs * 1.05;     // 105% (5% overshoot max)
+
     const macroLimits = {
-      maxProtein: (dailyGoals.protein + 8) - totalMacros.protein,   // +8g tolerance (TIGHTENED)
-      maxCarbs: (dailyGoals.carbs + 5) - totalMacros.carbs,          // +5g tolerance
-      maxFat: (dailyGoals.fat + 7) - totalMacros.fat,                // +7g tolerance (STRICT)
+      maxProtein: Math.round(maxProteinBudget - totalMacros.protein),
+      maxCarbs: Math.round(maxCarbsBudget - totalMacros.carbs),
+      maxFat: Math.round(maxFatBudget - totalMacros.fat),
     };
     console.log(`[DEBUG] Macro limits for additional meal: P=${macroLimits.maxProtein}g, C=${macroLimits.maxCarbs}g, F=${macroLimits.maxFat}g`);
 
@@ -549,7 +560,13 @@ export function selectMealsForDay(dailyGoals, preferences, includeShakeGenerator
 
   console.log('[DEBUG] Final meal count:', selectedRecipes.length);
   console.log('[DEBUG] Final total macros:', totalMacros);
-  console.log('[DEBUG] Accuracy:', Math.round(totalMacros.cal / calorieGoal * 100) + '%');
+
+  const calPercent = Math.round(totalMacros.cal / calorieGoal * 100);
+  const proteinPercent = Math.round(totalMacros.protein / dailyGoals.protein * 100);
+  const carbsPercent = Math.round(totalMacros.carbs / dailyGoals.carbs * 100);
+  const fatPercent = Math.round(totalMacros.fat / dailyGoals.fat * 100);
+
+  console.log(`[DEBUG] Macro adherence: cal=${calPercent}% protein=${proteinPercent}% carbs=${carbsPercent}% fat=${fatPercent}%`);
 
   const accuracy = calculateAccuracy(totalMacros, dailyGoals);
   console.log('[DEBUG] Accuracy breakdown:', accuracy);
