@@ -511,32 +511,16 @@ function getMacroScore(recipe, remainingMacros) {
 /**
  * Insert snacks at specified times in the meal plan
  */
-function insertSnacksAtTiming(selectedRecipes, snackTiming, calorieGoal, dailyGoals, usedRecipeIds, totalMacros) {
+function insertSnacksAtTiming(selectedRecipes, selectedSnacks, snackTiming, perSnackCalTarget, usedRecipeIds) {
   console.log('[DEBUG] insertSnacksAtTiming START - selectedRecipes length:', selectedRecipes.length);
   console.log('[DEBUG] Initial meals:', selectedRecipes.map(m => `${m.mealType}:${m.recipe?.name}`).join(', '));
 
-  if (!snackTiming || snackTiming.length === 0) {
-    console.log('[DEBUG] No snack timing specified, returning unchanged');
-    return { selectedRecipes, totalMacros };
+  if (!snackTiming || snackTiming.length === 0 || !selectedSnacks || selectedSnacks.length === 0) {
+    console.log('[DEBUG] No snacks to insert, returning unchanged');
+    return { selectedRecipes, totalMacros: calculateTotalMacros(selectedRecipes) };
   }
 
   console.log('[DEBUG] Inserting snacks at timing positions:', snackTiming);
-
-  // Get snack recipes: calories < 400, and (protein > 15 OR carbs > 40)
-  const snackCandidates = RECIPES.filter(r =>
-    r.cal < 400 && (r.protein > 15 || r.carbs > 40)
-  );
-  console.log(`[DEBUG] Snack pool after filtering: ${snackCandidates.length} candidates`);
-
-  if (snackCandidates.length === 0) {
-    console.log('[DEBUG] No snack candidates available');
-    return { selectedRecipes, totalMacros };
-  }
-
-  // Shuffle snack pool for randomization
-  const shuffledSnacks = shuffleArray(snackCandidates);
-  let snackIndex = 0;
-  const snackTarget = 325; // ~300-350 cal target
 
   // Map timing to position in selectedRecipes
   const timingToPosition = {
@@ -547,58 +531,42 @@ function insertSnacksAtTiming(selectedRecipes, snackTiming, calorieGoal, dailyGo
 
   // Insert snacks in reverse order to avoid index shifting
   const timingsToProcess = snackTiming
-    .map(timing => ({ timing, position: timingToPosition[timing] }))
+    .map((timing, idx) => ({ timing, position: timingToPosition[timing], snackIdx: idx }))
     .sort((a, b) => b.position - a.position);
 
   console.log('[DEBUG] Snacks to process (in reverse order):', timingsToProcess.map(t => `${t.timing} at pos ${t.position}`).join(', '));
 
-  for (const { timing, position } of timingsToProcess) {
-    console.log(`[DEBUG] About to insert snack at position: ${position}, current array length: ${selectedRecipes.length}`);
-
-    // Find next snack that hasn't been used
-    let snackRecipe = null;
-    while (snackIndex < shuffledSnacks.length) {
-      const candidate = shuffledSnacks[snackIndex];
-      snackIndex++;
-      if (!usedRecipeIds.has(candidate.id)) {
-        snackRecipe = candidate;
-        break;
-      }
-    }
-
-    if (!snackRecipe) {
-      console.log(`[DEBUG] No more snacks available for ${timing}`);
+  for (const { timing, position, snackIdx } of timingsToProcess) {
+    if (snackIdx >= selectedSnacks.length) {
+      console.log(`[DEBUG] No more selected snacks for ${timing}`);
       continue;
     }
 
+    const snackRecipe = selectedSnacks[snackIdx];
     usedRecipeIds.add(snackRecipe.id);
 
-    // Scale snack to 300-350 cal target
-    const scaledSnack = scaleRecipeToTarget(snackRecipe, snackTarget);
+    console.log(`[DEBUG] About to insert snack at position: ${position}, snack: ${snackRecipe.name}`);
+
+    // Scale snack to per-snack calorie target
+    const scaledSnack = scaleRecipeToTarget(snackRecipe, perSnackCalTarget);
+    console.log(`[DEBUG] Scaled snack: ${scaledSnack.cal.toFixed(0)}cal, ${scaledSnack.carbs.toFixed(0)}g carbs, ${scaledSnack.protein.toFixed(0)}g protein, ${scaledSnack.fat.toFixed(0)}g fat`);
 
     // Insert snack at correct position with timing metadata
     selectedRecipes.splice(position, 0, {
       mealType: 'snack',
       recipe: scaledSnack,
       confirmed: false,
-      timing: timing,  // 'after_breakfast', 'after_lunch', or 'after_dinner'
-      followsMealType: timing.replace('after_', ''),  // 'breakfast', 'lunch', or 'dinner'
+      timing: timing,
+      followsMealType: timing.replace('after_', ''),
     });
 
-    // Update macros
-    totalMacros.cal += scaledSnack.cal || 0;
-    totalMacros.protein += scaledSnack.protein || 0;
-    totalMacros.carbs += scaledSnack.carbs || 0;
-    totalMacros.fat += scaledSnack.fat || 0;
-
-    const scaledNote = scaledSnack.scaled ? ` [scaled ${scaledSnack.scaleRatio.toFixed(2)}x]` : '';
     console.log(`[DEBUG] After snack insertion - array length: ${selectedRecipes.length}, meals: ${selectedRecipes.map(m => `${m.mealType}:${m.recipe?.name}`).join(', ')}`);
-    console.log(`[DEBUG] Inserted snack at ${timing}: ${snackRecipe.name} (${scaledSnack.cal} cal)${scaledNote}`);
   }
 
   console.log('[DEBUG] insertSnacksAtTiming END - selectedRecipes length:', selectedRecipes.length);
   console.log('[DEBUG] Final meals array:', selectedRecipes.map(m => `${m.mealType}:${m.recipe?.name}`).join(', '));
 
+  const totalMacros = calculateTotalMacros(selectedRecipes);
   return { selectedRecipes, totalMacros };
 }
 
@@ -606,6 +574,79 @@ function insertSnacksAtTiming(selectedRecipes, snackTiming, calorieGoal, dailyGo
  * Main algorithm: Generate a meal plan for the day with dynamic meal count
  * Starts with breakfast + lunch + dinner, then adds meals until 88% of calorie goal
  */
+/**
+ * Calculate macro gaps between current meals and daily goals
+ */
+function calculateMacroGaps(meals, goals) {
+  const mealMacros = calculateTotalMacros(meals);
+
+  const gaps = {
+    protein: goals.protein - mealMacros.protein,
+    carbs: goals.carbs - mealMacros.carbs,
+    fat: goals.fat - mealMacros.fat,
+    cal: goals.cal - mealMacros.cal,
+  };
+
+  console.log(`[DEBUG] Macro gaps after meals: protein=${gaps.protein.toFixed(0)}g, carbs=${gaps.carbs.toFixed(0)}g, fat=${gaps.fat.toFixed(0)}g, cal=${gaps.cal.toFixed(0)}`);
+
+  return gaps;
+}
+
+/**
+ * Select snacks based on what macros are missing
+ */
+function selectSnacksByMacroNeed(snackPool, goals, mealMacros, snackCount) {
+  const gaps = {
+    protein: goals.protein - mealMacros.protein,
+    carbs: goals.carbs - mealMacros.carbs,
+    fat: goals.fat - mealMacros.fat,
+  };
+
+  console.log(`[DEBUG] Selecting ${snackCount} snacks with gaps: protein=${gaps.protein.toFixed(0)}g, carbs=${gaps.carbs.toFixed(0)}g, fat=${gaps.fat.toFixed(0)}g`);
+
+  // Determine primary macro need (most deficient)
+  let primaryMacro = 'carbs'; // carbs usually most deficient
+  const carbPercent = Math.abs(gaps.carbs) / goals.carbs;
+  const proteinPercent = Math.abs(gaps.protein) / goals.protein;
+  const fatPercent = Math.abs(gaps.fat) / goals.fat;
+
+  if (carbPercent < proteinPercent) primaryMacro = 'protein';
+  if (fatPercent > carbPercent) primaryMacro = 'fat';
+
+  console.log(`[DEBUG] Primary macro to fix: ${primaryMacro}`);
+
+  // Score snacks by how well they fill the gap
+  const scoredSnacks = snackPool.map(snack => {
+    let score = 0;
+
+    if (primaryMacro === 'carbs') {
+      // Prioritize high-carb snacks
+      score = snack.carbs;
+    } else if (primaryMacro === 'protein') {
+      // Prioritize high-protein snacks
+      score = snack.protein;
+    } else if (primaryMacro === 'fat') {
+      // Prioritize low-fat snacks (to reduce overshoot)
+      score = 20 - (snack.fat || 0); // inverted: lower fat = higher score
+    }
+
+    return { ...snack, score };
+  });
+
+  // Sort by score and pick top snackCount
+  const selected = scoredSnacks
+    .sort((a, b) => b.score - a.score)
+    .slice(0, snackCount)
+    .map(s => {
+      const { score, ...snack } = s;
+      return snack;
+    });
+
+  console.log(`[DEBUG] Selected snacks: ${selected.map(s => s.name).join(', ')}`);
+
+  return selected;
+}
+
 export function selectMealsForDay(dailyGoals, preferences, includeShakeGenerator = null) {
   console.log('[DEBUG] selectMealsForDay called');
   console.log('[DEBUG] Input goals:', dailyGoals);
@@ -617,40 +658,9 @@ export function selectMealsForDay(dailyGoals, preferences, includeShakeGenerator
 
   console.log('[DEBUG] Calorie goal:', calorieGoal, '| Target min (88%):', Math.round(targetMin));
 
-  // Calculate snack budget FIRST if snacks are enabled
-  let snackCalBudget = 0;
-  let snackProteinBudget = 0;
-  let snackCarbsBudget = 0;
-  let snackFatBudget = 0;
+  // NOTE: Snack budget now calculated AFTER meals selected based on actual gaps
 
-  if (preferences?.include_snacks === true && preferences?.snack_timing?.length > 0) {
-    const snackCount = preferences.snack_timing.length;
-
-    // Calculate snack macro averages from actual snack recipes
-    const snackRecipes = RECIPES.filter(r => r.mealType === 'Snack');
-
-    if (snackRecipes.length > 0) {
-      const avgSnackCal = snackRecipes.reduce((sum, r) => sum + r.cal, 0) / snackRecipes.length;
-      const avgSnackProtein = snackRecipes.reduce((sum, r) => sum + r.protein, 0) / snackRecipes.length;
-      const avgSnackCarbs = snackRecipes.reduce((sum, r) => sum + r.carbs, 0) / snackRecipes.length;
-      const avgSnackFat = snackRecipes.reduce((sum, r) => sum + r.fat, 0) / snackRecipes.length;
-
-      // Apply minimum protein requirement (17g)
-      const proteinWithMinimum = Math.max(avgSnackProtein, 17);
-
-      snackCalBudget = Math.round(snackCount * avgSnackCal);
-      snackProteinBudget = Math.round(snackCount * proteinWithMinimum);
-      snackCarbsBudget = Math.round(snackCount * avgSnackCarbs);
-      snackFatBudget = Math.round(snackCount * avgSnackFat);
-
-      console.log('[DEBUG] Snack budgets (calculated from actual recipes):');
-      console.log(`[DEBUG]   Cal: ${snackCalBudget}, Protein: ${snackProteinBudget}g, Carbs: ${snackCarbsBudget}g, Fat: ${snackFatBudget}g`);
-    } else {
-      console.log('[DEBUG] No snack recipes found, using zero budget');
-    }
-  }
-
-  const selectedRecipes = [];
+  let selectedRecipes = [];
   const usedRecipeIds = new Set();
   let totalMacros = { cal: 0, protein: 0, carbs: 0, fat: 0 };
 
@@ -775,21 +785,34 @@ export function selectMealsForDay(dailyGoals, preferences, includeShakeGenerator
 
   // Insert snacks at specified timing if enabled
   console.log('[DEBUG] Before snack insertion - selectedRecipes length:', selectedRecipes.length, 'meals:', selectedRecipes.map(m => `${m.mealType}:${m.recipe?.name}`).join(', '));
-  if (preferences?.include_snacks === true) {
-    console.log('[DEBUG] Calling insertSnacksAtTiming with timing:', preferences.snack_timing);
+  if (preferences?.include_snacks === true && preferences.snack_timing?.length > 0) {
+    console.log('[DEBUG] === MACRO-AWARE SNACK SELECTION ===');
+
+    // Calculate macro gaps AFTER meals selected
+    const mealMacros = calculateTotalMacros(selectedRecipes);
+    const gaps = calculateMacroGaps(selectedRecipes, { protein: dailyGoals.protein, carbs: dailyGoals.carbs, fat: dailyGoals.fat, cal: calorieGoal });
+
+    // Select snacks intelligently based on macro needs
+    const snackPool = RECIPES.filter(r => r.mealType === 'Snack');
+    const selectedSnacks = selectSnacksByMacroNeed(snackPool, { protein: dailyGoals.protein, carbs: dailyGoals.carbs, fat: dailyGoals.fat }, mealMacros, preferences.snack_timing.length);
+
+    // Calculate per-snack calorie target
+    const perSnackCalTarget = gaps.cal > 0 ? gaps.cal / preferences.snack_timing.length : 325;
+    console.log(`[DEBUG] Per-snack calorie target: ${perSnackCalTarget.toFixed(0)}`);
+
+    // Insert snacks at timing positions
     const snackResult = insertSnacksAtTiming(
       selectedRecipes,
+      selectedSnacks,
       preferences.snack_timing,
-      calorieGoal,
-      dailyGoals,
-      usedRecipeIds,
-      totalMacros
+      perSnackCalTarget,
+      usedRecipeIds
     );
-    console.log('[DEBUG] snackResult.selectedRecipes length:', snackResult.selectedRecipes.length, 'meals:', snackResult.selectedRecipes.map(m => `${m.mealType}:${m.recipe?.name}`).join(', '));
-    // NOTE: snackResult.selectedRecipes is the SAME reference as selectedRecipes because splice() mutates in place
-    // So we do NOT need to clear and repush - the array is already mutated!
+
+    selectedRecipes = snackResult.selectedRecipes;
     totalMacros = snackResult.totalMacros;
-    console.log('[DEBUG] After snack insertion - selectedRecipes length:', selectedRecipes.length, 'meals:', selectedRecipes.map(m => `${m.mealType}:${m.recipe?.name}`).join(', '));
+
+    console.log(`[DEBUG] After snack insertion - selectedRecipes length: ${selectedRecipes.length}, meals: ${selectedRecipes.map(m => `${m.mealType}:${m.recipe?.name}`).join(', ')}`);
   }
 
   // Add snacks/meals until goal reached or max meals hit
