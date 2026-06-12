@@ -26,7 +26,10 @@
       "Bash(bash /tmp/verify_scaling.sh)",
       "Bash(bash /tmp/verify_macro_guardrails.sh)",
       "Bash(npm start *)",
-      "PowerShell(Start-Sleep -Seconds 3; \\(Invoke-WebRequest http://localhost:5173 -UseBasicParsing -ErrorAction SilentlyContinue\\).StatusCode)"
+      "PowerShell(Start-Sleep -Seconds 3; \\(Invoke-WebRequest http://localhost:5173 -UseBasicParsing -ErrorAction SilentlyContinue\\).StatusCode)",
+      "Skill(run)",
+      "Bash(git reset *)",
+      "Bash(node *)"
     ]
   }
 }

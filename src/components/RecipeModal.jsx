@@ -1287,11 +1287,11 @@ export default function RecipeModal({recipe, onClose, onMealLogged, isLoggedView
                                   textAlign: "center",
                                 }}
                               >
-                                {c.unit === 'ml' ? c.grams : c.unit === 'spray' ? c.grams : c.unit === 'each' ? Math.round(c.grams) : c.grams}
+                                {c.unit === 'ml' ? c.grams : c.unit === 'spray' ? c.grams : c.unit === 'count' ? Math.round(c.grams / 50) : c.unit === 'each' ? Math.round(c.grams) : c.grams}
                               </span>
                             )}
                             <span style={{fontSize: 11, color: "var(--muted)"}}>
-                              {c.unit === 'ml' ? 'ml' : c.unit === 'spray' ? 'spray' : c.unit === 'each' ? '' : `g${shouldShowRawSuffix(c.name, c.weighRaw, c.type) ? " raw" : ""}`}
+                              {c.unit === 'ml' ? 'ml' : c.unit === 'spray' ? 'spray' : c.unit === 'count' ? (Math.round(c.grams / 50) > 1 ? 'eggs' : 'egg') : c.unit === 'each' ? '' : `g${shouldShowRawSuffix(c.name, c.weighRaw, c.type) ? " raw" : ""}`}
                             </span>
                           </div>
                         )}
