@@ -1,16 +1,53 @@
 import { useState } from 'react';
 
-export default function MacroFillerSuggestions({ macroFillers = [], totalMacros, goals }) {
+export default function MacroFillerSuggestions({ macroFillers = [], totalMacros, goals, onFillerUpdate, onSelectedFillersChange }) {
   const [selectedFillers, setSelectedFillers] = useState([]);
 
   if (!macroFillers || macroFillers.length === 0) {
     return null;
   }
 
+  const getDisplayQuantity = (quantity) => {
+    if (quantity % 1 === 0) return `${quantity}x`;
+    return `${quantity.toFixed(2)}x`;
+  };
+
   const toggleFiller = (index) => {
-    setSelectedFillers(prev =>
-      prev.includes(index) ? prev.filter(i => i !== index) : [...prev, index]
-    );
+    setSelectedFillers(prev => {
+      const updated = prev.includes(index)
+        ? prev.filter(i => i !== index)
+        : [...prev, index];
+
+      // Notify parent of selected fillers
+      if (onSelectedFillersChange) {
+        onSelectedFillersChange(updated);
+      }
+
+      // Notify parent of updated macros
+      const fillerMacros = updated.reduce(
+        (acc, idx) => ({
+          protein: acc.protein + (macroFillers[idx].totalMacros.protein || 0),
+          carbs: acc.carbs + (macroFillers[idx].totalMacros.carbs || 0),
+          fat: acc.fat + (macroFillers[idx].totalMacros.fat || 0),
+          cal: acc.cal + (macroFillers[idx].totalMacros.cal || 0),
+        }),
+        { protein: 0, carbs: 0, fat: 0, cal: 0 }
+      );
+
+      const newTotalMacros = {
+        cal: Math.round(totalMacros.cal + fillerMacros.cal),
+        protein: Math.round(totalMacros.protein + fillerMacros.protein),
+        carbs: Math.round(totalMacros.carbs + fillerMacros.carbs),
+        fat: Math.round(totalMacros.fat + fillerMacros.fat),
+      };
+
+      if (onFillerUpdate) {
+        onFillerUpdate(newTotalMacros);
+      }
+
+      console.log('[DEBUG] Filler selection updated - selected:', updated, 'new macros:', newTotalMacros);
+      return updated;
+    });
   };
 
   // Calculate macros with selected fillers
@@ -75,7 +112,7 @@ export default function MacroFillerSuggestions({ macroFillers = [], totalMacros,
             />
             <div style={{ flex: 1 }}>
               <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--cream)' }}>
-                {filler.quantity}x {filler.filler.name} ({filler.filler.unit})
+                {getDisplayQuantity(filler.quantity)} {filler.filler.name} ({filler.filler.unit})
               </div>
               <div style={{ fontSize: 11, color: 'var(--muted)', marginTop: 2 }}>
                 Closes {filler.gap}g {filler.macro} gap
@@ -88,7 +125,7 @@ export default function MacroFillerSuggestions({ macroFillers = [], totalMacros,
               flexShrink: 0,
               minWidth: 60,
             }}>
-              {filler.totalMacros.cal ? `+${filler.totalMacros.cal} cal` : ''}
+              {filler.totalMacros.cal ? `+${Math.round(filler.totalMacros.cal)} cal` : ''}
             </div>
           </label>
         ))}

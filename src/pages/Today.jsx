@@ -891,6 +891,8 @@ export default function Today({mealPlanner, goals: propsGoals, onTabFocus, onUpd
                 onRemoveMeal={handleRemoveMeal}
                 isGenerating={mealPlanner.loading}
                 onShowShoppingList={() => setShowShoppingListModal(true)}
+                onLogFillers={mealPlanner.logFillers}
+                onRemoveFillers={mealPlanner.removeFillerLog}
               />
             ) : (
               <div style={{

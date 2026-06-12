@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import MealPlanCard from './MealPlanCard';
 import MacroFillerSuggestions from './MacroFillerSuggestions';
+import FillerLoggingPanel from './FillerLoggingPanel';
 
 export default function MealPlanDisplay({
   mealPlan,
@@ -12,7 +14,21 @@ export default function MealPlanDisplay({
   onRemoveMeal,
   isGenerating,
   onShowShoppingList,
+  onLogFillers,
+  onRemoveFillers,
 }) {
+  const [displayedMacros, setDisplayedMacros] = useState(mealPlan?.totalMacros || {});
+  const [selectedFillers, setSelectedFillers] = useState([]);
+
+  const handleFillerUpdate = (updatedMacros) => {
+    setDisplayedMacros(updatedMacros);
+    console.log('[DEBUG] MealPlanDisplay updated displayed macros:', updatedMacros);
+  };
+
+  const handleSelectedFillersChange = (selected) => {
+    setSelectedFillers(selected);
+    console.log('[DEBUG] MealPlanDisplay selected fillers updated:', selected);
+  };
   if (!mealPlan || !mealPlan.meals) {
     return (
       <div style={{
@@ -186,11 +202,22 @@ export default function MealPlanDisplay({
 
       {/* Macro Filler Suggestions */}
       {mealPlan.macroFillers && mealPlan.macroFillers.length > 0 && (
-        <MacroFillerSuggestions
-          macroFillers={mealPlan.macroFillers}
-          totalMacros={mealPlan.totalMacros}
-          goals={goals}
-        />
+        <>
+          <MacroFillerSuggestions
+            macroFillers={mealPlan.macroFillers}
+            totalMacros={mealPlan.totalMacros}
+            goals={goals}
+            onFillerUpdate={handleFillerUpdate}
+            onSelectedFillersChange={handleSelectedFillersChange}
+          />
+          <FillerLoggingPanel
+            selectedFillers={selectedFillers}
+            fillers={mealPlan.macroFillers}
+            totalMacros={displayedMacros}
+            onLog={onLogFillers}
+            onRemove={onRemoveFillers}
+          />
+        </>
       )}
 
       {/* Regenerate button at bottom */}

@@ -685,7 +685,7 @@ function calculateMacroFillers(totalMacros, goals) {
   const carbGap = goals.carbs - totalMacros.carbs;
   if (carbGap > tolerance) {
     const bestFiller = MACRO_FILLERS.carbs[0];
-    const needed = Math.ceil(carbGap / bestFiller.macros.carbs);
+    const needed = carbGap / bestFiller.macros.carbs;
     fillers.push({
       macro: 'carbs',
       gap: Math.round(carbGap),
@@ -698,14 +698,14 @@ function calculateMacroFillers(totalMacros, goals) {
         cal: bestFiller.macros.cal * needed,
       },
     });
-    console.log(`[DEBUG] Carbs gap: ${Math.round(carbGap)}g - suggest ${needed}x ${bestFiller.name}`);
+    console.log(`[DEBUG] Carbs gap: ${Math.round(carbGap)}g - suggest ${needed.toFixed(2)}x ${bestFiller.name}`);
   }
 
   // Check protein
   const proteinGap = goals.protein - totalMacros.protein;
   if (proteinGap > tolerance) {
     const bestFiller = MACRO_FILLERS.protein[0];
-    const needed = Math.ceil(proteinGap / bestFiller.macros.protein);
+    const needed = proteinGap / bestFiller.macros.protein;
     fillers.push({
       macro: 'protein',
       gap: Math.round(proteinGap),
@@ -718,14 +718,14 @@ function calculateMacroFillers(totalMacros, goals) {
         cal: bestFiller.macros.cal * needed,
       },
     });
-    console.log(`[DEBUG] Protein gap: ${Math.round(proteinGap)}g - suggest ${needed}x ${bestFiller.name}`);
+    console.log(`[DEBUG] Protein gap: ${Math.round(proteinGap)}g - suggest ${needed.toFixed(2)}x ${bestFiller.name}`);
   }
 
   // Check fat
   const fatGap = goals.fat - totalMacros.fat;
   if (fatGap > tolerance) {
     const bestFiller = MACRO_FILLERS.fat[0];
-    const needed = Math.ceil(fatGap / bestFiller.macros.fat);
+    const needed = fatGap / bestFiller.macros.fat;
     fillers.push({
       macro: 'fat',
       gap: Math.round(fatGap),
@@ -738,7 +738,7 @@ function calculateMacroFillers(totalMacros, goals) {
         cal: bestFiller.macros.cal * needed,
       },
     });
-    console.log(`[DEBUG] Fat gap: ${Math.round(fatGap)}g - suggest ${needed}x ${bestFiller.name}`);
+    console.log(`[DEBUG] Fat gap: ${Math.round(fatGap)}g - suggest ${needed.toFixed(2)}x ${bestFiller.name}`);
   }
 
   return fillers;

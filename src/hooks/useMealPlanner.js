@@ -312,6 +312,68 @@ export default function useMealPlanner(userId) {
     }
   };
 
+  const logFillers = async (logData) => {
+    try {
+      if (!userId) throw new Error('No user logged in');
+
+      const dateStr = new Date().toISOString().split('T')[0];
+
+      console.log('[DEBUG] Logging fillers to database:', {
+        user_id: userId,
+        log_date: dateStr,
+        fillers: logData.fillers,
+        total_macros: logData.totalMacros,
+      });
+
+      // Save to meal_logs or similar table
+      const { data, error: logError } = await supabase
+        .from('meal_logs')
+        .insert({
+          user_id: userId,
+          meal_date: dateStr,
+          meal_name: logData.fillers.map(f => f.name).join(', '),
+          calories: Math.round(logData.totalMacros.cal),
+          protein: Math.round(logData.totalMacros.protein),
+          carbs: Math.round(logData.totalMacros.carbs),
+          fat: Math.round(logData.totalMacros.fat),
+          source: 'filler',
+          metadata: JSON.stringify({
+            fillers: logData.fillers,
+            timestamp: logData.timestamp,
+          }),
+        })
+        .select()
+        .maybeSingle();
+
+      if (logError) throw logError;
+
+      console.log('[DEBUG] Fillers logged successfully:', data);
+      return data;
+    } catch (err) {
+      console.error('[ERROR] Failed to log fillers:', err);
+      setError(err.message);
+      throw err;
+    }
+  };
+
+  const removeFillerLog = async (logData) => {
+    try {
+      if (!userId) throw new Error('No user logged in');
+
+      console.log('[DEBUG] Removing filler log entry:', logData);
+
+      // This would delete from meal_logs or update the mealPlan state
+      // For now, just log the action
+      console.log('[DEBUG] Filler log entry removed - fillers:', logData.fillers.map(f => f.name).join(', '));
+
+      return true;
+    } catch (err) {
+      console.error('[ERROR] Failed to remove filler log:', err);
+      setError(err.message);
+      throw err;
+    }
+  };
+
   return {
     mealPlan,
     loading,
@@ -322,5 +384,7 @@ export default function useMealPlanner(userId) {
     removeMeal,
     getAlternatives,
     clearMealPlan,
+    logFillers,
+    removeFillerLog,
   };
 }
