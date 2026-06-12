@@ -344,11 +344,13 @@ function insertSnacksAtTiming(selectedRecipes, snackTiming, calorieGoal, dailyGo
     // Scale snack to 300-350 cal target
     const scaledSnack = scaleRecipeToTarget(snackRecipe, snackTarget);
 
-    // Insert snack at correct position
+    // Insert snack at correct position with timing metadata
     selectedRecipes.splice(position, 0, {
       mealType: 'snack',
       recipe: scaledSnack,
       confirmed: false,
+      timing: timing,  // 'after_breakfast', 'after_lunch', or 'after_dinner'
+      followsMealType: timing.replace('after_', ''),  // 'breakfast', 'lunch', or 'dinner'
     });
 
     // Update macros
@@ -391,17 +393,29 @@ export function selectMealsForDay(dailyGoals, preferences, includeShakeGenerator
 
   if (preferences?.include_snacks === true && preferences?.snack_timing?.length > 0) {
     const snackCount = preferences.snack_timing.length;
-    const CAL_PER_SNACK = 325;
-    const PROTEIN_PER_SNACK = 30;
-    const CARBS_PER_SNACK = 25;
-    const FAT_PER_SNACK = 10;
 
-    snackCalBudget = snackCount * CAL_PER_SNACK;
-    snackProteinBudget = snackCount * PROTEIN_PER_SNACK;
-    snackCarbsBudget = snackCount * CARBS_PER_SNACK;
-    snackFatBudget = snackCount * FAT_PER_SNACK;
+    // Calculate snack macro averages from actual snack recipes
+    const snackRecipes = RECIPES.filter(r => r.mealType === 'Snack');
 
-    console.log(`[DEBUG] Snack budget (${snackCount} snacks) - cal: ${snackCalBudget}, protein: ${snackProteinBudget}g, carbs: ${snackCarbsBudget}g, fat: ${snackFatBudget}g`);
+    if (snackRecipes.length > 0) {
+      const avgSnackCal = snackRecipes.reduce((sum, r) => sum + r.cal, 0) / snackRecipes.length;
+      const avgSnackProtein = snackRecipes.reduce((sum, r) => sum + r.protein, 0) / snackRecipes.length;
+      const avgSnackCarbs = snackRecipes.reduce((sum, r) => sum + r.carbs, 0) / snackRecipes.length;
+      const avgSnackFat = snackRecipes.reduce((sum, r) => sum + r.fat, 0) / snackRecipes.length;
+
+      // Apply minimum protein requirement (17g)
+      const proteinWithMinimum = Math.max(avgSnackProtein, 17);
+
+      snackCalBudget = Math.round(snackCount * avgSnackCal);
+      snackProteinBudget = Math.round(snackCount * proteinWithMinimum);
+      snackCarbsBudget = Math.round(snackCount * avgSnackCarbs);
+      snackFatBudget = Math.round(snackCount * avgSnackFat);
+
+      console.log('[DEBUG] Snack budgets (calculated from actual recipes):');
+      console.log(`[DEBUG]   Cal: ${snackCalBudget}, Protein: ${snackProteinBudget}g, Carbs: ${snackCarbsBudget}g, Fat: ${snackFatBudget}g`);
+    } else {
+      console.log('[DEBUG] No snack recipes found, using zero budget');
+    }
   }
 
   const selectedRecipes = [];

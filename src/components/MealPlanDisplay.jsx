@@ -132,18 +132,55 @@ export default function MealPlanDisplay({
 
 
 
-      {/* Meal Cards */}
+      {/* Meal Cards - sorted by timing order */}
       <div>
-        {mealPlan.meals && mealPlan.meals.filter(m => m && m.recipe).map((meal) => (
-          <MealPlanCard
-            key={meal.mealType}
-            meal={meal}
-            onSwap={onSwapMeal}
-            onViewRecipe={onViewRecipe}
-            onUnlog={onUnlogMeal}
-            onRemove={onRemoveMeal}
-          />
-        ))}
+        {mealPlan.meals && (() => {
+          // Sort meals by timing: Breakfast → Snack → Lunch → Snack → Dinner → Snack
+          const mealOrder = ['breakfast', 'lunch', 'dinner'];
+          const timingOrder = ['after_breakfast', 'after_lunch', 'after_dinner'];
+
+          const sortedMeals = mealPlan.meals
+            .filter(m => m && m.recipe)
+            .sort((a, b) => {
+              // If both are snacks, sort by timing
+              if (a.mealType === 'snack' && b.mealType === 'snack') {
+                return timingOrder.indexOf(a.timing) - timingOrder.indexOf(b.timing);
+              }
+
+              // If one is snack, position it after its corresponding meal
+              if (a.mealType === 'snack' && b.mealType !== 'snack') {
+                const bIndex = mealOrder.indexOf(b.mealType);
+                const aTimingIndex = timingOrder.indexOf(a.timing);
+                if (aTimingIndex === bIndex) return 1; // snack comes after this meal
+                if (aTimingIndex < bIndex) return -1;
+                return 1;
+              }
+
+              if (b.mealType === 'snack' && a.mealType !== 'snack') {
+                const aIndex = mealOrder.indexOf(a.mealType);
+                const bTimingIndex = timingOrder.indexOf(b.timing);
+                if (bTimingIndex === aIndex) return -1; // snack comes after this meal
+                if (bTimingIndex < aIndex) return 1;
+                return -1;
+              }
+
+              // Both are regular meals, sort by meal order
+              return mealOrder.indexOf(a.mealType) - mealOrder.indexOf(b.mealType);
+            });
+
+          console.log('[DEBUG] Sorted meals for display:', sortedMeals.map(m => `${m.mealType}${m.timing ? ':' + m.timing : ''}`).join(' → '));
+
+          return sortedMeals.map((meal) => (
+            <MealPlanCard
+              key={meal.mealType + (meal.timing || '')}
+              meal={meal}
+              onSwap={onSwapMeal}
+              onViewRecipe={onViewRecipe}
+              onUnlog={onUnlogMeal}
+              onRemove={onRemoveMeal}
+            />
+          ));
+        })()}
       </div>
 
       {/* Regenerate button at bottom */}
