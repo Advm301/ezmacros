@@ -1,5 +1,5 @@
 // QuickPrep recipe data -- simple recipe suggestion app (no macros/nutrition info)
-// Each recipe: id, name, emoji, method, mealType (breakfast | lunch_dinner | snack),
+// Each recipe: id, name, method, mealType (breakfast | lunch_dinner | snack),
 // proteins (array of protein categories present), flavor (single flavor/cuisine tag),
 // activeTime (minutes), components (ingredients: name/quantity/unit), toppings (optional
 // garnish names), instructions (cooking steps).
@@ -14,7 +14,6 @@ export const RECIPES = [
   {
     "id": 1,
     "name": "Teriyaki Cod Bowl",
-    "emoji": "🐟",
     "method": "Bake",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -57,7 +56,6 @@ export const RECIPES = [
   {
     "id": 2,
     "name": "Spicy Asian Cod Bowl",
-    "emoji": "🌶️",
     "method": "Bake",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -107,7 +105,6 @@ export const RECIPES = [
   {
     "id": 3,
     "name": "Air Fryer Chicken Thighs",
-    "emoji": "🍗",
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -145,7 +142,6 @@ export const RECIPES = [
   {
     "id": 4,
     "name": "Maverick Jerk Chicken Bowl",
-    "emoji": "📦",
     "method": "Microwave",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -172,7 +168,6 @@ export const RECIPES = [
   {
     "id": 5,
     "name": "Deviled Eggs",
-    "emoji": "🥚",
     "method": "No Cook",
     "mealType": "snack",
     "proteins": [
@@ -210,7 +205,6 @@ export const RECIPES = [
   {
     "id": 6,
     "name": "Slow Cooker Beef Rice Bowl",
-    "emoji": "🥩",
     "method": "Slow Cooker",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -255,7 +249,6 @@ export const RECIPES = [
   {
     "id": 7,
     "name": "Sheet Pan Turkey Meatballs",
-    "emoji": "🧆",
     "method": "Bake",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -295,7 +288,6 @@ export const RECIPES = [
   {
     "id": 8,
     "name": "Salmon Lemon Herb Bake",
-    "emoji": "🐠",
     "method": "Bake",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -338,7 +330,6 @@ export const RECIPES = [
   {
     "id": 9,
     "name": "Greek Yogurt Power Bowl",
-    "emoji": "🥣",
     "method": "No Cook",
     "mealType": "breakfast",
     "proteins": [
@@ -380,7 +371,6 @@ export const RECIPES = [
   {
     "id": 10,
     "name": "Egg White Scramble",
-    "emoji": "🍳",
     "method": "Stovetop",
     "mealType": "breakfast",
     "proteins": [
@@ -418,7 +408,6 @@ export const RECIPES = [
   {
     "id": 11,
     "name": "Kodiak Protein Pancakes",
-    "emoji": "🥞",
     "method": "Stovetop",
     "mealType": "breakfast",
     "proteins": [
@@ -461,7 +450,6 @@ export const RECIPES = [
   {
     "id": 12,
     "name": "PB Banana Protein Shake",
-    "emoji": "🍌",
     "method": "No Cook",
     "mealType": "breakfast",
     "proteins": [
@@ -508,7 +496,6 @@ export const RECIPES = [
   {
     "id": 13,
     "name": "Smoked Salmon Bagel",
-    "emoji": "🍣",
     "method": "No Cook",
     "mealType": "breakfast",
     "proteins": [
@@ -550,7 +537,6 @@ export const RECIPES = [
   {
     "id": 14,
     "name": "Cottage Cheese Toast",
-    "emoji": "🧀",
     "method": "No Cook",
     "mealType": "breakfast",
     "proteins": [
@@ -592,7 +578,6 @@ export const RECIPES = [
   {
     "id": 15,
     "name": "Protein Overnight Oats",
-    "emoji": "🥣",
     "method": "No Cook",
     "mealType": "breakfast",
     "proteins": [
@@ -640,7 +625,6 @@ export const RECIPES = [
   {
     "id": 16,
     "name": "Scrambled Eggs & Turkey Sausage",
-    "emoji": "🍳",
     "method": "Stovetop",
     "mealType": "breakfast",
     "proteins": [
@@ -684,7 +668,6 @@ export const RECIPES = [
   {
     "id": 17,
     "name": "High Protein Bagel",
-    "emoji": "🛡️",
     "method": "No Cook",
     "mealType": "breakfast",
     "proteins": [
@@ -732,7 +715,6 @@ export const RECIPES = [
   {
     "id": 18,
     "name": "Avocado Egg Toast",
-    "emoji": "🥑",
     "method": "No Cook",
     "mealType": "breakfast",
     "proteins": [
@@ -774,7 +756,6 @@ export const RECIPES = [
   {
     "id": 19,
     "name": "Greek Yogurt Parfait",
-    "emoji": "🍨",
     "method": "No Cook",
     "mealType": "breakfast",
     "proteins": [
@@ -816,7 +797,6 @@ export const RECIPES = [
   {
     "id": 20,
     "name": "Microwave Egg Mug",
-    "emoji": "☕",
     "method": "Microwave",
     "mealType": "breakfast",
     "proteins": [
@@ -858,7 +838,6 @@ export const RECIPES = [
   {
     "id": 21,
     "name": "Buffalo Chicken Rice Bowl",
-    "emoji": "🔥",
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -906,7 +885,6 @@ export const RECIPES = [
   {
     "id": 22,
     "name": "BBQ Chicken Rice Bowl",
-    "emoji": "🍖",
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -949,7 +927,6 @@ export const RECIPES = [
   {
     "id": 23,
     "name": "Canned Chicken Rice Bowl",
-    "emoji": "🥫",
     "method": "No Cook",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -996,7 +973,6 @@ export const RECIPES = [
   {
     "id": 24,
     "name": "Rotisserie Chicken Bowl",
-    "emoji": "🍗",
     "method": "No Cook",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -1038,7 +1014,6 @@ export const RECIPES = [
   {
     "id": 25,
     "name": "Salmon Poke Bowl",
-    "emoji": "🍣",
     "method": "No Cook",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -1085,7 +1060,6 @@ export const RECIPES = [
   {
     "id": 26,
     "name": "Honey Garlic Cod Bowl",
-    "emoji": "🐟",
     "method": "Bake",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -1138,7 +1112,6 @@ export const RECIPES = [
   {
     "id": 27,
     "name": "Ground Beef Taco Bowl",
-    "emoji": "🌮",
     "method": "Stovetop",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -1191,7 +1164,6 @@ export const RECIPES = [
   {
     "id": 28,
     "name": "Pork Tenderloin Bowl",
-    "emoji": "🐷",
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -1239,7 +1211,6 @@ export const RECIPES = [
   {
     "id": 29,
     "name": "Lemon Pepper Shrimp Bowl",
-    "emoji": "🦐",
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -1287,7 +1258,6 @@ export const RECIPES = [
   {
     "id": 30,
     "name": "Greek Chicken Bowl",
-    "emoji": "🇬🇷",
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -1335,7 +1305,6 @@ export const RECIPES = [
   {
     "id": 31,
     "name": "Slow Cooker Chicken Thighs",
-    "emoji": "🍗",
     "method": "Slow Cooker",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -1377,7 +1346,6 @@ export const RECIPES = [
   {
     "id": 32,
     "name": "Tuna Pasta Salad",
-    "emoji": "🍝",
     "method": "No Cook",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -1420,7 +1388,6 @@ export const RECIPES = [
   {
     "id": 33,
     "name": "Black Bean Quesadilla",
-    "emoji": "🌯",
     "method": "Stovetop",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -1463,7 +1430,6 @@ export const RECIPES = [
   {
     "id": 34,
     "name": "Microwave Salmon Pouch Bowl",
-    "emoji": "🐟",
     "method": "Microwave",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -1505,7 +1471,6 @@ export const RECIPES = [
   {
     "id": 35,
     "name": "High Protein Chili",
-    "emoji": "🌶️",
     "method": "Slow Cooker",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -1554,7 +1519,6 @@ export const RECIPES = [
   {
     "id": 36,
     "name": "Honey Sriracha Salmon",
-    "emoji": "🔥",
     "method": "Bake",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -1602,7 +1566,6 @@ export const RECIPES = [
   {
     "id": 37,
     "name": "Egg Fried Rice",
-    "emoji": "🍚",
     "method": "Stovetop",
     "mealType": "breakfast",
     "proteins": [
@@ -1650,7 +1613,6 @@ export const RECIPES = [
   {
     "id": 38,
     "name": "Chipotle Style Chicken Bowl",
-    "emoji": "🌶️",
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -1704,7 +1666,6 @@ export const RECIPES = [
   {
     "id": 39,
     "name": "Turkey Lettuce Wraps",
-    "emoji": "🥬",
     "method": "No Cook",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -1746,7 +1707,6 @@ export const RECIPES = [
   {
     "id": 40,
     "name": "Teriyaki Salmon Bowl",
-    "emoji": "🐠",
     "method": "Bake",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -1794,7 +1754,6 @@ export const RECIPES = [
   {
     "id": 41,
     "name": "Beef Jerky & Rice Cakes",
-    "emoji": "🍘",
     "method": "No Cook",
     "mealType": "snack",
     "proteins": [
@@ -1830,7 +1789,6 @@ export const RECIPES = [
   {
     "id": 42,
     "name": "String Cheese & Turkey Roll-Ups",
-    "emoji": "🧀",
     "method": "No Cook",
     "mealType": "snack",
     "proteins": [
@@ -1866,7 +1824,6 @@ export const RECIPES = [
   {
     "id": 43,
     "name": "Cottage Cheese & Pineapple",
-    "emoji": "🍍",
     "method": "No Cook",
     "mealType": "snack",
     "proteins": [
@@ -1902,7 +1859,6 @@ export const RECIPES = [
   {
     "id": 44,
     "name": "Hard Boiled Eggs with Hot Sauce",
-    "emoji": "🥚",
     "method": "No Cook",
     "mealType": "snack",
     "proteins": [
@@ -1938,7 +1894,6 @@ export const RECIPES = [
   {
     "id": 45,
     "name": "Sardines on Toast",
-    "emoji": "🐟",
     "method": "No Cook",
     "mealType": "snack",
     "proteins": [
@@ -1980,7 +1935,6 @@ export const RECIPES = [
   {
     "id": 46,
     "name": "Skyr & Berries",
-    "emoji": "🫐",
     "method": "No Cook",
     "mealType": "snack",
     "proteins": [
@@ -2016,7 +1970,6 @@ export const RECIPES = [
   {
     "id": 47,
     "name": "Chicken & Salsa Wrap",
-    "emoji": "🌯",
     "method": "No Cook",
     "mealType": "snack",
     "proteins": [
@@ -2058,7 +2011,6 @@ export const RECIPES = [
   {
     "id": 48,
     "name": "Protein Pudding",
-    "emoji": "🍮",
     "method": "No Cook",
     "mealType": "snack",
     "proteins": [
@@ -2101,7 +2053,6 @@ export const RECIPES = [
   {
     "id": 49,
     "name": "Edamame Bowl",
-    "emoji": "🌱",
     "method": "Microwave",
     "mealType": "snack",
     "proteins": [
@@ -2143,7 +2094,6 @@ export const RECIPES = [
   {
     "id": 50,
     "name": "Canned Chicken & Crackers",
-    "emoji": "🧀",
     "method": "No Cook",
     "mealType": "snack",
     "proteins": [
@@ -2185,7 +2135,6 @@ export const RECIPES = [
   {
     "id": 51,
     "name": "Classic Smash Burger",
-    "emoji": "🍔",
     "method": "Stovetop",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -2239,7 +2188,6 @@ export const RECIPES = [
   {
     "id": 52,
     "name": "BBQ Bacon Burger",
-    "emoji": "🥓",
     "method": "Stovetop",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -2288,7 +2236,6 @@ export const RECIPES = [
   {
     "id": 53,
     "name": "Turkey Burger",
-    "emoji": "🍗",
     "method": "Stovetop",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -2341,7 +2288,6 @@ export const RECIPES = [
   {
     "id": 54,
     "name": "Spicy Chicken Sandwich",
-    "emoji": "🌶️",
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -2389,7 +2335,6 @@ export const RECIPES = [
   {
     "id": 55,
     "name": "Tuna Melt",
-    "emoji": "🐟",
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -2437,7 +2382,6 @@ export const RECIPES = [
   {
     "id": 56,
     "name": "Egg & Cheese Breakfast Sandwich",
-    "emoji": "🥚",
     "method": "Stovetop",
     "mealType": "breakfast",
     "proteins": [
@@ -2486,7 +2430,6 @@ export const RECIPES = [
   {
     "id": 57,
     "name": "Rotisserie Chicken Wrap",
-    "emoji": "🌯",
     "method": "No Cook",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -2534,7 +2477,6 @@ export const RECIPES = [
   {
     "id": 58,
     "name": "BLT Protein Wrap",
-    "emoji": "🥓",
     "method": "No Cook",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -2581,7 +2523,6 @@ export const RECIPES = [
   {
     "id": 59,
     "name": "Air Fryer Protein Pizza",
-    "emoji": "🍕",
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -2624,7 +2565,6 @@ export const RECIPES = [
   {
     "id": 60,
     "name": "Cottage Cheese Pizza Bowl",
-    "emoji": "🍕",
     "method": "Microwave",
     "mealType": "breakfast",
     "proteins": [
@@ -2667,7 +2607,6 @@ export const RECIPES = [
   {
     "id": 61,
     "name": "BBQ Chicken Flatbread",
-    "emoji": "🍗",
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -2710,7 +2649,6 @@ export const RECIPES = [
   {
     "id": 62,
     "name": "Pesto Chicken Flatbread",
-    "emoji": "🌿",
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -2758,7 +2696,6 @@ export const RECIPES = [
   {
     "id": 63,
     "name": "Beef & Rice Power Bowl",
-    "emoji": "🥩",
     "method": "Stovetop",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -2816,7 +2753,6 @@ export const RECIPES = [
   {
     "id": 64,
     "name": "Chicken Teriyaki Noodles",
-    "emoji": "🍜",
     "method": "Stovetop",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -2864,7 +2800,6 @@ export const RECIPES = [
   {
     "id": 65,
     "name": "Shrimp Fried Rice",
-    "emoji": "🦐",
     "method": "Stovetop",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -2918,7 +2853,6 @@ export const RECIPES = [
   {
     "id": 66,
     "name": "Loaded Baked Potato",
-    "emoji": "🥔",
     "method": "Microwave",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -2960,7 +2894,6 @@ export const RECIPES = [
   {
     "id": 67,
     "name": "Protein French Toast",
-    "emoji": "🍞",
     "method": "Stovetop",
     "mealType": "breakfast",
     "proteins": [
@@ -3014,7 +2947,6 @@ export const RECIPES = [
   {
     "id": 68,
     "name": "Turkey Meatball Sub",
-    "emoji": "🥪",
     "method": "Microwave",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -3057,7 +2989,6 @@ export const RECIPES = [
   {
     "id": 69,
     "name": "Spicy Korean Ground Beef Bowl",
-    "emoji": "🌶️",
     "method": "Stovetop",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -3115,7 +3046,6 @@ export const RECIPES = [
   {
     "id": 70,
     "name": "Canned Salmon Caesar Wrap",
-    "emoji": "🐟",
     "method": "No Cook",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -3162,7 +3092,6 @@ export const RECIPES = [
   {
     "id": 71,
     "name": "Sweet Potato Cottage Cheese Power Bowl",
-    "emoji": "🍠",
     "method": "Stovetop",
     "mealType": "breakfast",
     "proteins": [
@@ -3222,7 +3151,6 @@ export const RECIPES = [
   {
     "id": 72,
     "name": "Viral Baked Feta Pasta",
-    "emoji": "🧀",
     "method": "Bake",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -3275,7 +3203,6 @@ export const RECIPES = [
   {
     "id": 73,
     "name": "Cottage Cheese Flatbread",
-    "emoji": "🥪",
     "method": "Bake",
     "mealType": "breakfast",
     "proteins": [
@@ -3314,7 +3241,6 @@ export const RECIPES = [
   {
     "id": 74,
     "name": "Bang Bang Shrimp Bowl",
-    "emoji": "🦐",
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -3362,7 +3288,6 @@ export const RECIPES = [
   {
     "id": 75,
     "name": "Marry Me Chicken",
-    "emoji": "💕",
     "method": "Slow Cooker",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -3419,7 +3344,6 @@ export const RECIPES = [
   {
     "id": 76,
     "name": "Viral Cucumber Tuna Salad",
-    "emoji": "🥒",
     "method": "No Cook",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -3476,7 +3400,6 @@ export const RECIPES = [
   {
     "id": 77,
     "name": "High Protein Sushi Bake",
-    "emoji": "🍣",
     "method": "Bake",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -3529,7 +3452,6 @@ export const RECIPES = [
   {
     "id": 78,
     "name": "Smoked Salmon Everything Bites",
-    "emoji": "🍋",
     "method": "No Cook",
     "mealType": "snack",
     "proteins": [
@@ -3581,7 +3503,6 @@ export const RECIPES = [
   {
     "id": 79,
     "name": "Egg White Fried Rice",
-    "emoji": "🍚",
     "method": "Stovetop",
     "mealType": "breakfast",
     "proteins": [
@@ -3634,7 +3555,6 @@ export const RECIPES = [
   {
     "id": 80,
     "name": "High Protein Birria Tacos",
-    "emoji": "🌮",
     "method": "Stovetop",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -3687,7 +3607,6 @@ export const RECIPES = [
   {
     "id": 81,
     "name": "Hot Honey Salmon",
-    "emoji": "🔥",
     "method": "Bake",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -3739,7 +3658,6 @@ export const RECIPES = [
   {
     "id": 82,
     "name": "Spicy Garlic Shrimp Bowl",
-    "emoji": "🌶️",
     "method": "Stovetop",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -3802,7 +3720,6 @@ export const RECIPES = [
   {
     "id": 83,
     "name": "Nashville Hot Chicken Tenders",
-    "emoji": "🔥",
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -3860,7 +3777,6 @@ export const RECIPES = [
   {
     "id": 84,
     "name": "Spicy Salmon Bowl",
-    "emoji": "🐟",
     "method": "Bake",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -3913,7 +3829,6 @@ export const RECIPES = [
   {
     "id": 85,
     "name": "Chili Lime Shrimp Tacos",
-    "emoji": "🌮",
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -3967,7 +3882,6 @@ export const RECIPES = [
   {
     "id": 86,
     "name": "Spicy Turkey Taco Bowl",
-    "emoji": "🌶️",
     "method": "Stovetop",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -4021,7 +3935,6 @@ export const RECIPES = [
   {
     "id": 87,
     "name": "Dan Dan Noodles (EZ Version)",
-    "emoji": "🌶️",
     "method": "Stovetop",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -4079,7 +3992,6 @@ export const RECIPES = [
   {
     "id": 88,
     "name": "Spicy Beef & Broccoli",
-    "emoji": "🥦",
     "method": "Stovetop",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -4132,7 +4044,6 @@ export const RECIPES = [
   {
     "id": 89,
     "name": "Buffalo Shrimp Rice Bowl",
-    "emoji": "🦐",
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -4185,7 +4096,6 @@ export const RECIPES = [
   {
     "id": 90,
     "name": "Easy Shakshuka",
-    "emoji": "🍳",
     "method": "Stovetop",
     "mealType": "breakfast",
     "proteins": [
@@ -4235,7 +4145,6 @@ export const RECIPES = [
   {
     "id": 91,
     "name": "Shakshuka from Scratch",
-    "emoji": "🍅",
     "method": "Stovetop",
     "mealType": "breakfast",
     "proteins": [
@@ -4301,7 +4210,6 @@ export const RECIPES = [
   {
     "id": 92,
     "name": "Skillet Beef Soy Garlic Rice",
-    "emoji": "🥩",
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -4349,7 +4257,6 @@ export const RECIPES = [
   {
     "id": 93,
     "name": "BBQ Skillet Beef Hash Browns",
-    "emoji": "🔥",
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -4393,7 +4300,6 @@ export const RECIPES = [
   {
     "id": 94,
     "name": "Saucy Tomato Beef Bowl",
-    "emoji": "🍅",
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -4441,7 +4347,6 @@ export const RECIPES = [
   {
     "id": 95,
     "name": "Spicy Korean Gochujang Beef Rice",
-    "emoji": "🌶️",
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -4494,7 +4399,6 @@ export const RECIPES = [
   {
     "id": 96,
     "name": "Beef Pasta Marinara Skillet",
-    "emoji": "🍝",
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -4537,7 +4441,6 @@ export const RECIPES = [
   {
     "id": 97,
     "name": "Taco Beef Tortilla Skillet",
-    "emoji": "🌮",
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -4581,7 +4484,6 @@ export const RECIPES = [
   {
     "id": 98,
     "name": "Creamy Beef Mushroom Skillet",
-    "emoji": "🍄",
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -4630,7 +4532,6 @@ export const RECIPES = [
   {
     "id": 99,
     "name": "Teriyaki Beef Broccoli Bowl",
-    "emoji": "🥦",
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -4673,7 +4574,6 @@ export const RECIPES = [
   {
     "id": 100,
     "name": "Skillet Chicken Soy Garlic Rice",
-    "emoji": "🍗",
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -4721,7 +4621,6 @@ export const RECIPES = [
   {
     "id": 101,
     "name": "BBQ Skillet Chicken Hash Browns",
-    "emoji": "🔥",
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -4765,7 +4664,6 @@ export const RECIPES = [
   {
     "id": 102,
     "name": "Saucy Tomato Chicken Bowl",
-    "emoji": "🍅",
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -4813,7 +4711,6 @@ export const RECIPES = [
   {
     "id": 103,
     "name": "Spicy Gochujang Chicken Rice",
-    "emoji": "🌶️",
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -4866,7 +4763,6 @@ export const RECIPES = [
   {
     "id": 104,
     "name": "Chicken Pasta Marinara Skillet",
-    "emoji": "🍝",
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -4909,7 +4805,6 @@ export const RECIPES = [
   {
     "id": 105,
     "name": "Chicken Taco Tortilla Skillet",
-    "emoji": "🌮",
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -4953,7 +4848,6 @@ export const RECIPES = [
   {
     "id": 106,
     "name": "Creamy Chicken Mushroom Skillet",
-    "emoji": "🍄",
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -5003,7 +4897,6 @@ export const RECIPES = [
   {
     "id": 107,
     "name": "Teriyaki Chicken Broccoli Bowl",
-    "emoji": "🥦",
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -5046,7 +4939,6 @@ export const RECIPES = [
   {
     "id": 108,
     "name": "Skillet Pork Soy Garlic Rice",
-    "emoji": "🐷",
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -5094,7 +4986,6 @@ export const RECIPES = [
   {
     "id": 109,
     "name": "BBQ Skillet Pork Hash Browns",
-    "emoji": "🔥",
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -5138,7 +5029,6 @@ export const RECIPES = [
   {
     "id": 110,
     "name": "Saucy Tomato Pork Bowl",
-    "emoji": "🍅",
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -5186,7 +5076,6 @@ export const RECIPES = [
   {
     "id": 111,
     "name": "Spicy Gochujang Pork Rice",
-    "emoji": "🌶️",
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -5239,7 +5128,6 @@ export const RECIPES = [
   {
     "id": 112,
     "name": "Pork Pasta Marinara Skillet",
-    "emoji": "🍝",
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -5282,7 +5170,6 @@ export const RECIPES = [
   {
     "id": 113,
     "name": "Pork Taco Tortilla Skillet",
-    "emoji": "🌮",
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -5326,7 +5213,6 @@ export const RECIPES = [
   {
     "id": 114,
     "name": "Creamy Pork Mushroom Skillet",
-    "emoji": "🍄",
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -5376,7 +5262,6 @@ export const RECIPES = [
   {
     "id": 115,
     "name": "Teriyaki Pork Broccoli Bowl",
-    "emoji": "🥦",
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -5419,7 +5304,6 @@ export const RECIPES = [
   {
     "id": 116,
     "name": "Skillet Turkey Soy Garlic Rice",
-    "emoji": "🦃",
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -5467,7 +5351,6 @@ export const RECIPES = [
   {
     "id": 117,
     "name": "BBQ Skillet Turkey Hash Browns",
-    "emoji": "🔥",
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -5511,7 +5394,6 @@ export const RECIPES = [
   {
     "id": 118,
     "name": "Saucy Tomato Turkey Bowl",
-    "emoji": "🍅",
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -5559,7 +5441,6 @@ export const RECIPES = [
   {
     "id": 119,
     "name": "Spicy Gochujang Turkey Rice",
-    "emoji": "🌶️",
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -5612,7 +5493,6 @@ export const RECIPES = [
   {
     "id": 120,
     "name": "Turkey Pasta Marinara Skillet",
-    "emoji": "🍝",
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -5655,7 +5535,6 @@ export const RECIPES = [
   {
     "id": 121,
     "name": "Turkey Taco Tortilla Skillet",
-    "emoji": "🌮",
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -5699,7 +5578,6 @@ export const RECIPES = [
   {
     "id": 122,
     "name": "Creamy Turkey Mushroom Skillet",
-    "emoji": "🍄",
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -5749,7 +5627,6 @@ export const RECIPES = [
   {
     "id": 123,
     "name": "Teriyaki Turkey Broccoli Bowl",
-    "emoji": "🥦",
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "proteins": [

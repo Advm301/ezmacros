@@ -188,7 +188,7 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
 
 /* STREAK & GAMIFICATION */
 .streak-banner{background:linear-gradient(135deg,#ff8533 0%,#ffbc42 100%);border-radius:var(--r);padding:16px;margin-bottom:14px;position:relative;overflow:hidden;}
-.streak-banner::after{content:"🔥";position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:52px;opacity:.25;}
+.streak-banner::after{content:"";position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:52px;opacity:.25;}
 .streak-num{font-family:'Clash Display',sans-serif;font-size:42px;font-weight:700;color:#000;line-height:1;}
 .streak-label{font-size:13px;font-weight:700;color:rgba(0,0,0,.7);margin-top:2px;}
 .streak-sub{font-size:11px;color:rgba(0,0,0,.55);margin-top:4px;}

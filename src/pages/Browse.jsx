@@ -55,7 +55,7 @@ export default function Browse({ onOpen, isFavorited, toggleFavorite }) {
       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
         <div style={{ flex: 1 }}>
           <div style={{ fontWeight: 700, fontSize: 15, color: 'var(--cream)', marginBottom: 2 }}>
-            {r.emoji ? `${r.emoji} ` : ''}{r.name}
+            {r.name}
           </div>
           <div style={{ fontSize: 11, color: 'var(--muted)' }}>
             {r.method}{r.method && r.activeTime ? ' · ' : ''}{r.activeTime ? `${r.activeTime} min` : ''}

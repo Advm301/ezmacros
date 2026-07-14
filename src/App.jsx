@@ -7,6 +7,24 @@ import Browse from './pages/Browse';
 import RecipeModal from './components/RecipeModal';
 import './styles/globals.css';
 
+function KitchenIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="11" cy="13" r="7" />
+      <line x1="17.5" y1="9" x2="22.5" y2="5" />
+    </svg>
+  );
+}
+
+function BrowseIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M2 5c2-1.4 5-1.4 7 0v14c-2-1.4-5-1.4-7 0V5z" />
+      <path d="M22 5c-2-1.4-5-1.4-7 0v14c2-1.4 5-1.4 7 0V5z" />
+    </svg>
+  );
+}
+
 export default function App() {
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -64,8 +82,8 @@ export default function App() {
   }
 
   const tabs = [
-    {id: "kitchen", label: "Kitchen", icon: "🍳"},
-    {id: "browse", label: "Browse", icon: "📖"},
+    {id: "kitchen", label: "Kitchen", Icon: KitchenIcon},
+    {id: "browse", label: "Browse", Icon: BrowseIcon},
   ];
 
   return (
@@ -103,7 +121,7 @@ export default function App() {
           {tabs.map(t => (
             <div key={t.id} onClick={() => setTab(t.id)}
               style={{flex: 1, display: "flex", flexDirection: "column", alignItems: "center", padding: "10px 0", cursor: "pointer", color: tab === t.id ? "var(--lime)" : "var(--muted)", borderTop: tab === t.id ? "2px solid var(--lime)" : "2px solid transparent", transition: "all .15s", position: "relative"}}>
-              <span style={{fontSize: 20}}>{t.icon}</span>
+              <t.Icon />
               <span style={{fontSize: 11, fontWeight: 600, marginTop: 2}}>{t.label}</span>
             </div>
           ))}

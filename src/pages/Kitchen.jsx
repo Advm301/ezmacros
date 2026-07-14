@@ -128,7 +128,6 @@ export default function Kitchen({ onOpen }) {
         <div className="px" style={{ marginTop: 8 }}>
           {results.length === 0 ? (
             <div style={{ background: 'var(--s1)', border: '2px solid var(--lime)', borderRadius: 16, padding: 20, textAlign: 'center' }}>
-              <div style={{ fontSize: 40, marginBottom: 12 }}>🍽️</div>
               <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--cream)', marginBottom: 10 }}>
                 No recipes match those filters
               </div>
@@ -151,7 +150,7 @@ export default function Kitchen({ onOpen }) {
                   onClick={() => onOpen && onOpen(r)}
                 >
                   <div style={{ fontWeight: 700, fontSize: 15, color: 'var(--cream)', marginBottom: 4 }}>
-                    {r.emoji ? `${r.emoji} ` : ''}{r.name}
+                    {r.name}
                   </div>
                   <div style={{ fontSize: 11, color: 'var(--muted)' }}>
                     {r.method}{r.method && r.activeTime ? ' · ' : ''}{r.activeTime ? `${r.activeTime} min` : ''}
