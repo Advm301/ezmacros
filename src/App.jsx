@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { supabase } from './lib/supabase';
-import useFavorites from './hooks/useFavorites';
+import useSavedRecipes from './hooks/useSavedRecipes';
 import Login from './pages/Login';
 import Kitchen from './pages/Kitchen';
 import Browse from './pages/Browse';
+import Saved from './pages/Saved';
 import RecipeModal from './components/RecipeModal';
 import './styles/globals.css';
 
@@ -25,12 +26,28 @@ function BrowseIcon() {
   );
 }
 
+function SavedIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M6 3h12v18l-6-4.5L6 21V3z" />
+    </svg>
+  );
+}
+
 export default function App() {
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState("kitchen");
   const [openRecipe, setOpenRecipe] = useState(null);
-  const { favorites, toggleFavorite, isFavorited } = useFavorites();
+  const {
+    saved,
+    isSaved,
+    toggleSaved,
+    getEntry,
+    updateNotes,
+    updateIngredientOverride,
+    updateInstructionOverride,
+  } = useSavedRecipes();
 
   useEffect(() => {
     // Check for existing session on mount
@@ -84,6 +101,7 @@ export default function App() {
   const tabs = [
     {id: "kitchen", label: "Kitchen", Icon: KitchenIcon},
     {id: "browse", label: "Browse", Icon: BrowseIcon},
+    {id: "saved", label: "Saved", Icon: SavedIcon},
   ];
 
   return (
@@ -114,7 +132,8 @@ export default function App() {
 
         {/* Page content */}
         {tab === "kitchen" && <Kitchen onOpen={setOpenRecipe} />}
-        {tab === "browse" && <Browse onOpen={setOpenRecipe} favorites={favorites} isFavorited={isFavorited} toggleFavorite={toggleFavorite}/>}
+        {tab === "browse" && <Browse onOpen={setOpenRecipe} isSaved={isSaved} toggleSaved={toggleSaved}/>}
+        {tab === "saved" && <Saved saved={saved} isSaved={isSaved} toggleSaved={toggleSaved} onOpen={setOpenRecipe}/>}
 
         {/* Bottom nav */}
         <div style={{position: "fixed", bottom: 0, left: "50%", transform: "translateX(-50%)", width: "100%", maxWidth: 430, background: "#000", borderTop: "1px solid var(--border)", display: "flex", zIndex: 20}}>
@@ -128,7 +147,19 @@ export default function App() {
         </div>
       </div>
 
-      {openRecipe && <RecipeModal recipe={openRecipe} onClose={() => setOpenRecipe(null)} isFavorited={isFavorited} toggleFavorite={toggleFavorite}/>}
+      {openRecipe && (
+        <RecipeModal
+          key={openRecipe.id}
+          recipe={openRecipe}
+          onClose={() => setOpenRecipe(null)}
+          isSaved={isSaved}
+          toggleSaved={toggleSaved}
+          entry={getEntry(openRecipe.id)}
+          onUpdateNotes={updateNotes}
+          onUpdateIngredientOverride={updateIngredientOverride}
+          onUpdateInstructionOverride={updateInstructionOverride}
+        />
+      )}
     </>
   );
 }

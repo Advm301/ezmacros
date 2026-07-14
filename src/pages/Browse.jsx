@@ -28,20 +28,20 @@ const FLAVORS = [
   { label: 'Mexican', value: 'mexican' },
 ];
 
-export default function Browse({ onOpen, isFavorited, toggleFavorite }) {
+export default function Browse({ onOpen, isSaved, toggleSaved }) {
   const [search, setSearch] = useState('');
   const [mealFilter, setMealFilter] = useState(null);
   const [proteinFilter, setProteinFilter] = useState(null);
   const [flavorFilter, setFlavorFilter] = useState(null);
-  const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
+  const [showSavedOnly, setShowSavedOnly] = useState(false);
 
   const filtered = RECIPES.filter((r) => {
     const matchSearch = r.name.toLowerCase().includes(search.toLowerCase());
     const matchMeal = !mealFilter || r.mealType === mealFilter;
     const matchProtein = !proteinFilter || r.proteins.includes(proteinFilter);
     const matchFlavor = !flavorFilter || r.flavor === flavorFilter;
-    const matchFavorites = !showFavoritesOnly || isFavorited(r.id);
-    return matchSearch && matchMeal && matchProtein && matchFlavor && matchFavorites;
+    const matchSaved = !showSavedOnly || isSaved(r.id);
+    return matchSearch && matchMeal && matchProtein && matchFlavor && matchSaved;
   });
 
   const sections = MEAL_SECTIONS.filter((s) => !mealFilter || s.value === mealFilter);
@@ -61,8 +61,8 @@ export default function Browse({ onOpen, isFavorited, toggleFavorite }) {
             {r.method}{r.method && r.activeTime ? ' · ' : ''}{r.activeTime ? `${r.activeTime} min` : ''}
           </div>
         </div>
-        <div onClick={(e) => { e.stopPropagation(); toggleFavorite(r.id); }}>
-          <StarIcon filled={isFavorited(r.id)} size={20} />
+        <div onClick={(e) => { e.stopPropagation(); toggleSaved(r.id); }}>
+          <StarIcon filled={isSaved(r.id)} size={20} />
         </div>
       </div>
     </div>
@@ -85,8 +85,8 @@ export default function Browse({ onOpen, isFavorited, toggleFavorite }) {
           <div className={`pill ${!mealFilter ? 'active' : ''}`} onClick={() => setMealFilter(null)}>
             {!mealFilter ? '✓ All Meals' : 'All Meals'}
           </div>
-          <div className={`pill ${showFavoritesOnly ? 'active' : ''}`} onClick={() => setShowFavoritesOnly((v) => !v)}>
-            {showFavoritesOnly ? '★ Favorites' : '☆ Favorites'}
+          <div className={`pill ${showSavedOnly ? 'active' : ''}`} onClick={() => setShowSavedOnly((v) => !v)}>
+            {showSavedOnly ? '★ Saved' : '☆ Saved'}
           </div>
           {MEAL_SECTIONS.map((s) => (
             <div key={s.value} className={`pill ${mealFilter === s.value ? 'active' : ''}`} onClick={() => setMealFilter(s.value)}>
