@@ -73,13 +73,14 @@ export default function Login() {
   return (
     <div style={{
       minHeight: "100vh",
-      background: "var(--bg)",
+      background: "transparent",
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
       justifyContent: "center",
       padding: "20px",
     }}>
+      <div className="app-bg" aria-hidden="true"></div>
       <div style={{
         maxWidth: "430px",
         width: "100%",
@@ -87,14 +88,14 @@ export default function Login() {
       }}>
         {/* Logo */}
         <div style={{
-          fontFamily: "'Clash Display', sans-serif",
+          fontFamily: "'Manrope', sans-serif",
           fontSize: 36,
-          fontWeight: 700,
+          fontWeight: 800,
           marginBottom: 16,
           letterSpacing: "-0.5px",
+          color: "var(--cream)",
         }}>
-          <span style={{color: "var(--lime)"}}>EZ</span>
-          <span style={{color: "var(--cream)"}}>Macros</span>
+          QuickPrep
         </div>
 
         {/* Tagline */}
@@ -124,7 +125,7 @@ export default function Login() {
                 padding: "14px 16px",
                 color: "var(--cream)",
                 fontSize: 15,
-                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                fontFamily: "'Manrope', sans-serif",
                 marginBottom: 16,
                 boxSizing: "border-box",
                 outline: "none",
@@ -150,7 +151,7 @@ export default function Login() {
                 padding: "14px 16px",
                 fontSize: 15,
                 fontWeight: 700,
-                fontFamily: "'Clash Display', sans-serif",
+                fontFamily: "'Manrope', sans-serif",
                 cursor: loading ? "not-allowed" : "pointer",
                 opacity: loading ? 0.6 : 1,
                 transition: "opacity 0.15s",
@@ -215,7 +216,7 @@ export default function Login() {
                 padding: "14px 16px",
                 fontSize: 15,
                 fontWeight: 700,
-                fontFamily: "'Clash Display', sans-serif",
+                fontFamily: "'Manrope', sans-serif",
                 cursor: verifying ? "not-allowed" : "pointer",
                 opacity: verifying ? 0.6 : 1,
                 transition: "opacity 0.15s",
@@ -238,8 +239,8 @@ export default function Login() {
         {/* Success Message */}
         {message && (
           <div style={{
-            background: "rgba(201, 241, 58, 0.1)",
-            border: "1px solid rgba(201, 241, 58, 0.3)",
+            background: "rgba(255, 255, 255, 0.1)",
+            border: "1px solid rgba(255, 255, 255, 0.3)",
             borderRadius: 12,
             padding: 16,
             marginBottom: 16,

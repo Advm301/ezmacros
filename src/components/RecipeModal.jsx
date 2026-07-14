@@ -39,7 +39,7 @@ export default function RecipeModal({ recipe, onClose, isFavorited, toggleFavori
       >
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
           <div style={{ flex: 1 }}>
-            <div style={{ fontFamily: "'Clash Display',sans-serif", fontSize: 22, fontWeight: 700, marginBottom: 4 }}>
+            <div style={{ fontFamily: "'Manrope',sans-serif", fontSize: 22, fontWeight: 800, marginBottom: 4 }}>
               {r.emoji ? `${r.emoji} ` : ''}
               <span style={{ color: 'var(--cream)' }}>{r.name}</span>
             </div>

@@ -1,4 +1,4 @@
-// EZMacros recipe data -- simple recipe suggestion app (no macros/nutrition info)
+// QuickPrep recipe data -- simple recipe suggestion app (no macros/nutrition info)
 // Each recipe: id, name, emoji, method, mealType (breakfast | lunch_dinner | snack),
 // proteins (array of protein categories present), flavor (single flavor/cuisine tag),
 // activeTime (minutes), components (ingredients: name/quantity/unit), toppings (optional

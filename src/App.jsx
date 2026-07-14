@@ -70,11 +70,12 @@ export default function App() {
 
   return (
     <>
+      <div className="app-bg" aria-hidden="true"></div>
       <div className="app">
         {/* Header */}
-        <div style={{padding: "14px 18px 10px", position: "sticky", top: 0, background: "var(--bg)", borderBottom: "1px solid var(--border)", zIndex: 10, display: "flex", justifyContent: "space-between", alignItems: "center"}}>
-          <div style={{fontFamily: "'Clash Display',sans-serif", fontSize: 20, fontWeight: 700}}>
-            <span style={{color: "var(--lime)"}}>EZ</span><span style={{color: "var(--cream)"}}>Macros</span>
+        <div style={{padding: "14px 18px 10px", position: "sticky", top: 0, background: "var(--teal)", zIndex: 10, display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+          <div style={{fontFamily: "'Manrope',sans-serif", fontSize: 20, fontWeight: 800, color: "var(--cream)"}}>
+            QuickPrep
           </div>
           <button
             onClick={handleSignOut}
@@ -98,7 +99,7 @@ export default function App() {
         {tab === "browse" && <Browse onOpen={setOpenRecipe} favorites={favorites} isFavorited={isFavorited} toggleFavorite={toggleFavorite}/>}
 
         {/* Bottom nav */}
-        <div style={{position: "fixed", bottom: 0, left: "50%", transform: "translateX(-50%)", width: "100%", maxWidth: 430, background: "var(--s1)", borderTop: "1px solid var(--border)", display: "flex", zIndex: 20}}>
+        <div style={{position: "fixed", bottom: 0, left: "50%", transform: "translateX(-50%)", width: "100%", maxWidth: 430, background: "#000", borderTop: "1px solid var(--border)", display: "flex", zIndex: 20}}>
           {tabs.map(t => (
             <div key={t.id} onClick={() => setTab(t.id)}
               style={{flex: 1, display: "flex", flexDirection: "column", alignItems: "center", padding: "10px 0", cursor: "pointer", color: tab === t.id ? "var(--lime)" : "var(--muted)", borderTop: tab === t.id ? "2px solid var(--lime)" : "2px solid transparent", transition: "all .15s", position: "relative"}}>
