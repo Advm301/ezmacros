@@ -1,305 +1,160 @@
 import { useState } from 'react';
-import { EZ } from '../data/recipes.js';
-import { QUICK_COMBOS } from '../data/quickCombos.js';
-import { generateLocalRecipes, classifyIngredient, SPICE_LEVELS } from '../lib/generator.js';
+import { RECIPES } from '../data/recipes.js';
 
-const KNOWN_INGREDIENTS = [
-  "Chicken Thighs (boneless, skinless)",
-  "Chicken Breast (boneless, skinless)",
-  "Canned Chicken",
-  "Rotisserie Chicken",
-  "Ground Turkey (93% lean)",
-  "Ground Beef (93% lean)",
-  "Ground Beef (85% lean)",
-  "Salmon Fillet",
-  "Cod Fillet",
-  "Canned Tuna",
-  "Frozen Shrimp (peeled, deveined)",
-  "Whole Eggs",
-  "Egg Whites (carton)",
-  "Pre-Boiled Eggs",
-  "White Rice Pouch",
-  "Brown Rice Pouch",
-  "Rolled Oats",
-  "Frozen Broccoli",
-  "Frozen Green Beans",
-  "Frozen Spinach",
-  "Frozen Mixed Vegetables",
-  "Frozen Hash Browns",
-  "Canned Black Beans",
-  "Canned Diced Tomatoes",
-  "Greek Yogurt (0%)",
-  "Cottage Cheese",
-  "Shredded Cheddar (bagged)",
-  "Low-Fat Shredded Cheese (bagged)",
-  "Protein Powder (whey)",
-  "Avocado (squeeze tube)",
-  "Pork Tenderloin",
+const MEAL_TYPES = [
+  { label: 'Breakfast', value: 'breakfast' },
+  { label: 'Lunch', value: 'lunch_dinner' },
+  { label: 'Dinner', value: 'lunch_dinner' },
+  { label: 'Snack', value: 'snack' },
 ];
 
-export default function Kitchen({ezLevel, goals, onOpen}) {
-  const [input, setInput] = useState("");
-  const [ings, setIngs] = useState([]);
-  const [flavorTags, setFlavorTags] = useState([]);
-  const [cookMethod, setCookMethod] = useState("Any");
-  const [heatLevel, setHeatLevel] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [results, setResults] = useState([]);
-  const [showSuggestions, setShowSuggestions] = useState(false);
-  const [suggestions, setSuggestions] = useState([]);
+const PROTEINS = [
+  { label: 'Chicken', value: 'chicken' },
+  { label: 'Beef', value: 'beef' },
+  { label: 'Turkey', value: 'turkey' },
+  { label: 'Fish', value: 'fish' },
+  { label: 'Eggs', value: 'eggs' },
+  { label: 'Pork', value: 'pork' },
+];
 
-  const FLAVORS = ["Spicy","Saucy","Neutral","Asian-Inspired","Italian-Inspired","Mediterranean","Caribbean","BBQ","American"];
-  const METHODS = ["Any","No Cook","Microwave","Air Fryer","Bake","Stovetop","Slow Cooker"];
-  const HEAT_LEVELS = ["Mild", "Medium", "Hot"];
+const FLAVORS = [
+  { label: 'Spicy', value: 'spicy' },
+  { label: 'Saucy', value: 'saucy' },
+  { label: 'Neutral', value: 'neutral' },
+  { label: 'Asian', value: 'asian' },
+  { label: 'Italian', value: 'italian' },
+  { label: 'Mediterranean', value: 'mediterranean' },
+  { label: 'BBQ', value: 'bbq' },
+  { label: 'Mexican', value: 'mexican' },
+];
 
-  const addIng = (ingredientName = null) => {
-    const v = (ingredientName || input).trim();
-    if(!v || ings.includes(v)) return;
-    setIngs(p => [...p, v]);
-    setInput("");
-    setShowSuggestions(false);
-    setSuggestions([]);
+function filterRecipes(recipes, mealTypeLabel, protein, flavor) {
+  const mealTypeValue = MEAL_TYPES.find((m) => m.label === mealTypeLabel)?.value;
+  return recipes.filter((r) => {
+    if (mealTypeValue && r.mealType !== mealTypeValue) return false;
+    if (protein && !r.proteins.includes(protein)) return false;
+    if (flavor && r.flavor !== flavor) return false;
+    return true;
+  });
+}
+
+export default function Kitchen({ onOpen }) {
+  const [mealType, setMealType] = useState(null);
+  const [protein, setProtein] = useState(null);
+  const [flavor, setFlavor] = useState(null);
+  const [results, setResults] = useState(null);
+
+  const handleFindRecipes = () => {
+    setResults(filterRecipes(RECIPES, mealType, protein, flavor));
   };
 
-  const handleInputChange = (e) => {
-    const value = e.target.value;
-    setInput(value);
-
-    if (value.length >= 2) {
-      const filtered = KNOWN_INGREDIENTS.filter(ing =>
-        ing.toLowerCase().includes(value.toLowerCase())
-      ).slice(0, 6);
-      setSuggestions(filtered);
-      setShowSuggestions(true);
-    } else {
-      setShowSuggestions(false);
-      setSuggestions([]);
-    }
+  const reset = () => {
+    setMealType(null);
+    setProtein(null);
+    setFlavor(null);
+    setResults(null);
   };
 
-  const handleInputKeyDown = (e) => {
-    if (e.key === "Enter") {
-      addIng();
-    } else if (e.key === "Escape") {
-      setShowSuggestions(false);
-    }
-  };
-
-  const removeIng = n => setIngs(p => p.filter(i => i !== n));
-  const toggleFlavor = t => {
-    if (t === "Spicy" && flavorTags.includes("Spicy")) {
-      // Reset heat level when removing Spicy flavor
-      setHeatLevel(null);
-    }
-    setFlavorTags(p => p.includes(t) ? p.filter(x => x !== t) : [...p, t]);
-  };
-
-  const generate = () => {
-    if(!ings.length) return;
-    setLoading(true);
-    setResults([]);
-    setTimeout(() => {
-      const isSpicy = flavorTags.includes("Spicy");
-      const heatLevelNum = isSpicy && heatLevel ? (heatLevel === "Mild" ? 1 : heatLevel === "Medium" ? 2 : 3) : null;
-      const recipes = generateLocalRecipes(ings, ezLevel, flavorTags, cookMethod, goals, heatLevelNum);
-      setResults(recipes);
-      setLoading(false);
-    }, 900);
-  };
-
-  const lev = EZ[ezLevel];
-
-  return(
-    <div style={{paddingBottom: 20}}>
+  return (
+    <div style={{ paddingBottom: 20 }}>
       <div className="px pt">
-        <div className="h1">What's In My Kitchen?</div>
-        <div className="sub" style={{marginBottom: 14}}>Add your ingredients — get EZ-certified recipes instantly.</div>
-
-        <div className="quick-label">Quick combos:</div>
-        <div className="quick-chips">
-          {QUICK_COMBOS.map((c, i) => (
-            <div key={i} className="quick-chip" onClick={() => {setIngs(c.ings); setResults([]);}}>
-              {c.label}
-            </div>
-          ))}
+        <div className="h1">What Can I Make?</div>
+        <div className="sub" style={{ marginBottom: 14 }}>
+          Pick a meal, a protein, and (optionally) a flavor — get quick recipes.
         </div>
 
-        <div className="ing-area">
-          <div className="ing-row" style={{position: "relative"}}>
-            <input className="ing-input" placeholder="e.g. cod fillet, green beans..."
-              value={input} onChange={handleInputChange}
-              onKeyDown={handleInputKeyDown}
-              onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-              onFocus={() => input.length >= 2 && setShowSuggestions(true)}/>
-            <button className="add-btn" onClick={() => addIng()}>Add</button>
-
-            {showSuggestions && (
-              <div style={{
-                position: "absolute",
-                top: "100%",
-                left: 0,
-                right: 0,
-                background: "var(--s2)",
-                border: "2px solid var(--lime)",
-                borderTop: "none",
-                borderRadius: "0 0 8px 8px",
-                zIndex: 10,
-                maxHeight: "240px",
-                overflowY: "auto",
-              }}>
-                {suggestions.length > 0 ? (
-                  suggestions.map((ing, i) => (
-                    <div
-                      key={i}
-                      onClick={() => addIng(ing)}
-                      style={{
-                        padding: "12px 16px",
-                        borderBottom: i < suggestions.length - 1 ? "1px solid var(--border)" : "none",
-                        cursor: "pointer",
-                        fontSize: 13,
-                        color: "var(--cream)",
-                        transition: "background 0.15s",
-                      }}
-                      onMouseEnter={(e) => e.target.style.background = "var(--s3)"}
-                      onMouseLeave={(e) => e.target.style.background = "transparent"}
-                    >
-                      {ing}
-                    </div>
-                  ))
-                ) : (
-                  <div style={{
-                    padding: "12px 16px",
-                    fontSize: 12,
-                    color: "var(--muted)",
-                    fontStyle: "italic",
-                  }}>
-                    Press Enter to add custom ingredient
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-          <div className="ing-chips">
-            {ings.length === 0 && <span style={{fontSize: 12, color: "var(--muted)"}}>No ingredients added yet — try a quick combo above</span>}
-            {ings.map(ing => (
-              <div key={ing} className={`ing-chip ${classifyIngredient(ing)}`}>
-                {ing}
-                <span className="rm" onClick={() => removeIng(ing)}>×</span>
+        <div className="filter-sec">
+          <div className="filter-label">Meal Type</div>
+          <div className="scroll-row">
+            {MEAL_TYPES.map((m) => (
+              <div
+                key={m.label}
+                className={`pill ${mealType === m.label ? 'active' : ''}`}
+                onClick={() => setMealType(mealType === m.label ? null : m.label)}
+              >
+                {m.label}
               </div>
             ))}
           </div>
         </div>
 
         <div className="filter-sec">
-          <div className="filter-label">Flavor / Cuisine</div>
+          <div className="filter-label">Protein</div>
           <div className="scroll-row">
-            {FLAVORS.map(t => <div key={t} className={`pill ${flavorTags.includes(t) ? "active" : ""}`} onClick={() => toggleFlavor(t)}>{t}</div>)}
-          </div>
-        </div>
-
-        <div className="filter-sec" style={{marginBottom: 12}}>
-          <div className="filter-label">Cooking Method</div>
-          <div className="scroll-row">
-            {METHODS.map(m => <div key={m} className={`pill ${cookMethod === m ? "active" : ""}`} onClick={() => setCookMethod(m)}>{m}</div>)}
-          </div>
-        </div>
-
-        {flavorTags.includes("Spicy") && (
-          <div className="filter-sec" style={{marginBottom: 12}}>
-            <div className="filter-label">Heat Level</div>
-            <div className="scroll-row">
-              {HEAT_LEVELS.map(level => <div key={level} className={`pill ${heatLevel === level ? "active" : ""}`} onClick={() => setHeatLevel(level)}>{level}</div>)}
+            <div
+              className={`pill ${protein === null ? 'active' : ''}`}
+              onClick={() => setProtein(null)}
+            >
+              Any Protein
             </div>
+            {PROTEINS.map((p) => (
+              <div
+                key={p.value}
+                className={`pill ${protein === p.value ? 'active' : ''}`}
+                onClick={() => setProtein(protein === p.value ? null : p.value)}
+              >
+                {p.label}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="filter-sec" style={{ marginBottom: 16 }}>
+          <div className="filter-label">Flavor (optional)</div>
+          <div className="scroll-row">
+            {FLAVORS.map((f) => (
+              <div
+                key={f.value}
+                className={`pill ${flavor === f.value ? 'active' : ''}`}
+                onClick={() => setFlavor(flavor === f.value ? null : f.value)}
+              >
+                {f.label}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <button className="gen-kitchen-btn" onClick={handleFindRecipes} disabled={!mealType}>
+          ✦ Find Recipes
+        </button>
+        {!mealType && (
+          <div style={{ fontSize: 11, color: 'var(--muted)', textAlign: 'center', marginTop: -8, marginBottom: 8 }}>
+            Pick a meal type to get started
           </div>
         )}
-
-        <div className="ez-level-info">
-          <span style={{fontSize: 15}}>{lev.bolts}</span>
-          <span>Generating at <b style={{color: lev.color}}>{lev.name}</b> level · {lev.time} · max {lev.steps} steps. Change in Goals tab.</span>
-        </div>
-
-        <button className="gen-kitchen-btn" onClick={generate} disabled={loading || ings.length === 0}>
-          {loading
-            ? <><div style={{width: 18, height: 18, border: "2px solid rgba(0,0,0,.3)", borderTopColor: "#000", borderRadius: "50%", animation: "spin .7s linear infinite"}}/> Generating...</>
-            : <>✦ Generate EZ Recipes</>}
-        </button>
       </div>
 
-      {loading && (
-        <div className="px">
-          <div className="ai-loading">
-            <div className="ai-spinner"/>
-            <div className="ai-loading-txt">Building your recipes...</div>
-            <div className="ai-loading-sub">Checking EZ Standard · Calculating scale weights</div>
-          </div>
-        </div>
-      )}
-
-      {results.length > 0 && (
-        <div className="px" style={{marginTop: 16}}>
-          {results[0]?.isMessage ? (
-            // Message result - no recipes found
-            <div style={{background: "var(--s1)", border: "2px solid var(--lime)", borderRadius: 16, padding: 20, textAlign: "center"}}>
-              <div style={{fontSize: 40, marginBottom: 12}}>🥩</div>
-              <div style={{fontSize: 15, fontWeight: 700, color: "var(--cream)", marginBottom: 10}}>
-                No EZ recipes found for those ingredients
+      {results !== null && (
+        <div className="px" style={{ marginTop: 8 }}>
+          {results.length === 0 ? (
+            <div style={{ background: 'var(--s1)', border: '2px solid var(--lime)', borderRadius: 16, padding: 20, textAlign: 'center' }}>
+              <div style={{ fontSize: 40, marginBottom: 12 }}>🍽️</div>
+              <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--cream)', marginBottom: 10 }}>
+                No recipes match those filters
               </div>
-              <div style={{fontSize: 13, color: "var(--muted)", lineHeight: 1.6}}>
-                Try adding a recognizable protein — chicken, beef, turkey, salmon, tuna, eggs, or shrimp — and we'll build you something real.
+              <div style={{ fontSize: 13, color: 'var(--muted)', lineHeight: 1.6, marginBottom: 14 }}>
+                Try a different protein or drop the flavor filter.
+              </div>
+              <div className="quick-chip" style={{ display: 'inline-block' }} onClick={reset}>
+                Start Over
               </div>
             </div>
           ) : (
-            // Recipe results
             <>
-              <div style={{fontSize: 12, color: "var(--muted)", marginBottom: 10}}>
-                <span style={{color: "var(--lime)"}}>●</span> {results.length} recipe{results.length > 1 ? "s" : ""} · EZ {EZ[ezLevel].name} certified · click to expand
+              <div style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 10 }}>
+                <span style={{ color: 'var(--lime)' }}>●</span> {results.length} recipe{results.length > 1 ? 's' : ''}
               </div>
-              {results.map((r, i) => (
-                <div key={i} className="recipe-card" style={{marginBottom: 10, cursor: "pointer"}}
-                  onClick={() => onOpen && onOpen({...r,
-                    id: `gen_${i}`,
-                    cal: r.totalCal,
-                    protein: r.totalProtein,
-                    carbs: r.totalCarbs,
-                    fat: r.totalFat,
-                    activeTime: r.activeMinutes,
-                    stepCount: r.stepCount,
-                    type: r.type || "fresh",
-                    components: r.components.map(c => ({...c, p: c.protein, c: c.carbs, f: c.fat})),
-                    steps: r.steps,
-                    toppings: r.toppings || [],
-                    utensils: r.utensils || ["Food scale"],
-                    scaleTip: r.scaleTip || "Always weigh proteins raw.",
-                    ezChecks: r.ezChecks || {stepsOk: true, noKnifeWork: true, microwaveCarbs: true, bottledSauces: true, noPeeling: true, noScratchSauce: true},
-                  })}>
-                  <div style={{display: "flex", alignItems: "center", gap: 8, marginBottom: 6}}>
-                    <div style={{flex: 1}}>
-                      <div style={{fontWeight: 700, fontSize: 15}}>
-                        {r.name}
-                        {r.spiceLevel > 0 && <span style={{marginLeft: 6, fontSize: 12, color: "var(--orange)"}}>{SPICE_LEVELS[r.spiceLevel].display}</span>}
-                      </div>
-                      <div style={{fontSize: 11, color: "var(--muted)", marginTop: 2}}>
-                        {r.method} · {r.activeMinutes} min · {r.stepCount} steps
-                      </div>
-                    </div>
+              {results.map((r) => (
+                <div
+                  key={r.id}
+                  style={{ background: 'var(--s1)', border: '1px solid var(--border)', borderRadius: 14, padding: 14, marginBottom: 10, cursor: 'pointer' }}
+                  onClick={() => onOpen && onOpen(r)}
+                >
+                  <div style={{ fontWeight: 700, fontSize: 15, color: 'var(--cream)', marginBottom: 4 }}>
+                    {r.emoji ? `${r.emoji} ` : ''}{r.name}
                   </div>
-                  <div style={{display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 8}}>
-                    <span className="ezb" style={{background: "var(--s3)", color: "var(--muted)", border: "1px solid var(--border)"}}>🔥 {r.method}</span>
-                    <span className="ezb" style={{background: "var(--s3)", color: "var(--muted)", border: "1px solid var(--border)"}}>⏱ {r.activeMinutes} min</span>
-                    <span className="ezb" style={{background: "var(--s3)", color: "var(--muted)", border: "1px solid var(--border)"}}>📋 {r.stepCount} steps</span>
-                    {(r.tags || []).slice(0, 2).map(t => <span key={t} className="ezb" style={{background: "var(--s3)", color: "var(--muted)", border: "1px solid var(--border)"}}>{t}</span>)}
-                  </div>
-                  <div className="ms">
-                    <div style={{background: "var(--s2)", border: "1px solid var(--border)", borderRadius: 12, padding: "10px 12px"}}>
-                      <div style={{display: "flex", justifyContent: "space-between"}}>
-                        {[["cal","orange",r.totalCal],["protein","var(--lime)",r.totalProtein+"g"],["carbs","var(--blue)",r.totalCarbs+"g"],["fat","var(--muted)",r.totalFat+"g"]].map(([l,c,v]) => (
-                          <div key={l} style={{textAlign: "center"}}>
-                            <div style={{fontFamily: "'Clash Display',sans-serif", fontSize: 18, fontWeight: 700, color: c}}>{v}</div>
-                            <div style={{fontSize: 10, color: "var(--muted)"}}>{l}</div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
+                  <div style={{ fontSize: 11, color: 'var(--muted)' }}>
+                    {r.method}{r.method && r.activeTime ? ' · ' : ''}{r.activeTime ? `${r.activeTime} min` : ''}
                   </div>
                 </div>
               ))}

@@ -104,7 +104,7 @@ export default function Login() {
           marginBottom: 40,
           lineHeight: 1.6,
         }}>
-          Real meals. Real macros. Actually easy.
+          Real meals. Real ingredients. Actually easy.
         </div>
 
         {/* Step 1: Email */}

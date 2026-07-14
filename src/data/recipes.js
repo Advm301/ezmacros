@@ -1,1828 +1,5792 @@
-export const EZ = {
-  1:{name:"Effortless",bolts:"⚡",color:"var(--ez1)",cls:"ez1",steps:3,time:"≤5 min",
-    rules:["Zero knife work","No measuring","Frozen/canned veg only","One bottled sauce","Microwave carbs only"]},
-  2:{name:"Easy",bolts:"⚡⚡",color:"var(--ez2)",cls:"ez2",steps:5,time:"≤10 min",
-    rules:["One simple cut allowed","Basic measuring OK","Frozen or bagged veg","Up to 2 bottled sauces","Microwave carbs preferred"]},
-  3:{name:"Relaxed",bolts:"⚡⚡⚡",color:"var(--ez3)",cls:"ez3",steps:5,time:"≤15 min",
-    rules:["Light dicing OK","Fresh pre-washed veg OK","Up to 3 bottled sauces","No peeling — ever","No mincing fresh garlic — ever"]},
-};
+// EZMacros recipe data -- simple recipe suggestion app (no macros/nutrition info)
+// Each recipe: id, name, emoji, method, mealType (breakfast | lunch_dinner | snack),
+// proteins (array of protein categories present), flavor (single flavor/cuisine tag),
+// activeTime (minutes), components (ingredients: name/quantity/unit), toppings (optional
+// garnish names), instructions (cooking steps).
 
-export const BANNED = ["Mincing fresh garlic","Peeling anything","From-scratch sauces","Sauté then transfer","Washing/drying produce","Two simultaneous cook processes"];
+export const MEAL_TYPES = ['breakfast', 'lunch_dinner', 'snack'];
+
+export const PROTEINS = ['chicken', 'beef', 'turkey', 'fish', 'eggs', 'pork'];
+
+export const FLAVORS = ['spicy', 'saucy', 'neutral', 'asian', 'italian', 'mediterranean', 'caribbean', 'bbq', 'american', 'mexican'];
 
 export const RECIPES = [
-  {id:1,name:"Teriyaki Cod Bowl",emoji:"🐟",method:"Bake",type:"fresh",ezLevel:1,spiceLevel:0,
-    tags:["High Protein","Asian-Inspired","Neutral","Omega-3"],
-    mealType:"Lunch/Dinner",
-    cal:420,protein:38,carbs:42,fat:8,activeTime:3,stepCount:3,
-    components:[
-      {name:"Cod Fillet",type:"Protein",cal:140,p:30,c:0,f:1,grams:170,weighRaw:true,unit:"g"},
-      {name:"Teriyaki Sauce (Kikkoman bottle)",type:"Sauce",cal:40,p:1,c:9,f:0,grams:30,weighRaw:false,unit:"ml"},
-      {name:"White Rice Pouch (Uncle Ben's)",type:"Carb",cal:200,p:4,c:44,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Green Beans (steam-bag frozen)",type:"Veg",cal:40,p:2,c:8,f:0,grams:85,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Sesame Seeds",info:"1 tsp = 17 cal · 0.5g P"},{name:"Sriracha",info:"1 tsp = 5 cal"}],
-    steps:["Pat cod dry with paper towels. Place on foil-lined baking sheet. Drizzle teriyaki sauce over the fish.","Bake at 425°F for 12–14 minutes until the fish flakes easily with a fork.","While the oven heats, microwave rice pouch for 90 seconds. Microwave green beans steam-bag for 3 minutes. Arrange rice on a plate, top with cod, and add green beans to the side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-  {id:2,name:"Spicy Asian Cod Bowl",emoji:"🌶️",method:"Bake",type:"fresh",ezLevel:2,spiceLevel:2,
-    tags:["High Protein","Asian-Inspired","Medium Heat","Omega-3"],
-    mealType:"Lunch/Dinner",
-    cal:440,protein:40,carbs:44,fat:10,activeTime:5,stepCount:5,
-    components:[
-      {name:"Cod Fillet",type:"Protein",cal:140,p:30,c:0,f:1,grams:170,weighRaw:true,unit:"g"},
-      {name:"Soy Sauce + Sriracha",type:"Sauce",cal:20,p:1,c:2,f:0,grams:25,weighRaw:false,unit:"ml"},
-      {name:"Garlic Powder (shaker)",type:"Seasoning",cal:5,p:0,c:1,f:0,grams:2,weighRaw:false,unit:"g"},
-      {name:"White Rice Pouch",type:"Carb",cal:200,p:4,c:44,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Green Beans (steam-bag)",type:"Veg",cal:40,p:2,c:8,f:0,grams:85,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Extra Sriracha",info:"1 tsp = 5 cal"},{name:"Sesame Seeds",info:"1 tsp = 17 cal · 0.5g P"}],
-    steps:["Pat cod dry with paper towel.","Mix soy sauce + sriracha + a small squeeze of honey in small bowl. Honey rounds the heat and prevents the sauce tasting flat. Brush over cod on foil-lined sheet. Dust with garlic powder.","Bake 425°F 12–14 min.","Rest cod 1 min.","Microwave rice 90 sec + steam-bag beans 3 min. Build bowl — toppings separate."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-  {id:3,name:"Air Fryer Chicken Thighs",emoji:"🍗",method:"Air Fryer",type:"fresh",ezLevel:1,spiceLevel:0,
-    tags:["High Protein","Neutral","Gluten-Free","Keto"],
-    mealType:"Lunch/Dinner",
-    cal:310,protein:38,carbs:2,fat:16,activeTime:4,stepCount:3,
-    components:[
-      {name:"Chicken Thighs (boneless, skinless)",type:"Protein",cal:220,p:35,c:0,f:9,grams:170,weighRaw:true,unit:"g"},
-      {name:"Olive Oil Spray",type:"Fat",cal:30,p:0,c:0,f:3,grams:5,weighRaw:false,unit:"spray"},
-      {name:"Garlic Herb Seasoning (shaker)",type:"Seasoning",cal:10,p:0,c:2,f:0,grams:3,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Hot Sauce",info:"1 tsp = 0 cal"},{name:"Parmesan",info:"1 tbsp = 22 cal · 2g P"}],
-    steps:["Spray chicken with olive oil spray. Shake seasoning over both sides.","Air fry 400°F for 18–20 min, flip once at 10 min.","Rest 2 min. Add toppings on the side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-  {id:4,name:"Maverick Jerk Chicken Bowl",emoji:"📦",method:"Microwave",type:"packaged",ezLevel:1,spiceLevel:3,
-    tags:["High Protein","Hot","Caribbean","Ready in 3 min"],
-    mealType:"Lunch/Dinner",
-    cal:380,protein:40,carbs:28,fat:12,activeTime:1,stepCount:2,
-    components:[
-      {name:"Maverick Foods Jerk Chicken Bowl (9oz)",type:"Packaged Meal",cal:380,p:40,c:28,f:12,grams:255,weighRaw:false,unit:"each"},
-    ],
-    toppings:[{name:"Lime Squeeze",info:"½ lime = 5 cal"},{name:"Hot Sauce",info:"1 tsp = 0 cal"}],
-    steps:["Remove lid. Microwave HIGH 3 minutes.","Rest 1 min. Add toppings to taste."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-  {id:5,name:"Deviled Eggs",emoji:"🥚",method:"No Cook",type:"fresh",ezLevel:1,spiceLevel:0,
-    tags:["High Protein","Keto","Neutral","Low Carb","Snack"],
-    mealType:"Snack",
-    cal:210,protein:18,carbs:2,fat:14,activeTime:5,stepCount:3,
-    components:[
-      {name:"Pre-Boiled Eggs",type:"Protein",cal:210,p:18,c:2,f:14,grams:150,weighRaw:false,unit:"count"},
-      {name:"Hellmann's Light Mayo",type:"Fat",cal:35,p:0,c:0,f:3,grams:15,weighRaw:false,unit:"g"},
-      {name:"Yellow Mustard (squeeze bottle)",type:"Flavor",cal:3,p:0,c:0,f:0,grams:5,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Paprika (shaker)",info:"pinch = 0 cal"},{name:"Pickle Relish",info:"1 tsp = 5 cal"}],
-    steps:["Halve pre-boiled eggs lengthwise. Pop yolks into bowl.","Mash yolks with mayo + mustard until smooth.","Fill whites. Shake paprika on top."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-  {id:6,name:"Slow Cooker Beef Rice Bowl",emoji:"🥩",method:"Slow Cooker",type:"fresh",ezLevel:2,spiceLevel:0,
-    tags:["High Protein","Neutral","Bulk Friendly","Meal Prep"],
-    mealType:"Lunch/Dinner",
-    cal:520,protein:45,carbs:48,fat:14,activeTime:5,stepCount:4,
-    components:[
-      {name:"Ground Beef (93% lean)",type:"Protein",cal:195,p:30,c:0,f:7,grams:142,weighRaw:true,unit:"g"},
-      {name:"Canned Diced Tomatoes",type:"Veg/Sauce",cal:25,p:1,c:5,f:0,grams:120,weighRaw:false,unit:"ml"},
-      {name:"Rice Pouch (Uncle Ben's)",type:"Carb",cal:200,p:4,c:44,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Frozen Mixed Veg (steam-bag)",type:"Veg",cal:40,p:2,c:7,f:0,grams:75,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Shredded Cheddar",info:"¼ cup = 110 cal · 7g P"},{name:"Sour Cream",info:"2 tbsp = 60 cal"},{name:"Hot Sauce",info:"1 tsp = 0 cal"}],
-    steps:["Add beef + canned tomatoes to slow cooker. Break up beef roughly.","Cook HIGH 2 hrs or LOW 4 hrs.","Microwave rice 90 sec + steam-bag veg 3 min.","Build bowl. Toppings on the side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-  {id:7,name:"Sheet Pan Turkey Meatballs",emoji:"🧆",method:"Bake",type:"fresh",ezLevel:2,spiceLevel:0,
-    tags:["High Protein","Italian-Inspired","Neutral","Meal Prep"],
-    mealType:"Lunch/Dinner",
-    cal:310,protein:36,carbs:8,fat:12,activeTime:8,stepCount:4,
-    components:[
-      {name:"Ground Turkey (93% lean)",type:"Protein",cal:175,p:28,c:0,f:7,grams:142,weighRaw:true,unit:"g"},
-      {name:"Panko Breadcrumbs",type:"Binder",cal:55,p:2,c:10,f:0,grams:20,weighRaw:false,unit:"g"},
-      {name:"Egg White (carton pour)",type:"Binder",cal:17,p:4,c:0,f:0,grams:30,weighRaw:false,unit:"count"},
-    ],
-    toppings:[{name:"Rao's Marinara",info:"¼ cup = 40 cal · 1g P"},{name:"Shredded Mozzarella",info:"¼ cup = 90 cal · 7g P"}],
-    steps:["Mix turkey, breadcrumbs, egg white carton pour, and Italian seasoning shaker in bowl.","Roll into ~1.5-inch balls onto foil-lined baking sheet.","Bake 400°F for 18–20 min.","Add sauce and cheese as separate toppings."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-  {id:8,name:"Salmon Lemon Herb Bake",emoji:"🐠",method:"Bake",type:"fresh",ezLevel:1,spiceLevel:0,
-    tags:["High Protein","Neutral","Omega-3","Gluten-Free"],
-    mealType:"Lunch/Dinner",
-    cal:380,protein:40,carbs:2,fat:22,activeTime:3,stepCount:3,
-    components:[
-      {name:"Salmon Fillet",type:"Protein",cal:280,p:36,c:0,f:14,grams:170,weighRaw:true,unit:"g"},
-      {name:"Olive Oil Spray",type:"Fat",cal:25,p:0,c:0,f:3,grams:4,weighRaw:false,unit:"spray"},
-      {name:"Lemon Pepper Seasoning (shaker)",type:"Seasoning",cal:5,p:0,c:1,f:0,grams:2,weighRaw:false,unit:"g"},
-      {name:"Frozen Broccoli (steam-bag)",type:"Veg",cal:50,p:4,c:9,f:0,grams:100,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Lemon Squeeze",info:"½ lemon = 5 cal"},{name:"Hot Sauce",info:"1 tsp = 0 cal"}],
-    steps:["Place salmon skin-down on foil-lined sheet. Spray with oil, shake seasoning on top.","Bake 425°F for 12–14 min.","Microwave steam-bag broccoli 4 min. Plate together — toppings separate."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:9,name:"Greek Yogurt Power Bowl",emoji:"🥣",method:"No Cook",type:"fresh",ezLevel:1,spiceLevel:0,
-    tags:["Breakfast","High Protein","No Cook","Quick","Low Fat"],
-    mealType:"Breakfast",
-    cal:370,protein:35,carbs:35,fat:4,activeTime:2,stepCount:2,
-    components:[
-      {name:"Fage 0% Greek Yogurt",type:"Protein",cal:170,p:28,c:8,f:0,grams:200,weighRaw:false,unit:"ml"},
-      {name:"Honey (squeeze bottle)",type:"Sweetener",cal:60,p:0,c:16,f:0,grams:20,weighRaw:false,unit:"ml"},
-      {name:"Frozen Blueberries (thawed)",type:"Fruit",cal:50,p:0,c:12,f:0,grams:75,weighRaw:false,unit:"g"},
-      {name:"Vanilla Whey Protein (1 scoop)",type:"Protein Boost",cal:120,p:25,c:3,f:1,grams:30,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Granola (2 tbsp)",info:"60 cal · 1g P · 9g C"},{name:"Chia Seeds (1 tsp)",info:"25 cal · 1g P"}],
-    steps:["Mix protein powder into yogurt with a spoon until smooth.","Spoon blueberries over top. Drizzle honey. Add toppings to taste."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:10,name:"Egg White Scramble",emoji:"🍳",method:"Stovetop",type:"fresh",ezLevel:1,spiceLevel:0,
-    tags:["Breakfast","High Protein","Low Fat","Low Carb","Quick"],
-    mealType:"Breakfast",
-    cal:280,protein:38,carbs:6,fat:8,activeTime:5,stepCount:3,
-    components:[
-      {name:"Egg White Carton (liquid)",type:"Protein",cal:130,p:27,c:2,f:0,grams:240,weighRaw:false,unit:"count"},
-      {name:"Shredded Cheddar (bagged)",type:"Fat",cal:110,p:7,c:0,f:9,grams:28,weighRaw:false,unit:"g"},
-      {name:"Frozen Spinach (microwave bag)",type:"Veg",cal:30,p:4,c:4,f:0,grams:85,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Hot Sauce",info:"1 tsp = 0 cal"},{name:"Everything Bagel Seasoning",info:"½ tsp = 5 cal"}],
-    steps:["Microwave spinach bag 2 min. Squeeze out excess water.","Spray pan with cooking spray on medium heat. Pour in egg whites + spinach. Scramble until just set.","Top with cheese. Slide onto plate — hot sauce on the side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:11,name:"Kodiak Protein Pancakes",emoji:"🥞",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:0,
-    tags:["Breakfast","High Protein","Sweet","Quick"],
-    mealType:"Breakfast",
-    cal:400,protein:30,carbs:44,fat:10,activeTime:8,stepCount:3,
-    components:[
-      {name:"Kodiak Cakes Mix (dry 1 cup)",type:"Carb",cal:200,p:10,c:38,f:3,grams:100,weighRaw:true,unit:"g"},
-      {name:"Whole Egg",type:"Protein",cal:140,p:12,c:1,f:10,grams:50,weighRaw:true,unit:"count"},
-      {name:"Almond Milk (unsweetened)",type:"Liquid",cal:30,p:1,c:1,f:2,grams:240,weighRaw:false,unit:"ml"},
-      {name:"Honey (squeeze bottle)",type:"Sweetener",cal:30,p:0,c:8,f:0,grams:10,weighRaw:false,unit:"ml"},
-    ],
-    toppings:[{name:"Allulose Syrup",info:"2 tbsp = 0 cal"},{name:"Nut Butter (1 tbsp)",info:"90 cal · 3g P"}],
-    steps:["Mix Kodiak mix + egg + almond milk + honey in bowl until smooth.","Spray skillet and heat medium. Pour ⅓ cup batter per pancake. Cook 2 min per side.","Stack on plate — syrup on the side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:12,name:"PB Banana Protein Shake",emoji:"🍌",method:"No Cook",type:"packaged",ezLevel:1,spiceLevel:0,
-    tags:["Breakfast","High Protein","No Cook","Quick","Sweet"],
-    mealType:"Breakfast",
-    cal:380,protein:35,carbs:36,fat:12,activeTime:2,stepCount:2,
-    components:[
-      {name:"Chocolate Protein Powder (1 scoop)",type:"Protein",cal:120,p:25,c:2,f:2,grams:30,weighRaw:false,unit:"g"},
-      {name:"Frozen Banana (medium)",type:"Fruit",cal:90,p:1,c:23,f:0,grams:100,weighRaw:true,unit:"g"},
-      {name:"PB2 Powder (2 tbsp)",type:"Fat",cal:50,p:4,c:4,f:1,grams:16,weighRaw:false,unit:"g"},
-      {name:"Almond Milk (unsweetened)",type:"Liquid",cal:30,p:1,c:1,f:3,grams:240,weighRaw:false,unit:"ml"},
-      {name:"Ice Cubes",type:"Liquid",cal:0,p:0,c:0,f:0,grams:100,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Extra PB2 on top",info:"½ tbsp = 20 cal"},{name:"Cocoa Nibs",info:"1 tbsp = 40 cal"}],
-    steps:["Add protein powder, frozen banana, PB2, and almond milk to blender.","Pulse until smooth. Add ice and blend again. Pour into glass."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:13,name:"Smoked Salmon Bagel",emoji:"🍣",method:"No Cook",type:"fresh",ezLevel:1,spiceLevel:0,
-    tags:["Breakfast","High Protein","Omega-3","No Cook"],
-    mealType:"Breakfast",
-    cal:340,protein:28,carbs:32,fat:10,activeTime:3,stepCount:2,
-    components:[
-      {name:"Bagel Thin",type:"Carb",cal:110,p:4,c:22,f:1,grams:45,weighRaw:false,unit:"g"},
-      {name:"Light Cream Cheese (2 tbsp)",type:"Fat",cal:70,p:3,c:1,f:6,grams:30,weighRaw:false,unit:"ml"},
-      {name:"Smoked Salmon (sliced)",type:"Protein",cal:140,p:20,c:0,f:6,grams:100,weighRaw:false,unit:"g"},
-      {name:"Capers (drained)",type:"Flavor",cal:20,p:1,c:4,f:0,grams:10,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Lemon Squeeze",info:"½ lemon = 5 cal"},{name:"Dill (fresh or dried)",info:"pinch = 0 cal"}],
-    steps:["Toast bagel thin. Spread cream cheese evenly.","Layer smoked salmon + capers. Squeeze lemon over top."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:14,name:"Cottage Cheese Toast",emoji:"🧀",method:"No Cook",type:"fresh",ezLevel:1,spiceLevel:0,
-    tags:["Breakfast","High Protein","No Cook","Quick"],
-    mealType:"Breakfast",
-    cal:320,protein:24,carbs:32,fat:10,activeTime:3,stepCount:2,
-    components:[
-      {name:"Whole Grain Toast (2 slices)",type:"Carb",cal:160,p:8,c:28,f:3,grams:60,weighRaw:false,unit:"g"},
-      {name:"Good Culture Cottage Cheese",type:"Protein",cal:120,p:14,c:3,f:5,grams:112,weighRaw:false,unit:"g"},
-      {name:"Everything Bagel Seasoning",type:"Seasoning",cal:5,p:0,c:1,f:0,grams:2,weighRaw:false,unit:"g"},
-      {name:"Honey (squeeze bottle)",type:"Sweetener",cal:35,p:0,c:9,f:0,grams:12,weighRaw:false,unit:"ml"},
-    ],
-    toppings:[{name:"Black Pepper",info:"pinch = 0 cal"},{name:"Red Pepper Flakes",info:"pinch = 0 cal"}],
-    steps:["Toast bread until golden. Spread cottage cheese on each slice.","Sprinkle everything seasoning, drizzle honey, season with pepper."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:15,name:"Protein Overnight Oats",emoji:"🥣",method:"No Cook",type:"packaged",ezLevel:1,spiceLevel:0,
-    tags:["Breakfast","High Protein","Meal Prep","No Cook"],
-    mealType:"Breakfast",
-    cal:410,protein:36,carbs:40,fat:8,activeTime:3,stepCount:2,
-    components:[
-      {name:"Rolled Oats (dry ½ cup)",type:"Carb",cal:150,p:5,c:27,f:3,grams:45,weighRaw:true,unit:"g"},
-      {name:"Fage 0% Greek Yogurt",type:"Protein",cal:120,p:22,c:6,f:0,grams:170,weighRaw:false,unit:"ml"},
-      {name:"Chocolate Protein Powder (1 scoop)",type:"Protein",cal:120,p:25,c:2,f:2,grams:30,weighRaw:false,unit:"g"},
-      {name:"Almond Milk (unsweetened)",type:"Liquid",cal:15,p:0,c:0,f:1,grams:120,weighRaw:false,unit:"ml"},
-      {name:"Honey (1 tsp)",type:"Sweetener",cal:20,p:0,c:5,f:0,grams:7,weighRaw:false,unit:"ml"},
-    ],
-    toppings:[{name:"Frozen Blueberries",info:"¼ cup = 25 cal"},{name:"Chia Seeds",info:"1 tsp = 25 cal"}],
-    steps:["Mix oats, yogurt, protein powder, almond milk, honey in container.","Refrigerate overnight. Stir before eating. Top with berries and seeds."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:16,name:"Scrambled Eggs & Turkey Sausage",emoji:"🍳",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:0,
-    tags:["Breakfast","High Protein","Quick","Low Carb"],
-    mealType:"Breakfast",
-    cal:380,protein:34,carbs:2,fat:28,activeTime:6,stepCount:3,
-    components:[
-      {name:"Whole Eggs (3 large)",type:"Protein",cal:210,p:18,c:2,f:15,grams:150,weighRaw:true,unit:"count"},
-      {name:"Turkey Sausage Links (pre-cooked, microwave)",type:"Protein",cal:120,p:12,c:0,f:7,grams:56,weighRaw:false,unit:"g"},
-      {name:"Shredded Cheddar (bagged)",type:"Fat",cal:110,p:7,c:0,f:9,grams:28,weighRaw:false,unit:"g"},
-      {name:"Butter (for pan)",type:"Fat",cal:40,p:0,c:0,f:5,grams:5,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Black Pepper",info:"pinch = 0 cal"},{name:"Hot Sauce",info:"1 tsp = 0 cal"}],
-    steps:["Microwave turkey sausage 90 sec per package. Heat butter in skillet over medium.","Whisk eggs, pour into skillet. Scramble until just set (~3 min).","Top with cheddar. Chop sausage on the side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:17,name:"High Protein Bagel",emoji:"🛡️",method:"No Cook",type:"fresh",ezLevel:1,spiceLevel:0,
-    tags:["Breakfast","High Protein","Quick","No Cook"],
-    mealType:"Breakfast",
-    cal:350,protein:30,carbs:32,fat:10,activeTime:3,stepCount:2,
-    components:[
-      {name:"Everything Bagel Thin",type:"Carb",cal:110,p:4,c:22,f:1,grams:45,weighRaw:false,unit:"g"},
-      {name:"Deli Turkey (4 slices)",type:"Protein",cal:120,p:16,c:0,f:6,grams:112,weighRaw:false,unit:"g"},
-      {name:"Light Cream Cheese (2 tbsp)",type:"Fat",cal:70,p:3,c:1,f:6,grams:30,weighRaw:false,unit:"ml"},
-      {name:"Fage 0% Greek Yogurt (1 tbsp)",type:"Protein Boost",cal:15,p:3,c:1,f:0,grams:20,weighRaw:false,unit:"ml"},
-      {name:"Whole Grain Mustard (1 tsp)",type:"Flavor",cal:3,p:0,c:0,f:0,grams:5,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Lemon Pepper Seasoning",info:"pinch = 0 cal"},{name:"Cucumber Slices",info:"½ cup = 8 cal"}],
-    steps:["Toast bagel thin. Mix cream cheese + Greek yogurt spread on both halves.","Layer turkey + mustard. Squeeze lemon pepper, add cucumber."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:18,name:"Avocado Egg Toast",emoji:"🥑",method:"No Cook",type:"fresh",ezLevel:1,spiceLevel:0,
-    tags:["Breakfast","High Protein","Healthy Fats","Quick"],
-    mealType:"Breakfast",
-    cal:360,protein:20,carbs:26,fat:20,activeTime:3,stepCount:2,
-    components:[
-      {name:"Whole Grain Toast (2 slices)",type:"Carb",cal:160,p:8,c:28,f:3,grams:60,weighRaw:false,unit:"g"},
-      {name:"Wholly Guac Squeeze Tube (2 tbsp)",type:"Fat",cal:100,p:1,c:5,f:8,grams:56,weighRaw:false,unit:"g"},
-      {name:"Pre-Boiled Eggs (2 large, sliced)",type:"Protein",cal:140,p:12,c:1,f:10,grams:100,weighRaw:false,unit:"count"},
-      {name:"Everything Bagel Seasoning",type:"Seasoning",cal:5,p:0,c:1,f:0,grams:2,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Red Pepper Flakes",info:"pinch = 0 cal"},{name:"Lemon Squeeze",info:"½ lemon = 5 cal"}],
-    steps:["Toast bread. Squeeze guac evenly on both slices.","Top with sliced eggs. Season with everything bagel seasoning + pepper flakes."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:19,name:"Greek Yogurt Parfait",emoji:"🍨",method:"No Cook",type:"fresh",ezLevel:1,spiceLevel:0,
-    tags:["Breakfast","High Protein","Sweet","No Cook"],
-    mealType:"Breakfast",
-    cal:320,protein:26,carbs:38,fat:4,activeTime:2,stepCount:2,
-    components:[
-      {name:"Fage 0% Greek Yogurt",type:"Protein",cal:170,p:28,c:8,f:0,grams:200,weighRaw:false,unit:"ml"},
-      {name:"Frozen Mixed Berries (thawed)",type:"Fruit",cal:60,p:1,c:15,f:0,grams:100,weighRaw:true,unit:"g"},
-      {name:"Granola (low-sugar 2 tbsp)",type:"Carb",cal:60,p:2,c:9,f:2,grams:20,weighRaw:false,unit:"g"},
-      {name:"Honey (1 tsp)",type:"Sweetener",cal:20,p:0,c:5,f:0,grams:7,weighRaw:false,unit:"ml"},
-    ],
-    toppings:[{name:"Chia Seeds",info:"1 tsp = 25 cal"},{name:"Flax Seeds",info:"1 tbsp = 60 cal"}],
-    steps:["Thaw berries 2 min if needed. Spoon yogurt into bowl.","Layer berries, granola, honey. Top with seeds."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:20,name:"Microwave Egg Mug",emoji:"☕",method:"Microwave",type:"fresh",ezLevel:1,spiceLevel:0,
-    tags:["Breakfast","High Protein","Fastest","Low Carb"],
-    mealType:"Breakfast",
-    cal:280,protein:28,carbs:1,fat:18,activeTime:3,stepCount:2,
-    components:[
-      {name:"Egg Whites (carton, ¾ cup)",type:"Protein",cal:100,p:21,c:1,f:0,grams:180,weighRaw:false,unit:"count"},
-      {name:"Whole Egg (1 large)",type:"Protein",cal:70,p:6,c:1,f:5,grams:50,weighRaw:true,unit:"count"},
-      {name:"Shredded Cheddar (bagged ¼ cup)",type:"Fat",cal:110,p:7,c:0,f:9,grams:28,weighRaw:false,unit:"g"},
-      {name:"Salsa (fresh or jarred 2 tbsp)",type:"Flavor",cal:10,p:0,c:2,f:0,grams:32,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Hot Sauce",info:"1 tsp = 0 cal"},{name:"Chives (dried pinch)",info:"0 cal"}],
-    steps:["Whisk egg whites + whole egg in microwave-safe mug. Add cheese + salsa. Stir.","Microwave 90 sec. Stir. Microwave 30 sec more until set."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:21,name:"Buffalo Chicken Rice Bowl",emoji:"🔥",method:"Air Fryer",type:"fresh",ezLevel:1,spiceLevel:2,
-    tags:["High Protein","Hot","Asian-Inspired","Quick"],
-    mealType:"Lunch/Dinner",
-    cal:460,protein:44,carbs:46,fat:10,activeTime:4,stepCount:3,
-    components:[
-      {name:"Chicken Breast (boneless, skinless)",type:"Protein",cal:165,p:35,c:0,f:4,grams:170,weighRaw:true,unit:"g"},
-      {name:"Frank's RedHot Sauce (3 tbsp)",type:"Sauce",cal:15,p:0,c:3,f:0,grams:45,weighRaw:false,unit:"ml"},
-      {name:"White Rice Pouch (Uncle Ben's)",type:"Carb",cal:200,p:4,c:44,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Frozen Broccoli (steam-bag)",type:"Veg",cal:50,p:4,c:9,f:0,grams:100,weighRaw:false,unit:"g"},
-      {name:"Butter (to coat)",type:"Fat",cal:30,p:0,c:0,f:3,grams:3,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Blue Cheese Crumbles",info:"¼ cup = 100 cal · 6g P"},{name:"Celery Powder",info:"pinch = 0 cal"}],
-    steps:["Spray chicken with butter. Air fry 400°F for 16–18 min, shaking halfway.","Microwave rice 90 sec. Microwave broccoli 3 min. Toss chicken in Frank's.","Build bowl — toppings separate."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:22,name:"BBQ Chicken Rice Bowl",emoji:"🍖",method:"Air Fryer",type:"fresh",ezLevel:1,spiceLevel:0,
-    tags:["High Protein","Sweet","Neutral","Quick"],
-    mealType:"Lunch/Dinner",
-    cal:490,protein:42,carbs:48,fat:12,activeTime:4,stepCount:3,
-    components:[
-      {name:"Chicken Thighs (boneless, skinless)",type:"Protein",cal:220,p:30,c:0,f:11,grams:170,weighRaw:true,unit:"g"},
-      {name:"Sweet Baby Ray's BBQ Sauce (3 tbsp)",type:"Sauce",cal:60,p:0,c:14,f:0,grams:51,weighRaw:false,unit:"ml"},
-      {name:"White Rice Pouch",type:"Carb",cal:200,p:4,c:44,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Olive Oil Spray",type:"Fat",cal:15,p:0,c:0,f:2,grams:3,weighRaw:false,unit:"spray"},
-    ],
-    toppings:[{name:"Corn (frozen, thawed)",info:"¼ cup = 20 cal · 0.5g P"},{name:"Red Onion (powder)",info:"pinch = 0 cal"}],
-    steps:["Spray chicken with olive oil. Air fry 400°F for 18–20 min, shaking at 10 min.","Microwave rice 90 sec. Brush BBQ sauce on cooked chicken.","Build bowl — extra sauce on the side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:23,name:"Canned Chicken Rice Bowl",emoji:"🥫",method:"No Cook",type:"packaged",ezLevel:1,spiceLevel:0,
-    tags:["High Protein","No Cook","Quick","Budget-Friendly"],
-    mealType:"Lunch/Dinner",
-    cal:380,protein:40,carbs:38,fat:8,activeTime:2,stepCount:2,
-    components:[
-      {name:"Canned Chicken (drained, 5 oz)",type:"Protein",cal:130,p:28,c:0,f:2,grams:142,weighRaw:false,unit:"g"},
-      {name:"Low-Sodium Soy Sauce (1 tbsp)",type:"Sauce",cal:10,p:1,c:1,f:0,grams:15,weighRaw:false,unit:"ml"},
-      {name:"Garlic Powder (1 tsp)",type:"Seasoning",cal:10,p:0,c:2,f:0,grams:3,weighRaw:false,unit:"g"},
-      {name:"White Rice Pouch",type:"Carb",cal:200,p:4,c:44,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Frozen Mixed Veg (microwave bag)",type:"Veg",cal:30,p:1,c:5,f:0,grams:85,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Sesame Seeds",info:"1 tsp = 17 cal · 0.5g P"},{name:"Sriracha",info:"1 tsp = 5 cal"}],
-    steps:["Microwave rice 90 sec. Microwave frozen veg 3 min.","Mix canned chicken with soy sauce + garlic powder. Build bowl — toppings on side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:24,name:"Rotisserie Chicken Bowl",emoji:"🍗",method:"No Cook",type:"packaged",ezLevel:1,spiceLevel:1,
-    tags:["High Protein","No Cook","Quick","Meal Prep"],
-    mealType:"Lunch/Dinner",
-    cal:420,protein:44,carbs:40,fat:8,activeTime:3,stepCount:2,
-    components:[
-      {name:"Rotisserie Chicken (pre-shredded, 6 oz)",type:"Protein",cal:240,p:44,c:0,f:8,grams:170,weighRaw:false,unit:"g"},
-      {name:"White Rice Pouch",type:"Carb",cal:200,p:4,c:44,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Frozen Broccoli (steam-bag)",type:"Veg",cal:50,p:4,c:9,f:0,grams:100,weighRaw:false,unit:"g"},
-      {name:"Hot Sauce (Frank's, 1 tbsp)",type:"Sauce",cal:5,p:0,c:1,f:0,grams:15,weighRaw:false,unit:"ml"},
-    ],
-    toppings:[{name:"Lime Squeeze",info:"½ lime = 5 cal"},{name:"Cilantro (fresh or dried)",info:"pinch = 0 cal"}],
-    steps:["Microwave rice 90 sec. Microwave broccoli 3 min. Heat rotisserie chicken 60 sec in microwave if cold.","Mix chicken with hot sauce. Build bowl — toppings separate."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:25,name:"Salmon Poke Bowl",emoji:"🍣",method:"No Cook",type:"packaged",ezLevel:1,spiceLevel:0,
-    tags:["High Protein","Omega-3","No Cook","Quick"],
-    mealType:"Lunch/Dinner",
-    cal:480,protein:36,carbs:44,fat:14,activeTime:3,stepCount:2,
-    components:[
-      {name:"Smoked Salmon Pouch (drained, 6 oz)",type:"Protein",cal:210,p:30,c:0,f:9,grams:170,weighRaw:false,unit:"g"},
-      {name:"White Rice Pouch",type:"Carb",cal:200,p:4,c:44,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Kewpie Mayo (2 tbsp)",type:"Fat",cal:200,p:0,c:0,f:22,grams:30,weighRaw:false,unit:"g"},
-      {name:"Low-Sodium Soy Sauce (1 tbsp)",type:"Sauce",cal:10,p:1,c:1,f:0,grams:15,weighRaw:false,unit:"ml"},
-      {name:"Frozen Edamame (steam-bag)",type:"Veg",cal:95,p:11,c:6,f:5,grams:113,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Sesame Seeds",info:"1 tsp = 17 cal · 0.5g P"},{name:"Nori Strips",info:"1 strip = 5 cal"}],
-    steps:["Microwave rice 90 sec. Microwave edamame 3 min. Thaw salmon 1 min if frozen.","Mix mayo + soy sauce. Build bowl with salmon on rice. Toppings separate."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:26,name:"Honey Garlic Cod Bowl",emoji:"🐟",method:"Bake",type:"fresh",ezLevel:1,spiceLevel:0,
-    tags:["High Protein","Omega-3","Neutral","Quick"],
-    mealType:"Lunch/Dinner",
-    cal:420,protein:36,carbs:46,fat:8,activeTime:4,stepCount:3,
-    components:[
-      {name:"Cod Fillet",type:"Protein",cal:140,p:30,c:0,f:1,grams:170,weighRaw:true,unit:"g"},
-      {name:"Honey (1 tbsp)",type:"Sweetener",cal:60,p:0,c:16,f:0,grams:20,weighRaw:false,unit:"ml"},
-      {name:"Garlic Powder (½ tsp)",type:"Seasoning",cal:5,p:0,c:1,f:0,grams:1.5,weighRaw:false},
-      {name:"Low-Sodium Soy Sauce (1 tbsp)",type:"Sauce",cal:10,p:1,c:1,f:0,grams:15,weighRaw:false,unit:"ml"},
-      {name:"White Rice Pouch",type:"Carb",cal:200,p:4,c:44,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Frozen Green Beans (steam-bag)",type:"Veg",cal:30,p:2,c:6,f:0,grams:75,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Sesame Oil Drizzle",info:"½ tsp = 20 cal"},{name:"Green Onion (dried)",info:"pinch = 0 cal"}],
-    steps:["Mix honey + soy sauce + garlic powder. Place cod on foil. Drizzle sauce over top.","Bake 425°F for 12–14 min. Microwave rice 90 sec + green beans 3 min.","Build bowl — toppings separate."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:27,name:"Ground Beef Taco Bowl",emoji:"🌮",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:1,
-    tags:["High Protein","Mexican-Inspired","Quick","Bulk Friendly"],
-    mealType:"Lunch/Dinner",
-    cal:510,protein:42,carbs:48,fat:14,activeTime:8,stepCount:3,
-    components:[
-      {name:"Ground Beef (93% lean)",type:"Protein",cal:195,p:30,c:0,f:7,grams:142,weighRaw:true,unit:"g"},
-      {name:"Old El Paso Taco Seasoning (1 packet)",type:"Seasoning",cal:30,p:1,c:6,f:0.5,grams:25,weighRaw:false},
-      {name:"Water (¼ cup)",type:"Liquid",cal:0,p:0,c:0,f:0,grams:60,weighRaw:false,unit:"g"},
-      {name:"White Rice Pouch",type:"Carb",cal:200,p:4,c:44,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Canned Black Beans (½ can, drained)",type:"Veg",cal:100,p:8,c:18,f:0,grams:135,weighRaw:false,unit:"g"},
-      {name:"Olive Oil (½ tbsp)",type:"Fat",cal:60,p:0,c:0,f:7,grams:7.5,weighRaw:false},
-    ],
-    toppings:[{name:"Shredded Cheddar",info:"¼ cup = 110 cal · 7g P"},{name:"Salsa (fresh)",info:"¼ cup = 20 cal"}],
-    steps:["Heat oil in skillet over medium-high. Brown beef 4–5 min, breaking it up as it cooks.","Add taco seasoning + water. Simmer 2 min. Microwave rice 90 sec + beans 60 sec.","Build bowl — toppings on side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:28,name:"Pork Tenderloin Bowl",emoji:"🐷",method:"Air Fryer",type:"fresh",ezLevel:2,spiceLevel:0,
-    tags:["High Protein","Neutral","Lean","Quick"],
-    mealType:"Lunch/Dinner",
-    cal:400,protein:44,carbs:38,fat:8,activeTime:6,stepCount:3,
-    components:[
-      {name:"Pork Tenderloin",type:"Protein",cal:240,p:45,c:0,f:7,grams:170,weighRaw:true,unit:"g"},
-      {name:"Italian Herb Seasoning (1 tbsp)",type:"Seasoning",cal:10,p:0,c:2,f:0,grams:3,weighRaw:false,unit:"g"},
-      {name:"Olive Oil Spray",type:"Fat",cal:15,p:0,c:0,f:2,grams:3,weighRaw:false,unit:"spray"},
-      {name:"White Rice Pouch",type:"Carb",cal:200,p:4,c:44,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Frozen Mixed Veg (microwave bag)",type:"Veg",cal:30,p:1,c:5,f:0,grams:85,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Lemon Squeeze",info:"½ lemon = 5 cal"},{name:"Black Pepper",info:"pinch = 0 cal"}],
-    steps:["Spray pork with oil. Coat evenly with Italian seasoning.","Air fry 400°F for 16–18 min, shaking at 9 min. Rest 2 min. Slice.","Microwave rice 90 sec + veg 3 min. Build bowl."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:29,name:"Lemon Pepper Shrimp Bowl",emoji:"🦐",method:"Air Fryer",type:"fresh",ezLevel:1,spiceLevel:0,
-    tags:["High Protein","Omega-3","Quick","Low Fat"],
-    mealType:"Lunch/Dinner",
-    cal:380,protein:38,carbs:40,fat:6,activeTime:5,stepCount:3,
-    components:[
-      {name:"Frozen Shrimp (16/20 count, thawed)",type:"Protein",cal:160,p:36,c:0,f:1,grams:150,weighRaw:true,unit:"g"},
-      {name:"Lemon Pepper Seasoning (1 tsp)",type:"Seasoning",cal:5,p:0,c:1,f:0,grams:2,weighRaw:false,unit:"g"},
-      {name:"Olive Oil Spray",type:"Fat",cal:15,p:0,c:0,f:2,grams:3,weighRaw:false,unit:"spray"},
-      {name:"White Rice Pouch",type:"Carb",cal:200,p:4,c:44,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Frozen Broccoli (steam-bag)",type:"Veg",cal:50,p:4,c:9,f:0,grams:100,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Lemon Squeeze",info:"½ lemon = 5 cal"},{name:"Parmesan",info:"1 tbsp = 22 cal · 2g P"}],
-    steps:["Pat shrimp dry. Spray with oil + season with lemon pepper.","Air fry 380°F for 8–10 min, shaking halfway. Microwave rice 90 sec + broccoli 3 min.","Build bowl — toppings separate."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:30,name:"Greek Chicken Bowl",emoji:"🇬🇷",method:"Air Fryer",type:"fresh",ezLevel:2,spiceLevel:0,
-    tags:["High Protein","Mediterranean","Neutral","Quick"],
-    mealType:"Lunch/Dinner",
-    cal:440,protein:40,carbs:48,fat:10,activeTime:6,stepCount:3,
-    components:[
-      {name:"Chicken Thighs (boneless, skinless)",type:"Protein",cal:220,p:30,c:0,f:11,grams:170,weighRaw:true,unit:"g"},
-      {name:"Cavender's Greek Seasoning (1½ tsp)",type:"Seasoning",cal:8,p:0,c:1,f:0,grams:4,weighRaw:false,unit:"g"},
-      {name:"Olive Oil Spray",type:"Fat",cal:15,p:0,c:0,f:2,grams:3,weighRaw:false,unit:"spray"},
-      {name:"White Rice Pouch",type:"Carb",cal:200,p:4,c:44,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Store-Bought Tzatziki (3 tbsp)",type:"Sauce",cal:45,p:2,c:2,f:3,grams:45,weighRaw:false,unit:"ml"},
-    ],
-    toppings:[{name:"Feta Crumbles",info:"¼ cup = 95 cal · 5g P"},{name:"Kalamata Olives",info:"¼ cup = 70 cal · 1g P"}],
-    steps:["Spray chicken with oil. Dust evenly with Greek seasoning.","Air fry 400°F for 18–20 min, shaking at 10 min. Microwave rice 90 sec.","Build bowl with tzatziki drizzled on chicken. Toppings on side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:31,name:"Slow Cooker Chicken Thighs",emoji:"🍗",method:"Slow Cooker",type:"fresh",ezLevel:1,spiceLevel:0,
-    tags:["High Protein","Neutral","Meal Prep","Set-and-Forget"],
-    mealType:"Lunch/Dinner",
-    cal:320,protein:40,carbs:2,fat:16,activeTime:5,stepCount:2,
-    components:[
-      {name:"Chicken Thighs (boneless, skinless, 6 oz)",type:"Protein",cal:220,p:30,c:0,f:11,grams:170,weighRaw:true,unit:"g"},
-      {name:"Low-Sodium Chicken Broth (1 cup)",type:"Liquid",cal:15,p:2,c:1,f:0,grams:240,weighRaw:false,unit:"g"},
-      {name:"Italian Herb Seasoning (1 tbsp)",type:"Seasoning",cal:10,p:0,c:2,f:0,grams:3,weighRaw:false,unit:"g"},
-      {name:"Garlic Powder (½ tsp)",type:"Seasoning",cal:5,p:0,c:1,f:0,grams:1.5,weighRaw:false},
-    ],
-    toppings:[{name:"Hot Sauce",info:"1 tsp = 0 cal"},{name:"Parmesan",info:"1 tbsp = 22 cal · 2g P"}],
-    steps:["Add chicken, broth, and seasonings to slow cooker.","Cook LOW 6–7 hrs or HIGH 3–4 hrs. Shred chicken. Serve with toppings on side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:32,name:"Tuna Pasta Salad",emoji:"🍝",method:"No Cook",type:"packaged",ezLevel:1,spiceLevel:0,
-    tags:["High Protein","Omega-3","No Cook","Quick"],
-    mealType:"Lunch/Dinner",
-    cal:460,protein:36,carbs:44,fat:12,activeTime:4,stepCount:2,
-    components:[
-      {name:"Banza Chickpea Pasta (cooked, 1.5 cups)",type:"Carb",cal:280,p:18,c:32,f:9,grams:210,weighRaw:false,unit:"g"},
-      {name:"Canned Tuna in Water (drained, 5 oz)",type:"Protein",cal:120,p:26,c:0,f:1,grams:142,weighRaw:false,unit:"g"},
-      {name:"Light Mayo (2 tbsp)",type:"Fat",cal:45,p:0,c:0,f:5,grams:30,weighRaw:false,unit:"g"},
-      {name:"Yellow Mustard (2 tsp)",type:"Flavor",cal:10,p:0,c:0,f:0,grams:10,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Celery Powder",info:"pinch = 0 cal"},{name:"Black Pepper",info:"pinch = 0 cal"}],
-    steps:["Combine cooked pasta + drained tuna in bowl.","Mix mayo + mustard. Fold into pasta. Season to taste."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:33,name:"Black Bean Quesadilla",emoji:"🌯",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:0,
-    tags:["High Protein","Mexican-Inspired","Quick","Vegetarian"],
-    mealType:"Lunch/Dinner",
-    cal:440,protein:24,carbs:46,fat:14,activeTime:8,stepCount:3,
-    components:[
-      {name:"Flour Tortillas (2 large)",type:"Carb",cal:280,p:8,c:40,f:8,grams:120,weighRaw:false,unit:"g"},
-      {name:"Canned Black Beans (½ can, drained)",type:"Veg/Carb",cal:100,p:8,c:18,f:0,grams:135,weighRaw:false,unit:"g"},
-      {name:"Shredded Mexican Cheese (1 cup)",type:"Fat",cal:220,p:14,c:2,f:18,grams:113,weighRaw:false,unit:"g"},
-      {name:"Olive Oil (1 tbsp)",type:"Fat",cal:120,p:0,c:0,f:14,grams:15,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Salsa",info:"¼ cup = 20 cal"},{name:"Sour Cream",info:"2 tbsp = 60 cal"}],
-    steps:["Heat oil in skillet over medium. Place 1 tortilla down. Spread beans + cheese on half.","Fold in half. Cook 2 min per side until golden + cheese melts. Repeat with second tortilla.","Cut into triangles. Toppings on side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:34,name:"Microwave Salmon Pouch Bowl",emoji:"🐟",method:"Microwave",type:"packaged",ezLevel:1,spiceLevel:0,
-    tags:["High Protein","Omega-3","No Cook","Fastest"],
-    mealType:"Lunch/Dinner",
-    cal:400,protein:36,carbs:42,fat:10,activeTime:2,stepCount:2,
-    components:[
-      {name:"Bumble Bee Salmon Pouch (6 oz)",type:"Protein",cal:180,p:30,c:0,f:7,grams:170,weighRaw:false,unit:"g"},
-      {name:"White Rice Pouch (Uncle Ben's)",type:"Carb",cal:200,p:4,c:44,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Lemon Pepper Seasoning (½ tsp)",type:"Seasoning",cal:5,p:0,c:1,f:0,grams:1,weighRaw:false,unit:"g"},
-      {name:"Hot Sauce (1 tbsp)",type:"Sauce",cal:5,p:0,c:1,f:0,grams:15,weighRaw:false,unit:"ml"},
-    ],
-    toppings:[{name:"Sesame Seeds",info:"1 tsp = 17 cal · 0.5g P"},{name:"Lime Squeeze",info:"½ lime = 5 cal"}],
-    steps:["Microwave rice 90 sec. Warm salmon pouch in microwave 60 sec.","Build bowl. Season salmon with lemon pepper + hot sauce. Toppings separate."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:35,name:"High Protein Chili",emoji:"🌶️",method:"Slow Cooker",type:"fresh",ezLevel:2,spiceLevel:2,
-    tags:["High Protein","Hot","Meal Prep","Bulk Friendly"],
-    mealType:"Lunch/Dinner",
-    cal:480,protein:44,carbs:42,fat:10,activeTime:8,stepCount:3,
-    components:[
-      {name:"Ground Turkey (93% lean)",type:"Protein",cal:175,p:28,c:0,f:7,grams:142,weighRaw:true,unit:"g"},
-      {name:"Canned Red Kidney Beans (1 can, drained)",type:"Carb/Veg",cal:150,p:15,c:27,f:0,grams:270,weighRaw:false,unit:"g"},
-      {name:"Canned Diced Tomatoes (1 can, undrained)",type:"Veg/Sauce",cal:50,p:2,c:10,f:0,grams:240,weighRaw:false,unit:"ml"},
-      {name:"McCormick Chili Seasoning Packet",type:"Seasoning",cal:30,p:1,c:6,f:0.5,grams:25,weighRaw:false},
-      {name:"Olive Oil (1 tsp)",type:"Fat",cal:40,p:0,c:0,f:4.5,grams:5,weighRaw:false},
-    ],
-    toppings:[{name:"Shredded Cheddar",info:"¼ cup = 110 cal · 7g P"},{name:"Sour Cream",info:"2 tbsp = 60 cal"}],
-    steps:["Heat oil in skillet. Brown turkey 4–5 min, breaking it up. Transfer to slow cooker.","Add beans, tomatoes, and chili seasoning. Stir well.","Cook LOW 5–6 hrs or HIGH 2–3 hrs. Stir occasionally. Top with cheese + sour cream."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:36,name:"Honey Sriracha Salmon",emoji:"🔥",method:"Bake",type:"fresh",ezLevel:1,spiceLevel:2,
-    tags:["High Protein","Hot-Sweet","Omega-3","Quick"],
-    mealType:"Lunch/Dinner",
-    cal:420,protein:36,carbs:28,fat:18,activeTime:5,stepCount:3,
-    components:[
-      {name:"Salmon Fillet",type:"Protein",cal:280,p:36,c:0,f:14,grams:170,weighRaw:true,unit:"g"},
-      {name:"Sriracha Sauce (2 tbsp)",type:"Sauce",cal:30,p:0,c:6,f:1,grams:30,weighRaw:false,unit:"ml"},
-      {name:"Honey (1 tbsp)",type:"Sweetener",cal:60,p:0,c:16,f:0,grams:20,weighRaw:false,unit:"ml"},
-      {name:"Garlic Powder (½ tsp)",type:"Seasoning",cal:5,p:0,c:1,f:0,grams:1.5,weighRaw:false},
-      {name:"Frozen Broccoli (steam-bag)",type:"Veg",cal:50,p:4,c:9,f:0,grams:100,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Sesame Oil Drizzle",info:"½ tsp = 20 cal"},{name:"Green Onion (dried)",info:"pinch = 0 cal"}],
-    steps:["Mix sriracha + honey + garlic powder. Place salmon on foil-lined sheet.","Brush sauce over salmon. Bake 425°F for 12–14 min. Microwave broccoli 3 min.","Plate together — extra sauce on side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:37,name:"Egg Fried Rice",emoji:"🍚",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:0,
-    tags:["High Protein","Asian-Inspired","Quick","Meal Prep"],
-    mealType:"Breakfast",
-    cal:430,protein:22,carbs:42,fat:16,activeTime:8,stepCount:3,
-    components:[
-      {name:"White Rice Pouch (cooked, day-old or microwaved 90 sec + cooled)",type:"Carb",cal:200,p:4,c:44,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Whole Eggs (3 large, beaten)",type:"Protein",cal:210,p:18,c:2,f:15,grams:150,weighRaw:true,unit:"count"},
-      {name:"Low-Sodium Soy Sauce (1.5 tbsp)",type:"Sauce",cal:15,p:1.5,c:2,f:0,grams:22.5,weighRaw:false},
-      {name:"Sesame Oil (1 tsp)",type:"Fat",cal:40,p:0,c:0,f:4.5,grams:5,weighRaw:false},
-      {name:"Frozen Peas (microwave bag, ¾ cup)",type:"Veg",cal:60,p:4,c:10,f:0,grams:100,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Sesame Seeds",info:"1 tsp = 17 cal · 0.5g P"},{name:"Green Onion (dried)",info:"pinch = 0 cal"}],
-    steps:["Heat sesame oil in large skillet over high heat. Scramble eggs 2 min, remove to plate.","Add rice to skillet, break up clumps. Stir 2 min. Add peas + soy sauce.","Return eggs to skillet, toss everything 1 min. Toppings on side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:38,name:"Chipotle Style Chicken Bowl",emoji:"🌶️",method:"Air Fryer",type:"fresh",ezLevel:2,spiceLevel:2,
-    tags:["High Protein","Hot","Mexican-Inspired","Quick"],
-    mealType:"Lunch/Dinner",
-    cal:510,protein:44,carbs:48,fat:12,activeTime:6,stepCount:3,
-    components:[
-      {name:"Chicken Thighs (boneless, skinless)",type:"Protein",cal:220,p:30,c:0,f:11,grams:170,weighRaw:true,unit:"g"},
-      {name:"Chipotle Seasoning Powder (1 tbsp)",type:"Seasoning",cal:20,p:1,c:3,f:0.5,grams:10,weighRaw:false},
-      {name:"Olive Oil Spray",type:"Fat",cal:15,p:0,c:0,f:2,grams:3,weighRaw:false,unit:"spray"},
-      {name:"White Rice Pouch",type:"Carb",cal:200,p:4,c:44,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Canned Black Beans (½ can, drained, microwaved)",type:"Veg/Carb",cal:100,p:8,c:18,f:0,grams:135,weighRaw:false,unit:"g"},
-      {name:"Salsa (fresh, 3 tbsp)",type:"Sauce",cal:15,p:0,c:3,f:0,grams:48,weighRaw:false,unit:"ml"},
-    ],
-    toppings:[{name:"Shredded Cheddar",info:"¼ cup = 110 cal · 7g P"},{name:"Lime Squeeze",info:"½ lime = 5 cal"}],
-    steps:["Spray chicken with oil. Coat with chipotle seasoning.","Air fry 400°F for 18–20 min, shaking at 10 min. Microwave rice 90 sec + beans 60 sec.","Build bowl with salsa drizzled on chicken. Cheese + lime on side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:39,name:"Turkey Lettuce Wraps",emoji:"🥬",method:"No Cook",type:"fresh",ezLevel:1,spiceLevel:0,
-    tags:["High Protein","No Cook","Quick","Low Carb"],
-    mealType:"Lunch/Dinner",
-    cal:280,protein:26,carbs:14,fat:14,activeTime:3,stepCount:2,
-    components:[
-      {name:"Deli Turkey (6 slices)",type:"Protein",cal:120,p:16,c:0,f:6,grams:112,weighRaw:false,unit:"g"},
-      {name:"Romaine Lettuce Leaves (4 large)",type:"Veg",cal:20,p:1,c:3,f:0,grams:100,weighRaw:true,unit:"g"},
-      {name:"Wholly Guac Squeeze Tube (2 tbsp)",type:"Fat",cal:100,p:1,c:5,f:8,grams:56,weighRaw:false,unit:"g"},
-      {name:"Dijon Mustard (1 tbsp)",type:"Flavor",cal:15,p:1,c:1,f:1,grams:10,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Lemon Pepper Seasoning",info:"pinch = 0 cal"},{name:"Red Onion (powder)",info:"pinch = 0 cal"}],
-    steps:["Lay lettuce leaves flat. Spread 1 tsp dijon on each.","Layer turkey on lettuce. Add small squeeze of guac. Roll tightly."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:40,name:"Teriyaki Salmon Bowl",emoji:"🐠",method:"Bake",type:"fresh",ezLevel:1,spiceLevel:0,
-    tags:["High Protein","Asian-Inspired","Omega-3","Quick"],
-    mealType:"Lunch/Dinner",
-    cal:460,protein:36,carbs:46,fat:12,activeTime:4,stepCount:3,
-    components:[
-      {name:"Salmon Fillet",type:"Protein",cal:280,p:36,c:0,f:14,grams:170,weighRaw:true,unit:"g"},
-      {name:"Kikkoman Teriyaki Sauce (3 tbsp)",type:"Sauce",cal:60,p:2,c:12,f:0.5,grams:51,weighRaw:false},
-      {name:"White Rice Pouch",type:"Carb",cal:200,p:4,c:44,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Frozen Edamame (steam-bag)",type:"Veg",cal:95,p:11,c:6,f:5,grams:113,weighRaw:false,unit:"g"},
-      {name:"Olive Oil Spray",type:"Fat",cal:10,p:0,c:0,f:1,grams:2,weighRaw:false,unit:"spray"},
-    ],
-    toppings:[{name:"Sesame Seeds",info:"1 tsp = 17 cal · 0.5g P"},{name:"Green Onion (dried)",info:"pinch = 0 cal"}],
-    steps:["Spray salmon with oil. Place on foil-lined sheet. Brush teriyaki sauce over top.","Bake 425°F for 12–14 min. Microwave rice 90 sec + edamame 3 min.","Build bowl — toppings separate."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:41,name:"Beef Jerky & Rice Cakes",emoji:"🍘",method:"No Cook",type:"packaged",ezLevel:1,spiceLevel:0,
-    tags:["High Protein","Snack","No Cook","Budget-Friendly"],
-    mealType:"Snack",
-    cal:220,protein:18,carbs:24,fat:4,activeTime:1,stepCount:1,
-    components:[
-      {name:"Jack Links Teriyaki Beef Jerky (1 oz)",type:"Protein",cal:80,p:11,c:7,f:1,grams:28,weighRaw:false,unit:"g"},
-      {name:"Plain Rice Cakes (2 large)",type:"Carb",cal:70,p:1,c:16,f:0.5,grams:14,weighRaw:false},
-      {name:"Almond Butter Squeeze Pack (1 tbsp)",type:"Fat",cal:95,p:3,c:3,f:9,grams:16,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Honey Drizzle",info:"½ tsp = 10 cal"},{name:"Sea Salt",info:"pinch = 0 cal"}],
-    steps:["Spread almond butter on rice cakes. Top with beef jerky. Drizzle honey."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:42,name:"String Cheese & Turkey Roll-Ups",emoji:"🧀",method:"No Cook",type:"packaged",ezLevel:1,spiceLevel:0,
-    tags:["High Protein","Snack","No Cook","Quick"],
-    mealType:"Snack",
-    cal:180,protein:22,carbs:0,fat:10,activeTime:2,stepCount:1,
-    components:[
-      {name:"Deli Turkey (4 slices)",type:"Protein",cal:80,p:11,c:0,f:3,grams:75,weighRaw:false,unit:"g"},
-      {name:"Part-Skim String Cheese (1 stick)",type:"Protein/Fat",cal:80,p:7,c:1,f:6,grams:28,weighRaw:false,unit:"g"},
-      {name:"Dijon Mustard (2 tsp)",type:"Flavor",cal:10,p:0.5,c:0.5,f:0.5,grams:10,weighRaw:false},
-    ],
-    toppings:[{name:"Everything Bagel Seasoning",info:"pinch = 0 cal"},{name:"Hot Sauce",info:"1 tsp = 0 cal"}],
-    steps:["Spread mustard on turkey slice. Place string cheese stick at edge and roll tightly."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:43,name:"Cottage Cheese & Pineapple",emoji:"🍍",method:"No Cook",type:"packaged",ezLevel:1,spiceLevel:0,
-    tags:["High Protein","Snack","No Cook","Sweet"],
-    mealType:"Snack",
-    cal:200,protein:20,carbs:20,fat:2,activeTime:2,stepCount:1,
-    components:[
-      {name:"Good Culture Cottage Cheese",type:"Protein",cal:120,p:14,c:3,f:5,grams:112,weighRaw:false,unit:"g"},
-      {name:"Canned Pineapple Chunks in Juice (drained, ½ cup)",type:"Fruit",cal:50,p:0,c:13,f:0,grams:90,weighRaw:false,unit:"ml"},
-      {name:"Honey (1 tsp)",type:"Sweetener",cal:20,p:0,c:5,f:0,grams:7,weighRaw:false,unit:"ml"},
-    ],
-    toppings:[{name:"Coconut Flakes (unsweetened)",info:"2 tbsp = 35 cal · 0.5g P"},{name:"Chia Seeds",info:"1 tsp = 25 cal"}],
-    steps:["Spoon cottage cheese into bowl. Top with drained pineapple and honey. Add toppings to taste."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:44,name:"Hard Boiled Eggs with Hot Sauce",emoji:"🥚",method:"No Cook",type:"packaged",ezLevel:1,spiceLevel:1,
-    tags:["High Protein","Snack","No Cook","Quick"],
-    mealType:"Snack",
-    cal:210,protein:18,carbs:1,fat:15,activeTime:2,stepCount:1,
-    components:[
-      {name:"Pre-Boiled Eggs (2 large)",type:"Protein",cal:140,p:12,c:1,f:10,grams:100,weighRaw:false,unit:"count"},
-      {name:"Frank's RedHot Sauce (2 tbsp)",type:"Sauce",cal:10,p:0,c:2,f:0,grams:30,weighRaw:false,unit:"ml"},
-      {name:"Everything Bagel Seasoning (½ tsp)",type:"Seasoning",cal:5,p:0,c:1,f:0,grams:1,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Black Pepper",info:"pinch = 0 cal"},{name:"Sea Salt",info:"pinch = 0 cal"}],
-    steps:["Halve pre-boiled eggs. Pour hot sauce over. Sprinkle seasoning on top."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:45,name:"Sardines on Toast",emoji:"🐟",method:"No Cook",type:"packaged",ezLevel:1,spiceLevel:0,
-    tags:["High Protein","Omega-3","Snack","Quick"],
-    mealType:"Snack",
-    cal:290,protein:26,carbs:22,fat:12,activeTime:3,stepCount:2,
-    components:[
-      {name:"King Oscar Sardines in Olive Oil (1 tin, drained)",type:"Protein",cal:120,p:18,c:0,f:6,grams:85,weighRaw:false,unit:"g"},
-      {name:"Whole Grain Toast (2 slices)",type:"Carb",cal:160,p:8,c:28,f:3,grams:60,weighRaw:false,unit:"g"},
-      {name:"Dijon Mustard (2 tsp)",type:"Flavor",cal:10,p:0.5,c:0.5,f:0.5,grams:10,weighRaw:false},
-      {name:"Lemon Juice (1 tbsp)",type:"Flavor",cal:4,p:0,c:1,f:0,grams:15,weighRaw:false,unit:"ml"},
-    ],
-    toppings:[{name:"Capers",info:"1 tbsp = 5 cal"},{name:"Black Pepper",info:"pinch = 0 cal"}],
-    steps:["Toast bread. Spread mustard on both slices.","Lay sardines on toast. Squeeze lemon + add capers."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:46,name:"Skyr & Berries",emoji:"🫐",method:"No Cook",type:"packaged",ezLevel:1,spiceLevel:0,
-    tags:["High Protein","Snack","No Cook","Sweet"],
-    mealType:"Snack",
-    cal:190,protein:18,carbs:16,fat:4,activeTime:2,stepCount:1,
-    components:[
-      {name:"Siggi's Plain Skyr (5.3 oz)",type:"Protein",cal:130,p:18,c:4,f:2,grams:150,weighRaw:false,unit:"g"},
-      {name:"Frozen Mixed Berries (thawed, ½ cup)",type:"Fruit",cal:40,p:0.5,c:10,f:0,grams:70,weighRaw:true},
-      {name:"Honey (1 tsp)",type:"Sweetener",cal:20,p:0,c:5,f:0,grams:7,weighRaw:false,unit:"ml"},
-    ],
-    toppings:[{name:"Almonds (sliced, 1 tbsp)",info:"35 cal · 1g P"},{name:"Granola Cluster",info:"2 tbsp = 60 cal"}],
-    steps:["Thaw berries 1 min if frozen. Spoon skyr into bowl. Top with berries and honey."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:47,name:"Chicken & Salsa Wrap",emoji:"🌯",method:"No Cook",type:"packaged",ezLevel:1,spiceLevel:1,
-    tags:["High Protein","Snack","No Cook","Quick"],
-    mealType:"Snack",
-    cal:360,protein:34,carbs:32,fat:10,activeTime:3,stepCount:2,
-    components:[
-      {name:"Rotisserie Chicken (pre-shredded, 4 oz)",type:"Protein",cal:160,p:29,c:0,f:5,grams:113,weighRaw:false,unit:"g"},
-      {name:"Flour Tortilla (1 large)",type:"Carb",cal:140,p:4,c:20,f:4,grams:60,weighRaw:false,unit:"g"},
-      {name:"Salsa (fresh, 3 tbsp)",type:"Sauce",cal:15,p:0,c:3,f:0,grams:48,weighRaw:false,unit:"ml"},
-      {name:"Shredded Cheddar (¼ cup)",type:"Fat",cal:110,p:7,c:0,f:9,grams:28,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Lime Squeeze",info:"½ lime = 5 cal"},{name:"Cilantro (dried)",info:"pinch = 0 cal"}],
-    steps:["Warm tortilla 30 sec in microwave. Spread salsa down center.","Layer chicken + cheese. Roll tightly. Squeeze lime on top."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:48,name:"Protein Pudding",emoji:"🍮",method:"No Cook",type:"packaged",ezLevel:1,spiceLevel:0,
-    tags:["High Protein","Snack","No Cook","Sweet"],
-    mealType:"Snack",
-    cal:280,protein:32,carbs:18,fat:4,activeTime:2,stepCount:2,
-    components:[
-      {name:"Fage 0% Greek Yogurt",type:"Protein",cal:120,p:22,c:6,f:0,grams:170,weighRaw:false,unit:"ml"},
-      {name:"Chocolate Protein Powder (1 scoop)",type:"Protein",cal:120,p:25,c:2,f:2,grams:30,weighRaw:false,unit:"g"},
-      {name:"Cocoa Powder (unsweetened, 1 tbsp)",type:"Flavor",cal:12,p:1,c:3,f:0.5,grams:5,weighRaw:false},
-      {name:"Almond Milk (unsweetened, ¼ cup)",type:"Liquid",cal:10,p:0,c:0,f:0.5,grams:60,weighRaw:false},
-    ],
-    toppings:[{name:"Allulose Syrup",info:"2 tbsp = 0 cal"},{name:"Cocoa Nibs",info:"1 tbsp = 40 cal"}],
-    steps:["Combine yogurt, protein powder, cocoa powder, and almond milk in bowl.","Whisk until smooth and pudding-like. Top with syrup + cocoa nibs."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:49,name:"Edamame Bowl",emoji:"🌱",method:"Microwave",type:"packaged",ezLevel:1,spiceLevel:1,
-    tags:["High Protein","Snack","Quick","Low Fat"],
-    mealType:"Snack",
-    cal:200,protein:16,carbs:14,fat:6,activeTime:3,stepCount:2,
-    components:[
-      {name:"Frozen Edamame (steam-bag)",type:"Protein/Veg",cal:190,p:18,c:8,f:9,grams:227,weighRaw:false,unit:"g"},
-      {name:"Low-Sodium Soy Sauce (1 tbsp)",type:"Sauce",cal:10,p:1,c:1,f:0,grams:15,weighRaw:false,unit:"ml"},
-      {name:"Sesame Oil (½ tsp)",type:"Fat",cal:20,p:0,c:0,f:2.25,grams:2.5,weighRaw:false},
-      {name:"Red Pepper Flakes (pinch)",type:"Seasoning",cal:0,p:0,c:0,f:0,grams:0.1,weighRaw:false},
-    ],
-    toppings:[{name:"Sesame Seeds",info:"1 tsp = 17 cal · 0.5g P"},{name:"Sea Salt",info:"pinch = 0 cal"}],
-    steps:["Microwave edamame steam-bag 3 min. Pour into bowl.","Drizzle soy sauce + sesame oil. Sprinkle pepper flakes + seeds."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:50,name:"Canned Chicken & Crackers",emoji:"🧀",method:"No Cook",type:"packaged",ezLevel:1,spiceLevel:0,
-    tags:["High Protein","Snack","No Cook","Quick"],
-    mealType:"Snack",
-    cal:260,protein:28,carbs:18,fat:8,activeTime:2,stepCount:2,
-    components:[
-      {name:"Canned Chicken (drained, 5 oz)",type:"Protein",cal:130,p:28,c:0,f:2,grams:142,weighRaw:false,unit:"g"},
-      {name:"Whole Grain Crackers (6 crackers)",type:"Carb",cal:80,p:2,c:12,f:2,grams:30,weighRaw:false,unit:"g"},
-      {name:"Dijon Mustard (1 tbsp)",type:"Flavor",cal:15,p:1,c:1,f:1,grams:10,weighRaw:false,unit:"g"},
-      {name:"Frank's RedHot Sauce (1 tbsp)",type:"Sauce",cal:5,p:0,c:1,f:0,grams:15,weighRaw:false,unit:"ml"},
-    ],
-    toppings:[{name:"Lemon Pepper Seasoning",info:"pinch = 0 cal"},{name:"Celery Powder",info:"pinch = 0 cal"}],
-    steps:["Mix canned chicken with mustard + hot sauce.","Spoon onto crackers. Season lightly."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:51,name:"Classic Smash Burger",emoji:"🍔",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:0,
-    tags:["High Protein","Comfort Food","Classic","Quick"],
-    mealType:"Lunch/Dinner",
-    cal:580,protein:32,carbs:42,fat:26,activeTime:6,stepCount:4,
-    components:[
-      {name:"Ground Beef (80/20)",type:"Protein",cal:280,p:20,c:0,f:23,grams:142,weighRaw:true,unit:"g"},
-      {name:"American Cheese Slice",type:"Fat",cal:90,p:5,c:0,f:7,grams:21,weighRaw:false,unit:"g"},
-      {name:"Brioche Bun",type:"Carb",cal:200,p:6,c:36,f:4,grams:80,weighRaw:false,unit:"g"},
-      {name:"Ketchup (2 tbsp)",type:"Sauce",cal:30,p:0,c:7,f:0,grams:32,weighRaw:false,unit:"ml"},
-      {name:"Yellow Mustard (1 tbsp)",type:"Sauce",cal:3,p:0,c:0,f:0,grams:5,weighRaw:false,unit:"ml"},
-      {name:"Pickle Slices (jar, 2 tbsp)",type:"Veg",cal:5,p:0,c:1,f:0,grams:30,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Mayonnaise",info:"1 tbsp = 90 cal · 0g P"},{name:"Onion Powder",info:"pinch = 0 cal"}],
-    steps:["Heat cast iron skillet screaming hot (~400°F).","Roll beef into ball. Place on skillet and immediately smash flat with spatula.","Cook 2 min without moving. Flip, add cheese, cook 1 min.","Toast bun lightly. Build burger with ketchup, mustard, pickles."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:52,name:"BBQ Bacon Burger",emoji:"🥓",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:0,
-    tags:["High Protein","Comfort Food","BBQ","Quick"],
-    mealType:"Lunch/Dinner",
-    cal:560,protein:38,carbs:36,fat:24,activeTime:8,stepCount:4,
-    components:[
-      {name:"Ground Beef (93% lean)",type:"Protein",cal:195,p:30,c:0,f:7,grams:142,weighRaw:true,unit:"g"},
-      {name:"Pre-Cooked Bacon (microwave, 3 strips)",type:"Protein",cal:120,p:9,c:0,f:10,grams:42,weighRaw:false,unit:"g"},
-      {name:"Sweet Baby Ray's BBQ Sauce (2 tbsp)",type:"Sauce",cal:80,p:0,c:18,f:0,grams:34,weighRaw:false,unit:"ml"},
-      {name:"Cheddar Slice",type:"Fat",cal:110,p:7,c:1,f:9,grams:28,weighRaw:false,unit:"g"},
-      {name:"Brioche Bun",type:"Carb",cal:200,p:6,c:36,f:4,grams:80,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Lettuce Leaf",info:"~5 cal"},{name:"Onion Powder",info:"pinch = 0 cal"}],
-    steps:["Heat skillet medium-high. Form beef into patty. Cook 3–4 min per side (~160°F internal).","Microwave bacon strips 2 min. Add cheese to burger last min.","Toast bun. Brush BBQ sauce on inside.","Stack burger + bacon on bun."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:53,name:"Turkey Burger",emoji:"🍗",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:0,
-    tags:["High Protein","Lean","Quick","Neutral"],
-    mealType:"Lunch/Dinner",
-    cal:420,protein:36,carbs:40,fat:12,activeTime:7,stepCount:3,
-    components:[
-      {name:"Ground Turkey (93% lean)",type:"Protein",cal:175,p:28,c:0,f:7,grams:142,weighRaw:true,unit:"g"},
-      {name:"Garlic Powder (½ tsp)",type:"Seasoning",cal:5,p:0,c:1,f:0,grams:1.5,weighRaw:false},
-      {name:"Worcestershire Sauce (1 tbsp)",type:"Sauce",cal:11,p:0,c:2,f:0,grams:15,weighRaw:false,unit:"ml"},
-      {name:"Brioche Bun",type:"Carb",cal:200,p:6,c:36,f:4,grams:80,weighRaw:false,unit:"g"},
-      {name:"Yellow Mustard (2 tbsp)",type:"Sauce",cal:6,p:0,c:1,f:0,grams:10,weighRaw:false,unit:"ml"},
-      {name:"Dill Pickle Slices (jar, 2 tbsp)",type:"Veg",cal:5,p:0,c:1,f:0,grams:30,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Mayonnaise",info:"1 tbsp = 90 cal · 0g P"},{name:"Hot Sauce",info:"1 tsp = 0 cal"}],
-    steps:["Mix ground turkey with garlic powder + Worcestershire in bowl.","Form into patty. Heat skillet medium-high. Cook 4–5 min per side (~165°F internal).","Toast bun. Spread mustard. Build burger with pickles + toppings on side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:54,name:"Spicy Chicken Sandwich",emoji:"🌶️",method:"Air Fryer",type:"fresh",ezLevel:1,spiceLevel:2,
-    tags:["High Protein","Hot","Quick","Comfort Food"],
-    mealType:"Lunch/Dinner",
-    cal:480,protein:42,carbs:38,fat:14,activeTime:5,stepCount:3,
-    components:[
-      {name:"Chicken Breast (boneless, skinless)",type:"Protein",cal:165,p:35,c:0,f:4,grams:170,weighRaw:true,unit:"g"},
-      {name:"Frank's RedHot Sauce (3 tbsp)",type:"Sauce",cal:15,p:0,c:3,f:0,grams:45,weighRaw:false,unit:"ml"},
-      {name:"Brioche Bun",type:"Carb",cal:200,p:6,c:36,f:4,grams:80,weighRaw:false,unit:"g"},
-      {name:"Hellmann's Light Mayo (2 tbsp)",type:"Fat",cal:90,p:0,c:0,f:10,grams:30,weighRaw:false,unit:"g"},
-      {name:"Dill Pickle Slices (jar, 2 tbsp)",type:"Veg",cal:5,p:0,c:1,f:0,grams:30,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Hot Sauce Extra",info:"1 tsp = 5 cal"},{name:"Celery Powder",info:"pinch = 0 cal"}],
-    steps:["Air fry chicken breast 400°F for 16–18 min.","Toss cooked chicken in Frank's sauce. Toast bun.","Spread mayo on bun. Stack chicken + pickles."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:55,name:"Tuna Melt",emoji:"🐟",method:"Air Fryer",type:"fresh",ezLevel:2,spiceLevel:0,
-    tags:["High Protein","Omega-3","Quick","Comfort Food"],
-    mealType:"Lunch/Dinner",
-    cal:380,protein:32,carbs:32,fat:14,activeTime:6,stepCount:3,
-    components:[
-      {name:"Canned Tuna in Water (drained, 5 oz)",type:"Protein",cal:120,p:26,c:0,f:1,grams:142,weighRaw:false,unit:"g"},
-      {name:"Hellmann's Light Mayo (2 tbsp)",type:"Fat",cal:90,p:0,c:0,f:10,grams:30,weighRaw:false,unit:"g"},
-      {name:"Yellow Mustard (2 tsp)",type:"Sauce",cal:6,p:0,c:1,f:0,grams:10,weighRaw:false,unit:"ml"},
-      {name:"Whole Grain Bread (2 slices)",type:"Carb",cal:160,p:8,c:28,f:3,grams:60,weighRaw:false,unit:"g"},
-      {name:"Cheddar Slice",type:"Fat",cal:110,p:7,c:1,f:9,grams:28,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Lemon Juice",info:"½ lemon = 5 cal"},{name:"Dill (dried)",info:"pinch = 0 cal"}],
-    steps:["Mix drained tuna with mayo + mustard in bowl. Spread on bread slices.","Top with cheese slice. Place on foil in air fryer basket.","Air fry 350°F for 6–8 min until cheese melts. Squeeze lemon on top."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:56,name:"Egg & Cheese Breakfast Sandwich",emoji:"🥚",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:0,
-    tags:["Breakfast","High Protein","Quick","Sandwich"],
-    mealType:"Breakfast",
-    cal:380,protein:30,carbs:30,fat:14,activeTime:6,stepCount:3,
-    components:[
-      {name:"Egg Whites (carton, ½ cup)",type:"Protein",cal:60,p:14,c:1,f:0,grams:120,weighRaw:false,unit:"count"},
-      {name:"Whole Egg (1 large)",type:"Protein",cal:70,p:6,c:1,f:5,grams:50,weighRaw:true,unit:"count"},
-      {name:"English Muffin (whole wheat)",type:"Carb",cal:130,p:5,c:26,f:1,grams:57,weighRaw:false,unit:"g"},
-      {name:"Cheddar Slice",type:"Fat",cal:110,p:7,c:1,f:9,grams:28,weighRaw:false,unit:"g"},
-      {name:"Turkey Sausage Patty (frozen, pre-cooked)",type:"Protein",cal:60,p:10,c:0,f:2,grams:28,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Black Pepper",info:"pinch = 0 cal"},{name:"Hot Sauce",info:"1 tsp = 0 cal"}],
-    steps:["Microwave sausage patty 60 sec. Toast English muffin.","Scramble egg whites + whole egg in skillet with butter 3 min.","Top muffin with eggs + cheese + sausage."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:57,name:"Rotisserie Chicken Wrap",emoji:"🌯",method:"No Cook",type:"packaged",ezLevel:1,spiceLevel:0,
-    tags:["High Protein","No Cook","Quick","Comfort Food"],
-    mealType:"Lunch/Dinner",
-    cal:420,protein:38,carbs:32,fat:14,activeTime:3,stepCount:2,
-    components:[
-      {name:"Rotisserie Chicken (pre-shredded, 5 oz)",type:"Protein",cal:200,p:37,c:0,f:6,grams:142,weighRaw:false,unit:"g"},
-      {name:"Large Flour Tortilla",type:"Carb",cal:140,p:4,c:20,f:4,grams:60,weighRaw:false,unit:"g"},
-      {name:"Shredded Cheddar (¼ cup)",type:"Fat",cal:110,p:7,c:0,f:9,grams:28,weighRaw:false,unit:"g"},
-      {name:"Salsa (fresh, 3 tbsp)",type:"Sauce",cal:15,p:0,c:3,f:0,grams:48,weighRaw:false,unit:"ml"},
-      {name:"Fage 0% Greek Yogurt (2 tbsp)",type:"Protein Boost",cal:20,p:4,c:1,f:0,grams:30,weighRaw:false,unit:"ml"},
-    ],
-    toppings:[{name:"Lime Squeeze",info:"½ lime = 5 cal"},{name:"Cilantro (dried)",info:"pinch = 0 cal"}],
-    steps:["Warm tortilla 30 sec in microwave. Spread yogurt down center.","Layer chicken + cheese + salsa. Roll tightly. Squeeze lime on top."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:58,name:"BLT Protein Wrap",emoji:"🥓",method:"No Cook",type:"packaged",ezLevel:1,spiceLevel:0,
-    tags:["High Protein","No Cook","Quick","Classic"],
-    mealType:"Lunch/Dinner",
-    cal:380,protein:28,carbs:30,fat:16,activeTime:3,stepCount:2,
-    components:[
-      {name:"Deli Turkey (5 slices)",type:"Protein",cal:100,p:13,c:0,f:5,grams:94,weighRaw:false,unit:"g"},
-      {name:"Pre-Cooked Bacon (microwave, 3 strips)",type:"Protein",cal:120,p:9,c:0,f:10,grams:42,weighRaw:false,unit:"g"},
-      {name:"Romaine Lettuce (pre-washed, 4 leaves)",type:"Veg",cal:15,p:1,c:2,f:0,grams:80,weighRaw:true,unit:"g"},
-      {name:"Large Flour Tortilla",type:"Carb",cal:140,p:4,c:20,f:4,grams:60,weighRaw:false,unit:"g"},
-      {name:"Hellmann's Light Mayo (2 tbsp)",type:"Fat",cal:90,p:0,c:0,f:10,grams:30,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Black Pepper",info:"pinch = 0 cal"},{name:"Dijon Mustard",info:"1 tsp = 3 cal"}],
-    steps:["Microwave bacon 2 min. Warm tortilla 30 sec in microwave.","Spread mayo on tortilla. Layer turkey + bacon + lettuce. Roll tightly."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:59,name:"Air Fryer Protein Pizza",emoji:"🍕",method:"Air Fryer",type:"fresh",ezLevel:1,spiceLevel:1,
-    tags:["High Protein","Pizza","Quick","Comfort Food"],
-    mealType:"Lunch/Dinner",
-    cal:480,protein:32,carbs:42,fat:16,activeTime:5,stepCount:3,
-    components:[
-      {name:"Naan Flatbread",type:"Carb",cal:260,p:9,c:42,f:4,grams:100,weighRaw:false,unit:"g"},
-      {name:"Rao's Marinara Sauce (¼ cup)",type:"Sauce",cal:40,p:1,c:8,f:0,grams:60,weighRaw:false,unit:"ml"},
-      {name:"Shredded Mozzarella (¾ cup)",type:"Fat",cal:210,p:18,c:2,f:14,grams:85,weighRaw:false,unit:"g"},
-      {name:"Turkey Pepperoni (20 slices)",type:"Protein",cal:70,p:10,c:0,f:3,grams:28,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Italian Seasoning (dried)",info:"pinch = 0 cal"},{name:"Red Pepper Flakes",info:"pinch = 0 cal"}],
-    steps:["Place naan on foil in air fryer basket. Spread marinara evenly.","Top with mozzarella + pepperoni. Sprinkle seasonings.","Air fry 375°F for 8 min until cheese bubbles."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:60,name:"Cottage Cheese Pizza Bowl",emoji:"🍕",method:"Microwave",type:"fresh",ezLevel:1,spiceLevel:0,
-    tags:["High Protein","Pizza","No Cook","Quick"],
-    mealType:"Breakfast",
-    cal:360,protein:34,carbs:24,fat:12,activeTime:3,stepCount:2,
-    components:[
-      {name:"Good Culture Cottage Cheese",type:"Protein",cal:120,p:14,c:3,f:5,grams:112,weighRaw:false,unit:"g"},
-      {name:"Rao's Marinara Sauce (¼ cup)",type:"Sauce",cal:40,p:1,c:8,f:0,grams:60,weighRaw:false,unit:"ml"},
-      {name:"Shredded Mozzarella (½ cup)",type:"Fat",cal:175,p:14,c:1,f:12,grams:56,weighRaw:false,unit:"g"},
-      {name:"Turkey Pepperoni (15 slices)",type:"Protein",cal:53,p:8,c:0,f:2,grams:21,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Italian Seasoning",info:"pinch = 0 cal"},{name:"Basil (dried)",info:"pinch = 0 cal"}],
-    steps:["Spoon cottage cheese into microwave-safe bowl.","Top with marinara + mozzarella + pepperoni. Microwave 2 min until cheese melts. Sprinkle seasonings."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:61,name:"BBQ Chicken Flatbread",emoji:"🍗",method:"Air Fryer",type:"fresh",ezLevel:1,spiceLevel:0,
-    tags:["High Protein","BBQ","Pizza","Quick"],
-    mealType:"Lunch/Dinner",
-    cal:460,protein:34,carbs:44,fat:14,activeTime:5,stepCount:3,
-    components:[
-      {name:"Naan Flatbread",type:"Carb",cal:260,p:9,c:42,f:4,grams:100,weighRaw:false,unit:"g"},
-      {name:"Sweet Baby Ray's BBQ Sauce (3 tbsp)",type:"Sauce",cal:90,p:0,c:21,f:0,grams:51,weighRaw:false,unit:"ml"},
-      {name:"Rotisserie Chicken (pre-shredded, 4 oz)",type:"Protein",cal:160,p:29,c:0,f:5,grams:113,weighRaw:false,unit:"g"},
-      {name:"Shredded Mozzarella (½ cup)",type:"Fat",cal:175,p:14,c:1,f:12,grams:56,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Red Onion Powder",info:"pinch = 0 cal"},{name:"Cilantro (dried)",info:"pinch = 0 cal"}],
-    steps:["Place naan on foil in air fryer. Spread BBQ sauce evenly.","Top with shredded chicken + mozzarella. Sprinkle seasonings.","Air fry 375°F for 8 min until cheese melts."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:62,name:"Pesto Chicken Flatbread",emoji:"🌿",method:"Air Fryer",type:"fresh",ezLevel:1,spiceLevel:0,
-    tags:["High Protein","Mediterranean","Pizza","Quick"],
-    mealType:"Lunch/Dinner",
-    cal:480,protein:32,carbs:42,fat:18,activeTime:5,stepCount:3,
-    components:[
-      {name:"Naan Flatbread",type:"Carb",cal:260,p:9,c:42,f:4,grams:100,weighRaw:false,unit:"g"},
-      {name:"Jarred Basil Pesto (3 tbsp)",type:"Sauce",cal:120,p:2,c:2,f:12,grams:45,weighRaw:false,unit:"ml"},
-      {name:"Rotisserie Chicken (pre-shredded, 4 oz)",type:"Protein",cal:160,p:29,c:0,f:5,grams:113,weighRaw:false,unit:"g"},
-      {name:"Shredded Mozzarella (½ cup)",type:"Fat",cal:175,p:14,c:1,f:12,grams:56,weighRaw:false,unit:"g"},
-      {name:"Sun-Dried Tomatoes (jarred, 2 tbsp)",type:"Veg",cal:20,p:1,c:4,f:0,grams:16,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Parmesan",info:"1 tbsp = 22 cal · 2g P"},{name:"Black Pepper",info:"pinch = 0 cal"}],
-    steps:["Place naan on foil in air fryer. Spread pesto evenly.","Top with chicken + mozzarella + sun-dried tomatoes.","Air fry 375°F for 8 min until cheese melts."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:63,name:"Beef & Rice Power Bowl",emoji:"🥩",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:0,
-    tags:["High Protein","Asian-Inspired","Quick","Bulk Friendly"],
-    mealType:"Lunch/Dinner",
-    cal:520,protein:42,carbs:50,fat:14,activeTime:7,stepCount:3,
-    components:[
-      {name:"Ground Beef (93% lean)",type:"Protein",cal:195,p:30,c:0,f:7,grams:142,weighRaw:true,unit:"g"},
-      {name:"Low-Sodium Soy Sauce (1.5 tbsp)",type:"Sauce",cal:15,p:1.5,c:2,f:0,grams:22.5,weighRaw:false},
-      {name:"Garlic Powder (1 tsp)",type:"Seasoning",cal:10,p:0,c:2,f:0,grams:3,weighRaw:false,unit:"g"},
-      {name:"Honey (1 tbsp)",type:"Sweetener",cal:60,p:0,c:16,f:0,grams:20,weighRaw:false,unit:"ml"},
-      {name:"White Rice Pouch",type:"Carb",cal:200,p:4,c:44,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Frozen Broccoli (steam-bag)",type:"Veg",cal:50,p:4,c:9,f:0,grams:100,weighRaw:false,unit:"g"},
-      {name:"Olive Oil (1 tsp)",type:"Fat",cal:40,p:0,c:0,f:4.5,grams:5,weighRaw:false},
-    ],
-    toppings:[{name:"Sesame Seeds",info:"1 tsp = 17 cal · 0.5g P"},{name:"Green Onion (dried)",info:"pinch = 0 cal"}],
-    steps:["Heat oil in skillet over medium-high. Brown beef 4–5 min, breaking it up.","Add soy sauce + garlic + honey. Simmer 2 min. Microwave rice 90 sec + broccoli 3 min.","Build bowl — toppings separate."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:64,name:"Chicken Teriyaki Noodles",emoji:"🍜",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:0,
-    tags:["High Protein","Asian-Inspired","Comfort Food","Quick"],
-    mealType:"Lunch/Dinner",
-    cal:480,protein:36,carbs:48,fat:12,activeTime:8,stepCount:3,
-    components:[
-      {name:"Chicken Thighs (boneless, skinless)",type:"Protein",cal:220,p:30,c:0,f:11,grams:170,weighRaw:true,unit:"g"},
-      {name:"Kikkoman Teriyaki Sauce (3 tbsp)",type:"Sauce",cal:60,p:2,c:12,f:0.5,grams:51,weighRaw:false},
-      {name:"Ramen Noodles (1 packet, discard seasoning)",type:"Carb",cal:190,p:5,c:27,f:8,grams:56,weighRaw:true,unit:"g"},
-      {name:"Frozen Stir Fry Vegetables (1 cup)",type:"Veg",cal:60,p:2,c:12,f:0,grams:150,weighRaw:true,unit:"g"},
-      {name:"Water (3 cups)",type:"Liquid",cal:0,p:0,c:0,f:0,grams:720,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Sesame Seeds",info:"1 tsp = 17 cal · 0.5g P"},{name:"Green Onion (dried)",info:"pinch = 0 cal"}],
-    steps:["Boil water in pot. Add noodles, cook 3 min. Add frozen veg, cook 2 min. Drain.","Heat skillet. Cook chicken 5 min per side. Brush teriyaki sauce on chicken.","Plate noodles + veg, top with chicken. Toppings on side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:65,name:"Shrimp Fried Rice",emoji:"🦐",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:0,
-    tags:["High Protein","Asian-Inspired","Quick","Low Fat"],
-    mealType:"Lunch/Dinner",
-    cal:420,protein:32,carbs:42,fat:10,activeTime:8,stepCount:3,
-    components:[
-      {name:"Frozen Shrimp (16/20 count, thawed)",type:"Protein",cal:160,p:36,c:0,f:1,grams:150,weighRaw:true,unit:"g"},
-      {name:"White Rice Pouch (cooked, day-old or cooled)",type:"Carb",cal:200,p:4,c:44,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Whole Eggs (2 large, beaten)",type:"Protein",cal:140,p:12,c:2,f:10,grams:100,weighRaw:true,unit:"count"},
-      {name:"Low-Sodium Soy Sauce (1.5 tbsp)",type:"Sauce",cal:15,p:1.5,c:2,f:0,grams:22.5,weighRaw:false},
-      {name:"Sesame Oil (½ tsp)",type:"Fat",cal:20,p:0,c:0,f:2.25,grams:2.5,weighRaw:false},
-      {name:"Frozen Peas (½ cup)",type:"Veg",cal:40,p:3,c:7,f:0,grams:65,weighRaw:true,unit:"g"},
-    ],
-    toppings:[{name:"Sesame Seeds",info:"1 tsp = 17 cal · 0.5g P"},{name:"Green Onion (dried)",info:"pinch = 0 cal"}],
-    steps:["Heat sesame oil in large skillet over high. Scramble eggs, remove to plate.","Add rice, break up clumps, stir 2 min. Add peas + soy sauce + shrimp.","Return eggs, toss everything 1 min. Toppings on side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:66,name:"Loaded Baked Potato",emoji:"🥔",method:"Microwave",type:"fresh",ezLevel:1,spiceLevel:1,
-    tags:["High Protein","Comfort Food","Loaded","Quick"],
-    mealType:"Lunch/Dinner",
-    cal:480,protein:24,carbs:54,fat:12,activeTime:5,stepCount:2,
-    components:[
-      {name:"Russet Potato (medium)",type:"Carb",cal:165,p:4,c:37,f:0,grams:180,weighRaw:true,unit:"g"},
-      {name:"Canned Chili (condensed, ¾ can)",type:"Protein/Veg",cal:210,p:14,c:12,f:6,grams:214,weighRaw:false,unit:"g"},
-      {name:"Shredded Cheddar (½ cup)",type:"Fat",cal:220,p:14,c:1,f:18,grams:56,weighRaw:false,unit:"g"},
-      {name:"Fage 0% Greek Yogurt (2 tbsp, sour cream sub)",type:"Protein",cal:20,p:4,c:1,f:0,grams:30,weighRaw:false,unit:"ml"},
-    ],
-    toppings:[{name:"Hot Sauce",info:"1 tsp = 0 cal"},{name:"Chives (dried)",info:"pinch = 0 cal"}],
-    steps:["Poke potato with fork. Microwave on HIGH 8–10 min until tender.","Microwave chili 2 min in separate bowl. Split potato open. Top with chili, cheese, yogurt."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:67,name:"Protein French Toast",emoji:"🍞",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:0,
-    tags:["Breakfast","High Protein","Sweet","Quick"],
-    mealType:"Breakfast",
-    cal:360,protein:28,carbs:36,fat:10,activeTime:7,stepCount:3,
-    components:[
-      {name:"Whole Grain Bread (2 slices)",type:"Carb",cal:160,p:8,c:28,f:3,grams:60,weighRaw:false,unit:"g"},
-      {name:"Egg Whites (carton, ¾ cup)",type:"Protein",cal:90,p:21,c:1,f:0,grams:180,weighRaw:false,unit:"count"},
-      {name:"Whole Egg (1 large)",type:"Protein",cal:70,p:6,c:1,f:5,grams:50,weighRaw:true,unit:"count"},
-      {name:"Vanilla Protein Powder (½ scoop)",type:"Protein",cal:60,p:13,c:1,f:0,grams:15,weighRaw:false,unit:"g"},
-      {name:"Cinnamon (½ tsp)",type:"Seasoning",cal:3,p:0,c:1,f:0,grams:1,weighRaw:false,unit:"g"},
-      {name:"Butter (for pan, 1 tsp)",type:"Fat",cal:35,p:0,c:0,f:4,grams:5,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Allulose Syrup",info:"2 tbsp = 0 cal"},{name:"Cinnamon Powder",info:"pinch = 0 cal"}],
-    steps:["Mix egg whites + whole egg + protein powder + cinnamon in shallow bowl.","Heat butter in skillet medium heat. Dip bread slices in mixture, coat both sides.","Cook 2–3 min per side until golden. Serve with sugar-free syrup."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:68,name:"Turkey Meatball Sub",emoji:"🥪",method:"Microwave",type:"packaged",ezLevel:1,spiceLevel:0,
-    tags:["High Protein","Italian-Inspired","Comfort Food","Quick"],
-    mealType:"Lunch/Dinner",
-    cal:480,protein:32,carbs:44,fat:16,activeTime:5,stepCount:3,
-    components:[
-      {name:"Frozen Turkey Meatballs (6 oz bag)",type:"Protein",cal:240,p:28,c:0,f:12,grams:170,weighRaw:false,unit:"g"},
-      {name:"Rao's Marinara Sauce (½ cup)",type:"Sauce",cal:80,p:2,c:16,f:0,grams:120,weighRaw:false,unit:"ml"},
-      {name:"Hoagie Roll (6 inch)",type:"Carb",cal:200,p:8,c:36,f:3,grams:85,weighRaw:false,unit:"g"},
-      {name:"Shredded Mozzarella (¼ cup)",type:"Fat",cal:90,p:7,c:1,f:7,grams:28,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Italian Seasoning (dried)",info:"pinch = 0 cal"},{name:"Parmesan",info:"1 tbsp = 22 cal · 2g P"}],
-    steps:["Microwave frozen meatballs 3–4 min. Microwave marinara 90 sec.","Toss meatballs in sauce. Warm hoagie roll 30 sec in microwave.","Stuff roll with meatballs, sauce, and mozzarella. Top with seasonings."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:69,name:"Spicy Korean Ground Beef Bowl",emoji:"🌶️",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:3,
-    tags:["High Protein","Hot","Asian-Inspired","Quick"],
-    mealType:"Lunch/Dinner",
-    cal:520,protein:38,carbs:50,fat:14,activeTime:7,stepCount:3,
-    components:[
-      {name:"Ground Beef (93% lean)",type:"Protein",cal:195,p:30,c:0,f:7,grams:142,weighRaw:true,unit:"g"},
-      {name:"Gochujang Sauce (bottled, 2 tbsp)",type:"Sauce",cal:50,p:1,c:10,f:0,grams:30,weighRaw:false,unit:"ml"},
-      {name:"Low-Sodium Soy Sauce (1 tbsp)",type:"Sauce",cal:10,p:1,c:1,f:0,grams:15,weighRaw:false,unit:"ml"},
-      {name:"Honey (1 tsp)",type:"Sweetener",cal:20,p:0,c:5,f:0,grams:7,weighRaw:false,unit:"ml"},
-      {name:"Garlic Powder (½ tsp)",type:"Seasoning",cal:5,p:0,c:1,f:0,grams:1.5,weighRaw:false},
-      {name:"White Rice Pouch",type:"Carb",cal:200,p:4,c:44,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Olive Oil (1 tsp)",type:"Fat",cal:40,p:0,c:0,f:4.5,grams:5,weighRaw:false},
-    ],
-    toppings:[{name:"Sesame Seeds",info:"1 tsp = 17 cal · 0.5g P"},{name:"Green Onion (dried)",info:"pinch = 0 cal"}],
-    steps:["Heat oil in skillet. Brown beef 4–5 min, breaking it up.","Add gochujang + soy + honey + garlic powder. Simmer 2 min. Microwave rice 90 sec.","Build bowl — toppings separate."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:70,name:"Canned Salmon Caesar Wrap",emoji:"🐟",method:"No Cook",type:"packaged",ezLevel:1,spiceLevel:0,
-    tags:["High Protein","Omega-3","No Cook","Quick"],
-    mealType:"Lunch/Dinner",
-    cal:380,protein:32,carbs:30,fat:14,activeTime:3,stepCount:2,
-    components:[
-      {name:"Canned Salmon (drained, 5 oz)",type:"Protein",cal:200,p:28,c:0,f:9,grams:142,weighRaw:false,unit:"g"},
-      {name:"Romaine Lettuce (pre-washed bag, 2 cups)",type:"Veg",cal:20,p:2,c:4,f:0,grams:150,weighRaw:false,unit:"g"},
-      {name:"Caesar Dressing (bottled, 3 tbsp)",type:"Sauce",cal:120,p:1,c:3,f:12,grams:45,weighRaw:false,unit:"ml"},
-      {name:"Parmesan (shredded, 2 tbsp)",type:"Fat",cal:40,p:4,c:1,f:2.5,grams:14,weighRaw:false},
-      {name:"Large Flour Tortilla",type:"Carb",cal:140,p:4,c:20,f:4,grams:60,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Lemon Pepper Seasoning",info:"pinch = 0 cal"},{name:"Black Pepper",info:"pinch = 0 cal"}],
-    steps:["Mix canned salmon with 2 tbsp Caesar dressing in bowl.","Lay tortilla flat. Place romaine on top. Add salmon mixture + remaining dressing + parmesan. Roll tightly."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:71,name:"Sweet Potato Cottage Cheese Power Bowl",emoji:"🍠",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:1,
-    tags:["High Protein","Viral","Comfort Food","Meal Prep"],
-    mealType:"Breakfast",
-    cal:520,protein:38,carbs:48,fat:14,activeTime:8,stepCount:4,
-    components:[
-      {name:"Frozen Sweet Potato Cubes (pre-cut, 1.5 cups)",type:"Carb",cal:150,p:2,c:34,f:0,grams:225,weighRaw:true,unit:"g"},
-      {name:"Ground Beef (93% lean)",type:"Protein",cal:195,p:30,c:0,f:7,grams:142,weighRaw:true,unit:"g"},
-      {name:"Good Culture Cottage Cheese",type:"Protein",cal:120,p:14,c:3,f:5,grams:112,weighRaw:false,unit:"g"},
-      {name:"Wholly Guac Squeeze Tube (2 tbsp)",type:"Fat",cal:100,p:1,c:5,f:8,grams:56,weighRaw:false,unit:"g"},
-      {name:"Mike's Hot Honey (2 tbsp)",type:"Sweetener/Sauce",cal:110,p:0,c:24,f:2,grams:34,weighRaw:false,unit:"ml"},
-      {name:"Garlic Powder (½ tsp)",type:"Seasoning",cal:5,p:0,c:1,f:0,grams:1.5,weighRaw:false},
-      {name:"Salt (pinch)",type:"Seasoning",cal:0,p:0,c:0,f:0,grams:0.1,weighRaw:false},
-    ],
-    toppings:[{name:"Red Pepper Flakes",info:"pinch = 0 cal"},{name:"Cilantro (dried)",info:"pinch = 0 cal"}],
-    steps:["Microwave frozen sweet potato cubes 5 min (or air fry 12 min at 400°F if using pre-cut frozen).","Heat skillet over medium-high. Brown ground beef 4–5 min, breaking it up. Season with garlic powder + salt.","Build bowl: sweet potato base, beef on top, cottage cheese dollop.","Squeeze avocado + drizzle hot honey generously over top. Toppings on side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:72,name:"Viral Baked Feta Pasta",emoji:"🧀",method:"Bake",type:"fresh",ezLevel:2,spiceLevel:0,
-    tags:["High Protein","Viral","Italian-Inspired","Vegetarian"],
-    mealType:"Lunch/Dinner",
-    cal:480,protein:28,carbs:52,fat:16,activeTime:8,stepCount:3,
-    components:[
-      {name:"Banza Chickpea Pasta (dry, 1.5 cups uncooked)",type:"Carb",cal:280,p:18,c:32,f:9,grams:210,weighRaw:true,unit:"g"},
-      {name:"Block Feta Cheese",type:"Protein/Fat",cal:160,p:11,c:2,f:12,grams:113,weighRaw:false,unit:"g"},
-      {name:"Canned Cherry Tomatoes (1 can, 14 oz)",type:"Veg/Sauce",cal:40,p:2,c:8,f:0,grams:400,weighRaw:false,unit:"ml"},
-      {name:"Olive Oil Spray",type:"Fat",cal:15,p:0,c:0,f:2,grams:3,weighRaw:false,unit:"spray"},
-      {name:"Italian Seasoning (1 tbsp)",type:"Seasoning",cal:10,p:0,c:2,f:0,grams:3,weighRaw:false,unit:"g"},
-      {name:"Garlic Powder (½ tsp)",type:"Seasoning",cal:5,p:0,c:1,f:0,grams:1.5,weighRaw:false},
-    ],
-    toppings:[{name:"Fresh Basil (dried)",info:"pinch = 0 cal"},{name:"Black Pepper",info:"pinch = 0 cal"}],
-    steps:["Place feta block in small baking dish. Pour canned cherry tomatoes around it (don't drain completely).","Spray feta lightly with olive oil. Shake Italian seasoning + garlic powder over top.","Bake 400°F for 25 min. Mash feta and tomatoes together until creamy. Toss with cooked pasta."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:73,name:"Cottage Cheese Flatbread",emoji:"🥪",method:"Bake",type:"fresh",ezLevel:1,spiceLevel:0,
-    tags:["High Protein","Viral","Low Carb","Gluten-Free","Keto"],
-    mealType:"Breakfast",
-    cal:220,protein:28,carbs:4,fat:10,activeTime:3,stepCount:3,
-    components:[
-      {name:"Good Culture Cottage Cheese (1 cup)",type:"Protein",cal:240,p:28,c:6,f:10,grams:224,weighRaw:false,unit:"g"},
-      {name:"Whole Eggs (2 large)",type:"Protein",cal:140,p:12,c:2,f:10,grams:100,weighRaw:true,unit:"count"},
-      {name:"Vanilla Extract (½ tsp, optional sweetness)",type:"Flavor",cal:0,p:0,c:0,f:0,grams:2,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Rao's Marinara (¼ cup for pizza version)",info:"40 cal · 1g P"},{name:"Shredded Mozzarella (½ cup for pizza)",info:"175 cal · 14g P"}],
-    steps:["Blend cottage cheese + eggs in blender until completely smooth (no lumps).","Pour onto parchment-lined sheet pan. Spread evenly to ~¼ inch thick.","Bake 350°F for 25–30 min until golden brown. Cool 2 min. Use as wrap or pizza base."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:74,name:"Bang Bang Shrimp Bowl",emoji:"🦐",method:"Air Fryer",type:"fresh",ezLevel:1,spiceLevel:2,
-    tags:["High Protein","Viral","Asian-Inspired","Spicy"],
-    mealType:"Lunch/Dinner",
-    cal:420,protein:32,carbs:42,fat:12,activeTime:5,stepCount:3,
-    components:[
-      {name:"Frozen Shrimp (16/20 count, thawed)",type:"Protein",cal:160,p:36,c:0,f:1,grams:150,weighRaw:true,unit:"g"},
-      {name:"Kewpie Mayo (2 tbsp)",type:"Fat",cal:200,p:0,c:0,f:22,grams:30,weighRaw:false,unit:"g"},
-      {name:"Sweet Chili Sauce (2 tbsp)",type:"Sauce",cal:50,p:0,c:12,f:0,grams:32,weighRaw:false,unit:"ml"},
-      {name:"White Rice Pouch",type:"Carb",cal:200,p:4,c:44,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Pre-Cut Cucumber Slices (½ cup)",type:"Veg",cal:8,p:0,c:2,f:0,grams:80,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Sriracha (1 tsp mixed into sauce)",info:"5 cal"},{name:"Sesame Seeds",info:"1 tsp = 17 cal · 0.5g P"}],
-    steps:["Mix Kewpie mayo + sweet chili sauce + ½ tsp sriracha in bowl.","Air fry thawed shrimp 380°F for 8–10 min, shaking halfway. Toss in bang bang sauce.","Microwave rice 90 sec. Build bowl with shrimp, cucumber slices. Toppings on side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:75,name:"Marry Me Chicken",emoji:"💕",method:"Slow Cooker",type:"fresh",ezLevel:1,spiceLevel:0,
-    tags:["High Protein","Viral","Italian-Inspired","Comfort Food","Set and Forget"],
-    mealType:"Lunch/Dinner",
-    cal:480,protein:38,carbs:26,fat:18,activeTime:5,stepCount:2,
-    components:[
-      {name:"Chicken Thighs (boneless, skinless, 6 oz)",type:"Protein",cal:220,p:30,c:0,f:11,grams:170,weighRaw:true,unit:"g"},
-      {name:"Sun-Dried Tomatoes (jarred, oil-packed, 3 tbsp)",type:"Veg/Sauce",cal:90,p:2,c:8,f:7,grams:30,weighRaw:false,unit:"ml"},
-      {name:"Low-Sodium Chicken Broth (1 cup)",type:"Liquid",cal:15,p:2,c:1,f:0,grams:240,weighRaw:false,unit:"g"},
-      {name:"Heavy Cream (¼ cup)",type:"Fat",cal:200,p:1,c:1,f:22,grams:60,weighRaw:false,unit:"ml"},
-      {name:"Italian Seasoning (1 tbsp)",type:"Seasoning",cal:10,p:0,c:2,f:0,grams:3,weighRaw:false,unit:"g"},
-      {name:"Parmesan (2 tbsp shaker)",type:"Fat",cal:44,p:4,c:1,f:3,grams:14,weighRaw:false,unit:"g"},
-      {name:"Garlic Powder (½ tsp)",type:"Seasoning",cal:5,p:0,c:1,f:0,grams:1.5,weighRaw:false},
-    ],
-    toppings:[{name:"Fresh Basil (dried)",info:"pinch = 0 cal"},{name:"Black Pepper",info:"pinch = 0 cal"}],
-    steps:["Add chicken, sun-dried tomatoes, broth, Italian seasoning, and garlic powder to slow cooker.","Cook LOW 5–6 hrs or HIGH 2–3 hrs. Stir in heavy cream + parmesan in last 30 min. Serve over white rice pouch."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:76,name:"Viral Cucumber Tuna Salad",emoji:"🥒",method:"No Cook",type:"packaged",ezLevel:1,spiceLevel:2,
-    tags:["High Protein","Viral","Asian-Inspired","No Cook","Low Carb"],
-    mealType:"Lunch/Dinner",
-    cal:280,protein:32,carbs:8,fat:12,activeTime:4,stepCount:2,
-    components:[
-      {name:"Canned Tuna in Water (drained, 5 oz)",type:"Protein",cal:120,p:26,c:0,f:1,grams:142,weighRaw:false,unit:"g"},
-      {name:"Mini Cucumber Slices (pre-cut bag, 1 cup)",type:"Veg",cal:20,p:1,c:4,f:0,grams:150,weighRaw:false,unit:"g"},
-      {name:"Low-Sodium Soy Sauce (1 tbsp)",type:"Sauce",cal:10,p:1,c:1,f:0,grams:15,weighRaw:false,unit:"ml"},
-      {name:"Rice Vinegar (1 tbsp)",type:"Flavor",cal:5,p:0,c:1,f:0,grams:15,weighRaw:false,unit:"g"},
-      {name:"Sesame Oil (1 tsp)",type:"Fat",cal:40,p:0,c:0,f:4.5,grams:5,weighRaw:false},
-      {name:"Sesame Seeds (1 tbsp)",type:"Topping",cal:52,p:2,c:2,f:4.5,grams:9,weighRaw:false},
-      {name:"Momofuku Chili Crisp (1 tsp)",type:"Spice/Oil",cal:25,p:0,c:1,f:2,grams:5,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Green Onion (dried)",info:"pinch = 0 cal"},{name:"Extra Sesame Seeds",info:"1 tsp = 17 cal"}],
-    steps:["Mix drained tuna with soy sauce + rice vinegar + sesame oil in bowl.","Add cucumber slices + chili crisp + sesame seeds. Toss gently. Serve cold."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:77,name:"High Protein Sushi Bake",emoji:"🍣",method:"Bake",type:"fresh",ezLevel:2,spiceLevel:1,
-    tags:["High Protein","Viral","Asian-Inspired","Comfort Food"],
-    mealType:"Lunch/Dinner",
-    cal:460,protein:28,carbs:46,fat:14,activeTime:6,stepCount:3,
-    components:[
-      {name:"White Rice Pouch (cooked)",type:"Carb",cal:200,p:4,c:44,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Imitation Crab (package, 6 oz)",type:"Protein",cal:100,p:16,c:6,f:2,grams:170,weighRaw:false,unit:"g"},
-      {name:"Kewpie Mayo (3 tbsp)",type:"Fat",cal:300,p:0,c:0,f:33,grams:45,weighRaw:false,unit:"g"},
-      {name:"Low-Sodium Soy Sauce (1 tbsp)",type:"Sauce",cal:10,p:1,c:1,f:0,grams:15,weighRaw:false,unit:"ml"},
-      {name:"Sriracha (½ tsp)",type:"Spice",cal:2,p:0,c:0,f:0,grams:2.5,weighRaw:false},
-      {name:"Shredded Mozzarella (¾ cup)",type:"Fat",cal:210,p:18,c:2,f:14,grams:85,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Pre-Cut Cucumber Rounds",info:"¼ cup = 5 cal"},{name:"Extra Sriracha",info:"½ tsp = 2 cal"}],
-    steps:["Mix cooked rice with mayo + soy sauce + sriracha. Spread half in baking dish.","Layer crab, then remaining rice mixture. Top with mozzarella.","Bake 375°F for 15 min until cheese melts. Top with cucumber + extra sriracha."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:78,name:"Smoked Salmon Everything Bites",emoji:"🍋",method:"No Cook",type:"packaged",ezLevel:1,spiceLevel:0,
-    tags:["High Protein","Viral","Omega-3","No Cook","Snack","Low Carb"],
-    mealType:"Snack",
-    cal:200,protein:22,carbs:6,fat:10,activeTime:3,stepCount:1,
-    components:[
-      {name:"Pre-Cut Cucumber Rounds (bag, 12 rounds)",type:"Veg",cal:15,p:1,c:3,f:0,grams:180,weighRaw:false,unit:"g"},
-      {name:"Good Culture Cottage Cheese (¼ cup)",type:"Protein",cal:60,p:7,c:1,f:2.5,grams:56,weighRaw:false},
-      {name:"Smoked Salmon (sliced, 3 oz)",type:"Protein",cal:105,p:15,c:0,f:5,grams:85,weighRaw:false,unit:"g"},
-      {name:"Everything Bagel Seasoning (½ tsp per bite)",type:"Seasoning",cal:5,p:0,c:1,f:0,grams:1,weighRaw:false,unit:"g"},
-      {name:"Dill (dried, ½ tsp)",type:"Seasoning",cal:2,p:0,c:0,f:0,grams:0.5,weighRaw:false},
-      {name:"Lemon Juice (squeeze)",type:"Flavor",cal:2,p:0,c:0.5,f:0,grams:5,weighRaw:false},
-    ],
-    toppings:[{name:"Capers (2 tbsp)",info:"5 cal"},{name:"Black Pepper",info:"pinch = 0 cal"}],
-    steps:["Top each cucumber round with 1 tsp cottage cheese. Layer salmon piece on top. Sprinkle everything seasoning + dill. Drizzle lemon."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:79,name:"Egg White Fried Rice",emoji:"🍚",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:0,
-    tags:["High Protein","Viral","Asian-Inspired","Low Fat"],
-    mealType:"Breakfast",
-    cal:340,protein:24,carbs:42,fat:6,activeTime:7,stepCount:3,
-    components:[
-      {name:"Egg White Carton (liquid, 1 cup)",type:"Protein",cal:130,p:27,c:2,f:0,grams:240,weighRaw:false,unit:"count"},
-      {name:"White Rice Pouch (day-old cooked, chilled preferred)",type:"Carb",cal:200,p:4,c:44,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Low-Sodium Soy Sauce (1.5 tbsp)",type:"Sauce",cal:15,p:1.5,c:2,f:0,grams:22.5,weighRaw:false},
-      {name:"Sesame Oil (½ tsp)",type:"Fat",cal:20,p:0,c:0,f:2.25,grams:2.5,weighRaw:false},
-      {name:"Frozen Peas (½ cup)",type:"Veg",cal:40,p:3,c:7,f:0,grams:65,weighRaw:true,unit:"g"},
-      {name:"Garlic Powder (½ tsp)",type:"Seasoning",cal:5,p:0,c:1,f:0,grams:1.5,weighRaw:false},
-    ],
-    toppings:[{name:"Sesame Seeds",info:"1 tsp = 17 cal · 0.5g P"},{name:"Green Onion (dried)",info:"pinch = 0 cal"}],
-    steps:["Heat sesame oil in large skillet over high heat. Scramble egg whites 2 min until just set. Remove to plate.","Add rice to skillet, break up clumps, stir 2 min. Add peas + soy sauce + garlic powder.","Return eggs, toss everything 1 min. Toppings on side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:80,name:"High Protein Birria Tacos",emoji:"🌮",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:2,
-    tags:["High Protein","Viral","Mexican-Inspired","Comfort Food","Spicy"],
-    mealType:"Lunch/Dinner",
-    cal:480,protein:36,carbs:42,fat:14,activeTime:10,stepCount:4,
-    components:[
-      {name:"Ground Beef (93% lean)",type:"Protein",cal:195,p:30,c:0,f:7,grams:142,weighRaw:true,unit:"g"},
-      {name:"Old El Paso Taco Seasoning (1 packet)",type:"Seasoning",cal:30,p:1,c:6,f:0.5,grams:25,weighRaw:false},
-      {name:"Beef Broth (small can, 1.5 cups)",type:"Liquid",cal:30,p:4,c:0,f:2,grams:360,weighRaw:false,unit:"g"},
-      {name:"Corn Tortillas (2 medium)",type:"Carb",cal:140,p:4,c:26,f:2,grams:52,weighRaw:false,unit:"g"},
-      {name:"Shredded Mexican Cheese (½ cup)",type:"Fat",cal:220,p:14,c:2,f:18,grams:56,weighRaw:false,unit:"g"},
-      {name:"Olive Oil (1 tsp)",type:"Fat",cal:40,p:0,c:0,f:4.5,grams:5,weighRaw:false},
-    ],
-    toppings:[{name:"Lime Squeeze",info:"½ lime = 5 cal"},{name:"Cilantro (fresh or dried)",info:"pinch = 0 cal"}],
-    steps:["Heat oil in skillet. Brown beef 4–5 min. Add taco seasoning + beef broth. Simmer 5 min.","Dip corn tortillas in the hot beef broth until crispy (~20 sec per side).","Fill dipped tortillas with cheese + shredded beef from the pan + lime + cilantro. Serve with extra broth for dipping."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:81,name:"Hot Honey Salmon",emoji:"🔥",method:"Bake",type:"fresh",ezLevel:1,spiceLevel:2,
-    tags:["High Protein","Viral","Omega-3","Sweet","Spicy"],
-    mealType:"Lunch/Dinner",
-    cal:420,protein:36,carbs:24,fat:18,activeTime:4,stepCount:2,
-    components:[
-      {name:"Salmon Fillet",type:"Protein",cal:280,p:36,c:0,f:14,grams:170,weighRaw:true,unit:"g"},
-      {name:"Mike's Hot Honey (3 tbsp)",type:"Sweetener/Sauce",cal:165,p:0,c:36,f:3,grams:51,weighRaw:false,unit:"ml"},
-      {name:"Garlic Powder (½ tsp)",type:"Seasoning",cal:5,p:0,c:1,f:0,grams:1.5,weighRaw:false},
-      {name:"Lemon Juice (1 tbsp)",type:"Flavor",cal:4,p:0,c:1,f:0,grams:15,weighRaw:false,unit:"ml"},
-      {name:"Frozen Broccoli (steam-bag)",type:"Veg",cal:50,p:4,c:9,f:0,grams:100,weighRaw:false,unit:"g"},
-      {name:"Olive Oil Spray",type:"Fat",cal:10,p:0,c:0,f:1,grams:2,weighRaw:false,unit:"spray"},
-    ],
-    toppings:[{name:"Red Pepper Flakes",info:"pinch = 0 cal"},{name:"Sesame Seeds",info:"1 tsp = 17 cal"}],
-    steps:["Place salmon skin-down on foil-lined sheet. Brush generously with Mike's Hot Honey.","Sprinkle garlic powder. Bake 425°F for 12–14 min. Microwave broccoli 3 min. Squeeze lemon over salmon."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:82,name:"Spicy Garlic Shrimp Bowl",emoji:"🌶️",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:3,
-    tags:["High Protein","Spicy","Asian-Inspired","Quick"],
-    mealType:"Lunch/Dinner",
-    cal:400,protein:34,carbs:40,fat:8,activeTime:7,stepCount:3,
-    components:[
-      {name:"Frozen Shrimp (16/20 count, thawed)",type:"Protein",cal:160,p:36,c:0,f:1,grams:150,weighRaw:true,unit:"g"},
-      {name:"Sriracha Sauce (2 tbsp)",type:"Sauce",cal:30,p:0,c:6,f:1,grams:30,weighRaw:false,unit:"ml"},
-      {name:"Low-Sodium Soy Sauce (1 tbsp)",type:"Sauce",cal:10,p:1,c:1,f:0,grams:15,weighRaw:false,unit:"ml"},
-      {name:"Garlic Powder (1 tsp)",type:"Seasoning",cal:10,p:0,c:2,f:0,grams:3,weighRaw:false,unit:"g"},
-      {name:"Honey (1 tsp)",type:"Sweetener",cal:20,p:0,c:5,f:0,grams:7,weighRaw:false,unit:"ml"},
-      {name:"White Rice Pouch",type:"Carb",cal:200,p:4,c:44,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Frozen Broccoli (steam-bag)",type:"Veg",cal:50,p:4,c:9,f:0,grams:100,weighRaw:false,unit:"g"},
-      {name:"Olive Oil (1 tsp)",type:"Fat",cal:40,p:0,c:0,f:4.5,grams:5,weighRaw:false},
-    ],
-    toppings:[{name:"Red Pepper Flakes",info:"pinch = 0 cal"},{name:"Sesame Seeds",info:"1 tsp = 17 cal"}],
-    steps:["Heat oil in skillet over high heat. Add shrimp, cook 2–3 min per side.","Mix sriracha + soy sauce + garlic powder + honey. Toss cooked shrimp in sauce.","Microwave rice 90 sec + broccoli 3 min. Build bowl — toppings on side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:83,name:"Nashville Hot Chicken Tenders",emoji:"🔥",method:"Air Fryer",type:"fresh",ezLevel:2,spiceLevel:3,
-    tags:["High Protein","Spicy","Comfort Food","Quick"],
-    mealType:"Lunch/Dinner",
-    cal:460,protein:42,carbs:34,fat:14,activeTime:6,stepCount:3,
-    components:[
-      {name:"Chicken Breast (boneless, skinless, sliced into strips)",type:"Protein",cal:165,p:35,c:0,f:4,grams:170,weighRaw:true,unit:"g"},
-      {name:"Frank's RedHot Sauce (3 tbsp)",type:"Sauce",cal:15,p:0,c:3,f:0,grams:45,weighRaw:false,unit:"ml"},
-      {name:"Cayenne Powder (½ tsp)",type:"Seasoning",cal:8,p:0,c:1,f:0,grams:1,weighRaw:false,unit:"g"},
-      {name:"Garlic Powder (½ tsp)",type:"Seasoning",cal:5,p:0,c:1,f:0,grams:1.5,weighRaw:false},
-      {name:"Brioche Bun",type:"Carb",cal:200,p:6,c:36,f:4,grams:80,weighRaw:false,unit:"g"},
-      {name:"Hellmann's Light Mayo (2 tbsp)",type:"Fat",cal:90,p:0,c:0,f:10,grams:30,weighRaw:false,unit:"g"},
-      {name:"Pickle Slices (jar)",type:"Veg",cal:5,p:0,c:1,f:0,grams:30,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Hot Sauce Extra",info:"1 tsp = 5 cal"},{name:"Black Pepper",info:"pinch = 0 cal"}],
-    steps:["Mix Frank's + cayenne + garlic powder. Toss chicken strips in mixture.","Air fry 400°F for 12–14 min, shaking halfway. Toast bun lightly.","Spread mayo on bun. Stack chicken tenders + pickles."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:84,name:"Spicy Salmon Bowl",emoji:"🐟",method:"Bake",type:"fresh",ezLevel:1,spiceLevel:3,
-    tags:["High Protein","Spicy","Omega-3","Asian-Inspired"],
-    mealType:"Lunch/Dinner",
-    cal:480,protein:36,carbs:44,fat:14,activeTime:5,stepCount:3,
-    components:[
-      {name:"Salmon Fillet",type:"Protein",cal:280,p:36,c:0,f:14,grams:170,weighRaw:true,unit:"g"},
-      {name:"Gochujang Sauce (bottled, 2 tbsp)",type:"Sauce",cal:50,p:1,c:10,f:0,grams:30,weighRaw:false,unit:"ml"},
-      {name:"Low-Sodium Soy Sauce (1 tbsp)",type:"Sauce",cal:10,p:1,c:1,f:0,grams:15,weighRaw:false,unit:"ml"},
-      {name:"White Rice Pouch",type:"Carb",cal:200,p:4,c:44,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Frozen Edamame (steam-bag)",type:"Veg",cal:95,p:11,c:6,f:5,grams:113,weighRaw:false,unit:"g"},
-      {name:"Kewpie Mayo (1 tbsp)",type:"Fat",cal:100,p:0,c:0,f:11,grams:15,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Sesame Seeds",info:"1 tsp = 17 cal · 0.5g P"},{name:"Green Onion (dried)",info:"pinch = 0 cal"}],
-    steps:["Mix gochujang + soy sauce. Place salmon on foil-lined sheet. Brush sauce over top.","Bake 425°F for 12–14 min. Microwave rice 90 sec + edamame 3 min.","Build bowl. Drizzle mayo on salmon. Toppings on side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:85,name:"Chili Lime Shrimp Tacos",emoji:"🌮",method:"Air Fryer",type:"fresh",ezLevel:2,spiceLevel:2,
-    tags:["High Protein","Spicy","Mexican-Inspired","Quick"],
-    mealType:"Lunch/Dinner",
-    cal:380,protein:30,carbs:42,fat:8,activeTime:6,stepCount:3,
-    components:[
-      {name:"Frozen Shrimp (16/20 count, thawed)",type:"Protein",cal:160,p:36,c:0,f:1,grams:150,weighRaw:true,unit:"g"},
-      {name:"Tajin Chili Lime Seasoning (2 tsp)",type:"Seasoning",cal:10,p:0,c:2,f:0,grams:5,weighRaw:false,unit:"g"},
-      {name:"Olive Oil Spray",type:"Fat",cal:15,p:0,c:0,f:2,grams:3,weighRaw:false,unit:"spray"},
-      {name:"Corn Tortillas (2 medium)",type:"Carb",cal:140,p:4,c:26,f:2,grams:52,weighRaw:false,unit:"g"},
-      {name:"Fage 0% Greek Yogurt (3 tbsp, sour cream sub)",type:"Protein",cal:30,p:6,c:2,f:0,grams:45,weighRaw:false,unit:"ml"},
-      {name:"Salsa Verde (jarred, 3 tbsp)",type:"Sauce",cal:15,p:0,c:3,f:0,grams:48,weighRaw:false,unit:"ml"},
-    ],
-    toppings:[{name:"Lime Squeeze",info:"½ lime = 5 cal"},{name:"Cilantro (fresh or dried)",info:"pinch = 0 cal"}],
-    steps:["Spray shrimp with oil. Season with Tajin. Air fry 380°F for 8–10 min.","Warm tortillas 30 sec in microwave. Fill with shrimp.","Top with yogurt + salsa verde + lime + cilantro."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:86,name:"Spicy Turkey Taco Bowl",emoji:"🌶️",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:2,
-    tags:["High Protein","Spicy","Mexican-Inspired","Quick"],
-    mealType:"Lunch/Dinner",
-    cal:460,protein:38,carbs:46,fat:10,activeTime:7,stepCount:3,
-    components:[
-      {name:"Ground Turkey (93% lean)",type:"Protein",cal:175,p:28,c:0,f:7,grams:142,weighRaw:true,unit:"g"},
-      {name:"Chipotle Seasoning Powder (1 tbsp)",type:"Seasoning",cal:20,p:1,c:3,f:0.5,grams:10,weighRaw:false},
-      {name:"Canned Black Beans (½ can, drained)",type:"Veg/Carb",cal:100,p:8,c:18,f:0,grams:135,weighRaw:false,unit:"g"},
-      {name:"White Rice Pouch",type:"Carb",cal:200,p:4,c:44,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Salsa Verde (jarred, 3 tbsp)",type:"Sauce",cal:15,p:0,c:3,f:0,grams:48,weighRaw:false,unit:"ml"},
-      {name:"Olive Oil (1 tsp)",type:"Fat",cal:40,p:0,c:0,f:4.5,grams:5,weighRaw:false},
-    ],
-    toppings:[{name:"Lime Squeeze",info:"½ lime = 5 cal"},{name:"Cilantro (dried)",info:"pinch = 0 cal"}],
-    steps:["Heat oil in skillet. Brown turkey 4–5 min, breaking it up.","Add chipotle seasoning + beans + salsa verde. Simmer 2 min. Microwave rice 90 sec.","Build bowl — toppings on side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:87,name:"Dan Dan Noodles (EZ Version)",emoji:"🌶️",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:3,
-    tags:["High Protein","Spicy","Asian-Inspired","Comfort Food"],
-    mealType:"Lunch/Dinner",
-    cal:480,protein:28,carbs:50,fat:14,activeTime:8,stepCount:3,
-    components:[
-      {name:"Ramen Noodles (1 packet, discard seasoning)",type:"Carb",cal:190,p:5,c:27,f:8,grams:56,weighRaw:true,unit:"g"},
-      {name:"Ground Pork or Turkey (93% lean)",type:"Protein",cal:175,p:28,c:0,f:7,grams:142,weighRaw:true,unit:"g"},
-      {name:"Momofuku Chili Crisp (2 tbsp)",type:"Spice/Oil",cal:100,p:0,c:4,f:9,grams:30,weighRaw:false,unit:"g"},
-      {name:"Low-Sodium Soy Sauce (1.5 tbsp)",type:"Sauce",cal:15,p:1.5,c:2,f:0,grams:22.5,weighRaw:false},
-      {name:"PB2 Peanut Butter Powder (2 tbsp)",type:"Fat",cal:50,p:4,c:4,f:1,grams:16,weighRaw:false,unit:"g"},
-      {name:"Sesame Oil (½ tsp)",type:"Fat",cal:20,p:0,c:0,f:2.25,grams:2.5,weighRaw:false},
-      {name:"Water (4 cups)",type:"Liquid",cal:0,p:0,c:0,f:0,grams:960,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Sesame Seeds",info:"1 tsp = 17 cal · 0.5g P"},{name:"Green Onion (dried)",info:"pinch = 0 cal"}],
-    steps:["Boil water in pot. Add ramen noodles, cook 3 min. Drain.","In skillet, brown ground meat 4–5 min. Add soy sauce + PB2 + chili crisp + sesame oil. Toss noodles into mixture.","Cook 1 min more. Toppings on side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:88,name:"Spicy Beef & Broccoli",emoji:"🥦",method:"Stovetop",type:"fresh",ezLevel:2,spiceLevel:2,
-    tags:["High Protein","Spicy","Asian-Inspired","Quick"],
-    mealType:"Lunch/Dinner",
-    cal:500,protein:38,carbs:48,fat:12,activeTime:7,stepCount:3,
-    components:[
-      {name:"Ground Beef (93% lean)",type:"Protein",cal:195,p:30,c:0,f:7,grams:142,weighRaw:true,unit:"g"},
-      {name:"Lee Kum Kee Beef & Broccoli Sauce (bottled, 3 tbsp)",type:"Sauce",cal:60,p:1,c:12,f:1,grams:45,weighRaw:false,unit:"ml"},
-      {name:"Frozen Broccoli (steam-bag, 1 cup)",type:"Veg",cal:50,p:4,c:9,f:0,grams:150,weighRaw:true,unit:"g"},
-      {name:"White Rice Pouch",type:"Carb",cal:200,p:4,c:44,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Olive Oil (1 tsp)",type:"Fat",cal:40,p:0,c:0,f:4.5,grams:5,weighRaw:false},
-      {name:"Garlic Powder (½ tsp)",type:"Seasoning",cal:5,p:0,c:1,f:0,grams:1.5,weighRaw:false},
-    ],
-    toppings:[{name:"Sesame Seeds",info:"1 tsp = 17 cal · 0.5g P"},{name:"Red Pepper Flakes",info:"pinch = 0 cal"}],
-    steps:["Heat oil in skillet over medium-high. Brown beef 4–5 min, breaking it up.","Add Lee Kum Kee sauce + frozen broccoli + garlic powder. Simmer 3 min.","Microwave rice 90 sec. Build bowl — toppings on side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:89,name:"Buffalo Shrimp Rice Bowl",emoji:"🦐",method:"Air Fryer",type:"fresh",ezLevel:1,spiceLevel:2,
-    tags:["High Protein","Spicy","Asian-Inspired","Quick"],
-    mealType:"Lunch/Dinner",
-    cal:400,protein:32,carbs:42,fat:8,activeTime:5,stepCount:3,
-    components:[
-      {name:"Frozen Shrimp (16/20 count, thawed)",type:"Protein",cal:160,p:36,c:0,f:1,grams:150,weighRaw:true,unit:"g"},
-      {name:"Frank's RedHot Sauce (3 tbsp)",type:"Sauce",cal:15,p:0,c:3,f:0,grams:45,weighRaw:false,unit:"ml"},
-      {name:"White Rice Pouch",type:"Carb",cal:200,p:4,c:44,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Frozen Broccoli (steam-bag)",type:"Veg",cal:50,p:4,c:9,f:0,grams:100,weighRaw:false,unit:"g"},
-      {name:"Ranch Dressing (bottled, 2 tbsp)",type:"Sauce/Fat",cal:150,p:0,c:1,f:16,grams:30,weighRaw:false,unit:"ml"},
-      {name:"Olive Oil Spray",type:"Fat",cal:10,p:0,c:0,f:1,grams:2,weighRaw:false,unit:"spray"},
-    ],
-    toppings:[{name:"Celery Powder",info:"pinch = 0 cal"},{name:"Parmesan",info:"1 tbsp = 22 cal · 2g P"}],
-    steps:["Spray shrimp with olive oil. Air fry 380°F for 8–10 min. Toss in Frank's sauce.","Microwave rice 90 sec + broccoli 3 min. Build bowl.","Drizzle ranch dressing over shrimp. Toppings on side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:90,name:"Easy Shakshuka",emoji:"🍳",method:"Stovetop",type:"fresh",ezLevel:3,spiceLevel:1,
-    tags:["Breakfast","Lunch","High Protein","Mediterranean","Vegetarian","Comfort Food"],
-    mealType:"Breakfast",
-    cal:440,protein:30,carbs:26,fat:25,activeTime:12,stepCount:4,
-    components:[
-      {name:"Rao's Marinara Sauce (jar)",type:"Sauce",cal:120,p:4,c:16,f:6,grams:240,weighRaw:false,unit:"ml"},
-      {name:"Whole Eggs",type:"Protein",cal:286,p:25,c:3,f:19,grams:200,weighRaw:false,unit:"count"},
-      {name:"Diced Onions (jar, drained)",type:"Veg",cal:24,p:1,c:5,f:0,grams:60,weighRaw:false,unit:"g"},
-      {name:"Onion Powder (seasoning)",type:"Seasoning",cal:5,p:0,c:1,f:0,grams:2,weighRaw:false,unit:"g"},
-      {name:"Garlic Powder (seasoning)",type:"Seasoning",cal:5,p:0,c:1,f:0,grams:2,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Crumbled Feta",info:"2 tbsp = 50 cal · 3g P"},{name:"Fresh Parsley (optional)",info:"pinch = 0 cal"},{name:"Sourdough bread for dipping",info:"1 slice = 100 cal · 4g P"}],
-    steps:["Heat pan over medium. Add jar onions and cook 2 min until softened and fragrant.","Pour in Rao's marinara. Stir in garlic powder and onion powder. Simmer 3 min.","Create 4 wells in the sauce using a spoon. Crack one egg into each well.","Cover pan with lid. Cook 5-7 min until whites are set but yolks still slightly runny. Crumble feta over top. Serve with sourdough for dipping."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:91,name:"Shakshuka from Scratch",emoji:"🍅",method:"Stovetop",type:"fresh",ezLevel:3,spiceLevel:2,
-    tags:["Breakfast","Lunch","High Protein","Mediterranean","Vegetarian","Comfort Food"],
-    mealType:"Breakfast",
-    cal:556,protein:30,carbs:33,fat:33,activeTime:15,stepCount:5,
-    components:[
-      {name:"Canned Crushed Tomatoes",type:"Veg/Sauce",cal:100,p:4,c:20,f:0,grams:400,weighRaw:false,unit:"ml"},
-      {name:"Whole Eggs",type:"Protein",cal:286,p:25,c:3,f:19,grams:200,weighRaw:false,unit:"count"},
-      {name:"Diced Onions (jar, drained)",type:"Veg",cal:32,p:1,c:7,f:0,grams:80,weighRaw:false,unit:"g"},
-      {name:"Olive Oil",type:"Fat",cal:120,p:0,c:0,f:14,grams:14,weighRaw:false,unit:"g"},
-      {name:"Garlic Powder",type:"Seasoning",cal:5,p:0,c:1,f:0,grams:2,weighRaw:false,unit:"g"},
-      {name:"Cumin (shaker)",type:"Seasoning",cal:5,p:0,c:1,f:0,grams:2,weighRaw:false,unit:"g"},
-      {name:"Smoked Paprika (shaker)",type:"Seasoning",cal:5,p:0,c:1,f:0,grams:2,weighRaw:false,unit:"g"},
-      {name:"Red Pepper Flakes (shaker)",type:"Seasoning",cal:3,p:0,c:1,f:0,grams:1,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Crumbled Feta",info:"2 tbsp = 50 cal · 3g P"},{name:"Sourdough for dipping",info:"1 slice = 100 cal · 4g P"},{name:"Extra red pepper flakes",info:"pinch = 0 cal"}],
-    steps:["Heat olive oil in pan over medium. Add jar onions, cook 3 min until softened.","Add garlic powder, cumin, smoked paprika, red pepper flakes. Stir 30 seconds to bloom spices.","Pour in crushed tomatoes. Season with salt. Simmer 5 min, stirring occasionally, until sauce thickens slightly.","Create 4 wells in sauce. Crack one egg into each well.","Cover and cook 5-7 min until whites are set, yolks runny. Crumble feta over top. Serve with sourdough."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:false,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  // GROUND BEEF RECIPES (IDs 92-99)
-  {id:92,name:"Skillet Beef Soy Garlic Rice",emoji:"🥩",method:"Skillet",type:"fresh",ezLevel:1,spiceLevel:0,
-    tags:["High Protein","Asian-Inspired","Neutral","Quick"],
-    mealType:"Lunch/Dinner",
-    cal:480,protein:42,carbs:50,fat:10,activeTime:6,stepCount:3,
-    components:[
-      {name:"Ground Beef (93% lean)",type:"Protein",cal:195,p:30,c:0,f:7,grams:142,weighRaw:true,unit:"g"},
-      {name:"Soy Sauce",type:"Sauce",cal:13,p:2,c:1,f:0,grams:8,weighRaw:false,unit:"ml"},
-      {name:"Garlic Powder (shaker)",type:"Seasoning",cal:5,p:0,c:1,f:0,grams:2,weighRaw:false,unit:"g"},
-      {name:"White Rice Pouch (Uncle Ben's)",type:"Carb",cal:260,p:6,c:56,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Frozen Mixed Veg (steam-bag)",type:"Veg",cal:65,p:3,c:13,f:0,grams:85,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Sesame Seeds",info:"1 tsp = 17 cal · 0.5g P"},{name:"Green Onion (fresh)",info:"1 tbsp = 2 cal"}],
-    steps:["Heat a skillet over medium-high heat. Add ground beef, breaking it apart with a spoon. Cook 5-6 minutes, stirring occasionally, until browned.","Sprinkle garlic powder over beef and stir in soy sauce. Cook 1 minute more.","Microwave rice 90 sec + steam-bag veg 3 min. Build bowl with rice, top with beef. Toppings on the side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:93,name:"BBQ Skillet Beef Hash Browns",emoji:"🔥",method:"Skillet",type:"fresh",ezLevel:2,spiceLevel:1,
-    tags:["High Protein","BBQ","Comfort Food","Hearty"],
-    mealType:"Lunch/Dinner",
-    cal:520,protein:40,carbs:54,fat:14,activeTime:7,stepCount:4,
-    components:[
-      {name:"Ground Beef (93% lean)",type:"Protein",cal:195,p:30,c:0,f:7,grams:142,weighRaw:true,unit:"g"},
-      {name:"BBQ Sauce (bottled)",type:"Sauce",cal:50,p:0,c:12,f:0,grams:32,weighRaw:false,unit:"ml"},
-      {name:"Frozen Hash Browns (microwaved)",type:"Carb",cal:160,p:3,c:36,f:0.5,grams:150,weighRaw:false},
-      {name:"Frozen Broccoli (steam-bag)",type:"Veg",cal:35,p:3,c:6,f:0.5,grams:85,weighRaw:false},
-    ],
-    toppings:[{name:"Cheddar Cheese",info:"¼ cup = 110 cal · 7g P"},{name:"Fried Onions (canned)",info:"2 tbsp = 40 cal"}],
-    steps:["Heat a skillet over medium-high heat. Add ground beef and break apart with a spoon. Cook 5-6 minutes until browned.","Stir in BBQ sauce generously. Cook 1-2 minutes more.","Microwave hash browns per package directions (usually 2-3 min) and steam-bag broccoli 3 min.","Scoop hash browns onto plate, top with beef mixture. Add broccoli to the side. Toppings on the side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:94,name:"Saucy Tomato Beef Bowl",emoji:"🍅",method:"Skillet",type:"fresh",ezLevel:1,spiceLevel:0,
-    tags:["High Protein","Saucy","Comfort Food","Italian-Inspired"],
-    mealType:"Lunch/Dinner",
-    cal:480,protein:41,carbs:50,fat:10,activeTime:6,stepCount:3,
-    components:[
-      {name:"Ground Beef (93% lean)",type:"Protein",cal:195,p:30,c:0,f:7,grams:142,weighRaw:true,unit:"g"},
-      {name:"Canned Diced Tomatoes",type:"Veg/Sauce",cal:45,p:2,c:9,f:0,grams:200,weighRaw:false,unit:"ml"},
-      {name:"Italian Seasoning (shaker)",type:"Seasoning",cal:5,p:0,c:1,f:0,grams:2,weighRaw:false,unit:"g"},
-      {name:"White Rice Pouch (Uncle Ben's)",type:"Carb",cal:260,p:6,c:56,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Frozen Spinach (microwave)",type:"Veg",cal:30,p:4,c:4,f:0,grams:85,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Parmesan Cheese",info:"2 tbsp = 44 cal · 4g P"},{name:"Fresh Basil (if available)",info:"5 leaves = 1 cal"}],
-    steps:["Heat a skillet over medium-high heat. Add ground beef and break apart. Cook 4-5 minutes until mostly browned.","Add canned tomatoes (with liquid) and Italian seasoning. Simmer 2 minutes.","Microwave rice 90 sec + microwave spinach 2 min. Build bowl with rice, top with beef & tomato sauce, spinach on side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:95,name:"Spicy Korean Gochujang Beef Rice",emoji:"🌶️",method:"Skillet",type:"fresh",ezLevel:2,spiceLevel:2,
-    tags:["High Protein","Asian-Inspired","Spicy","Hot"],
-    mealType:"Lunch/Dinner",
-    cal:510,protein:42,carbs:52,fat:12,activeTime:7,stepCount:4,
-    components:[
-      {name:"Ground Beef (93% lean)",type:"Protein",cal:195,p:30,c:0,f:7,grams:142,weighRaw:true,unit:"g"},
-      {name:"Gochujang Sauce (bottled)",type:"Sauce",cal:40,p:1,c:8,f:0,grams:30,weighRaw:false,unit:"ml"},
-      {name:"Soy Sauce",type:"Sauce",cal:13,p:2,c:1,f:0,grams:8,weighRaw:false,unit:"ml"},
-      {name:"Honey (squeeze bottle)",type:"Sweetener",cal:30,p:0,c:8,f:0,grams:10,weighRaw:false,unit:"ml"},
-      {name:"White Rice Pouch (Uncle Ben's)",type:"Carb",cal:260,p:6,c:56,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Frozen Broccoli (steam-bag)",type:"Veg",cal:35,p:3,c:6,f:0.5,grams:85,weighRaw:false},
-    ],
-    toppings:[{name:"Sesame Seeds",info:"1 tsp = 17 cal · 0.5g P"},{name:"Green Onion",info:"1 tbsp = 2 cal"}],
-    steps:["Heat a skillet over medium-high heat. Add ground beef, break apart with a spoon. Cook 5-6 minutes until browned.","In a small bowl, mix gochujang, soy sauce, and honey. Pour over beef and stir well. Cook 1 minute more.","Microwave rice 90 sec + steam-bag broccoli 3 min. Build bowl with rice, top with spicy beef, broccoli on side. Sesame & onion on top."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:96,name:"Beef Pasta Marinara Skillet",emoji:"🍝",method:"Skillet",type:"fresh",ezLevel:2,spiceLevel:0,
-    tags:["High Protein","Italian-Inspired","Saucy","Comfort Food"],
-    mealType:"Lunch/Dinner",
-    cal:500,protein:40,carbs:54,fat:12,activeTime:7,stepCount:4,
-    components:[
-      {name:"Ground Beef (93% lean)",type:"Protein",cal:195,p:30,c:0,f:7,grams:142,weighRaw:true,unit:"g"},
-      {name:"Rao's Marinara Sauce (bottled)",type:"Sauce",cal:70,p:2,c:10,f:3,grams:100,weighRaw:false,unit:"ml"},
-      {name:"Pasta Cup (microwave)",type:"Carb",cal:220,p:8,c:44,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Frozen Spinach (microwave)",type:"Veg",cal:30,p:4,c:4,f:0,grams:85,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Mozzarella Cheese",info:"¼ cup = 90 cal · 7g P"},{name:"Parmesan",info:"1 tbsp = 22 cal"}],
-    steps:["Heat a skillet over medium-high. Add ground beef, break apart. Cook 5 minutes until browned.","Add marinara sauce to beef. Stir and simmer 2 minutes.","Microwave pasta cup per package (usually 1.5 min) + microwave spinach 2 min. Combine pasta and beef sauce on plate. Spinach on side. Cheese on top."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:97,name:"Taco Beef Tortilla Skillet",emoji:"🌮",method:"Skillet",type:"fresh",ezLevel:1,spiceLevel:1,
-    tags:["High Protein","Neutral","Quick","Handheld"],
-    mealType:"Lunch/Dinner",
-    cal:480,protein:39,carbs:48,fat:13,activeTime:6,stepCount:3,
-    components:[
-      {name:"Ground Beef (93% lean)",type:"Protein",cal:195,p:30,c:0,f:7,grams:142,weighRaw:true,unit:"g"},
-      {name:"Taco Seasoning (packet)",type:"Seasoning",cal:35,p:1,c:6,f:0,grams:12,weighRaw:false,unit:"g"},
-      {name:"Corn Tortillas (2, warmed)",type:"Carb",cal:104,p:3,c:17,f:1,grams:52,weighRaw:false,unit:"g"},
-      {name:"Frozen Mixed Veg (steam-bag)",type:"Veg",cal:65,p:3,c:13,f:0,grams:85,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Shredded Cheddar",info:"¼ cup = 110 cal · 7g P"},{name:"Salsa (bottled)",info:"2 tbsp = 10 cal"},{name:"Sour Cream",info:"1 tbsp = 30 cal"}],
-    steps:["Heat a skillet over medium-high. Add ground beef and break apart. Cook 5 minutes until browned.","Sprinkle taco seasoning over beef and add 2 tbsp water. Stir and simmer 1 minute.","Heat tortillas in a dry pan 30 sec per side. Microwave veg 3 min. Build tacos with beef. Toppings on the side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:98,name:"Creamy Beef Mushroom Skillet",emoji:"🍄",method:"Skillet",type:"fresh",ezLevel:2,spiceLevel:0,
-    tags:["High Protein","Saucy","Comfort Food","Creamy"],
-    mealType:"Lunch/Dinner",
-    cal:520,protein:42,carbs:50,fat:14,activeTime:7,stepCount:4,
-    components:[
-      {name:"Ground Beef (93% lean)",type:"Protein",cal:195,p:30,c:0,f:7,grams:142,weighRaw:true,unit:"g"},
-      {name:"Beef Stroganoff Sauce Mix (powder)",type:"Sauce",cal:40,p:1,c:7,f:1,grams:20,weighRaw:false,unit:"ml"},
-      {name:"Sour Cream",type:"Fat/Sauce",cal:90,p:1,c:1,f:9,grams:60,weighRaw:false,unit:"ml"},
-      {name:"Egg Noodles (microwave cup)",type:"Carb",cal:220,p:7,c:42,f:1,grams:200,weighRaw:false,unit:"count"},
-      {name:"Frozen Broccoli (steam-bag)",type:"Veg",cal:35,p:3,c:6,f:0.5,grams:85,weighRaw:false},
-    ],
-    toppings:[{name:"Parmesan",info:"1 tbsp = 22 cal"},{name:"Fresh Dill (if available)",info:"5 sprigs = 1 cal"}],
-    steps:["Heat a skillet over medium-high. Add ground beef and break apart. Cook 5 minutes until browned.","Mix stroganoff sauce powder with ½ cup water per package, then add to beef. Simmer 2 minutes. Remove from heat and stir in sour cream.","Microwave egg noodles per package + microwave broccoli 3 min. Combine noodles with beef stroganoff on plate. Broccoli on side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:99,name:"Teriyaki Beef Broccoli Bowl",emoji:"🥦",method:"Skillet",type:"fresh",ezLevel:1,spiceLevel:0,
-    tags:["High Protein","Asian-Inspired","Quick","Neutral"],
-    mealType:"Lunch/Dinner",
-    cal:490,protein:43,carbs:50,fat:10,activeTime:6,stepCount:3,
-    components:[
-      {name:"Ground Beef (93% lean)",type:"Protein",cal:195,p:30,c:0,f:7,grams:142,weighRaw:true,unit:"g"},
-      {name:"Teriyaki Sauce (Kikkoman bottle)",type:"Sauce",cal:40,p:1,c:9,f:0,grams:30,weighRaw:false,unit:"ml"},
-      {name:"White Rice Pouch (Uncle Ben's)",type:"Carb",cal:260,p:6,c:56,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Frozen Broccoli (steam-bag)",type:"Veg",cal:35,p:3,c:6,f:0.5,grams:85,weighRaw:false},
-    ],
-    toppings:[{name:"Sesame Seeds",info:"1 tsp = 17 cal · 0.5g P"},{name:"Green Onion",info:"1 tbsp = 2 cal"}],
-    steps:["Heat a skillet over medium-high heat. Add ground beef and break apart. Cook 5 minutes until browned.","Drizzle teriyaki sauce over beef and stir well. Cook 1 minute more.","Microwave rice 90 sec + steam-bag broccoli 3 min. Build bowl with rice, top with beef, broccoli on side. Toppings on top."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  // GROUND CHICKEN RECIPES (IDs 100-107)
-  {id:100,name:"Skillet Chicken Soy Garlic Rice",emoji:"🍗",method:"Skillet",type:"fresh",ezLevel:1,spiceLevel:0,
-    tags:["High Protein","Asian-Inspired","Neutral","Quick","Lean"],
-    mealType:"Lunch/Dinner",
-    cal:460,protein:45,carbs:50,fat:7,activeTime:6,stepCount:3,
-    components:[
-      {name:"Ground Chicken (93% lean)",type:"Protein",cal:170,p:28,c:0,f:6,grams:142,weighRaw:true,unit:"g"},
-      {name:"Soy Sauce",type:"Sauce",cal:13,p:2,c:1,f:0,grams:8,weighRaw:false,unit:"ml"},
-      {name:"Garlic Powder (shaker)",type:"Seasoning",cal:5,p:0,c:1,f:0,grams:2,weighRaw:false,unit:"g"},
-      {name:"White Rice Pouch (Uncle Ben's)",type:"Carb",cal:260,p:6,c:56,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Frozen Mixed Veg (steam-bag)",type:"Veg",cal:65,p:3,c:13,f:0,grams:85,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Sesame Seeds",info:"1 tsp = 17 cal · 0.5g P"},{name:"Green Onion",info:"1 tbsp = 2 cal"}],
-    steps:["Heat a skillet over medium-high heat. Add ground chicken, breaking it apart with a spoon. Cook 5-6 minutes, stirring occasionally, until cooked through.","Sprinkle garlic powder over chicken and stir in soy sauce. Cook 1 minute more.","Microwave rice 90 sec + steam-bag veg 3 min. Build bowl with rice, top with chicken. Toppings on the side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:101,name:"BBQ Skillet Chicken Hash Browns",emoji:"🔥",method:"Skillet",type:"fresh",ezLevel:2,spiceLevel:1,
-    tags:["High Protein","BBQ","Comfort Food","Hearty","Lean"],
-    mealType:"Lunch/Dinner",
-    cal:490,protein:43,carbs:54,fat:11,activeTime:7,stepCount:4,
-    components:[
-      {name:"Ground Chicken (93% lean)",type:"Protein",cal:170,p:28,c:0,f:6,grams:142,weighRaw:true,unit:"g"},
-      {name:"BBQ Sauce (bottled)",type:"Sauce",cal:50,p:0,c:12,f:0,grams:32,weighRaw:false,unit:"ml"},
-      {name:"Frozen Hash Browns (microwaved)",type:"Carb",cal:160,p:3,c:36,f:0.5,grams:150,weighRaw:false},
-      {name:"Frozen Broccoli (steam-bag)",type:"Veg",cal:35,p:3,c:6,f:0.5,grams:85,weighRaw:false},
-    ],
-    toppings:[{name:"Cheddar Cheese",info:"¼ cup = 110 cal · 7g P"},{name:"Fried Onions (canned)",info:"2 tbsp = 40 cal"}],
-    steps:["Heat a skillet over medium-high heat. Add ground chicken and break apart with a spoon. Cook 5-6 minutes until cooked through.","Stir in BBQ sauce generously. Cook 1-2 minutes more.","Microwave hash browns per package (usually 2-3 min) and steam-bag broccoli 3 min.","Scoop hash browns onto plate, top with chicken BBQ mixture. Add broccoli to the side. Toppings on the side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:102,name:"Saucy Tomato Chicken Bowl",emoji:"🍅",method:"Skillet",type:"fresh",ezLevel:1,spiceLevel:0,
-    tags:["High Protein","Saucy","Comfort Food","Italian-Inspired","Lean"],
-    mealType:"Lunch/Dinner",
-    cal:450,protein:44,carbs:50,fat:8,activeTime:6,stepCount:3,
-    components:[
-      {name:"Ground Chicken (93% lean)",type:"Protein",cal:170,p:28,c:0,f:6,grams:142,weighRaw:true,unit:"g"},
-      {name:"Canned Diced Tomatoes",type:"Veg/Sauce",cal:45,p:2,c:9,f:0,grams:200,weighRaw:false,unit:"ml"},
-      {name:"Italian Seasoning (shaker)",type:"Seasoning",cal:5,p:0,c:1,f:0,grams:2,weighRaw:false,unit:"g"},
-      {name:"White Rice Pouch (Uncle Ben's)",type:"Carb",cal:260,p:6,c:56,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Frozen Spinach (microwave)",type:"Veg",cal:30,p:4,c:4,f:0,grams:85,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Parmesan Cheese",info:"2 tbsp = 44 cal · 4g P"},{name:"Fresh Basil (if available)",info:"5 leaves = 1 cal"}],
-    steps:["Heat a skillet over medium-high heat. Add ground chicken and break apart. Cook 4-5 minutes until mostly cooked through.","Add canned tomatoes (with liquid) and Italian seasoning. Simmer 2 minutes.","Microwave rice 90 sec + microwave spinach 2 min. Build bowl with rice, top with chicken & tomato sauce, spinach on side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:103,name:"Spicy Gochujang Chicken Rice",emoji:"🌶️",method:"Skillet",type:"fresh",ezLevel:2,spiceLevel:2,
-    tags:["High Protein","Asian-Inspired","Spicy","Hot","Lean"],
-    mealType:"Lunch/Dinner",
-    cal:480,protein:45,carbs:52,fat:9,activeTime:7,stepCount:4,
-    components:[
-      {name:"Ground Chicken (93% lean)",type:"Protein",cal:170,p:28,c:0,f:6,grams:142,weighRaw:true,unit:"g"},
-      {name:"Gochujang Sauce (bottled)",type:"Sauce",cal:40,p:1,c:8,f:0,grams:30,weighRaw:false,unit:"ml"},
-      {name:"Soy Sauce",type:"Sauce",cal:13,p:2,c:1,f:0,grams:8,weighRaw:false,unit:"ml"},
-      {name:"Honey (squeeze bottle)",type:"Sweetener",cal:30,p:0,c:8,f:0,grams:10,weighRaw:false,unit:"ml"},
-      {name:"White Rice Pouch (Uncle Ben's)",type:"Carb",cal:260,p:6,c:56,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Frozen Broccoli (steam-bag)",type:"Veg",cal:35,p:3,c:6,f:0.5,grams:85,weighRaw:false},
-    ],
-    toppings:[{name:"Sesame Seeds",info:"1 tsp = 17 cal · 0.5g P"},{name:"Green Onion",info:"1 tbsp = 2 cal"}],
-    steps:["Heat a skillet over medium-high heat. Add ground chicken, break apart with a spoon. Cook 5-6 minutes until cooked through.","In a small bowl, mix gochujang, soy sauce, and honey. Pour over chicken and stir well. Cook 1 minute more.","Microwave rice 90 sec + steam-bag broccoli 3 min. Build bowl with rice, top with spicy chicken, broccoli on side. Sesame & onion on top."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:104,name:"Chicken Pasta Marinara Skillet",emoji:"🍝",method:"Skillet",type:"fresh",ezLevel:2,spiceLevel:0,
-    tags:["High Protein","Italian-Inspired","Saucy","Comfort Food","Lean"],
-    mealType:"Lunch/Dinner",
-    cal:470,protein:43,carbs:54,fat:9,activeTime:7,stepCount:4,
-    components:[
-      {name:"Ground Chicken (93% lean)",type:"Protein",cal:170,p:28,c:0,f:6,grams:142,weighRaw:true,unit:"g"},
-      {name:"Rao's Marinara Sauce (bottled)",type:"Sauce",cal:70,p:2,c:10,f:3,grams:100,weighRaw:false,unit:"ml"},
-      {name:"Pasta Cup (microwave)",type:"Carb",cal:220,p:8,c:44,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Frozen Spinach (microwave)",type:"Veg",cal:30,p:4,c:4,f:0,grams:85,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Mozzarella Cheese",info:"¼ cup = 90 cal · 7g P"},{name:"Parmesan",info:"1 tbsp = 22 cal"}],
-    steps:["Heat a skillet over medium-high. Add ground chicken, break apart. Cook 5 minutes until cooked through.","Add marinara sauce to chicken. Stir and simmer 2 minutes.","Microwave pasta cup per package (usually 1.5 min) + microwave spinach 2 min. Combine pasta and chicken sauce on plate. Spinach on side. Cheese on top."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:105,name:"Chicken Taco Tortilla Skillet",emoji:"🌮",method:"Skillet",type:"fresh",ezLevel:1,spiceLevel:1,
-    tags:["High Protein","Neutral","Quick","Handheld","Lean"],
-    mealType:"Lunch/Dinner",
-    cal:450,protein:42,carbs:48,fat:10,activeTime:6,stepCount:3,
-    components:[
-      {name:"Ground Chicken (93% lean)",type:"Protein",cal:170,p:28,c:0,f:6,grams:142,weighRaw:true,unit:"g"},
-      {name:"Taco Seasoning (packet)",type:"Seasoning",cal:35,p:1,c:6,f:0,grams:12,weighRaw:false,unit:"g"},
-      {name:"Corn Tortillas (2, warmed)",type:"Carb",cal:104,p:3,c:17,f:1,grams:52,weighRaw:false,unit:"g"},
-      {name:"Frozen Mixed Veg (steam-bag)",type:"Veg",cal:65,p:3,c:13,f:0,grams:85,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Shredded Cheddar",info:"¼ cup = 110 cal · 7g P"},{name:"Salsa (bottled)",info:"2 tbsp = 10 cal"},{name:"Sour Cream",info:"1 tbsp = 30 cal"}],
-    steps:["Heat a skillet over medium-high. Add ground chicken and break apart. Cook 5 minutes until cooked through.","Sprinkle taco seasoning over chicken and add 2 tbsp water. Stir and simmer 1 minute.","Heat tortillas in a dry pan 30 sec per side. Microwave veg 3 min. Build tacos with chicken. Toppings on the side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:106,name:"Creamy Chicken Mushroom Skillet",emoji:"🍄",method:"Skillet",type:"fresh",ezLevel:2,spiceLevel:0,
-    tags:["High Protein","Saucy","Comfort Food","Creamy","Lean"],
-    mealType:"Lunch/Dinner",
-    cal:490,protein:45,carbs:50,fat:11,activeTime:7,stepCount:4,
-    components:[
-      {name:"Ground Chicken (93% lean)",type:"Protein",cal:170,p:28,c:0,f:6,grams:142,weighRaw:true,unit:"g"},
-      {name:"Beef Stroganoff Sauce Mix (powder)",type:"Sauce",cal:40,p:1,c:7,f:1,grams:20,weighRaw:false,unit:"ml"},
-      {name:"Sour Cream",type:"Fat/Sauce",cal:90,p:1,c:1,f:9,grams:60,weighRaw:false,unit:"ml"},
-      {name:"Egg Noodles (microwave cup)",type:"Carb",cal:220,p:7,c:42,f:1,grams:200,weighRaw:false,unit:"count"},
-      {name:"Frozen Broccoli (steam-bag)",type:"Veg",cal:35,p:3,c:6,f:0.5,grams:85,weighRaw:false},
-    ],
-    toppings:[{name:"Parmesan",info:"1 tbsp = 22 cal"},{name:"Fresh Dill (if available)",info:"5 sprigs = 1 cal"}],
-    steps:["Heat a skillet over medium-high. Add ground chicken and break apart. Cook 5 minutes until cooked through.","Mix stroganoff sauce powder with ½ cup water per package, then add to chicken. Simmer 2 minutes. Remove from heat and stir in sour cream.","Microwave egg noodles per package + microwave broccoli 3 min. Combine noodles with chicken stroganoff on plate. Broccoli on side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:107,name:"Teriyaki Chicken Broccoli Bowl",emoji:"🥦",method:"Skillet",type:"fresh",ezLevel:1,spiceLevel:0,
-    tags:["High Protein","Asian-Inspired","Quick","Neutral","Lean"],
-    mealType:"Lunch/Dinner",
-    cal:460,protein:46,carbs:50,fat:7,activeTime:6,stepCount:3,
-    components:[
-      {name:"Ground Chicken (93% lean)",type:"Protein",cal:170,p:28,c:0,f:6,grams:142,weighRaw:true,unit:"g"},
-      {name:"Teriyaki Sauce (Kikkoman bottle)",type:"Sauce",cal:40,p:1,c:9,f:0,grams:30,weighRaw:false,unit:"ml"},
-      {name:"White Rice Pouch (Uncle Ben's)",type:"Carb",cal:260,p:6,c:56,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Frozen Broccoli (steam-bag)",type:"Veg",cal:35,p:3,c:6,f:0.5,grams:85,weighRaw:false},
-    ],
-    toppings:[{name:"Sesame Seeds",info:"1 tsp = 17 cal · 0.5g P"},{name:"Green Onion",info:"1 tbsp = 2 cal"}],
-    steps:["Heat a skillet over medium-high heat. Add ground chicken and break apart. Cook 5 minutes until cooked through.","Drizzle teriyaki sauce over chicken and stir well. Cook 1 minute more.","Microwave rice 90 sec + steam-bag broccoli 3 min. Build bowl with rice, top with chicken, broccoli on side. Toppings on top."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  // GROUND PORK RECIPES (IDs 108-115)
-  {id:108,name:"Skillet Pork Soy Garlic Rice",emoji:"🐷",method:"Skillet",type:"fresh",ezLevel:1,spiceLevel:0,
-    tags:["High Protein","Asian-Inspired","Neutral","Quick"],
-    mealType:"Lunch/Dinner",
-    cal:490,protein:40,carbs:50,fat:13,activeTime:6,stepCount:3,
-    components:[
-      {name:"Ground Pork (93% lean)",type:"Protein",cal:190,p:27,c:0,f:9,grams:142,weighRaw:true,unit:"g"},
-      {name:"Soy Sauce",type:"Sauce",cal:13,p:2,c:1,f:0,grams:8,weighRaw:false,unit:"ml"},
-      {name:"Garlic Powder (shaker)",type:"Seasoning",cal:5,p:0,c:1,f:0,grams:2,weighRaw:false,unit:"g"},
-      {name:"White Rice Pouch (Uncle Ben's)",type:"Carb",cal:260,p:6,c:56,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Frozen Mixed Veg (steam-bag)",type:"Veg",cal:65,p:3,c:13,f:0,grams:85,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Sesame Seeds",info:"1 tsp = 17 cal · 0.5g P"},{name:"Green Onion",info:"1 tbsp = 2 cal"}],
-    steps:["Heat a skillet over medium-high heat. Add ground pork, breaking it apart with a spoon. Cook 5-6 minutes, stirring occasionally, until browned.","Sprinkle garlic powder over pork and stir in soy sauce. Cook 1 minute more.","Microwave rice 90 sec + steam-bag veg 3 min. Build bowl with rice, top with pork. Toppings on the side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:109,name:"BBQ Skillet Pork Hash Browns",emoji:"🔥",method:"Skillet",type:"fresh",ezLevel:2,spiceLevel:1,
-    tags:["High Protein","BBQ","Comfort Food","Hearty"],
-    mealType:"Lunch/Dinner",
-    cal:530,protein:38,carbs:54,fat:17,activeTime:7,stepCount:4,
-    components:[
-      {name:"Ground Pork (93% lean)",type:"Protein",cal:190,p:27,c:0,f:9,grams:142,weighRaw:true,unit:"g"},
-      {name:"BBQ Sauce (bottled)",type:"Sauce",cal:50,p:0,c:12,f:0,grams:32,weighRaw:false,unit:"ml"},
-      {name:"Frozen Hash Browns (microwaved)",type:"Carb",cal:160,p:3,c:36,f:0.5,grams:150,weighRaw:false},
-      {name:"Frozen Broccoli (steam-bag)",type:"Veg",cal:35,p:3,c:6,f:0.5,grams:85,weighRaw:false},
-    ],
-    toppings:[{name:"Cheddar Cheese",info:"¼ cup = 110 cal · 7g P"},{name:"Fried Onions (canned)",info:"2 tbsp = 40 cal"}],
-    steps:["Heat a skillet over medium-high heat. Add ground pork and break apart with a spoon. Cook 5-6 minutes until browned.","Stir in BBQ sauce generously. Cook 1-2 minutes more.","Microwave hash browns per package (usually 2-3 min) and steam-bag broccoli 3 min.","Scoop hash browns onto plate, top with pork BBQ mixture. Add broccoli to the side. Toppings on the side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:110,name:"Saucy Tomato Pork Bowl",emoji:"🍅",method:"Skillet",type:"fresh",ezLevel:1,spiceLevel:0,
-    tags:["High Protein","Saucy","Comfort Food","Italian-Inspired"],
-    mealType:"Lunch/Dinner",
-    cal:490,protein:39,carbs:50,fat:13,activeTime:6,stepCount:3,
-    components:[
-      {name:"Ground Pork (93% lean)",type:"Protein",cal:190,p:27,c:0,f:9,grams:142,weighRaw:true,unit:"g"},
-      {name:"Canned Diced Tomatoes",type:"Veg/Sauce",cal:45,p:2,c:9,f:0,grams:200,weighRaw:false,unit:"ml"},
-      {name:"Italian Seasoning (shaker)",type:"Seasoning",cal:5,p:0,c:1,f:0,grams:2,weighRaw:false,unit:"g"},
-      {name:"White Rice Pouch (Uncle Ben's)",type:"Carb",cal:260,p:6,c:56,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Frozen Spinach (microwave)",type:"Veg",cal:30,p:4,c:4,f:0,grams:85,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Parmesan Cheese",info:"2 tbsp = 44 cal · 4g P"},{name:"Fresh Basil (if available)",info:"5 leaves = 1 cal"}],
-    steps:["Heat a skillet over medium-high heat. Add ground pork and break apart. Cook 4-5 minutes until mostly browned.","Add canned tomatoes (with liquid) and Italian seasoning. Simmer 2 minutes.","Microwave rice 90 sec + microwave spinach 2 min. Build bowl with rice, top with pork & tomato sauce, spinach on side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:111,name:"Spicy Gochujang Pork Rice",emoji:"🌶️",method:"Skillet",type:"fresh",ezLevel:2,spiceLevel:2,
-    tags:["High Protein","Asian-Inspired","Spicy","Hot"],
-    mealType:"Lunch/Dinner",
-    cal:520,protein:40,carbs:52,fat:15,activeTime:7,stepCount:4,
-    components:[
-      {name:"Ground Pork (93% lean)",type:"Protein",cal:190,p:27,c:0,f:9,grams:142,weighRaw:true,unit:"g"},
-      {name:"Gochujang Sauce (bottled)",type:"Sauce",cal:40,p:1,c:8,f:0,grams:30,weighRaw:false,unit:"ml"},
-      {name:"Soy Sauce",type:"Sauce",cal:13,p:2,c:1,f:0,grams:8,weighRaw:false,unit:"ml"},
-      {name:"Honey (squeeze bottle)",type:"Sweetener",cal:30,p:0,c:8,f:0,grams:10,weighRaw:false,unit:"ml"},
-      {name:"White Rice Pouch (Uncle Ben's)",type:"Carb",cal:260,p:6,c:56,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Frozen Broccoli (steam-bag)",type:"Veg",cal:35,p:3,c:6,f:0.5,grams:85,weighRaw:false},
-    ],
-    toppings:[{name:"Sesame Seeds",info:"1 tsp = 17 cal · 0.5g P"},{name:"Green Onion",info:"1 tbsp = 2 cal"}],
-    steps:["Heat a skillet over medium-high heat. Add ground pork, break apart with a spoon. Cook 5-6 minutes until browned.","In a small bowl, mix gochujang, soy sauce, and honey. Pour over pork and stir well. Cook 1 minute more.","Microwave rice 90 sec + steam-bag broccoli 3 min. Build bowl with rice, top with spicy pork, broccoli on side. Sesame & onion on top."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:112,name:"Pork Pasta Marinara Skillet",emoji:"🍝",method:"Skillet",type:"fresh",ezLevel:2,spiceLevel:0,
-    tags:["High Protein","Italian-Inspired","Saucy","Comfort Food"],
-    mealType:"Lunch/Dinner",
-    cal:510,protein:38,carbs:54,fat:15,activeTime:7,stepCount:4,
-    components:[
-      {name:"Ground Pork (93% lean)",type:"Protein",cal:190,p:27,c:0,f:9,grams:142,weighRaw:true,unit:"g"},
-      {name:"Rao's Marinara Sauce (bottled)",type:"Sauce",cal:70,p:2,c:10,f:3,grams:100,weighRaw:false,unit:"ml"},
-      {name:"Pasta Cup (microwave)",type:"Carb",cal:220,p:8,c:44,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Frozen Spinach (microwave)",type:"Veg",cal:30,p:4,c:4,f:0,grams:85,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Mozzarella Cheese",info:"¼ cup = 90 cal · 7g P"},{name:"Parmesan",info:"1 tbsp = 22 cal"}],
-    steps:["Heat a skillet over medium-high. Add ground pork, break apart. Cook 5 minutes until browned.","Add marinara sauce to pork. Stir and simmer 2 minutes.","Microwave pasta cup per package (usually 1.5 min) + microwave spinach 2 min. Combine pasta and pork sauce on plate. Spinach on side. Cheese on top."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:113,name:"Pork Taco Tortilla Skillet",emoji:"🌮",method:"Skillet",type:"fresh",ezLevel:1,spiceLevel:1,
-    tags:["High Protein","Neutral","Quick","Handheld"],
-    mealType:"Lunch/Dinner",
-    cal:490,protein:37,carbs:48,fat:16,activeTime:6,stepCount:3,
-    components:[
-      {name:"Ground Pork (93% lean)",type:"Protein",cal:190,p:27,c:0,f:9,grams:142,weighRaw:true,unit:"g"},
-      {name:"Taco Seasoning (packet)",type:"Seasoning",cal:35,p:1,c:6,f:0,grams:12,weighRaw:false,unit:"g"},
-      {name:"Corn Tortillas (2, warmed)",type:"Carb",cal:104,p:3,c:17,f:1,grams:52,weighRaw:false,unit:"g"},
-      {name:"Frozen Mixed Veg (steam-bag)",type:"Veg",cal:65,p:3,c:13,f:0,grams:85,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Shredded Cheddar",info:"¼ cup = 110 cal · 7g P"},{name:"Salsa (bottled)",info:"2 tbsp = 10 cal"},{name:"Sour Cream",info:"1 tbsp = 30 cal"}],
-    steps:["Heat a skillet over medium-high. Add ground pork and break apart. Cook 5 minutes until browned.","Sprinkle taco seasoning over pork and add 2 tbsp water. Stir and simmer 1 minute.","Heat tortillas in a dry pan 30 sec per side. Microwave veg 3 min. Build tacos with pork. Toppings on the side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:114,name:"Creamy Pork Mushroom Skillet",emoji:"🍄",method:"Skillet",type:"fresh",ezLevel:2,spiceLevel:0,
-    tags:["High Protein","Saucy","Comfort Food","Creamy"],
-    mealType:"Lunch/Dinner",
-    cal:540,protein:40,carbs:50,fat:17,activeTime:7,stepCount:4,
-    components:[
-      {name:"Ground Pork (93% lean)",type:"Protein",cal:190,p:27,c:0,f:9,grams:142,weighRaw:true,unit:"g"},
-      {name:"Beef Stroganoff Sauce Mix (powder)",type:"Sauce",cal:40,p:1,c:7,f:1,grams:20,weighRaw:false,unit:"ml"},
-      {name:"Sour Cream",type:"Fat/Sauce",cal:90,p:1,c:1,f:9,grams:60,weighRaw:false,unit:"ml"},
-      {name:"Egg Noodles (microwave cup)",type:"Carb",cal:220,p:7,c:42,f:1,grams:200,weighRaw:false,unit:"count"},
-      {name:"Frozen Broccoli (steam-bag)",type:"Veg",cal:35,p:3,c:6,f:0.5,grams:85,weighRaw:false},
-    ],
-    toppings:[{name:"Parmesan",info:"1 tbsp = 22 cal"},{name:"Fresh Dill (if available)",info:"5 sprigs = 1 cal"}],
-    steps:["Heat a skillet over medium-high. Add ground pork and break apart. Cook 5 minutes until browned.","Mix stroganoff sauce powder with ½ cup water per package, then add to pork. Simmer 2 minutes. Remove from heat and stir in sour cream.","Microwave egg noodles per package + microwave broccoli 3 min. Combine noodles with pork stroganoff on plate. Broccoli on side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:115,name:"Teriyaki Pork Broccoli Bowl",emoji:"🥦",method:"Skillet",type:"fresh",ezLevel:1,spiceLevel:0,
-    tags:["High Protein","Asian-Inspired","Quick","Neutral"],
-    mealType:"Lunch/Dinner",
-    cal:500,protein:41,carbs:50,fat:13,activeTime:6,stepCount:3,
-    components:[
-      {name:"Ground Pork (93% lean)",type:"Protein",cal:190,p:27,c:0,f:9,grams:142,weighRaw:true,unit:"g"},
-      {name:"Teriyaki Sauce (Kikkoman bottle)",type:"Sauce",cal:40,p:1,c:9,f:0,grams:30,weighRaw:false,unit:"ml"},
-      {name:"White Rice Pouch (Uncle Ben's)",type:"Carb",cal:260,p:6,c:56,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Frozen Broccoli (steam-bag)",type:"Veg",cal:35,p:3,c:6,f:0.5,grams:85,weighRaw:false},
-    ],
-    toppings:[{name:"Sesame Seeds",info:"1 tsp = 17 cal · 0.5g P"},{name:"Green Onion",info:"1 tbsp = 2 cal"}],
-    steps:["Heat a skillet over medium-high heat. Add ground pork and break apart. Cook 5 minutes until browned.","Drizzle teriyaki sauce over pork and stir well. Cook 1 minute more.","Microwave rice 90 sec + steam-bag broccoli 3 min. Build bowl with rice, top with pork, broccoli on side. Toppings on top."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  // GROUND TURKEY RECIPES (IDs 116-123)
-  {id:116,name:"Skillet Turkey Soy Garlic Rice",emoji:"🦃",method:"Skillet",type:"fresh",ezLevel:1,spiceLevel:0,
-    tags:["High Protein","Asian-Inspired","Neutral","Quick","Lean"],
-    mealType:"Lunch/Dinner",
-    cal:470,protein:44,carbs:50,fat:8,activeTime:6,stepCount:3,
-    components:[
-      {name:"Ground Turkey (93% lean)",type:"Protein",cal:175,p:28,c:0,f:7,grams:142,weighRaw:true,unit:"g"},
-      {name:"Soy Sauce",type:"Sauce",cal:13,p:2,c:1,f:0,grams:8,weighRaw:false,unit:"ml"},
-      {name:"Garlic Powder (shaker)",type:"Seasoning",cal:5,p:0,c:1,f:0,grams:2,weighRaw:false,unit:"g"},
-      {name:"White Rice Pouch (Uncle Ben's)",type:"Carb",cal:260,p:6,c:56,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Frozen Mixed Veg (steam-bag)",type:"Veg",cal:65,p:3,c:13,f:0,grams:85,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Sesame Seeds",info:"1 tsp = 17 cal · 0.5g P"},{name:"Green Onion",info:"1 tbsp = 2 cal"}],
-    steps:["Heat a skillet over medium-high heat. Add ground turkey, breaking it apart with a spoon. Cook 5-6 minutes, stirring occasionally, until cooked through.","Sprinkle garlic powder over turkey and stir in soy sauce. Cook 1 minute more.","Microwave rice 90 sec + steam-bag veg 3 min. Build bowl with rice, top with turkey. Toppings on the side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:117,name:"BBQ Skillet Turkey Hash Browns",emoji:"🔥",method:"Skillet",type:"fresh",ezLevel:2,spiceLevel:1,
-    tags:["High Protein","BBQ","Comfort Food","Hearty","Lean"],
-    mealType:"Lunch/Dinner",
-    cal:500,protein:42,carbs:54,fat:12,activeTime:7,stepCount:4,
-    components:[
-      {name:"Ground Turkey (93% lean)",type:"Protein",cal:175,p:28,c:0,f:7,grams:142,weighRaw:true,unit:"g"},
-      {name:"BBQ Sauce (bottled)",type:"Sauce",cal:50,p:0,c:12,f:0,grams:32,weighRaw:false,unit:"ml"},
-      {name:"Frozen Hash Browns (microwaved)",type:"Carb",cal:160,p:3,c:36,f:0.5,grams:150,weighRaw:false},
-      {name:"Frozen Broccoli (steam-bag)",type:"Veg",cal:35,p:3,c:6,f:0.5,grams:85,weighRaw:false},
-    ],
-    toppings:[{name:"Cheddar Cheese",info:"¼ cup = 110 cal · 7g P"},{name:"Fried Onions (canned)",info:"2 tbsp = 40 cal"}],
-    steps:["Heat a skillet over medium-high heat. Add ground turkey and break apart with a spoon. Cook 5-6 minutes until cooked through.","Stir in BBQ sauce generously. Cook 1-2 minutes more.","Microwave hash browns per package (usually 2-3 min) and steam-bag broccoli 3 min.","Scoop hash browns onto plate, top with turkey BBQ mixture. Add broccoli to the side. Toppings on the side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:118,name:"Saucy Tomato Turkey Bowl",emoji:"🍅",method:"Skillet",type:"fresh",ezLevel:1,spiceLevel:0,
-    tags:["High Protein","Saucy","Comfort Food","Italian-Inspired","Lean"],
-    mealType:"Lunch/Dinner",
-    cal:460,protein:43,carbs:50,fat:9,activeTime:6,stepCount:3,
-    components:[
-      {name:"Ground Turkey (93% lean)",type:"Protein",cal:175,p:28,c:0,f:7,grams:142,weighRaw:true,unit:"g"},
-      {name:"Canned Diced Tomatoes",type:"Veg/Sauce",cal:45,p:2,c:9,f:0,grams:200,weighRaw:false,unit:"ml"},
-      {name:"Italian Seasoning (shaker)",type:"Seasoning",cal:5,p:0,c:1,f:0,grams:2,weighRaw:false,unit:"g"},
-      {name:"White Rice Pouch (Uncle Ben's)",type:"Carb",cal:260,p:6,c:56,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Frozen Spinach (microwave)",type:"Veg",cal:30,p:4,c:4,f:0,grams:85,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Parmesan Cheese",info:"2 tbsp = 44 cal · 4g P"},{name:"Fresh Basil (if available)",info:"5 leaves = 1 cal"}],
-    steps:["Heat a skillet over medium-high heat. Add ground turkey and break apart. Cook 4-5 minutes until mostly cooked through.","Add canned tomatoes (with liquid) and Italian seasoning. Simmer 2 minutes.","Microwave rice 90 sec + microwave spinach 2 min. Build bowl with rice, top with turkey & tomato sauce, spinach on side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:119,name:"Spicy Gochujang Turkey Rice",emoji:"🌶️",method:"Skillet",type:"fresh",ezLevel:2,spiceLevel:2,
-    tags:["High Protein","Asian-Inspired","Spicy","Hot","Lean"],
-    mealType:"Lunch/Dinner",
-    cal:490,protein:44,carbs:52,fat:10,activeTime:7,stepCount:4,
-    components:[
-      {name:"Ground Turkey (93% lean)",type:"Protein",cal:175,p:28,c:0,f:7,grams:142,weighRaw:true,unit:"g"},
-      {name:"Gochujang Sauce (bottled)",type:"Sauce",cal:40,p:1,c:8,f:0,grams:30,weighRaw:false,unit:"ml"},
-      {name:"Soy Sauce",type:"Sauce",cal:13,p:2,c:1,f:0,grams:8,weighRaw:false,unit:"ml"},
-      {name:"Honey (squeeze bottle)",type:"Sweetener",cal:30,p:0,c:8,f:0,grams:10,weighRaw:false,unit:"ml"},
-      {name:"White Rice Pouch (Uncle Ben's)",type:"Carb",cal:260,p:6,c:56,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Frozen Broccoli (steam-bag)",type:"Veg",cal:35,p:3,c:6,f:0.5,grams:85,weighRaw:false},
-    ],
-    toppings:[{name:"Sesame Seeds",info:"1 tsp = 17 cal · 0.5g P"},{name:"Green Onion",info:"1 tbsp = 2 cal"}],
-    steps:["Heat a skillet over medium-high heat. Add ground turkey, break apart with a spoon. Cook 5-6 minutes until cooked through.","In a small bowl, mix gochujang, soy sauce, and honey. Pour over turkey and stir well. Cook 1 minute more.","Microwave rice 90 sec + steam-bag broccoli 3 min. Build bowl with rice, top with spicy turkey, broccoli on side. Sesame & onion on top."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:120,name:"Turkey Pasta Marinara Skillet",emoji:"🍝",method:"Skillet",type:"fresh",ezLevel:2,spiceLevel:0,
-    tags:["High Protein","Italian-Inspired","Saucy","Comfort Food","Lean"],
-    mealType:"Lunch/Dinner",
-    cal:480,protein:42,carbs:54,fat:10,activeTime:7,stepCount:4,
-    components:[
-      {name:"Ground Turkey (93% lean)",type:"Protein",cal:175,p:28,c:0,f:7,grams:142,weighRaw:true,unit:"g"},
-      {name:"Rao's Marinara Sauce (bottled)",type:"Sauce",cal:70,p:2,c:10,f:3,grams:100,weighRaw:false,unit:"ml"},
-      {name:"Pasta Cup (microwave)",type:"Carb",cal:220,p:8,c:44,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Frozen Spinach (microwave)",type:"Veg",cal:30,p:4,c:4,f:0,grams:85,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Mozzarella Cheese",info:"¼ cup = 90 cal · 7g P"},{name:"Parmesan",info:"1 tbsp = 22 cal"}],
-    steps:["Heat a skillet over medium-high. Add ground turkey, break apart. Cook 5 minutes until cooked through.","Add marinara sauce to turkey. Stir and simmer 2 minutes.","Microwave pasta cup per package (usually 1.5 min) + microwave spinach 2 min. Combine pasta and turkey sauce on plate. Spinach on side. Cheese on top."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:121,name:"Turkey Taco Tortilla Skillet",emoji:"🌮",method:"Skillet",type:"fresh",ezLevel:1,spiceLevel:1,
-    tags:["High Protein","Neutral","Quick","Handheld","Lean"],
-    mealType:"Lunch/Dinner",
-    cal:460,protein:41,carbs:48,fat:11,activeTime:6,stepCount:3,
-    components:[
-      {name:"Ground Turkey (93% lean)",type:"Protein",cal:175,p:28,c:0,f:7,grams:142,weighRaw:true,unit:"g"},
-      {name:"Taco Seasoning (packet)",type:"Seasoning",cal:35,p:1,c:6,f:0,grams:12,weighRaw:false,unit:"g"},
-      {name:"Corn Tortillas (2, warmed)",type:"Carb",cal:104,p:3,c:17,f:1,grams:52,weighRaw:false,unit:"g"},
-      {name:"Frozen Mixed Veg (steam-bag)",type:"Veg",cal:65,p:3,c:13,f:0,grams:85,weighRaw:false,unit:"g"},
-    ],
-    toppings:[{name:"Shredded Cheddar",info:"¼ cup = 110 cal · 7g P"},{name:"Salsa (bottled)",info:"2 tbsp = 10 cal"},{name:"Sour Cream",info:"1 tbsp = 30 cal"}],
-    steps:["Heat a skillet over medium-high. Add ground turkey and break apart. Cook 5 minutes until cooked through.","Sprinkle taco seasoning over turkey and add 2 tbsp water. Stir and simmer 1 minute.","Heat tortillas in a dry pan 30 sec per side. Microwave veg 3 min. Build tacos with turkey. Toppings on the side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:122,name:"Creamy Turkey Mushroom Skillet",emoji:"🍄",method:"Skillet",type:"fresh",ezLevel:2,spiceLevel:0,
-    tags:["High Protein","Saucy","Comfort Food","Creamy","Lean"],
-    mealType:"Lunch/Dinner",
-    cal:500,protein:44,carbs:50,fat:12,activeTime:7,stepCount:4,
-    components:[
-      {name:"Ground Turkey (93% lean)",type:"Protein",cal:175,p:28,c:0,f:7,grams:142,weighRaw:true,unit:"g"},
-      {name:"Beef Stroganoff Sauce Mix (powder)",type:"Sauce",cal:40,p:1,c:7,f:1,grams:20,weighRaw:false,unit:"ml"},
-      {name:"Sour Cream",type:"Fat/Sauce",cal:90,p:1,c:1,f:9,grams:60,weighRaw:false,unit:"ml"},
-      {name:"Egg Noodles (microwave cup)",type:"Carb",cal:220,p:7,c:42,f:1,grams:200,weighRaw:false,unit:"count"},
-      {name:"Frozen Broccoli (steam-bag)",type:"Veg",cal:35,p:3,c:6,f:0.5,grams:85,weighRaw:false},
-    ],
-    toppings:[{name:"Parmesan",info:"1 tbsp = 22 cal"},{name:"Fresh Dill (if available)",info:"5 sprigs = 1 cal"}],
-    steps:["Heat a skillet over medium-high. Add ground turkey and break apart. Cook 5 minutes until cooked through.","Mix stroganoff sauce powder with ½ cup water per package, then add to turkey. Simmer 2 minutes. Remove from heat and stir in sour cream.","Microwave egg noodles per package + microwave broccoli 3 min. Combine noodles with turkey stroganoff on plate. Broccoli on side."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
-
-  {id:123,name:"Teriyaki Turkey Broccoli Bowl",emoji:"🥦",method:"Skillet",type:"fresh",ezLevel:1,spiceLevel:0,
-    tags:["High Protein","Asian-Inspired","Quick","Neutral","Lean"],
-    mealType:"Lunch/Dinner",
-    cal:470,protein:45,carbs:50,fat:8,activeTime:6,stepCount:3,
-    components:[
-      {name:"Ground Turkey (93% lean)",type:"Protein",cal:175,p:28,c:0,f:7,grams:142,weighRaw:true,unit:"g"},
-      {name:"Teriyaki Sauce (Kikkoman bottle)",type:"Sauce",cal:40,p:1,c:9,f:0,grams:30,weighRaw:false,unit:"ml"},
-      {name:"White Rice Pouch (Uncle Ben's)",type:"Carb",cal:260,p:6,c:56,f:1,grams:200,weighRaw:false,unit:"g"},
-      {name:"Frozen Broccoli (steam-bag)",type:"Veg",cal:35,p:3,c:6,f:0.5,grams:85,weighRaw:false},
-    ],
-    toppings:[{name:"Sesame Seeds",info:"1 tsp = 17 cal · 0.5g P"},{name:"Green Onion",info:"1 tbsp = 2 cal"}],
-    steps:["Heat a skillet over medium-high heat. Add ground turkey and break apart. Cook 5 minutes until cooked through.","Drizzle teriyaki sauce over turkey and stir well. Cook 1 minute more.","Microwave rice 90 sec + steam-bag broccoli 3 min. Build bowl with rice, top with turkey, broccoli on side. Toppings on top."],
-    ezChecks:{stepsOk:true,noKnifeWork:true,microwaveCarbs:true,bottledSauces:true,noPeeling:true,noScratchSauce:true}},
+  {
+    "id": 1,
+    "name": "Teriyaki Cod Bowl",
+    "emoji": "🐟",
+    "method": "Bake",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "fish"
+    ],
+    "flavor": "asian",
+    "activeTime": 3,
+    "components": [
+      {
+        "name": "Cod Fillet",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Teriyaki Sauce (Kikkoman bottle)",
+        "quantity": 30,
+        "unit": "ml"
+      },
+      {
+        "name": "White Rice Pouch (Uncle Ben's)",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Green Beans (steam-bag frozen)",
+        "quantity": 85,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Sesame Seeds",
+      "Sriracha"
+    ],
+    "instructions": [
+      "Pat cod dry with paper towels. Place on foil-lined baking sheet. Drizzle teriyaki sauce over the fish.",
+      "Bake at 425°F for 12–14 minutes until the fish flakes easily with a fork.",
+      "While the oven heats, microwave rice pouch for 90 seconds. Microwave green beans steam-bag for 3 minutes. Arrange rice on a plate, top with cod, and add green beans to the side."
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Spicy Asian Cod Bowl",
+    "emoji": "🌶️",
+    "method": "Bake",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "fish"
+    ],
+    "flavor": "spicy",
+    "activeTime": 5,
+    "components": [
+      {
+        "name": "Cod Fillet",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Soy Sauce + Sriracha",
+        "quantity": 25,
+        "unit": "ml"
+      },
+      {
+        "name": "Garlic Powder (shaker)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "White Rice Pouch",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Green Beans (steam-bag)",
+        "quantity": 85,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Extra Sriracha",
+      "Sesame Seeds"
+    ],
+    "instructions": [
+      "Pat cod dry with paper towel.",
+      "Mix soy sauce + sriracha + a small squeeze of honey in small bowl. Honey rounds the heat and prevents the sauce tasting flat. Brush over cod on foil-lined sheet. Dust with garlic powder.",
+      "Bake 425°F 12–14 min.",
+      "Rest cod 1 min.",
+      "Microwave rice 90 sec + steam-bag beans 3 min. Build bowl — toppings separate."
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Air Fryer Chicken Thighs",
+    "emoji": "🍗",
+    "method": "Air Fryer",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "chicken"
+    ],
+    "flavor": "neutral",
+    "activeTime": 4,
+    "components": [
+      {
+        "name": "Chicken Thighs (boneless, skinless)",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Olive Oil Spray",
+        "quantity": 5,
+        "unit": "spray"
+      },
+      {
+        "name": "Garlic Herb Seasoning (shaker)",
+        "quantity": 3,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Hot Sauce",
+      "Parmesan"
+    ],
+    "instructions": [
+      "Spray chicken with olive oil spray. Shake seasoning over both sides.",
+      "Air fry 400°F for 18–20 min, flip once at 10 min.",
+      "Rest 2 min. Add toppings on the side."
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Maverick Jerk Chicken Bowl",
+    "emoji": "📦",
+    "method": "Microwave",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "chicken"
+    ],
+    "flavor": "spicy",
+    "activeTime": 1,
+    "components": [
+      {
+        "name": "Maverick Foods Jerk Chicken Bowl (9oz)",
+        "quantity": 255,
+        "unit": "each"
+      }
+    ],
+    "toppings": [
+      "Lime Squeeze",
+      "Hot Sauce"
+    ],
+    "instructions": [
+      "Remove lid. Microwave HIGH 3 minutes.",
+      "Rest 1 min. Add toppings to taste."
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Deviled Eggs",
+    "emoji": "🥚",
+    "method": "No Cook",
+    "mealType": "snack",
+    "proteins": [
+      "eggs"
+    ],
+    "flavor": "neutral",
+    "activeTime": 5,
+    "components": [
+      {
+        "name": "Pre-Boiled Eggs",
+        "quantity": 150,
+        "unit": "count"
+      },
+      {
+        "name": "Hellmann's Light Mayo",
+        "quantity": 15,
+        "unit": "g"
+      },
+      {
+        "name": "Yellow Mustard (squeeze bottle)",
+        "quantity": 5,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Paprika (shaker)",
+      "Pickle Relish"
+    ],
+    "instructions": [
+      "Halve pre-boiled eggs lengthwise. Pop yolks into bowl.",
+      "Mash yolks with mayo + mustard until smooth.",
+      "Fill whites. Shake paprika on top."
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Slow Cooker Beef Rice Bowl",
+    "emoji": "🥩",
+    "method": "Slow Cooker",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "beef"
+    ],
+    "flavor": "neutral",
+    "activeTime": 5,
+    "components": [
+      {
+        "name": "Ground Beef (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Canned Diced Tomatoes",
+        "quantity": 120,
+        "unit": "ml"
+      },
+      {
+        "name": "Rice Pouch (Uncle Ben's)",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Mixed Veg (steam-bag)",
+        "quantity": 75,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Shredded Cheddar",
+      "Sour Cream",
+      "Hot Sauce"
+    ],
+    "instructions": [
+      "Add beef + canned tomatoes to slow cooker. Break up beef roughly.",
+      "Cook HIGH 2 hrs or LOW 4 hrs.",
+      "Microwave rice 90 sec + steam-bag veg 3 min.",
+      "Build bowl. Toppings on the side."
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Sheet Pan Turkey Meatballs",
+    "emoji": "🧆",
+    "method": "Bake",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "turkey",
+      "eggs"
+    ],
+    "flavor": "italian",
+    "activeTime": 8,
+    "components": [
+      {
+        "name": "Ground Turkey (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Panko Breadcrumbs",
+        "quantity": 20,
+        "unit": "g"
+      },
+      {
+        "name": "Egg White (carton pour)",
+        "quantity": 30,
+        "unit": "count"
+      }
+    ],
+    "toppings": [
+      "Rao's Marinara",
+      "Shredded Mozzarella"
+    ],
+    "instructions": [
+      "Mix turkey, breadcrumbs, egg white carton pour, and Italian seasoning shaker in bowl.",
+      "Roll into ~1.5-inch balls onto foil-lined baking sheet.",
+      "Bake 400°F for 18–20 min.",
+      "Add sauce and cheese as separate toppings."
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Salmon Lemon Herb Bake",
+    "emoji": "🐠",
+    "method": "Bake",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "fish"
+    ],
+    "flavor": "neutral",
+    "activeTime": 3,
+    "components": [
+      {
+        "name": "Salmon Fillet",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Olive Oil Spray",
+        "quantity": 4,
+        "unit": "spray"
+      },
+      {
+        "name": "Lemon Pepper Seasoning (shaker)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Broccoli (steam-bag)",
+        "quantity": 100,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Lemon Squeeze",
+      "Hot Sauce"
+    ],
+    "instructions": [
+      "Place salmon skin-down on foil-lined sheet. Spray with oil, shake seasoning on top.",
+      "Bake 425°F for 12–14 min.",
+      "Microwave steam-bag broccoli 4 min. Plate together — toppings separate."
+    ]
+  },
+  {
+    "id": 9,
+    "name": "Greek Yogurt Power Bowl",
+    "emoji": "🥣",
+    "method": "No Cook",
+    "mealType": "breakfast",
+    "proteins": [
+      "dairy"
+    ],
+    "flavor": "neutral",
+    "activeTime": 2,
+    "components": [
+      {
+        "name": "Fage 0% Greek Yogurt",
+        "quantity": 200,
+        "unit": "ml"
+      },
+      {
+        "name": "Honey (squeeze bottle)",
+        "quantity": 20,
+        "unit": "ml"
+      },
+      {
+        "name": "Frozen Blueberries (thawed)",
+        "quantity": 75,
+        "unit": "g"
+      },
+      {
+        "name": "Vanilla Whey Protein (1 scoop)",
+        "quantity": 30,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Granola (2 tbsp)",
+      "Chia Seeds (1 tsp)"
+    ],
+    "instructions": [
+      "Mix protein powder into yogurt with a spoon until smooth.",
+      "Spoon blueberries over top. Drizzle honey. Add toppings to taste."
+    ]
+  },
+  {
+    "id": 10,
+    "name": "Egg White Scramble",
+    "emoji": "🍳",
+    "method": "Stovetop",
+    "mealType": "breakfast",
+    "proteins": [
+      "eggs"
+    ],
+    "flavor": "neutral",
+    "activeTime": 5,
+    "components": [
+      {
+        "name": "Egg White Carton (liquid)",
+        "quantity": 240,
+        "unit": "count"
+      },
+      {
+        "name": "Shredded Cheddar (bagged)",
+        "quantity": 28,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Spinach (microwave bag)",
+        "quantity": 85,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Hot Sauce",
+      "Everything Bagel Seasoning"
+    ],
+    "instructions": [
+      "Microwave spinach bag 2 min. Squeeze out excess water.",
+      "Spray pan with cooking spray on medium heat. Pour in egg whites + spinach. Scramble until just set.",
+      "Top with cheese. Slide onto plate — hot sauce on the side."
+    ]
+  },
+  {
+    "id": 11,
+    "name": "Kodiak Protein Pancakes",
+    "emoji": "🥞",
+    "method": "Stovetop",
+    "mealType": "breakfast",
+    "proteins": [
+      "eggs"
+    ],
+    "flavor": "neutral",
+    "activeTime": 8,
+    "components": [
+      {
+        "name": "Kodiak Cakes Mix (dry 1 cup)",
+        "quantity": 100,
+        "unit": "g"
+      },
+      {
+        "name": "Whole Egg",
+        "quantity": 50,
+        "unit": "count"
+      },
+      {
+        "name": "Almond Milk (unsweetened)",
+        "quantity": 240,
+        "unit": "ml"
+      },
+      {
+        "name": "Honey (squeeze bottle)",
+        "quantity": 10,
+        "unit": "ml"
+      }
+    ],
+    "toppings": [
+      "Allulose Syrup",
+      "Nut Butter (1 tbsp)"
+    ],
+    "instructions": [
+      "Mix Kodiak mix + egg + almond milk + honey in bowl until smooth.",
+      "Spray skillet and heat medium. Pour ⅓ cup batter per pancake. Cook 2 min per side.",
+      "Stack on plate — syrup on the side."
+    ]
+  },
+  {
+    "id": 12,
+    "name": "PB Banana Protein Shake",
+    "emoji": "🍌",
+    "method": "No Cook",
+    "mealType": "breakfast",
+    "proteins": [
+      "protein_powder"
+    ],
+    "flavor": "neutral",
+    "activeTime": 2,
+    "components": [
+      {
+        "name": "Chocolate Protein Powder (1 scoop)",
+        "quantity": 30,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Banana (medium)",
+        "quantity": 100,
+        "unit": "g"
+      },
+      {
+        "name": "PB2 Powder (2 tbsp)",
+        "quantity": 16,
+        "unit": "g"
+      },
+      {
+        "name": "Almond Milk (unsweetened)",
+        "quantity": 240,
+        "unit": "ml"
+      },
+      {
+        "name": "Ice Cubes",
+        "quantity": 100,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Extra PB2 on top",
+      "Cocoa Nibs"
+    ],
+    "instructions": [
+      "Add protein powder, frozen banana, PB2, and almond milk to blender.",
+      "Pulse until smooth. Add ice and blend again. Pour into glass."
+    ]
+  },
+  {
+    "id": 13,
+    "name": "Smoked Salmon Bagel",
+    "emoji": "🍣",
+    "method": "No Cook",
+    "mealType": "breakfast",
+    "proteins": [
+      "fish"
+    ],
+    "flavor": "neutral",
+    "activeTime": 3,
+    "components": [
+      {
+        "name": "Bagel Thin",
+        "quantity": 45,
+        "unit": "g"
+      },
+      {
+        "name": "Light Cream Cheese (2 tbsp)",
+        "quantity": 30,
+        "unit": "ml"
+      },
+      {
+        "name": "Smoked Salmon (sliced)",
+        "quantity": 100,
+        "unit": "g"
+      },
+      {
+        "name": "Capers (drained)",
+        "quantity": 10,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Lemon Squeeze",
+      "Dill (fresh or dried)"
+    ],
+    "instructions": [
+      "Toast bagel thin. Spread cream cheese evenly.",
+      "Layer smoked salmon + capers. Squeeze lemon over top."
+    ]
+  },
+  {
+    "id": 14,
+    "name": "Cottage Cheese Toast",
+    "emoji": "🧀",
+    "method": "No Cook",
+    "mealType": "breakfast",
+    "proteins": [
+      "dairy"
+    ],
+    "flavor": "neutral",
+    "activeTime": 3,
+    "components": [
+      {
+        "name": "Whole Grain Toast (2 slices)",
+        "quantity": 60,
+        "unit": "g"
+      },
+      {
+        "name": "Good Culture Cottage Cheese",
+        "quantity": 112,
+        "unit": "g"
+      },
+      {
+        "name": "Everything Bagel Seasoning",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "Honey (squeeze bottle)",
+        "quantity": 12,
+        "unit": "ml"
+      }
+    ],
+    "toppings": [
+      "Black Pepper",
+      "Red Pepper Flakes"
+    ],
+    "instructions": [
+      "Toast bread until golden. Spread cottage cheese on each slice.",
+      "Sprinkle everything seasoning, drizzle honey, season with pepper."
+    ]
+  },
+  {
+    "id": 15,
+    "name": "Protein Overnight Oats",
+    "emoji": "🥣",
+    "method": "No Cook",
+    "mealType": "breakfast",
+    "proteins": [
+      "dairy",
+      "protein_powder"
+    ],
+    "flavor": "neutral",
+    "activeTime": 3,
+    "components": [
+      {
+        "name": "Rolled Oats (dry ½ cup)",
+        "quantity": 45,
+        "unit": "g"
+      },
+      {
+        "name": "Fage 0% Greek Yogurt",
+        "quantity": 170,
+        "unit": "ml"
+      },
+      {
+        "name": "Chocolate Protein Powder (1 scoop)",
+        "quantity": 30,
+        "unit": "g"
+      },
+      {
+        "name": "Almond Milk (unsweetened)",
+        "quantity": 120,
+        "unit": "ml"
+      },
+      {
+        "name": "Honey (1 tsp)",
+        "quantity": 7,
+        "unit": "ml"
+      }
+    ],
+    "toppings": [
+      "Frozen Blueberries",
+      "Chia Seeds"
+    ],
+    "instructions": [
+      "Mix oats, yogurt, protein powder, almond milk, honey in container.",
+      "Refrigerate overnight. Stir before eating. Top with berries and seeds."
+    ]
+  },
+  {
+    "id": 16,
+    "name": "Scrambled Eggs & Turkey Sausage",
+    "emoji": "🍳",
+    "method": "Stovetop",
+    "mealType": "breakfast",
+    "proteins": [
+      "eggs",
+      "turkey"
+    ],
+    "flavor": "neutral",
+    "activeTime": 6,
+    "components": [
+      {
+        "name": "Whole Eggs (3 large)",
+        "quantity": 150,
+        "unit": "count"
+      },
+      {
+        "name": "Turkey Sausage Links (pre-cooked, microwave)",
+        "quantity": 56,
+        "unit": "g"
+      },
+      {
+        "name": "Shredded Cheddar (bagged)",
+        "quantity": 28,
+        "unit": "g"
+      },
+      {
+        "name": "Butter (for pan)",
+        "quantity": 5,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Black Pepper",
+      "Hot Sauce"
+    ],
+    "instructions": [
+      "Microwave turkey sausage 90 sec per package. Heat butter in skillet over medium.",
+      "Whisk eggs, pour into skillet. Scramble until just set (~3 min).",
+      "Top with cheddar. Chop sausage on the side."
+    ]
+  },
+  {
+    "id": 17,
+    "name": "High Protein Bagel",
+    "emoji": "🛡️",
+    "method": "No Cook",
+    "mealType": "breakfast",
+    "proteins": [
+      "turkey",
+      "dairy"
+    ],
+    "flavor": "neutral",
+    "activeTime": 3,
+    "components": [
+      {
+        "name": "Everything Bagel Thin",
+        "quantity": 45,
+        "unit": "g"
+      },
+      {
+        "name": "Deli Turkey (4 slices)",
+        "quantity": 112,
+        "unit": "g"
+      },
+      {
+        "name": "Light Cream Cheese (2 tbsp)",
+        "quantity": 30,
+        "unit": "ml"
+      },
+      {
+        "name": "Fage 0% Greek Yogurt (1 tbsp)",
+        "quantity": 20,
+        "unit": "ml"
+      },
+      {
+        "name": "Whole Grain Mustard (1 tsp)",
+        "quantity": 5,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Lemon Pepper Seasoning",
+      "Cucumber Slices"
+    ],
+    "instructions": [
+      "Toast bagel thin. Mix cream cheese + Greek yogurt spread on both halves.",
+      "Layer turkey + mustard. Squeeze lemon pepper, add cucumber."
+    ]
+  },
+  {
+    "id": 18,
+    "name": "Avocado Egg Toast",
+    "emoji": "🥑",
+    "method": "No Cook",
+    "mealType": "breakfast",
+    "proteins": [
+      "eggs"
+    ],
+    "flavor": "neutral",
+    "activeTime": 3,
+    "components": [
+      {
+        "name": "Whole Grain Toast (2 slices)",
+        "quantity": 60,
+        "unit": "g"
+      },
+      {
+        "name": "Wholly Guac Squeeze Tube (2 tbsp)",
+        "quantity": 56,
+        "unit": "g"
+      },
+      {
+        "name": "Pre-Boiled Eggs (2 large, sliced)",
+        "quantity": 100,
+        "unit": "count"
+      },
+      {
+        "name": "Everything Bagel Seasoning",
+        "quantity": 2,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Red Pepper Flakes",
+      "Lemon Squeeze"
+    ],
+    "instructions": [
+      "Toast bread. Squeeze guac evenly on both slices.",
+      "Top with sliced eggs. Season with everything bagel seasoning + pepper flakes."
+    ]
+  },
+  {
+    "id": 19,
+    "name": "Greek Yogurt Parfait",
+    "emoji": "🍨",
+    "method": "No Cook",
+    "mealType": "breakfast",
+    "proteins": [
+      "dairy"
+    ],
+    "flavor": "neutral",
+    "activeTime": 2,
+    "components": [
+      {
+        "name": "Fage 0% Greek Yogurt",
+        "quantity": 200,
+        "unit": "ml"
+      },
+      {
+        "name": "Frozen Mixed Berries (thawed)",
+        "quantity": 100,
+        "unit": "g"
+      },
+      {
+        "name": "Granola (low-sugar 2 tbsp)",
+        "quantity": 20,
+        "unit": "g"
+      },
+      {
+        "name": "Honey (1 tsp)",
+        "quantity": 7,
+        "unit": "ml"
+      }
+    ],
+    "toppings": [
+      "Chia Seeds",
+      "Flax Seeds"
+    ],
+    "instructions": [
+      "Thaw berries 2 min if needed. Spoon yogurt into bowl.",
+      "Layer berries, granola, honey. Top with seeds."
+    ]
+  },
+  {
+    "id": 20,
+    "name": "Microwave Egg Mug",
+    "emoji": "☕",
+    "method": "Microwave",
+    "mealType": "breakfast",
+    "proteins": [
+      "eggs"
+    ],
+    "flavor": "neutral",
+    "activeTime": 3,
+    "components": [
+      {
+        "name": "Egg Whites (carton, ¾ cup)",
+        "quantity": 180,
+        "unit": "count"
+      },
+      {
+        "name": "Whole Egg (1 large)",
+        "quantity": 50,
+        "unit": "count"
+      },
+      {
+        "name": "Shredded Cheddar (bagged ¼ cup)",
+        "quantity": 28,
+        "unit": "g"
+      },
+      {
+        "name": "Salsa (fresh or jarred 2 tbsp)",
+        "quantity": 32,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Hot Sauce",
+      "Chives (dried pinch)"
+    ],
+    "instructions": [
+      "Whisk egg whites + whole egg in microwave-safe mug. Add cheese + salsa. Stir.",
+      "Microwave 90 sec. Stir. Microwave 30 sec more until set."
+    ]
+  },
+  {
+    "id": 21,
+    "name": "Buffalo Chicken Rice Bowl",
+    "emoji": "🔥",
+    "method": "Air Fryer",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "chicken"
+    ],
+    "flavor": "spicy",
+    "activeTime": 4,
+    "components": [
+      {
+        "name": "Chicken Breast (boneless, skinless)",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Frank's RedHot Sauce (3 tbsp)",
+        "quantity": 45,
+        "unit": "ml"
+      },
+      {
+        "name": "White Rice Pouch (Uncle Ben's)",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Broccoli (steam-bag)",
+        "quantity": 100,
+        "unit": "g"
+      },
+      {
+        "name": "Butter (to coat)",
+        "quantity": 3,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Blue Cheese Crumbles",
+      "Celery Powder"
+    ],
+    "instructions": [
+      "Spray chicken with butter. Air fry 400°F for 16–18 min, shaking halfway.",
+      "Microwave rice 90 sec. Microwave broccoli 3 min. Toss chicken in Frank's.",
+      "Build bowl — toppings separate."
+    ]
+  },
+  {
+    "id": 22,
+    "name": "BBQ Chicken Rice Bowl",
+    "emoji": "🍖",
+    "method": "Air Fryer",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "chicken"
+    ],
+    "flavor": "neutral",
+    "activeTime": 4,
+    "components": [
+      {
+        "name": "Chicken Thighs (boneless, skinless)",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Sweet Baby Ray's BBQ Sauce (3 tbsp)",
+        "quantity": 51,
+        "unit": "ml"
+      },
+      {
+        "name": "White Rice Pouch",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Olive Oil Spray",
+        "quantity": 3,
+        "unit": "spray"
+      }
+    ],
+    "toppings": [
+      "Corn (frozen, thawed)",
+      "Red Onion (powder)"
+    ],
+    "instructions": [
+      "Spray chicken with olive oil. Air fry 400°F for 18–20 min, shaking at 10 min.",
+      "Microwave rice 90 sec. Brush BBQ sauce on cooked chicken.",
+      "Build bowl — extra sauce on the side."
+    ]
+  },
+  {
+    "id": 23,
+    "name": "Canned Chicken Rice Bowl",
+    "emoji": "🥫",
+    "method": "No Cook",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "chicken"
+    ],
+    "flavor": "neutral",
+    "activeTime": 2,
+    "components": [
+      {
+        "name": "Canned Chicken (drained, 5 oz)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Low-Sodium Soy Sauce (1 tbsp)",
+        "quantity": 15,
+        "unit": "ml"
+      },
+      {
+        "name": "Garlic Powder (1 tsp)",
+        "quantity": 3,
+        "unit": "g"
+      },
+      {
+        "name": "White Rice Pouch",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Mixed Veg (microwave bag)",
+        "quantity": 85,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Sesame Seeds",
+      "Sriracha"
+    ],
+    "instructions": [
+      "Microwave rice 90 sec. Microwave frozen veg 3 min.",
+      "Mix canned chicken with soy sauce + garlic powder. Build bowl — toppings on side."
+    ]
+  },
+  {
+    "id": 24,
+    "name": "Rotisserie Chicken Bowl",
+    "emoji": "🍗",
+    "method": "No Cook",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "chicken"
+    ],
+    "flavor": "spicy",
+    "activeTime": 3,
+    "components": [
+      {
+        "name": "Rotisserie Chicken (pre-shredded, 6 oz)",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "White Rice Pouch",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Broccoli (steam-bag)",
+        "quantity": 100,
+        "unit": "g"
+      },
+      {
+        "name": "Hot Sauce (Frank's, 1 tbsp)",
+        "quantity": 15,
+        "unit": "ml"
+      }
+    ],
+    "toppings": [
+      "Lime Squeeze",
+      "Cilantro (fresh or dried)"
+    ],
+    "instructions": [
+      "Microwave rice 90 sec. Microwave broccoli 3 min. Heat rotisserie chicken 60 sec in microwave if cold.",
+      "Mix chicken with hot sauce. Build bowl — toppings separate."
+    ]
+  },
+  {
+    "id": 25,
+    "name": "Salmon Poke Bowl",
+    "emoji": "🍣",
+    "method": "No Cook",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "fish"
+    ],
+    "flavor": "neutral",
+    "activeTime": 3,
+    "components": [
+      {
+        "name": "Smoked Salmon Pouch (drained, 6 oz)",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "White Rice Pouch",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Kewpie Mayo (2 tbsp)",
+        "quantity": 30,
+        "unit": "g"
+      },
+      {
+        "name": "Low-Sodium Soy Sauce (1 tbsp)",
+        "quantity": 15,
+        "unit": "ml"
+      },
+      {
+        "name": "Frozen Edamame (steam-bag)",
+        "quantity": 113,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Sesame Seeds",
+      "Nori Strips"
+    ],
+    "instructions": [
+      "Microwave rice 90 sec. Microwave edamame 3 min. Thaw salmon 1 min if frozen.",
+      "Mix mayo + soy sauce. Build bowl with salmon on rice. Toppings separate."
+    ]
+  },
+  {
+    "id": 26,
+    "name": "Honey Garlic Cod Bowl",
+    "emoji": "🐟",
+    "method": "Bake",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "fish"
+    ],
+    "flavor": "neutral",
+    "activeTime": 4,
+    "components": [
+      {
+        "name": "Cod Fillet",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Honey (1 tbsp)",
+        "quantity": 20,
+        "unit": "ml"
+      },
+      {
+        "name": "Garlic Powder (½ tsp)",
+        "quantity": 1.5,
+        "unit": "g"
+      },
+      {
+        "name": "Low-Sodium Soy Sauce (1 tbsp)",
+        "quantity": 15,
+        "unit": "ml"
+      },
+      {
+        "name": "White Rice Pouch",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Green Beans (steam-bag)",
+        "quantity": 75,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Sesame Oil Drizzle",
+      "Green Onion (dried)"
+    ],
+    "instructions": [
+      "Mix honey + soy sauce + garlic powder. Place cod on foil. Drizzle sauce over top.",
+      "Bake 425°F for 12–14 min. Microwave rice 90 sec + green beans 3 min.",
+      "Build bowl — toppings separate."
+    ]
+  },
+  {
+    "id": 27,
+    "name": "Ground Beef Taco Bowl",
+    "emoji": "🌮",
+    "method": "Stovetop",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "beef"
+    ],
+    "flavor": "spicy",
+    "activeTime": 8,
+    "components": [
+      {
+        "name": "Ground Beef (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Old El Paso Taco Seasoning (1 packet)",
+        "quantity": 25,
+        "unit": "g"
+      },
+      {
+        "name": "Water (¼ cup)",
+        "quantity": 60,
+        "unit": "g"
+      },
+      {
+        "name": "White Rice Pouch",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Canned Black Beans (½ can, drained)",
+        "quantity": 135,
+        "unit": "g"
+      },
+      {
+        "name": "Olive Oil (½ tbsp)",
+        "quantity": 7.5,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Shredded Cheddar",
+      "Salsa (fresh)"
+    ],
+    "instructions": [
+      "Heat oil in skillet over medium-high. Brown beef 4–5 min, breaking it up as it cooks.",
+      "Add taco seasoning + water. Simmer 2 min. Microwave rice 90 sec + beans 60 sec.",
+      "Build bowl — toppings on side."
+    ]
+  },
+  {
+    "id": 28,
+    "name": "Pork Tenderloin Bowl",
+    "emoji": "🐷",
+    "method": "Air Fryer",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "pork"
+    ],
+    "flavor": "neutral",
+    "activeTime": 6,
+    "components": [
+      {
+        "name": "Pork Tenderloin",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Italian Herb Seasoning (1 tbsp)",
+        "quantity": 3,
+        "unit": "g"
+      },
+      {
+        "name": "Olive Oil Spray",
+        "quantity": 3,
+        "unit": "spray"
+      },
+      {
+        "name": "White Rice Pouch",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Mixed Veg (microwave bag)",
+        "quantity": 85,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Lemon Squeeze",
+      "Black Pepper"
+    ],
+    "instructions": [
+      "Spray pork with oil. Coat evenly with Italian seasoning.",
+      "Air fry 400°F for 16–18 min, shaking at 9 min. Rest 2 min. Slice.",
+      "Microwave rice 90 sec + veg 3 min. Build bowl."
+    ]
+  },
+  {
+    "id": 29,
+    "name": "Lemon Pepper Shrimp Bowl",
+    "emoji": "🦐",
+    "method": "Air Fryer",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "fish"
+    ],
+    "flavor": "neutral",
+    "activeTime": 5,
+    "components": [
+      {
+        "name": "Frozen Shrimp (16/20 count, thawed)",
+        "quantity": 150,
+        "unit": "g"
+      },
+      {
+        "name": "Lemon Pepper Seasoning (1 tsp)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "Olive Oil Spray",
+        "quantity": 3,
+        "unit": "spray"
+      },
+      {
+        "name": "White Rice Pouch",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Broccoli (steam-bag)",
+        "quantity": 100,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Lemon Squeeze",
+      "Parmesan"
+    ],
+    "instructions": [
+      "Pat shrimp dry. Spray with oil + season with lemon pepper.",
+      "Air fry 380°F for 8–10 min, shaking halfway. Microwave rice 90 sec + broccoli 3 min.",
+      "Build bowl — toppings separate."
+    ]
+  },
+  {
+    "id": 30,
+    "name": "Greek Chicken Bowl",
+    "emoji": "🇬🇷",
+    "method": "Air Fryer",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "chicken"
+    ],
+    "flavor": "mediterranean",
+    "activeTime": 6,
+    "components": [
+      {
+        "name": "Chicken Thighs (boneless, skinless)",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Cavender's Greek Seasoning (1½ tsp)",
+        "quantity": 4,
+        "unit": "g"
+      },
+      {
+        "name": "Olive Oil Spray",
+        "quantity": 3,
+        "unit": "spray"
+      },
+      {
+        "name": "White Rice Pouch",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Store-Bought Tzatziki (3 tbsp)",
+        "quantity": 45,
+        "unit": "ml"
+      }
+    ],
+    "toppings": [
+      "Feta Crumbles",
+      "Kalamata Olives"
+    ],
+    "instructions": [
+      "Spray chicken with oil. Dust evenly with Greek seasoning.",
+      "Air fry 400°F for 18–20 min, shaking at 10 min. Microwave rice 90 sec.",
+      "Build bowl with tzatziki drizzled on chicken. Toppings on side."
+    ]
+  },
+  {
+    "id": 31,
+    "name": "Slow Cooker Chicken Thighs",
+    "emoji": "🍗",
+    "method": "Slow Cooker",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "chicken"
+    ],
+    "flavor": "neutral",
+    "activeTime": 5,
+    "components": [
+      {
+        "name": "Chicken Thighs (boneless, skinless, 6 oz)",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Low-Sodium Chicken Broth (1 cup)",
+        "quantity": 240,
+        "unit": "g"
+      },
+      {
+        "name": "Italian Herb Seasoning (1 tbsp)",
+        "quantity": 3,
+        "unit": "g"
+      },
+      {
+        "name": "Garlic Powder (½ tsp)",
+        "quantity": 1.5,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Hot Sauce",
+      "Parmesan"
+    ],
+    "instructions": [
+      "Add chicken, broth, and seasonings to slow cooker.",
+      "Cook LOW 6–7 hrs or HIGH 3–4 hrs. Shred chicken. Serve with toppings on side."
+    ]
+  },
+  {
+    "id": 32,
+    "name": "Tuna Pasta Salad",
+    "emoji": "🍝",
+    "method": "No Cook",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "plant",
+      "fish"
+    ],
+    "flavor": "neutral",
+    "activeTime": 4,
+    "components": [
+      {
+        "name": "Banza Chickpea Pasta (cooked, 1.5 cups)",
+        "quantity": 210,
+        "unit": "g"
+      },
+      {
+        "name": "Canned Tuna in Water (drained, 5 oz)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Light Mayo (2 tbsp)",
+        "quantity": 30,
+        "unit": "g"
+      },
+      {
+        "name": "Yellow Mustard (2 tsp)",
+        "quantity": 10,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Celery Powder",
+      "Black Pepper"
+    ],
+    "instructions": [
+      "Combine cooked pasta + drained tuna in bowl.",
+      "Mix mayo + mustard. Fold into pasta. Season to taste."
+    ]
+  },
+  {
+    "id": 33,
+    "name": "Black Bean Quesadilla",
+    "emoji": "🌯",
+    "method": "Stovetop",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "plant"
+    ],
+    "flavor": "mexican",
+    "activeTime": 8,
+    "components": [
+      {
+        "name": "Flour Tortillas (2 large)",
+        "quantity": 120,
+        "unit": "g"
+      },
+      {
+        "name": "Canned Black Beans (½ can, drained)",
+        "quantity": 135,
+        "unit": "g"
+      },
+      {
+        "name": "Shredded Mexican Cheese (1 cup)",
+        "quantity": 113,
+        "unit": "g"
+      },
+      {
+        "name": "Olive Oil (1 tbsp)",
+        "quantity": 15,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Salsa",
+      "Sour Cream"
+    ],
+    "instructions": [
+      "Heat oil in skillet over medium. Place 1 tortilla down. Spread beans + cheese on half.",
+      "Fold in half. Cook 2 min per side until golden + cheese melts. Repeat with second tortilla.",
+      "Cut into triangles. Toppings on side."
+    ]
+  },
+  {
+    "id": 34,
+    "name": "Microwave Salmon Pouch Bowl",
+    "emoji": "🐟",
+    "method": "Microwave",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "fish"
+    ],
+    "flavor": "neutral",
+    "activeTime": 2,
+    "components": [
+      {
+        "name": "Bumble Bee Salmon Pouch (6 oz)",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "White Rice Pouch (Uncle Ben's)",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Lemon Pepper Seasoning (½ tsp)",
+        "quantity": 1,
+        "unit": "g"
+      },
+      {
+        "name": "Hot Sauce (1 tbsp)",
+        "quantity": 15,
+        "unit": "ml"
+      }
+    ],
+    "toppings": [
+      "Sesame Seeds",
+      "Lime Squeeze"
+    ],
+    "instructions": [
+      "Microwave rice 90 sec. Warm salmon pouch in microwave 60 sec.",
+      "Build bowl. Season salmon with lemon pepper + hot sauce. Toppings separate."
+    ]
+  },
+  {
+    "id": 35,
+    "name": "High Protein Chili",
+    "emoji": "🌶️",
+    "method": "Slow Cooker",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "turkey",
+      "plant"
+    ],
+    "flavor": "spicy",
+    "activeTime": 8,
+    "components": [
+      {
+        "name": "Ground Turkey (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Canned Red Kidney Beans (1 can, drained)",
+        "quantity": 270,
+        "unit": "g"
+      },
+      {
+        "name": "Canned Diced Tomatoes (1 can, undrained)",
+        "quantity": 240,
+        "unit": "ml"
+      },
+      {
+        "name": "McCormick Chili Seasoning Packet",
+        "quantity": 25,
+        "unit": "g"
+      },
+      {
+        "name": "Olive Oil (1 tsp)",
+        "quantity": 5,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Shredded Cheddar",
+      "Sour Cream"
+    ],
+    "instructions": [
+      "Heat oil in skillet. Brown turkey 4–5 min, breaking it up. Transfer to slow cooker.",
+      "Add beans, tomatoes, and chili seasoning. Stir well.",
+      "Cook LOW 5–6 hrs or HIGH 2–3 hrs. Stir occasionally. Top with cheese + sour cream."
+    ]
+  },
+  {
+    "id": 36,
+    "name": "Honey Sriracha Salmon",
+    "emoji": "🔥",
+    "method": "Bake",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "fish"
+    ],
+    "flavor": "spicy",
+    "activeTime": 5,
+    "components": [
+      {
+        "name": "Salmon Fillet",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Sriracha Sauce (2 tbsp)",
+        "quantity": 30,
+        "unit": "ml"
+      },
+      {
+        "name": "Honey (1 tbsp)",
+        "quantity": 20,
+        "unit": "ml"
+      },
+      {
+        "name": "Garlic Powder (½ tsp)",
+        "quantity": 1.5,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Broccoli (steam-bag)",
+        "quantity": 100,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Sesame Oil Drizzle",
+      "Green Onion (dried)"
+    ],
+    "instructions": [
+      "Mix sriracha + honey + garlic powder. Place salmon on foil-lined sheet.",
+      "Brush sauce over salmon. Bake 425°F for 12–14 min. Microwave broccoli 3 min.",
+      "Plate together — extra sauce on side."
+    ]
+  },
+  {
+    "id": 37,
+    "name": "Egg Fried Rice",
+    "emoji": "🍚",
+    "method": "Stovetop",
+    "mealType": "breakfast",
+    "proteins": [
+      "eggs"
+    ],
+    "flavor": "asian",
+    "activeTime": 8,
+    "components": [
+      {
+        "name": "White Rice Pouch (cooked, day-old or microwaved 90 sec + cooled)",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Whole Eggs (3 large, beaten)",
+        "quantity": 150,
+        "unit": "count"
+      },
+      {
+        "name": "Low-Sodium Soy Sauce (1.5 tbsp)",
+        "quantity": 22.5,
+        "unit": "g"
+      },
+      {
+        "name": "Sesame Oil (1 tsp)",
+        "quantity": 5,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Peas (microwave bag, ¾ cup)",
+        "quantity": 100,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Sesame Seeds",
+      "Green Onion (dried)"
+    ],
+    "instructions": [
+      "Heat sesame oil in large skillet over high heat. Scramble eggs 2 min, remove to plate.",
+      "Add rice to skillet, break up clumps. Stir 2 min. Add peas + soy sauce.",
+      "Return eggs to skillet, toss everything 1 min. Toppings on side."
+    ]
+  },
+  {
+    "id": 38,
+    "name": "Chipotle Style Chicken Bowl",
+    "emoji": "🌶️",
+    "method": "Air Fryer",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "chicken",
+      "plant"
+    ],
+    "flavor": "spicy",
+    "activeTime": 6,
+    "components": [
+      {
+        "name": "Chicken Thighs (boneless, skinless)",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Chipotle Seasoning Powder (1 tbsp)",
+        "quantity": 10,
+        "unit": "g"
+      },
+      {
+        "name": "Olive Oil Spray",
+        "quantity": 3,
+        "unit": "spray"
+      },
+      {
+        "name": "White Rice Pouch",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Canned Black Beans (½ can, drained, microwaved)",
+        "quantity": 135,
+        "unit": "g"
+      },
+      {
+        "name": "Salsa (fresh, 3 tbsp)",
+        "quantity": 48,
+        "unit": "ml"
+      }
+    ],
+    "toppings": [
+      "Shredded Cheddar",
+      "Lime Squeeze"
+    ],
+    "instructions": [
+      "Spray chicken with oil. Coat with chipotle seasoning.",
+      "Air fry 400°F for 18–20 min, shaking at 10 min. Microwave rice 90 sec + beans 60 sec.",
+      "Build bowl with salsa drizzled on chicken. Cheese + lime on side."
+    ]
+  },
+  {
+    "id": 39,
+    "name": "Turkey Lettuce Wraps",
+    "emoji": "🥬",
+    "method": "No Cook",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "turkey"
+    ],
+    "flavor": "neutral",
+    "activeTime": 3,
+    "components": [
+      {
+        "name": "Deli Turkey (6 slices)",
+        "quantity": 112,
+        "unit": "g"
+      },
+      {
+        "name": "Romaine Lettuce Leaves (4 large)",
+        "quantity": 100,
+        "unit": "g"
+      },
+      {
+        "name": "Wholly Guac Squeeze Tube (2 tbsp)",
+        "quantity": 56,
+        "unit": "g"
+      },
+      {
+        "name": "Dijon Mustard (1 tbsp)",
+        "quantity": 10,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Lemon Pepper Seasoning",
+      "Red Onion (powder)"
+    ],
+    "instructions": [
+      "Lay lettuce leaves flat. Spread 1 tsp dijon on each.",
+      "Layer turkey on lettuce. Add small squeeze of guac. Roll tightly."
+    ]
+  },
+  {
+    "id": 40,
+    "name": "Teriyaki Salmon Bowl",
+    "emoji": "🐠",
+    "method": "Bake",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "fish"
+    ],
+    "flavor": "asian",
+    "activeTime": 4,
+    "components": [
+      {
+        "name": "Salmon Fillet",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Kikkoman Teriyaki Sauce (3 tbsp)",
+        "quantity": 51,
+        "unit": "g"
+      },
+      {
+        "name": "White Rice Pouch",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Edamame (steam-bag)",
+        "quantity": 113,
+        "unit": "g"
+      },
+      {
+        "name": "Olive Oil Spray",
+        "quantity": 2,
+        "unit": "spray"
+      }
+    ],
+    "toppings": [
+      "Sesame Seeds",
+      "Green Onion (dried)"
+    ],
+    "instructions": [
+      "Spray salmon with oil. Place on foil-lined sheet. Brush teriyaki sauce over top.",
+      "Bake 425°F for 12–14 min. Microwave rice 90 sec + edamame 3 min.",
+      "Build bowl — toppings separate."
+    ]
+  },
+  {
+    "id": 41,
+    "name": "Beef Jerky & Rice Cakes",
+    "emoji": "🍘",
+    "method": "No Cook",
+    "mealType": "snack",
+    "proteins": [
+      "beef"
+    ],
+    "flavor": "neutral",
+    "activeTime": 1,
+    "components": [
+      {
+        "name": "Jack Links Teriyaki Beef Jerky (1 oz)",
+        "quantity": 28,
+        "unit": "g"
+      },
+      {
+        "name": "Plain Rice Cakes (2 large)",
+        "quantity": 14,
+        "unit": "g"
+      },
+      {
+        "name": "Almond Butter Squeeze Pack (1 tbsp)",
+        "quantity": 16,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Honey Drizzle",
+      "Sea Salt"
+    ],
+    "instructions": [
+      "Spread almond butter on rice cakes. Top with beef jerky. Drizzle honey."
+    ]
+  },
+  {
+    "id": 42,
+    "name": "String Cheese & Turkey Roll-Ups",
+    "emoji": "🧀",
+    "method": "No Cook",
+    "mealType": "snack",
+    "proteins": [
+      "turkey"
+    ],
+    "flavor": "neutral",
+    "activeTime": 2,
+    "components": [
+      {
+        "name": "Deli Turkey (4 slices)",
+        "quantity": 75,
+        "unit": "g"
+      },
+      {
+        "name": "Part-Skim String Cheese (1 stick)",
+        "quantity": 28,
+        "unit": "g"
+      },
+      {
+        "name": "Dijon Mustard (2 tsp)",
+        "quantity": 10,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Everything Bagel Seasoning",
+      "Hot Sauce"
+    ],
+    "instructions": [
+      "Spread mustard on turkey slice. Place string cheese stick at edge and roll tightly."
+    ]
+  },
+  {
+    "id": 43,
+    "name": "Cottage Cheese & Pineapple",
+    "emoji": "🍍",
+    "method": "No Cook",
+    "mealType": "snack",
+    "proteins": [
+      "dairy"
+    ],
+    "flavor": "neutral",
+    "activeTime": 2,
+    "components": [
+      {
+        "name": "Good Culture Cottage Cheese",
+        "quantity": 112,
+        "unit": "g"
+      },
+      {
+        "name": "Canned Pineapple Chunks in Juice (drained, ½ cup)",
+        "quantity": 90,
+        "unit": "ml"
+      },
+      {
+        "name": "Honey (1 tsp)",
+        "quantity": 7,
+        "unit": "ml"
+      }
+    ],
+    "toppings": [
+      "Coconut Flakes (unsweetened)",
+      "Chia Seeds"
+    ],
+    "instructions": [
+      "Spoon cottage cheese into bowl. Top with drained pineapple and honey. Add toppings to taste."
+    ]
+  },
+  {
+    "id": 44,
+    "name": "Hard Boiled Eggs with Hot Sauce",
+    "emoji": "🥚",
+    "method": "No Cook",
+    "mealType": "snack",
+    "proteins": [
+      "eggs"
+    ],
+    "flavor": "spicy",
+    "activeTime": 2,
+    "components": [
+      {
+        "name": "Pre-Boiled Eggs (2 large)",
+        "quantity": 100,
+        "unit": "count"
+      },
+      {
+        "name": "Frank's RedHot Sauce (2 tbsp)",
+        "quantity": 30,
+        "unit": "ml"
+      },
+      {
+        "name": "Everything Bagel Seasoning (½ tsp)",
+        "quantity": 1,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Black Pepper",
+      "Sea Salt"
+    ],
+    "instructions": [
+      "Halve pre-boiled eggs. Pour hot sauce over. Sprinkle seasoning on top."
+    ]
+  },
+  {
+    "id": 45,
+    "name": "Sardines on Toast",
+    "emoji": "🐟",
+    "method": "No Cook",
+    "mealType": "snack",
+    "proteins": [
+      "fish"
+    ],
+    "flavor": "neutral",
+    "activeTime": 3,
+    "components": [
+      {
+        "name": "King Oscar Sardines in Olive Oil (1 tin, drained)",
+        "quantity": 85,
+        "unit": "g"
+      },
+      {
+        "name": "Whole Grain Toast (2 slices)",
+        "quantity": 60,
+        "unit": "g"
+      },
+      {
+        "name": "Dijon Mustard (2 tsp)",
+        "quantity": 10,
+        "unit": "g"
+      },
+      {
+        "name": "Lemon Juice (1 tbsp)",
+        "quantity": 15,
+        "unit": "ml"
+      }
+    ],
+    "toppings": [
+      "Capers",
+      "Black Pepper"
+    ],
+    "instructions": [
+      "Toast bread. Spread mustard on both slices.",
+      "Lay sardines on toast. Squeeze lemon + add capers."
+    ]
+  },
+  {
+    "id": 46,
+    "name": "Skyr & Berries",
+    "emoji": "🫐",
+    "method": "No Cook",
+    "mealType": "snack",
+    "proteins": [
+      "dairy"
+    ],
+    "flavor": "neutral",
+    "activeTime": 2,
+    "components": [
+      {
+        "name": "Siggi's Plain Skyr (5.3 oz)",
+        "quantity": 150,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Mixed Berries (thawed, ½ cup)",
+        "quantity": 70,
+        "unit": "g"
+      },
+      {
+        "name": "Honey (1 tsp)",
+        "quantity": 7,
+        "unit": "ml"
+      }
+    ],
+    "toppings": [
+      "Almonds (sliced, 1 tbsp)",
+      "Granola Cluster"
+    ],
+    "instructions": [
+      "Thaw berries 1 min if frozen. Spoon skyr into bowl. Top with berries and honey."
+    ]
+  },
+  {
+    "id": 47,
+    "name": "Chicken & Salsa Wrap",
+    "emoji": "🌯",
+    "method": "No Cook",
+    "mealType": "snack",
+    "proteins": [
+      "chicken"
+    ],
+    "flavor": "spicy",
+    "activeTime": 3,
+    "components": [
+      {
+        "name": "Rotisserie Chicken (pre-shredded, 4 oz)",
+        "quantity": 113,
+        "unit": "g"
+      },
+      {
+        "name": "Flour Tortilla (1 large)",
+        "quantity": 60,
+        "unit": "g"
+      },
+      {
+        "name": "Salsa (fresh, 3 tbsp)",
+        "quantity": 48,
+        "unit": "ml"
+      },
+      {
+        "name": "Shredded Cheddar (¼ cup)",
+        "quantity": 28,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Lime Squeeze",
+      "Cilantro (dried)"
+    ],
+    "instructions": [
+      "Warm tortilla 30 sec in microwave. Spread salsa down center.",
+      "Layer chicken + cheese. Roll tightly. Squeeze lime on top."
+    ]
+  },
+  {
+    "id": 48,
+    "name": "Protein Pudding",
+    "emoji": "🍮",
+    "method": "No Cook",
+    "mealType": "snack",
+    "proteins": [
+      "dairy",
+      "protein_powder"
+    ],
+    "flavor": "neutral",
+    "activeTime": 2,
+    "components": [
+      {
+        "name": "Fage 0% Greek Yogurt",
+        "quantity": 170,
+        "unit": "ml"
+      },
+      {
+        "name": "Chocolate Protein Powder (1 scoop)",
+        "quantity": 30,
+        "unit": "g"
+      },
+      {
+        "name": "Cocoa Powder (unsweetened, 1 tbsp)",
+        "quantity": 5,
+        "unit": "g"
+      },
+      {
+        "name": "Almond Milk (unsweetened, ¼ cup)",
+        "quantity": 60,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Allulose Syrup",
+      "Cocoa Nibs"
+    ],
+    "instructions": [
+      "Combine yogurt, protein powder, cocoa powder, and almond milk in bowl.",
+      "Whisk until smooth and pudding-like. Top with syrup + cocoa nibs."
+    ]
+  },
+  {
+    "id": 49,
+    "name": "Edamame Bowl",
+    "emoji": "🌱",
+    "method": "Microwave",
+    "mealType": "snack",
+    "proteins": [
+      "plant"
+    ],
+    "flavor": "spicy",
+    "activeTime": 3,
+    "components": [
+      {
+        "name": "Frozen Edamame (steam-bag)",
+        "quantity": 227,
+        "unit": "g"
+      },
+      {
+        "name": "Low-Sodium Soy Sauce (1 tbsp)",
+        "quantity": 15,
+        "unit": "ml"
+      },
+      {
+        "name": "Sesame Oil (½ tsp)",
+        "quantity": 2.5,
+        "unit": "g"
+      },
+      {
+        "name": "Red Pepper Flakes (pinch)",
+        "quantity": 0.1,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Sesame Seeds",
+      "Sea Salt"
+    ],
+    "instructions": [
+      "Microwave edamame steam-bag 3 min. Pour into bowl.",
+      "Drizzle soy sauce + sesame oil. Sprinkle pepper flakes + seeds."
+    ]
+  },
+  {
+    "id": 50,
+    "name": "Canned Chicken & Crackers",
+    "emoji": "🧀",
+    "method": "No Cook",
+    "mealType": "snack",
+    "proteins": [
+      "chicken"
+    ],
+    "flavor": "neutral",
+    "activeTime": 2,
+    "components": [
+      {
+        "name": "Canned Chicken (drained, 5 oz)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Whole Grain Crackers (6 crackers)",
+        "quantity": 30,
+        "unit": "g"
+      },
+      {
+        "name": "Dijon Mustard (1 tbsp)",
+        "quantity": 10,
+        "unit": "g"
+      },
+      {
+        "name": "Frank's RedHot Sauce (1 tbsp)",
+        "quantity": 15,
+        "unit": "ml"
+      }
+    ],
+    "toppings": [
+      "Lemon Pepper Seasoning",
+      "Celery Powder"
+    ],
+    "instructions": [
+      "Mix canned chicken with mustard + hot sauce.",
+      "Spoon onto crackers. Season lightly."
+    ]
+  },
+  {
+    "id": 51,
+    "name": "Classic Smash Burger",
+    "emoji": "🍔",
+    "method": "Stovetop",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "beef"
+    ],
+    "flavor": "neutral",
+    "activeTime": 6,
+    "components": [
+      {
+        "name": "Ground Beef (80/20)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "American Cheese Slice",
+        "quantity": 21,
+        "unit": "g"
+      },
+      {
+        "name": "Brioche Bun",
+        "quantity": 80,
+        "unit": "g"
+      },
+      {
+        "name": "Ketchup (2 tbsp)",
+        "quantity": 32,
+        "unit": "ml"
+      },
+      {
+        "name": "Yellow Mustard (1 tbsp)",
+        "quantity": 5,
+        "unit": "ml"
+      },
+      {
+        "name": "Pickle Slices (jar, 2 tbsp)",
+        "quantity": 30,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Mayonnaise",
+      "Onion Powder"
+    ],
+    "instructions": [
+      "Heat cast iron skillet screaming hot (~400°F).",
+      "Roll beef into ball. Place on skillet and immediately smash flat with spatula.",
+      "Cook 2 min without moving. Flip, add cheese, cook 1 min.",
+      "Toast bun lightly. Build burger with ketchup, mustard, pickles."
+    ]
+  },
+  {
+    "id": 52,
+    "name": "BBQ Bacon Burger",
+    "emoji": "🥓",
+    "method": "Stovetop",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "beef"
+    ],
+    "flavor": "bbq",
+    "activeTime": 8,
+    "components": [
+      {
+        "name": "Ground Beef (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Pre-Cooked Bacon (microwave, 3 strips)",
+        "quantity": 42,
+        "unit": "g"
+      },
+      {
+        "name": "Sweet Baby Ray's BBQ Sauce (2 tbsp)",
+        "quantity": 34,
+        "unit": "ml"
+      },
+      {
+        "name": "Cheddar Slice",
+        "quantity": 28,
+        "unit": "g"
+      },
+      {
+        "name": "Brioche Bun",
+        "quantity": 80,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Lettuce Leaf",
+      "Onion Powder"
+    ],
+    "instructions": [
+      "Heat skillet medium-high. Form beef into patty. Cook 3–4 min per side (~160°F internal).",
+      "Microwave bacon strips 2 min. Add cheese to burger last min.",
+      "Toast bun. Brush BBQ sauce on inside.",
+      "Stack burger + bacon on bun."
+    ]
+  },
+  {
+    "id": 53,
+    "name": "Turkey Burger",
+    "emoji": "🍗",
+    "method": "Stovetop",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "turkey"
+    ],
+    "flavor": "neutral",
+    "activeTime": 7,
+    "components": [
+      {
+        "name": "Ground Turkey (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Garlic Powder (½ tsp)",
+        "quantity": 1.5,
+        "unit": "g"
+      },
+      {
+        "name": "Worcestershire Sauce (1 tbsp)",
+        "quantity": 15,
+        "unit": "ml"
+      },
+      {
+        "name": "Brioche Bun",
+        "quantity": 80,
+        "unit": "g"
+      },
+      {
+        "name": "Yellow Mustard (2 tbsp)",
+        "quantity": 10,
+        "unit": "ml"
+      },
+      {
+        "name": "Dill Pickle Slices (jar, 2 tbsp)",
+        "quantity": 30,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Mayonnaise",
+      "Hot Sauce"
+    ],
+    "instructions": [
+      "Mix ground turkey with garlic powder + Worcestershire in bowl.",
+      "Form into patty. Heat skillet medium-high. Cook 4–5 min per side (~165°F internal).",
+      "Toast bun. Spread mustard. Build burger with pickles + toppings on side."
+    ]
+  },
+  {
+    "id": 54,
+    "name": "Spicy Chicken Sandwich",
+    "emoji": "🌶️",
+    "method": "Air Fryer",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "chicken"
+    ],
+    "flavor": "spicy",
+    "activeTime": 5,
+    "components": [
+      {
+        "name": "Chicken Breast (boneless, skinless)",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Frank's RedHot Sauce (3 tbsp)",
+        "quantity": 45,
+        "unit": "ml"
+      },
+      {
+        "name": "Brioche Bun",
+        "quantity": 80,
+        "unit": "g"
+      },
+      {
+        "name": "Hellmann's Light Mayo (2 tbsp)",
+        "quantity": 30,
+        "unit": "g"
+      },
+      {
+        "name": "Dill Pickle Slices (jar, 2 tbsp)",
+        "quantity": 30,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Hot Sauce Extra",
+      "Celery Powder"
+    ],
+    "instructions": [
+      "Air fry chicken breast 400°F for 16–18 min.",
+      "Toss cooked chicken in Frank's sauce. Toast bun.",
+      "Spread mayo on bun. Stack chicken + pickles."
+    ]
+  },
+  {
+    "id": 55,
+    "name": "Tuna Melt",
+    "emoji": "🐟",
+    "method": "Air Fryer",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "fish"
+    ],
+    "flavor": "neutral",
+    "activeTime": 6,
+    "components": [
+      {
+        "name": "Canned Tuna in Water (drained, 5 oz)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Hellmann's Light Mayo (2 tbsp)",
+        "quantity": 30,
+        "unit": "g"
+      },
+      {
+        "name": "Yellow Mustard (2 tsp)",
+        "quantity": 10,
+        "unit": "ml"
+      },
+      {
+        "name": "Whole Grain Bread (2 slices)",
+        "quantity": 60,
+        "unit": "g"
+      },
+      {
+        "name": "Cheddar Slice",
+        "quantity": 28,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Lemon Juice",
+      "Dill (dried)"
+    ],
+    "instructions": [
+      "Mix drained tuna with mayo + mustard in bowl. Spread on bread slices.",
+      "Top with cheese slice. Place on foil in air fryer basket.",
+      "Air fry 350°F for 6–8 min until cheese melts. Squeeze lemon on top."
+    ]
+  },
+  {
+    "id": 56,
+    "name": "Egg & Cheese Breakfast Sandwich",
+    "emoji": "🥚",
+    "method": "Stovetop",
+    "mealType": "breakfast",
+    "proteins": [
+      "eggs",
+      "turkey"
+    ],
+    "flavor": "neutral",
+    "activeTime": 6,
+    "components": [
+      {
+        "name": "Egg Whites (carton, ½ cup)",
+        "quantity": 120,
+        "unit": "count"
+      },
+      {
+        "name": "Whole Egg (1 large)",
+        "quantity": 50,
+        "unit": "count"
+      },
+      {
+        "name": "English Muffin (whole wheat)",
+        "quantity": 57,
+        "unit": "g"
+      },
+      {
+        "name": "Cheddar Slice",
+        "quantity": 28,
+        "unit": "g"
+      },
+      {
+        "name": "Turkey Sausage Patty (frozen, pre-cooked)",
+        "quantity": 28,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Black Pepper",
+      "Hot Sauce"
+    ],
+    "instructions": [
+      "Microwave sausage patty 60 sec. Toast English muffin.",
+      "Scramble egg whites + whole egg in skillet with butter 3 min.",
+      "Top muffin with eggs + cheese + sausage."
+    ]
+  },
+  {
+    "id": 57,
+    "name": "Rotisserie Chicken Wrap",
+    "emoji": "🌯",
+    "method": "No Cook",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "chicken",
+      "dairy"
+    ],
+    "flavor": "neutral",
+    "activeTime": 3,
+    "components": [
+      {
+        "name": "Rotisserie Chicken (pre-shredded, 5 oz)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Large Flour Tortilla",
+        "quantity": 60,
+        "unit": "g"
+      },
+      {
+        "name": "Shredded Cheddar (¼ cup)",
+        "quantity": 28,
+        "unit": "g"
+      },
+      {
+        "name": "Salsa (fresh, 3 tbsp)",
+        "quantity": 48,
+        "unit": "ml"
+      },
+      {
+        "name": "Fage 0% Greek Yogurt (2 tbsp)",
+        "quantity": 30,
+        "unit": "ml"
+      }
+    ],
+    "toppings": [
+      "Lime Squeeze",
+      "Cilantro (dried)"
+    ],
+    "instructions": [
+      "Warm tortilla 30 sec in microwave. Spread yogurt down center.",
+      "Layer chicken + cheese + salsa. Roll tightly. Squeeze lime on top."
+    ]
+  },
+  {
+    "id": 58,
+    "name": "BLT Protein Wrap",
+    "emoji": "🥓",
+    "method": "No Cook",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "turkey"
+    ],
+    "flavor": "neutral",
+    "activeTime": 3,
+    "components": [
+      {
+        "name": "Deli Turkey (5 slices)",
+        "quantity": 94,
+        "unit": "g"
+      },
+      {
+        "name": "Pre-Cooked Bacon (microwave, 3 strips)",
+        "quantity": 42,
+        "unit": "g"
+      },
+      {
+        "name": "Romaine Lettuce (pre-washed, 4 leaves)",
+        "quantity": 80,
+        "unit": "g"
+      },
+      {
+        "name": "Large Flour Tortilla",
+        "quantity": 60,
+        "unit": "g"
+      },
+      {
+        "name": "Hellmann's Light Mayo (2 tbsp)",
+        "quantity": 30,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Black Pepper",
+      "Dijon Mustard"
+    ],
+    "instructions": [
+      "Microwave bacon 2 min. Warm tortilla 30 sec in microwave.",
+      "Spread mayo on tortilla. Layer turkey + bacon + lettuce. Roll tightly."
+    ]
+  },
+  {
+    "id": 59,
+    "name": "Air Fryer Protein Pizza",
+    "emoji": "🍕",
+    "method": "Air Fryer",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "turkey"
+    ],
+    "flavor": "spicy",
+    "activeTime": 5,
+    "components": [
+      {
+        "name": "Naan Flatbread",
+        "quantity": 100,
+        "unit": "g"
+      },
+      {
+        "name": "Rao's Marinara Sauce (¼ cup)",
+        "quantity": 60,
+        "unit": "ml"
+      },
+      {
+        "name": "Shredded Mozzarella (¾ cup)",
+        "quantity": 85,
+        "unit": "g"
+      },
+      {
+        "name": "Turkey Pepperoni (20 slices)",
+        "quantity": 28,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Italian Seasoning (dried)",
+      "Red Pepper Flakes"
+    ],
+    "instructions": [
+      "Place naan on foil in air fryer basket. Spread marinara evenly.",
+      "Top with mozzarella + pepperoni. Sprinkle seasonings.",
+      "Air fry 375°F for 8 min until cheese bubbles."
+    ]
+  },
+  {
+    "id": 60,
+    "name": "Cottage Cheese Pizza Bowl",
+    "emoji": "🍕",
+    "method": "Microwave",
+    "mealType": "breakfast",
+    "proteins": [
+      "dairy",
+      "turkey"
+    ],
+    "flavor": "neutral",
+    "activeTime": 3,
+    "components": [
+      {
+        "name": "Good Culture Cottage Cheese",
+        "quantity": 112,
+        "unit": "g"
+      },
+      {
+        "name": "Rao's Marinara Sauce (¼ cup)",
+        "quantity": 60,
+        "unit": "ml"
+      },
+      {
+        "name": "Shredded Mozzarella (½ cup)",
+        "quantity": 56,
+        "unit": "g"
+      },
+      {
+        "name": "Turkey Pepperoni (15 slices)",
+        "quantity": 21,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Italian Seasoning",
+      "Basil (dried)"
+    ],
+    "instructions": [
+      "Spoon cottage cheese into microwave-safe bowl.",
+      "Top with marinara + mozzarella + pepperoni. Microwave 2 min until cheese melts. Sprinkle seasonings."
+    ]
+  },
+  {
+    "id": 61,
+    "name": "BBQ Chicken Flatbread",
+    "emoji": "🍗",
+    "method": "Air Fryer",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "chicken"
+    ],
+    "flavor": "bbq",
+    "activeTime": 5,
+    "components": [
+      {
+        "name": "Naan Flatbread",
+        "quantity": 100,
+        "unit": "g"
+      },
+      {
+        "name": "Sweet Baby Ray's BBQ Sauce (3 tbsp)",
+        "quantity": 51,
+        "unit": "ml"
+      },
+      {
+        "name": "Rotisserie Chicken (pre-shredded, 4 oz)",
+        "quantity": 113,
+        "unit": "g"
+      },
+      {
+        "name": "Shredded Mozzarella (½ cup)",
+        "quantity": 56,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Red Onion Powder",
+      "Cilantro (dried)"
+    ],
+    "instructions": [
+      "Place naan on foil in air fryer. Spread BBQ sauce evenly.",
+      "Top with shredded chicken + mozzarella. Sprinkle seasonings.",
+      "Air fry 375°F for 8 min until cheese melts."
+    ]
+  },
+  {
+    "id": 62,
+    "name": "Pesto Chicken Flatbread",
+    "emoji": "🌿",
+    "method": "Air Fryer",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "chicken"
+    ],
+    "flavor": "mediterranean",
+    "activeTime": 5,
+    "components": [
+      {
+        "name": "Naan Flatbread",
+        "quantity": 100,
+        "unit": "g"
+      },
+      {
+        "name": "Jarred Basil Pesto (3 tbsp)",
+        "quantity": 45,
+        "unit": "ml"
+      },
+      {
+        "name": "Rotisserie Chicken (pre-shredded, 4 oz)",
+        "quantity": 113,
+        "unit": "g"
+      },
+      {
+        "name": "Shredded Mozzarella (½ cup)",
+        "quantity": 56,
+        "unit": "g"
+      },
+      {
+        "name": "Sun-Dried Tomatoes (jarred, 2 tbsp)",
+        "quantity": 16,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Parmesan",
+      "Black Pepper"
+    ],
+    "instructions": [
+      "Place naan on foil in air fryer. Spread pesto evenly.",
+      "Top with chicken + mozzarella + sun-dried tomatoes.",
+      "Air fry 375°F for 8 min until cheese melts."
+    ]
+  },
+  {
+    "id": 63,
+    "name": "Beef & Rice Power Bowl",
+    "emoji": "🥩",
+    "method": "Stovetop",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "beef"
+    ],
+    "flavor": "asian",
+    "activeTime": 7,
+    "components": [
+      {
+        "name": "Ground Beef (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Low-Sodium Soy Sauce (1.5 tbsp)",
+        "quantity": 22.5,
+        "unit": "g"
+      },
+      {
+        "name": "Garlic Powder (1 tsp)",
+        "quantity": 3,
+        "unit": "g"
+      },
+      {
+        "name": "Honey (1 tbsp)",
+        "quantity": 20,
+        "unit": "ml"
+      },
+      {
+        "name": "White Rice Pouch",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Broccoli (steam-bag)",
+        "quantity": 100,
+        "unit": "g"
+      },
+      {
+        "name": "Olive Oil (1 tsp)",
+        "quantity": 5,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Sesame Seeds",
+      "Green Onion (dried)"
+    ],
+    "instructions": [
+      "Heat oil in skillet over medium-high. Brown beef 4–5 min, breaking it up.",
+      "Add soy sauce + garlic + honey. Simmer 2 min. Microwave rice 90 sec + broccoli 3 min.",
+      "Build bowl — toppings separate."
+    ]
+  },
+  {
+    "id": 64,
+    "name": "Chicken Teriyaki Noodles",
+    "emoji": "🍜",
+    "method": "Stovetop",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "chicken"
+    ],
+    "flavor": "asian",
+    "activeTime": 8,
+    "components": [
+      {
+        "name": "Chicken Thighs (boneless, skinless)",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Kikkoman Teriyaki Sauce (3 tbsp)",
+        "quantity": 51,
+        "unit": "g"
+      },
+      {
+        "name": "Ramen Noodles (1 packet, discard seasoning)",
+        "quantity": 56,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Stir Fry Vegetables (1 cup)",
+        "quantity": 150,
+        "unit": "g"
+      },
+      {
+        "name": "Water (3 cups)",
+        "quantity": 720,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Sesame Seeds",
+      "Green Onion (dried)"
+    ],
+    "instructions": [
+      "Boil water in pot. Add noodles, cook 3 min. Add frozen veg, cook 2 min. Drain.",
+      "Heat skillet. Cook chicken 5 min per side. Brush teriyaki sauce on chicken.",
+      "Plate noodles + veg, top with chicken. Toppings on side."
+    ]
+  },
+  {
+    "id": 65,
+    "name": "Shrimp Fried Rice",
+    "emoji": "🦐",
+    "method": "Stovetop",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "fish",
+      "eggs"
+    ],
+    "flavor": "asian",
+    "activeTime": 8,
+    "components": [
+      {
+        "name": "Frozen Shrimp (16/20 count, thawed)",
+        "quantity": 150,
+        "unit": "g"
+      },
+      {
+        "name": "White Rice Pouch (cooked, day-old or cooled)",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Whole Eggs (2 large, beaten)",
+        "quantity": 100,
+        "unit": "count"
+      },
+      {
+        "name": "Low-Sodium Soy Sauce (1.5 tbsp)",
+        "quantity": 22.5,
+        "unit": "g"
+      },
+      {
+        "name": "Sesame Oil (½ tsp)",
+        "quantity": 2.5,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Peas (½ cup)",
+        "quantity": 65,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Sesame Seeds",
+      "Green Onion (dried)"
+    ],
+    "instructions": [
+      "Heat sesame oil in large skillet over high. Scramble eggs, remove to plate.",
+      "Add rice, break up clumps, stir 2 min. Add peas + soy sauce + shrimp.",
+      "Return eggs, toss everything 1 min. Toppings on side."
+    ]
+  },
+  {
+    "id": 66,
+    "name": "Loaded Baked Potato",
+    "emoji": "🥔",
+    "method": "Microwave",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "dairy"
+    ],
+    "flavor": "spicy",
+    "activeTime": 5,
+    "components": [
+      {
+        "name": "Russet Potato (medium)",
+        "quantity": 180,
+        "unit": "g"
+      },
+      {
+        "name": "Canned Chili (condensed, ¾ can)",
+        "quantity": 214,
+        "unit": "g"
+      },
+      {
+        "name": "Shredded Cheddar (½ cup)",
+        "quantity": 56,
+        "unit": "g"
+      },
+      {
+        "name": "Fage 0% Greek Yogurt (2 tbsp, sour cream sub)",
+        "quantity": 30,
+        "unit": "ml"
+      }
+    ],
+    "toppings": [
+      "Hot Sauce",
+      "Chives (dried)"
+    ],
+    "instructions": [
+      "Poke potato with fork. Microwave on HIGH 8–10 min until tender.",
+      "Microwave chili 2 min in separate bowl. Split potato open. Top with chili, cheese, yogurt."
+    ]
+  },
+  {
+    "id": 67,
+    "name": "Protein French Toast",
+    "emoji": "🍞",
+    "method": "Stovetop",
+    "mealType": "breakfast",
+    "proteins": [
+      "eggs",
+      "protein_powder"
+    ],
+    "flavor": "neutral",
+    "activeTime": 7,
+    "components": [
+      {
+        "name": "Whole Grain Bread (2 slices)",
+        "quantity": 60,
+        "unit": "g"
+      },
+      {
+        "name": "Egg Whites (carton, ¾ cup)",
+        "quantity": 180,
+        "unit": "count"
+      },
+      {
+        "name": "Whole Egg (1 large)",
+        "quantity": 50,
+        "unit": "count"
+      },
+      {
+        "name": "Vanilla Protein Powder (½ scoop)",
+        "quantity": 15,
+        "unit": "g"
+      },
+      {
+        "name": "Cinnamon (½ tsp)",
+        "quantity": 1,
+        "unit": "g"
+      },
+      {
+        "name": "Butter (for pan, 1 tsp)",
+        "quantity": 5,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Allulose Syrup",
+      "Cinnamon Powder"
+    ],
+    "instructions": [
+      "Mix egg whites + whole egg + protein powder + cinnamon in shallow bowl.",
+      "Heat butter in skillet medium heat. Dip bread slices in mixture, coat both sides.",
+      "Cook 2–3 min per side until golden. Serve with sugar-free syrup."
+    ]
+  },
+  {
+    "id": 68,
+    "name": "Turkey Meatball Sub",
+    "emoji": "🥪",
+    "method": "Microwave",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "turkey"
+    ],
+    "flavor": "italian",
+    "activeTime": 5,
+    "components": [
+      {
+        "name": "Frozen Turkey Meatballs (6 oz bag)",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Rao's Marinara Sauce (½ cup)",
+        "quantity": 120,
+        "unit": "ml"
+      },
+      {
+        "name": "Hoagie Roll (6 inch)",
+        "quantity": 85,
+        "unit": "g"
+      },
+      {
+        "name": "Shredded Mozzarella (¼ cup)",
+        "quantity": 28,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Italian Seasoning (dried)",
+      "Parmesan"
+    ],
+    "instructions": [
+      "Microwave frozen meatballs 3–4 min. Microwave marinara 90 sec.",
+      "Toss meatballs in sauce. Warm hoagie roll 30 sec in microwave.",
+      "Stuff roll with meatballs, sauce, and mozzarella. Top with seasonings."
+    ]
+  },
+  {
+    "id": 69,
+    "name": "Spicy Korean Ground Beef Bowl",
+    "emoji": "🌶️",
+    "method": "Stovetop",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "beef"
+    ],
+    "flavor": "spicy",
+    "activeTime": 7,
+    "components": [
+      {
+        "name": "Ground Beef (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Gochujang Sauce (bottled, 2 tbsp)",
+        "quantity": 30,
+        "unit": "ml"
+      },
+      {
+        "name": "Low-Sodium Soy Sauce (1 tbsp)",
+        "quantity": 15,
+        "unit": "ml"
+      },
+      {
+        "name": "Honey (1 tsp)",
+        "quantity": 7,
+        "unit": "ml"
+      },
+      {
+        "name": "Garlic Powder (½ tsp)",
+        "quantity": 1.5,
+        "unit": "g"
+      },
+      {
+        "name": "White Rice Pouch",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Olive Oil (1 tsp)",
+        "quantity": 5,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Sesame Seeds",
+      "Green Onion (dried)"
+    ],
+    "instructions": [
+      "Heat oil in skillet. Brown beef 4–5 min, breaking it up.",
+      "Add gochujang + soy + honey + garlic powder. Simmer 2 min. Microwave rice 90 sec.",
+      "Build bowl — toppings separate."
+    ]
+  },
+  {
+    "id": 70,
+    "name": "Canned Salmon Caesar Wrap",
+    "emoji": "🐟",
+    "method": "No Cook",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "fish"
+    ],
+    "flavor": "neutral",
+    "activeTime": 3,
+    "components": [
+      {
+        "name": "Canned Salmon (drained, 5 oz)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Romaine Lettuce (pre-washed bag, 2 cups)",
+        "quantity": 150,
+        "unit": "g"
+      },
+      {
+        "name": "Caesar Dressing (bottled, 3 tbsp)",
+        "quantity": 45,
+        "unit": "ml"
+      },
+      {
+        "name": "Parmesan (shredded, 2 tbsp)",
+        "quantity": 14,
+        "unit": "g"
+      },
+      {
+        "name": "Large Flour Tortilla",
+        "quantity": 60,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Lemon Pepper Seasoning",
+      "Black Pepper"
+    ],
+    "instructions": [
+      "Mix canned salmon with 2 tbsp Caesar dressing in bowl.",
+      "Lay tortilla flat. Place romaine on top. Add salmon mixture + remaining dressing + parmesan. Roll tightly."
+    ]
+  },
+  {
+    "id": 71,
+    "name": "Sweet Potato Cottage Cheese Power Bowl",
+    "emoji": "🍠",
+    "method": "Stovetop",
+    "mealType": "breakfast",
+    "proteins": [
+      "beef",
+      "dairy"
+    ],
+    "flavor": "spicy",
+    "activeTime": 8,
+    "components": [
+      {
+        "name": "Frozen Sweet Potato Cubes (pre-cut, 1.5 cups)",
+        "quantity": 225,
+        "unit": "g"
+      },
+      {
+        "name": "Ground Beef (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Good Culture Cottage Cheese",
+        "quantity": 112,
+        "unit": "g"
+      },
+      {
+        "name": "Wholly Guac Squeeze Tube (2 tbsp)",
+        "quantity": 56,
+        "unit": "g"
+      },
+      {
+        "name": "Mike's Hot Honey (2 tbsp)",
+        "quantity": 34,
+        "unit": "ml"
+      },
+      {
+        "name": "Garlic Powder (½ tsp)",
+        "quantity": 1.5,
+        "unit": "g"
+      },
+      {
+        "name": "Salt (pinch)",
+        "quantity": 0.1,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Red Pepper Flakes",
+      "Cilantro (dried)"
+    ],
+    "instructions": [
+      "Microwave frozen sweet potato cubes 5 min (or air fry 12 min at 400°F if using pre-cut frozen).",
+      "Heat skillet over medium-high. Brown ground beef 4–5 min, breaking it up. Season with garlic powder + salt.",
+      "Build bowl: sweet potato base, beef on top, cottage cheese dollop.",
+      "Squeeze avocado + drizzle hot honey generously over top. Toppings on side."
+    ]
+  },
+  {
+    "id": 72,
+    "name": "Viral Baked Feta Pasta",
+    "emoji": "🧀",
+    "method": "Bake",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "plant"
+    ],
+    "flavor": "italian",
+    "activeTime": 8,
+    "components": [
+      {
+        "name": "Banza Chickpea Pasta (dry, 1.5 cups uncooked)",
+        "quantity": 210,
+        "unit": "g"
+      },
+      {
+        "name": "Block Feta Cheese",
+        "quantity": 113,
+        "unit": "g"
+      },
+      {
+        "name": "Canned Cherry Tomatoes (1 can, 14 oz)",
+        "quantity": 400,
+        "unit": "ml"
+      },
+      {
+        "name": "Olive Oil Spray",
+        "quantity": 3,
+        "unit": "spray"
+      },
+      {
+        "name": "Italian Seasoning (1 tbsp)",
+        "quantity": 3,
+        "unit": "g"
+      },
+      {
+        "name": "Garlic Powder (½ tsp)",
+        "quantity": 1.5,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Fresh Basil (dried)",
+      "Black Pepper"
+    ],
+    "instructions": [
+      "Place feta block in small baking dish. Pour canned cherry tomatoes around it (don't drain completely).",
+      "Spray feta lightly with olive oil. Shake Italian seasoning + garlic powder over top.",
+      "Bake 400°F for 25 min. Mash feta and tomatoes together until creamy. Toss with cooked pasta."
+    ]
+  },
+  {
+    "id": 73,
+    "name": "Cottage Cheese Flatbread",
+    "emoji": "🥪",
+    "method": "Bake",
+    "mealType": "breakfast",
+    "proteins": [
+      "dairy",
+      "eggs"
+    ],
+    "flavor": "neutral",
+    "activeTime": 3,
+    "components": [
+      {
+        "name": "Good Culture Cottage Cheese (1 cup)",
+        "quantity": 224,
+        "unit": "g"
+      },
+      {
+        "name": "Whole Eggs (2 large)",
+        "quantity": 100,
+        "unit": "count"
+      },
+      {
+        "name": "Vanilla Extract (½ tsp, optional sweetness)",
+        "quantity": 2,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Rao's Marinara (¼ cup for pizza version)",
+      "Shredded Mozzarella (½ cup for pizza)"
+    ],
+    "instructions": [
+      "Blend cottage cheese + eggs in blender until completely smooth (no lumps).",
+      "Pour onto parchment-lined sheet pan. Spread evenly to ~¼ inch thick.",
+      "Bake 350°F for 25–30 min until golden brown. Cool 2 min. Use as wrap or pizza base."
+    ]
+  },
+  {
+    "id": 74,
+    "name": "Bang Bang Shrimp Bowl",
+    "emoji": "🦐",
+    "method": "Air Fryer",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "fish"
+    ],
+    "flavor": "spicy",
+    "activeTime": 5,
+    "components": [
+      {
+        "name": "Frozen Shrimp (16/20 count, thawed)",
+        "quantity": 150,
+        "unit": "g"
+      },
+      {
+        "name": "Kewpie Mayo (2 tbsp)",
+        "quantity": 30,
+        "unit": "g"
+      },
+      {
+        "name": "Sweet Chili Sauce (2 tbsp)",
+        "quantity": 32,
+        "unit": "ml"
+      },
+      {
+        "name": "White Rice Pouch",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Pre-Cut Cucumber Slices (½ cup)",
+        "quantity": 80,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Sriracha (1 tsp mixed into sauce)",
+      "Sesame Seeds"
+    ],
+    "instructions": [
+      "Mix Kewpie mayo + sweet chili sauce + ½ tsp sriracha in bowl.",
+      "Air fry thawed shrimp 380°F for 8–10 min, shaking halfway. Toss in bang bang sauce.",
+      "Microwave rice 90 sec. Build bowl with shrimp, cucumber slices. Toppings on side."
+    ]
+  },
+  {
+    "id": 75,
+    "name": "Marry Me Chicken",
+    "emoji": "💕",
+    "method": "Slow Cooker",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "chicken"
+    ],
+    "flavor": "italian",
+    "activeTime": 5,
+    "components": [
+      {
+        "name": "Chicken Thighs (boneless, skinless, 6 oz)",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Sun-Dried Tomatoes (jarred, oil-packed, 3 tbsp)",
+        "quantity": 30,
+        "unit": "ml"
+      },
+      {
+        "name": "Low-Sodium Chicken Broth (1 cup)",
+        "quantity": 240,
+        "unit": "g"
+      },
+      {
+        "name": "Heavy Cream (¼ cup)",
+        "quantity": 60,
+        "unit": "ml"
+      },
+      {
+        "name": "Italian Seasoning (1 tbsp)",
+        "quantity": 3,
+        "unit": "g"
+      },
+      {
+        "name": "Parmesan (2 tbsp shaker)",
+        "quantity": 14,
+        "unit": "g"
+      },
+      {
+        "name": "Garlic Powder (½ tsp)",
+        "quantity": 1.5,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Fresh Basil (dried)",
+      "Black Pepper"
+    ],
+    "instructions": [
+      "Add chicken, sun-dried tomatoes, broth, Italian seasoning, and garlic powder to slow cooker.",
+      "Cook LOW 5–6 hrs or HIGH 2–3 hrs. Stir in heavy cream + parmesan in last 30 min. Serve over white rice pouch."
+    ]
+  },
+  {
+    "id": 76,
+    "name": "Viral Cucumber Tuna Salad",
+    "emoji": "🥒",
+    "method": "No Cook",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "fish"
+    ],
+    "flavor": "spicy",
+    "activeTime": 4,
+    "components": [
+      {
+        "name": "Canned Tuna in Water (drained, 5 oz)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Mini Cucumber Slices (pre-cut bag, 1 cup)",
+        "quantity": 150,
+        "unit": "g"
+      },
+      {
+        "name": "Low-Sodium Soy Sauce (1 tbsp)",
+        "quantity": 15,
+        "unit": "ml"
+      },
+      {
+        "name": "Rice Vinegar (1 tbsp)",
+        "quantity": 15,
+        "unit": "g"
+      },
+      {
+        "name": "Sesame Oil (1 tsp)",
+        "quantity": 5,
+        "unit": "g"
+      },
+      {
+        "name": "Sesame Seeds (1 tbsp)",
+        "quantity": 9,
+        "unit": "g"
+      },
+      {
+        "name": "Momofuku Chili Crisp (1 tsp)",
+        "quantity": 5,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Green Onion (dried)",
+      "Extra Sesame Seeds"
+    ],
+    "instructions": [
+      "Mix drained tuna with soy sauce + rice vinegar + sesame oil in bowl.",
+      "Add cucumber slices + chili crisp + sesame seeds. Toss gently. Serve cold."
+    ]
+  },
+  {
+    "id": 77,
+    "name": "High Protein Sushi Bake",
+    "emoji": "🍣",
+    "method": "Bake",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "fish"
+    ],
+    "flavor": "spicy",
+    "activeTime": 6,
+    "components": [
+      {
+        "name": "White Rice Pouch (cooked)",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Imitation Crab (package, 6 oz)",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Kewpie Mayo (3 tbsp)",
+        "quantity": 45,
+        "unit": "g"
+      },
+      {
+        "name": "Low-Sodium Soy Sauce (1 tbsp)",
+        "quantity": 15,
+        "unit": "ml"
+      },
+      {
+        "name": "Sriracha (½ tsp)",
+        "quantity": 2.5,
+        "unit": "g"
+      },
+      {
+        "name": "Shredded Mozzarella (¾ cup)",
+        "quantity": 85,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Pre-Cut Cucumber Rounds",
+      "Extra Sriracha"
+    ],
+    "instructions": [
+      "Mix cooked rice with mayo + soy sauce + sriracha. Spread half in baking dish.",
+      "Layer crab, then remaining rice mixture. Top with mozzarella.",
+      "Bake 375°F for 15 min until cheese melts. Top with cucumber + extra sriracha."
+    ]
+  },
+  {
+    "id": 78,
+    "name": "Smoked Salmon Everything Bites",
+    "emoji": "🍋",
+    "method": "No Cook",
+    "mealType": "snack",
+    "proteins": [
+      "dairy",
+      "fish"
+    ],
+    "flavor": "neutral",
+    "activeTime": 3,
+    "components": [
+      {
+        "name": "Pre-Cut Cucumber Rounds (bag, 12 rounds)",
+        "quantity": 180,
+        "unit": "g"
+      },
+      {
+        "name": "Good Culture Cottage Cheese (¼ cup)",
+        "quantity": 56,
+        "unit": "g"
+      },
+      {
+        "name": "Smoked Salmon (sliced, 3 oz)",
+        "quantity": 85,
+        "unit": "g"
+      },
+      {
+        "name": "Everything Bagel Seasoning (½ tsp per bite)",
+        "quantity": 1,
+        "unit": "g"
+      },
+      {
+        "name": "Dill (dried, ½ tsp)",
+        "quantity": 0.5,
+        "unit": "g"
+      },
+      {
+        "name": "Lemon Juice (squeeze)",
+        "quantity": 5,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Capers (2 tbsp)",
+      "Black Pepper"
+    ],
+    "instructions": [
+      "Top each cucumber round with 1 tsp cottage cheese. Layer salmon piece on top. Sprinkle everything seasoning + dill. Drizzle lemon."
+    ]
+  },
+  {
+    "id": 79,
+    "name": "Egg White Fried Rice",
+    "emoji": "🍚",
+    "method": "Stovetop",
+    "mealType": "breakfast",
+    "proteins": [
+      "eggs"
+    ],
+    "flavor": "asian",
+    "activeTime": 7,
+    "components": [
+      {
+        "name": "Egg White Carton (liquid, 1 cup)",
+        "quantity": 240,
+        "unit": "count"
+      },
+      {
+        "name": "White Rice Pouch (day-old cooked, chilled preferred)",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Low-Sodium Soy Sauce (1.5 tbsp)",
+        "quantity": 22.5,
+        "unit": "g"
+      },
+      {
+        "name": "Sesame Oil (½ tsp)",
+        "quantity": 2.5,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Peas (½ cup)",
+        "quantity": 65,
+        "unit": "g"
+      },
+      {
+        "name": "Garlic Powder (½ tsp)",
+        "quantity": 1.5,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Sesame Seeds",
+      "Green Onion (dried)"
+    ],
+    "instructions": [
+      "Heat sesame oil in large skillet over high heat. Scramble egg whites 2 min until just set. Remove to plate.",
+      "Add rice to skillet, break up clumps, stir 2 min. Add peas + soy sauce + garlic powder.",
+      "Return eggs, toss everything 1 min. Toppings on side."
+    ]
+  },
+  {
+    "id": 80,
+    "name": "High Protein Birria Tacos",
+    "emoji": "🌮",
+    "method": "Stovetop",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "beef"
+    ],
+    "flavor": "spicy",
+    "activeTime": 10,
+    "components": [
+      {
+        "name": "Ground Beef (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Old El Paso Taco Seasoning (1 packet)",
+        "quantity": 25,
+        "unit": "g"
+      },
+      {
+        "name": "Beef Broth (small can, 1.5 cups)",
+        "quantity": 360,
+        "unit": "g"
+      },
+      {
+        "name": "Corn Tortillas (2 medium)",
+        "quantity": 52,
+        "unit": "g"
+      },
+      {
+        "name": "Shredded Mexican Cheese (½ cup)",
+        "quantity": 56,
+        "unit": "g"
+      },
+      {
+        "name": "Olive Oil (1 tsp)",
+        "quantity": 5,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Lime Squeeze",
+      "Cilantro (fresh or dried)"
+    ],
+    "instructions": [
+      "Heat oil in skillet. Brown beef 4–5 min. Add taco seasoning + beef broth. Simmer 5 min.",
+      "Dip corn tortillas in the hot beef broth until crispy (~20 sec per side).",
+      "Fill dipped tortillas with cheese + shredded beef from the pan + lime + cilantro. Serve with extra broth for dipping."
+    ]
+  },
+  {
+    "id": 81,
+    "name": "Hot Honey Salmon",
+    "emoji": "🔥",
+    "method": "Bake",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "fish"
+    ],
+    "flavor": "spicy",
+    "activeTime": 4,
+    "components": [
+      {
+        "name": "Salmon Fillet",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Mike's Hot Honey (3 tbsp)",
+        "quantity": 51,
+        "unit": "ml"
+      },
+      {
+        "name": "Garlic Powder (½ tsp)",
+        "quantity": 1.5,
+        "unit": "g"
+      },
+      {
+        "name": "Lemon Juice (1 tbsp)",
+        "quantity": 15,
+        "unit": "ml"
+      },
+      {
+        "name": "Frozen Broccoli (steam-bag)",
+        "quantity": 100,
+        "unit": "g"
+      },
+      {
+        "name": "Olive Oil Spray",
+        "quantity": 2,
+        "unit": "spray"
+      }
+    ],
+    "toppings": [
+      "Red Pepper Flakes",
+      "Sesame Seeds"
+    ],
+    "instructions": [
+      "Place salmon skin-down on foil-lined sheet. Brush generously with Mike's Hot Honey.",
+      "Sprinkle garlic powder. Bake 425°F for 12–14 min. Microwave broccoli 3 min. Squeeze lemon over salmon."
+    ]
+  },
+  {
+    "id": 82,
+    "name": "Spicy Garlic Shrimp Bowl",
+    "emoji": "🌶️",
+    "method": "Stovetop",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "fish"
+    ],
+    "flavor": "spicy",
+    "activeTime": 7,
+    "components": [
+      {
+        "name": "Frozen Shrimp (16/20 count, thawed)",
+        "quantity": 150,
+        "unit": "g"
+      },
+      {
+        "name": "Sriracha Sauce (2 tbsp)",
+        "quantity": 30,
+        "unit": "ml"
+      },
+      {
+        "name": "Low-Sodium Soy Sauce (1 tbsp)",
+        "quantity": 15,
+        "unit": "ml"
+      },
+      {
+        "name": "Garlic Powder (1 tsp)",
+        "quantity": 3,
+        "unit": "g"
+      },
+      {
+        "name": "Honey (1 tsp)",
+        "quantity": 7,
+        "unit": "ml"
+      },
+      {
+        "name": "White Rice Pouch",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Broccoli (steam-bag)",
+        "quantity": 100,
+        "unit": "g"
+      },
+      {
+        "name": "Olive Oil (1 tsp)",
+        "quantity": 5,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Red Pepper Flakes",
+      "Sesame Seeds"
+    ],
+    "instructions": [
+      "Heat oil in skillet over high heat. Add shrimp, cook 2–3 min per side.",
+      "Mix sriracha + soy sauce + garlic powder + honey. Toss cooked shrimp in sauce.",
+      "Microwave rice 90 sec + broccoli 3 min. Build bowl — toppings on side."
+    ]
+  },
+  {
+    "id": 83,
+    "name": "Nashville Hot Chicken Tenders",
+    "emoji": "🔥",
+    "method": "Air Fryer",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "chicken"
+    ],
+    "flavor": "spicy",
+    "activeTime": 6,
+    "components": [
+      {
+        "name": "Chicken Breast (boneless, skinless, sliced into strips)",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Frank's RedHot Sauce (3 tbsp)",
+        "quantity": 45,
+        "unit": "ml"
+      },
+      {
+        "name": "Cayenne Powder (½ tsp)",
+        "quantity": 1,
+        "unit": "g"
+      },
+      {
+        "name": "Garlic Powder (½ tsp)",
+        "quantity": 1.5,
+        "unit": "g"
+      },
+      {
+        "name": "Brioche Bun",
+        "quantity": 80,
+        "unit": "g"
+      },
+      {
+        "name": "Hellmann's Light Mayo (2 tbsp)",
+        "quantity": 30,
+        "unit": "g"
+      },
+      {
+        "name": "Pickle Slices (jar)",
+        "quantity": 30,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Hot Sauce Extra",
+      "Black Pepper"
+    ],
+    "instructions": [
+      "Mix Frank's + cayenne + garlic powder. Toss chicken strips in mixture.",
+      "Air fry 400°F for 12–14 min, shaking halfway. Toast bun lightly.",
+      "Spread mayo on bun. Stack chicken tenders + pickles."
+    ]
+  },
+  {
+    "id": 84,
+    "name": "Spicy Salmon Bowl",
+    "emoji": "🐟",
+    "method": "Bake",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "fish"
+    ],
+    "flavor": "spicy",
+    "activeTime": 5,
+    "components": [
+      {
+        "name": "Salmon Fillet",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Gochujang Sauce (bottled, 2 tbsp)",
+        "quantity": 30,
+        "unit": "ml"
+      },
+      {
+        "name": "Low-Sodium Soy Sauce (1 tbsp)",
+        "quantity": 15,
+        "unit": "ml"
+      },
+      {
+        "name": "White Rice Pouch",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Edamame (steam-bag)",
+        "quantity": 113,
+        "unit": "g"
+      },
+      {
+        "name": "Kewpie Mayo (1 tbsp)",
+        "quantity": 15,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Sesame Seeds",
+      "Green Onion (dried)"
+    ],
+    "instructions": [
+      "Mix gochujang + soy sauce. Place salmon on foil-lined sheet. Brush sauce over top.",
+      "Bake 425°F for 12–14 min. Microwave rice 90 sec + edamame 3 min.",
+      "Build bowl. Drizzle mayo on salmon. Toppings on side."
+    ]
+  },
+  {
+    "id": 85,
+    "name": "Chili Lime Shrimp Tacos",
+    "emoji": "🌮",
+    "method": "Air Fryer",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "fish",
+      "dairy"
+    ],
+    "flavor": "spicy",
+    "activeTime": 6,
+    "components": [
+      {
+        "name": "Frozen Shrimp (16/20 count, thawed)",
+        "quantity": 150,
+        "unit": "g"
+      },
+      {
+        "name": "Tajin Chili Lime Seasoning (2 tsp)",
+        "quantity": 5,
+        "unit": "g"
+      },
+      {
+        "name": "Olive Oil Spray",
+        "quantity": 3,
+        "unit": "spray"
+      },
+      {
+        "name": "Corn Tortillas (2 medium)",
+        "quantity": 52,
+        "unit": "g"
+      },
+      {
+        "name": "Fage 0% Greek Yogurt (3 tbsp, sour cream sub)",
+        "quantity": 45,
+        "unit": "ml"
+      },
+      {
+        "name": "Salsa Verde (jarred, 3 tbsp)",
+        "quantity": 48,
+        "unit": "ml"
+      }
+    ],
+    "toppings": [
+      "Lime Squeeze",
+      "Cilantro (fresh or dried)"
+    ],
+    "instructions": [
+      "Spray shrimp with oil. Season with Tajin. Air fry 380°F for 8–10 min.",
+      "Warm tortillas 30 sec in microwave. Fill with shrimp.",
+      "Top with yogurt + salsa verde + lime + cilantro."
+    ]
+  },
+  {
+    "id": 86,
+    "name": "Spicy Turkey Taco Bowl",
+    "emoji": "🌶️",
+    "method": "Stovetop",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "turkey",
+      "plant"
+    ],
+    "flavor": "spicy",
+    "activeTime": 7,
+    "components": [
+      {
+        "name": "Ground Turkey (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Chipotle Seasoning Powder (1 tbsp)",
+        "quantity": 10,
+        "unit": "g"
+      },
+      {
+        "name": "Canned Black Beans (½ can, drained)",
+        "quantity": 135,
+        "unit": "g"
+      },
+      {
+        "name": "White Rice Pouch",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Salsa Verde (jarred, 3 tbsp)",
+        "quantity": 48,
+        "unit": "ml"
+      },
+      {
+        "name": "Olive Oil (1 tsp)",
+        "quantity": 5,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Lime Squeeze",
+      "Cilantro (dried)"
+    ],
+    "instructions": [
+      "Heat oil in skillet. Brown turkey 4–5 min, breaking it up.",
+      "Add chipotle seasoning + beans + salsa verde. Simmer 2 min. Microwave rice 90 sec.",
+      "Build bowl — toppings on side."
+    ]
+  },
+  {
+    "id": 87,
+    "name": "Dan Dan Noodles (EZ Version)",
+    "emoji": "🌶️",
+    "method": "Stovetop",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "turkey"
+    ],
+    "flavor": "spicy",
+    "activeTime": 8,
+    "components": [
+      {
+        "name": "Ramen Noodles (1 packet, discard seasoning)",
+        "quantity": 56,
+        "unit": "g"
+      },
+      {
+        "name": "Ground Pork or Turkey (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Momofuku Chili Crisp (2 tbsp)",
+        "quantity": 30,
+        "unit": "g"
+      },
+      {
+        "name": "Low-Sodium Soy Sauce (1.5 tbsp)",
+        "quantity": 22.5,
+        "unit": "g"
+      },
+      {
+        "name": "PB2 Peanut Butter Powder (2 tbsp)",
+        "quantity": 16,
+        "unit": "g"
+      },
+      {
+        "name": "Sesame Oil (½ tsp)",
+        "quantity": 2.5,
+        "unit": "g"
+      },
+      {
+        "name": "Water (4 cups)",
+        "quantity": 960,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Sesame Seeds",
+      "Green Onion (dried)"
+    ],
+    "instructions": [
+      "Boil water in pot. Add ramen noodles, cook 3 min. Drain.",
+      "In skillet, brown ground meat 4–5 min. Add soy sauce + PB2 + chili crisp + sesame oil. Toss noodles into mixture.",
+      "Cook 1 min more. Toppings on side."
+    ]
+  },
+  {
+    "id": 88,
+    "name": "Spicy Beef & Broccoli",
+    "emoji": "🥦",
+    "method": "Stovetop",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "beef"
+    ],
+    "flavor": "spicy",
+    "activeTime": 7,
+    "components": [
+      {
+        "name": "Ground Beef (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Lee Kum Kee Beef & Broccoli Sauce (bottled, 3 tbsp)",
+        "quantity": 45,
+        "unit": "ml"
+      },
+      {
+        "name": "Frozen Broccoli (steam-bag, 1 cup)",
+        "quantity": 150,
+        "unit": "g"
+      },
+      {
+        "name": "White Rice Pouch",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Olive Oil (1 tsp)",
+        "quantity": 5,
+        "unit": "g"
+      },
+      {
+        "name": "Garlic Powder (½ tsp)",
+        "quantity": 1.5,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Sesame Seeds",
+      "Red Pepper Flakes"
+    ],
+    "instructions": [
+      "Heat oil in skillet over medium-high. Brown beef 4–5 min, breaking it up.",
+      "Add Lee Kum Kee sauce + frozen broccoli + garlic powder. Simmer 3 min.",
+      "Microwave rice 90 sec. Build bowl — toppings on side."
+    ]
+  },
+  {
+    "id": 89,
+    "name": "Buffalo Shrimp Rice Bowl",
+    "emoji": "🦐",
+    "method": "Air Fryer",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "fish"
+    ],
+    "flavor": "spicy",
+    "activeTime": 5,
+    "components": [
+      {
+        "name": "Frozen Shrimp (16/20 count, thawed)",
+        "quantity": 150,
+        "unit": "g"
+      },
+      {
+        "name": "Frank's RedHot Sauce (3 tbsp)",
+        "quantity": 45,
+        "unit": "ml"
+      },
+      {
+        "name": "White Rice Pouch",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Broccoli (steam-bag)",
+        "quantity": 100,
+        "unit": "g"
+      },
+      {
+        "name": "Ranch Dressing (bottled, 2 tbsp)",
+        "quantity": 30,
+        "unit": "ml"
+      },
+      {
+        "name": "Olive Oil Spray",
+        "quantity": 2,
+        "unit": "spray"
+      }
+    ],
+    "toppings": [
+      "Celery Powder",
+      "Parmesan"
+    ],
+    "instructions": [
+      "Spray shrimp with olive oil. Air fry 380°F for 8–10 min. Toss in Frank's sauce.",
+      "Microwave rice 90 sec + broccoli 3 min. Build bowl.",
+      "Drizzle ranch dressing over shrimp. Toppings on side."
+    ]
+  },
+  {
+    "id": 90,
+    "name": "Easy Shakshuka",
+    "emoji": "🍳",
+    "method": "Stovetop",
+    "mealType": "breakfast",
+    "proteins": [
+      "eggs"
+    ],
+    "flavor": "spicy",
+    "activeTime": 12,
+    "components": [
+      {
+        "name": "Rao's Marinara Sauce (jar)",
+        "quantity": 240,
+        "unit": "ml"
+      },
+      {
+        "name": "Whole Eggs",
+        "quantity": 200,
+        "unit": "count"
+      },
+      {
+        "name": "Diced Onions (jar, drained)",
+        "quantity": 60,
+        "unit": "g"
+      },
+      {
+        "name": "Onion Powder (seasoning)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "Garlic Powder (seasoning)",
+        "quantity": 2,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Crumbled Feta",
+      "Fresh Parsley (optional)",
+      "Sourdough bread for dipping"
+    ],
+    "instructions": [
+      "Heat pan over medium. Add jar onions and cook 2 min until softened and fragrant.",
+      "Pour in Rao's marinara. Stir in garlic powder and onion powder. Simmer 3 min.",
+      "Create 4 wells in the sauce using a spoon. Crack one egg into each well.",
+      "Cover pan with lid. Cook 5-7 min until whites are set but yolks still slightly runny. Crumble feta over top. Serve with sourdough for dipping."
+    ]
+  },
+  {
+    "id": 91,
+    "name": "Shakshuka from Scratch",
+    "emoji": "🍅",
+    "method": "Stovetop",
+    "mealType": "breakfast",
+    "proteins": [
+      "eggs"
+    ],
+    "flavor": "spicy",
+    "activeTime": 15,
+    "components": [
+      {
+        "name": "Canned Crushed Tomatoes",
+        "quantity": 400,
+        "unit": "ml"
+      },
+      {
+        "name": "Whole Eggs",
+        "quantity": 200,
+        "unit": "count"
+      },
+      {
+        "name": "Diced Onions (jar, drained)",
+        "quantity": 80,
+        "unit": "g"
+      },
+      {
+        "name": "Olive Oil",
+        "quantity": 14,
+        "unit": "g"
+      },
+      {
+        "name": "Garlic Powder",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "Cumin (shaker)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "Smoked Paprika (shaker)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "Red Pepper Flakes (shaker)",
+        "quantity": 1,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Crumbled Feta",
+      "Sourdough for dipping",
+      "Extra red pepper flakes"
+    ],
+    "instructions": [
+      "Heat olive oil in pan over medium. Add jar onions, cook 3 min until softened.",
+      "Add garlic powder, cumin, smoked paprika, red pepper flakes. Stir 30 seconds to bloom spices.",
+      "Pour in crushed tomatoes. Season with salt. Simmer 5 min, stirring occasionally, until sauce thickens slightly.",
+      "Create 4 wells in sauce. Crack one egg into each well.",
+      "Cover and cook 5-7 min until whites are set, yolks runny. Crumble feta over top. Serve with sourdough."
+    ]
+  },
+  {
+    "id": 92,
+    "name": "Skillet Beef Soy Garlic Rice",
+    "emoji": "🥩",
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "beef"
+    ],
+    "flavor": "asian",
+    "activeTime": 6,
+    "components": [
+      {
+        "name": "Ground Beef (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Soy Sauce",
+        "quantity": 8,
+        "unit": "ml"
+      },
+      {
+        "name": "Garlic Powder (shaker)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "White Rice Pouch (Uncle Ben's)",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Mixed Veg (steam-bag)",
+        "quantity": 85,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Sesame Seeds",
+      "Green Onion (fresh)"
+    ],
+    "instructions": [
+      "Heat a skillet over medium-high heat. Add ground beef, breaking it apart with a spoon. Cook 5-6 minutes, stirring occasionally, until browned.",
+      "Sprinkle garlic powder over beef and stir in soy sauce. Cook 1 minute more.",
+      "Microwave rice 90 sec + steam-bag veg 3 min. Build bowl with rice, top with beef. Toppings on the side."
+    ]
+  },
+  {
+    "id": 93,
+    "name": "BBQ Skillet Beef Hash Browns",
+    "emoji": "🔥",
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "beef"
+    ],
+    "flavor": "spicy",
+    "activeTime": 7,
+    "components": [
+      {
+        "name": "Ground Beef (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "BBQ Sauce (bottled)",
+        "quantity": 32,
+        "unit": "ml"
+      },
+      {
+        "name": "Frozen Hash Browns (microwaved)",
+        "quantity": 150,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Broccoli (steam-bag)",
+        "quantity": 85,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Cheddar Cheese",
+      "Fried Onions (canned)"
+    ],
+    "instructions": [
+      "Heat a skillet over medium-high heat. Add ground beef and break apart with a spoon. Cook 5-6 minutes until browned.",
+      "Stir in BBQ sauce generously. Cook 1-2 minutes more.",
+      "Microwave hash browns per package directions (usually 2-3 min) and steam-bag broccoli 3 min.",
+      "Scoop hash browns onto plate, top with beef mixture. Add broccoli to the side. Toppings on the side."
+    ]
+  },
+  {
+    "id": 94,
+    "name": "Saucy Tomato Beef Bowl",
+    "emoji": "🍅",
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "beef"
+    ],
+    "flavor": "saucy",
+    "activeTime": 6,
+    "components": [
+      {
+        "name": "Ground Beef (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Canned Diced Tomatoes",
+        "quantity": 200,
+        "unit": "ml"
+      },
+      {
+        "name": "Italian Seasoning (shaker)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "White Rice Pouch (Uncle Ben's)",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Spinach (microwave)",
+        "quantity": 85,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Parmesan Cheese",
+      "Fresh Basil (if available)"
+    ],
+    "instructions": [
+      "Heat a skillet over medium-high heat. Add ground beef and break apart. Cook 4-5 minutes until mostly browned.",
+      "Add canned tomatoes (with liquid) and Italian seasoning. Simmer 2 minutes.",
+      "Microwave rice 90 sec + microwave spinach 2 min. Build bowl with rice, top with beef & tomato sauce, spinach on side."
+    ]
+  },
+  {
+    "id": 95,
+    "name": "Spicy Korean Gochujang Beef Rice",
+    "emoji": "🌶️",
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "beef"
+    ],
+    "flavor": "spicy",
+    "activeTime": 7,
+    "components": [
+      {
+        "name": "Ground Beef (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Gochujang Sauce (bottled)",
+        "quantity": 30,
+        "unit": "ml"
+      },
+      {
+        "name": "Soy Sauce",
+        "quantity": 8,
+        "unit": "ml"
+      },
+      {
+        "name": "Honey (squeeze bottle)",
+        "quantity": 10,
+        "unit": "ml"
+      },
+      {
+        "name": "White Rice Pouch (Uncle Ben's)",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Broccoli (steam-bag)",
+        "quantity": 85,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Sesame Seeds",
+      "Green Onion"
+    ],
+    "instructions": [
+      "Heat a skillet over medium-high heat. Add ground beef, break apart with a spoon. Cook 5-6 minutes until browned.",
+      "In a small bowl, mix gochujang, soy sauce, and honey. Pour over beef and stir well. Cook 1 minute more.",
+      "Microwave rice 90 sec + steam-bag broccoli 3 min. Build bowl with rice, top with spicy beef, broccoli on side. Sesame & onion on top."
+    ]
+  },
+  {
+    "id": 96,
+    "name": "Beef Pasta Marinara Skillet",
+    "emoji": "🍝",
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "beef"
+    ],
+    "flavor": "saucy",
+    "activeTime": 7,
+    "components": [
+      {
+        "name": "Ground Beef (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Rao's Marinara Sauce (bottled)",
+        "quantity": 100,
+        "unit": "ml"
+      },
+      {
+        "name": "Pasta Cup (microwave)",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Spinach (microwave)",
+        "quantity": 85,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Mozzarella Cheese",
+      "Parmesan"
+    ],
+    "instructions": [
+      "Heat a skillet over medium-high. Add ground beef, break apart. Cook 5 minutes until browned.",
+      "Add marinara sauce to beef. Stir and simmer 2 minutes.",
+      "Microwave pasta cup per package (usually 1.5 min) + microwave spinach 2 min. Combine pasta and beef sauce on plate. Spinach on side. Cheese on top."
+    ]
+  },
+  {
+    "id": 97,
+    "name": "Taco Beef Tortilla Skillet",
+    "emoji": "🌮",
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "beef"
+    ],
+    "flavor": "spicy",
+    "activeTime": 6,
+    "components": [
+      {
+        "name": "Ground Beef (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Taco Seasoning (packet)",
+        "quantity": 12,
+        "unit": "g"
+      },
+      {
+        "name": "Corn Tortillas (2, warmed)",
+        "quantity": 52,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Mixed Veg (steam-bag)",
+        "quantity": 85,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Shredded Cheddar",
+      "Salsa (bottled)",
+      "Sour Cream"
+    ],
+    "instructions": [
+      "Heat a skillet over medium-high. Add ground beef and break apart. Cook 5 minutes until browned.",
+      "Sprinkle taco seasoning over beef and add 2 tbsp water. Stir and simmer 1 minute.",
+      "Heat tortillas in a dry pan 30 sec per side. Microwave veg 3 min. Build tacos with beef. Toppings on the side."
+    ]
+  },
+  {
+    "id": 98,
+    "name": "Creamy Beef Mushroom Skillet",
+    "emoji": "🍄",
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "beef",
+      "eggs"
+    ],
+    "flavor": "saucy",
+    "activeTime": 7,
+    "components": [
+      {
+        "name": "Ground Beef (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Beef Stroganoff Sauce Mix (powder)",
+        "quantity": 20,
+        "unit": "ml"
+      },
+      {
+        "name": "Sour Cream",
+        "quantity": 60,
+        "unit": "ml"
+      },
+      {
+        "name": "Egg Noodles (microwave cup)",
+        "quantity": 200,
+        "unit": "count"
+      },
+      {
+        "name": "Frozen Broccoli (steam-bag)",
+        "quantity": 85,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Parmesan",
+      "Fresh Dill (if available)"
+    ],
+    "instructions": [
+      "Heat a skillet over medium-high. Add ground beef and break apart. Cook 5 minutes until browned.",
+      "Mix stroganoff sauce powder with ½ cup water per package, then add to beef. Simmer 2 minutes. Remove from heat and stir in sour cream.",
+      "Microwave egg noodles per package + microwave broccoli 3 min. Combine noodles with beef stroganoff on plate. Broccoli on side."
+    ]
+  },
+  {
+    "id": 99,
+    "name": "Teriyaki Beef Broccoli Bowl",
+    "emoji": "🥦",
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "beef"
+    ],
+    "flavor": "asian",
+    "activeTime": 6,
+    "components": [
+      {
+        "name": "Ground Beef (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Teriyaki Sauce (Kikkoman bottle)",
+        "quantity": 30,
+        "unit": "ml"
+      },
+      {
+        "name": "White Rice Pouch (Uncle Ben's)",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Broccoli (steam-bag)",
+        "quantity": 85,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Sesame Seeds",
+      "Green Onion"
+    ],
+    "instructions": [
+      "Heat a skillet over medium-high heat. Add ground beef and break apart. Cook 5 minutes until browned.",
+      "Drizzle teriyaki sauce over beef and stir well. Cook 1 minute more.",
+      "Microwave rice 90 sec + steam-bag broccoli 3 min. Build bowl with rice, top with beef, broccoli on side. Toppings on top."
+    ]
+  },
+  {
+    "id": 100,
+    "name": "Skillet Chicken Soy Garlic Rice",
+    "emoji": "🍗",
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "chicken"
+    ],
+    "flavor": "asian",
+    "activeTime": 6,
+    "components": [
+      {
+        "name": "Ground Chicken (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Soy Sauce",
+        "quantity": 8,
+        "unit": "ml"
+      },
+      {
+        "name": "Garlic Powder (shaker)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "White Rice Pouch (Uncle Ben's)",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Mixed Veg (steam-bag)",
+        "quantity": 85,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Sesame Seeds",
+      "Green Onion"
+    ],
+    "instructions": [
+      "Heat a skillet over medium-high heat. Add ground chicken, breaking it apart with a spoon. Cook 5-6 minutes, stirring occasionally, until cooked through.",
+      "Sprinkle garlic powder over chicken and stir in soy sauce. Cook 1 minute more.",
+      "Microwave rice 90 sec + steam-bag veg 3 min. Build bowl with rice, top with chicken. Toppings on the side."
+    ]
+  },
+  {
+    "id": 101,
+    "name": "BBQ Skillet Chicken Hash Browns",
+    "emoji": "🔥",
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "chicken"
+    ],
+    "flavor": "spicy",
+    "activeTime": 7,
+    "components": [
+      {
+        "name": "Ground Chicken (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "BBQ Sauce (bottled)",
+        "quantity": 32,
+        "unit": "ml"
+      },
+      {
+        "name": "Frozen Hash Browns (microwaved)",
+        "quantity": 150,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Broccoli (steam-bag)",
+        "quantity": 85,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Cheddar Cheese",
+      "Fried Onions (canned)"
+    ],
+    "instructions": [
+      "Heat a skillet over medium-high heat. Add ground chicken and break apart with a spoon. Cook 5-6 minutes until cooked through.",
+      "Stir in BBQ sauce generously. Cook 1-2 minutes more.",
+      "Microwave hash browns per package (usually 2-3 min) and steam-bag broccoli 3 min.",
+      "Scoop hash browns onto plate, top with chicken BBQ mixture. Add broccoli to the side. Toppings on the side."
+    ]
+  },
+  {
+    "id": 102,
+    "name": "Saucy Tomato Chicken Bowl",
+    "emoji": "🍅",
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "chicken"
+    ],
+    "flavor": "saucy",
+    "activeTime": 6,
+    "components": [
+      {
+        "name": "Ground Chicken (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Canned Diced Tomatoes",
+        "quantity": 200,
+        "unit": "ml"
+      },
+      {
+        "name": "Italian Seasoning (shaker)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "White Rice Pouch (Uncle Ben's)",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Spinach (microwave)",
+        "quantity": 85,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Parmesan Cheese",
+      "Fresh Basil (if available)"
+    ],
+    "instructions": [
+      "Heat a skillet over medium-high heat. Add ground chicken and break apart. Cook 4-5 minutes until mostly cooked through.",
+      "Add canned tomatoes (with liquid) and Italian seasoning. Simmer 2 minutes.",
+      "Microwave rice 90 sec + microwave spinach 2 min. Build bowl with rice, top with chicken & tomato sauce, spinach on side."
+    ]
+  },
+  {
+    "id": 103,
+    "name": "Spicy Gochujang Chicken Rice",
+    "emoji": "🌶️",
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "chicken"
+    ],
+    "flavor": "spicy",
+    "activeTime": 7,
+    "components": [
+      {
+        "name": "Ground Chicken (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Gochujang Sauce (bottled)",
+        "quantity": 30,
+        "unit": "ml"
+      },
+      {
+        "name": "Soy Sauce",
+        "quantity": 8,
+        "unit": "ml"
+      },
+      {
+        "name": "Honey (squeeze bottle)",
+        "quantity": 10,
+        "unit": "ml"
+      },
+      {
+        "name": "White Rice Pouch (Uncle Ben's)",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Broccoli (steam-bag)",
+        "quantity": 85,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Sesame Seeds",
+      "Green Onion"
+    ],
+    "instructions": [
+      "Heat a skillet over medium-high heat. Add ground chicken, break apart with a spoon. Cook 5-6 minutes until cooked through.",
+      "In a small bowl, mix gochujang, soy sauce, and honey. Pour over chicken and stir well. Cook 1 minute more.",
+      "Microwave rice 90 sec + steam-bag broccoli 3 min. Build bowl with rice, top with spicy chicken, broccoli on side. Sesame & onion on top."
+    ]
+  },
+  {
+    "id": 104,
+    "name": "Chicken Pasta Marinara Skillet",
+    "emoji": "🍝",
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "chicken"
+    ],
+    "flavor": "saucy",
+    "activeTime": 7,
+    "components": [
+      {
+        "name": "Ground Chicken (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Rao's Marinara Sauce (bottled)",
+        "quantity": 100,
+        "unit": "ml"
+      },
+      {
+        "name": "Pasta Cup (microwave)",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Spinach (microwave)",
+        "quantity": 85,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Mozzarella Cheese",
+      "Parmesan"
+    ],
+    "instructions": [
+      "Heat a skillet over medium-high. Add ground chicken, break apart. Cook 5 minutes until cooked through.",
+      "Add marinara sauce to chicken. Stir and simmer 2 minutes.",
+      "Microwave pasta cup per package (usually 1.5 min) + microwave spinach 2 min. Combine pasta and chicken sauce on plate. Spinach on side. Cheese on top."
+    ]
+  },
+  {
+    "id": 105,
+    "name": "Chicken Taco Tortilla Skillet",
+    "emoji": "🌮",
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "chicken"
+    ],
+    "flavor": "spicy",
+    "activeTime": 6,
+    "components": [
+      {
+        "name": "Ground Chicken (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Taco Seasoning (packet)",
+        "quantity": 12,
+        "unit": "g"
+      },
+      {
+        "name": "Corn Tortillas (2, warmed)",
+        "quantity": 52,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Mixed Veg (steam-bag)",
+        "quantity": 85,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Shredded Cheddar",
+      "Salsa (bottled)",
+      "Sour Cream"
+    ],
+    "instructions": [
+      "Heat a skillet over medium-high. Add ground chicken and break apart. Cook 5 minutes until cooked through.",
+      "Sprinkle taco seasoning over chicken and add 2 tbsp water. Stir and simmer 1 minute.",
+      "Heat tortillas in a dry pan 30 sec per side. Microwave veg 3 min. Build tacos with chicken. Toppings on the side."
+    ]
+  },
+  {
+    "id": 106,
+    "name": "Creamy Chicken Mushroom Skillet",
+    "emoji": "🍄",
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "chicken",
+      "beef",
+      "eggs"
+    ],
+    "flavor": "saucy",
+    "activeTime": 7,
+    "components": [
+      {
+        "name": "Ground Chicken (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Beef Stroganoff Sauce Mix (powder)",
+        "quantity": 20,
+        "unit": "ml"
+      },
+      {
+        "name": "Sour Cream",
+        "quantity": 60,
+        "unit": "ml"
+      },
+      {
+        "name": "Egg Noodles (microwave cup)",
+        "quantity": 200,
+        "unit": "count"
+      },
+      {
+        "name": "Frozen Broccoli (steam-bag)",
+        "quantity": 85,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Parmesan",
+      "Fresh Dill (if available)"
+    ],
+    "instructions": [
+      "Heat a skillet over medium-high. Add ground chicken and break apart. Cook 5 minutes until cooked through.",
+      "Mix stroganoff sauce powder with ½ cup water per package, then add to chicken. Simmer 2 minutes. Remove from heat and stir in sour cream.",
+      "Microwave egg noodles per package + microwave broccoli 3 min. Combine noodles with chicken stroganoff on plate. Broccoli on side."
+    ]
+  },
+  {
+    "id": 107,
+    "name": "Teriyaki Chicken Broccoli Bowl",
+    "emoji": "🥦",
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "chicken"
+    ],
+    "flavor": "asian",
+    "activeTime": 6,
+    "components": [
+      {
+        "name": "Ground Chicken (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Teriyaki Sauce (Kikkoman bottle)",
+        "quantity": 30,
+        "unit": "ml"
+      },
+      {
+        "name": "White Rice Pouch (Uncle Ben's)",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Broccoli (steam-bag)",
+        "quantity": 85,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Sesame Seeds",
+      "Green Onion"
+    ],
+    "instructions": [
+      "Heat a skillet over medium-high heat. Add ground chicken and break apart. Cook 5 minutes until cooked through.",
+      "Drizzle teriyaki sauce over chicken and stir well. Cook 1 minute more.",
+      "Microwave rice 90 sec + steam-bag broccoli 3 min. Build bowl with rice, top with chicken, broccoli on side. Toppings on top."
+    ]
+  },
+  {
+    "id": 108,
+    "name": "Skillet Pork Soy Garlic Rice",
+    "emoji": "🐷",
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "pork"
+    ],
+    "flavor": "asian",
+    "activeTime": 6,
+    "components": [
+      {
+        "name": "Ground Pork (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Soy Sauce",
+        "quantity": 8,
+        "unit": "ml"
+      },
+      {
+        "name": "Garlic Powder (shaker)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "White Rice Pouch (Uncle Ben's)",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Mixed Veg (steam-bag)",
+        "quantity": 85,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Sesame Seeds",
+      "Green Onion"
+    ],
+    "instructions": [
+      "Heat a skillet over medium-high heat. Add ground pork, breaking it apart with a spoon. Cook 5-6 minutes, stirring occasionally, until browned.",
+      "Sprinkle garlic powder over pork and stir in soy sauce. Cook 1 minute more.",
+      "Microwave rice 90 sec + steam-bag veg 3 min. Build bowl with rice, top with pork. Toppings on the side."
+    ]
+  },
+  {
+    "id": 109,
+    "name": "BBQ Skillet Pork Hash Browns",
+    "emoji": "🔥",
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "pork"
+    ],
+    "flavor": "spicy",
+    "activeTime": 7,
+    "components": [
+      {
+        "name": "Ground Pork (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "BBQ Sauce (bottled)",
+        "quantity": 32,
+        "unit": "ml"
+      },
+      {
+        "name": "Frozen Hash Browns (microwaved)",
+        "quantity": 150,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Broccoli (steam-bag)",
+        "quantity": 85,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Cheddar Cheese",
+      "Fried Onions (canned)"
+    ],
+    "instructions": [
+      "Heat a skillet over medium-high heat. Add ground pork and break apart with a spoon. Cook 5-6 minutes until browned.",
+      "Stir in BBQ sauce generously. Cook 1-2 minutes more.",
+      "Microwave hash browns per package (usually 2-3 min) and steam-bag broccoli 3 min.",
+      "Scoop hash browns onto plate, top with pork BBQ mixture. Add broccoli to the side. Toppings on the side."
+    ]
+  },
+  {
+    "id": 110,
+    "name": "Saucy Tomato Pork Bowl",
+    "emoji": "🍅",
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "pork"
+    ],
+    "flavor": "saucy",
+    "activeTime": 6,
+    "components": [
+      {
+        "name": "Ground Pork (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Canned Diced Tomatoes",
+        "quantity": 200,
+        "unit": "ml"
+      },
+      {
+        "name": "Italian Seasoning (shaker)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "White Rice Pouch (Uncle Ben's)",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Spinach (microwave)",
+        "quantity": 85,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Parmesan Cheese",
+      "Fresh Basil (if available)"
+    ],
+    "instructions": [
+      "Heat a skillet over medium-high heat. Add ground pork and break apart. Cook 4-5 minutes until mostly browned.",
+      "Add canned tomatoes (with liquid) and Italian seasoning. Simmer 2 minutes.",
+      "Microwave rice 90 sec + microwave spinach 2 min. Build bowl with rice, top with pork & tomato sauce, spinach on side."
+    ]
+  },
+  {
+    "id": 111,
+    "name": "Spicy Gochujang Pork Rice",
+    "emoji": "🌶️",
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "pork"
+    ],
+    "flavor": "spicy",
+    "activeTime": 7,
+    "components": [
+      {
+        "name": "Ground Pork (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Gochujang Sauce (bottled)",
+        "quantity": 30,
+        "unit": "ml"
+      },
+      {
+        "name": "Soy Sauce",
+        "quantity": 8,
+        "unit": "ml"
+      },
+      {
+        "name": "Honey (squeeze bottle)",
+        "quantity": 10,
+        "unit": "ml"
+      },
+      {
+        "name": "White Rice Pouch (Uncle Ben's)",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Broccoli (steam-bag)",
+        "quantity": 85,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Sesame Seeds",
+      "Green Onion"
+    ],
+    "instructions": [
+      "Heat a skillet over medium-high heat. Add ground pork, break apart with a spoon. Cook 5-6 minutes until browned.",
+      "In a small bowl, mix gochujang, soy sauce, and honey. Pour over pork and stir well. Cook 1 minute more.",
+      "Microwave rice 90 sec + steam-bag broccoli 3 min. Build bowl with rice, top with spicy pork, broccoli on side. Sesame & onion on top."
+    ]
+  },
+  {
+    "id": 112,
+    "name": "Pork Pasta Marinara Skillet",
+    "emoji": "🍝",
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "pork"
+    ],
+    "flavor": "saucy",
+    "activeTime": 7,
+    "components": [
+      {
+        "name": "Ground Pork (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Rao's Marinara Sauce (bottled)",
+        "quantity": 100,
+        "unit": "ml"
+      },
+      {
+        "name": "Pasta Cup (microwave)",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Spinach (microwave)",
+        "quantity": 85,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Mozzarella Cheese",
+      "Parmesan"
+    ],
+    "instructions": [
+      "Heat a skillet over medium-high. Add ground pork, break apart. Cook 5 minutes until browned.",
+      "Add marinara sauce to pork. Stir and simmer 2 minutes.",
+      "Microwave pasta cup per package (usually 1.5 min) + microwave spinach 2 min. Combine pasta and pork sauce on plate. Spinach on side. Cheese on top."
+    ]
+  },
+  {
+    "id": 113,
+    "name": "Pork Taco Tortilla Skillet",
+    "emoji": "🌮",
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "pork"
+    ],
+    "flavor": "spicy",
+    "activeTime": 6,
+    "components": [
+      {
+        "name": "Ground Pork (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Taco Seasoning (packet)",
+        "quantity": 12,
+        "unit": "g"
+      },
+      {
+        "name": "Corn Tortillas (2, warmed)",
+        "quantity": 52,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Mixed Veg (steam-bag)",
+        "quantity": 85,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Shredded Cheddar",
+      "Salsa (bottled)",
+      "Sour Cream"
+    ],
+    "instructions": [
+      "Heat a skillet over medium-high. Add ground pork and break apart. Cook 5 minutes until browned.",
+      "Sprinkle taco seasoning over pork and add 2 tbsp water. Stir and simmer 1 minute.",
+      "Heat tortillas in a dry pan 30 sec per side. Microwave veg 3 min. Build tacos with pork. Toppings on the side."
+    ]
+  },
+  {
+    "id": 114,
+    "name": "Creamy Pork Mushroom Skillet",
+    "emoji": "🍄",
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "pork",
+      "beef",
+      "eggs"
+    ],
+    "flavor": "saucy",
+    "activeTime": 7,
+    "components": [
+      {
+        "name": "Ground Pork (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Beef Stroganoff Sauce Mix (powder)",
+        "quantity": 20,
+        "unit": "ml"
+      },
+      {
+        "name": "Sour Cream",
+        "quantity": 60,
+        "unit": "ml"
+      },
+      {
+        "name": "Egg Noodles (microwave cup)",
+        "quantity": 200,
+        "unit": "count"
+      },
+      {
+        "name": "Frozen Broccoli (steam-bag)",
+        "quantity": 85,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Parmesan",
+      "Fresh Dill (if available)"
+    ],
+    "instructions": [
+      "Heat a skillet over medium-high. Add ground pork and break apart. Cook 5 minutes until browned.",
+      "Mix stroganoff sauce powder with ½ cup water per package, then add to pork. Simmer 2 minutes. Remove from heat and stir in sour cream.",
+      "Microwave egg noodles per package + microwave broccoli 3 min. Combine noodles with pork stroganoff on plate. Broccoli on side."
+    ]
+  },
+  {
+    "id": 115,
+    "name": "Teriyaki Pork Broccoli Bowl",
+    "emoji": "🥦",
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "pork"
+    ],
+    "flavor": "asian",
+    "activeTime": 6,
+    "components": [
+      {
+        "name": "Ground Pork (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Teriyaki Sauce (Kikkoman bottle)",
+        "quantity": 30,
+        "unit": "ml"
+      },
+      {
+        "name": "White Rice Pouch (Uncle Ben's)",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Broccoli (steam-bag)",
+        "quantity": 85,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Sesame Seeds",
+      "Green Onion"
+    ],
+    "instructions": [
+      "Heat a skillet over medium-high heat. Add ground pork and break apart. Cook 5 minutes until browned.",
+      "Drizzle teriyaki sauce over pork and stir well. Cook 1 minute more.",
+      "Microwave rice 90 sec + steam-bag broccoli 3 min. Build bowl with rice, top with pork, broccoli on side. Toppings on top."
+    ]
+  },
+  {
+    "id": 116,
+    "name": "Skillet Turkey Soy Garlic Rice",
+    "emoji": "🦃",
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "turkey"
+    ],
+    "flavor": "asian",
+    "activeTime": 6,
+    "components": [
+      {
+        "name": "Ground Turkey (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Soy Sauce",
+        "quantity": 8,
+        "unit": "ml"
+      },
+      {
+        "name": "Garlic Powder (shaker)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "White Rice Pouch (Uncle Ben's)",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Mixed Veg (steam-bag)",
+        "quantity": 85,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Sesame Seeds",
+      "Green Onion"
+    ],
+    "instructions": [
+      "Heat a skillet over medium-high heat. Add ground turkey, breaking it apart with a spoon. Cook 5-6 minutes, stirring occasionally, until cooked through.",
+      "Sprinkle garlic powder over turkey and stir in soy sauce. Cook 1 minute more.",
+      "Microwave rice 90 sec + steam-bag veg 3 min. Build bowl with rice, top with turkey. Toppings on the side."
+    ]
+  },
+  {
+    "id": 117,
+    "name": "BBQ Skillet Turkey Hash Browns",
+    "emoji": "🔥",
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "turkey"
+    ],
+    "flavor": "spicy",
+    "activeTime": 7,
+    "components": [
+      {
+        "name": "Ground Turkey (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "BBQ Sauce (bottled)",
+        "quantity": 32,
+        "unit": "ml"
+      },
+      {
+        "name": "Frozen Hash Browns (microwaved)",
+        "quantity": 150,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Broccoli (steam-bag)",
+        "quantity": 85,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Cheddar Cheese",
+      "Fried Onions (canned)"
+    ],
+    "instructions": [
+      "Heat a skillet over medium-high heat. Add ground turkey and break apart with a spoon. Cook 5-6 minutes until cooked through.",
+      "Stir in BBQ sauce generously. Cook 1-2 minutes more.",
+      "Microwave hash browns per package (usually 2-3 min) and steam-bag broccoli 3 min.",
+      "Scoop hash browns onto plate, top with turkey BBQ mixture. Add broccoli to the side. Toppings on the side."
+    ]
+  },
+  {
+    "id": 118,
+    "name": "Saucy Tomato Turkey Bowl",
+    "emoji": "🍅",
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "turkey"
+    ],
+    "flavor": "saucy",
+    "activeTime": 6,
+    "components": [
+      {
+        "name": "Ground Turkey (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Canned Diced Tomatoes",
+        "quantity": 200,
+        "unit": "ml"
+      },
+      {
+        "name": "Italian Seasoning (shaker)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "White Rice Pouch (Uncle Ben's)",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Spinach (microwave)",
+        "quantity": 85,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Parmesan Cheese",
+      "Fresh Basil (if available)"
+    ],
+    "instructions": [
+      "Heat a skillet over medium-high heat. Add ground turkey and break apart. Cook 4-5 minutes until mostly cooked through.",
+      "Add canned tomatoes (with liquid) and Italian seasoning. Simmer 2 minutes.",
+      "Microwave rice 90 sec + microwave spinach 2 min. Build bowl with rice, top with turkey & tomato sauce, spinach on side."
+    ]
+  },
+  {
+    "id": 119,
+    "name": "Spicy Gochujang Turkey Rice",
+    "emoji": "🌶️",
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "turkey"
+    ],
+    "flavor": "spicy",
+    "activeTime": 7,
+    "components": [
+      {
+        "name": "Ground Turkey (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Gochujang Sauce (bottled)",
+        "quantity": 30,
+        "unit": "ml"
+      },
+      {
+        "name": "Soy Sauce",
+        "quantity": 8,
+        "unit": "ml"
+      },
+      {
+        "name": "Honey (squeeze bottle)",
+        "quantity": 10,
+        "unit": "ml"
+      },
+      {
+        "name": "White Rice Pouch (Uncle Ben's)",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Broccoli (steam-bag)",
+        "quantity": 85,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Sesame Seeds",
+      "Green Onion"
+    ],
+    "instructions": [
+      "Heat a skillet over medium-high heat. Add ground turkey, break apart with a spoon. Cook 5-6 minutes until cooked through.",
+      "In a small bowl, mix gochujang, soy sauce, and honey. Pour over turkey and stir well. Cook 1 minute more.",
+      "Microwave rice 90 sec + steam-bag broccoli 3 min. Build bowl with rice, top with spicy turkey, broccoli on side. Sesame & onion on top."
+    ]
+  },
+  {
+    "id": 120,
+    "name": "Turkey Pasta Marinara Skillet",
+    "emoji": "🍝",
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "turkey"
+    ],
+    "flavor": "saucy",
+    "activeTime": 7,
+    "components": [
+      {
+        "name": "Ground Turkey (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Rao's Marinara Sauce (bottled)",
+        "quantity": 100,
+        "unit": "ml"
+      },
+      {
+        "name": "Pasta Cup (microwave)",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Spinach (microwave)",
+        "quantity": 85,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Mozzarella Cheese",
+      "Parmesan"
+    ],
+    "instructions": [
+      "Heat a skillet over medium-high. Add ground turkey, break apart. Cook 5 minutes until cooked through.",
+      "Add marinara sauce to turkey. Stir and simmer 2 minutes.",
+      "Microwave pasta cup per package (usually 1.5 min) + microwave spinach 2 min. Combine pasta and turkey sauce on plate. Spinach on side. Cheese on top."
+    ]
+  },
+  {
+    "id": 121,
+    "name": "Turkey Taco Tortilla Skillet",
+    "emoji": "🌮",
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "turkey"
+    ],
+    "flavor": "spicy",
+    "activeTime": 6,
+    "components": [
+      {
+        "name": "Ground Turkey (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Taco Seasoning (packet)",
+        "quantity": 12,
+        "unit": "g"
+      },
+      {
+        "name": "Corn Tortillas (2, warmed)",
+        "quantity": 52,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Mixed Veg (steam-bag)",
+        "quantity": 85,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Shredded Cheddar",
+      "Salsa (bottled)",
+      "Sour Cream"
+    ],
+    "instructions": [
+      "Heat a skillet over medium-high. Add ground turkey and break apart. Cook 5 minutes until cooked through.",
+      "Sprinkle taco seasoning over turkey and add 2 tbsp water. Stir and simmer 1 minute.",
+      "Heat tortillas in a dry pan 30 sec per side. Microwave veg 3 min. Build tacos with turkey. Toppings on the side."
+    ]
+  },
+  {
+    "id": 122,
+    "name": "Creamy Turkey Mushroom Skillet",
+    "emoji": "🍄",
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "turkey",
+      "beef",
+      "eggs"
+    ],
+    "flavor": "saucy",
+    "activeTime": 7,
+    "components": [
+      {
+        "name": "Ground Turkey (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Beef Stroganoff Sauce Mix (powder)",
+        "quantity": 20,
+        "unit": "ml"
+      },
+      {
+        "name": "Sour Cream",
+        "quantity": 60,
+        "unit": "ml"
+      },
+      {
+        "name": "Egg Noodles (microwave cup)",
+        "quantity": 200,
+        "unit": "count"
+      },
+      {
+        "name": "Frozen Broccoli (steam-bag)",
+        "quantity": 85,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Parmesan",
+      "Fresh Dill (if available)"
+    ],
+    "instructions": [
+      "Heat a skillet over medium-high. Add ground turkey and break apart. Cook 5 minutes until cooked through.",
+      "Mix stroganoff sauce powder with ½ cup water per package, then add to turkey. Simmer 2 minutes. Remove from heat and stir in sour cream.",
+      "Microwave egg noodles per package + microwave broccoli 3 min. Combine noodles with turkey stroganoff on plate. Broccoli on side."
+    ]
+  },
+  {
+    "id": 123,
+    "name": "Teriyaki Turkey Broccoli Bowl",
+    "emoji": "🥦",
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "turkey"
+    ],
+    "flavor": "asian",
+    "activeTime": 6,
+    "components": [
+      {
+        "name": "Ground Turkey (93% lean)",
+        "quantity": 142,
+        "unit": "g"
+      },
+      {
+        "name": "Teriyaki Sauce (Kikkoman bottle)",
+        "quantity": 30,
+        "unit": "ml"
+      },
+      {
+        "name": "White Rice Pouch (Uncle Ben's)",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Broccoli (steam-bag)",
+        "quantity": 85,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Sesame Seeds",
+      "Green Onion"
+    ],
+    "instructions": [
+      "Heat a skillet over medium-high heat. Add ground turkey and break apart. Cook 5 minutes until cooked through.",
+      "Drizzle teriyaki sauce over turkey and stir well. Cook 1 minute more.",
+      "Microwave rice 90 sec + steam-bag broccoli 3 min. Build bowl with rice, top with turkey, broccoli on side. Toppings on top."
+    ]
+  }
 ];
