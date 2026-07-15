@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import StarIcon from './StarIcon';
+import StarRating from './StarRating';
 
 const GRAMS_PER_OZ = 28.3495;
 const ML_PER_FLOZ = 29.5735;
@@ -85,6 +86,9 @@ export default function RecipeModal({
   onUpdateNotes,
   onUpdateIngredientOverride,
   onUpdateInstructionOverride,
+  ratingSummary,
+  myRating,
+  onRate,
 }) {
   // Rendered with key={recipe.id} by the parent, so this component remounts
   // fresh (and all local state below resets naturally) whenever a different
@@ -192,6 +196,25 @@ export default function RecipeModal({
             </button>
           </div>
         </div>
+
+        {/* Rating */}
+        {onRate && (
+          <div style={{ marginBottom: 16, paddingBottom: 16, borderBottom: '1px solid var(--border)' }}>
+            <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--muted)', marginBottom: 6, textTransform: 'uppercase', letterSpacing: 1 }}>
+              Rating
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+              <StarRating value={ratingSummary?.avg || 0} readOnly size={16} />
+              <span style={{ fontSize: 12, color: 'var(--muted)' }}>
+                {ratingSummary
+                  ? `${ratingSummary.avg.toFixed(1)} (${ratingSummary.count} rating${ratingSummary.count === 1 ? '' : 's'})`
+                  : 'No ratings yet'}
+              </span>
+            </div>
+            <div style={{ fontSize: 11, color: 'var(--muted)', marginBottom: 4 }}>Your rating — tap a star</div>
+            <StarRating value={myRating || 0} onRate={(n) => onRate(r.id, n)} size={26} />
+          </div>
+        )}
 
         {/* Ingredients */}
         {components.length > 0 && (

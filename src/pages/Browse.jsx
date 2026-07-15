@@ -38,7 +38,7 @@ const METHODS = [
   { label: 'Microwave', value: 'Microwave' },
 ];
 
-export default function Browse({ onOpen, isSaved, toggleSaved }) {
+export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary }) {
   const [search, setSearch] = useState('');
   const [mealFilter, setMealFilter] = useState(null);
   const [proteinFilter, setProteinFilter] = useState(null);
@@ -76,6 +76,9 @@ export default function Browse({ onOpen, isSaved, toggleSaved }) {
           </div>
           <div style={{ fontSize: 11, color: 'var(--muted)' }}>
             {r.method}{r.method && r.activeTime ? ' · ' : ''}{r.activeTime ? `${r.activeTime} min` : ''}
+            {getRatingSummary && getRatingSummary(r.id) && (
+              <> · ★ {getRatingSummary(r.id).avg.toFixed(1)} ({getRatingSummary(r.id).count})</>
+            )}
           </div>
           {(r.tags || []).length > 0 && (
             <div style={{ display: 'flex', gap: 6, marginTop: 4 }}>

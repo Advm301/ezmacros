@@ -47,7 +47,7 @@ function filterRecipes(recipes, mealTypeLabel, protein, flavor, quickFilter) {
   });
 }
 
-export default function Kitchen({ onOpen }) {
+export default function Kitchen({ onOpen, getRatingSummary }) {
   const [mealType, setMealType] = useState(null);
   const [protein, setProtein] = useState(null);
   const [flavor, setFlavor] = useState(null);
@@ -181,6 +181,9 @@ export default function Kitchen({ onOpen }) {
                   </div>
                   <div style={{ fontSize: 11, color: 'var(--muted)' }}>
                     {r.method}{r.method && r.activeTime ? ' · ' : ''}{r.activeTime ? `${r.activeTime} min` : ''}
+                    {getRatingSummary && getRatingSummary(r.id) && (
+                      <> · ★ {getRatingSummary(r.id).avg.toFixed(1)} ({getRatingSummary(r.id).count})</>
+                    )}
                   </div>
                 </div>
               ))}

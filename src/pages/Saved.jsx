@@ -1,7 +1,7 @@
 import { RECIPES } from '../data/recipes.js';
 import StarIcon from '../components/StarIcon';
 
-export default function Saved({ saved, isSaved, toggleSaved, onOpen }) {
+export default function Saved({ saved, isSaved, toggleSaved, onOpen, getRatingSummary }) {
   const savedIds = Object.keys(saved);
   const recipes = RECIPES.filter((r) => savedIds.includes(String(r.id)));
 
@@ -42,6 +42,9 @@ export default function Saved({ saved, isSaved, toggleSaved, onOpen }) {
                     </div>
                     <div style={{ fontSize: 11, color: 'var(--muted)' }}>
                       {r.method}{r.method && r.activeTime ? ' · ' : ''}{r.activeTime ? `${r.activeTime} min` : ''}
+                      {getRatingSummary && getRatingSummary(r.id) && (
+                        <> · ★ {getRatingSummary(r.id).avg.toFixed(1)} ({getRatingSummary(r.id).count})</>
+                      )}
                     </div>
                     {(hasNotes || hasOverrides) && (
                       <div style={{ fontSize: 11, color: 'var(--muted)', marginTop: 4, fontStyle: 'italic' }}>
