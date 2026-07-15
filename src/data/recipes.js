@@ -5,7 +5,9 @@
 // plus any passive time like baking, air frying, or slow cooking; equals activeTime for
 // methods with no passive gap), components (ingredients: name/quantity/unit), toppings
 // (optional garnish names), instructions (cooking steps), tags (optional array, e.g.
-// 'high_protein', 'grab_and_go' -- used for quick-filter chips in Browse/Kitchen).
+// 'high_protein', 'grab_and_go' -- used for quick-filter chips in Browse/Kitchen),
+// pantryTags (array of common-staple ids from pantryStaples.js that this recipe's
+// ingredients draw from -- used for "what can I make with what I have" matching).
 
 export const MEAL_TYPES = ['breakfast', 'lunch_dinner', 'snack'];
 
@@ -55,7 +57,11 @@ export const RECIPES = [
       "Bake at 425°F for 12–14 minutes until the fish flakes easily with a fork.",
       "While the oven heats, microwave rice pouch for 90 seconds. Microwave green beans steam-bag for 3 minutes. Arrange rice on a plate, top with cod, and add green beans to the side."
     ],
-    "totalTime": 17
+    "totalTime": 17,
+    "pantryTags": [
+      "rice",
+      "frozen_veg"
+    ]
   },
   {
     "id": 2,
@@ -105,7 +111,11 @@ export const RECIPES = [
       "Rest cod 1 min.",
       "Microwave rice 90 sec + steam-bag beans 3 min. Build bowl — toppings separate."
     ],
-    "totalTime": 19
+    "totalTime": 19,
+    "pantryTags": [
+      "rice",
+      "frozen_veg"
+    ]
   },
   {
     "id": 3,
@@ -143,7 +153,8 @@ export const RECIPES = [
       "Air fry 400°F for 18–20 min, flip once at 10 min.",
       "Rest 2 min. Add toppings on the side."
     ],
-    "totalTime": 24
+    "totalTime": 24,
+    "pantryTags": []
   },
   {
     "id": 4,
@@ -170,7 +181,8 @@ export const RECIPES = [
       "Remove lid. Microwave HIGH 3 minutes.",
       "Rest 1 min. Add toppings to taste."
     ],
-    "totalTime": 1
+    "totalTime": 1,
+    "pantryTags": []
   },
   {
     "id": 5,
@@ -208,7 +220,10 @@ export const RECIPES = [
       "Mash yolks with mayo + mustard until smooth.",
       "Fill whites. Shake paprika on top."
     ],
-    "totalTime": 5
+    "totalTime": 5,
+    "pantryTags": [
+      "eggs"
+    ]
   },
   {
     "id": 6,
@@ -268,7 +283,12 @@ export const RECIPES = [
       "Microwave rice 90 sec + steam-bag veg 3 min.",
       "Build bowl. Toppings on the side."
     ],
-    "totalTime": 245
+    "totalTime": 245,
+    "pantryTags": [
+      "rice",
+      "canned_tomatoes",
+      "frozen_veg"
+    ]
   },
   {
     "id": 7,
@@ -328,7 +348,11 @@ export const RECIPES = [
       "Bake 400°F for 18–20 min.",
       "Add sauce and cheese as separate toppings."
     ],
-    "totalTime": 28
+    "totalTime": 28,
+    "pantryTags": [
+      "eggs",
+      "cheese"
+    ]
   },
   {
     "id": 8,
@@ -371,7 +395,10 @@ export const RECIPES = [
       "Bake 425°F for 12–14 min.",
       "Microwave steam-bag broccoli 4 min. Plate together — toppings separate."
     ],
-    "totalTime": 17
+    "totalTime": 17,
+    "pantryTags": [
+      "frozen_veg"
+    ]
   },
   {
     "id": 9,
@@ -413,7 +440,10 @@ export const RECIPES = [
       "Mix protein powder into yogurt with a spoon until smooth.",
       "Spoon blueberries over top. Drizzle honey. Add toppings to taste."
     ],
-    "totalTime": 2
+    "totalTime": 2,
+    "pantryTags": [
+      "greek_yogurt"
+    ]
   },
   {
     "id": 10,
@@ -451,7 +481,11 @@ export const RECIPES = [
       "Pour in egg whites. Scramble until just set.",
       "Top with cheese. Slide onto plate — hot sauce on the side."
     ],
-    "totalTime": 5
+    "totalTime": 5,
+    "pantryTags": [
+      "eggs",
+      "cheese"
+    ]
   },
   {
     "id": 11,
@@ -494,7 +528,10 @@ export const RECIPES = [
       "Spray skillet and heat medium. Pour ⅓ cup batter per pancake. Cook 2 min per side.",
       "Stack on plate — syrup on the side."
     ],
-    "totalTime": 8
+    "totalTime": 8,
+    "pantryTags": [
+      "eggs"
+    ]
   },
   {
     "id": 12,
@@ -541,7 +578,8 @@ export const RECIPES = [
       "Add protein powder, frozen banana, PB2, and almond milk to blender.",
       "Pulse until smooth. Add ice and blend again. Pour into glass."
     ],
-    "totalTime": 2
+    "totalTime": 2,
+    "pantryTags": []
   },
   {
     "id": 13,
@@ -583,7 +621,12 @@ export const RECIPES = [
       "Toast bagel thin. Spread cream cheese evenly.",
       "Layer smoked salmon + capers. Squeeze lemon over top."
     ],
-    "totalTime": 3
+    "totalTime": 3,
+    "pantryTags": [
+      "bread",
+      "cheese",
+      "canned_fish"
+    ]
   },
   {
     "id": 14,
@@ -625,7 +668,11 @@ export const RECIPES = [
       "Toast bread until golden. Spread cottage cheese on each slice.",
       "Sprinkle everything seasoning, drizzle honey, season with pepper."
     ],
-    "totalTime": 3
+    "totalTime": 3,
+    "pantryTags": [
+      "bread",
+      "cottage_cheese"
+    ]
   },
   {
     "id": 15,
@@ -673,7 +720,11 @@ export const RECIPES = [
       "Mix oats, yogurt, protein powder, almond milk, honey in container.",
       "Refrigerate overnight. Stir before eating. Top with berries and seeds."
     ],
-    "totalTime": 3
+    "totalTime": 3,
+    "pantryTags": [
+      "greek_yogurt",
+      "oats"
+    ]
   },
   {
     "id": 16,
@@ -717,7 +768,11 @@ export const RECIPES = [
       "Whisk eggs, pour into skillet. Scramble until just set (~3 min).",
       "Top with cheddar. Chop sausage on the side."
     ],
-    "totalTime": 6
+    "totalTime": 6,
+    "pantryTags": [
+      "eggs",
+      "cheese"
+    ]
   },
   {
     "id": 17,
@@ -765,7 +820,12 @@ export const RECIPES = [
       "Toast bagel thin. Mix cream cheese + Greek yogurt spread on both halves.",
       "Layer turkey + mustard. Squeeze lemon pepper, add cucumber."
     ],
-    "totalTime": 3
+    "totalTime": 3,
+    "pantryTags": [
+      "bread",
+      "cheese",
+      "greek_yogurt"
+    ]
   },
   {
     "id": 18,
@@ -807,7 +867,11 @@ export const RECIPES = [
       "Toast bread. Squeeze guac evenly on both slices.",
       "Top with sliced eggs. Season with everything bagel seasoning + pepper flakes."
     ],
-    "totalTime": 3
+    "totalTime": 3,
+    "pantryTags": [
+      "bread",
+      "eggs"
+    ]
   },
   {
     "id": 19,
@@ -849,7 +913,10 @@ export const RECIPES = [
       "Thaw berries 2 min if needed. Spoon yogurt into bowl.",
       "Layer berries, granola, honey. Top with seeds."
     ],
-    "totalTime": 2
+    "totalTime": 2,
+    "pantryTags": [
+      "greek_yogurt"
+    ]
   },
   {
     "id": 20,
@@ -891,7 +958,11 @@ export const RECIPES = [
       "Whisk egg whites + whole egg in microwave-safe mug. Add cheese + salsa. Stir.",
       "Microwave 90 sec. Stir. Microwave 30 sec more until set."
     ],
-    "totalTime": 3
+    "totalTime": 3,
+    "pantryTags": [
+      "eggs",
+      "cheese"
+    ]
   },
   {
     "id": 21,
@@ -939,7 +1010,11 @@ export const RECIPES = [
       "Microwave rice 90 sec. Microwave broccoli 3 min. Toss chicken in hot sauce.",
       "Build bowl — toppings separate."
     ],
-    "totalTime": 22
+    "totalTime": 22,
+    "pantryTags": [
+      "rice",
+      "frozen_veg"
+    ]
   },
   {
     "id": 22,
@@ -982,7 +1057,10 @@ export const RECIPES = [
       "Microwave rice 90 sec. Brush BBQ sauce on cooked chicken.",
       "Build bowl — extra sauce on the side."
     ],
-    "totalTime": 24
+    "totalTime": 24,
+    "pantryTags": [
+      "rice"
+    ]
   },
   {
     "id": 23,
@@ -1029,7 +1107,11 @@ export const RECIPES = [
       "Microwave rice 90 sec. Microwave frozen veg 3 min.",
       "Mix canned chicken with soy sauce + garlic powder. Build bowl — toppings on side."
     ],
-    "totalTime": 2
+    "totalTime": 2,
+    "pantryTags": [
+      "rice",
+      "frozen_veg"
+    ]
   },
   {
     "id": 24,
@@ -1071,7 +1153,12 @@ export const RECIPES = [
       "Microwave rice 90 sec. Microwave broccoli 3 min. Heat rotisserie chicken 60 sec in microwave if cold.",
       "Mix chicken with hot sauce. Build bowl — toppings separate."
     ],
-    "totalTime": 3
+    "totalTime": 3,
+    "pantryTags": [
+      "rice",
+      "frozen_veg",
+      "rotisserie_chicken"
+    ]
   },
   {
     "id": 25,
@@ -1118,7 +1205,12 @@ export const RECIPES = [
       "Microwave rice 90 sec. Microwave edamame 3 min. Thaw salmon 1 min if frozen.",
       "Mix mayo + soy sauce. Build bowl with salmon on rice. Toppings separate."
     ],
-    "totalTime": 3
+    "totalTime": 3,
+    "pantryTags": [
+      "rice",
+      "frozen_veg",
+      "canned_fish"
+    ]
   },
   {
     "id": 26,
@@ -1171,7 +1263,11 @@ export const RECIPES = [
       "Bake 425°F for 12–14 min. Microwave rice 90 sec + green beans 3 min.",
       "Build bowl — toppings separate."
     ],
-    "totalTime": 18
+    "totalTime": 18,
+    "pantryTags": [
+      "rice",
+      "frozen_veg"
+    ]
   },
   {
     "id": 27,
@@ -1224,7 +1320,11 @@ export const RECIPES = [
       "Add taco seasoning + water. Simmer 2 min. Microwave rice 90 sec + beans 60 sec.",
       "Build bowl — toppings on side."
     ],
-    "totalTime": 8
+    "totalTime": 8,
+    "pantryTags": [
+      "rice",
+      "canned_beans"
+    ]
   },
   {
     "id": 28,
@@ -1272,7 +1372,11 @@ export const RECIPES = [
       "Air fry 400°F for 16–18 min, shaking at 9 min. Rest 2 min. Slice.",
       "Microwave rice 90 sec + veg 3 min. Build bowl."
     ],
-    "totalTime": 24
+    "totalTime": 24,
+    "pantryTags": [
+      "rice",
+      "frozen_veg"
+    ]
   },
   {
     "id": 29,
@@ -1320,7 +1424,11 @@ export const RECIPES = [
       "Air fry 380°F for 8–10 min, shaking halfway. Microwave rice 90 sec + broccoli 3 min.",
       "Build bowl — toppings separate."
     ],
-    "totalTime": 15
+    "totalTime": 15,
+    "pantryTags": [
+      "rice",
+      "frozen_veg"
+    ]
   },
   {
     "id": 30,
@@ -1368,7 +1476,10 @@ export const RECIPES = [
       "Air fry 400°F for 18–20 min, shaking at 10 min. Microwave rice 90 sec.",
       "Build bowl with tzatziki drizzled on chicken. Toppings on side."
     ],
-    "totalTime": 26
+    "totalTime": 26,
+    "pantryTags": [
+      "rice"
+    ]
   },
   {
     "id": 31,
@@ -1410,7 +1521,8 @@ export const RECIPES = [
       "Add chicken, broth, and seasonings to slow cooker.",
       "Cook LOW 6–7 hrs or HIGH 3–4 hrs. Shred chicken. Serve with toppings on side."
     ],
-    "totalTime": 425
+    "totalTime": 425,
+    "pantryTags": []
   },
   {
     "id": 32,
@@ -1453,7 +1565,11 @@ export const RECIPES = [
       "Combine cooked pasta + drained tuna in bowl.",
       "Mix mayo + mustard. Fold into pasta. Season to taste."
     ],
-    "totalTime": 4
+    "totalTime": 4,
+    "pantryTags": [
+      "pasta",
+      "canned_fish"
+    ]
   },
   {
     "id": 33,
@@ -1496,7 +1612,12 @@ export const RECIPES = [
       "Fold in half. Cook 2 min per side until golden + cheese melts. Repeat with second tortilla.",
       "Cut into triangles. Toppings on side."
     ],
-    "totalTime": 8
+    "totalTime": 8,
+    "pantryTags": [
+      "tortillas",
+      "canned_beans",
+      "cheese"
+    ]
   },
   {
     "id": 34,
@@ -1538,7 +1659,11 @@ export const RECIPES = [
       "Microwave rice 90 sec. Warm salmon pouch in microwave 60 sec.",
       "Build bowl. Season salmon with lemon pepper + hot sauce. Toppings separate."
     ],
-    "totalTime": 2
+    "totalTime": 2,
+    "pantryTags": [
+      "rice",
+      "canned_fish"
+    ]
   },
   {
     "id": 35,
@@ -1587,7 +1712,11 @@ export const RECIPES = [
       "Add beans, tomatoes, and chili seasoning. Stir well.",
       "Cook LOW 5–6 hrs or HIGH 2–3 hrs. Stir occasionally. Top with cheese + sour cream."
     ],
-    "totalTime": 368
+    "totalTime": 368,
+    "pantryTags": [
+      "canned_beans",
+      "canned_tomatoes"
+    ]
   },
   {
     "id": 36,
@@ -1635,7 +1764,10 @@ export const RECIPES = [
       "Brush sauce over salmon. Bake 425°F for 12–14 min. Microwave broccoli 3 min.",
       "Plate together — extra sauce on side."
     ],
-    "totalTime": 19
+    "totalTime": 19,
+    "pantryTags": [
+      "frozen_veg"
+    ]
   },
   {
     "id": 37,
@@ -1683,7 +1815,12 @@ export const RECIPES = [
       "Add rice to skillet, break up clumps. Stir 2 min. Add peas + soy sauce.",
       "Return eggs to skillet, toss everything 1 min. Toppings on side."
     ],
-    "totalTime": 8
+    "totalTime": 8,
+    "pantryTags": [
+      "rice",
+      "eggs",
+      "frozen_veg"
+    ]
   },
   {
     "id": 38,
@@ -1737,7 +1874,11 @@ export const RECIPES = [
       "Air fry 400°F for 18–20 min, shaking at 10 min. Microwave rice 90 sec + beans 60 sec.",
       "Build bowl with salsa drizzled on chicken. Cheese + lime on side."
     ],
-    "totalTime": 26
+    "totalTime": 26,
+    "pantryTags": [
+      "rice",
+      "canned_beans"
+    ]
   },
   {
     "id": 39,
@@ -1779,7 +1920,10 @@ export const RECIPES = [
       "Lay lettuce leaves flat. Spread 1 tsp dijon on each.",
       "Layer turkey on lettuce. Add small squeeze of guac. Roll tightly."
     ],
-    "totalTime": 3
+    "totalTime": 3,
+    "pantryTags": [
+      "salad_greens"
+    ]
   },
   {
     "id": 40,
@@ -1827,7 +1971,11 @@ export const RECIPES = [
       "Bake 425°F for 12–14 min. Microwave rice 90 sec + edamame 3 min.",
       "Build bowl — toppings separate."
     ],
-    "totalTime": 18
+    "totalTime": 18,
+    "pantryTags": [
+      "rice",
+      "frozen_veg"
+    ]
   },
   {
     "id": 41,
@@ -1863,7 +2011,10 @@ export const RECIPES = [
     "instructions": [
       "Spread almond butter on rice cakes. Top with beef jerky. Drizzle honey."
     ],
-    "totalTime": 1
+    "totalTime": 1,
+    "pantryTags": [
+      "rice"
+    ]
   },
   {
     "id": 42,
@@ -1899,7 +2050,10 @@ export const RECIPES = [
     "instructions": [
       "Spread mustard on turkey slice. Place string cheese stick at edge and roll tightly."
     ],
-    "totalTime": 2
+    "totalTime": 2,
+    "pantryTags": [
+      "cheese"
+    ]
   },
   {
     "id": 43,
@@ -1935,7 +2089,10 @@ export const RECIPES = [
     "instructions": [
       "Spoon cottage cheese into bowl. Top with drained pineapple and honey. Add toppings to taste."
     ],
-    "totalTime": 2
+    "totalTime": 2,
+    "pantryTags": [
+      "cottage_cheese"
+    ]
   },
   {
     "id": 44,
@@ -1971,7 +2128,11 @@ export const RECIPES = [
     "instructions": [
       "Halve pre-boiled eggs. Pour hot sauce over. Sprinkle seasoning on top."
     ],
-    "totalTime": 2
+    "totalTime": 2,
+    "pantryTags": [
+      "bread",
+      "eggs"
+    ]
   },
   {
     "id": 45,
@@ -2013,7 +2174,11 @@ export const RECIPES = [
       "Toast bread. Spread mustard on both slices.",
       "Lay sardines on toast. Squeeze lemon + add capers."
     ],
-    "totalTime": 3
+    "totalTime": 3,
+    "pantryTags": [
+      "bread",
+      "canned_fish"
+    ]
   },
   {
     "id": 46,
@@ -2049,7 +2214,10 @@ export const RECIPES = [
     "instructions": [
       "Thaw berries 1 min if frozen. Spoon skyr into bowl. Top with berries and honey."
     ],
-    "totalTime": 2
+    "totalTime": 2,
+    "pantryTags": [
+      "greek_yogurt"
+    ]
   },
   {
     "id": 47,
@@ -2091,7 +2259,12 @@ export const RECIPES = [
       "Warm tortilla 30 sec in microwave. Spread salsa down center.",
       "Layer chicken + cheese. Roll tightly. Squeeze lime on top."
     ],
-    "totalTime": 3
+    "totalTime": 3,
+    "pantryTags": [
+      "tortillas",
+      "cheese",
+      "rotisserie_chicken"
+    ]
   },
   {
     "id": 48,
@@ -2134,7 +2307,10 @@ export const RECIPES = [
       "Combine yogurt, protein powder, cocoa powder, and almond milk in bowl.",
       "Whisk until smooth and pudding-like. Top with syrup + cocoa nibs."
     ],
-    "totalTime": 2
+    "totalTime": 2,
+    "pantryTags": [
+      "greek_yogurt"
+    ]
   },
   {
     "id": 49,
@@ -2176,7 +2352,10 @@ export const RECIPES = [
       "Microwave edamame steam-bag 3 min. Pour into bowl.",
       "Drizzle soy sauce + sesame oil. Sprinkle pepper flakes + seeds."
     ],
-    "totalTime": 3
+    "totalTime": 3,
+    "pantryTags": [
+      "frozen_veg"
+    ]
   },
   {
     "id": 50,
@@ -2218,7 +2397,8 @@ export const RECIPES = [
       "Mix canned chicken with mustard + hot sauce.",
       "Spoon onto crackers. Season lightly."
     ],
-    "totalTime": 2
+    "totalTime": 2,
+    "pantryTags": []
   },
   {
     "id": 51,
@@ -2286,7 +2466,11 @@ export const RECIPES = [
       "Cook 2 min without moving. Flip, add cheese, cook 1 min.",
       "Toast bun lightly. Build burger with ketchup, mustard, pickles."
     ],
-    "totalTime": 6
+    "totalTime": 6,
+    "pantryTags": [
+      "bread",
+      "cheese"
+    ]
   },
   {
     "id": 52,
@@ -2335,7 +2519,11 @@ export const RECIPES = [
       "Toast bun. Brush BBQ sauce on inside.",
       "Stack burger + bacon on bun."
     ],
-    "totalTime": 8
+    "totalTime": 8,
+    "pantryTags": [
+      "bread",
+      "cheese"
+    ]
   },
   {
     "id": 53,
@@ -2388,7 +2576,10 @@ export const RECIPES = [
       "Form into patty. Heat skillet medium-high. Cook 4–5 min per side (~165°F internal).",
       "Toast bun. Spread mustard. Build burger with pickles + toppings on side."
     ],
-    "totalTime": 7
+    "totalTime": 7,
+    "pantryTags": [
+      "bread"
+    ]
   },
   {
     "id": 54,
@@ -2436,7 +2627,10 @@ export const RECIPES = [
       "Toss cooked chicken in hot sauce. Toast bun.",
       "Spread mayo on bun. Stack chicken + pickles."
     ],
-    "totalTime": 23
+    "totalTime": 23,
+    "pantryTags": [
+      "bread"
+    ]
   },
   {
     "id": 55,
@@ -2484,7 +2678,12 @@ export const RECIPES = [
       "Top with cheese slice. Place on foil in air fryer basket.",
       "Air fry 350°F for 6–8 min until cheese melts. Squeeze lemon on top."
     ],
-    "totalTime": 14
+    "totalTime": 14,
+    "pantryTags": [
+      "bread",
+      "cheese",
+      "canned_fish"
+    ]
   },
   {
     "id": 56,
@@ -2533,7 +2732,12 @@ export const RECIPES = [
       "Scramble egg whites + whole egg in skillet with butter 3 min.",
       "Top muffin with eggs + cheese + sausage."
     ],
-    "totalTime": 6
+    "totalTime": 6,
+    "pantryTags": [
+      "bread",
+      "eggs",
+      "cheese"
+    ]
   },
   {
     "id": 57,
@@ -2581,7 +2785,13 @@ export const RECIPES = [
       "Warm tortilla 30 sec in microwave. Spread yogurt down center.",
       "Layer chicken + cheese + salsa. Roll tightly. Squeeze lime on top."
     ],
-    "totalTime": 3
+    "totalTime": 3,
+    "pantryTags": [
+      "tortillas",
+      "cheese",
+      "greek_yogurt",
+      "rotisserie_chicken"
+    ]
   },
   {
     "id": 58,
@@ -2628,7 +2838,11 @@ export const RECIPES = [
       "Microwave bacon 2 min. Warm tortilla 30 sec in microwave.",
       "Spread mayo on tortilla. Layer turkey + bacon + lettuce. Roll tightly."
     ],
-    "totalTime": 3
+    "totalTime": 3,
+    "pantryTags": [
+      "tortillas",
+      "salad_greens"
+    ]
   },
   {
     "id": 59,
@@ -2681,7 +2895,10 @@ export const RECIPES = [
       "Top with mozzarella + pepperoni. Sprinkle with Italian seasoning and garlic powder.",
       "Air fry 375°F for 8 min until cheese bubbles."
     ],
-    "totalTime": 13
+    "totalTime": 13,
+    "pantryTags": [
+      "cheese"
+    ]
   },
   {
     "id": 60,
@@ -2724,7 +2941,11 @@ export const RECIPES = [
       "Spoon cottage cheese into microwave-safe bowl.",
       "Top with marinara + mozzarella + pepperoni. Microwave 2 min until cheese melts. Sprinkle seasonings."
     ],
-    "totalTime": 3
+    "totalTime": 3,
+    "pantryTags": [
+      "cheese",
+      "cottage_cheese"
+    ]
   },
   {
     "id": 61,
@@ -2767,7 +2988,11 @@ export const RECIPES = [
       "Top with shredded chicken + mozzarella. Sprinkle seasonings.",
       "Air fry 375°F for 8 min until cheese melts."
     ],
-    "totalTime": 13
+    "totalTime": 13,
+    "pantryTags": [
+      "cheese",
+      "rotisserie_chicken"
+    ]
   },
   {
     "id": 62,
@@ -2815,7 +3040,11 @@ export const RECIPES = [
       "Top with chicken + mozzarella + sun-dried tomatoes.",
       "Air fry 375°F for 8 min until cheese melts."
     ],
-    "totalTime": 13
+    "totalTime": 13,
+    "pantryTags": [
+      "cheese",
+      "rotisserie_chicken"
+    ]
   },
   {
     "id": 63,
@@ -2873,7 +3102,11 @@ export const RECIPES = [
       "Add soy sauce + garlic + honey. Simmer 2 min. Microwave rice 90 sec + broccoli 3 min.",
       "Build bowl — toppings separate."
     ],
-    "totalTime": 7
+    "totalTime": 7,
+    "pantryTags": [
+      "rice",
+      "frozen_veg"
+    ]
   },
   {
     "id": 64,
@@ -2921,7 +3154,11 @@ export const RECIPES = [
       "Heat skillet. Cook chicken 5 min per side. Brush teriyaki sauce on chicken.",
       "Plate noodles + veg, top with chicken. Toppings on side."
     ],
-    "totalTime": 8
+    "totalTime": 8,
+    "pantryTags": [
+      "pasta",
+      "frozen_veg"
+    ]
   },
   {
     "id": 65,
@@ -2975,7 +3212,12 @@ export const RECIPES = [
       "Add rice, break up clumps, stir 2 min. Add peas + soy sauce + shrimp.",
       "Return eggs, toss everything 1 min. Toppings on side."
     ],
-    "totalTime": 8
+    "totalTime": 8,
+    "pantryTags": [
+      "rice",
+      "eggs",
+      "frozen_veg"
+    ]
   },
   {
     "id": 66,
@@ -3017,7 +3259,12 @@ export const RECIPES = [
       "Poke potato with fork. Microwave on HIGH 8–10 min until tender.",
       "Microwave chili 2 min in separate bowl. Split potato open. Top with chili, cheese, yogurt."
     ],
-    "totalTime": 5
+    "totalTime": 5,
+    "pantryTags": [
+      "cheese",
+      "potatoes",
+      "greek_yogurt"
+    ]
   },
   {
     "id": 67,
@@ -3071,7 +3318,11 @@ export const RECIPES = [
       "Heat butter in skillet medium heat. Dip bread slices in mixture, coat both sides.",
       "Cook 2–3 min per side until golden. Serve with sugar-free syrup."
     ],
-    "totalTime": 7
+    "totalTime": 7,
+    "pantryTags": [
+      "bread",
+      "eggs"
+    ]
   },
   {
     "id": 68,
@@ -3114,7 +3365,11 @@ export const RECIPES = [
       "Toss meatballs in sauce. Warm hoagie roll 30 sec in microwave.",
       "Stuff roll with meatballs, sauce, and mozzarella. Top with seasonings."
     ],
-    "totalTime": 5
+    "totalTime": 5,
+    "pantryTags": [
+      "bread",
+      "cheese"
+    ]
   },
   {
     "id": 69,
@@ -3172,7 +3427,10 @@ export const RECIPES = [
       "Add gochujang + soy + honey + garlic powder. Simmer 2 min. Microwave rice 90 sec.",
       "Build bowl — toppings separate."
     ],
-    "totalTime": 7
+    "totalTime": 7,
+    "pantryTags": [
+      "rice"
+    ]
   },
   {
     "id": 70,
@@ -3219,7 +3477,13 @@ export const RECIPES = [
       "Mix canned salmon with 2 tbsp Caesar dressing in bowl.",
       "Lay tortilla flat. Place romaine on top. Add salmon mixture + remaining dressing + parmesan. Roll tightly."
     ],
-    "totalTime": 3
+    "totalTime": 3,
+    "pantryTags": [
+      "tortillas",
+      "cheese",
+      "canned_fish",
+      "salad_greens"
+    ]
   },
   {
     "id": 71,
@@ -3274,7 +3538,11 @@ export const RECIPES = [
       "Build bowl: sweet potato base, seasoned beef on top, cottage cheese dollop.",
       "Squeeze avocado + drizzle hot honey generously over top. Toppings on side."
     ],
-    "totalTime": 8
+    "totalTime": 8,
+    "pantryTags": [
+      "potatoes",
+      "cottage_cheese"
+    ]
   },
   {
     "id": 72,
@@ -3327,7 +3595,12 @@ export const RECIPES = [
       "Spray feta lightly with olive oil. Shake Italian seasoning + garlic powder over top.",
       "Bake 400°F for 25 min. Mash feta and tomatoes together until creamy. Toss with cooked pasta."
     ],
-    "totalTime": 33
+    "totalTime": 33,
+    "pantryTags": [
+      "pasta",
+      "canned_tomatoes",
+      "cheese"
+    ]
   },
   {
     "id": 73,
@@ -3366,7 +3639,11 @@ export const RECIPES = [
       "Pour onto parchment-lined sheet pan. Spread evenly to ~¼ inch thick.",
       "Bake 350°F for 25–30 min until golden brown. Cool 2 min. Use as wrap or pizza base."
     ],
-    "totalTime": 33
+    "totalTime": 33,
+    "pantryTags": [
+      "eggs",
+      "cottage_cheese"
+    ]
   },
   {
     "id": 74,
@@ -3414,7 +3691,10 @@ export const RECIPES = [
       "Air fry thawed shrimp 380°F for 8–10 min, shaking halfway. Toss in bang bang sauce.",
       "Microwave rice 90 sec. Build bowl with shrimp, cucumber slices. Toppings on side."
     ],
-    "totalTime": 15
+    "totalTime": 15,
+    "pantryTags": [
+      "rice"
+    ]
   },
   {
     "id": 75,
@@ -3471,7 +3751,10 @@ export const RECIPES = [
       "Add chicken, sun-dried tomatoes, broth, Italian seasoning, and garlic powder to slow cooker.",
       "Cook LOW 5–6 hrs or HIGH 2–3 hrs. Stir in heavy cream + parmesan in last 30 min. Serve over white rice pouch."
     ],
-    "totalTime": 365
+    "totalTime": 365,
+    "pantryTags": [
+      "cheese"
+    ]
   },
   {
     "id": 76,
@@ -3528,7 +3811,10 @@ export const RECIPES = [
       "Mix drained tuna with soy sauce + rice vinegar + sesame oil in bowl.",
       "Add cucumber slices + chili crisp + sesame seeds. Toss gently. Serve cold."
     ],
-    "totalTime": 4
+    "totalTime": 4,
+    "pantryTags": [
+      "canned_fish"
+    ]
   },
   {
     "id": 77,
@@ -3581,7 +3867,11 @@ export const RECIPES = [
       "Layer crab, then remaining rice mixture. Top with mozzarella.",
       "Bake 375°F for 15 min until cheese melts. Top with cucumber + extra sriracha."
     ],
-    "totalTime": 21
+    "totalTime": 21,
+    "pantryTags": [
+      "rice",
+      "cheese"
+    ]
   },
   {
     "id": 78,
@@ -3633,7 +3923,12 @@ export const RECIPES = [
     "instructions": [
       "Top each cucumber round with 1 tsp cottage cheese. Layer salmon piece on top. Sprinkle everything seasoning + dill. Drizzle lemon."
     ],
-    "totalTime": 3
+    "totalTime": 3,
+    "pantryTags": [
+      "bread",
+      "cottage_cheese",
+      "canned_fish"
+    ]
   },
   {
     "id": 79,
@@ -3686,7 +3981,12 @@ export const RECIPES = [
       "Add rice to skillet, break up clumps, stir 2 min. Add peas + soy sauce + garlic powder.",
       "Return eggs, toss everything 1 min. Toppings on side."
     ],
-    "totalTime": 7
+    "totalTime": 7,
+    "pantryTags": [
+      "rice",
+      "eggs",
+      "frozen_veg"
+    ]
   },
   {
     "id": 80,
@@ -3739,7 +4039,11 @@ export const RECIPES = [
       "Dip corn tortillas in the hot beef broth until crispy (~20 sec per side).",
       "Fill dipped tortillas with cheese + shredded beef from the pan + lime + cilantro. Serve with extra broth for dipping."
     ],
-    "totalTime": 10
+    "totalTime": 10,
+    "pantryTags": [
+      "tortillas",
+      "cheese"
+    ]
   },
   {
     "id": 81,
@@ -3791,7 +4095,10 @@ export const RECIPES = [
       "Place salmon skin-down on foil-lined sheet. Brush generously with hot honey.",
       "Sprinkle garlic powder. Bake 425°F for 12–14 min. Microwave broccoli 3 min. Squeeze lemon over salmon."
     ],
-    "totalTime": 18
+    "totalTime": 18,
+    "pantryTags": [
+      "frozen_veg"
+    ]
   },
   {
     "id": 82,
@@ -3854,7 +4161,11 @@ export const RECIPES = [
       "Mix sriracha + soy sauce + garlic powder + honey. Toss cooked shrimp in sauce.",
       "Microwave rice 90 sec + broccoli 3 min. Build bowl — toppings on side."
     ],
-    "totalTime": 7
+    "totalTime": 7,
+    "pantryTags": [
+      "rice",
+      "frozen_veg"
+    ]
   },
   {
     "id": 83,
@@ -3912,7 +4223,10 @@ export const RECIPES = [
       "Air fry 400°F for 12–14 min, shaking halfway. Toast bun lightly.",
       "Spread mayo on bun. Stack chicken tenders + pickles."
     ],
-    "totalTime": 20
+    "totalTime": 20,
+    "pantryTags": [
+      "bread"
+    ]
   },
   {
     "id": 84,
@@ -3965,7 +4279,11 @@ export const RECIPES = [
       "Bake 425°F for 12–14 min. Microwave rice 90 sec + edamame 3 min.",
       "Build bowl. Drizzle mayo on salmon. Toppings on side."
     ],
-    "totalTime": 19
+    "totalTime": 19,
+    "pantryTags": [
+      "rice",
+      "frozen_veg"
+    ]
   },
   {
     "id": 85,
@@ -4019,7 +4337,11 @@ export const RECIPES = [
       "Warm tortillas 30 sec in microwave. Fill with shrimp.",
       "Top with yogurt + salsa verde + lime + cilantro."
     ],
-    "totalTime": 16
+    "totalTime": 16,
+    "pantryTags": [
+      "tortillas",
+      "greek_yogurt"
+    ]
   },
   {
     "id": 86,
@@ -4073,7 +4395,11 @@ export const RECIPES = [
       "Add chipotle seasoning + beans + salsa verde. Simmer 2 min. Microwave rice 90 sec.",
       "Build bowl — toppings on side."
     ],
-    "totalTime": 7
+    "totalTime": 7,
+    "pantryTags": [
+      "rice",
+      "canned_beans"
+    ]
   },
   {
     "id": 87,
@@ -4131,7 +4457,10 @@ export const RECIPES = [
       "In skillet, brown ground meat 4–5 min. Add soy sauce + PB2 + chili crisp + sesame oil. Toss noodles into mixture.",
       "Cook 1 min more. Toppings on side."
     ],
-    "totalTime": 8
+    "totalTime": 8,
+    "pantryTags": [
+      "pasta"
+    ]
   },
   {
     "id": 88,
@@ -4184,7 +4513,11 @@ export const RECIPES = [
       "Add stir-fry sauce + frozen broccoli + garlic powder. Simmer 3 min.",
       "Microwave rice 90 sec. Build bowl — toppings on side."
     ],
-    "totalTime": 7
+    "totalTime": 7,
+    "pantryTags": [
+      "rice",
+      "frozen_veg"
+    ]
   },
   {
     "id": 89,
@@ -4237,7 +4570,11 @@ export const RECIPES = [
       "Microwave rice 90 sec + broccoli 3 min. Build bowl.",
       "Drizzle ranch dressing over shrimp. Toppings on side."
     ],
-    "totalTime": 15
+    "totalTime": 15,
+    "pantryTags": [
+      "rice",
+      "frozen_veg"
+    ]
   },
   {
     "id": 90,
@@ -4297,7 +4634,10 @@ export const RECIPES = [
       "Create 4 wells in the sauce using a spoon. Crack one egg into each well.",
       "Cover pan with lid. Cook 5-7 min until whites are set but yolks still slightly runny. Crumble feta over top. Serve with sourdough for dipping."
     ],
-    "totalTime": 12
+    "totalTime": 12,
+    "pantryTags": [
+      "eggs"
+    ]
   },
   {
     "id": 91,
@@ -4363,7 +4703,11 @@ export const RECIPES = [
       "Create 4 wells in sauce. Crack one egg into each well.",
       "Cover and cook 5-7 min until whites are set, yolks runny. Crumble feta over top. Serve with sourdough."
     ],
-    "totalTime": 15
+    "totalTime": 15,
+    "pantryTags": [
+      "eggs",
+      "canned_tomatoes"
+    ]
   },
   {
     "id": 92,
@@ -4411,7 +4755,11 @@ export const RECIPES = [
       "Sprinkle garlic powder over beef and stir in soy sauce. Cook 1 minute more.",
       "Microwave rice 90 sec + steam-bag veg 3 min. Build bowl with rice, top with beef. Toppings on the side."
     ],
-    "totalTime": 6
+    "totalTime": 6,
+    "pantryTags": [
+      "rice",
+      "frozen_veg"
+    ]
   },
   {
     "id": 93,
@@ -4455,7 +4803,11 @@ export const RECIPES = [
       "Microwave hash browns per package directions (usually 2-3 min) and steam-bag broccoli 3 min.",
       "Scoop hash browns onto plate, top with beef mixture. Add broccoli to the side. Toppings on the side."
     ],
-    "totalTime": 7
+    "totalTime": 7,
+    "pantryTags": [
+      "frozen_veg",
+      "potatoes"
+    ]
   },
   {
     "id": 94,
@@ -4503,7 +4855,11 @@ export const RECIPES = [
       "Add canned tomatoes (with liquid), Italian seasoning, and spinach. Simmer 2 minutes, stirring until the spinach wilts.",
       "Microwave rice 90 sec. Build bowl with rice, top with beef & tomato sauce (spinach mixed in)."
     ],
-    "totalTime": 6
+    "totalTime": 6,
+    "pantryTags": [
+      "rice",
+      "canned_tomatoes"
+    ]
   },
   {
     "id": 95,
@@ -4556,7 +4912,11 @@ export const RECIPES = [
       "In a small bowl, mix gochujang, soy sauce, and honey. Pour over beef and stir well. Cook 1 minute more.",
       "Microwave rice 90 sec + steam-bag broccoli 3 min. Build bowl with rice, top with spicy beef, broccoli on side. Sesame & onion on top."
     ],
-    "totalTime": 7
+    "totalTime": 7,
+    "pantryTags": [
+      "rice",
+      "frozen_veg"
+    ]
   },
   {
     "id": 96,
@@ -4600,7 +4960,10 @@ export const RECIPES = [
       "Add marinara sauce and spinach to the meat. Stir and simmer 2 minutes until the spinach wilts.",
       "Combine pasta with the beef sauce on a plate. Cheese on top."
     ],
-    "totalTime": 7
+    "totalTime": 7,
+    "pantryTags": [
+      "pasta"
+    ]
   },
   {
     "id": 97,
@@ -4644,7 +5007,11 @@ export const RECIPES = [
       "Sprinkle taco seasoning over beef and add 2 tbsp water. Stir and simmer 1 minute.",
       "Heat tortillas in a dry pan 30 sec per side. Microwave veg 3 min. Build tacos with beef. Toppings on the side."
     ],
-    "totalTime": 6
+    "totalTime": 6,
+    "pantryTags": [
+      "tortillas",
+      "frozen_veg"
+    ]
   },
   {
     "id": 98,
@@ -4693,7 +5060,11 @@ export const RECIPES = [
       "Mix stroganoff sauce powder with ½ cup water per package, then add to beef. Simmer 2 minutes. Remove from heat and stir in sour cream.",
       "Microwave egg noodles per package + microwave broccoli 3 min. Combine noodles with beef stroganoff on plate. Broccoli on side."
     ],
-    "totalTime": 7
+    "totalTime": 7,
+    "pantryTags": [
+      "pasta",
+      "frozen_veg"
+    ]
   },
   {
     "id": 99,
@@ -4736,7 +5107,11 @@ export const RECIPES = [
       "Drizzle teriyaki sauce over beef and stir well. Cook 1 minute more.",
       "Microwave rice 90 sec + steam-bag broccoli 3 min. Build bowl with rice, top with beef, broccoli on side. Toppings on top."
     ],
-    "totalTime": 6
+    "totalTime": 6,
+    "pantryTags": [
+      "rice",
+      "frozen_veg"
+    ]
   },
   {
     "id": 100,
@@ -4784,7 +5159,11 @@ export const RECIPES = [
       "Sprinkle garlic powder over chicken and stir in soy sauce. Cook 1 minute more.",
       "Microwave rice 90 sec + steam-bag veg 3 min. Build bowl with rice, top with chicken. Toppings on the side."
     ],
-    "totalTime": 6
+    "totalTime": 6,
+    "pantryTags": [
+      "rice",
+      "frozen_veg"
+    ]
   },
   {
     "id": 101,
@@ -4828,7 +5207,11 @@ export const RECIPES = [
       "Microwave hash browns per package (usually 2-3 min) and steam-bag broccoli 3 min.",
       "Scoop hash browns onto plate, top with chicken BBQ mixture. Add broccoli to the side. Toppings on the side."
     ],
-    "totalTime": 7
+    "totalTime": 7,
+    "pantryTags": [
+      "frozen_veg",
+      "potatoes"
+    ]
   },
   {
     "id": 102,
@@ -4876,7 +5259,11 @@ export const RECIPES = [
       "Add canned tomatoes (with liquid), Italian seasoning, and spinach. Simmer 2 minutes, stirring until the spinach wilts.",
       "Microwave rice 90 sec. Build bowl with rice, top with chicken & tomato sauce (spinach mixed in)."
     ],
-    "totalTime": 6
+    "totalTime": 6,
+    "pantryTags": [
+      "rice",
+      "canned_tomatoes"
+    ]
   },
   {
     "id": 103,
@@ -4929,7 +5316,11 @@ export const RECIPES = [
       "In a small bowl, mix gochujang, soy sauce, and honey. Pour over chicken and stir well. Cook 1 minute more.",
       "Microwave rice 90 sec + steam-bag broccoli 3 min. Build bowl with rice, top with spicy chicken, broccoli on side. Sesame & onion on top."
     ],
-    "totalTime": 7
+    "totalTime": 7,
+    "pantryTags": [
+      "rice",
+      "frozen_veg"
+    ]
   },
   {
     "id": 104,
@@ -4973,7 +5364,10 @@ export const RECIPES = [
       "Add marinara sauce and spinach to the meat. Stir and simmer 2 minutes until the spinach wilts.",
       "Combine pasta with the chicken sauce on a plate. Cheese on top."
     ],
-    "totalTime": 7
+    "totalTime": 7,
+    "pantryTags": [
+      "pasta"
+    ]
   },
   {
     "id": 105,
@@ -5017,7 +5411,11 @@ export const RECIPES = [
       "Sprinkle taco seasoning over chicken and add 2 tbsp water. Stir and simmer 1 minute.",
       "Heat tortillas in a dry pan 30 sec per side. Microwave veg 3 min. Build tacos with chicken. Toppings on the side."
     ],
-    "totalTime": 6
+    "totalTime": 6,
+    "pantryTags": [
+      "tortillas",
+      "frozen_veg"
+    ]
   },
   {
     "id": 106,
@@ -5067,7 +5465,11 @@ export const RECIPES = [
       "Mix stroganoff sauce powder with ½ cup water per package, then add to chicken. Simmer 2 minutes. Remove from heat and stir in sour cream.",
       "Microwave egg noodles per package + microwave broccoli 3 min. Combine noodles with chicken stroganoff on plate. Broccoli on side."
     ],
-    "totalTime": 7
+    "totalTime": 7,
+    "pantryTags": [
+      "pasta",
+      "frozen_veg"
+    ]
   },
   {
     "id": 107,
@@ -5110,7 +5512,11 @@ export const RECIPES = [
       "Drizzle teriyaki sauce over chicken and stir well. Cook 1 minute more.",
       "Microwave rice 90 sec + steam-bag broccoli 3 min. Build bowl with rice, top with chicken, broccoli on side. Toppings on top."
     ],
-    "totalTime": 6
+    "totalTime": 6,
+    "pantryTags": [
+      "rice",
+      "frozen_veg"
+    ]
   },
   {
     "id": 108,
@@ -5158,7 +5564,11 @@ export const RECIPES = [
       "Sprinkle garlic powder over pork and stir in soy sauce. Cook 1 minute more.",
       "Microwave rice 90 sec + steam-bag veg 3 min. Build bowl with rice, top with pork. Toppings on the side."
     ],
-    "totalTime": 6
+    "totalTime": 6,
+    "pantryTags": [
+      "rice",
+      "frozen_veg"
+    ]
   },
   {
     "id": 109,
@@ -5202,7 +5612,11 @@ export const RECIPES = [
       "Microwave hash browns per package (usually 2-3 min) and steam-bag broccoli 3 min.",
       "Scoop hash browns onto plate, top with pork BBQ mixture. Add broccoli to the side. Toppings on the side."
     ],
-    "totalTime": 7
+    "totalTime": 7,
+    "pantryTags": [
+      "frozen_veg",
+      "potatoes"
+    ]
   },
   {
     "id": 110,
@@ -5250,7 +5664,11 @@ export const RECIPES = [
       "Add canned tomatoes (with liquid), Italian seasoning, and spinach. Simmer 2 minutes, stirring until the spinach wilts.",
       "Microwave rice 90 sec. Build bowl with rice, top with pork & tomato sauce (spinach mixed in)."
     ],
-    "totalTime": 6
+    "totalTime": 6,
+    "pantryTags": [
+      "rice",
+      "canned_tomatoes"
+    ]
   },
   {
     "id": 111,
@@ -5303,7 +5721,11 @@ export const RECIPES = [
       "In a small bowl, mix gochujang, soy sauce, and honey. Pour over pork and stir well. Cook 1 minute more.",
       "Microwave rice 90 sec + steam-bag broccoli 3 min. Build bowl with rice, top with spicy pork, broccoli on side. Sesame & onion on top."
     ],
-    "totalTime": 7
+    "totalTime": 7,
+    "pantryTags": [
+      "rice",
+      "frozen_veg"
+    ]
   },
   {
     "id": 112,
@@ -5347,7 +5769,10 @@ export const RECIPES = [
       "Add marinara sauce and spinach to the meat. Stir and simmer 2 minutes until the spinach wilts.",
       "Combine pasta with the pork sauce on a plate. Cheese on top."
     ],
-    "totalTime": 7
+    "totalTime": 7,
+    "pantryTags": [
+      "pasta"
+    ]
   },
   {
     "id": 113,
@@ -5391,7 +5816,11 @@ export const RECIPES = [
       "Sprinkle taco seasoning over pork and add 2 tbsp water. Stir and simmer 1 minute.",
       "Heat tortillas in a dry pan 30 sec per side. Microwave veg 3 min. Build tacos with pork. Toppings on the side."
     ],
-    "totalTime": 6
+    "totalTime": 6,
+    "pantryTags": [
+      "tortillas",
+      "frozen_veg"
+    ]
   },
   {
     "id": 114,
@@ -5441,7 +5870,11 @@ export const RECIPES = [
       "Mix stroganoff sauce powder with ½ cup water per package, then add to pork. Simmer 2 minutes. Remove from heat and stir in sour cream.",
       "Microwave egg noodles per package + microwave broccoli 3 min. Combine noodles with pork stroganoff on plate. Broccoli on side."
     ],
-    "totalTime": 7
+    "totalTime": 7,
+    "pantryTags": [
+      "pasta",
+      "frozen_veg"
+    ]
   },
   {
     "id": 115,
@@ -5484,7 +5917,11 @@ export const RECIPES = [
       "Drizzle teriyaki sauce over pork and stir well. Cook 1 minute more.",
       "Microwave rice 90 sec + steam-bag broccoli 3 min. Build bowl with rice, top with pork, broccoli on side. Toppings on top."
     ],
-    "totalTime": 6
+    "totalTime": 6,
+    "pantryTags": [
+      "rice",
+      "frozen_veg"
+    ]
   },
   {
     "id": 116,
@@ -5532,7 +5969,11 @@ export const RECIPES = [
       "Sprinkle garlic powder over turkey and stir in soy sauce. Cook 1 minute more.",
       "Microwave rice 90 sec + steam-bag veg 3 min. Build bowl with rice, top with turkey. Toppings on the side."
     ],
-    "totalTime": 6
+    "totalTime": 6,
+    "pantryTags": [
+      "rice",
+      "frozen_veg"
+    ]
   },
   {
     "id": 117,
@@ -5576,7 +6017,11 @@ export const RECIPES = [
       "Microwave hash browns per package (usually 2-3 min) and steam-bag broccoli 3 min.",
       "Scoop hash browns onto plate, top with turkey BBQ mixture. Add broccoli to the side. Toppings on the side."
     ],
-    "totalTime": 7
+    "totalTime": 7,
+    "pantryTags": [
+      "frozen_veg",
+      "potatoes"
+    ]
   },
   {
     "id": 118,
@@ -5624,7 +6069,11 @@ export const RECIPES = [
       "Add canned tomatoes (with liquid), Italian seasoning, and spinach. Simmer 2 minutes, stirring until the spinach wilts.",
       "Microwave rice 90 sec. Build bowl with rice, top with turkey & tomato sauce (spinach mixed in)."
     ],
-    "totalTime": 6
+    "totalTime": 6,
+    "pantryTags": [
+      "rice",
+      "canned_tomatoes"
+    ]
   },
   {
     "id": 119,
@@ -5677,7 +6126,11 @@ export const RECIPES = [
       "In a small bowl, mix gochujang, soy sauce, and honey. Pour over turkey and stir well. Cook 1 minute more.",
       "Microwave rice 90 sec + steam-bag broccoli 3 min. Build bowl with rice, top with spicy turkey, broccoli on side. Sesame & onion on top."
     ],
-    "totalTime": 7
+    "totalTime": 7,
+    "pantryTags": [
+      "rice",
+      "frozen_veg"
+    ]
   },
   {
     "id": 120,
@@ -5721,7 +6174,10 @@ export const RECIPES = [
       "Add marinara sauce and spinach to the meat. Stir and simmer 2 minutes until the spinach wilts.",
       "Combine pasta with the turkey sauce on a plate. Cheese on top."
     ],
-    "totalTime": 7
+    "totalTime": 7,
+    "pantryTags": [
+      "pasta"
+    ]
   },
   {
     "id": 121,
@@ -5765,7 +6221,11 @@ export const RECIPES = [
       "Sprinkle taco seasoning over turkey and add 2 tbsp water. Stir and simmer 1 minute.",
       "Heat tortillas in a dry pan 30 sec per side. Microwave veg 3 min. Build tacos with turkey. Toppings on the side."
     ],
-    "totalTime": 6
+    "totalTime": 6,
+    "pantryTags": [
+      "tortillas",
+      "frozen_veg"
+    ]
   },
   {
     "id": 122,
@@ -5815,7 +6275,11 @@ export const RECIPES = [
       "Mix stroganoff sauce powder with ½ cup water per package, then add to turkey. Simmer 2 minutes. Remove from heat and stir in sour cream.",
       "Microwave egg noodles per package + microwave broccoli 3 min. Combine noodles with turkey stroganoff on plate. Broccoli on side."
     ],
-    "totalTime": 7
+    "totalTime": 7,
+    "pantryTags": [
+      "pasta",
+      "frozen_veg"
+    ]
   },
   {
     "id": 123,
@@ -5858,7 +6322,11 @@ export const RECIPES = [
       "Drizzle teriyaki sauce over turkey and stir well. Cook 1 minute more.",
       "Microwave rice 90 sec + steam-bag broccoli 3 min. Build bowl with rice, top with turkey, broccoli on side. Toppings on top."
     ],
-    "totalTime": 6
+    "totalTime": 6,
+    "pantryTags": [
+      "rice",
+      "frozen_veg"
+    ]
   },
   {
     "id": 124,
@@ -5908,7 +6376,13 @@ export const RECIPES = [
       "Spoon filling onto tortillas, roll, and place seam-down in a baking dish. Pour remaining sauce over the top, then sprinkle with cheese.",
       "Bake 20 minutes until the cheese is melted and the edges are bubbling."
     ],
-    "totalTime": 30
+    "totalTime": 30,
+    "pantryTags": [
+      "tortillas",
+      "canned_beans",
+      "cheese",
+      "potatoes"
+    ]
   },
   {
     "id": 125,
@@ -5969,7 +6443,11 @@ export const RECIPES = [
       "Toss arugula, berries, and feta in a bowl with the balsamic vinaigrette.",
       "Plate the salad and top with the salmon."
     ],
-    "totalTime": 15
+    "totalTime": 15,
+    "pantryTags": [
+      "cheese",
+      "salad_greens"
+    ]
   },
   {
     "id": 126,
@@ -6023,7 +6501,12 @@ export const RECIPES = [
       "Bake 35–40 minutes until the eggs are set and the center no longer jiggles. Top with remaining cheese for the last 5 minutes.",
       "Slice into portions."
     ],
-    "totalTime": 48
+    "totalTime": 48,
+    "pantryTags": [
+      "eggs",
+      "cheese",
+      "potatoes"
+    ]
   },
   {
     "id": 127,
@@ -6071,7 +6554,11 @@ export const RECIPES = [
       "Microwave the sweet potato noodle pouch 3–4 minutes until just tender.",
       "Plate chicken over the zoodles. Squeeze lime and add toppings."
     ],
-    "totalTime": 23
+    "totalTime": 23,
+    "pantryTags": [
+      "pasta",
+      "potatoes"
+    ]
   },
   {
     "id": 128,
@@ -6134,7 +6621,12 @@ export const RECIPES = [
       "Stir in the shredded rotisserie chicken for the last 30 minutes to warm through.",
       "Microwave the rice pouch 90 seconds. Serve the gumbo over rice."
     ],
-    "totalTime": 368
+    "totalTime": 368,
+    "pantryTags": [
+      "rice",
+      "frozen_veg",
+      "rotisserie_chicken"
+    ]
   },
   {
     "id": 129,
@@ -6180,7 +6672,11 @@ export const RECIPES = [
       "Microwave marinara sauce and spaghetti pouch together for 2–3 minutes.",
       "Combine meatballs with sauce and pasta, top with mozzarella and let it melt from the heat."
     ],
-    "totalTime": 15
+    "totalTime": 15,
+    "pantryTags": [
+      "pasta",
+      "cheese"
+    ]
   },
   {
     "id": 130,
@@ -6225,7 +6721,8 @@ export const RECIPES = [
       "Air fry 380°F for 12–14 minutes, flipping halfway, until internal temp reaches 145°F. Brush with remaining sauce for the last 2 minutes.",
       "Toss coleslaw mix with dressing in a bowl. Serve alongside the pork chops."
     ],
-    "totalTime": 19
+    "totalTime": 19,
+    "pantryTags": []
   },
   {
     "id": 131,
@@ -6260,7 +6757,8 @@ export const RECIPES = [
       "Air fry frozen chicken bites 400°F for 10–12 minutes, shaking the basket halfway.",
       "Toss the hot bites in buffalo sauce. Serve with ranch and celery."
     ],
-    "totalTime": 14
+    "totalTime": 14,
+    "pantryTags": []
   },
   {
     "id": 132,
@@ -6303,7 +6801,10 @@ export const RECIPES = [
       "Scoop cottage cheese into a bowl.",
       "Top with berries, granola, and a drizzle of honey."
     ],
-    "totalTime": 2
+    "totalTime": 2,
+    "pantryTags": [
+      "cottage_cheese"
+    ]
   },
   {
     "id": 133,
@@ -6350,7 +6851,12 @@ export const RECIPES = [
       "Microwave turkey sausage links 60 seconds.",
       "Layer eggs, sausage, and cheese onto the tortilla and roll into a wrap. Wrap in foil to take on the go."
     ],
-    "totalTime": 4
+    "totalTime": 4,
+    "pantryTags": [
+      "tortillas",
+      "eggs",
+      "cheese"
+    ]
   },
   {
     "id": 134,
@@ -6393,7 +6899,10 @@ export const RECIPES = [
       "Layer yogurt, berries, and granola in a cup or jar.",
       "Drizzle with honey. Cover and grab it on the way out."
     ],
-    "totalTime": 2
+    "totalTime": 2,
+    "pantryTags": [
+      "greek_yogurt"
+    ]
   },
   {
     "id": 135,
@@ -6428,7 +6937,11 @@ export const RECIPES = [
       "Empty the salad kit into a bowl and toss with its dressing and croutons.",
       "Top with shredded rotisserie chicken."
     ],
-    "totalTime": 3
+    "totalTime": 3,
+    "pantryTags": [
+      "rotisserie_chicken",
+      "salad_greens"
+    ]
   },
   {
     "id": 136,
@@ -6473,7 +6986,10 @@ export const RECIPES = [
       "Stir oats, milk, protein powder, and chia seeds together in a jar.",
       "Cover and refrigerate overnight. Grab it from the fridge in the morning — eat cold or warm 60 seconds in the microwave."
     ],
-    "totalTime": 3
+    "totalTime": 3,
+    "pantryTags": [
+      "oats"
+    ]
   },
   {
     "id": 137,
@@ -6513,7 +7029,11 @@ export const RECIPES = [
       "Mix tuna with mayo in a bowl.",
       "Spoon into lettuce leaves and fold like a taco."
     ],
-    "totalTime": 4
+    "totalTime": 4,
+    "pantryTags": [
+      "canned_fish",
+      "salad_greens"
+    ]
   },
   {
     "id": 138,
@@ -6560,7 +7080,11 @@ export const RECIPES = [
       "Microwave chicken strips 2–3 minutes until hot, then toss in buffalo sauce.",
       "Layer chicken, ranch, and lettuce onto the tortilla and roll into a wrap. Wrap in foil to take on the go."
     ],
-    "totalTime": 4
+    "totalTime": 4,
+    "pantryTags": [
+      "tortillas",
+      "salad_greens"
+    ]
   },
   {
     "id": 139,
@@ -6613,7 +7137,11 @@ export const RECIPES = [
       "Top with mozzarella + pepperoni. Sprinkle with Italian seasoning and garlic powder.",
       "Air fry 375°F for 6–7 min, watching closely near the end, until the cheese bubbles and bread edges are golden."
     ],
-    "totalTime": 12
+    "totalTime": 12,
+    "pantryTags": [
+      "bread",
+      "cheese"
+    ]
   },
   {
     "id": 140,
@@ -6652,7 +7180,11 @@ export const RECIPES = [
       "Whisk eggs in a bowl. Pour into the skillet with the chorizo and scramble until just set.",
       "Top with pepper jack and let it melt. Serve with salsa and cilantro."
     ],
-    "totalTime": 8
+    "totalTime": 8,
+    "pantryTags": [
+      "eggs",
+      "cheese"
+    ]
   },
   {
     "id": 141,
@@ -6704,7 +7236,12 @@ export const RECIPES = [
       "Whisk eggs and pour into the skillet. Scramble together with the chorizo until just set.",
       "Sprinkle in pepper jack and let it melt. Spoon onto the tortilla with salsa, roll into a burrito. Wrap in foil to take on the go."
     ],
-    "totalTime": 8
+    "totalTime": 8,
+    "pantryTags": [
+      "tortillas",
+      "eggs",
+      "cheese"
+    ]
   },
   {
     "id": 142,
@@ -6757,7 +7294,11 @@ export const RECIPES = [
       "Divide the mixture evenly among the muffin cups. Top with the remaining cheddar.",
       "Bake 18–20 minutes until puffed and set in the center. Cool 2 minutes before removing. Keeps in the fridge for grab-and-go mornings."
     ],
-    "totalTime": 28
+    "totalTime": 28,
+    "pantryTags": [
+      "eggs",
+      "cheese"
+    ]
   },
   {
     "id": 143,
@@ -6806,7 +7347,11 @@ export const RECIPES = [
       "In a separate small pan, fry the egg to your liking (sunny-side up works well).",
       "Top the rice with the fried egg. Toppings on top."
     ],
-    "totalTime": 8
+    "totalTime": 8,
+    "pantryTags": [
+      "rice",
+      "eggs"
+    ]
   },
   {
     "id": 144,
@@ -6855,7 +7400,13 @@ export const RECIPES = [
       "Warm tortillas in a dry pan 30 seconds per side. Fry eggs in the same pan to your liking.",
       "Spread beans over the tortillas, top with fried eggs, salsa, and cheese."
     ],
-    "totalTime": 8
+    "totalTime": 8,
+    "pantryTags": [
+      "tortillas",
+      "eggs",
+      "canned_beans",
+      "cheese"
+    ]
   },
   {
     "id": 145,
@@ -6905,6 +7456,11 @@ export const RECIPES = [
       "Crack the egg into a microwave-safe mug, pierce the yolk, and microwave 45–60 seconds until just set.",
       "Toast the English muffin. Spread sriracha mayo on both halves, add cheese and egg, and assemble the sandwich."
     ],
-    "totalTime": 5
+    "totalTime": 5,
+    "pantryTags": [
+      "bread",
+      "eggs",
+      "cheese"
+    ]
   }
 ];
