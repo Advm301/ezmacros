@@ -70,13 +70,29 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
   const [quickFilter, setQuickFilter] = useState(null);
   const [selectedStaples, setSelectedStaples] = useState([]);
   const [results, setResults] = useState(null);
+  const [surpriseError, setSurpriseError] = useState('');
 
   const toggleStaple = (id) => {
     setSelectedStaples((prev) => (prev.includes(id) ? prev.filter((s) => s !== id) : [...prev, id]));
   };
 
   const handleFindRecipes = () => {
+    setSurpriseError('');
     setResults(filterRecipes(RECIPES, mealType, protein, flavor, quickFilter, selectedStaples));
+  };
+
+  // Picks one random recipe from whatever the current filters/pantry
+  // selection match (or the full recipe list if nothing is set) and opens
+  // it directly -- a shortcut for "just decide for me."
+  const handleSurpriseMe = () => {
+    setSurpriseError('');
+    const pool = filterRecipes(RECIPES, mealType, protein, flavor, quickFilter, selectedStaples);
+    if (pool.length === 0) {
+      setSurpriseError('No recipes match those filters to surprise you with -- try loosening them.');
+      return;
+    }
+    const pick = pool[Math.floor(Math.random() * pool.length)];
+    if (onOpen) onOpen(pick);
   };
 
   const reset = () => {
@@ -86,6 +102,7 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
     setQuickFilter(null);
     setSelectedStaples([]);
     setResults(null);
+    setSurpriseError('');
   };
 
   return (
@@ -183,9 +200,21 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
           </div>
         </div>
 
-        <button className="gen-kitchen-btn" onClick={handleFindRecipes}>
-          ✦ Find Recipes
-        </button>
+        <div style={{ display: 'flex', gap: 10 }}>
+          <button className="gen-kitchen-btn" style={{ flex: 1 }} onClick={handleFindRecipes}>
+            ✦ Find Recipes
+          </button>
+          <button
+            className="gen-kitchen-btn"
+            style={{ flex: 1, background: 'var(--s2)', color: 'var(--cream)' }}
+            onClick={handleSurpriseMe}
+          >
+            ✦ Surprise Me
+          </button>
+        </div>
+        {surpriseError && (
+          <div style={{ fontSize: 12, color: 'var(--muted)', marginTop: 8 }}>{surpriseError}</div>
+        )}
       </div>
 
       {results !== null && (
