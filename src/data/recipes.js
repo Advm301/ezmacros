@@ -2832,7 +2832,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Ramen Noodles (1 packet, discard seasoning)",
+        "name": "Ramen-Style Noodles (dried or fresh, any brand -- no seasoning packet)",
         "quantity": 56,
         "unit": "g"
       },
@@ -2852,7 +2852,7 @@ export const RECIPES = [
       "Green Onion (dried)"
     ],
     "instructions": [
-      "Boil water in pot. Add noodles, cook 3 min. Add frozen veg, cook 2 min. Drain.",
+      "Boil water in pot. Add noodles, cook per package directions (usually 2–4 min). Add frozen veg, cook 2 min more. Drain.",
       "Heat skillet. Cook chicken 5 min per side. Brush teriyaki sauce on chicken.",
       "Plate noodles + veg, top with chicken. Toppings on side."
     ]
@@ -3999,7 +3999,7 @@ export const RECIPES = [
     "activeTime": 8,
     "components": [
       {
-        "name": "Ramen Noodles (1 packet, discard seasoning)",
+        "name": "Ramen-Style Noodles (dried or fresh, any brand -- no seasoning packet)",
         "quantity": 56,
         "unit": "g"
       },
@@ -4039,7 +4039,7 @@ export const RECIPES = [
       "Green Onion (dried)"
     ],
     "instructions": [
-      "Boil water in pot. Add ramen noodles, cook 3 min. Drain.",
+      "Boil water in pot. Add noodles, cook per package directions (usually 2–4 min). Drain.",
       "In skillet, brown ground meat 4–5 min. Add soy sauce + PB2 + chili crisp + sesame oil. Toss noodles into mixture.",
       "Cook 1 min more. Toppings on side."
     ]
@@ -6472,6 +6472,292 @@ export const RECIPES = [
       "Place sourdough slices on foil in air fryer basket. Spread marinara evenly over both.",
       "Top with mozzarella + pepperoni. Sprinkle with Italian seasoning and garlic powder.",
       "Air fry 375°F for 6–7 min, watching closely near the end, until the cheese bubbles and bread edges are golden."
+    ]
+  },
+  {
+    "id": 140,
+    "name": "Chorizo Scrambled Eggs",
+    "method": "Stovetop",
+    "mealType": "breakfast",
+    "proteins": [
+      "pork",
+      "eggs"
+    ],
+    "flavor": "spicy",
+    "activeTime": 8,
+    "components": [
+      {
+        "name": "Ground Mexican Chorizo (raw, casing removed)",
+        "quantity": 113,
+        "unit": "g"
+      },
+      {
+        "name": "Whole Eggs (4 large)",
+        "quantity": 200,
+        "unit": "count"
+      },
+      {
+        "name": "Shredded Pepper Jack (bagged)",
+        "quantity": 56,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Salsa (fresh or jarred)",
+      "Fresh Cilantro"
+    ],
+    "instructions": [
+      "Heat a skillet over medium-high. Add chorizo and break apart. Cook 4–5 minutes until browned and cooked through.",
+      "Whisk eggs in a bowl. Pour into the skillet with the chorizo and scramble until just set.",
+      "Top with pepper jack and let it melt. Serve with salsa and cilantro."
+    ]
+  },
+  {
+    "id": 141,
+    "name": "Spicy Breakfast Burrito",
+    "method": "Stovetop",
+    "mealType": "breakfast",
+    "proteins": [
+      "pork",
+      "eggs"
+    ],
+    "flavor": "spicy",
+    "activeTime": 8,
+    "tags": [
+      "grab_and_go"
+    ],
+    "components": [
+      {
+        "name": "Ground Mexican Chorizo (raw, casing removed)",
+        "quantity": 113,
+        "unit": "g"
+      },
+      {
+        "name": "Whole Eggs (3 large)",
+        "quantity": 150,
+        "unit": "count"
+      },
+      {
+        "name": "Shredded Pepper Jack (bagged)",
+        "quantity": 42,
+        "unit": "g"
+      },
+      {
+        "name": "Flour Tortilla (burrito-size)",
+        "quantity": 1,
+        "unit": "each"
+      },
+      {
+        "name": "Salsa (jarred)",
+        "quantity": 30,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Hot Sauce",
+      "Fresh Cilantro"
+    ],
+    "instructions": [
+      "Heat a skillet over medium-high. Add chorizo and break apart. Cook 4–5 minutes until browned.",
+      "Whisk eggs and pour into the skillet. Scramble together with the chorizo until just set.",
+      "Sprinkle in pepper jack and let it melt. Spoon onto the tortilla with salsa, roll into a burrito. Wrap in foil to take on the go."
+    ]
+  },
+  {
+    "id": 142,
+    "name": "Jalapeño Popper Egg Muffins",
+    "method": "Bake",
+    "mealType": "breakfast",
+    "proteins": [
+      "eggs",
+      "pork"
+    ],
+    "flavor": "spicy",
+    "activeTime": 8,
+    "tags": [
+      "grab_and_go"
+    ],
+    "components": [
+      {
+        "name": "Whole Eggs (6 large)",
+        "quantity": 300,
+        "unit": "count"
+      },
+      {
+        "name": "Light Cream Cheese (softened)",
+        "quantity": 56,
+        "unit": "g"
+      },
+      {
+        "name": "Jarred Jalapeño Slices (chopped, drained)",
+        "quantity": 30,
+        "unit": "g"
+      },
+      {
+        "name": "Pre-Cooked Bacon Crumbles (microwave)",
+        "quantity": 40,
+        "unit": "g"
+      },
+      {
+        "name": "Shredded Cheddar (bagged)",
+        "quantity": 40,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Hot Sauce",
+      "Extra Jalapeño Slices"
+    ],
+    "instructions": [
+      "Preheat oven to 350°F. Grease a 6-cup muffin tin (or use silicone liners).",
+      "Whisk eggs and cream cheese together until mostly smooth (small lumps are fine). Stir in jalapeños, bacon, and half the cheddar.",
+      "Divide the mixture evenly among the muffin cups. Top with the remaining cheddar.",
+      "Bake 18–20 minutes until puffed and set in the center. Cool 2 minutes before removing. Keeps in the fridge for grab-and-go mornings."
+    ]
+  },
+  {
+    "id": 143,
+    "name": "Spicy Kimchi Fried Rice with Egg",
+    "method": "Stovetop",
+    "mealType": "breakfast",
+    "proteins": [
+      "eggs"
+    ],
+    "flavor": "spicy",
+    "activeTime": 8,
+    "components": [
+      {
+        "name": "White Rice Pouch (day-old cooked or microwaved and cooled)",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Kimchi (jarred, chopped)",
+        "quantity": 100,
+        "unit": "g"
+      },
+      {
+        "name": "Whole Egg (1 large, fried)",
+        "quantity": 50,
+        "unit": "count"
+      },
+      {
+        "name": "Gochujang Sauce (bottled)",
+        "quantity": 15,
+        "unit": "ml"
+      },
+      {
+        "name": "Sesame Oil (½ tsp)",
+        "quantity": 2.5,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Sesame Seeds",
+      "Sliced Scallions"
+    ],
+    "instructions": [
+      "Heat sesame oil in a skillet over medium-high. Add kimchi and cook 2 minutes until fragrant.",
+      "Add rice and gochujang. Stir-fry 3–4 minutes, breaking up clumps, until heated through.",
+      "In a separate small pan, fry the egg to your liking (sunny-side up works well).",
+      "Top the rice with the fried egg. Toppings on top."
+    ]
+  },
+  {
+    "id": 144,
+    "name": "Easy Huevos Rancheros",
+    "method": "Stovetop",
+    "mealType": "breakfast",
+    "proteins": [
+      "eggs"
+    ],
+    "flavor": "spicy",
+    "activeTime": 8,
+    "components": [
+      {
+        "name": "Canned Refried Beans",
+        "quantity": 120,
+        "unit": "g"
+      },
+      {
+        "name": "Corn Tortillas (2, warmed)",
+        "quantity": 52,
+        "unit": "g"
+      },
+      {
+        "name": "Whole Eggs (2 large, fried)",
+        "quantity": 100,
+        "unit": "count"
+      },
+      {
+        "name": "Salsa (jarred)",
+        "quantity": 60,
+        "unit": "ml"
+      },
+      {
+        "name": "Shredded Mexican Cheese Blend (bagged)",
+        "quantity": 40,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Hot Sauce",
+      "Fresh Cilantro",
+      "Sliced Avocado (pre-cut)"
+    ],
+    "instructions": [
+      "Microwave refried beans in a bowl 1–2 minutes until warmed through.",
+      "Warm tortillas in a dry pan 30 seconds per side. Fry eggs in the same pan to your liking.",
+      "Spread beans over the tortillas, top with fried eggs, salsa, and cheese."
+    ]
+  },
+  {
+    "id": 145,
+    "name": "Sriracha Egg & Cheese Breakfast Sandwich",
+    "method": "Microwave",
+    "mealType": "breakfast",
+    "proteins": [
+      "eggs"
+    ],
+    "flavor": "spicy",
+    "activeTime": 5,
+    "tags": [
+      "grab_and_go"
+    ],
+    "components": [
+      {
+        "name": "English Muffin (whole wheat)",
+        "quantity": 57,
+        "unit": "g"
+      },
+      {
+        "name": "Whole Egg (1 large)",
+        "quantity": 50,
+        "unit": "count"
+      },
+      {
+        "name": "Cheddar Slice",
+        "quantity": 21,
+        "unit": "g"
+      },
+      {
+        "name": "Mayo (1 tbsp)",
+        "quantity": 14,
+        "unit": "g"
+      },
+      {
+        "name": "Sriracha (1 tsp)",
+        "quantity": 5,
+        "unit": "ml"
+      }
+    ],
+    "toppings": [
+      "Extra Sriracha"
+    ],
+    "instructions": [
+      "Mix mayo and sriracha together in a small bowl to make sriracha mayo.",
+      "Crack the egg into a microwave-safe mug, pierce the yolk, and microwave 45–60 seconds until just set.",
+      "Toast the English muffin. Spread sriracha mayo on both halves, add cheese and egg, and assemble the sandwich."
     ]
   }
 ];
