@@ -29,12 +29,12 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Teriyaki Sauce (Kikkoman bottle)",
+        "name": "Teriyaki Sauce (bottled)",
         "quantity": 30,
         "unit": "ml"
       },
       {
-        "name": "White Rice Pouch (Uncle Ben's)",
+        "name": "White Rice Pouch (microwaveable)",
         "quantity": 200,
         "unit": "g"
       },
@@ -142,7 +142,7 @@ export const RECIPES = [
   },
   {
     "id": 4,
-    "name": "Maverick Jerk Chicken Bowl",
+    "name": "Frozen Jerk Chicken Bowl",
     "method": "Microwave",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -152,7 +152,7 @@ export const RECIPES = [
     "activeTime": 1,
     "components": [
       {
-        "name": "Maverick Foods Jerk Chicken Bowl (9oz)",
+        "name": "Frozen Jerk Chicken Bowl (9oz)",
         "quantity": 255,
         "unit": "each"
       }
@@ -183,7 +183,7 @@ export const RECIPES = [
         "unit": "count"
       },
       {
-        "name": "Hellmann's Light Mayo",
+        "name": "Light Mayo",
         "quantity": 15,
         "unit": "g"
       },
@@ -225,7 +225,7 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
-        "name": "Rice Pouch (Uncle Ben's)",
+        "name": "Rice Pouch (microwaveable)",
         "quantity": 200,
         "unit": "g"
       },
@@ -276,7 +276,7 @@ export const RECIPES = [
       }
     ],
     "toppings": [
-      "Rao's Marinara",
+      "Marinara",
       "Shredded Mozzarella"
     ],
     "instructions": [
@@ -340,7 +340,7 @@ export const RECIPES = [
     "activeTime": 2,
     "components": [
       {
-        "name": "Fage 0% Greek Yogurt",
+        "name": "Nonfat Greek Yogurt",
         "quantity": 200,
         "unit": "ml"
       },
@@ -552,7 +552,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Good Culture Cottage Cheese",
+        "name": "Cottage Cheese",
         "quantity": 112,
         "unit": "g"
       },
@@ -594,7 +594,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Fage 0% Greek Yogurt",
+        "name": "Nonfat Greek Yogurt",
         "quantity": 170,
         "unit": "ml"
       },
@@ -694,7 +694,7 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
-        "name": "Fage 0% Greek Yogurt (1 tbsp)",
+        "name": "Nonfat Greek Yogurt (1 tbsp)",
         "quantity": 20,
         "unit": "ml"
       },
@@ -730,7 +730,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Wholly Guac Squeeze Tube (2 tbsp)",
+        "name": "Guacamole (2 tbsp)",
         "quantity": 56,
         "unit": "g"
       },
@@ -766,7 +766,7 @@ export const RECIPES = [
     "activeTime": 2,
     "components": [
       {
-        "name": "Fage 0% Greek Yogurt",
+        "name": "Nonfat Greek Yogurt",
         "quantity": 200,
         "unit": "ml"
       },
@@ -853,12 +853,12 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Frank's RedHot Sauce (3 tbsp)",
+        "name": "Hot Sauce (3 tbsp)",
         "quantity": 45,
         "unit": "ml"
       },
       {
-        "name": "White Rice Pouch (Uncle Ben's)",
+        "name": "White Rice Pouch (microwaveable)",
         "quantity": 200,
         "unit": "g"
       },
@@ -879,7 +879,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Spray chicken with butter. Air fry 400°F for 16–18 min, shaking halfway.",
-      "Microwave rice 90 sec. Microwave broccoli 3 min. Toss chicken in Frank's.",
+      "Microwave rice 90 sec. Microwave broccoli 3 min. Toss chicken in hot sauce.",
       "Build bowl — toppings separate."
     ]
   },
@@ -900,7 +900,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Sweet Baby Ray's BBQ Sauce (3 tbsp)",
+        "name": "BBQ Sauce (3 tbsp)",
         "quantity": 51,
         "unit": "ml"
       },
@@ -998,7 +998,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Hot Sauce (Frank's, 1 tbsp)",
+        "name": "Hot Sauce (1 tbsp)",
         "quantity": 15,
         "unit": "ml"
       }
@@ -1034,7 +1034,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Kewpie Mayo (2 tbsp)",
+        "name": "Mayo (2 tbsp)",
         "quantity": 30,
         "unit": "g"
       },
@@ -1127,7 +1127,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Old El Paso Taco Seasoning (1 packet)",
+        "name": "Taco Seasoning (1 packet)",
         "quantity": 25,
         "unit": "g"
       },
@@ -1273,7 +1273,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Cavender's Greek Seasoning (1½ tsp)",
+        "name": "Greek Seasoning (1½ tsp)",
         "quantity": 4,
         "unit": "g"
       },
@@ -1445,7 +1445,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "White Rice Pouch (Uncle Ben's)",
+        "name": "White Rice Pouch (microwaveable)",
         "quantity": 200,
         "unit": "g"
       },
@@ -1497,7 +1497,7 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
-        "name": "McCormick Chili Seasoning Packet",
+        "name": "Chili Seasoning Packet",
         "quantity": 25,
         "unit": "g"
       },
@@ -1686,7 +1686,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Wholly Guac Squeeze Tube (2 tbsp)",
+        "name": "Guacamole (2 tbsp)",
         "quantity": 56,
         "unit": "g"
       },
@@ -1722,7 +1722,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Kikkoman Teriyaki Sauce (3 tbsp)",
+        "name": "Teriyaki Sauce (3 tbsp)",
         "quantity": 51,
         "unit": "g"
       },
@@ -1834,7 +1834,7 @@ export const RECIPES = [
     "activeTime": 2,
     "components": [
       {
-        "name": "Good Culture Cottage Cheese",
+        "name": "Cottage Cheese",
         "quantity": 112,
         "unit": "g"
       },
@@ -1874,7 +1874,7 @@ export const RECIPES = [
         "unit": "count"
       },
       {
-        "name": "Frank's RedHot Sauce (2 tbsp)",
+        "name": "Hot Sauce (2 tbsp)",
         "quantity": 30,
         "unit": "ml"
       },
@@ -1945,7 +1945,7 @@ export const RECIPES = [
     "activeTime": 2,
     "components": [
       {
-        "name": "Siggi's Plain Skyr (5.3 oz)",
+        "name": "Plain Skyr (5.3 oz)",
         "quantity": 150,
         "unit": "g"
       },
@@ -2022,7 +2022,7 @@ export const RECIPES = [
     "activeTime": 2,
     "components": [
       {
-        "name": "Fage 0% Greek Yogurt",
+        "name": "Nonfat Greek Yogurt",
         "quantity": 170,
         "unit": "ml"
       },
@@ -2119,7 +2119,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Frank's RedHot Sauce (1 tbsp)",
+        "name": "Hot Sauce (1 tbsp)",
         "quantity": 15,
         "unit": "ml"
       }
@@ -2208,7 +2208,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Sweet Baby Ray's BBQ Sauce (2 tbsp)",
+        "name": "BBQ Sauce (2 tbsp)",
         "quantity": 34,
         "unit": "ml"
       },
@@ -2303,7 +2303,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Frank's RedHot Sauce (3 tbsp)",
+        "name": "Hot Sauce (3 tbsp)",
         "quantity": 45,
         "unit": "ml"
       },
@@ -2313,7 +2313,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Hellmann's Light Mayo (2 tbsp)",
+        "name": "Light Mayo (2 tbsp)",
         "quantity": 30,
         "unit": "g"
       },
@@ -2329,7 +2329,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Air fry chicken breast 400°F for 16–18 min.",
-      "Toss cooked chicken in Frank's sauce. Toast bun.",
+      "Toss cooked chicken in hot sauce. Toast bun.",
       "Spread mayo on bun. Stack chicken + pickles."
     ]
   },
@@ -2350,7 +2350,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Hellmann's Light Mayo (2 tbsp)",
+        "name": "Light Mayo (2 tbsp)",
         "quantity": 30,
         "unit": "g"
       },
@@ -2461,7 +2461,7 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
-        "name": "Fage 0% Greek Yogurt (2 tbsp)",
+        "name": "Nonfat Greek Yogurt (2 tbsp)",
         "quantity": 30,
         "unit": "ml"
       }
@@ -2507,7 +2507,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Hellmann's Light Mayo (2 tbsp)",
+        "name": "Light Mayo (2 tbsp)",
         "quantity": 30,
         "unit": "g"
       }
@@ -2538,7 +2538,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Rao's Marinara Sauce (¼ cup)",
+        "name": "Marinara Sauce (¼ cup)",
         "quantity": 60,
         "unit": "ml"
       },
@@ -2576,12 +2576,12 @@ export const RECIPES = [
     "activeTime": 3,
     "components": [
       {
-        "name": "Good Culture Cottage Cheese",
+        "name": "Cottage Cheese",
         "quantity": 112,
         "unit": "g"
       },
       {
-        "name": "Rao's Marinara Sauce (¼ cup)",
+        "name": "Marinara Sauce (¼ cup)",
         "quantity": 60,
         "unit": "ml"
       },
@@ -2622,7 +2622,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Sweet Baby Ray's BBQ Sauce (3 tbsp)",
+        "name": "BBQ Sauce (3 tbsp)",
         "quantity": 51,
         "unit": "ml"
       },
@@ -2768,7 +2768,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Kikkoman Teriyaki Sauce (3 tbsp)",
+        "name": "Teriyaki Sauce (3 tbsp)",
         "quantity": 51,
         "unit": "g"
       },
@@ -2878,7 +2878,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Fage 0% Greek Yogurt (2 tbsp, sour cream sub)",
+        "name": "Nonfat Greek Yogurt (2 tbsp, sour cream sub)",
         "quantity": 30,
         "unit": "ml"
       }
@@ -2962,7 +2962,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Rao's Marinara Sauce (½ cup)",
+        "name": "Marinara Sauce (½ cup)",
         "quantity": 120,
         "unit": "ml"
       },
@@ -3113,17 +3113,17 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Good Culture Cottage Cheese",
+        "name": "Cottage Cheese",
         "quantity": 112,
         "unit": "g"
       },
       {
-        "name": "Wholly Guac Squeeze Tube (2 tbsp)",
+        "name": "Guacamole (2 tbsp)",
         "quantity": 56,
         "unit": "g"
       },
       {
-        "name": "Mike's Hot Honey (2 tbsp)",
+        "name": "Hot Honey (2 tbsp)",
         "quantity": 34,
         "unit": "ml"
       },
@@ -3214,7 +3214,7 @@ export const RECIPES = [
     "activeTime": 3,
     "components": [
       {
-        "name": "Good Culture Cottage Cheese (1 cup)",
+        "name": "Cottage Cheese (1 cup)",
         "quantity": 224,
         "unit": "g"
       },
@@ -3230,7 +3230,7 @@ export const RECIPES = [
       }
     ],
     "toppings": [
-      "Rao's Marinara (¼ cup for pizza version)",
+      "Marinara (¼ cup for pizza version)",
       "Shredded Mozzarella (½ cup for pizza)"
     ],
     "instructions": [
@@ -3256,7 +3256,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Kewpie Mayo (2 tbsp)",
+        "name": "Mayo (2 tbsp)",
         "quantity": 30,
         "unit": "g"
       },
@@ -3281,7 +3281,7 @@ export const RECIPES = [
       "Sesame Seeds"
     ],
     "instructions": [
-      "Mix Kewpie mayo + sweet chili sauce + ½ tsp sriracha in bowl.",
+      "Mix mayo + sweet chili sauce + ½ tsp sriracha in bowl.",
       "Air fry thawed shrimp 380°F for 8–10 min, shaking halfway. Toss in bang bang sauce.",
       "Microwave rice 90 sec. Build bowl with shrimp, cucumber slices. Toppings on side."
     ]
@@ -3420,7 +3420,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Kewpie Mayo (3 tbsp)",
+        "name": "Mayo (3 tbsp)",
         "quantity": 45,
         "unit": "g"
       },
@@ -3468,7 +3468,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Good Culture Cottage Cheese (¼ cup)",
+        "name": "Cottage Cheese (¼ cup)",
         "quantity": 56,
         "unit": "g"
       },
@@ -3570,7 +3570,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Old El Paso Taco Seasoning (1 packet)",
+        "name": "Taco Seasoning (1 packet)",
         "quantity": 25,
         "unit": "g"
       },
@@ -3622,7 +3622,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Mike's Hot Honey (3 tbsp)",
+        "name": "Hot Honey (3 tbsp)",
         "quantity": 51,
         "unit": "ml"
       },
@@ -3652,7 +3652,7 @@ export const RECIPES = [
       "Sesame Seeds"
     ],
     "instructions": [
-      "Place salmon skin-down on foil-lined sheet. Brush generously with Mike's Hot Honey.",
+      "Place salmon skin-down on foil-lined sheet. Brush generously with hot honey.",
       "Sprinkle garlic powder. Bake 425°F for 12–14 min. Microwave broccoli 3 min. Squeeze lemon over salmon."
     ]
   },
@@ -3735,7 +3735,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Frank's RedHot Sauce (3 tbsp)",
+        "name": "Hot Sauce (3 tbsp)",
         "quantity": 45,
         "unit": "ml"
       },
@@ -3755,7 +3755,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Hellmann's Light Mayo (2 tbsp)",
+        "name": "Light Mayo (2 tbsp)",
         "quantity": 30,
         "unit": "g"
       },
@@ -3770,7 +3770,7 @@ export const RECIPES = [
       "Black Pepper"
     ],
     "instructions": [
-      "Mix Frank's + cayenne + garlic powder. Toss chicken strips in mixture.",
+      "Mix hot sauce + cayenne + garlic powder. Toss chicken strips in mixture.",
       "Air fry 400°F for 12–14 min, shaking halfway. Toast bun lightly.",
       "Spread mayo on bun. Stack chicken tenders + pickles."
     ]
@@ -3812,7 +3812,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Kewpie Mayo (1 tbsp)",
+        "name": "Mayo (1 tbsp)",
         "quantity": 15,
         "unit": "g"
       }
@@ -3860,7 +3860,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Fage 0% Greek Yogurt (3 tbsp, sour cream sub)",
+        "name": "Nonfat Greek Yogurt (3 tbsp, sour cream sub)",
         "quantity": 45,
         "unit": "ml"
       },
@@ -4059,7 +4059,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Frank's RedHot Sauce (3 tbsp)",
+        "name": "Hot Sauce (3 tbsp)",
         "quantity": 45,
         "unit": "ml"
       },
@@ -4089,7 +4089,7 @@ export const RECIPES = [
       "Parmesan"
     ],
     "instructions": [
-      "Spray shrimp with olive oil. Air fry 380°F for 8–10 min. Toss in Frank's sauce.",
+      "Spray shrimp with olive oil. Air fry 380°F for 8–10 min. Toss in hot sauce.",
       "Microwave rice 90 sec + broccoli 3 min. Build bowl.",
       "Drizzle ranch dressing over shrimp. Toppings on side."
     ]
@@ -4106,7 +4106,7 @@ export const RECIPES = [
     "activeTime": 12,
     "components": [
       {
-        "name": "Rao's Marinara Sauce (jar)",
+        "name": "Marinara Sauce (jar)",
         "quantity": 240,
         "unit": "ml"
       },
@@ -4138,7 +4138,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Heat pan over medium. Add jar onions and cook 2 min until softened and fragrant.",
-      "Pour in Rao's marinara. Stir in garlic powder and onion powder. Simmer 3 min.",
+      "Pour in the marinara sauce. Stir in garlic powder and onion powder. Simmer 3 min.",
       "Create 4 wells in the sauce using a spoon. Crack one egg into each well.",
       "Cover pan with lid. Cook 5-7 min until whites are set but yolks still slightly runny. Crumble feta over top. Serve with sourdough for dipping."
     ]
@@ -4235,7 +4235,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "White Rice Pouch (Uncle Ben's)",
+        "name": "White Rice Pouch (microwaveable)",
         "quantity": 200,
         "unit": "g"
       },
@@ -4325,7 +4325,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "White Rice Pouch (Uncle Ben's)",
+        "name": "White Rice Pouch (microwaveable)",
         "quantity": 200,
         "unit": "g"
       },
@@ -4377,7 +4377,7 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
-        "name": "White Rice Pouch (Uncle Ben's)",
+        "name": "White Rice Pouch (microwaveable)",
         "quantity": 200,
         "unit": "g"
       },
@@ -4414,13 +4414,13 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Rao's Marinara Sauce (bottled)",
+        "name": "Marinara Sauce (bottled)",
         "quantity": 100,
         "unit": "ml"
       },
       {
-        "name": "Pasta Cup (microwave)",
-        "quantity": 200,
+        "name": "Pasta (dry, protein pasta recommended)",
+        "quantity": 85,
         "unit": "g"
       },
       {
@@ -4434,9 +4434,10 @@ export const RECIPES = [
       "Parmesan"
     ],
     "instructions": [
-      "Heat a skillet over medium-high. Add ground beef, break apart. Cook 5 minutes until browned.",
-      "Add marinara sauce to beef. Stir and simmer 2 minutes.",
-      "Microwave pasta cup per package (usually 1.5 min) + microwave spinach 2 min. Combine pasta and beef sauce on plate. Spinach on side. Cheese on top."
+      "Bring a pot of water to a boil. Add pasta and cook per package directions (usually 8–10 min) until al dente, then drain.",
+      "Meanwhile, heat a skillet over medium-high. Add ground beef, break apart. Cook 5 minutes until browned.",
+      "Add marinara sauce to the beef. Stir and simmer 2 minutes.",
+      "Microwave spinach 2 min. Combine pasta and beef sauce on a plate. Spinach on side. Cheese on top."
     ]
   },
   {
@@ -4547,12 +4548,12 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Teriyaki Sauce (Kikkoman bottle)",
+        "name": "Teriyaki Sauce (bottled)",
         "quantity": 30,
         "unit": "ml"
       },
       {
-        "name": "White Rice Pouch (Uncle Ben's)",
+        "name": "White Rice Pouch (microwaveable)",
         "quantity": 200,
         "unit": "g"
       },
@@ -4599,7 +4600,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "White Rice Pouch (Uncle Ben's)",
+        "name": "White Rice Pouch (microwaveable)",
         "quantity": 200,
         "unit": "g"
       },
@@ -4689,7 +4690,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "White Rice Pouch (Uncle Ben's)",
+        "name": "White Rice Pouch (microwaveable)",
         "quantity": 200,
         "unit": "g"
       },
@@ -4741,7 +4742,7 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
-        "name": "White Rice Pouch (Uncle Ben's)",
+        "name": "White Rice Pouch (microwaveable)",
         "quantity": 200,
         "unit": "g"
       },
@@ -4778,13 +4779,13 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Rao's Marinara Sauce (bottled)",
+        "name": "Marinara Sauce (bottled)",
         "quantity": 100,
         "unit": "ml"
       },
       {
-        "name": "Pasta Cup (microwave)",
-        "quantity": 200,
+        "name": "Pasta (dry, protein pasta recommended)",
+        "quantity": 85,
         "unit": "g"
       },
       {
@@ -4798,9 +4799,10 @@ export const RECIPES = [
       "Parmesan"
     ],
     "instructions": [
-      "Heat a skillet over medium-high. Add ground chicken, break apart. Cook 5 minutes until cooked through.",
-      "Add marinara sauce to chicken. Stir and simmer 2 minutes.",
-      "Microwave pasta cup per package (usually 1.5 min) + microwave spinach 2 min. Combine pasta and chicken sauce on plate. Spinach on side. Cheese on top."
+      "Bring a pot of water to a boil. Add pasta and cook per package directions (usually 8–10 min) until al dente, then drain.",
+      "Meanwhile, heat a skillet over medium-high. Add ground chicken, break apart. Cook 5 minutes until cooked through.",
+      "Add marinara sauce to the chicken. Stir and simmer 2 minutes.",
+      "Microwave spinach 2 min. Combine pasta and chicken sauce on a plate. Spinach on side. Cheese on top."
     ]
   },
   {
@@ -4912,12 +4914,12 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Teriyaki Sauce (Kikkoman bottle)",
+        "name": "Teriyaki Sauce (bottled)",
         "quantity": 30,
         "unit": "ml"
       },
       {
-        "name": "White Rice Pouch (Uncle Ben's)",
+        "name": "White Rice Pouch (microwaveable)",
         "quantity": 200,
         "unit": "g"
       },
@@ -4964,7 +4966,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "White Rice Pouch (Uncle Ben's)",
+        "name": "White Rice Pouch (microwaveable)",
         "quantity": 200,
         "unit": "g"
       },
@@ -5054,7 +5056,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "White Rice Pouch (Uncle Ben's)",
+        "name": "White Rice Pouch (microwaveable)",
         "quantity": 200,
         "unit": "g"
       },
@@ -5106,7 +5108,7 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
-        "name": "White Rice Pouch (Uncle Ben's)",
+        "name": "White Rice Pouch (microwaveable)",
         "quantity": 200,
         "unit": "g"
       },
@@ -5143,13 +5145,13 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Rao's Marinara Sauce (bottled)",
+        "name": "Marinara Sauce (bottled)",
         "quantity": 100,
         "unit": "ml"
       },
       {
-        "name": "Pasta Cup (microwave)",
-        "quantity": 200,
+        "name": "Pasta (dry, protein pasta recommended)",
+        "quantity": 85,
         "unit": "g"
       },
       {
@@ -5163,9 +5165,10 @@ export const RECIPES = [
       "Parmesan"
     ],
     "instructions": [
-      "Heat a skillet over medium-high. Add ground pork, break apart. Cook 5 minutes until browned.",
-      "Add marinara sauce to pork. Stir and simmer 2 minutes.",
-      "Microwave pasta cup per package (usually 1.5 min) + microwave spinach 2 min. Combine pasta and pork sauce on plate. Spinach on side. Cheese on top."
+      "Bring a pot of water to a boil. Add pasta and cook per package directions (usually 8–10 min) until al dente, then drain.",
+      "Meanwhile, heat a skillet over medium-high. Add ground pork, break apart. Cook 5 minutes until browned.",
+      "Add marinara sauce to the pork. Stir and simmer 2 minutes.",
+      "Microwave spinach 2 min. Combine pasta and pork sauce on a plate. Spinach on side. Cheese on top."
     ]
   },
   {
@@ -5277,12 +5280,12 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Teriyaki Sauce (Kikkoman bottle)",
+        "name": "Teriyaki Sauce (bottled)",
         "quantity": 30,
         "unit": "ml"
       },
       {
-        "name": "White Rice Pouch (Uncle Ben's)",
+        "name": "White Rice Pouch (microwaveable)",
         "quantity": 200,
         "unit": "g"
       },
@@ -5329,7 +5332,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "White Rice Pouch (Uncle Ben's)",
+        "name": "White Rice Pouch (microwaveable)",
         "quantity": 200,
         "unit": "g"
       },
@@ -5419,7 +5422,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "White Rice Pouch (Uncle Ben's)",
+        "name": "White Rice Pouch (microwaveable)",
         "quantity": 200,
         "unit": "g"
       },
@@ -5471,7 +5474,7 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
-        "name": "White Rice Pouch (Uncle Ben's)",
+        "name": "White Rice Pouch (microwaveable)",
         "quantity": 200,
         "unit": "g"
       },
@@ -5508,13 +5511,13 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Rao's Marinara Sauce (bottled)",
+        "name": "Marinara Sauce (bottled)",
         "quantity": 100,
         "unit": "ml"
       },
       {
-        "name": "Pasta Cup (microwave)",
-        "quantity": 200,
+        "name": "Pasta (dry, protein pasta recommended)",
+        "quantity": 85,
         "unit": "g"
       },
       {
@@ -5528,9 +5531,10 @@ export const RECIPES = [
       "Parmesan"
     ],
     "instructions": [
-      "Heat a skillet over medium-high. Add ground turkey, break apart. Cook 5 minutes until cooked through.",
-      "Add marinara sauce to turkey. Stir and simmer 2 minutes.",
-      "Microwave pasta cup per package (usually 1.5 min) + microwave spinach 2 min. Combine pasta and turkey sauce on plate. Spinach on side. Cheese on top."
+      "Bring a pot of water to a boil. Add pasta and cook per package directions (usually 8–10 min) until al dente, then drain.",
+      "Meanwhile, heat a skillet over medium-high. Add ground turkey, break apart. Cook 5 minutes until cooked through.",
+      "Add marinara sauce to the turkey. Stir and simmer 2 minutes.",
+      "Microwave spinach 2 min. Combine pasta and turkey sauce on a plate. Spinach on side. Cheese on top."
     ]
   },
   {
@@ -5642,12 +5646,12 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Teriyaki Sauce (Kikkoman bottle)",
+        "name": "Teriyaki Sauce (bottled)",
         "quantity": 30,
         "unit": "ml"
       },
       {
-        "name": "White Rice Pouch (Uncle Ben's)",
+        "name": "White Rice Pouch (microwaveable)",
         "quantity": 200,
         "unit": "g"
       },
