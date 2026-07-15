@@ -1,7 +1,21 @@
+import { useState } from 'react';
 import { RECIPES } from '../data/recipes.js';
 import StarIcon from '../components/StarIcon';
 import { MEAL_SLOTS, MEAL_SLOT_LABELS, todayString, formatDateString } from '../hooks/useDiary';
 import { formatTime } from '../utils/time';
+
+// Maps a diary meal slot to the recipe mealType pool it should draw random
+// picks from. Lunch and Dinner share the same 'lunch_dinner' pool.
+const SLOT_MEAL_TYPE = {
+  breakfast: 'breakfast',
+  lunch: 'lunch_dinner',
+  dinner: 'lunch_dinner',
+  snack: 'snack',
+};
+
+// Full-day Surprise Me only fills Breakfast/Lunch/Dinner -- Snack stays a
+// manual add, and any slot that already has an entry is left untouched.
+const FULL_DAY_SLOTS = ['breakfast', 'lunch', 'dinner'];
 
 function shiftDateString(dateStr, days) {
   const d = new Date(dateStr + 'T00:00:00');
@@ -14,6 +28,13 @@ function displayDate(dateStr) {
   const today = todayString();
   const label = d.toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric' });
   return dateStr === today ? `Today · ${label}` : label;
+}
+
+function pickRandomRecipe(mealType, excludeIds) {
+  const pool = RECIPES.filter((r) => r.mealType === mealType && !excludeIds.includes(r.id));
+  const finalPool = pool.length > 0 ? pool : RECIPES.filter((r) => r.mealType === mealType);
+  if (finalPool.length === 0) return null;
+  return finalPool[Math.floor(Math.random() * finalPool.length)];
 }
 
 export default function Saved({
@@ -29,10 +50,52 @@ export default function Saved({
   selectedDate,
   onDateChange,
 }) {
+  const [dayMessage, setDayMessage] = useState('');
+  const [generatingDay, setGeneratingDay] = useState(false);
+  const [regeneratingId, setRegeneratingId] = useState(null);
+
   const savedIds = Object.keys(saved);
   const savedRecipes = RECIPES.filter((r) => savedIds.includes(String(r.id)));
 
   const dayEntries = diary ? diary.getEntriesForDate(selectedDate) : [];
+
+  const showDayMessage = (msg) => {
+    setDayMessage(msg);
+    setTimeout(() => setDayMessage(''), 3000);
+  };
+
+  const handleSurpriseDay = async () => {
+    if (!diary) return;
+    setGeneratingDay(true);
+    const usedIds = [];
+    let addedCount = 0;
+    for (const slot of FULL_DAY_SLOTS) {
+      const alreadyFilled = dayEntries.some((e) => e.meal_slot === slot);
+      if (alreadyFilled) continue;
+      const recipe = pickRandomRecipe(SLOT_MEAL_TYPE[slot], usedIds);
+      if (!recipe) continue;
+      usedIds.push(recipe.id);
+      const ok = await diary.addEntry(selectedDate, slot, recipe.id);
+      if (ok) addedCount += 1;
+    }
+    setGeneratingDay(false);
+    if (addedCount === 0) {
+      showDayMessage('Every slot is already filled -- remove an entry first to regenerate it.');
+    } else {
+      showDayMessage(`Added ${addedCount} surprise meal${addedCount === 1 ? '' : 's'} to today's slots!`);
+    }
+  };
+
+  const handleRegenerate = async (entry) => {
+    if (!diary) return;
+    setRegeneratingId(entry.id);
+    const recipe = pickRandomRecipe(SLOT_MEAL_TYPE[entry.meal_slot] || 'lunch_dinner', [entry.recipe_id]);
+    if (recipe) {
+      await diary.removeEntry(entry.id);
+      await diary.addEntry(entry.entry_date, entry.meal_slot, recipe.id);
+    }
+    setRegeneratingId(null);
+  };
 
   const renderSavedRow = (r) => {
     const entry = getEntry ? getEntry(r.id) : null;
@@ -135,6 +198,30 @@ export default function Saved({
                 ›
               </div>
             </div>
+
+            <button
+              onClick={handleSurpriseDay}
+              disabled={generatingDay}
+              style={{
+                width: '100%',
+                background: 'var(--s2)',
+                border: '1px solid var(--border)',
+                color: 'var(--cream)',
+                borderRadius: 13,
+                padding: 12,
+                fontSize: 14,
+                fontWeight: 700,
+                fontFamily: "'Manrope',sans-serif",
+                cursor: generatingDay ? 'default' : 'pointer',
+                opacity: generatingDay ? 0.6 : 1,
+                marginBottom: 8,
+              }}
+            >
+              {generatingDay ? 'Picking meals…' : '✦ Surprise Me — Fill My Day'}
+            </button>
+            {dayMessage && (
+              <div style={{ fontSize: 12, color: 'var(--lime)', marginBottom: 8 }}>{dayMessage}</div>
+            )}
           </div>
 
           <div className="px">
@@ -151,10 +238,11 @@ export default function Saved({
                     slotEntries.map((entry) => {
                       const r = RECIPES.find((rec) => rec.id === entry.recipe_id);
                       if (!r) return null;
+                      const isRegenerating = regeneratingId === entry.id;
                       return (
                         <div
                           key={entry.id}
-                          style={{ background: 'var(--s1)', border: '1px solid var(--border)', borderRadius: 14, padding: 12, marginBottom: 8, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 10 }}
+                          style={{ background: 'var(--s1)', border: '1px solid var(--border)', borderRadius: 14, padding: 12, marginBottom: 8, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, opacity: isRegenerating ? 0.6 : 1 }}
                           onClick={() => onOpen(r)}
                         >
                           <div style={{ flex: 1 }}>
@@ -162,6 +250,13 @@ export default function Saved({
                             <div style={{ fontSize: 11, color: 'var(--muted)' }}>
                               {r.method}{r.method && r.activeTime ? ' · ' : ''}{formatTime(r.activeTime, r.totalTime)}
                             </div>
+                          </div>
+                          <div
+                            onClick={(e) => { e.stopPropagation(); if (!isRegenerating) handleRegenerate(entry); }}
+                            title="Regenerate this meal"
+                            style={{ fontSize: 16, color: 'var(--muted)', padding: 6, cursor: isRegenerating ? 'default' : 'pointer' }}
+                          >
+                            ↻
                           </div>
                           <div
                             onClick={(e) => { e.stopPropagation(); diary.removeEntry(entry.id); }}
