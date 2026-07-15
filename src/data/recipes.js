@@ -2600,15 +2600,25 @@ export const RECIPES = [
         "name": "Turkey Pepperoni (20 slices)",
         "quantity": 28,
         "unit": "g"
+      },
+      {
+        "name": "Italian Seasoning (½ tsp)",
+        "quantity": 1.5,
+        "unit": "g"
+      },
+      {
+        "name": "Garlic Powder (¼ tsp)",
+        "quantity": 0.75,
+        "unit": "g"
       }
     ],
     "toppings": [
-      "Italian Seasoning (dried)",
-      "Red Pepper Flakes"
+      "Red Pepper Flakes",
+      "Extra Parmesan"
     ],
     "instructions": [
       "Place naan on foil in air fryer basket. Spread marinara evenly.",
-      "Top with mozzarella + pepperoni. Sprinkle seasonings.",
+      "Top with mozzarella + pepperoni. Sprinkle with Italian seasoning and garlic powder.",
       "Air fry 375°F for 8 min until cheese bubbles."
     ]
   },
@@ -6410,6 +6420,58 @@ export const RECIPES = [
     "instructions": [
       "Microwave chicken strips 2–3 minutes until hot, then toss in buffalo sauce.",
       "Layer chicken, ranch, and lettuce onto the tortilla and roll into a wrap. Wrap in foil to take on the go."
+    ]
+  },
+  {
+    "id": 139,
+    "name": "Air Fryer Sourdough Pizza",
+    "method": "Air Fryer",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "turkey"
+    ],
+    "flavor": "spicy",
+    "activeTime": 5,
+    "components": [
+      {
+        "name": "Thick-Cut Sourdough Bread (2 slices)",
+        "quantity": 100,
+        "unit": "g"
+      },
+      {
+        "name": "Marinara Sauce (¼ cup)",
+        "quantity": 60,
+        "unit": "ml"
+      },
+      {
+        "name": "Shredded Mozzarella (¾ cup)",
+        "quantity": 85,
+        "unit": "g"
+      },
+      {
+        "name": "Turkey Pepperoni (20 slices)",
+        "quantity": 28,
+        "unit": "g"
+      },
+      {
+        "name": "Italian Seasoning (½ tsp)",
+        "quantity": 1.5,
+        "unit": "g"
+      },
+      {
+        "name": "Garlic Powder (¼ tsp)",
+        "quantity": 0.75,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Red Pepper Flakes",
+      "Extra Parmesan"
+    ],
+    "instructions": [
+      "Place sourdough slices on foil in air fryer basket. Spread marinara evenly over both.",
+      "Top with mozzarella + pepperoni. Sprinkle with Italian seasoning and garlic powder.",
+      "Air fry 375°F for 6–7 min, watching closely near the end, until the cheese bubbles and bread edges are golden."
     ]
   }
 ];
