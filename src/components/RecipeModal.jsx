@@ -113,6 +113,8 @@ export default function RecipeModal({
   const [photoPreview, setPhotoPreview] = useState(null);
   const [diaryOpen, setDiaryOpen] = useState(false);
   const [diaryDate, setDiaryDate] = useState(todayString());
+  const [diaryError, setDiaryError] = useState('');
+  const [addingToDiary, setAddingToDiary] = useState(false);
 
   if (!recipe) return null;
   const r = recipe;
@@ -181,10 +183,16 @@ export default function RecipeModal({
     setPhotoPreview(URL.createObjectURL(file));
   };
 
-  const handleAddToDiary = (slot) => {
+  const handleAddToDiary = async (slot) => {
     if (!onAddToDiary) return;
-    onAddToDiary(r.id, diaryDate, slot);
-    onClose();
+    setDiaryError('');
+    setAddingToDiary(true);
+    const ok = await onAddToDiary(r.id, diaryDate, slot);
+    setAddingToDiary(false);
+    // On success, the parent switches to the Diary tab, shows a
+    // confirmation toast, and closes this modal itself. On failure, leave
+    // the picker open so the user can retry.
+    if (!ok) setDiaryError("Couldn't add to diary. Please try again.");
   };
 
   return (
@@ -327,13 +335,21 @@ export default function RecipeModal({
                   style={{ background: 'var(--s2)', border: '1px solid var(--border)', borderRadius: 8, color: 'var(--cream)', fontSize: 13, padding: '6px 10px', marginBottom: 10 }}
                 />
                 <div style={{ fontSize: 11, color: 'var(--muted)', marginBottom: 6 }}>Add to</div>
-                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', opacity: addingToDiary ? 0.6 : 1 }}>
                   {MEAL_SLOTS.map((slot) => (
-                    <div key={slot} className="pill" onClick={() => handleAddToDiary(slot)}>
+                    <div
+                      key={slot}
+                      className="pill"
+                      onClick={() => { if (!addingToDiary) handleAddToDiary(slot); }}
+                      style={{ cursor: addingToDiary ? 'default' : 'pointer' }}
+                    >
                       {MEAL_SLOT_LABELS[slot]}
                     </div>
                   ))}
                 </div>
+                {diaryError && (
+                  <div style={{ fontSize: 12, color: '#ff8080', marginTop: 8 }}>{diaryError}</div>
+                )}
               </div>
             )}
           </div>

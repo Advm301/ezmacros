@@ -59,17 +59,20 @@ export default function useDiary(userId) {
     refresh();
   }, [refresh]);
 
+  // Returns true on success, false on failure, so callers can decide what
+  // to do next (e.g. only show a confirmation / close the modal on success).
   const addEntry = async (entryDate, mealSlot, recipeId) => {
-    if (!userId) return;
+    if (!userId) return false;
     const { error } = await supabase
       .from('diary_entries')
       .insert({ user_id: userId, entry_date: entryDate, meal_slot: mealSlot, recipe_id: recipeId });
 
     if (error) {
       console.error('Error adding diary entry:', error);
-      return;
+      return false;
     }
     refresh();
+    return true;
   };
 
   const removeEntry = async (entryId) => {

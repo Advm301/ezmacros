@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { RECIPES } from '../data/recipes.js';
 import StarIcon from '../components/StarIcon';
 import { MEAL_SLOTS, MEAL_SLOT_LABELS, todayString, formatDateString } from '../hooks/useDiary';
@@ -16,10 +15,18 @@ function displayDate(dateStr) {
   return dateStr === today ? `Today · ${label}` : label;
 }
 
-export default function Saved({ saved, isSaved, toggleSaved, onOpen, getRatingSummary, diary }) {
-  const [view, setView] = useState('saved');
-  const [selectedDate, setSelectedDate] = useState(todayString());
-
+export default function Saved({
+  saved,
+  isSaved,
+  toggleSaved,
+  onOpen,
+  getRatingSummary,
+  diary,
+  view,
+  onViewChange,
+  selectedDate,
+  onDateChange,
+}) {
   const savedIds = Object.keys(saved);
   const savedRecipes = RECIPES.filter((r) => savedIds.includes(String(r.id)));
 
@@ -69,10 +76,10 @@ export default function Saved({ saved, isSaved, toggleSaved, onOpen, getRatingSu
         <div className="h1" style={{ marginBottom: 12 }}>Saved & Diary</div>
 
         <div className="scroll-row" style={{ marginBottom: 16 }}>
-          <div className={`pill ${view === 'saved' ? 'active' : ''}`} onClick={() => setView('saved')}>
+          <div className={`pill ${view === 'saved' ? 'active' : ''}`} onClick={() => onViewChange('saved')}>
             Saved Recipes
           </div>
-          <div className={`pill ${view === 'diary' ? 'active' : ''}`} onClick={() => setView('diary')}>
+          <div className={`pill ${view === 'diary' ? 'active' : ''}`} onClick={() => onViewChange('diary')}>
             Diary
           </div>
         </div>
@@ -89,7 +96,7 @@ export default function Saved({ saved, isSaved, toggleSaved, onOpen, getRatingSu
             {savedRecipes.length === 0 ? (
               <div style={{ background: 'var(--s1)', border: '1px solid var(--border)', borderRadius: 16, padding: 24, textAlign: 'center' }}>
                 <div style={{ fontSize: 14, color: 'var(--muted)', lineHeight: 1.6 }}>
-                  Nothing saved yet. Tap the star or the Save Recipe button on any recipe to keep it here.
+                  Nothing saved yet. Tap the star on any recipe to keep it here.
                 </div>
               </div>
             ) : (
@@ -105,7 +112,7 @@ export default function Saved({ saved, isSaved, toggleSaved, onOpen, getRatingSu
             </div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginBottom: 16 }}>
               <div
-                onClick={() => setSelectedDate((d) => shiftDateString(d, -1))}
+                onClick={() => onDateChange(shiftDateString(selectedDate, -1))}
                 style={{ width: 36, height: 36, borderRadius: 10, background: 'var(--s2)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'var(--cream)', fontSize: 16, flexShrink: 0 }}
               >
                 ‹
@@ -115,12 +122,12 @@ export default function Saved({ saved, isSaved, toggleSaved, onOpen, getRatingSu
                 <input
                   type="date"
                   value={selectedDate}
-                  onChange={(e) => e.target.value && setSelectedDate(e.target.value)}
+                  onChange={(e) => e.target.value && onDateChange(e.target.value)}
                   style={{ marginTop: 4, background: 'var(--s2)', border: '1px solid var(--border)', borderRadius: 8, color: 'var(--muted)', fontSize: 11, padding: '2px 6px' }}
                 />
               </div>
               <div
-                onClick={() => setSelectedDate((d) => shiftDateString(d, 1))}
+                onClick={() => onDateChange(shiftDateString(selectedDate, 1))}
                 style={{ width: 36, height: 36, borderRadius: 10, background: 'var(--s2)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'var(--cream)', fontSize: 16, flexShrink: 0 }}
               >
                 ›

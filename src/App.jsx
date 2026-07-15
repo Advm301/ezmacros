@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from './lib/supabase';
 import useSavedRecipes from './hooks/useSavedRecipes';
 import useRecipeRatings from './hooks/useRecipeRatings';
-import useDiary from './hooks/useDiary';
+import useDiary, { todayString } from './hooks/useDiary';
 import Login from './pages/Login';
 import Kitchen from './pages/Kitchen';
 import Browse from './pages/Browse';
@@ -41,6 +41,9 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState("kitchen");
   const [openRecipe, setOpenRecipe] = useState(null);
+  const [toast, setToast] = useState(null);
+  const [savedView, setSavedView] = useState("saved");
+  const [savedDate, setSavedDate] = useState(todayString());
   const {
     saved,
     isSaved,
@@ -84,6 +87,26 @@ export default function App() {
     await supabase.auth.signOut();
   };
 
+  const showToast = (message) => {
+    setToast(message);
+    setTimeout(() => setToast(null), 2500);
+  };
+
+  // Bridges RecipeModal's (recipeId, date, slot) call shape to useDiary's
+  // addEntry(entryDate, mealSlot, recipeId) shape -- keeping the argument
+  // reordering in one place instead of relying on both sides agreeing on it.
+  const handleAddToDiary = async (recipeId, date, slot) => {
+    const ok = await diary.addEntry(date, slot, recipeId);
+    if (ok) {
+      setSavedView("diary");
+      setSavedDate(date);
+      setTab("saved");
+      showToast("Recipe added to Diary!");
+      setOpenRecipe(null);
+    }
+    return ok;
+  };
+
   if (loading) {
     return (
       <div style={{
@@ -105,7 +128,7 @@ export default function App() {
   const tabs = [
     {id: "kitchen", label: "Kitchen", Icon: KitchenIcon},
     {id: "browse", label: "Browse", Icon: BrowseIcon},
-    {id: "saved", label: "Saved", Icon: SavedIcon},
+    {id: "saved", label: "Diary", Icon: SavedIcon},
   ];
 
   return (
@@ -137,7 +160,20 @@ export default function App() {
         {/* Page content */}
         {tab === "kitchen" && <Kitchen onOpen={setOpenRecipe} getRatingSummary={getRatingSummary} />}
         {tab === "browse" && <Browse onOpen={setOpenRecipe} isSaved={isSaved} toggleSaved={toggleSaved} getRatingSummary={getRatingSummary} />}
-        {tab === "saved" && <Saved saved={saved} isSaved={isSaved} toggleSaved={toggleSaved} onOpen={setOpenRecipe} getRatingSummary={getRatingSummary} diary={diary} />}
+        {tab === "saved" && (
+          <Saved
+            saved={saved}
+            isSaved={isSaved}
+            toggleSaved={toggleSaved}
+            onOpen={setOpenRecipe}
+            getRatingSummary={getRatingSummary}
+            diary={diary}
+            view={savedView}
+            onViewChange={setSavedView}
+            selectedDate={savedDate}
+            onDateChange={setSavedDate}
+          />
+        )}
 
         {/* Bottom nav */}
         <div style={{position: "fixed", bottom: 0, left: "50%", transform: "translateX(-50%)", width: "100%", maxWidth: 430, background: "#000", borderTop: "1px solid var(--border)", display: "flex", zIndex: 20}}>
@@ -149,6 +185,30 @@ export default function App() {
             </div>
           ))}
         </div>
+
+        {/* Toast */}
+        {toast && (
+          <div
+            style={{
+              position: "fixed",
+              bottom: 76,
+              left: "50%",
+              transform: "translateX(-50%)",
+              background: "var(--lime)",
+              color: "#000",
+              padding: "10px 18px",
+              borderRadius: 100,
+              fontSize: 13,
+              fontWeight: 700,
+              fontFamily: "'Manrope',sans-serif",
+              zIndex: 60,
+              boxShadow: "0 4px 14px rgba(0,0,0,.35)",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {toast}
+          </div>
+        )}
       </div>
 
       {openRecipe && (
@@ -165,7 +225,7 @@ export default function App() {
           ratingSummary={getRatingSummary(openRecipe.id)}
           myRatingEntry={getMyRatingEntry(openRecipe.id)}
           onRate={rateRecipe}
-          onAddToDiary={diary.addEntry}
+          onAddToDiary={handleAddToDiary}
         />
       )}
     </>
