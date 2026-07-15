@@ -26,6 +26,9 @@ export const RECIPES = [
     ],
     "flavor": "asian",
     "activeTime": 3,
+    "tags": [
+      "high_protein"
+    ],
     "components": [
       {
         "name": "Cod Fillet",
@@ -74,6 +77,9 @@ export const RECIPES = [
     ],
     "flavor": "spicy",
     "activeTime": 5,
+    "tags": [
+      "high_protein"
+    ],
     "components": [
       {
         "name": "Cod Fillet",
@@ -172,6 +178,9 @@ export const RECIPES = [
     ],
     "flavor": "neutral",
     "activeTime": 5,
+    "tags": [
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Pre-Boiled Eggs",
@@ -282,6 +291,9 @@ export const RECIPES = [
     ],
     "flavor": "italian",
     "activeTime": 8,
+    "tags": [
+      "high_protein"
+    ],
     "components": [
       {
         "name": "Ground Turkey (93% lean)",
@@ -392,6 +404,9 @@ export const RECIPES = [
     ],
     "flavor": "neutral",
     "activeTime": 2,
+    "tags": [
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Nonfat Greek Yogurt",
@@ -526,6 +541,9 @@ export const RECIPES = [
     ],
     "flavor": "neutral",
     "activeTime": 2,
+    "tags": [
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Chocolate Protein Powder (1 scoop)",
@@ -576,6 +594,9 @@ export const RECIPES = [
     ],
     "flavor": "neutral",
     "activeTime": 3,
+    "tags": [
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Bagel Thin",
@@ -623,6 +644,9 @@ export const RECIPES = [
     ],
     "flavor": "neutral",
     "activeTime": 3,
+    "tags": [
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Whole Grain Toast (2 slices)",
@@ -670,6 +694,10 @@ export const RECIPES = [
     ],
     "flavor": "neutral",
     "activeTime": 3,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Rolled Oats (dry ½ cup)",
@@ -723,6 +751,9 @@ export const RECIPES = [
     ],
     "flavor": "neutral",
     "activeTime": 6,
+    "tags": [
+      "high_protein"
+    ],
     "components": [
       {
         "name": "Whole Eggs (3 large)",
@@ -773,6 +804,9 @@ export const RECIPES = [
     ],
     "flavor": "neutral",
     "activeTime": 3,
+    "tags": [
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Everything Bagel Thin",
@@ -826,6 +860,9 @@ export const RECIPES = [
     ],
     "flavor": "neutral",
     "activeTime": 3,
+    "tags": [
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Whole Grain Toast (2 slices)",
@@ -873,6 +910,9 @@ export const RECIPES = [
     ],
     "flavor": "neutral",
     "activeTime": 2,
+    "tags": [
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Nonfat Greek Yogurt",
@@ -918,6 +958,9 @@ export const RECIPES = [
     ],
     "flavor": "neutral",
     "activeTime": 3,
+    "tags": [
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Egg Whites (carton, ¾ cup)",
@@ -965,6 +1008,9 @@ export const RECIPES = [
     ],
     "flavor": "spicy",
     "activeTime": 4,
+    "tags": [
+      "high_protein"
+    ],
     "components": [
       {
         "name": "Chicken Breast (boneless, skinless)",
@@ -1019,6 +1065,9 @@ export const RECIPES = [
     ],
     "flavor": "neutral",
     "activeTime": 4,
+    "tags": [
+      "high_protein"
+    ],
     "components": [
       {
         "name": "Chicken Thighs (boneless, skinless)",
@@ -1065,6 +1114,10 @@ export const RECIPES = [
     ],
     "flavor": "neutral",
     "activeTime": 2,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Canned Chicken (drained, 5 oz)",
@@ -1118,6 +1171,10 @@ export const RECIPES = [
     ],
     "flavor": "spicy",
     "activeTime": 3,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Rotisserie Chicken (pre-shredded, 6 oz)",
@@ -1166,6 +1223,10 @@ export const RECIPES = [
     ],
     "flavor": "neutral",
     "activeTime": 3,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Smoked Salmon Pouch (drained, 6 oz)",
@@ -1219,6 +1280,9 @@ export const RECIPES = [
     ],
     "flavor": "neutral",
     "activeTime": 4,
+    "tags": [
+      "high_protein"
+    ],
     "components": [
       {
         "name": "Cod Fillet",
@@ -1278,6 +1342,10 @@ export const RECIPES = [
     ],
     "flavor": "spicy",
     "activeTime": 8,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Ground Beef (93% lean)",
@@ -1336,6 +1404,9 @@ export const RECIPES = [
     ],
     "flavor": "neutral",
     "activeTime": 6,
+    "tags": [
+      "high_protein"
+    ],
     "components": [
       {
         "name": "Pork Tenderloin",
@@ -1388,6 +1459,9 @@ export const RECIPES = [
     ],
     "flavor": "neutral",
     "activeTime": 5,
+    "tags": [
+      "high_protein"
+    ],
     "components": [
       {
         "name": "Frozen Shrimp (16/20 count, thawed)",
@@ -1440,6 +1514,9 @@ export const RECIPES = [
     ],
     "flavor": "mediterranean",
     "activeTime": 6,
+    "tags": [
+      "high_protein"
+    ],
     "components": [
       {
         "name": "Chicken Thighs (boneless, skinless)",
@@ -1538,6 +1615,10 @@ export const RECIPES = [
     ],
     "flavor": "neutral",
     "activeTime": 4,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Banza Chickpea Pasta (cooked, 1.5 cups)",
@@ -1632,6 +1713,10 @@ export const RECIPES = [
     ],
     "flavor": "neutral",
     "activeTime": 2,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Salmon Pouch (6 oz)",
@@ -1680,6 +1765,9 @@ export const RECIPES = [
     ],
     "flavor": "spicy",
     "activeTime": 8,
+    "tags": [
+      "high_protein"
+    ],
     "components": [
       {
         "name": "Ground Turkey (93% lean)",
@@ -1840,6 +1928,9 @@ export const RECIPES = [
     ],
     "flavor": "spicy",
     "activeTime": 6,
+    "tags": [
+      "high_protein"
+    ],
     "components": [
       {
         "name": "Chicken Thighs (boneless, skinless)",
@@ -1898,6 +1989,9 @@ export const RECIPES = [
     ],
     "flavor": "neutral",
     "activeTime": 3,
+    "tags": [
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Deli Turkey (6 slices)",
@@ -1944,6 +2038,9 @@ export const RECIPES = [
     ],
     "flavor": "asian",
     "activeTime": 4,
+    "tags": [
+      "high_protein"
+    ],
     "components": [
       {
         "name": "Salmon Fillet",
@@ -1997,6 +2094,9 @@ export const RECIPES = [
     ],
     "flavor": "neutral",
     "activeTime": 1,
+    "tags": [
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Teriyaki Beef Jerky (1 oz)",
@@ -2037,6 +2137,9 @@ export const RECIPES = [
     ],
     "flavor": "neutral",
     "activeTime": 2,
+    "tags": [
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Deli Turkey (4 slices)",
@@ -2077,6 +2180,9 @@ export const RECIPES = [
     ],
     "flavor": "neutral",
     "activeTime": 2,
+    "tags": [
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Cottage Cheese",
@@ -2116,6 +2222,9 @@ export const RECIPES = [
     ],
     "flavor": "spicy",
     "activeTime": 2,
+    "tags": [
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Pre-Boiled Eggs (2 large)",
@@ -2158,6 +2267,9 @@ export const RECIPES = [
     ],
     "flavor": "neutral",
     "activeTime": 3,
+    "tags": [
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Sardines in Olive Oil (1 tin, drained)",
@@ -2204,6 +2316,9 @@ export const RECIPES = [
     ],
     "flavor": "neutral",
     "activeTime": 2,
+    "tags": [
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Plain Skyr (5.3 oz)",
@@ -2243,6 +2358,10 @@ export const RECIPES = [
     ],
     "flavor": "spicy",
     "activeTime": 3,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Rotisserie Chicken (pre-shredded, 4 oz)",
@@ -2292,6 +2411,10 @@ export const RECIPES = [
     ],
     "flavor": "neutral",
     "activeTime": 2,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Nonfat Greek Yogurt",
@@ -2338,6 +2461,9 @@ export const RECIPES = [
     ],
     "flavor": "spicy",
     "activeTime": 3,
+    "tags": [
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Frozen Edamame (steam-bag)",
@@ -2384,6 +2510,9 @@ export const RECIPES = [
     ],
     "flavor": "neutral",
     "activeTime": 2,
+    "tags": [
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Canned Chicken (drained, 5 oz)",
@@ -2429,6 +2558,10 @@ export const RECIPES = [
     ],
     "flavor": "neutral",
     "activeTime": 6,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Ground Beef (80/20)",
@@ -2503,6 +2636,10 @@ export const RECIPES = [
     ],
     "flavor": "bbq",
     "activeTime": 8,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Ground Beef (93% lean)",
@@ -2558,6 +2695,10 @@ export const RECIPES = [
     ],
     "flavor": "neutral",
     "activeTime": 7,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Ground Turkey (93% lean)",
@@ -2615,6 +2756,10 @@ export const RECIPES = [
     ],
     "flavor": "spicy",
     "activeTime": 5,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Chicken Breast (boneless, skinless)",
@@ -2667,6 +2812,9 @@ export const RECIPES = [
     ],
     "flavor": "neutral",
     "activeTime": 6,
+    "tags": [
+      "high_protein"
+    ],
     "components": [
       {
         "name": "Canned Tuna in Water (drained, 5 oz)",
@@ -2721,6 +2869,10 @@ export const RECIPES = [
     ],
     "flavor": "neutral",
     "activeTime": 6,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Egg Whites (carton, ½ cup)",
@@ -2776,6 +2928,10 @@ export const RECIPES = [
     ],
     "flavor": "neutral",
     "activeTime": 3,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Rotisserie Chicken (pre-shredded, 5 oz)",
@@ -2830,6 +2986,9 @@ export const RECIPES = [
     ],
     "flavor": "neutral",
     "activeTime": 3,
+    "tags": [
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Deli Turkey (5 slices)",
@@ -2941,6 +3100,9 @@ export const RECIPES = [
     ],
     "flavor": "neutral",
     "activeTime": 3,
+    "tags": [
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Cottage Cheese",
@@ -2987,6 +3149,10 @@ export const RECIPES = [
     ],
     "flavor": "bbq",
     "activeTime": 5,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Naan Flatbread",
@@ -3034,6 +3200,10 @@ export const RECIPES = [
     ],
     "flavor": "mediterranean",
     "activeTime": 5,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Naan Flatbread",
@@ -3205,6 +3375,9 @@ export const RECIPES = [
     ],
     "flavor": "asian",
     "activeTime": 8,
+    "tags": [
+      "high_protein"
+    ],
     "components": [
       {
         "name": "Frozen Shrimp (16/20 count, thawed)",
@@ -3264,6 +3437,9 @@ export const RECIPES = [
     ],
     "flavor": "spicy",
     "activeTime": 5,
+    "tags": [
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Russet Potato (medium)",
@@ -3312,6 +3488,10 @@ export const RECIPES = [
     ],
     "flavor": "neutral",
     "activeTime": 7,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Whole Grain Bread (2 slices)",
@@ -3370,6 +3550,10 @@ export const RECIPES = [
     ],
     "flavor": "italian",
     "activeTime": 5,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Frozen Turkey Meatballs (6 oz bag)",
@@ -3481,6 +3665,10 @@ export const RECIPES = [
     ],
     "flavor": "neutral",
     "activeTime": 3,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Canned Salmon (drained, 5 oz)",
@@ -3535,6 +3723,9 @@ export const RECIPES = [
     ],
     "flavor": "spicy",
     "activeTime": 8,
+    "tags": [
+      "high_protein"
+    ],
     "components": [
       {
         "name": "Frozen Sweet Potato Cubes (pre-cut, 1.5 cups)",
@@ -3654,6 +3845,10 @@ export const RECIPES = [
     ],
     "flavor": "neutral",
     "activeTime": 3,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Cottage Cheese (1 cup)",
@@ -3696,6 +3891,9 @@ export const RECIPES = [
     ],
     "flavor": "spicy",
     "activeTime": 5,
+    "tags": [
+      "high_protein"
+    ],
     "components": [
       {
         "name": "Frozen Shrimp (16/20 count, thawed)",
@@ -3747,6 +3945,9 @@ export const RECIPES = [
     ],
     "flavor": "italian",
     "activeTime": 5,
+    "tags": [
+      "high_protein"
+    ],
     "components": [
       {
         "name": "Chicken Thighs (boneless, skinless, 6 oz)",
@@ -3809,6 +4010,10 @@ export const RECIPES = [
     ],
     "flavor": "spicy",
     "activeTime": 4,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Canned Tuna in Water (drained, 5 oz)",
@@ -3930,6 +4135,9 @@ export const RECIPES = [
     ],
     "flavor": "neutral",
     "activeTime": 3,
+    "tags": [
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Pre-Cut Cucumber Rounds (bag, 12 rounds)",
@@ -4046,6 +4254,9 @@ export const RECIPES = [
     ],
     "flavor": "spicy",
     "activeTime": 10,
+    "tags": [
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Ground Beef (93% lean)",
@@ -4161,6 +4372,9 @@ export const RECIPES = [
     ],
     "flavor": "spicy",
     "activeTime": 7,
+    "tags": [
+      "high_protein"
+    ],
     "components": [
       {
         "name": "Frozen Shrimp (16/20 count, thawed)",
@@ -4231,6 +4445,9 @@ export const RECIPES = [
     ],
     "flavor": "spicy",
     "activeTime": 6,
+    "tags": [
+      "high_protein"
+    ],
     "components": [
       {
         "name": "Chicken Breast (boneless, skinless, sliced into strips)",
@@ -4294,6 +4511,9 @@ export const RECIPES = [
     ],
     "flavor": "spicy",
     "activeTime": 5,
+    "tags": [
+      "high_protein"
+    ],
     "components": [
       {
         "name": "Salmon Fillet",
@@ -4353,6 +4573,10 @@ export const RECIPES = [
     ],
     "flavor": "spicy",
     "activeTime": 6,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Frozen Shrimp (16/20 count, thawed)",
@@ -4412,6 +4636,10 @@ export const RECIPES = [
     ],
     "flavor": "spicy",
     "activeTime": 7,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Ground Turkey (93% lean)",
@@ -4592,6 +4820,9 @@ export const RECIPES = [
     ],
     "flavor": "spicy",
     "activeTime": 5,
+    "tags": [
+      "high_protein"
+    ],
     "components": [
       {
         "name": "Frozen Shrimp (16/20 count, thawed)",
@@ -5049,6 +5280,9 @@ export const RECIPES = [
     ],
     "flavor": "spicy",
     "activeTime": 6,
+    "tags": [
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Ground Beef (93% lean)",
@@ -5099,6 +5333,9 @@ export const RECIPES = [
     ],
     "flavor": "saucy",
     "activeTime": 7,
+    "tags": [
+      "high_protein"
+    ],
     "components": [
       {
         "name": "Ground Beef (93% lean)",
@@ -5460,6 +5697,9 @@ export const RECIPES = [
     ],
     "flavor": "spicy",
     "activeTime": 6,
+    "tags": [
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Ground Chicken (93% lean)",
@@ -5510,6 +5750,9 @@ export const RECIPES = [
     ],
     "flavor": "saucy",
     "activeTime": 7,
+    "tags": [
+      "high_protein"
+    ],
     "components": [
       {
         "name": "Ground Chicken (93% lean)",
@@ -5869,6 +6112,9 @@ export const RECIPES = [
     ],
     "flavor": "spicy",
     "activeTime": 6,
+    "tags": [
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Ground Pork (93% lean)",
@@ -5919,6 +6165,9 @@ export const RECIPES = [
     ],
     "flavor": "saucy",
     "activeTime": 7,
+    "tags": [
+      "high_protein"
+    ],
     "components": [
       {
         "name": "Ground Pork (93% lean)",
@@ -6278,6 +6527,9 @@ export const RECIPES = [
     ],
     "flavor": "spicy",
     "activeTime": 6,
+    "tags": [
+      "grab_and_go"
+    ],
     "components": [
       {
         "name": "Ground Turkey (93% lean)",
@@ -6328,6 +6580,9 @@ export const RECIPES = [
     ],
     "flavor": "saucy",
     "activeTime": 7,
+    "tags": [
+      "high_protein"
+    ],
     "components": [
       {
         "name": "Ground Turkey (93% lean)",
@@ -6610,9 +6865,6 @@ export const RECIPES = [
     ],
     "flavor": "caribbean",
     "activeTime": 5,
-    "tags": [
-      "high_protein"
-    ],
     "components": [
       {
         "name": "Chicken Thighs (boneless, skinless)",
@@ -6830,9 +7082,6 @@ export const RECIPES = [
     ],
     "flavor": "spicy",
     "activeTime": 2,
-    "tags": [
-      "high_protein"
-    ],
     "components": [
       {
         "name": "Frozen Breaded Chicken Bites",
@@ -6869,7 +7118,6 @@ export const RECIPES = [
     "flavor": "neutral",
     "activeTime": 2,
     "tags": [
-      "high_protein",
       "grab_and_go"
     ],
     "components": [
@@ -6916,7 +7164,6 @@ export const RECIPES = [
     "flavor": "neutral",
     "activeTime": 4,
     "tags": [
-      "high_protein",
       "grab_and_go"
     ],
     "components": [
@@ -6968,7 +7215,6 @@ export const RECIPES = [
     "flavor": "mediterranean",
     "activeTime": 2,
     "tags": [
-      "high_protein",
       "grab_and_go"
     ],
     "components": [
@@ -7257,6 +7503,9 @@ export const RECIPES = [
     ],
     "flavor": "spicy",
     "activeTime": 8,
+    "tags": [
+      "high_protein"
+    ],
     "components": [
       {
         "name": "Ground Mexican Chorizo (raw, casing removed)",
@@ -7301,6 +7550,7 @@ export const RECIPES = [
     "flavor": "spicy",
     "activeTime": 8,
     "tags": [
+      "high_protein",
       "grab_and_go"
     ],
     "components": [
@@ -7359,6 +7609,7 @@ export const RECIPES = [
     "flavor": "spicy",
     "activeTime": 8,
     "tags": [
+      "high_protein",
       "grab_and_go"
     ],
     "components": [

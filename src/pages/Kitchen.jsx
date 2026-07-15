@@ -32,9 +32,11 @@ const FLAVORS = [
   { label: 'Mexican', value: 'mexican' },
 ];
 
+// "High Protein" = estimated 35g+ protein per serving -- called out here
+// since it's not obvious from the label alone what the cutoff is.
 const QUICK_FILTERS = [
   { label: 'Air Fryer', value: 'air_fryer' },
-  { label: 'High Protein', value: 'high_protein' },
+  { label: 'High Protein (35g+)', value: 'high_protein' },
   { label: 'Grab & Go', value: 'grab_and_go' },
 ];
 

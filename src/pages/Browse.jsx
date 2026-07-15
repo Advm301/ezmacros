@@ -40,6 +40,53 @@ const METHODS = [
   { label: 'Microwave', value: 'Microwave' },
 ];
 
+// Same native-<select> pattern as Kitchen's FilterSelect -- tapping opens
+// the OS picker instead of requiring a swipe through a pill row. Duplicated
+// here rather than shared/imported to keep each page's filter set free to
+// diverge without coupling the two together.
+function FilterSelect({ label, value, onChange, options, placeholder }) {
+  return (
+    <div className="filter-sec">
+      <div className="filter-label">{label}</div>
+      <div style={{ position: 'relative' }}>
+        <select
+          value={value ?? ''}
+          onChange={(e) => onChange(e.target.value || null)}
+          style={{
+            width: '100%',
+            boxSizing: 'border-box',
+            appearance: 'none',
+            WebkitAppearance: 'none',
+            MozAppearance: 'none',
+            background: 'var(--s2)',
+            border: '1px solid var(--border)',
+            borderRadius: 10,
+            color: 'var(--cream)',
+            fontSize: 13,
+            fontWeight: 600,
+            fontFamily: "'Manrope',sans-serif",
+            padding: '11px 34px 11px 14px',
+            cursor: 'pointer',
+          }}
+        >
+          <option value="" style={{ backgroundColor: '#052d37', color: 'var(--cream)' }}>{placeholder}</option>
+          {options.map((o) => (
+            <option key={o.value} value={o.value} style={{ backgroundColor: '#052d37', color: 'var(--cream)' }}>
+              {o.label}
+            </option>
+          ))}
+        </select>
+        <span
+          aria-hidden="true"
+          style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', fontSize: 11, color: 'var(--muted)', pointerEvents: 'none' }}
+        >
+          ▾
+        </span>
+      </div>
+    </div>
+  );
+}
+
 export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary }) {
   const [search, setSearch] = useState('');
   const [mealFilter, setMealFilter] = useState(null);
@@ -49,6 +96,9 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
   const [showSavedOnly, setShowSavedOnly] = useState(false);
   const [highProteinOnly, setHighProteinOnly] = useState(false);
   const [grabAndGoOnly, setGrabAndGoOnly] = useState(false);
+  const [showMoreFilters, setShowMoreFilters] = useState(false);
+
+  const moreFiltersCount = (proteinFilter ? 1 : 0) + (flavorFilter ? 1 : 0);
 
   const filtered = RECIPES.filter((r) => {
     const tags = r.tags || [];
@@ -134,68 +184,83 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
           style={{ width: '100%', background: 'var(--s2)', border: '1px solid var(--border)', borderRadius: 12, padding: '10px 14px', color: 'var(--cream)', fontSize: 14, marginBottom: 14, boxSizing: 'border-box' }}
         />
 
-        <div className="filter-label">Meal Type</div>
-        <div className="scroll-row" style={{ marginBottom: 14 }}>
-          <div className={`pill ${!mealFilter ? 'active' : ''}`} onClick={() => selectMeal(null)}>
-            {!mealFilter ? '✓ All Meals' : 'All Meals'}
-          </div>
-          <div className={`pill ${showSavedOnly ? 'active' : ''}`} onClick={toggleSavedOnly}>
-            {showSavedOnly ? '★ Saved' : '☆ Saved'}
-          </div>
-          {MEAL_SECTIONS.map((s) => (
-            <div key={s.value} className={`pill ${mealFilter === s.value ? 'active' : ''}`} onClick={() => selectMeal(s.value)}>
-              {s.label}
+        <FilterSelect
+          label="Meal Type"
+          placeholder="All Meals"
+          value={mealFilter}
+          onChange={selectMeal}
+          options={MEAL_SECTIONS}
+        />
+
+        <FilterSelect
+          label="Method"
+          placeholder="Any Method"
+          value={methodFilter}
+          onChange={selectMethod}
+          options={METHODS}
+        />
+
+        {/* Saved / High Protein / Grab & Go are simple on-off toggles -- only
+            3 of them, so a non-scrolling row of pills is clearer than a
+            dropdown (and matches how the tags are displayed on each recipe
+            row below). "High Protein" is called out at 35g+ so the cutoff
+            isn't a mystery. */}
+        <div className="filter-sec">
+          <div className="filter-label">Quick Toggles</div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+            <div className={`pill ${showSavedOnly ? 'active' : ''}`} onClick={toggleSavedOnly}>
+              {showSavedOnly ? '★ Saved' : '☆ Saved'}
             </div>
-          ))}
+            <div className={`pill ${highProteinOnly ? 'active' : ''}`} onClick={toggleHighProtein}>
+              High Protein (35g+)
+            </div>
+            <div className={`pill ${grabAndGoOnly ? 'active' : ''}`} onClick={toggleGrabAndGo}>
+              Grab & Go
+            </div>
+          </div>
         </div>
 
-        <div className="filter-label">Quick Filters</div>
-        <div className="scroll-row" style={{ marginBottom: 14 }}>
-          <div className={`pill ${highProteinOnly ? 'active' : ''}`} onClick={toggleHighProtein}>
-            High Protein
-          </div>
-          <div className={`pill ${grabAndGoOnly ? 'active' : ''}`} onClick={toggleGrabAndGo}>
-            Grab & Go
-          </div>
-          <div className={`pill ${methodFilter === 'Air Fryer' ? 'active' : ''}`} onClick={() => selectMethod(methodFilter === 'Air Fryer' ? null : 'Air Fryer')}>
-            Air Fryer
-          </div>
-        </div>
-
-        <div className="filter-label">Method</div>
-        <div className="scroll-row" style={{ marginBottom: 14 }}>
-          <div className={`pill ${!methodFilter ? 'active' : ''}`} onClick={() => selectMethod(null)}>
-            Any
-          </div>
-          {METHODS.map((m) => (
-            <div key={m.value} className={`pill ${methodFilter === m.value ? 'active' : ''}`} onClick={() => selectMethod(methodFilter === m.value ? null : m.value)}>
-              {m.label}
+        {/* Protein and Flavor are further refinements on top of Meal Type +
+            Method -- tucked behind a collapsible section so the page isn't
+            front-loading four dropdowns before showing any results. */}
+        <div className="filter-sec">
+          <div
+            onClick={() => { hapticSelection(); setShowMoreFilters((v) => !v); }}
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer', padding: '6px 0' }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--cream)' }}>More Filters</span>
+              <span style={{ fontSize: 11, color: 'var(--muted)' }}>(Protein, Flavor)</span>
+              {moreFiltersCount > 0 && (
+                <span style={{ fontSize: 10, fontWeight: 700, color: '#000', background: 'var(--lime)', borderRadius: 100, padding: '2px 7px' }}>
+                  {moreFiltersCount}
+                </span>
+              )}
             </div>
-          ))}
-        </div>
-
-        <div className="filter-label">Protein</div>
-        <div className="scroll-row" style={{ marginBottom: 14 }}>
-          <div className={`pill ${!proteinFilter ? 'active' : ''}`} onClick={() => selectProtein(null)}>
-            Any
+            <span style={{ fontSize: 11, color: 'var(--muted)', transform: showMoreFilters ? 'rotate(180deg)' : 'none', transition: 'transform .15s', display: 'inline-block' }}>
+              ▾
+            </span>
           </div>
-          {PROTEINS.map((p) => (
-            <div key={p.value} className={`pill ${proteinFilter === p.value ? 'active' : ''}`} onClick={() => selectProtein(proteinFilter === p.value ? null : p.value)}>
-              {p.label}
-            </div>
-          ))}
-        </div>
 
-        <div className="filter-label">Flavor</div>
-        <div className="scroll-row" style={{ marginBottom: 6 }}>
-          <div className={`pill ${!flavorFilter ? 'active' : ''}`} onClick={() => selectFlavor(null)}>
-            Any
-          </div>
-          {FLAVORS.map((f) => (
-            <div key={f.value} className={`pill ${flavorFilter === f.value ? 'active' : ''}`} onClick={() => selectFlavor(flavorFilter === f.value ? null : f.value)}>
-              {f.label}
+          {showMoreFilters && (
+            <div style={{ marginTop: 8 }}>
+              <FilterSelect
+                label="Protein (optional)"
+                placeholder="Any Protein"
+                value={proteinFilter}
+                onChange={selectProtein}
+                options={PROTEINS}
+              />
+
+              <FilterSelect
+                label="Flavor (optional)"
+                placeholder="Any Flavor"
+                value={flavorFilter}
+                onChange={selectFlavor}
+                options={FLAVORS}
+              />
             </div>
-          ))}
+          )}
         </div>
 
         <div className="sub" style={{ marginTop: 10 }}>
