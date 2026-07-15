@@ -484,6 +484,12 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
 .gen-kitchen-btn:hover{opacity:.9;}
 .gen-kitchen-btn:disabled{opacity:.4;cursor:not-allowed;}
 
+/* RECIPE MODAL -- DECIDE/COOK SCREEN TRANSITIONS */
+@keyframes stepSlideInLeft{from{opacity:0;transform:translateX(-24px);}to{opacity:1;transform:translateX(0);}}
+@keyframes stepSlideInRight{from{opacity:0;transform:translateX(24px);}to{opacity:1;transform:translateX(0);}}
+.step-fwd{animation:stepSlideInLeft .22s ease;}
+.step-back{animation:stepSlideInRight .22s ease;}
+
 /* AI RESULTS */
 @keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
 @keyframes spin{to{transform:rotate(360deg);}}
