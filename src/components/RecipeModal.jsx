@@ -108,16 +108,16 @@ export default function RecipeModal({
   const [editingStepIndex, setEditingStepIndex] = useState(null);
   const [editingStepValue, setEditingStepValue] = useState('');
   const [notesValue, setNotesValue] = useState(entry?.notes || '');
-  const [madeIt, setMadeIt] = useState(Boolean(myRatingEntry?.rating));
+  const [madeIt, setMadeIt] = useState(false);
   const [photoFile, setPhotoFile] = useState(null);
-  const [photoPreview, setPhotoPreview] = useState(myRatingEntry?.photoUrl || null);
+  const [photoPreview, setPhotoPreview] = useState(null);
   const [diaryOpen, setDiaryOpen] = useState(false);
   const [diaryDate, setDiaryDate] = useState(todayString());
-  const [diaryConfirmation, setDiaryConfirmation] = useState('');
 
   if (!recipe) return null;
   const r = recipe;
   const saved = isSaved ? isSaved(r.id) : false;
+  const alreadyRated = Boolean(myRatingEntry?.rating);
 
   const components = (r.components || []).map((c, i) => {
     const override = entry?.ingredientOverrides?.[i];
@@ -168,26 +168,23 @@ export default function RecipeModal({
   };
 
   const handleRate = (n) => {
-    if (onRate) onRate(r.id, n, photoFile);
+    // Ratings are one-shot: once a rating exists, this control isn't shown
+    // any more (see the read-only branch below), but guard here too in case
+    // of a stale click during the re-render.
+    if (onRate && !alreadyRated) onRate(r.id, n, photoFile);
   };
 
   const handlePhotoChange = (e) => {
     const file = e.target.files && e.target.files[0];
-    if (!file) return;
+    if (!file || alreadyRated) return;
     setPhotoFile(file);
     setPhotoPreview(URL.createObjectURL(file));
-    // If a rating already exists, attach the new photo right away instead
-    // of waiting for another star tap.
-    if (onRate && myRatingEntry?.rating) {
-      onRate(r.id, myRatingEntry.rating, file);
-    }
   };
 
   const handleAddToDiary = (slot) => {
     if (!onAddToDiary) return;
     onAddToDiary(r.id, diaryDate, slot);
-    const dateLabel = diaryDate === todayString() ? 'today' : diaryDate;
-    setDiaryConfirmation(`Added to ${MEAL_SLOT_LABELS[slot]} for ${dateLabel}.`);
+    onClose();
   };
 
   return (
@@ -221,7 +218,7 @@ export default function RecipeModal({
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 8 }}>
             {toggleSaved && (
-              <div onClick={(e) => { e.stopPropagation(); toggleSaved(r.id); }}>
+              <div onClick={(e) => { e.stopPropagation(); toggleSaved(r.id); }} style={{ cursor: 'pointer' }} title={saved ? 'Tap to unsave' : 'Tap to save'}>
                 <StarIcon filled={saved} size={24} />
               </div>
             )}
@@ -249,49 +246,68 @@ export default function RecipeModal({
               </span>
             </div>
 
-            <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', marginBottom: madeIt ? 10 : 0 }}>
-              <input
-                type="checkbox"
-                checked={madeIt}
-                onChange={(e) => setMadeIt(e.target.checked)}
-                style={{ width: 18, height: 18, cursor: 'pointer' }}
-              />
-              <span style={{ fontSize: 13, color: 'var(--cream)' }}>I made this recipe</span>
-            </label>
-
-            {madeIt && (
-              <>
-                <div style={{ fontSize: 11, color: 'var(--muted)', marginBottom: 4 }}>Your rating — tap a star</div>
-                <StarRating value={myRatingEntry?.rating || 0} onRate={handleRate} size={26} />
-                {myRatingEntry?.ratedAt && (
-                  <div style={{ fontSize: 11, color: 'var(--muted)', marginTop: 4 }}>
-                    You rated this on {formatRatedAt(myRatingEntry.ratedAt)}
-                  </div>
-                )}
-
-                <div style={{ marginTop: 12 }}>
-                  <div style={{ fontSize: 11, color: 'var(--muted)', marginBottom: 6 }}>Add a photo (optional)</div>
-                  {photoPreview && (
-                    <img
-                      src={photoPreview}
-                      alt="Your photo of this recipe"
-                      style={{ width: 84, height: 84, objectFit: 'cover', borderRadius: 10, border: '1px solid var(--border)', marginBottom: 8, display: 'block' }}
-                    />
-                  )}
-                  <input
-                    type="file"
-                    accept="image/*"
-                    capture="environment"
-                    onChange={handlePhotoChange}
-                    style={{ fontSize: 12, color: 'var(--muted)', maxWidth: '100%' }}
-                  />
+            {alreadyRated ? (
+              // Locked view: once you've rated a recipe, the rating can't be
+              // changed. This just shows what you rated and when.
+              <div>
+                <div style={{ fontSize: 11, color: 'var(--muted)', marginBottom: 4 }}>Your rating</div>
+                <StarRating value={myRatingEntry.rating} readOnly size={26} />
+                <div style={{ fontSize: 11, color: 'var(--muted)', marginTop: 4 }}>
+                  You rated this on {formatRatedAt(myRatingEntry.ratedAt)} — ratings can't be changed once submitted.
                 </div>
+                {myRatingEntry.photoUrl && (
+                  <img
+                    src={myRatingEntry.photoUrl}
+                    alt="Your photo of this recipe"
+                    style={{ width: 84, height: 84, objectFit: 'cover', borderRadius: 10, border: '1px solid var(--border)', marginTop: 10, display: 'block' }}
+                  />
+                )}
+              </div>
+            ) : (
+              <>
+                <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', marginBottom: madeIt ? 10 : 0 }}>
+                  <input
+                    type="checkbox"
+                    checked={madeIt}
+                    onChange={(e) => setMadeIt(e.target.checked)}
+                    style={{ width: 18, height: 18, cursor: 'pointer' }}
+                  />
+                  <span style={{ fontSize: 13, color: 'var(--cream)' }}>I made this recipe</span>
+                </label>
+
+                {madeIt && (
+                  <>
+                    <div style={{ fontSize: 11, color: 'var(--muted)', marginBottom: 4 }}>
+                      Your rating — tap a star (this can't be changed once submitted)
+                    </div>
+                    <StarRating value={0} onRate={handleRate} size={26} />
+
+                    <div style={{ marginTop: 12 }}>
+                      <div style={{ fontSize: 11, color: 'var(--muted)', marginBottom: 6 }}>Add a photo (optional)</div>
+                      {photoPreview && (
+                        <img
+                          src={photoPreview}
+                          alt="Your photo of this recipe"
+                          style={{ width: 84, height: 84, objectFit: 'cover', borderRadius: 10, border: '1px solid var(--border)', marginBottom: 8, display: 'block' }}
+                        />
+                      )}
+                      <input
+                        type="file"
+                        accept="image/*"
+                        capture="environment"
+                        onChange={handlePhotoChange}
+                        style={{ fontSize: 12, color: 'var(--muted)', maxWidth: '100%' }}
+                      />
+                    </div>
+                  </>
+                )}
               </>
             )}
           </div>
         )}
 
-        {/* Diary */}
+        {/* Diary -- available regardless of "I made this recipe," so you can
+            plan a meal ahead of actually cooking it. */}
         {onAddToDiary && (
           <div style={{ marginBottom: 16 }}>
             <button
@@ -307,7 +323,7 @@ export default function RecipeModal({
                 <input
                   type="date"
                   value={diaryDate}
-                  onChange={(e) => { if (e.target.value) { setDiaryDate(e.target.value); setDiaryConfirmation(''); } }}
+                  onChange={(e) => { if (e.target.value) setDiaryDate(e.target.value); }}
                   style={{ background: 'var(--s2)', border: '1px solid var(--border)', borderRadius: 8, color: 'var(--cream)', fontSize: 13, padding: '6px 10px', marginBottom: 10 }}
                 />
                 <div style={{ fontSize: 11, color: 'var(--muted)', marginBottom: 6 }}>Add to</div>
@@ -318,9 +334,6 @@ export default function RecipeModal({
                     </div>
                   ))}
                 </div>
-                {diaryConfirmation && (
-                  <div style={{ fontSize: 12, color: 'var(--lime)', marginTop: 8 }}>{diaryConfirmation}</div>
-                )}
               </div>
             )}
           </div>
@@ -447,7 +460,7 @@ export default function RecipeModal({
         )}
 
         {/* Notes */}
-        <div style={{ marginBottom: 16 }}>
+        <div>
           <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--muted)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: 1 }}>
             Notes
           </div>
@@ -459,27 +472,6 @@ export default function RecipeModal({
             style={{ width: '100%', minHeight: 64, background: 'var(--s2)', border: '1px solid var(--border)', borderRadius: 10, padding: 10, color: 'var(--cream)', fontSize: 13, fontFamily: "'Manrope',sans-serif", lineHeight: 1.5, resize: 'vertical', boxSizing: 'border-box' }}
           />
         </div>
-
-        {/* Save Recipe */}
-        {toggleSaved && (
-          <button
-            onClick={() => toggleSaved(r.id)}
-            style={{
-              width: '100%',
-              background: saved ? 'transparent' : '#fff',
-              color: saved ? 'var(--cream)' : '#000',
-              border: saved ? '1px solid var(--border)' : 'none',
-              borderRadius: 13,
-              padding: 14,
-              fontSize: 15,
-              fontWeight: 700,
-              fontFamily: "'Manrope',sans-serif",
-              cursor: 'pointer',
-            }}
-          >
-            {saved ? 'Saved — tap to remove' : 'Save Recipe'}
-          </button>
-        )}
       </div>
     </div>
   );
