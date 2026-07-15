@@ -42,7 +42,6 @@ export default function App() {
   const [tab, setTab] = useState("kitchen");
   const [openRecipe, setOpenRecipe] = useState(null);
   const [toast, setToast] = useState(null);
-  const [savedView, setSavedView] = useState("saved");
   const [savedDate, setSavedDate] = useState(todayString());
   const {
     saved,
@@ -98,7 +97,6 @@ export default function App() {
   const handleAddToDiary = async (recipeId, date, slot) => {
     const ok = await diary.addEntry(date, slot, recipeId);
     if (ok) {
-      setSavedView("diary");
       setSavedDate(date);
       setTab("saved");
       showToast("Recipe added to Diary!");
@@ -169,8 +167,6 @@ export default function App() {
             getRatingSummary={getRatingSummary}
             getEntry={getEntry}
             diary={diary}
-            view={savedView}
-            onViewChange={setSavedView}
             selectedDate={savedDate}
             onDateChange={setSavedDate}
           />

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { RECIPES } from '../data/recipes.js';
-import { PANTRY_STAPLES } from '../data/pantryStaples.js';
+import { PANTRY_CATEGORIES, PANTRY_STAPLES } from '../data/pantryStaples.js';
 import { formatTime } from '../utils/time';
 
 const MEAL_TYPES = [
@@ -69,6 +69,7 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
   const [flavor, setFlavor] = useState(null);
   const [quickFilter, setQuickFilter] = useState(null);
   const [selectedStaples, setSelectedStaples] = useState([]);
+  const [pantrySearch, setPantrySearch] = useState('');
   const [results, setResults] = useState(null);
   const [surpriseError, setSurpriseError] = useState('');
 
@@ -101,9 +102,18 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
     setFlavor(null);
     setQuickFilter(null);
     setSelectedStaples([]);
+    setPantrySearch('');
     setResults(null);
     setSurpriseError('');
   };
+
+  const searchLower = pantrySearch.trim().toLowerCase();
+  const visibleCategories = PANTRY_CATEGORIES.map((cat) => ({
+    category: cat.category,
+    items: searchLower
+      ? cat.items.filter((s) => s.label.toLowerCase().includes(searchLower))
+      : cat.items,
+  })).filter((cat) => cat.items.length > 0);
 
   return (
     <div style={{ paddingBottom: 20 }}>
@@ -186,18 +196,63 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
         </div>
 
         <div className="filter-sec" style={{ marginBottom: 16 }}>
-          <div className="filter-label">What Do You Have? (optional)</div>
-          <div className="scroll-row">
-            {PANTRY_STAPLES.map((s) => (
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+            <div className="filter-label" style={{ marginBottom: 0 }}>
+              What Do You Have? (optional)
+            </div>
+            {selectedStaples.length > 0 && (
               <div
-                key={s.id}
-                className={`pill ${selectedStaples.includes(s.id) ? 'active' : ''}`}
-                onClick={() => toggleStaple(s.id)}
+                onClick={() => setSelectedStaples([])}
+                style={{ fontSize: 11, color: 'var(--muted)', cursor: 'pointer', textDecoration: 'underline' }}
               >
-                {selectedStaples.includes(s.id) ? `✓ ${s.label}` : s.label}
+                Clear ({selectedStaples.length})
               </div>
-            ))}
+            )}
           </div>
+
+          <input
+            type="text"
+            value={pantrySearch}
+            onChange={(e) => setPantrySearch(e.target.value)}
+            placeholder="Search your pantry (e.g. rice, eggs, salsa)..."
+            style={{
+              width: '100%',
+              boxSizing: 'border-box',
+              background: 'var(--s2)',
+              border: '1px solid var(--border)',
+              borderRadius: 10,
+              color: 'var(--cream)',
+              fontSize: 13,
+              padding: '10px 12px',
+              marginBottom: 10,
+              fontFamily: "'Manrope',sans-serif",
+            }}
+          />
+
+          {visibleCategories.length === 0 ? (
+            <div style={{ fontSize: 12, color: 'var(--muted)', fontStyle: 'italic' }}>
+              No pantry items match "{pantrySearch}".
+            </div>
+          ) : (
+            visibleCategories.map((cat) => (
+              <div key={cat.category} style={{ marginBottom: 10 }}>
+                <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: 6 }}>
+                  {cat.category}
+                </div>
+                <div className="scroll-row">
+                  {cat.items.map((s) => (
+                    <div
+                      key={s.id}
+                      className={`pill ${selectedStaples.includes(s.id) ? 'active' : ''}`}
+                      onClick={() => toggleStaple(s.id)}
+                    >
+                      {selectedStaples.includes(s.id) ? `✓ ${s.label}` : s.label}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))
+          )}
         </div>
 
         <div style={{ display: 'flex', gap: 10 }}>

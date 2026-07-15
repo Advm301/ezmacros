@@ -46,8 +46,6 @@ export default function Saved({
   getRatingSummary,
   getEntry,
   diary,
-  view,
-  onViewChange,
   selectedDate,
   onDateChange,
 }) {
@@ -55,6 +53,7 @@ export default function Saved({
   const [generatingDay, setGeneratingDay] = useState(false);
   const [regeneratingId, setRegeneratingId] = useState(null);
   const [showShoppingList, setShowShoppingList] = useState(false);
+  const [showSavedModal, setShowSavedModal] = useState(false);
 
   const savedIds = Object.keys(saved);
   const savedRecipes = RECIPES.filter((r) => savedIds.includes(String(r.id)));
@@ -97,6 +96,14 @@ export default function Saved({
       await diary.addEntry(entry.entry_date, entry.meal_slot, recipe.id);
     }
     setRegeneratingId(null);
+  };
+
+  const handleClearDay = async () => {
+    if (!diary || dayEntries.length === 0) return;
+    const confirmed = window.confirm(`Clear all ${dayEntries.length} ${dayEntries.length === 1 ? 'entry' : 'entries'} for ${displayDate(selectedDate)}?`);
+    if (!confirmed) return;
+    const ok = await diary.clearDay(selectedDate);
+    showDayMessage(ok ? 'Day cleared.' : 'Could not clear the day -- try again.');
   };
 
   const renderSavedRow = (r) => {
@@ -142,26 +149,187 @@ export default function Saved({
   return (
     <div style={{ paddingBottom: 20 }}>
       <div className="px pt">
-        <div className="h1" style={{ marginBottom: 12 }}>Saved & Diary</div>
-
-        <div className="scroll-row" style={{ marginBottom: 16 }}>
-          <div className={`pill ${view === 'saved' ? 'active' : ''}`} onClick={() => onViewChange('saved')}>
-            Saved Recipes
-          </div>
-          <div className={`pill ${view === 'diary' ? 'active' : ''}`} onClick={() => onViewChange('diary')}>
-            Diary
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+          <div className="h1" style={{ marginBottom: 0 }}>Diary</div>
+          <div
+            onClick={() => setShowSavedModal(true)}
+            title="Saved recipes"
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 36, height: 36, borderRadius: 10, background: 'var(--s2)', border: '1px solid var(--border)', cursor: 'pointer' }}
+          >
+            <StarIcon filled={savedRecipes.length > 0} size={18} />
           </div>
         </div>
+
+        <div className="sub" style={{ marginBottom: 14 }}>
+          Organize what you're eating each day -- no macros, just easy meals.
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginBottom: 16 }}>
+          <div
+            onClick={() => onDateChange(shiftDateString(selectedDate, -1))}
+            style={{ width: 36, height: 36, borderRadius: 10, background: 'var(--s2)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'var(--cream)', fontSize: 16, flexShrink: 0 }}
+          >
+            ‹
+          </div>
+          <div style={{ flex: 1, textAlign: 'center' }}>
+            <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--cream)' }}>{displayDate(selectedDate)}</div>
+            <input
+              type="date"
+              value={selectedDate}
+              onChange={(e) => e.target.value && onDateChange(e.target.value)}
+              style={{ marginTop: 4, background: 'var(--s2)', border: '1px solid var(--border)', borderRadius: 8, color: 'var(--muted)', fontSize: 11, padding: '2px 6px' }}
+            />
+          </div>
+          <div
+            onClick={() => onDateChange(shiftDateString(selectedDate, 1))}
+            style={{ width: 36, height: 36, borderRadius: 10, background: 'var(--s2)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'var(--cream)', fontSize: 16, flexShrink: 0 }}
+          >
+            ›
+          </div>
+        </div>
+
+        <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
+          <button
+            onClick={handleSurpriseDay}
+            disabled={generatingDay}
+            style={{
+              flex: 1,
+              background: 'var(--s2)',
+              border: '1px solid var(--border)',
+              color: 'var(--cream)',
+              borderRadius: 13,
+              padding: 12,
+              fontSize: 13,
+              fontWeight: 700,
+              fontFamily: "'Manrope',sans-serif",
+              cursor: generatingDay ? 'default' : 'pointer',
+              opacity: generatingDay ? 0.6 : 1,
+            }}
+          >
+            {generatingDay ? 'Picking…' : '✦ Surprise Me'}
+          </button>
+          <button
+            onClick={() => setShowShoppingList((v) => !v)}
+            style={{
+              flex: 1,
+              background: showShoppingList ? 'var(--lime)' : 'var(--s2)',
+              border: '1px solid var(--border)',
+              color: showShoppingList ? '#000' : 'var(--cream)',
+              borderRadius: 13,
+              padding: 12,
+              fontSize: 13,
+              fontWeight: 700,
+              fontFamily: "'Manrope',sans-serif",
+              cursor: 'pointer',
+            }}
+          >
+            {showShoppingList ? 'Hide List' : 'Shopping List'}
+          </button>
+        </div>
+
+        {dayEntries.length > 0 && (
+          <div
+            onClick={handleClearDay}
+            style={{ fontSize: 12, color: 'var(--muted)', textDecoration: 'underline', cursor: 'pointer', marginBottom: 8, textAlign: 'right' }}
+          >
+            Clear Day
+          </div>
+        )}
+
+        {dayMessage && (
+          <div style={{ fontSize: 12, color: 'var(--lime)', marginBottom: 8 }}>{dayMessage}</div>
+        )}
+
+        {showShoppingList && (
+          <div style={{ background: 'var(--s1)', border: '1px solid var(--border)', borderRadius: 14, padding: 14, marginBottom: 16 }}>
+            <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 10 }}>
+              Shopping List — {displayDate(selectedDate)}
+            </div>
+            {shoppingList.length === 0 ? (
+              <div style={{ fontSize: 13, color: 'var(--muted)', fontStyle: 'italic' }}>
+                Nothing planned for this day yet -- add a meal to build a list.
+              </div>
+            ) : (
+              shoppingList.map((item, i) => (
+                <div
+                  key={`${item.name}-${item.unit}`}
+                  style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0', borderBottom: i < shoppingList.length - 1 ? '1px solid var(--border)' : 'none' }}
+                >
+                  <span style={{ fontSize: 13, color: 'var(--cream)' }}>{item.name}</span>
+                  <span style={{ fontSize: 13, color: 'var(--muted)' }}>{formatShoppingQuantity(item)}</span>
+                </div>
+              ))
+            )}
+          </div>
+        )}
       </div>
 
-      {view === 'saved' ? (
-        <>
-          <div className="px">
-            <div className="sub" style={{ marginBottom: 14 }}>
-              Recipes you've starred.
+      <div className="px">
+        {MEAL_SLOTS.map((slot) => {
+          const slotEntries = dayEntries.filter((e) => e.meal_slot === slot);
+          return (
+            <div key={slot} style={{ marginBottom: 18 }}>
+              <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 8 }}>
+                {MEAL_SLOT_LABELS[slot]}
+              </div>
+              {slotEntries.length === 0 ? (
+                <div style={{ fontSize: 12, color: 'var(--muted)', fontStyle: 'italic' }}>Nothing added yet</div>
+              ) : (
+                slotEntries.map((entry) => {
+                  const r = RECIPES.find((rec) => rec.id === entry.recipe_id);
+                  if (!r) return null;
+                  const isRegenerating = regeneratingId === entry.id;
+                  return (
+                    <div
+                      key={entry.id}
+                      style={{ background: 'var(--s1)', border: '1px solid var(--border)', borderRadius: 14, padding: 12, marginBottom: 8, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, opacity: isRegenerating ? 0.6 : 1 }}
+                      onClick={() => onOpen(r)}
+                    >
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontWeight: 700, fontSize: 14, color: 'var(--cream)' }}>{r.name}</div>
+                        <div style={{ fontSize: 11, color: 'var(--muted)' }}>
+                          {r.method}{r.method && r.activeTime ? ' · ' : ''}{formatTime(r.activeTime, r.totalTime)}
+                        </div>
+                      </div>
+                      <div
+                        onClick={(e) => { e.stopPropagation(); if (!isRegenerating) handleRegenerate(entry); }}
+                        title="Regenerate this meal"
+                        style={{ fontSize: 16, color: 'var(--muted)', padding: 6, cursor: isRegenerating ? 'default' : 'pointer' }}
+                      >
+                        ↻
+                      </div>
+                      <div
+                        onClick={(e) => { e.stopPropagation(); diary.removeEntry(entry.id); }}
+                        style={{ fontSize: 18, color: 'var(--muted)', padding: 6, cursor: 'pointer' }}
+                      >
+                        ✕
+                      </div>
+                    </div>
+                  );
+                })
+              )}
             </div>
-          </div>
-          <div className="px">
+          );
+        })}
+      </div>
+
+      {showSavedModal && (
+        <div
+          onClick={() => setShowSavedModal(false)}
+          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,.6)', zIndex: 70, display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{ background: 'var(--bg)', width: '100%', maxWidth: 430, maxHeight: '80vh', borderRadius: '20px 20px 0 0', border: '1px solid var(--border)', borderBottom: 'none', overflowY: 'auto', padding: '18px 18px 24px' }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
+              <div className="h1" style={{ marginBottom: 0, fontSize: 18 }}>Saved Recipes</div>
+              <div
+                onClick={() => setShowSavedModal(false)}
+                style={{ fontSize: 20, color: 'var(--muted)', cursor: 'pointer', padding: 4 }}
+              >
+                ✕
+              </div>
+            </div>
             {savedRecipes.length === 0 ? (
               <div style={{ background: 'var(--s1)', border: '1px solid var(--border)', borderRadius: 16, padding: 24, textAlign: 'center' }}>
                 <div style={{ fontSize: 14, color: 'var(--muted)', lineHeight: 1.6 }}>
@@ -172,152 +340,7 @@ export default function Saved({
               savedRecipes.map(renderSavedRow)
             )}
           </div>
-        </>
-      ) : (
-        <>
-          <div className="px">
-            <div className="sub" style={{ marginBottom: 14 }}>
-              Organize what you're eating each day -- no macros, just easy meals.
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginBottom: 16 }}>
-              <div
-                onClick={() => onDateChange(shiftDateString(selectedDate, -1))}
-                style={{ width: 36, height: 36, borderRadius: 10, background: 'var(--s2)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'var(--cream)', fontSize: 16, flexShrink: 0 }}
-              >
-                ‹
-              </div>
-              <div style={{ flex: 1, textAlign: 'center' }}>
-                <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--cream)' }}>{displayDate(selectedDate)}</div>
-                <input
-                  type="date"
-                  value={selectedDate}
-                  onChange={(e) => e.target.value && onDateChange(e.target.value)}
-                  style={{ marginTop: 4, background: 'var(--s2)', border: '1px solid var(--border)', borderRadius: 8, color: 'var(--muted)', fontSize: 11, padding: '2px 6px' }}
-                />
-              </div>
-              <div
-                onClick={() => onDateChange(shiftDateString(selectedDate, 1))}
-                style={{ width: 36, height: 36, borderRadius: 10, background: 'var(--s2)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'var(--cream)', fontSize: 16, flexShrink: 0 }}
-              >
-                ›
-              </div>
-            </div>
-
-            <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
-              <button
-                onClick={handleSurpriseDay}
-                disabled={generatingDay}
-                style={{
-                  flex: 1,
-                  background: 'var(--s2)',
-                  border: '1px solid var(--border)',
-                  color: 'var(--cream)',
-                  borderRadius: 13,
-                  padding: 12,
-                  fontSize: 13,
-                  fontWeight: 700,
-                  fontFamily: "'Manrope',sans-serif",
-                  cursor: generatingDay ? 'default' : 'pointer',
-                  opacity: generatingDay ? 0.6 : 1,
-                }}
-              >
-                {generatingDay ? 'Picking…' : '✦ Surprise Me'}
-              </button>
-              <button
-                onClick={() => setShowShoppingList((v) => !v)}
-                style={{
-                  flex: 1,
-                  background: showShoppingList ? 'var(--lime)' : 'var(--s2)',
-                  border: '1px solid var(--border)',
-                  color: showShoppingList ? '#000' : 'var(--cream)',
-                  borderRadius: 13,
-                  padding: 12,
-                  fontSize: 13,
-                  fontWeight: 700,
-                  fontFamily: "'Manrope',sans-serif",
-                  cursor: 'pointer',
-                }}
-              >
-                {showShoppingList ? 'Hide List' : 'Shopping List'}
-              </button>
-            </div>
-            {dayMessage && (
-              <div style={{ fontSize: 12, color: 'var(--lime)', marginBottom: 8 }}>{dayMessage}</div>
-            )}
-
-            {showShoppingList && (
-              <div style={{ background: 'var(--s1)', border: '1px solid var(--border)', borderRadius: 14, padding: 14, marginBottom: 16 }}>
-                <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 10 }}>
-                  Shopping List — {displayDate(selectedDate)}
-                </div>
-                {shoppingList.length === 0 ? (
-                  <div style={{ fontSize: 13, color: 'var(--muted)', fontStyle: 'italic' }}>
-                    Nothing planned for this day yet -- add a meal to build a list.
-                  </div>
-                ) : (
-                  shoppingList.map((item, i) => (
-                    <div
-                      key={`${item.name}-${item.unit}`}
-                      style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0', borderBottom: i < shoppingList.length - 1 ? '1px solid var(--border)' : 'none' }}
-                    >
-                      <span style={{ fontSize: 13, color: 'var(--cream)' }}>{item.name}</span>
-                      <span style={{ fontSize: 13, color: 'var(--muted)' }}>{formatShoppingQuantity(item)}</span>
-                    </div>
-                  ))
-                )}
-              </div>
-            )}
-          </div>
-
-          <div className="px">
-            {MEAL_SLOTS.map((slot) => {
-              const slotEntries = dayEntries.filter((e) => e.meal_slot === slot);
-              return (
-                <div key={slot} style={{ marginBottom: 18 }}>
-                  <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 8 }}>
-                    {MEAL_SLOT_LABELS[slot]}
-                  </div>
-                  {slotEntries.length === 0 ? (
-                    <div style={{ fontSize: 12, color: 'var(--muted)', fontStyle: 'italic' }}>Nothing added yet</div>
-                  ) : (
-                    slotEntries.map((entry) => {
-                      const r = RECIPES.find((rec) => rec.id === entry.recipe_id);
-                      if (!r) return null;
-                      const isRegenerating = regeneratingId === entry.id;
-                      return (
-                        <div
-                          key={entry.id}
-                          style={{ background: 'var(--s1)', border: '1px solid var(--border)', borderRadius: 14, padding: 12, marginBottom: 8, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, opacity: isRegenerating ? 0.6 : 1 }}
-                          onClick={() => onOpen(r)}
-                        >
-                          <div style={{ flex: 1 }}>
-                            <div style={{ fontWeight: 700, fontSize: 14, color: 'var(--cream)' }}>{r.name}</div>
-                            <div style={{ fontSize: 11, color: 'var(--muted)' }}>
-                              {r.method}{r.method && r.activeTime ? ' · ' : ''}{formatTime(r.activeTime, r.totalTime)}
-                            </div>
-                          </div>
-                          <div
-                            onClick={(e) => { e.stopPropagation(); if (!isRegenerating) handleRegenerate(entry); }}
-                            title="Regenerate this meal"
-                            style={{ fontSize: 16, color: 'var(--muted)', padding: 6, cursor: isRegenerating ? 'default' : 'pointer' }}
-                          >
-                            ↻
-                          </div>
-                          <div
-                            onClick={(e) => { e.stopPropagation(); diary.removeEntry(entry.id); }}
-                            style={{ fontSize: 18, color: 'var(--muted)', padding: 6, cursor: 'pointer' }}
-                          >
-                            ✕
-                          </div>
-                        </div>
-                      );
-                    })
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </>
+        </div>
       )}
     </div>
   );

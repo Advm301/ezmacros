@@ -84,9 +84,27 @@ export default function useDiary(userId) {
     setEntries((prev) => prev.filter((e) => e.id !== entryId));
   };
 
+  // Removes every entry for a single date in one go (the "Clear Day" action)
+  // -- used when someone wants to wipe a day's plan and start over rather
+  // than removing entries one at a time.
+  const clearDay = async (dateStr) => {
+    if (!userId) return false;
+    const { error } = await supabase
+      .from('diary_entries')
+      .delete()
+      .eq('user_id', userId)
+      .eq('entry_date', dateStr);
+    if (error) {
+      console.error('Error clearing diary day:', error);
+      return false;
+    }
+    setEntries((prev) => prev.filter((e) => e.entry_date !== dateStr));
+    return true;
+  };
+
   const getEntriesForDate = (dateStr) => entries.filter((e) => e.entry_date === dateStr);
 
-  return { loading, entries, addEntry, removeEntry, getEntriesForDate, refresh };
+  return { loading, entries, addEntry, removeEntry, clearDay, getEntriesForDate, refresh };
 }
 
 export { MEAL_SLOTS, MEAL_SLOT_LABELS, todayString, formatDateString };
