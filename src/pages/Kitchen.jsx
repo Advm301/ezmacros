@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { RECIPES } from '../data/recipes.js';
-import { PANTRY_CATEGORIES, PANTRY_STAPLES } from '../data/pantryStaples.js';
+import { PANTRY_STAPLES } from '../data/pantryStaples.js';
 import { formatTime } from '../utils/time';
 import { hapticSelection, hapticLight, hapticMedium } from '../utils/haptics';
+import PantryPickerModal from '../components/PantryPickerModal';
 
 const MEAL_TYPES = [
   { label: 'Breakfast', value: 'breakfast' },
@@ -70,9 +71,12 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
   const [flavor, setFlavor] = useState(null);
   const [quickFilter, setQuickFilter] = useState(null);
   const [selectedStaples, setSelectedStaples] = useState([]);
-  const [pantrySearch, setPantrySearch] = useState('');
+  const [showMoreFilters, setShowMoreFilters] = useState(false);
+  const [showPantryModal, setShowPantryModal] = useState(false);
   const [results, setResults] = useState(null);
   const [surpriseError, setSurpriseError] = useState('');
+
+  const moreFiltersCount = (quickFilter ? 1 : 0) + (flavor ? 1 : 0);
 
   const toggleStaple = (id) => {
     hapticSelection();
@@ -127,7 +131,6 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
     setFlavor(null);
     setQuickFilter(null);
     setSelectedStaples([]);
-    setPantrySearch('');
     setResults(null);
     setSurpriseError('');
   };
@@ -137,16 +140,8 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
     if (onOpen) onOpen(r);
   };
 
-  const searchLower = pantrySearch.trim().toLowerCase();
-  const visibleCategories = PANTRY_CATEGORIES.map((cat) => ({
-    category: cat.category,
-    items: searchLower
-      ? cat.items.filter((s) => s.label.toLowerCase().includes(searchLower))
-      : cat.items,
-  })).filter((cat) => cat.items.length > 0);
-
   return (
-    <div style={{ paddingBottom: 20 }}>
+    <div style={{ paddingBottom: 150 }}>
       <div className="px pt">
         <div className="h1">What Can I Make?</div>
         <div className="sub" style={{ marginBottom: 14 }}>
@@ -175,21 +170,6 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
         </div>
 
         <div className="filter-sec">
-          <div className="filter-label">Quick Filter (optional)</div>
-          <div className="scroll-row">
-            {QUICK_FILTERS.map((q) => (
-              <div
-                key={q.value}
-                className={`pill ${quickFilter === q.value ? 'active' : ''}`}
-                onClick={() => selectQuickFilter(quickFilter === q.value ? null : q.value)}
-              >
-                {q.label}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="filter-sec">
           <div className="filter-label">Protein</div>
           <div className="scroll-row">
             <div
@@ -210,22 +190,67 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
           </div>
         </div>
 
+        {/* Quick Filter and Flavor are both optional refinements -- tucked
+            behind a single collapsible toggle so the page doesn't front-load
+            two extra rows of chips nobody has to touch. */}
         <div className="filter-sec">
-          <div className="filter-label">Flavor (optional)</div>
-          <div className="scroll-row">
-            {FLAVORS.map((f) => (
-              <div
-                key={f.value}
-                className={`pill ${flavor === f.value ? 'active' : ''}`}
-                onClick={() => selectFlavor(flavor === f.value ? null : f.value)}
-              >
-                {f.label}
-              </div>
-            ))}
+          <div
+            onClick={() => { hapticSelection(); setShowMoreFilters((v) => !v); }}
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer', padding: '6px 0' }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--cream)' }}>More Filters</span>
+              <span style={{ fontSize: 11, color: 'var(--muted)' }}>(Quick Filter, Flavor)</span>
+              {moreFiltersCount > 0 && (
+                <span style={{ fontSize: 10, fontWeight: 700, color: '#000', background: 'var(--lime)', borderRadius: 100, padding: '2px 7px' }}>
+                  {moreFiltersCount}
+                </span>
+              )}
+            </div>
+            <span style={{ fontSize: 11, color: 'var(--muted)', transform: showMoreFilters ? 'rotate(180deg)' : 'none', transition: 'transform .15s', display: 'inline-block' }}>
+              ▾
+            </span>
           </div>
+
+          {showMoreFilters && (
+            <div style={{ marginTop: 8 }}>
+              <div className="filter-sec">
+                <div className="filter-label">Quick Filter (optional)</div>
+                <div className="scroll-row">
+                  {QUICK_FILTERS.map((q) => (
+                    <div
+                      key={q.value}
+                      className={`pill ${quickFilter === q.value ? 'active' : ''}`}
+                      onClick={() => selectQuickFilter(quickFilter === q.value ? null : q.value)}
+                    >
+                      {q.label}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="filter-sec" style={{ marginBottom: 0 }}>
+                <div className="filter-label">Flavor (optional)</div>
+                <div className="scroll-row">
+                  {FLAVORS.map((f) => (
+                    <div
+                      key={f.value}
+                      className={`pill ${flavor === f.value ? 'active' : ''}`}
+                      onClick={() => selectFlavor(flavor === f.value ? null : f.value)}
+                    >
+                      {f.label}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
-        <div className="filter-sec" style={{ marginBottom: 16 }}>
+        {/* Pantry picking lives in its own drawer (PantryPickerModal) instead
+            of rendering all ~30 chips across 5 categories inline -- this row
+            is just a compact summary/entry point into it. */}
+        <div className="filter-sec" style={{ marginBottom: 10 }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
             <div className="filter-label" style={{ marginBottom: 0 }}>
               What Do You Have? (optional)
@@ -240,65 +265,39 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
             )}
           </div>
 
-          <input
-            type="text"
-            value={pantrySearch}
-            onChange={(e) => setPantrySearch(e.target.value)}
-            placeholder="Search your pantry (e.g. rice, eggs, salsa)..."
-            style={{
-              width: '100%',
-              boxSizing: 'border-box',
-              background: 'var(--s2)',
-              border: '1px solid var(--border)',
-              borderRadius: 10,
-              color: 'var(--cream)',
-              fontSize: 13,
-              padding: '10px 12px',
-              marginBottom: 10,
-              fontFamily: "'Manrope',sans-serif",
-            }}
-          />
-
-          {visibleCategories.length === 0 ? (
-            <div style={{ fontSize: 12, color: 'var(--muted)', fontStyle: 'italic' }}>
-              No pantry items match "{pantrySearch}".
+          {selectedStaples.length === 0 ? (
+            <div
+              onClick={() => { hapticLight(); setShowPantryModal(true); }}
+              style={{
+                border: '1px dashed var(--border)',
+                borderRadius: 10,
+                padding: '12px 14px',
+                fontSize: 13,
+                color: 'var(--muted)',
+                cursor: 'pointer',
+                textAlign: 'center',
+              }}
+            >
+              + Add ingredients you have
             </div>
           ) : (
-            visibleCategories.map((cat) => (
-              <div key={cat.category} style={{ marginBottom: 10 }}>
-                <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: 6 }}>
-                  {cat.category}
+            <div
+              className="scroll-row"
+              onClick={() => { hapticLight(); setShowPantryModal(true); }}
+              style={{ cursor: 'pointer' }}
+            >
+              {selectedStaples.map((id) => (
+                <div key={id} className="pill active">
+                  {PANTRY_LABELS[id] || id}
                 </div>
-                <div className="scroll-row">
-                  {cat.items.map((s) => (
-                    <div
-                      key={s.id}
-                      className={`pill ${selectedStaples.includes(s.id) ? 'active' : ''}`}
-                      onClick={() => toggleStaple(s.id)}
-                    >
-                      {selectedStaples.includes(s.id) ? `✓ ${s.label}` : s.label}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))
+              ))}
+              <div className="pill">+ Edit</div>
+            </div>
           )}
         </div>
 
-        <div style={{ display: 'flex', gap: 10 }}>
-          <button className="gen-kitchen-btn" style={{ flex: 1 }} onClick={handleFindRecipes}>
-            ✦ Find Recipes
-          </button>
-          <button
-            className="gen-kitchen-btn"
-            style={{ flex: 1, background: 'var(--s2)', color: 'var(--cream)' }}
-            onClick={handleSurpriseMe}
-          >
-            ✦ Surprise Me
-          </button>
-        </div>
         {surpriseError && (
-          <div style={{ fontSize: 12, color: 'var(--muted)', marginTop: 8 }}>{surpriseError}</div>
+          <div style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 4 }}>{surpriseError}</div>
         )}
       </div>
 
@@ -356,6 +355,32 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
             </>
           )}
         </div>
+      )}
+
+      {/* Sticky action bar -- always visible above the bottom nav so the
+          primary "do the thing" action never gets buried below the filter
+          sections, no matter how many are expanded. */}
+      <div style={{ position: 'fixed', bottom: 58, left: '50%', transform: 'translateX(-50%)', width: '100%', maxWidth: 430, background: 'var(--bg)', borderTop: '1px solid var(--border)', padding: '10px 18px', boxSizing: 'border-box', zIndex: 25 }}>
+        <div style={{ display: 'flex', gap: 10 }}>
+          <button className="gen-kitchen-btn" style={{ flex: 1, marginBottom: 0 }} onClick={handleFindRecipes}>
+            ✦ Find Recipes
+          </button>
+          <button
+            className="gen-kitchen-btn"
+            style={{ flex: 1, marginBottom: 0, background: 'var(--s2)', color: 'var(--cream)' }}
+            onClick={handleSurpriseMe}
+          >
+            ✦ Surprise Me
+          </button>
+        </div>
+      </div>
+
+      {showPantryModal && (
+        <PantryPickerModal
+          selectedStaples={selectedStaples}
+          toggleStaple={toggleStaple}
+          onClose={() => setShowPantryModal(false)}
+        />
       )}
     </div>
   );

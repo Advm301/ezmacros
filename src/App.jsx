@@ -68,6 +68,7 @@ export default function App() {
   const [toast, setToast] = useState(null);
   const [savedDate, setSavedDate] = useState(todayString());
   const [showFeedback, setShowFeedback] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
   const {
     saved,
     isSaved,
@@ -249,28 +250,57 @@ export default function App() {
               </div>
             </div>
           </div>
-          <div style={{display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 5}}>
+          <div style={{position: "relative"}}>
             <button
-              onClick={handleSignOut}
+              onClick={() => { hapticSelection(); setShowMenu((v) => !v); }}
+              aria-label="Account menu"
               style={{
                 background: "var(--s2)",
                 border: "1px solid var(--border)",
-                color: "var(--muted)",
+                color: "var(--cream)",
                 borderRadius: 8,
-                padding: "6px 12px",
-                fontSize: 12,
-                fontWeight: 600,
+                width: 32,
+                height: 32,
+                fontSize: 18,
+                lineHeight: 1,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
                 cursor: "pointer",
               }}
             >
-              Sign Out
+              ⋯
             </button>
-            <div
-              onClick={handleDeleteAccount}
-              style={{ fontSize: 10, color: "var(--muted)", textDecoration: "underline", cursor: "pointer" }}
-            >
-              Delete Account
-            </div>
+            {showMenu && (
+              <>
+                <div onClick={() => setShowMenu(false)} style={{position: "fixed", inset: 0, zIndex: 29}} />
+                <div style={{
+                  position: "absolute",
+                  top: 38,
+                  right: 0,
+                  background: "var(--s1)",
+                  border: "1px solid var(--border)",
+                  borderRadius: 10,
+                  overflow: "hidden",
+                  zIndex: 30,
+                  minWidth: 150,
+                  boxShadow: "0 4px 14px rgba(0,0,0,.35)",
+                }}>
+                  <div
+                    onClick={() => { setShowMenu(false); handleSignOut(); }}
+                    style={{ padding: "10px 14px", fontSize: 13, fontWeight: 600, color: "var(--cream)", cursor: "pointer", borderBottom: "1px solid var(--border)", whiteSpace: "nowrap" }}
+                  >
+                    Sign Out
+                  </div>
+                  <div
+                    onClick={() => { setShowMenu(false); handleDeleteAccount(); }}
+                    style={{ padding: "10px 14px", fontSize: 12, color: "#ff8080", cursor: "pointer", whiteSpace: "nowrap" }}
+                  >
+                    Delete Account
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </div>
 
@@ -314,7 +344,10 @@ export default function App() {
               style={{
                 position: "absolute",
                 right: 18,
-                bottom: 76,
+                // Kitchen tab has its own sticky action bar just above the
+                // bottom nav (see Kitchen.jsx) -- push the feedback button
+                // up further there so it doesn't sit on top of it.
+                bottom: tab === "kitchen" ? 138 : 76,
                 width: 48,
                 height: 48,
                 borderRadius: "50%",
@@ -339,7 +372,7 @@ export default function App() {
           <div
             style={{
               position: "fixed",
-              bottom: 76,
+              bottom: tab === "kitchen" ? 138 : 76,
               left: "50%",
               transform: "translateX(-50%)",
               background: "var(--lime)",
