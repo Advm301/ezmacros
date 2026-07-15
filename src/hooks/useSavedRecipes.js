@@ -57,11 +57,14 @@ function loadInitialState() {
 }
 
 // Two independent, per-device localStorage stores:
-// - `saved`: recipes the user has explicitly starred/favorited. This is the
-//   ONLY thing that puts a recipe on the Saved list.
+// - `saved`: recipes the user has starred/favorited, either explicitly via
+//   the star icon or implicitly by writing a note (see updateNotes) -- this
+//   is what puts a recipe on the Saved list.
 // - `customizations`: per-recipe notes and ingredient/instruction edits.
-//   These persist regardless of whether the recipe is starred -- editing a
-//   recipe should never silently favorite it.
+//   These persist regardless of whether the recipe is starred. Editing
+//   ingredient amounts or instruction text does NOT auto-save (those are
+//   just tweaks to a recipe you're already looking at); only adding a note
+//   does, since a note is something you'd want to find again later.
 export default function useSavedRecipes() {
   const [saved, setSaved] = useState(() => loadInitialState().saved);
   const [customizations, setCustomizations] = useState(() => loadInitialState().customizations);
@@ -103,6 +106,16 @@ export default function useSavedRecipes() {
       ...prev,
       [id]: { ...(prev[id] || blankCustomization()), notes },
     }));
+    // Notes are personal reference material -- if you wrote something down
+    // but never explicitly starred the recipe, you'd have to browse the
+    // whole catalog to find it again to see what you wrote. Writing a note
+    // auto-saves the recipe so it always shows up on Saved. Clearing notes
+    // back to empty deliberately does NOT auto-unsave -- that stays an
+    // explicit action via the star, since you may still want it saved for
+    // other reasons.
+    if (notes && notes.trim().length > 0) {
+      setSaved((prev) => (prev[id] ? prev : { ...prev, [id]: { savedAt: Date.now() } }));
+    }
   };
 
   const updateIngredientOverride = (id, index, override) => {

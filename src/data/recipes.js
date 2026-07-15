@@ -163,34 +163,6 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 4,
-    "name": "Frozen Jerk Chicken Bowl",
-    "method": "Microwave",
-    "mealType": "lunch_dinner",
-    "proteins": [
-      "chicken"
-    ],
-    "flavor": "spicy",
-    "activeTime": 1,
-    "components": [
-      {
-        "name": "Frozen Jerk Chicken Bowl (9oz)",
-        "quantity": 255,
-        "unit": "each"
-      }
-    ],
-    "toppings": [
-      "Lime Squeeze",
-      "Hot Sauce"
-    ],
-    "instructions": [
-      "Remove lid. Microwave HIGH 3 minutes.",
-      "Rest 1 min. Add toppings to taste."
-    ],
-    "totalTime": 1,
-    "pantryTags": []
-  },
-  {
     "id": 5,
     "name": "Deviled Eggs",
     "method": "No Cook",
@@ -222,6 +194,7 @@ export const RECIPES = [
       "Pickle Relish"
     ],
     "instructions": [
+      "If your eggs aren't already boiled: place them in a pot, cover with about an inch of water, bring to a boil, then cover and remove from heat for 10-12 minutes. Cool in ice water before peeling.",
       "Halve pre-boiled eggs lengthwise. Pop yolks into bowl.",
       "Mash yolks with mayo + mustard until smooth.",
       "Fill whites. Shake paprika on top."
@@ -880,6 +853,7 @@ export const RECIPES = [
       "Lemon Squeeze"
     ],
     "instructions": [
+      "If your eggs aren't already boiled: place them in a pot, cover with about an inch of water, bring to a boil, then cover and remove from heat for 10-12 minutes. Cool in ice water before peeling.",
       "Toast bread. Squeeze guac evenly on both slices.",
       "Top with sliced eggs. Season with everything bagel seasoning + pepper flakes."
     ],
@@ -2164,6 +2138,7 @@ export const RECIPES = [
       "Sea Salt"
     ],
     "instructions": [
+      "If your eggs aren't already boiled: place them in a pot, cover with about an inch of water, bring to a boil, then cover and remove from heat for 10-12 minutes. Cool in ice water before peeling.",
       "Halve pre-boiled eggs. Pour hot sauce over. Sprinkle seasoning on top."
     ],
     "totalTime": 2,
