@@ -97,8 +97,23 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
   const [highProteinOnly, setHighProteinOnly] = useState(false);
   const [grabAndGoOnly, setGrabAndGoOnly] = useState(false);
   const [showMoreFilters, setShowMoreFilters] = useState(false);
+  // Each meal section (Breakfast / Lunch & Dinner / Snacks) starts closed --
+  // all three expanded by default was the exact "everything dumped on one
+  // screen" clutter this redesign is meant to fix. Opening one reveals its
+  // list inside a fixed-height scroll area rather than growing the page.
+  const [openSections, setOpenSections] = useState({});
 
   const moreFiltersCount = (proteinFilter ? 1 : 0) + (flavorFilter ? 1 : 0);
+  // A search or a picked meal type is an explicit signal the person wants to
+  // see matches right now -- forcing sections open in that case avoids the
+  // frustrating "I searched but the results are hidden behind a collapsed
+  // section" trap.
+  const isFiltering = search.trim().length > 0;
+
+  const toggleSection = (value) => {
+    hapticSelection();
+    setOpenSections((prev) => ({ ...prev, [value]: !prev[value] }));
+  };
 
   const filtered = RECIPES.filter((r) => {
     const tags = r.tags || [];
@@ -277,12 +292,34 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
           sections.map((section) => {
             const sectionRecipes = filtered.filter((r) => r.mealType === section.value);
             if (sectionRecipes.length === 0) return null;
+            const isOpen = isFiltering || Boolean(openSections[section.value]);
             return (
-              <div key={section.value} style={{ marginBottom: 20 }}>
-                <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 10 }}>
-                  {section.label} ({sectionRecipes.length})
+              <div key={section.value} style={{ marginBottom: 12 }}>
+                <div
+                  onClick={() => toggleSection(section.value)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    cursor: 'pointer',
+                    padding: '10px 12px',
+                    background: 'var(--s1)',
+                    border: '1px solid var(--border)',
+                    borderRadius: 12,
+                  }}
+                >
+                  <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--cream)', textTransform: 'uppercase', letterSpacing: 1 }}>
+                    {section.label} ({sectionRecipes.length})
+                  </span>
+                  <span style={{ fontSize: 11, color: 'var(--muted)', transform: isOpen ? 'rotate(180deg)' : 'none', transition: 'transform .15s', display: 'inline-block' }}>
+                    ▾
+                  </span>
                 </div>
-                {sectionRecipes.map(renderRecipeRow)}
+                {isOpen && (
+                  <div style={{ maxHeight: 420, overflowY: 'auto', paddingTop: 10 }}>
+                    {sectionRecipes.map(renderRecipeRow)}
+                  </div>
+                )}
               </div>
             );
           })
