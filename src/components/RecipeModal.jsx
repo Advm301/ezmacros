@@ -6,6 +6,7 @@ import { formatTime } from '../utils/time';
 import { hapticSelection, hapticLight, hapticMedium } from '../utils/haptics';
 import { summarizeSteps } from '../utils/recipeSummary';
 import { detectPreheatTip, previewNextStep } from '../utils/stepHints';
+import { matchIngredientsForStep } from '../utils/ingredientMatch';
 
 const GRAMS_PER_OZ = 28.3495;
 const ML_PER_FLOZ = 29.5735;
@@ -422,6 +423,10 @@ export default function RecipeModal({
       const progressPct = ((i + 1) / instructions.length) * 100;
       const rawInstructionTexts = instructions.map((s) => s.text);
       const nextPreview = previewNextStep(rawInstructionTexts, i);
+      // Same `components` array (with any overrides applied) the decide
+      // screen renders from -- reused here, not recomputed, so an amount
+      // shown mid-cook is always identical to what's editable up front.
+      const stepIngredientIdxs = matchIngredientsForStep(step.text, components);
       return (
         <div>
           <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--lime)', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 8 }}>
@@ -471,8 +476,30 @@ export default function RecipeModal({
             )}
           </div>
 
+          {stepIngredientIdxs.length > 0 && (
+            <div style={{ marginTop: 18, background: 'var(--s1)', border: '1px solid var(--border)', borderRadius: 10, padding: '10px 12px' }}>
+              <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 8 }}>
+                For This Step
+              </div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                {stepIngredientIdxs.map((idx) => {
+                  const c = components[idx];
+                  const display = getQuantityDisplay(c.quantity, c.unit, c.name, unitModes[idx]);
+                  return (
+                    <span
+                      key={idx}
+                      style={{ fontSize: 12, background: 'var(--s2)', border: '1px solid var(--border)', borderRadius: 100, padding: '5px 12px', color: 'var(--cream)' }}
+                    >
+                      {c.name}: <strong style={{ color: c.edited ? 'var(--lime)' : 'var(--cream)' }}>{display.value}{display.suffix}</strong>
+                    </span>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
           {nextPreview && (
-            <div style={{ marginTop: 18, fontSize: 12, color: 'var(--muted)', fontStyle: 'italic' }}>
+            <div style={{ marginTop: 14, fontSize: 12, color: 'var(--muted)', fontStyle: 'italic' }}>
               Coming up: {nextPreview}
             </div>
           )}

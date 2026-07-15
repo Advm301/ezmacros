@@ -255,7 +255,11 @@ export default function App() {
               onClick={() => { hapticSelection(); setShowMenu((v) => !v); }}
               aria-label="Account menu"
               style={{
-                background: "var(--s2)",
+                // var(--s2)/s3 are translucent white overlays meant to sit
+                // on the app's near-black background -- against the solid
+                // teal header they read as barely-there. Opaque fill here
+                // instead so the button is clearly visible.
+                background: "#052d37",
                 border: "1px solid var(--border)",
                 color: "var(--cream)",
                 borderRadius: 8,
