@@ -38,6 +38,21 @@ function SavedIcon() {
   );
 }
 
+// App icon glyph -- a meal-prep container with a lightning bolt (quick /
+// ready-to-go). Used in the header logo slot; the same shape (on a solid
+// teal square) is the iOS app icon, favicon, and PWA icons.
+function AppIcon() {
+  return (
+    <svg width="22" height="14" viewBox="0 0 240 154" fill="none" stroke="currentColor" strokeWidth="14" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="14" y="10" width="212" height="42" rx="21" />
+      <path d="M104,52 L104,76 A10,10 0 0 0 114,86 L126,86 A10,10 0 0 0 136,76 L136,52" />
+      <path d="M14,80 L226,80 L226,130 A14,14 0 0 1 212,144 L28,144 A14,14 0 0 1 14,130 Z" />
+      <line x1="14" y1="118" x2="226" y2="118" />
+      <path d="M129,86 L100,118 L115,118 L106,144 L140,109 L123,109 Z" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
 export default function App() {
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -178,7 +193,6 @@ export default function App() {
         {/* Header */}
         <div style={{padding: "14px 18px 10px", position: "sticky", top: 0, background: "var(--teal)", zIndex: 10, display: "flex", justifyContent: "space-between", alignItems: "flex-start"}}>
           <div style={{display: "flex", alignItems: "center", gap: 10}}>
-            {/* App icon slot -- swap this square for an <img> once the real icon exists */}
             <div style={{
               width: 36,
               height: 36,
@@ -190,11 +204,8 @@ export default function App() {
               justifyContent: "center",
               flexShrink: 0,
               color: "var(--lime)",
-              fontFamily: "'Manrope',sans-serif",
-              fontWeight: 800,
-              fontSize: 16,
             }}>
-              Q
+              <AppIcon />
             </div>
             <div>
               <div style={{fontFamily: "'Manrope',sans-serif", fontSize: 20, fontWeight: 800, color: "var(--cream)", lineHeight: 1.1}}>
