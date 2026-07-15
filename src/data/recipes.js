@@ -287,7 +287,7 @@ export const RECIPES = [
       {
         "name": "Egg White (carton pour)",
         "quantity": 30,
-        "unit": "count"
+        "unit": "ml"
       },
       {
         "name": "Italian Seasoning (1 tbsp)",
@@ -418,7 +418,7 @@ export const RECIPES = [
       {
         "name": "Egg White Carton (liquid)",
         "quantity": 240,
-        "unit": "count"
+        "unit": "ml"
       },
       {
         "name": "Shredded Cheddar (bagged)",
@@ -426,7 +426,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Frozen Spinach (microwave bag)",
+        "name": "Fresh Baby Spinach (pre-washed bag)",
         "quantity": 85,
         "unit": "g"
       }
@@ -436,8 +436,8 @@ export const RECIPES = [
       "Everything Bagel Seasoning"
     ],
     "instructions": [
-      "Microwave spinach bag 2 min. Squeeze out excess water.",
-      "Spray pan with cooking spray on medium heat. Pour in egg whites + spinach. Scramble until just set.",
+      "Spray pan with cooking spray on medium heat. Add spinach and cook 1 minute until just wilted.",
+      "Pour in egg whites. Scramble until just set.",
       "Top with cheese. Slide onto plate — hot sauce on the side."
     ]
   },
@@ -844,7 +844,7 @@ export const RECIPES = [
       {
         "name": "Egg Whites (carton, ¾ cup)",
         "quantity": 180,
-        "unit": "count"
+        "unit": "ml"
       },
       {
         "name": "Whole Egg (1 large)",
@@ -2444,7 +2444,7 @@ export const RECIPES = [
       {
         "name": "Egg Whites (carton, ½ cup)",
         "quantity": 120,
-        "unit": "count"
+        "unit": "ml"
       },
       {
         "name": "Whole Egg (1 large)",
@@ -3569,7 +3569,7 @@ export const RECIPES = [
       {
         "name": "Egg White Carton (liquid, 1 cup)",
         "quantity": 240,
-        "unit": "count"
+        "unit": "ml"
       },
       {
         "name": "White Rice Pouch (day-old cooked, chilled preferred)",
@@ -4394,7 +4394,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Frozen Spinach (microwave)",
+        "name": "Fresh Baby Spinach (pre-washed bag)",
         "quantity": 85,
         "unit": "g"
       }
@@ -4405,8 +4405,8 @@ export const RECIPES = [
     ],
     "instructions": [
       "Heat a skillet over medium-high heat. Add ground beef and break apart. Cook 4-5 minutes until mostly browned.",
-      "Add canned tomatoes (with liquid) and Italian seasoning. Simmer 2 minutes.",
-      "Microwave rice 90 sec + microwave spinach 2 min. Build bowl with rice, top with beef & tomato sauce, spinach on side."
+      "Add canned tomatoes (with liquid), Italian seasoning, and spinach. Simmer 2 minutes, stirring until the spinach wilts.",
+      "Microwave rice 90 sec. Build bowl with rice, top with beef & tomato sauce (spinach mixed in)."
     ]
   },
   {
@@ -4488,7 +4488,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Frozen Spinach (microwave)",
+        "name": "Fresh Baby Spinach (pre-washed bag)",
         "quantity": 85,
         "unit": "g"
       }
@@ -4500,8 +4500,8 @@ export const RECIPES = [
     "instructions": [
       "Bring a pot of water to a boil. Add pasta and cook per package directions (usually 8–10 min) until al dente, then drain.",
       "Meanwhile, heat a skillet over medium-high. Add ground beef, break apart. Cook 5 minutes until browned.",
-      "Add marinara sauce to the beef. Stir and simmer 2 minutes.",
-      "Microwave spinach 2 min. Combine pasta and beef sauce on a plate. Spinach on side. Cheese on top."
+      "Add marinara sauce and spinach to the meat. Stir and simmer 2 minutes until the spinach wilts.",
+      "Combine pasta with the beef sauce on a plate. Cheese on top."
     ]
   },
   {
@@ -4577,7 +4577,7 @@ export const RECIPES = [
       {
         "name": "Egg Noodles (microwave cup)",
         "quantity": 200,
-        "unit": "count"
+        "unit": "g"
       },
       {
         "name": "Frozen Broccoli (steam-bag)",
@@ -4759,7 +4759,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Frozen Spinach (microwave)",
+        "name": "Fresh Baby Spinach (pre-washed bag)",
         "quantity": 85,
         "unit": "g"
       }
@@ -4770,8 +4770,8 @@ export const RECIPES = [
     ],
     "instructions": [
       "Heat a skillet over medium-high heat. Add ground chicken and break apart. Cook 4-5 minutes until mostly cooked through.",
-      "Add canned tomatoes (with liquid) and Italian seasoning. Simmer 2 minutes.",
-      "Microwave rice 90 sec + microwave spinach 2 min. Build bowl with rice, top with chicken & tomato sauce, spinach on side."
+      "Add canned tomatoes (with liquid), Italian seasoning, and spinach. Simmer 2 minutes, stirring until the spinach wilts.",
+      "Microwave rice 90 sec. Build bowl with rice, top with chicken & tomato sauce (spinach mixed in)."
     ]
   },
   {
@@ -4853,7 +4853,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Frozen Spinach (microwave)",
+        "name": "Fresh Baby Spinach (pre-washed bag)",
         "quantity": 85,
         "unit": "g"
       }
@@ -4865,8 +4865,8 @@ export const RECIPES = [
     "instructions": [
       "Bring a pot of water to a boil. Add pasta and cook per package directions (usually 8–10 min) until al dente, then drain.",
       "Meanwhile, heat a skillet over medium-high. Add ground chicken, break apart. Cook 5 minutes until cooked through.",
-      "Add marinara sauce to the chicken. Stir and simmer 2 minutes.",
-      "Microwave spinach 2 min. Combine pasta and chicken sauce on a plate. Spinach on side. Cheese on top."
+      "Add marinara sauce and spinach to the meat. Stir and simmer 2 minutes until the spinach wilts.",
+      "Combine pasta with the chicken sauce on a plate. Cheese on top."
     ]
   },
   {
@@ -4943,7 +4943,7 @@ export const RECIPES = [
       {
         "name": "Egg Noodles (microwave cup)",
         "quantity": 200,
-        "unit": "count"
+        "unit": "g"
       },
       {
         "name": "Frozen Broccoli (steam-bag)",
@@ -5125,7 +5125,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Frozen Spinach (microwave)",
+        "name": "Fresh Baby Spinach (pre-washed bag)",
         "quantity": 85,
         "unit": "g"
       }
@@ -5136,8 +5136,8 @@ export const RECIPES = [
     ],
     "instructions": [
       "Heat a skillet over medium-high heat. Add ground pork and break apart. Cook 4-5 minutes until mostly browned.",
-      "Add canned tomatoes (with liquid) and Italian seasoning. Simmer 2 minutes.",
-      "Microwave rice 90 sec + microwave spinach 2 min. Build bowl with rice, top with pork & tomato sauce, spinach on side."
+      "Add canned tomatoes (with liquid), Italian seasoning, and spinach. Simmer 2 minutes, stirring until the spinach wilts.",
+      "Microwave rice 90 sec. Build bowl with rice, top with pork & tomato sauce (spinach mixed in)."
     ]
   },
   {
@@ -5219,7 +5219,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Frozen Spinach (microwave)",
+        "name": "Fresh Baby Spinach (pre-washed bag)",
         "quantity": 85,
         "unit": "g"
       }
@@ -5231,8 +5231,8 @@ export const RECIPES = [
     "instructions": [
       "Bring a pot of water to a boil. Add pasta and cook per package directions (usually 8–10 min) until al dente, then drain.",
       "Meanwhile, heat a skillet over medium-high. Add ground pork, break apart. Cook 5 minutes until browned.",
-      "Add marinara sauce to the pork. Stir and simmer 2 minutes.",
-      "Microwave spinach 2 min. Combine pasta and pork sauce on a plate. Spinach on side. Cheese on top."
+      "Add marinara sauce and spinach to the meat. Stir and simmer 2 minutes until the spinach wilts.",
+      "Combine pasta with the pork sauce on a plate. Cheese on top."
     ]
   },
   {
@@ -5309,7 +5309,7 @@ export const RECIPES = [
       {
         "name": "Egg Noodles (microwave cup)",
         "quantity": 200,
-        "unit": "count"
+        "unit": "g"
       },
       {
         "name": "Frozen Broccoli (steam-bag)",
@@ -5491,7 +5491,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Frozen Spinach (microwave)",
+        "name": "Fresh Baby Spinach (pre-washed bag)",
         "quantity": 85,
         "unit": "g"
       }
@@ -5502,8 +5502,8 @@ export const RECIPES = [
     ],
     "instructions": [
       "Heat a skillet over medium-high heat. Add ground turkey and break apart. Cook 4-5 minutes until mostly cooked through.",
-      "Add canned tomatoes (with liquid) and Italian seasoning. Simmer 2 minutes.",
-      "Microwave rice 90 sec + microwave spinach 2 min. Build bowl with rice, top with turkey & tomato sauce, spinach on side."
+      "Add canned tomatoes (with liquid), Italian seasoning, and spinach. Simmer 2 minutes, stirring until the spinach wilts.",
+      "Microwave rice 90 sec. Build bowl with rice, top with turkey & tomato sauce (spinach mixed in)."
     ]
   },
   {
@@ -5585,7 +5585,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Frozen Spinach (microwave)",
+        "name": "Fresh Baby Spinach (pre-washed bag)",
         "quantity": 85,
         "unit": "g"
       }
@@ -5597,8 +5597,8 @@ export const RECIPES = [
     "instructions": [
       "Bring a pot of water to a boil. Add pasta and cook per package directions (usually 8–10 min) until al dente, then drain.",
       "Meanwhile, heat a skillet over medium-high. Add ground turkey, break apart. Cook 5 minutes until cooked through.",
-      "Add marinara sauce to the turkey. Stir and simmer 2 minutes.",
-      "Microwave spinach 2 min. Combine pasta and turkey sauce on a plate. Spinach on side. Cheese on top."
+      "Add marinara sauce and spinach to the meat. Stir and simmer 2 minutes until the spinach wilts.",
+      "Combine pasta with the turkey sauce on a plate. Cheese on top."
     ]
   },
   {
@@ -5675,7 +5675,7 @@ export const RECIPES = [
       {
         "name": "Egg Noodles (microwave cup)",
         "quantity": 200,
-        "unit": "count"
+        "unit": "g"
       },
       {
         "name": "Frozen Broccoli (steam-bag)",

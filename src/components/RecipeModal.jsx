@@ -1,42 +1,77 @@
 import { useState } from 'react';
 import StarIcon from './StarIcon';
 
-// Format an ingredient quantity for display based on its unit.
-function formatQuantity(quantity, unit, name) {
-  const u = unit || 'g';
-  switch (u) {
-    case 'count': {
-      // Eggs are stored as 50g per egg.
-      if (name && name.toLowerCase().includes('egg')) {
-        const eggCount = Math.round(quantity / 50);
-        return `${eggCount} egg${eggCount === 1 ? '' : 's'}`;
-      }
-      return `${Math.round(quantity)}`;
-    }
-    case 'ml':
-      return `${Math.round(quantity)}ml`;
-    case 'spray':
-      return `${Math.round(quantity)} spray${quantity === 1 ? '' : 's'}`;
-    case 'each':
-      return `${Math.round(quantity)}`;
-    case 'g':
-    default:
-      return `${Math.round(quantity)}g`;
-  }
+const GRAMS_PER_OZ = 28.3495;
+const ML_PER_FLOZ = 29.5735;
+
+// Round to 1 decimal place, stripping a trailing ".0".
+function formatNum(n) {
+  const rounded = Math.round(n * 10) / 10;
+  return rounded % 1 === 0 ? String(rounded) : rounded.toFixed(1);
 }
 
-// The editable value for an ingredient -- eggs are edited as whole eggs,
-// everything else is edited as its raw stored quantity.
-function getEditableAmount(quantity, unit, name) {
+// Returns the parts needed to render an ingredient's quantity: the number,
+// a unit suffix, whether it can be toggled to an alternate unit, and the
+// label for that alternate unit. Weights (g) toggle with ounces; volumes
+// (ml) toggle with fluid ounces. Counts, sprays, and "each" items aren't
+// real measurements, so they're not toggleable.
+function getQuantityDisplay(quantity, unit, name, displayMode) {
+  const u = unit || 'g';
+
+  if (u === 'count') {
+    if (name && name.toLowerCase().includes('egg')) {
+      const eggCount = Math.round(quantity / 50);
+      return { value: `${eggCount}`, suffix: ` egg${eggCount === 1 ? '' : 's'}`, toggleable: false };
+    }
+    return { value: `${Math.round(quantity)}`, suffix: '', toggleable: false };
+  }
+  if (u === 'spray') {
+    return { value: `${Math.round(quantity)}`, suffix: ` spray${quantity === 1 ? '' : 's'}`, toggleable: false };
+  }
+  if (u === 'each') {
+    return { value: `${Math.round(quantity)}`, suffix: '', toggleable: false };
+  }
+  if (u === 'g') {
+    if (displayMode === 'alt') {
+      return { value: formatNum(quantity / GRAMS_PER_OZ), suffix: ' oz', toggleable: true, altLabel: 'g' };
+    }
+    return { value: `${Math.round(quantity)}`, suffix: 'g', toggleable: true, altLabel: 'oz' };
+  }
+  if (u === 'ml') {
+    if (displayMode === 'alt') {
+      return { value: formatNum(quantity / ML_PER_FLOZ), suffix: ' fl oz', toggleable: true, altLabel: 'ml' };
+    }
+    return { value: `${Math.round(quantity)}`, suffix: 'ml', toggleable: true, altLabel: 'fl oz' };
+  }
+  return { value: `${Math.round(quantity)}`, suffix: '', toggleable: false };
+}
+
+// The editable value for an ingredient, respecting whichever unit is
+// currently displayed (native or the toggled alternate).
+function getEditableAmount(quantity, unit, name, displayMode) {
   if (unit === 'count' && name && name.toLowerCase().includes('egg')) {
     return Math.round(quantity / 50);
+  }
+  if (unit === 'g' && displayMode === 'alt') {
+    return formatNum(quantity / GRAMS_PER_OZ);
+  }
+  if (unit === 'ml' && displayMode === 'alt') {
+    return formatNum(quantity / ML_PER_FLOZ);
   }
   return Math.round(quantity);
 }
 
-function amountToQuantity(amount, unit, name) {
+// Converts an edited amount back into the recipe's native stored unit
+// (grams or ml), regardless of which unit was showing while editing.
+function amountToQuantity(amount, unit, name, displayMode) {
   if (unit === 'count' && name && name.toLowerCase().includes('egg')) {
     return amount * 50;
+  }
+  if (unit === 'g' && displayMode === 'alt') {
+    return amount * GRAMS_PER_OZ;
+  }
+  if (unit === 'ml' && displayMode === 'alt') {
+    return amount * ML_PER_FLOZ;
   }
   return amount;
 }
@@ -57,6 +92,7 @@ export default function RecipeModal({
   const [completedSteps, setCompletedSteps] = useState({});
   const [editingIngredientIndex, setEditingIngredientIndex] = useState(null);
   const [editingIngredientValue, setEditingIngredientValue] = useState('');
+  const [unitModes, setUnitModes] = useState({});
   const [editingStepIndex, setEditingStepIndex] = useState(null);
   const [editingStepValue, setEditingStepValue] = useState('');
   const [notesValue, setNotesValue] = useState(entry?.notes || '');
@@ -79,15 +115,19 @@ export default function RecipeModal({
     setCompletedSteps((prev) => ({ ...prev, [i]: !prev[i] }));
   };
 
+  const toggleUnitMode = (i) => {
+    setUnitModes((prev) => ({ ...prev, [i]: prev[i] === 'alt' ? 'native' : 'alt' }));
+  };
+
   const startEditingIngredient = (i, comp) => {
     setEditingIngredientIndex(i);
-    setEditingIngredientValue(String(getEditableAmount(comp.quantity, comp.unit, comp.name)));
+    setEditingIngredientValue(String(getEditableAmount(comp.quantity, comp.unit, comp.name, unitModes[i])));
   };
 
   const commitIngredientEdit = (i, comp) => {
     const amount = parseFloat(editingIngredientValue);
     if (!isNaN(amount) && amount > 0) {
-      const quantity = amountToQuantity(amount, comp.unit, comp.name);
+      const quantity = amountToQuantity(amount, comp.unit, comp.name, unitModes[i]);
       onUpdateIngredientOverride(r.id, i, { quantity, unit: comp.unit });
     }
     setEditingIngredientIndex(null);
@@ -159,33 +199,46 @@ export default function RecipeModal({
             <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--muted)', marginBottom: 2, textTransform: 'uppercase', letterSpacing: 1 }}>
               Ingredients
             </div>
-            <div style={{ fontSize: 11, color: 'var(--muted)', marginBottom: 8 }}>Tap a quantity to edit it.</div>
+            <div style={{ fontSize: 11, color: 'var(--muted)', marginBottom: 8 }}>
+              Tap a quantity to edit it. Tap the unit badge to switch between g/oz or ml/fl oz.
+            </div>
             {components.map((c, i) => {
               const isEditing = editingIngredientIndex === i;
+              const display = getQuantityDisplay(c.quantity, c.unit, c.name, unitModes[i]);
               return (
                 <div
                   key={i}
                   style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 0', borderBottom: i < components.length - 1 ? '1px solid var(--border)' : 'none' }}
                 >
                   <span style={{ fontSize: 13, color: 'var(--cream)' }}>{c.name}</span>
-                  {isEditing ? (
-                    <input
-                      type="number"
-                      autoFocus
-                      value={editingIngredientValue}
-                      onChange={(e) => setEditingIngredientValue(e.target.value)}
-                      onBlur={() => commitIngredientEdit(i, c)}
-                      onKeyDown={(e) => { if (e.key === 'Enter') e.target.blur(); }}
-                      style={{ width: 64, background: 'var(--s2)', border: '1px solid var(--border)', borderRadius: 6, padding: '4px 6px', color: 'var(--cream)', fontSize: 13, textAlign: 'right' }}
-                    />
-                  ) : (
-                    <span
-                      onClick={() => startEditingIngredient(i, c)}
-                      style={{ fontSize: 13, color: c.edited ? 'var(--lime)' : 'var(--muted)', marginLeft: 12, whiteSpace: 'nowrap', cursor: 'pointer', textDecoration: 'underline dotted', textUnderlineOffset: 3 }}
-                    >
-                      {formatQuantity(c.quantity, c.unit, c.name)}
-                    </span>
-                  )}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginLeft: 12 }}>
+                    {isEditing ? (
+                      <input
+                        type="number"
+                        autoFocus
+                        value={editingIngredientValue}
+                        onChange={(e) => setEditingIngredientValue(e.target.value)}
+                        onBlur={() => commitIngredientEdit(i, c)}
+                        onKeyDown={(e) => { if (e.key === 'Enter') e.target.blur(); }}
+                        style={{ width: 64, background: 'var(--s2)', border: '1px solid var(--border)', borderRadius: 6, padding: '4px 6px', color: 'var(--cream)', fontSize: 13, textAlign: 'right' }}
+                      />
+                    ) : (
+                      <span
+                        onClick={() => startEditingIngredient(i, c)}
+                        style={{ fontSize: 13, color: c.edited ? 'var(--lime)' : 'var(--muted)', whiteSpace: 'nowrap', cursor: 'pointer', textDecoration: 'underline dotted', textUnderlineOffset: 3 }}
+                      >
+                        {display.value}{display.suffix}
+                      </span>
+                    )}
+                    {display.toggleable && (
+                      <span
+                        onClick={(e) => { e.stopPropagation(); toggleUnitMode(i); }}
+                        style={{ fontSize: 10, fontWeight: 700, color: 'var(--muted)', border: '1px solid var(--border)', borderRadius: 6, padding: '2px 6px', cursor: 'pointer', whiteSpace: 'nowrap' }}
+                      >
+                        {display.altLabel}
+                      </span>
+                    )}
+                  </div>
                 </div>
               );
             })}
