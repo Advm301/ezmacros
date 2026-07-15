@@ -1,6 +1,7 @@
 import { RECIPES } from '../data/recipes.js';
 import StarIcon from '../components/StarIcon';
 import { MEAL_SLOTS, MEAL_SLOT_LABELS, todayString, formatDateString } from '../hooks/useDiary';
+import { formatTime } from '../utils/time';
 
 function shiftDateString(dateStr, days) {
   const d = new Date(dateStr + 'T00:00:00');
@@ -52,7 +53,7 @@ export default function Saved({
               {r.name}
             </div>
             <div style={{ fontSize: 11, color: 'var(--muted)' }}>
-              {r.method}{r.method && r.activeTime ? ' · ' : ''}{r.activeTime ? `${r.activeTime} min` : ''}
+              {r.method}{r.method && r.activeTime ? ' · ' : ''}{formatTime(r.activeTime, r.totalTime)}
               {getRatingSummary && getRatingSummary(r.id) && (
                 <> · ★ {getRatingSummary(r.id).avg.toFixed(1)} ({getRatingSummary(r.id).count})</>
               )}
@@ -159,7 +160,7 @@ export default function Saved({
                           <div style={{ flex: 1 }}>
                             <div style={{ fontWeight: 700, fontSize: 14, color: 'var(--cream)' }}>{r.name}</div>
                             <div style={{ fontSize: 11, color: 'var(--muted)' }}>
-                              {r.method}{r.method && r.activeTime ? ' · ' : ''}{r.activeTime ? `${r.activeTime} min` : ''}
+                              {r.method}{r.method && r.activeTime ? ' · ' : ''}{formatTime(r.activeTime, r.totalTime)}
                             </div>
                           </div>
                           <div

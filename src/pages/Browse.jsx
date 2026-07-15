@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { RECIPES } from '../data/recipes.js';
 import StarIcon from '../components/StarIcon';
+import { formatTime } from '../utils/time';
 
 const MEAL_SECTIONS = [
   { label: 'Breakfast', value: 'breakfast' },
@@ -75,7 +76,7 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
             {r.name}
           </div>
           <div style={{ fontSize: 11, color: 'var(--muted)' }}>
-            {r.method}{r.method && r.activeTime ? ' · ' : ''}{r.activeTime ? `${r.activeTime} min` : ''}
+            {r.method}{r.method && r.activeTime ? ' · ' : ''}{formatTime(r.activeTime, r.totalTime)}
             {getRatingSummary && getRatingSummary(r.id) && (
               <> · ★ {getRatingSummary(r.id).avg.toFixed(1)} ({getRatingSummary(r.id).count})</>
             )}

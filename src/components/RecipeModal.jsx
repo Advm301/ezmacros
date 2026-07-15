@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import StarIcon from './StarIcon';
 import StarRating from './StarRating';
 import { MEAL_SLOTS, MEAL_SLOT_LABELS, todayString } from '../hooks/useDiary';
+import { formatTime } from '../utils/time';
 
 const GRAMS_PER_OZ = 28.3495;
 const ML_PER_FLOZ = 29.5735;
@@ -241,7 +242,7 @@ export default function RecipeModal({
               <div style={{ fontSize: 12, color: 'var(--muted)' }}>
                 {r.method}
                 {r.method && r.activeTime ? ' · ' : ''}
-                {r.activeTime ? `${r.activeTime} min` : ''}
+                {formatTime(r.activeTime, r.totalTime)}
               </div>
             )}
           </div>
