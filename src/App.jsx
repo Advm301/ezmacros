@@ -40,11 +40,13 @@ function SavedIcon() {
 }
 
 // App icon -- the real designed icon (meal-prep container with a
-// lightning bolt), used in the header logo slot. The same source image
-// (composited onto an opaque background) is the iOS app icon, favicon,
-// and PWA icons -- see src/assets/app-icon.png.
+// lightning bolt), used in the header logo slot as a white silhouette so
+// it blends directly into the teal header instead of sitting in a boxed
+// tile. The iOS app icon, favicon, and PWA icons use a separate,
+// full-color version composited onto an opaque background (those can't
+// be transparent) -- see src/assets/app-icon.png for this one.
 function AppIcon() {
-  return <img src={appIconImg} alt="" style={{ width: 24, height: 'auto', display: 'block' }} />;
+  return <img src={appIconImg} alt="" style={{ width: 30, height: 'auto', display: 'block' }} />;
 }
 
 export default function App() {
@@ -190,14 +192,10 @@ export default function App() {
             <div style={{
               width: 36,
               height: 36,
-              borderRadius: 10,
-              background: "var(--cream)",
-              border: "1px solid var(--border)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               flexShrink: 0,
-              color: "var(--lime)",
             }}>
               <AppIcon />
             </div>
