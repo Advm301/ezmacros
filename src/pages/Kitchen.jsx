@@ -70,9 +70,17 @@ function FilterSelect({ label, value, onChange, options, placeholder }) {
             cursor: 'pointer',
           }}
         >
-          <option value="">{placeholder}</option>
+          {/* Real CSS gradients aren't supported inside a native <option>
+              list (it renders in its own OS popup, not the app's DOM
+              layers) -- this solid dark blue-black is the closest match to
+              the app's teal-to-near-black palette that's reliably
+              respected cross-browser, instead of the browser's default
+              white. */}
+          <option value="" style={{ backgroundColor: '#052d37', color: 'var(--cream)' }}>{placeholder}</option>
           {options.map((o) => (
-            <option key={o.value} value={o.value}>{o.label}</option>
+            <option key={o.value} value={o.value} style={{ backgroundColor: '#052d37', color: 'var(--cream)' }}>
+              {o.label}
+            </option>
           ))}
         </select>
         <span
