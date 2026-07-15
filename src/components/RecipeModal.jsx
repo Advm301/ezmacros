@@ -4,6 +4,7 @@ import StarRating from './StarRating';
 import { MEAL_SLOTS, MEAL_SLOT_LABELS, todayString } from '../hooks/useDiary';
 import { formatTime } from '../utils/time';
 import { hapticSelection, hapticLight, hapticMedium } from '../utils/haptics';
+import { summarizeSteps } from '../utils/recipeSummary';
 
 const GRAMS_PER_OZ = 28.3495;
 const ML_PER_FLOZ = 29.5735;
@@ -137,6 +138,7 @@ export default function RecipeModal({
   const [diaryDate, setDiaryDate] = useState(todayString());
   const [diaryError, setDiaryError] = useState('');
   const [addingToDiary, setAddingToDiary] = useState(false);
+  const [showAllSteps, setShowAllSteps] = useState(false);
 
   const touchStartRef = useRef(null);
 
@@ -175,6 +177,12 @@ export default function RecipeModal({
   });
 
   const hasToppings = Boolean(r.toppings && r.toppings.length > 0);
+  // "Microwaving rice, browning meat, and mixing a sauce" -- a heuristic
+  // preview of what the steps involve, shown on the decide screen so
+  // people can gauge effort before committing. Returns null (and is
+  // simply not shown) when the scan can't confidently parse enough of the
+  // free-text instructions.
+  const stepsSummary = summarizeSteps(instructions.map((s) => s.text));
 
   // The cook screen is a sequence of pages: one per instruction, then an
   // optional toppings page, then notes, then rating as the closing "how'd
@@ -695,9 +703,28 @@ export default function RecipeModal({
               )}
 
               {canCook && (
+                <div style={{ marginBottom: 16 }}>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--muted)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: 1 }}>
+                    Instructions
+                  </div>
+                  {stepsSummary && (
+                    <div style={{ fontSize: 13, color: 'var(--muted)', lineHeight: 1.5, marginBottom: 8 }}>
+                      This recipe involves {stepsSummary}.
+                    </div>
+                  )}
+                  <div
+                    onClick={() => { hapticLight(); setShowAllSteps(true); }}
+                    style={{ fontSize: 12, color: 'var(--lime)', textDecoration: 'underline', cursor: 'pointer', display: 'inline-block' }}
+                  >
+                    View All Steps ({instructions.length})
+                  </div>
+                </div>
+              )}
+
+              {canCook && (
                 <>
                   <button className="gen-kitchen-btn" onClick={goToCook} style={{ marginTop: 4, marginBottom: 8 }}>
-                    🍳 Let's Make It
+                    Let's Make It
                   </button>
                   <div style={{ fontSize: 11, color: 'var(--muted)', textAlign: 'center' }}>
                     or swipe right to start cooking
@@ -707,6 +734,12 @@ export default function RecipeModal({
             </>
           ) : (
             <>
+              <div
+                onClick={() => { hapticLight(); setShowAllSteps(true); }}
+                style={{ fontSize: 12, color: 'var(--muted)', textDecoration: 'underline', cursor: 'pointer', textAlign: 'right', marginBottom: 12 }}
+              >
+                View All Steps
+              </div>
               {renderCookPage()}
               <div style={{ display: 'flex', gap: 10, marginTop: 24 }}>
                 <button onClick={goPrevCookPage} style={navBtnStyle}>
@@ -720,6 +753,73 @@ export default function RecipeModal({
           )}
         </div>
       </div>
+
+      {showAllSteps && (
+        <div
+          onClick={(e) => { e.stopPropagation(); setShowAllSteps(false); }}
+          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,.75)', zIndex: 110, display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{ background: 'var(--bg)', width: '100%', maxWidth: 430, height: '85vh', borderRadius: '20px 20px 0 0', border: '1px solid var(--border)', borderBottom: 'none', padding: '18px 18px 0', boxSizing: 'border-box', display: 'flex', flexDirection: 'column' }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+              <div className="h1" style={{ marginBottom: 0, fontSize: 18 }}>All Steps</div>
+              <div onClick={() => setShowAllSteps(false)} style={{ fontSize: 20, color: 'var(--muted)', cursor: 'pointer', padding: 4 }}>
+                ✕
+              </div>
+            </div>
+
+            <div style={{ flex: 1, overflowY: 'auto', paddingBottom: 12 }}>
+              {instructions.map((step, i) => {
+                const done = Boolean(completedSteps[i]);
+                const isEditingStep = editingStepIndex === i;
+                return (
+                  <div key={i} style={{ display: 'flex', gap: 10, marginBottom: 14, alignItems: 'flex-start' }}>
+                    <div
+                      onClick={() => toggleStepDone(i)}
+                      style={{
+                        flexShrink: 0, width: 24, height: 24, borderRadius: '50%',
+                        background: done ? 'var(--lime)' : 'var(--s2)',
+                        border: '1px solid var(--border)', color: done ? '#000' : 'var(--lime)', fontSize: 12, fontWeight: 700,
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 1, cursor: 'pointer',
+                      }}
+                    >
+                      {done ? '✓' : i + 1}
+                    </div>
+                    {isEditingStep ? (
+                      <textarea
+                        autoFocus
+                        value={editingStepValue}
+                        onChange={(e) => setEditingStepValue(e.target.value)}
+                        onBlur={() => commitStepEdit(i)}
+                        style={{ flex: 1, background: 'var(--s2)', border: '1px solid var(--border)', borderRadius: 8, padding: 8, color: 'var(--cream)', fontSize: 13, fontFamily: "'Manrope',sans-serif", lineHeight: 1.5, resize: 'vertical', minHeight: 50 }}
+                      />
+                    ) : (
+                      <div
+                        onClick={() => startEditingStep(i, step.text)}
+                        style={{
+                          fontSize: 14, lineHeight: 1.5, cursor: 'pointer', flex: 1,
+                          color: done ? 'var(--muted)' : (step.edited ? 'var(--lime)' : 'var(--cream)'),
+                          textDecoration: done ? 'line-through' : 'none',
+                        }}
+                      >
+                        {step.text}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+
+            <div style={{ padding: '12px 0 18px', borderTop: '1px solid var(--border)' }}>
+              <button className="gen-kitchen-btn" style={{ marginBottom: 0 }} onClick={() => setShowAllSteps(false)}>
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
