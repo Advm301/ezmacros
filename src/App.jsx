@@ -49,7 +49,7 @@ export default function App() {
     updateIngredientOverride,
     updateInstructionOverride,
   } = useSavedRecipes();
-  const { getRatingSummary, getMyRating, rateRecipe } = useRecipeRatings(session?.user?.id);
+  const { getRatingSummary, getMyRatingEntry, rateRecipe } = useRecipeRatings(session?.user?.id);
 
   useEffect(() => {
     // Check for existing session on mount
@@ -161,7 +161,7 @@ export default function App() {
           onUpdateIngredientOverride={updateIngredientOverride}
           onUpdateInstructionOverride={updateInstructionOverride}
           ratingSummary={getRatingSummary(openRecipe.id)}
-          myRating={getMyRating(openRecipe.id)}
+          myRatingEntry={getMyRatingEntry(openRecipe.id)}
           onRate={rateRecipe}
         />
       )}

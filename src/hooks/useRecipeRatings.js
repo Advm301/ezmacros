@@ -3,7 +3,8 @@ import { supabase } from '../lib/supabase';
 
 // Global recipe ratings, shared across all users via Supabase (unlike
 // useSavedRecipes, which is per-device localStorage). Everyone reads the
-// same average; each signed-in user can set/change their own 1-5 rating.
+// same average; each signed-in user can set/change their own 1-5 rating,
+// optionally attaching a photo as proof they actually made the recipe.
 export default function useRecipeRatings(userId) {
   const [ratingsByRecipe, setRatingsByRecipe] = useState({});
   const [myRatings, setMyRatings] = useState({});
@@ -12,7 +13,7 @@ export default function useRecipeRatings(userId) {
   const refresh = useCallback(async () => {
     const { data, error } = await supabase
       .from('recipe_ratings')
-      .select('recipe_id, rating, user_id');
+      .select('recipe_id, rating, user_id, photo_url');
 
     if (error) {
       console.error('Error loading recipe ratings:', error);
@@ -28,7 +29,7 @@ export default function useRecipeRatings(userId) {
       sums[id].total += row.rating;
       sums[id].count += 1;
       if (userId && row.user_id === userId) {
-        mine[id] = row.rating;
+        mine[id] = { rating: row.rating, photoUrl: row.photo_url || null };
       }
     }
 
@@ -50,13 +51,38 @@ export default function useRecipeRatings(userId) {
     refresh();
   }, [refresh]);
 
-  const rateRecipe = async (recipeId, rating) => {
+  // photoFile is optional -- pass null/undefined to leave any existing
+  // photo on the rating untouched, or a File to upload a new one.
+  const rateRecipe = async (recipeId, rating, photoFile) => {
     if (!userId) return;
+
+    let photoUrl = myRatings[recipeId]?.photoUrl || null;
+
+    if (photoFile) {
+      const ext = (photoFile.name || 'jpg').split('.').pop();
+      const path = `${userId}/${recipeId}/${Date.now()}.${ext}`;
+      const { error: uploadError } = await supabase.storage
+        .from('recipe-photos')
+        .upload(path, photoFile, { upsert: true });
+
+      if (uploadError) {
+        console.error('Error uploading recipe photo:', uploadError);
+      } else {
+        const { data: publicUrlData } = supabase.storage.from('recipe-photos').getPublicUrl(path);
+        photoUrl = publicUrlData?.publicUrl || photoUrl;
+      }
+    }
 
     const { error } = await supabase
       .from('recipe_ratings')
       .upsert(
-        { recipe_id: recipeId, user_id: userId, rating, updated_at: new Date().toISOString() },
+        {
+          recipe_id: recipeId,
+          user_id: userId,
+          rating,
+          photo_url: photoUrl,
+          updated_at: new Date().toISOString(),
+        },
         { onConflict: 'recipe_id,user_id' }
       );
 
@@ -71,7 +97,7 @@ export default function useRecipeRatings(userId) {
   };
 
   const getRatingSummary = (recipeId) => ratingsByRecipe[recipeId] || null;
-  const getMyRating = (recipeId) => myRatings[recipeId] || 0;
+  const getMyRatingEntry = (recipeId) => myRatings[recipeId] || null;
 
-  return { loading, getRatingSummary, getMyRating, rateRecipe, refresh };
+  return { loading, getRatingSummary, getMyRatingEntry, rateRecipe, refresh };
 }

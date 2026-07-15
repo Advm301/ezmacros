@@ -87,7 +87,7 @@ export default function RecipeModal({
   onUpdateIngredientOverride,
   onUpdateInstructionOverride,
   ratingSummary,
-  myRating,
+  myRatingEntry,
   onRate,
 }) {
   // Rendered with key={recipe.id} by the parent, so this component remounts
@@ -100,6 +100,9 @@ export default function RecipeModal({
   const [editingStepIndex, setEditingStepIndex] = useState(null);
   const [editingStepValue, setEditingStepValue] = useState('');
   const [notesValue, setNotesValue] = useState(entry?.notes || '');
+  const [madeIt, setMadeIt] = useState(Boolean(myRatingEntry?.rating));
+  const [photoFile, setPhotoFile] = useState(null);
+  const [photoPreview, setPhotoPreview] = useState(myRatingEntry?.photoUrl || null);
 
   if (!recipe) return null;
   const r = recipe;
@@ -153,6 +156,22 @@ export default function RecipeModal({
     if (onUpdateNotes) onUpdateNotes(r.id, notesValue);
   };
 
+  const handleRate = (n) => {
+    if (onRate) onRate(r.id, n, photoFile);
+  };
+
+  const handlePhotoChange = (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    setPhotoFile(file);
+    setPhotoPreview(URL.createObjectURL(file));
+    // If a rating already exists, attach the new photo right away instead
+    // of waiting for another star tap.
+    if (onRate && myRatingEntry?.rating) {
+      onRate(r.id, myRatingEntry.rating, file);
+    }
+  };
+
   return (
     <div
       style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,.85)', zIndex: 100, overflowY: 'auto' }}
@@ -203,7 +222,7 @@ export default function RecipeModal({
             <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--muted)', marginBottom: 6, textTransform: 'uppercase', letterSpacing: 1 }}>
               Rating
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
               <StarRating value={ratingSummary?.avg || 0} readOnly size={16} />
               <span style={{ fontSize: 12, color: 'var(--muted)' }}>
                 {ratingSummary
@@ -211,8 +230,41 @@ export default function RecipeModal({
                   : 'No ratings yet'}
               </span>
             </div>
-            <div style={{ fontSize: 11, color: 'var(--muted)', marginBottom: 4 }}>Your rating — tap a star</div>
-            <StarRating value={myRating || 0} onRate={(n) => onRate(r.id, n)} size={26} />
+
+            <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', marginBottom: madeIt ? 10 : 0 }}>
+              <input
+                type="checkbox"
+                checked={madeIt}
+                onChange={(e) => setMadeIt(e.target.checked)}
+                style={{ width: 18, height: 18, cursor: 'pointer' }}
+              />
+              <span style={{ fontSize: 13, color: 'var(--cream)' }}>I made this recipe</span>
+            </label>
+
+            {madeIt && (
+              <>
+                <div style={{ fontSize: 11, color: 'var(--muted)', marginBottom: 4 }}>Your rating — tap a star</div>
+                <StarRating value={myRatingEntry?.rating || 0} onRate={handleRate} size={26} />
+
+                <div style={{ marginTop: 12 }}>
+                  <div style={{ fontSize: 11, color: 'var(--muted)', marginBottom: 6 }}>Add a photo (optional)</div>
+                  {photoPreview && (
+                    <img
+                      src={photoPreview}
+                      alt="Your photo of this recipe"
+                      style={{ width: 84, height: 84, objectFit: 'cover', borderRadius: 10, border: '1px solid var(--border)', marginBottom: 8, display: 'block' }}
+                    />
+                  )}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    capture="environment"
+                    onChange={handlePhotoChange}
+                    style={{ fontSize: 12, color: 'var(--muted)', maxWidth: '100%' }}
+                  />
+                </div>
+              </>
+            )}
           </div>
         )}
 
