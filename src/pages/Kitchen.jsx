@@ -40,6 +40,52 @@ const QUICK_FILTERS = [
 
 const PANTRY_LABELS = Object.fromEntries(PANTRY_STAPLES.map((s) => [s.id, s.label]));
 
+// Native <select> in place of a horizontally-scrolling pill row -- tapping
+// it opens the OS's own picker (the wheel on iOS) instead of requiring a
+// swipe gesture to see the rest of the options. Styled to match the pill
+// aesthetic as closely as a native form control allows; the picker sheet
+// itself is rendered by the OS and isn't something we can restyle.
+function FilterSelect({ label, value, onChange, options, placeholder }) {
+  return (
+    <div className="filter-sec">
+      <div className="filter-label">{label}</div>
+      <div style={{ position: 'relative' }}>
+        <select
+          value={value ?? ''}
+          onChange={(e) => onChange(e.target.value || null)}
+          style={{
+            width: '100%',
+            boxSizing: 'border-box',
+            appearance: 'none',
+            WebkitAppearance: 'none',
+            MozAppearance: 'none',
+            background: 'var(--s2)',
+            border: '1px solid var(--border)',
+            borderRadius: 10,
+            color: 'var(--cream)',
+            fontSize: 13,
+            fontWeight: 600,
+            fontFamily: "'Manrope',sans-serif",
+            padding: '11px 34px 11px 14px',
+            cursor: 'pointer',
+          }}
+        >
+          <option value="">{placeholder}</option>
+          {options.map((o) => (
+            <option key={o.value} value={o.value}>{o.label}</option>
+          ))}
+        </select>
+        <span
+          aria-hidden="true"
+          style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', fontSize: 11, color: 'var(--muted)', pointerEvents: 'none' }}
+        >
+          ▾
+        </span>
+      </div>
+    </div>
+  );
+}
+
 // When pantry staples are selected, recipes are filtered to those that use
 // at least one of them, then sorted so the recipes using the MOST of your
 // picks show up first -- closest matches to "what I already have" win.
@@ -148,47 +194,21 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
           Pick a meal type (or all), a protein, and (optionally) what's already in your kitchen — get quick recipes.
         </div>
 
-        <div className="filter-sec">
-          <div className="filter-label">Meal Type</div>
-          <div className="scroll-row">
-            <div
-              className={`pill ${mealType === null ? 'active' : ''}`}
-              onClick={() => selectMealType(null)}
-            >
-              All Meals
-            </div>
-            {MEAL_TYPES.map((m) => (
-              <div
-                key={m.label}
-                className={`pill ${mealType === m.label ? 'active' : ''}`}
-                onClick={() => selectMealType(m.label)}
-              >
-                {m.label}
-              </div>
-            ))}
-          </div>
-        </div>
+        <FilterSelect
+          label="Meal Type"
+          placeholder="All Meals"
+          value={mealType}
+          onChange={(val) => selectMealType(val)}
+          options={MEAL_TYPES.map((m) => ({ label: m.label, value: m.label }))}
+        />
 
-        <div className="filter-sec">
-          <div className="filter-label">Protein</div>
-          <div className="scroll-row">
-            <div
-              className={`pill ${protein === null ? 'active' : ''}`}
-              onClick={() => selectProtein(null)}
-            >
-              Any Protein
-            </div>
-            {PROTEINS.map((p) => (
-              <div
-                key={p.value}
-                className={`pill ${protein === p.value ? 'active' : ''}`}
-                onClick={() => selectProtein(protein === p.value ? null : p.value)}
-              >
-                {p.label}
-              </div>
-            ))}
-          </div>
-        </div>
+        <FilterSelect
+          label="Protein"
+          placeholder="Any Protein"
+          value={protein}
+          onChange={(val) => selectProtein(val)}
+          options={PROTEINS.map((p) => ({ label: p.label, value: p.value }))}
+        />
 
         {/* Quick Filter and Flavor are both optional refinements -- tucked
             behind a single collapsible toggle so the page doesn't front-load
@@ -214,35 +234,21 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
 
           {showMoreFilters && (
             <div style={{ marginTop: 8 }}>
-              <div className="filter-sec">
-                <div className="filter-label">Quick Filter (optional)</div>
-                <div className="scroll-row">
-                  {QUICK_FILTERS.map((q) => (
-                    <div
-                      key={q.value}
-                      className={`pill ${quickFilter === q.value ? 'active' : ''}`}
-                      onClick={() => selectQuickFilter(quickFilter === q.value ? null : q.value)}
-                    >
-                      {q.label}
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <FilterSelect
+                label="Quick Filter (optional)"
+                placeholder="Any"
+                value={quickFilter}
+                onChange={(val) => selectQuickFilter(val)}
+                options={QUICK_FILTERS.map((q) => ({ label: q.label, value: q.value }))}
+              />
 
-              <div className="filter-sec" style={{ marginBottom: 0 }}>
-                <div className="filter-label">Flavor (optional)</div>
-                <div className="scroll-row">
-                  {FLAVORS.map((f) => (
-                    <div
-                      key={f.value}
-                      className={`pill ${flavor === f.value ? 'active' : ''}`}
-                      onClick={() => selectFlavor(flavor === f.value ? null : f.value)}
-                    >
-                      {f.label}
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <FilterSelect
+                label="Flavor (optional)"
+                placeholder="Any Flavor"
+                value={flavor}
+                onChange={(val) => selectFlavor(val)}
+                options={FLAVORS.map((f) => ({ label: f.label, value: f.value }))}
+              />
             </div>
           )}
         </div>
