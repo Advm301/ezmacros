@@ -3,6 +3,7 @@ import { RECIPES } from '../data/recipes.js';
 import StarIcon from '../components/StarIcon';
 import { MEAL_SLOTS, MEAL_SLOT_LABELS, todayString, formatDateString } from '../hooks/useDiary';
 import { formatTime } from '../utils/time';
+import { buildShoppingList, formatShoppingQuantity } from '../utils/shoppingList';
 
 // Maps a diary meal slot to the recipe mealType pool it should draw random
 // picks from. Lunch and Dinner share the same 'lunch_dinner' pool.
@@ -53,6 +54,7 @@ export default function Saved({
   const [dayMessage, setDayMessage] = useState('');
   const [generatingDay, setGeneratingDay] = useState(false);
   const [regeneratingId, setRegeneratingId] = useState(null);
+  const [showShoppingList, setShowShoppingList] = useState(false);
 
   const savedIds = Object.keys(saved);
   const savedRecipes = RECIPES.filter((r) => savedIds.includes(String(r.id)));
@@ -135,6 +137,8 @@ export default function Saved({
     );
   };
 
+  const shoppingList = showShoppingList ? buildShoppingList(dayEntries) : [];
+
   return (
     <div style={{ paddingBottom: 20 }}>
       <div className="px pt">
@@ -199,28 +203,69 @@ export default function Saved({
               </div>
             </div>
 
-            <button
-              onClick={handleSurpriseDay}
-              disabled={generatingDay}
-              style={{
-                width: '100%',
-                background: 'var(--s2)',
-                border: '1px solid var(--border)',
-                color: 'var(--cream)',
-                borderRadius: 13,
-                padding: 12,
-                fontSize: 14,
-                fontWeight: 700,
-                fontFamily: "'Manrope',sans-serif",
-                cursor: generatingDay ? 'default' : 'pointer',
-                opacity: generatingDay ? 0.6 : 1,
-                marginBottom: 8,
-              }}
-            >
-              {generatingDay ? 'Picking meals…' : '✦ Surprise Me — Fill My Day'}
-            </button>
+            <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
+              <button
+                onClick={handleSurpriseDay}
+                disabled={generatingDay}
+                style={{
+                  flex: 1,
+                  background: 'var(--s2)',
+                  border: '1px solid var(--border)',
+                  color: 'var(--cream)',
+                  borderRadius: 13,
+                  padding: 12,
+                  fontSize: 13,
+                  fontWeight: 700,
+                  fontFamily: "'Manrope',sans-serif",
+                  cursor: generatingDay ? 'default' : 'pointer',
+                  opacity: generatingDay ? 0.6 : 1,
+                }}
+              >
+                {generatingDay ? 'Picking…' : '✦ Surprise Me'}
+              </button>
+              <button
+                onClick={() => setShowShoppingList((v) => !v)}
+                style={{
+                  flex: 1,
+                  background: showShoppingList ? 'var(--lime)' : 'var(--s2)',
+                  border: '1px solid var(--border)',
+                  color: showShoppingList ? '#000' : 'var(--cream)',
+                  borderRadius: 13,
+                  padding: 12,
+                  fontSize: 13,
+                  fontWeight: 700,
+                  fontFamily: "'Manrope',sans-serif",
+                  cursor: 'pointer',
+                }}
+              >
+                {showShoppingList ? 'Hide List' : 'Shopping List'}
+              </button>
+            </div>
             {dayMessage && (
               <div style={{ fontSize: 12, color: 'var(--lime)', marginBottom: 8 }}>{dayMessage}</div>
+            )}
+
+            {showShoppingList && (
+              <div style={{ background: 'var(--s1)', border: '1px solid var(--border)', borderRadius: 14, padding: 14, marginBottom: 16 }}>
+                <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 10 }}>
+                  Shopping List — {displayDate(selectedDate)}
+                </div>
+                {shoppingList.length === 0 ? (
+                  <div style={{ fontSize: 13, color: 'var(--muted)', fontStyle: 'italic' }}>
+                    Nothing planned for this day yet -- add a meal to build a list.
+                  </div>
+                ) : (
+                  shoppingList.map((item, i) => (
+                    <div
+                      key={`${item.name}-${item.unit}`}
+                      style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0', borderBottom: i < shoppingList.length - 1 ? '1px solid var(--border)' : 'none' }}
+                    >
+                      <span style={{ fontSize: 13, color: 'var(--cream)' }}>{item.name}</span>
+                      <span style={{ fontSize: 13, color: 'var(--muted)' }}>{formatShoppingQuantity(item)}</span>
+                    </div>
+                  ))
+                )}
+              </div>
             )}
           </div>
 
