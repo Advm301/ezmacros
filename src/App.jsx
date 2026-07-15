@@ -57,11 +57,20 @@ export default function App() {
   const { getRatingSummary, getMyRatingEntry, rateRecipe, getPhotoSignedUrl } = useRecipeRatings(session?.user?.id);
   const diary = useDiary(session?.user?.id);
 
-  // Only re-picks a greeting line when today's "has anything planned"
-  // status flips, not on every unrelated render -- otherwise it would
-  // reshuffle mid-session, which reads as glitchy rather than fresh.
-  const hasTodayEntries = diary.getEntriesForDate(todayString()).length > 0;
-  const greeting = useMemo(() => getGreeting(hasTodayEntries), [hasTodayEntries]);
+  // Only re-picks a greeting line when today's set of filled meal slots
+  // actually changes (a stable string key), not on every unrelated render
+  // -- otherwise it would reshuffle mid-session, which reads as glitchy
+  // rather than fresh. A full app reload remounts everything, so it always
+  // picks a new random line then regardless.
+  const todayFilledSlotsKey = diary
+    .getEntriesForDate(todayString())
+    .map((e) => e.meal_slot)
+    .sort()
+    .join(',');
+  const greeting = useMemo(
+    () => getGreeting(todayFilledSlotsKey ? todayFilledSlotsKey.split(',') : []),
+    [todayFilledSlotsKey]
+  );
 
   useEffect(() => {
     // Check for existing session on mount

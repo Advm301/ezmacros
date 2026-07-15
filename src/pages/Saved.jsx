@@ -125,6 +125,11 @@ export default function Saved({
     onDateChange(shiftDateString(selectedDate, days));
   };
 
+  const handleRemoveSaved = (id) => {
+    hapticLight();
+    toggleSaved(id);
+  };
+
   const renderSavedRow = (r) => {
     const entry = getEntry ? getEntry(r.id) : null;
     const hasNotes = entry && entry.notes && entry.notes.trim().length > 0;
@@ -157,6 +162,13 @@ export default function Saved({
           </div>
           <div onClick={(e) => { e.stopPropagation(); toggleSaved(r.id); }}>
             <StarIcon filled={isSaved(r.id)} size={20} />
+          </div>
+          <div
+            onClick={(e) => { e.stopPropagation(); handleRemoveSaved(r.id); }}
+            title="Remove from Saved"
+            style={{ fontSize: 18, color: 'var(--muted)', padding: 4, cursor: 'pointer', lineHeight: 1 }}
+          >
+            ✕
           </div>
         </div>
       </div>
