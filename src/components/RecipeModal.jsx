@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import StarIcon from './StarIcon';
 import StarRating from './StarRating';
 import { MEAL_SLOTS, MEAL_SLOT_LABELS, todayString } from '../hooks/useDiary';
@@ -96,6 +96,7 @@ export default function RecipeModal({
   ratingSummary,
   myRatingEntry,
   onRate,
+  getPhotoSignedUrl,
   onAddToDiary,
 }) {
   // Rendered with key={recipe.id} by the parent, so this component remounts
@@ -111,10 +112,30 @@ export default function RecipeModal({
   const [madeIt, setMadeIt] = useState(false);
   const [photoFile, setPhotoFile] = useState(null);
   const [photoPreview, setPhotoPreview] = useState(null);
+  const [ratedPhotoUrl, setRatedPhotoUrl] = useState(null);
   const [diaryOpen, setDiaryOpen] = useState(false);
   const [diaryDate, setDiaryDate] = useState(todayString());
   const [diaryError, setDiaryError] = useState('');
   const [addingToDiary, setAddingToDiary] = useState(false);
+
+  const photoPath = myRatingEntry?.photoPath;
+
+  useEffect(() => {
+    let cancelled = false;
+    async function loadPhoto() {
+      if (!photoPath || !getPhotoSignedUrl) return;
+      const url = await getPhotoSignedUrl(photoPath);
+      // Fetching a short-lived signed URL for your own rating photo on
+      // mount is a standard data-fetching effect -- this component
+      // remounts per recipe (key={recipe.id}), so it always reflects the
+      // photo for the recipe currently open.
+      if (!cancelled) setRatedPhotoUrl(url);
+    }
+    loadPhoto();
+    return () => {
+      cancelled = true;
+    };
+  }, [photoPath, getPhotoSignedUrl]);
 
   if (!recipe) return null;
   const r = recipe;
@@ -256,16 +277,18 @@ export default function RecipeModal({
 
             {alreadyRated ? (
               // Locked view: once you've rated a recipe, the rating can't be
-              // changed. This just shows what you rated and when.
+              // changed. This just shows what you rated and when. Any photo
+              // is fetched via a private, signed URL that only works for the
+              // user who uploaded it -- nobody else can ever see it.
               <div>
                 <div style={{ fontSize: 11, color: 'var(--muted)', marginBottom: 4 }}>Your rating</div>
                 <StarRating value={myRatingEntry.rating} readOnly size={26} />
                 <div style={{ fontSize: 11, color: 'var(--muted)', marginTop: 4 }}>
                   You rated this on {formatRatedAt(myRatingEntry.ratedAt)} — ratings can't be changed once submitted.
                 </div>
-                {myRatingEntry.photoUrl && (
+                {ratedPhotoUrl && (
                   <img
-                    src={myRatingEntry.photoUrl}
+                    src={ratedPhotoUrl}
                     alt="Your photo of this recipe"
                     style={{ width: 84, height: 84, objectFit: 'cover', borderRadius: 10, border: '1px solid var(--border)', marginTop: 10, display: 'block' }}
                   />
@@ -291,7 +314,9 @@ export default function RecipeModal({
                     <StarRating value={0} onRate={handleRate} size={26} />
 
                     <div style={{ marginTop: 12 }}>
-                      <div style={{ fontSize: 11, color: 'var(--muted)', marginBottom: 6 }}>Add a photo (optional)</div>
+                      <div style={{ fontSize: 11, color: 'var(--muted)', marginBottom: 6 }}>
+                        Add a photo (optional -- only you can ever see it)
+                      </div>
                       {photoPreview && (
                         <img
                           src={photoPreview}

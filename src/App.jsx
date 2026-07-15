@@ -53,7 +53,7 @@ export default function App() {
     updateIngredientOverride,
     updateInstructionOverride,
   } = useSavedRecipes();
-  const { getRatingSummary, getMyRatingEntry, rateRecipe } = useRecipeRatings(session?.user?.id);
+  const { getRatingSummary, getMyRatingEntry, rateRecipe, getPhotoSignedUrl } = useRecipeRatings(session?.user?.id);
   const diary = useDiary(session?.user?.id);
 
   useEffect(() => {
@@ -226,6 +226,7 @@ export default function App() {
           ratingSummary={getRatingSummary(openRecipe.id)}
           myRatingEntry={getMyRatingEntry(openRecipe.id)}
           onRate={rateRecipe}
+          getPhotoSignedUrl={getPhotoSignedUrl}
           onAddToDiary={handleAddToDiary}
         />
       )}
