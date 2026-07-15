@@ -55,7 +55,7 @@ export const RECIPES = [
     "instructions": [
       "Pat cod dry with paper towels. Place on foil-lined baking sheet. Drizzle teriyaki sauce over the fish.",
       "Bake at 425°F for 12–14 minutes until the fish flakes easily with a fork.",
-      "While the oven heats, microwave rice pouch for 90 seconds. Microwave green beans steam-bag for 3 minutes. Arrange rice on a plate, top with cod, and add green beans to the side."
+      "While the oven heats, microwave rice pouch for 90 seconds. Microwave green beans steam-bag for 3 minutes. Season the green beans with a pinch of garlic powder and sesame seeds. Arrange rice on a plate, top with cod, and add green beans to the side."
     ],
     "totalTime": 17,
     "pantryTags": [
@@ -486,7 +486,7 @@ export const RECIPES = [
       "Everything Bagel Seasoning"
     ],
     "instructions": [
-      "Spray pan with cooking spray on medium heat. Add spinach and cook 1 minute until just wilted.",
+      "Spray pan with cooking spray on medium heat. Add spinach and cook 1 minute until just wilted. Season the spinach with a pinch of garlic powder and onion powder.",
       "Pour in egg whites. Scramble until just set.",
       "Top with cheese. Slide onto plate — hot sauce on the side."
     ],
@@ -1024,7 +1024,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Spray chicken with butter. Air fry 400°F for 16–18 min, shaking halfway.",
-      "Microwave rice 90 sec. Microwave broccoli 3 min. Toss chicken in hot sauce.",
+      "Microwave rice 90 sec. Microwave broccoli 3 min. Season the broccoli with garlic powder, onion powder, and a pinch of chili flakes. Toss chicken in hot sauce.",
       "Build bowl — toppings separate."
     ],
     "totalTime": 22,
@@ -1171,7 +1171,7 @@ export const RECIPES = [
       "Cilantro (fresh or dried)"
     ],
     "instructions": [
-      "Microwave rice 90 sec. Microwave broccoli 3 min. Heat rotisserie chicken 60 sec in microwave if cold.",
+      "Microwave rice 90 sec. Microwave broccoli 3 min. Season the broccoli with garlic powder, onion powder, and a pinch of chili flakes. Heat rotisserie chicken 60 sec in microwave if cold.",
       "Mix chicken with hot sauce. Build bowl — toppings separate."
     ],
     "totalTime": 3,
@@ -4655,7 +4655,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Spray shrimp with olive oil. Air fry 380°F for 8–10 min. Toss in hot sauce.",
-      "Microwave rice 90 sec + broccoli 3 min. Build bowl.",
+      "Microwave rice 90 sec + broccoli 3 min. Season the broccoli with garlic powder, onion powder, and a pinch of chili flakes. Build bowl.",
       "Drizzle ranch dressing over shrimp. Toppings on side."
     ],
     "totalTime": 15,
@@ -4894,7 +4894,7 @@ export const RECIPES = [
     "instructions": [
       "Heat a skillet over medium-high heat. Add ground beef and break apart with a spoon. Cook 5-6 minutes until browned.",
       "Stir in BBQ sauce generously. Cook 1-2 minutes more.",
-      "Microwave hash browns per package directions (usually 2-3 min) and steam-bag broccoli 3 min.",
+      "Microwave hash browns per package directions (usually 2-3 min) and steam-bag broccoli 3 min. Season the broccoli with garlic powder, onion powder, and a pinch of chili flakes.",
       "Scoop hash browns onto plate, top with beef mixture. Add broccoli to the side. Toppings on the side."
     ],
     "totalTime": 7,
@@ -5006,7 +5006,7 @@ export const RECIPES = [
     "instructions": [
       "Heat a skillet over medium-high heat. Add ground beef, break apart with a spoon. Cook 5-6 minutes until browned.",
       "In a small bowl, mix gochujang, soy sauce, and honey. Pour over beef and stir well. Cook 1 minute more.",
-      "Microwave rice 90 sec + steam-bag broccoli 3 min. Build bowl with rice, top with spicy beef, broccoli on side. Sesame & onion on top."
+      "Microwave rice 90 sec + steam-bag broccoli 3 min. Season the broccoli with garlic powder, onion powder, and a pinch of chili flakes. Build bowl with rice, top with spicy beef, broccoli on side. Sesame & onion on top."
     ],
     "totalTime": 7,
     "pantryTags": [
@@ -5055,7 +5055,7 @@ export const RECIPES = [
     "instructions": [
       "Bring a pot of water to a boil. Add pasta and cook per package directions (usually 8–10 min) until al dente, then drain.",
       "Meanwhile, heat a skillet over medium-high. Add ground beef, break apart. Cook 5 minutes until browned.",
-      "Add marinara sauce and spinach to the meat. Stir and simmer 2 minutes until the spinach wilts.",
+      "Add marinara sauce and spinach to the meat. Season the spinach with a pinch of garlic powder and onion powder. Stir and simmer 2 minutes until the spinach wilts.",
       "Combine pasta with the beef sauce on a plate. Cheese on top."
     ],
     "totalTime": 7,
@@ -5158,7 +5158,7 @@ export const RECIPES = [
     "instructions": [
       "Heat a skillet over medium-high. Add ground beef and break apart. Cook 5 minutes until browned.",
       "Mix stroganoff sauce powder with ½ cup water per package, then add to beef. Simmer 2 minutes. Remove from heat and stir in sour cream.",
-      "Microwave egg noodles per package + microwave broccoli 3 min. Combine noodles with beef stroganoff on plate. Broccoli on side."
+      "Microwave egg noodles per package + microwave broccoli 3 min. Season the broccoli with a pinch of garlic powder and onion powder. Combine noodles with beef stroganoff on plate. Broccoli on side."
     ],
     "totalTime": 7,
     "pantryTags": [
@@ -5206,7 +5206,7 @@ export const RECIPES = [
     "instructions": [
       "Heat a skillet over medium-high heat. Add ground beef and break apart. Cook 5 minutes until browned.",
       "Drizzle teriyaki sauce over beef and stir well. Cook 1 minute more.",
-      "Microwave rice 90 sec + steam-bag broccoli 3 min. Build bowl with rice, top with beef, broccoli on side. Toppings on top."
+      "Microwave rice 90 sec + steam-bag broccoli 3 min. Season the broccoli with a pinch of garlic powder and sesame seeds. Build bowl with rice, top with beef, broccoli on side. Toppings on top."
     ],
     "totalTime": 6,
     "pantryTags": [
@@ -5309,7 +5309,7 @@ export const RECIPES = [
     "instructions": [
       "Heat a skillet over medium-high heat. Add ground chicken and break apart with a spoon. Cook 5-6 minutes until cooked through.",
       "Stir in BBQ sauce generously. Cook 1-2 minutes more.",
-      "Microwave hash browns per package (usually 2-3 min) and steam-bag broccoli 3 min.",
+      "Microwave hash browns per package (usually 2-3 min) and steam-bag broccoli 3 min. Season the broccoli with garlic powder, onion powder, and a pinch of chili flakes.",
       "Scoop hash browns onto plate, top with chicken BBQ mixture. Add broccoli to the side. Toppings on the side."
     ],
     "totalTime": 7,
@@ -5419,7 +5419,7 @@ export const RECIPES = [
     "instructions": [
       "Heat a skillet over medium-high heat. Add ground chicken, break apart with a spoon. Cook 5-6 minutes until cooked through.",
       "In a small bowl, mix gochujang, soy sauce, and honey. Pour over chicken and stir well. Cook 1 minute more.",
-      "Microwave rice 90 sec + steam-bag broccoli 3 min. Build bowl with rice, top with spicy chicken, broccoli on side. Sesame & onion on top."
+      "Microwave rice 90 sec + steam-bag broccoli 3 min. Season the broccoli with garlic powder, onion powder, and a pinch of chili flakes. Build bowl with rice, top with spicy chicken, broccoli on side. Sesame & onion on top."
     ],
     "totalTime": 7,
     "pantryTags": [
@@ -5467,7 +5467,7 @@ export const RECIPES = [
     "instructions": [
       "Bring a pot of water to a boil. Add pasta and cook per package directions (usually 8–10 min) until al dente, then drain.",
       "Meanwhile, heat a skillet over medium-high. Add ground chicken, break apart. Cook 5 minutes until cooked through.",
-      "Add marinara sauce and spinach to the meat. Stir and simmer 2 minutes until the spinach wilts.",
+      "Add marinara sauce and spinach to the meat. Season the spinach with a pinch of garlic powder and onion powder. Stir and simmer 2 minutes until the spinach wilts.",
       "Combine pasta with the chicken sauce on a plate. Cheese on top."
     ],
     "totalTime": 7,
@@ -5569,7 +5569,7 @@ export const RECIPES = [
     "instructions": [
       "Heat a skillet over medium-high. Add ground chicken and break apart. Cook 5 minutes until cooked through.",
       "Mix stroganoff sauce powder with ½ cup water per package, then add to chicken. Simmer 2 minutes. Remove from heat and stir in sour cream.",
-      "Microwave egg noodles per package + microwave broccoli 3 min. Combine noodles with chicken stroganoff on plate. Broccoli on side."
+      "Microwave egg noodles per package + microwave broccoli 3 min. Season the broccoli with a pinch of garlic powder and onion powder. Combine noodles with chicken stroganoff on plate. Broccoli on side."
     ],
     "totalTime": 7,
     "pantryTags": [
@@ -5616,7 +5616,7 @@ export const RECIPES = [
     "instructions": [
       "Heat a skillet over medium-high heat. Add ground chicken and break apart. Cook 5 minutes until cooked through.",
       "Drizzle teriyaki sauce over chicken and stir well. Cook 1 minute more.",
-      "Microwave rice 90 sec + steam-bag broccoli 3 min. Build bowl with rice, top with chicken, broccoli on side. Toppings on top."
+      "Microwave rice 90 sec + steam-bag broccoli 3 min. Season the broccoli with a pinch of garlic powder and sesame seeds. Build bowl with rice, top with chicken, broccoli on side. Toppings on top."
     ],
     "totalTime": 6,
     "pantryTags": [
@@ -5718,7 +5718,7 @@ export const RECIPES = [
     "instructions": [
       "Heat a skillet over medium-high heat. Add ground pork and break apart with a spoon. Cook 5-6 minutes until browned.",
       "Stir in BBQ sauce generously. Cook 1-2 minutes more.",
-      "Microwave hash browns per package (usually 2-3 min) and steam-bag broccoli 3 min.",
+      "Microwave hash browns per package (usually 2-3 min) and steam-bag broccoli 3 min. Season the broccoli with garlic powder, onion powder, and a pinch of chili flakes.",
       "Scoop hash browns onto plate, top with pork BBQ mixture. Add broccoli to the side. Toppings on the side."
     ],
     "totalTime": 7,
@@ -5828,7 +5828,7 @@ export const RECIPES = [
     "instructions": [
       "Heat a skillet over medium-high heat. Add ground pork, break apart with a spoon. Cook 5-6 minutes until browned.",
       "In a small bowl, mix gochujang, soy sauce, and honey. Pour over pork and stir well. Cook 1 minute more.",
-      "Microwave rice 90 sec + steam-bag broccoli 3 min. Build bowl with rice, top with spicy pork, broccoli on side. Sesame & onion on top."
+      "Microwave rice 90 sec + steam-bag broccoli 3 min. Season the broccoli with garlic powder, onion powder, and a pinch of chili flakes. Build bowl with rice, top with spicy pork, broccoli on side. Sesame & onion on top."
     ],
     "totalTime": 7,
     "pantryTags": [
@@ -5876,7 +5876,7 @@ export const RECIPES = [
     "instructions": [
       "Bring a pot of water to a boil. Add pasta and cook per package directions (usually 8–10 min) until al dente, then drain.",
       "Meanwhile, heat a skillet over medium-high. Add ground pork, break apart. Cook 5 minutes until browned.",
-      "Add marinara sauce and spinach to the meat. Stir and simmer 2 minutes until the spinach wilts.",
+      "Add marinara sauce and spinach to the meat. Season the spinach with a pinch of garlic powder and onion powder. Stir and simmer 2 minutes until the spinach wilts.",
       "Combine pasta with the pork sauce on a plate. Cheese on top."
     ],
     "totalTime": 7,
@@ -5978,7 +5978,7 @@ export const RECIPES = [
     "instructions": [
       "Heat a skillet over medium-high. Add ground pork and break apart. Cook 5 minutes until browned.",
       "Mix stroganoff sauce powder with ½ cup water per package, then add to pork. Simmer 2 minutes. Remove from heat and stir in sour cream.",
-      "Microwave egg noodles per package + microwave broccoli 3 min. Combine noodles with pork stroganoff on plate. Broccoli on side."
+      "Microwave egg noodles per package + microwave broccoli 3 min. Season the broccoli with a pinch of garlic powder and onion powder. Combine noodles with pork stroganoff on plate. Broccoli on side."
     ],
     "totalTime": 7,
     "pantryTags": [
@@ -6025,7 +6025,7 @@ export const RECIPES = [
     "instructions": [
       "Heat a skillet over medium-high heat. Add ground pork and break apart. Cook 5 minutes until browned.",
       "Drizzle teriyaki sauce over pork and stir well. Cook 1 minute more.",
-      "Microwave rice 90 sec + steam-bag broccoli 3 min. Build bowl with rice, top with pork, broccoli on side. Toppings on top."
+      "Microwave rice 90 sec + steam-bag broccoli 3 min. Season the broccoli with a pinch of garlic powder and sesame seeds. Build bowl with rice, top with pork, broccoli on side. Toppings on top."
     ],
     "totalTime": 6,
     "pantryTags": [
@@ -6127,7 +6127,7 @@ export const RECIPES = [
     "instructions": [
       "Heat a skillet over medium-high heat. Add ground turkey and break apart with a spoon. Cook 5-6 minutes until cooked through.",
       "Stir in BBQ sauce generously. Cook 1-2 minutes more.",
-      "Microwave hash browns per package (usually 2-3 min) and steam-bag broccoli 3 min.",
+      "Microwave hash browns per package (usually 2-3 min) and steam-bag broccoli 3 min. Season the broccoli with garlic powder, onion powder, and a pinch of chili flakes.",
       "Scoop hash browns onto plate, top with turkey BBQ mixture. Add broccoli to the side. Toppings on the side."
     ],
     "totalTime": 7,
@@ -6237,7 +6237,7 @@ export const RECIPES = [
     "instructions": [
       "Heat a skillet over medium-high heat. Add ground turkey, break apart with a spoon. Cook 5-6 minutes until cooked through.",
       "In a small bowl, mix gochujang, soy sauce, and honey. Pour over turkey and stir well. Cook 1 minute more.",
-      "Microwave rice 90 sec + steam-bag broccoli 3 min. Build bowl with rice, top with spicy turkey, broccoli on side. Sesame & onion on top."
+      "Microwave rice 90 sec + steam-bag broccoli 3 min. Season the broccoli with garlic powder, onion powder, and a pinch of chili flakes. Build bowl with rice, top with spicy turkey, broccoli on side. Sesame & onion on top."
     ],
     "totalTime": 7,
     "pantryTags": [
@@ -6285,7 +6285,7 @@ export const RECIPES = [
     "instructions": [
       "Bring a pot of water to a boil. Add pasta and cook per package directions (usually 8–10 min) until al dente, then drain.",
       "Meanwhile, heat a skillet over medium-high. Add ground turkey, break apart. Cook 5 minutes until cooked through.",
-      "Add marinara sauce and spinach to the meat. Stir and simmer 2 minutes until the spinach wilts.",
+      "Add marinara sauce and spinach to the meat. Season the spinach with a pinch of garlic powder and onion powder. Stir and simmer 2 minutes until the spinach wilts.",
       "Combine pasta with the turkey sauce on a plate. Cheese on top."
     ],
     "totalTime": 7,
@@ -6387,7 +6387,7 @@ export const RECIPES = [
     "instructions": [
       "Heat a skillet over medium-high. Add ground turkey and break apart. Cook 5 minutes until cooked through.",
       "Mix stroganoff sauce powder with ½ cup water per package, then add to turkey. Simmer 2 minutes. Remove from heat and stir in sour cream.",
-      "Microwave egg noodles per package + microwave broccoli 3 min. Combine noodles with turkey stroganoff on plate. Broccoli on side."
+      "Microwave egg noodles per package + microwave broccoli 3 min. Season the broccoli with a pinch of garlic powder and onion powder. Combine noodles with turkey stroganoff on plate. Broccoli on side."
     ],
     "totalTime": 7,
     "pantryTags": [
@@ -6434,7 +6434,7 @@ export const RECIPES = [
     "instructions": [
       "Heat a skillet over medium-high heat. Add ground turkey and break apart. Cook 5 minutes until cooked through.",
       "Drizzle teriyaki sauce over turkey and stir well. Cook 1 minute more.",
-      "Microwave rice 90 sec + steam-bag broccoli 3 min. Build bowl with rice, top with turkey, broccoli on side. Toppings on top."
+      "Microwave rice 90 sec + steam-bag broccoli 3 min. Season the broccoli with a pinch of garlic powder and sesame seeds. Build bowl with rice, top with turkey, broccoli on side. Toppings on top."
     ],
     "totalTime": 6,
     "pantryTags": [

@@ -5,6 +5,7 @@ import { MEAL_SLOTS, MEAL_SLOT_LABELS, todayString } from '../hooks/useDiary';
 import { formatTime } from '../utils/time';
 import { hapticSelection, hapticLight, hapticMedium } from '../utils/haptics';
 import { summarizeSteps } from '../utils/recipeSummary';
+import { detectPreheatTip, previewNextStep } from '../utils/stepHints';
 
 const GRAMS_PER_OZ = 28.3495;
 const ML_PER_FLOZ = 29.5735;
@@ -183,6 +184,11 @@ export default function RecipeModal({
   // simply not shown) when the scan can't confidently parse enough of the
   // free-text instructions.
   const stepsSummary = summarizeSteps(instructions.map((s) => s.text));
+  // Catches the "I wouldn't have known to preheat the oven" gap: a later
+  // step bakes/roasts/broils/air-fries at a temperature with no earlier
+  // mention of preheating. Shown as early as possible (step 1) rather than
+  // buried where the gap actually bites.
+  const preheatTip = detectPreheatTip(instructions.map((s) => s.text));
 
   // The cook screen is a sequence of pages: one per instruction, then an
   // optional toppings page, then notes, then rating as the closing "how'd
@@ -414,6 +420,8 @@ export default function RecipeModal({
       const done = Boolean(completedSteps[i]);
       const isEditingStep = editingStepIndex === i;
       const progressPct = ((i + 1) / instructions.length) * 100;
+      const rawInstructionTexts = instructions.map((s) => s.text);
+      const nextPreview = previewNextStep(rawInstructionTexts, i);
       return (
         <div>
           <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--lime)', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 8 }}>
@@ -422,6 +430,12 @@ export default function RecipeModal({
           <div style={{ height: 4, background: 'var(--s2)', borderRadius: 100, overflow: 'hidden', marginBottom: 24 }}>
             <div style={{ height: '100%', width: `${progressPct}%`, background: 'var(--lime)', borderRadius: 100, transition: 'width .25s ease' }} />
           </div>
+
+          {i === 0 && preheatTip && (
+            <div style={{ background: 'rgba(255,193,58,.14)', border: '1px solid rgba(255,193,58,.32)', borderRadius: 10, padding: '10px 12px', marginBottom: 16, fontSize: 12.5, color: 'var(--ez2)', lineHeight: 1.5 }}>
+              🔥 {preheatTip}
+            </div>
+          )}
 
           <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start', minHeight: 140 }}>
             <div
@@ -456,6 +470,12 @@ export default function RecipeModal({
               </div>
             )}
           </div>
+
+          {nextPreview && (
+            <div style={{ marginTop: 18, fontSize: 12, color: 'var(--muted)', fontStyle: 'italic' }}>
+              Coming up: {nextPreview}
+            </div>
+          )}
         </div>
       );
     }
