@@ -5,6 +5,7 @@ import useRecipeRatings from './hooks/useRecipeRatings';
 import useDiary, { todayString } from './hooks/useDiary';
 import { getGreeting } from './utils/greeting';
 import { hapticSelection, hapticMedium, hapticSuccess } from './utils/haptics';
+import appIconImg from './assets/app-icon.png';
 import Login from './pages/Login';
 import Kitchen from './pages/Kitchen';
 import Browse from './pages/Browse';
@@ -38,19 +39,12 @@ function SavedIcon() {
   );
 }
 
-// App icon glyph -- a meal-prep container with a lightning bolt (quick /
-// ready-to-go). Used in the header logo slot; the same shape (on a solid
-// teal square) is the iOS app icon, favicon, and PWA icons.
+// App icon -- the real designed icon (meal-prep container with a
+// lightning bolt), used in the header logo slot. The same source image
+// (composited onto an opaque background) is the iOS app icon, favicon,
+// and PWA icons -- see src/assets/app-icon.png.
 function AppIcon() {
-  return (
-    <svg width="22" height="14" viewBox="0 0 240 154" fill="none" stroke="currentColor" strokeWidth="14" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="14" y="10" width="212" height="42" rx="21" />
-      <path d="M104,52 L104,76 A10,10 0 0 0 114,86 L126,86 A10,10 0 0 0 136,76 L136,52" />
-      <path d="M14,80 L226,80 L226,130 A14,14 0 0 1 212,144 L28,144 A14,14 0 0 1 14,130 Z" />
-      <line x1="14" y1="118" x2="226" y2="118" />
-      <path d="M129,86 L100,118 L115,118 L106,144 L140,109 L123,109 Z" fill="currentColor" stroke="none" />
-    </svg>
-  );
+  return <img src={appIconImg} alt="" style={{ width: 24, height: 'auto', display: 'block' }} />;
 }
 
 export default function App() {
@@ -197,7 +191,7 @@ export default function App() {
               width: 36,
               height: 36,
               borderRadius: 10,
-              background: "var(--s2)",
+              background: "var(--cream)",
               border: "1px solid var(--border)",
               display: "flex",
               alignItems: "center",
