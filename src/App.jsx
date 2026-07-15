@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { supabase } from './lib/supabase';
 import useSavedRecipes from './hooks/useSavedRecipes';
 import useRecipeRatings from './hooks/useRecipeRatings';
 import useDiary, { todayString } from './hooks/useDiary';
+import { getGreeting } from './utils/greeting';
 import Login from './pages/Login';
 import Kitchen from './pages/Kitchen';
 import Browse from './pages/Browse';
@@ -55,6 +56,12 @@ export default function App() {
   const { getRatingSummary, getMyRatingEntry, rateRecipe, getPhotoSignedUrl } = useRecipeRatings(session?.user?.id);
   const diary = useDiary(session?.user?.id);
 
+  // Only re-picks a greeting line when today's "has anything planned"
+  // status flips, not on every unrelated render -- otherwise it would
+  // reshuffle mid-session, which reads as glitchy rather than fresh.
+  const hasTodayEntries = diary.getEntriesForDate(todayString()).length > 0;
+  const greeting = useMemo(() => getGreeting(hasTodayEntries), [hasTodayEntries]);
+
   useEffect(() => {
     // Check for existing session on mount
     const checkSession = async () => {
@@ -83,6 +90,29 @@ export default function App() {
   }, []);
 
   const handleSignOut = async () => {
+    await supabase.auth.signOut();
+  };
+
+  // Calls the delete-account Edge Function, which removes the user's diary
+  // entries, ratings, and uploaded photos server-side before deleting the
+  // auth account itself. Saved recipes/customizations are device-local
+  // (localStorage), so those are cleared here rather than server-side.
+  const handleDeleteAccount = async () => {
+    const confirmed = window.confirm(
+      "This permanently deletes your account, diary, ratings, and any photos you've uploaded. This can't be undone. Continue?"
+    );
+    if (!confirmed) return;
+    const { error } = await supabase.functions.invoke('delete-account');
+    if (error) {
+      showToast("Couldn't delete account -- try again.");
+      return;
+    }
+    try {
+      localStorage.removeItem('quickprep_saved_recipes');
+      localStorage.removeItem('quickprep_recipe_customizations');
+    } catch (err) {
+      console.error('Error clearing local recipe data:', err);
+    }
     await supabase.auth.signOut();
   };
 
@@ -134,25 +164,58 @@ export default function App() {
       <div className="app-bg" aria-hidden="true"></div>
       <div className="app">
         {/* Header */}
-        <div style={{padding: "14px 18px 10px", position: "sticky", top: 0, background: "var(--teal)", zIndex: 10, display: "flex", justifyContent: "space-between", alignItems: "center"}}>
-          <div style={{fontFamily: "'Manrope',sans-serif", fontSize: 20, fontWeight: 800, color: "var(--cream)"}}>
-            QuickPrep
-          </div>
-          <button
-            onClick={handleSignOut}
-            style={{
+        <div style={{padding: "14px 18px 10px", position: "sticky", top: 0, background: "var(--teal)", zIndex: 10, display: "flex", justifyContent: "space-between", alignItems: "flex-start"}}>
+          <div style={{display: "flex", alignItems: "center", gap: 10}}>
+            {/* App icon slot -- swap this square for an <img> once the real icon exists */}
+            <div style={{
+              width: 36,
+              height: 36,
+              borderRadius: 10,
               background: "var(--s2)",
               border: "1px solid var(--border)",
-              color: "var(--muted)",
-              borderRadius: 8,
-              padding: "6px 12px",
-              fontSize: 12,
-              fontWeight: 600,
-              cursor: "pointer",
-            }}
-          >
-            Sign Out
-          </button>
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexShrink: 0,
+              color: "var(--lime)",
+              fontFamily: "'Manrope',sans-serif",
+              fontWeight: 800,
+              fontSize: 16,
+            }}>
+              Q
+            </div>
+            <div>
+              <div style={{fontFamily: "'Manrope',sans-serif", fontSize: 20, fontWeight: 800, color: "var(--cream)", lineHeight: 1.1}}>
+                QuickPrep
+              </div>
+              <div style={{fontSize: 11, color: "var(--muted)", marginTop: 2}}>
+                {greeting}
+              </div>
+            </div>
+          </div>
+          <div style={{display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 5}}>
+            <button
+              onClick={handleSignOut}
+              style={{
+                background: "var(--s2)",
+                border: "1px solid var(--border)",
+                color: "var(--muted)",
+                borderRadius: 8,
+                padding: "6px 12px",
+                fontSize: 12,
+                fontWeight: 600,
+                cursor: "pointer",
+              }}
+            >
+              Sign Out
+            </button>
+            <div
+              onClick={handleDeleteAccount}
+              style={{ fontSize: 10, color: "var(--muted)", textDecoration: "underline", cursor: "pointer" }}
+            >
+              Delete Account
+            </div>
+          </div>
         </div>
 
         {/* Page content */}
