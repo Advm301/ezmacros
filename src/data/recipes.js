@@ -2,7 +2,8 @@
 // Each recipe: id, name, method, mealType (breakfast | lunch_dinner | snack),
 // proteins (array of protein categories present), flavor (single flavor/cuisine tag),
 // activeTime (minutes), components (ingredients: name/quantity/unit), toppings (optional
-// garnish names), instructions (cooking steps).
+// garnish names), instructions (cooking steps), tags (optional array, e.g. 'high_protein',
+// 'grab_and_go' -- used for quick-filter chips in Browse/Kitchen).
 
 export const MEAL_TYPES = ['breakfast', 'lunch_dinner', 'snack'];
 
@@ -5664,6 +5665,693 @@ export const RECIPES = [
       "Heat a skillet over medium-high heat. Add ground turkey and break apart. Cook 5 minutes until cooked through.",
       "Drizzle teriyaki sauce over turkey and stir well. Cook 1 minute more.",
       "Microwave rice 90 sec + steam-bag broccoli 3 min. Build bowl with rice, top with turkey, broccoli on side. Toppings on top."
+    ]
+  },
+  {
+    "id": 124,
+    "name": "Sweet Potato Black Bean Enchiladas",
+    "method": "Bake",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "plant"
+    ],
+    "flavor": "mexican",
+    "activeTime": 10,
+    "components": [
+      {
+        "name": "Canned Black Beans (1 can, drained & rinsed)",
+        "quantity": 425,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Diced Sweet Potato (steam-bag, pre-cut)",
+        "quantity": 300,
+        "unit": "g"
+      },
+      {
+        "name": "Red Enchilada Sauce (canned)",
+        "quantity": 280,
+        "unit": "ml"
+      },
+      {
+        "name": "Corn Tortillas (6-inch)",
+        "quantity": 6,
+        "unit": "each"
+      },
+      {
+        "name": "Shredded Mexican Cheese Blend (bagged)",
+        "quantity": 120,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Sour Cream",
+      "Diced Avocado (pre-cut)",
+      "Fresh Cilantro"
+    ],
+    "instructions": [
+      "Preheat oven to 375°F. Microwave the steam-bag sweet potato 5 minutes until fork-tender.",
+      "In a bowl, mix black beans, sweet potato, and ¼ cup of the enchilada sauce.",
+      "Spoon filling onto tortillas, roll, and place seam-down in a baking dish. Pour remaining sauce over the top, then sprinkle with cheese.",
+      "Bake 20 minutes until the cheese is melted and the edges are bubbling."
+    ]
+  },
+  {
+    "id": 125,
+    "name": "Air Fryer Salmon with Arugula Berry Salad",
+    "method": "Air Fryer",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "fish"
+    ],
+    "flavor": "mediterranean",
+    "activeTime": 5,
+    "tags": [
+      "high_protein"
+    ],
+    "components": [
+      {
+        "name": "Salmon Fillet",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Olive Oil Spray",
+        "quantity": 4,
+        "unit": "spray"
+      },
+      {
+        "name": "Lemon Pepper Seasoning (shaker)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "Baby Arugula (bagged, pre-washed)",
+        "quantity": 60,
+        "unit": "g"
+      },
+      {
+        "name": "Mixed Berries (fresh, pre-washed)",
+        "quantity": 75,
+        "unit": "g"
+      },
+      {
+        "name": "Feta Crumbles (pre-crumbled bag)",
+        "quantity": 20,
+        "unit": "g"
+      },
+      {
+        "name": "Balsamic Vinaigrette (bottled)",
+        "quantity": 30,
+        "unit": "ml"
+      }
+    ],
+    "toppings": [
+      "Extra Balsamic Drizzle"
+    ],
+    "instructions": [
+      "Spray salmon with olive oil and season with lemon pepper.",
+      "Air fry 400°F for 8–10 minutes until it flakes easily with a fork.",
+      "Toss arugula, berries, and feta in a bowl with the balsamic vinaigrette.",
+      "Plate the salad and top with the salmon."
+    ]
+  },
+  {
+    "id": 126,
+    "name": "Egg & Sausage Casserole",
+    "method": "Bake",
+    "mealType": "breakfast",
+    "proteins": [
+      "eggs",
+      "pork"
+    ],
+    "flavor": "neutral",
+    "activeTime": 8,
+    "tags": [
+      "high_protein"
+    ],
+    "components": [
+      {
+        "name": "Liquid Egg Substitute (carton)",
+        "quantity": 500,
+        "unit": "ml"
+      },
+      {
+        "name": "Fully Cooked Breakfast Sausage Crumbles (refrigerated)",
+        "quantity": 340,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Diced Hash Browns",
+        "quantity": 300,
+        "unit": "g"
+      },
+      {
+        "name": "Shredded Cheddar (bagged)",
+        "quantity": 120,
+        "unit": "g"
+      },
+      {
+        "name": "Milk (splash)",
+        "quantity": 60,
+        "unit": "ml"
+      }
+    ],
+    "toppings": [
+      "Hot Sauce",
+      "Black Pepper"
+    ],
+    "instructions": [
+      "Preheat oven to 375°F. Grease a baking dish (or use a disposable foil pan).",
+      "Pour liquid eggs and milk into the dish and whisk with a fork.",
+      "Scatter the hash browns, sausage crumbles, and half the cheese evenly over the eggs.",
+      "Bake 35–40 minutes until the eggs are set and the center no longer jiggles. Top with remaining cheese for the last 5 minutes.",
+      "Slice into portions."
+    ]
+  },
+  {
+    "id": 127,
+    "name": "Jamaican Jerk Chicken with Sweet Potato Zoodles",
+    "method": "Air Fryer",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "chicken"
+    ],
+    "flavor": "caribbean",
+    "activeTime": 5,
+    "tags": [
+      "high_protein"
+    ],
+    "components": [
+      {
+        "name": "Chicken Thighs (boneless, skinless)",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Jerk Seasoning (bottled paste or dry rub)",
+        "quantity": 15,
+        "unit": "g"
+      },
+      {
+        "name": "Sweet Potato Noodles (pre-spiralized, steam-bag)",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Olive Oil Spray",
+        "quantity": 3,
+        "unit": "spray"
+      }
+    ],
+    "toppings": [
+      "Lime Wedge",
+      "Fresh Cilantro",
+      "Sliced Scallions (pre-sliced bag)"
+    ],
+    "instructions": [
+      "Coat chicken thighs in jerk seasoning on both sides.",
+      "Air fry 380°F for 16–18 minutes, flipping halfway, until internal temp reaches 165°F.",
+      "Microwave the sweet potato noodle pouch 3–4 minutes until just tender.",
+      "Plate chicken over the zoodles. Squeeze lime and add toppings."
+    ]
+  },
+  {
+    "id": 128,
+    "name": "Slow Cooker Chicken & Sausage Gumbo",
+    "method": "Slow Cooker",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "chicken",
+      "pork"
+    ],
+    "flavor": "spicy",
+    "activeTime": 8,
+    "tags": [
+      "high_protein"
+    ],
+    "components": [
+      {
+        "name": "Frozen Seasoning Blend \"Holy Trinity\" (onion, celery, bell pepper, pre-chopped)",
+        "quantity": 300,
+        "unit": "g"
+      },
+      {
+        "name": "Andouille Sausage (pre-cooked, sliced)",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Rotisserie Chicken (shredded, pre-cooked)",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Instant Dark Roux (jarred)",
+        "quantity": 60,
+        "unit": "g"
+      },
+      {
+        "name": "Chicken Broth (carton)",
+        "quantity": 500,
+        "unit": "ml"
+      },
+      {
+        "name": "Cajun Seasoning (shaker)",
+        "quantity": 10,
+        "unit": "g"
+      },
+      {
+        "name": "White Rice Pouch (for serving)",
+        "quantity": 200,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Sliced Scallions",
+      "Hot Sauce"
+    ],
+    "instructions": [
+      "Add the seasoning blend, sausage, roux, broth, and cajun seasoning to the slow cooker. Stir until the roux dissolves.",
+      "Cook on LOW 6 hours or HIGH 3 hours.",
+      "Stir in the shredded rotisserie chicken for the last 30 minutes to warm through.",
+      "Microwave the rice pouch 90 seconds. Serve the gumbo over rice."
+    ]
+  },
+  {
+    "id": 129,
+    "name": "Air Fryer Turkey Meatballs with Marinara",
+    "method": "Air Fryer",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "turkey"
+    ],
+    "flavor": "italian",
+    "activeTime": 3,
+    "tags": [
+      "high_protein"
+    ],
+    "components": [
+      {
+        "name": "Frozen Turkey Meatballs (pre-formed)",
+        "quantity": 280,
+        "unit": "g"
+      },
+      {
+        "name": "Marinara Sauce (jarred)",
+        "quantity": 200,
+        "unit": "ml"
+      },
+      {
+        "name": "Shredded Mozzarella (bagged)",
+        "quantity": 60,
+        "unit": "g"
+      },
+      {
+        "name": "Spaghetti Pouch (microwaveable, pre-cooked)",
+        "quantity": 200,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Grated Parmesan",
+      "Red Pepper Flakes"
+    ],
+    "instructions": [
+      "Air fry frozen turkey meatballs 400°F for 10–12 minutes, shaking the basket halfway.",
+      "Microwave marinara sauce and spaghetti pouch together for 2–3 minutes.",
+      "Combine meatballs with sauce and pasta, top with mozzarella and let it melt from the heat."
+    ]
+  },
+  {
+    "id": 130,
+    "name": "Air Fryer BBQ Pork Chops with Coleslaw",
+    "method": "Air Fryer",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "pork"
+    ],
+    "flavor": "bbq",
+    "activeTime": 5,
+    "tags": [
+      "high_protein"
+    ],
+    "components": [
+      {
+        "name": "Boneless Pork Chops",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "BBQ Sauce (bottled)",
+        "quantity": 40,
+        "unit": "ml"
+      },
+      {
+        "name": "Coleslaw Mix (bagged, shredded)",
+        "quantity": 100,
+        "unit": "g"
+      },
+      {
+        "name": "Coleslaw Dressing (bottled)",
+        "quantity": 30,
+        "unit": "ml"
+      }
+    ],
+    "toppings": [
+      "Extra BBQ Sauce"
+    ],
+    "instructions": [
+      "Brush pork chops with half the BBQ sauce.",
+      "Air fry 380°F for 12–14 minutes, flipping halfway, until internal temp reaches 145°F. Brush with remaining sauce for the last 2 minutes.",
+      "Toss coleslaw mix with dressing in a bowl. Serve alongside the pork chops."
+    ]
+  },
+  {
+    "id": 131,
+    "name": "Air Fryer Buffalo Chicken Bites",
+    "method": "Air Fryer",
+    "mealType": "snack",
+    "proteins": [
+      "chicken"
+    ],
+    "flavor": "spicy",
+    "activeTime": 2,
+    "tags": [
+      "high_protein"
+    ],
+    "components": [
+      {
+        "name": "Frozen Breaded Chicken Bites",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Buffalo Sauce (bottled)",
+        "quantity": 40,
+        "unit": "ml"
+      }
+    ],
+    "toppings": [
+      "Ranch Dressing",
+      "Sliced Celery (pre-cut bag)"
+    ],
+    "instructions": [
+      "Air fry frozen chicken bites 400°F for 10–12 minutes, shaking the basket halfway.",
+      "Toss the hot bites in buffalo sauce. Serve with ranch and celery."
+    ]
+  },
+  {
+    "id": 132,
+    "name": "Cottage Cheese Protein Bowl",
+    "method": "No Cook",
+    "mealType": "breakfast",
+    "proteins": [
+      "dairy"
+    ],
+    "flavor": "neutral",
+    "activeTime": 2,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
+    "components": [
+      {
+        "name": "Cottage Cheese (tub)",
+        "quantity": 225,
+        "unit": "g"
+      },
+      {
+        "name": "Mixed Berries (fresh, pre-washed)",
+        "quantity": 75,
+        "unit": "g"
+      },
+      {
+        "name": "Granola (bagged)",
+        "quantity": 30,
+        "unit": "g"
+      },
+      {
+        "name": "Honey (drizzle)",
+        "quantity": 10,
+        "unit": "ml"
+      }
+    ],
+    "toppings": [],
+    "instructions": [
+      "Scoop cottage cheese into a bowl.",
+      "Top with berries, granola, and a drizzle of honey."
+    ]
+  },
+  {
+    "id": 133,
+    "name": "Turkey & Egg Breakfast Wrap",
+    "method": "Microwave",
+    "mealType": "breakfast",
+    "proteins": [
+      "turkey",
+      "eggs"
+    ],
+    "flavor": "neutral",
+    "activeTime": 4,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
+    "components": [
+      {
+        "name": "Liquid Egg Substitute (carton)",
+        "quantity": 120,
+        "unit": "ml"
+      },
+      {
+        "name": "Turkey Breakfast Sausage Links (pre-cooked, sliced)",
+        "quantity": 85,
+        "unit": "g"
+      },
+      {
+        "name": "Flour Tortilla (burrito-size)",
+        "quantity": 1,
+        "unit": "each"
+      },
+      {
+        "name": "Shredded Cheddar (bagged)",
+        "quantity": 30,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Hot Sauce"
+    ],
+    "instructions": [
+      "Microwave liquid eggs in a mug 60–90 seconds, stirring halfway, until set.",
+      "Microwave turkey sausage links 60 seconds.",
+      "Layer eggs, sausage, and cheese onto the tortilla and roll into a wrap. Wrap in foil to take on the go."
+    ]
+  },
+  {
+    "id": 134,
+    "name": "Greek Yogurt Protein Parfait",
+    "method": "No Cook",
+    "mealType": "breakfast",
+    "proteins": [
+      "dairy"
+    ],
+    "flavor": "mediterranean",
+    "activeTime": 2,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
+    "components": [
+      {
+        "name": "Greek Yogurt (plain or vanilla, tub)",
+        "quantity": 225,
+        "unit": "g"
+      },
+      {
+        "name": "Granola (bagged)",
+        "quantity": 30,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Berries (thawed)",
+        "quantity": 75,
+        "unit": "g"
+      },
+      {
+        "name": "Honey (drizzle)",
+        "quantity": 10,
+        "unit": "ml"
+      }
+    ],
+    "toppings": [],
+    "instructions": [
+      "Layer yogurt, berries, and granola in a cup or jar.",
+      "Drizzle with honey. Cover and grab it on the way out."
+    ]
+  },
+  {
+    "id": 135,
+    "name": "Rotisserie Chicken Caesar Grab Bowl",
+    "method": "No Cook",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "chicken"
+    ],
+    "flavor": "italian",
+    "activeTime": 3,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
+    "components": [
+      {
+        "name": "Rotisserie Chicken (shredded, pre-cooked)",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Caesar Salad Kit (bagged, with dressing & croutons)",
+        "quantity": 140,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Extra Parmesan"
+    ],
+    "instructions": [
+      "Empty the salad kit into a bowl and toss with its dressing and croutons.",
+      "Top with shredded rotisserie chicken."
+    ]
+  },
+  {
+    "id": 136,
+    "name": "Overnight Oats with Protein Powder",
+    "method": "No Cook",
+    "mealType": "breakfast",
+    "proteins": [
+      "dairy"
+    ],
+    "flavor": "neutral",
+    "activeTime": 3,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
+    "components": [
+      {
+        "name": "Rolled Oats",
+        "quantity": 60,
+        "unit": "g"
+      },
+      {
+        "name": "Milk (or milk of choice)",
+        "quantity": 180,
+        "unit": "ml"
+      },
+      {
+        "name": "Vanilla Protein Powder (scoop)",
+        "quantity": 30,
+        "unit": "g"
+      },
+      {
+        "name": "Chia Seeds",
+        "quantity": 10,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Fresh Berries"
+    ],
+    "instructions": [
+      "Stir oats, milk, protein powder, and chia seeds together in a jar.",
+      "Cover and refrigerate overnight. Grab it from the fridge in the morning — eat cold or warm 60 seconds in the microwave."
+    ]
+  },
+  {
+    "id": 137,
+    "name": "Tuna Salad Lettuce Wraps",
+    "method": "No Cook",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "fish"
+    ],
+    "flavor": "neutral",
+    "activeTime": 4,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
+    "components": [
+      {
+        "name": "Tuna Pouch (no drain)",
+        "quantity": 140,
+        "unit": "g"
+      },
+      {
+        "name": "Mayo Packet (or light mayo)",
+        "quantity": 15,
+        "unit": "g"
+      },
+      {
+        "name": "Butter Lettuce Leaves (bagged, pre-washed)",
+        "quantity": 60,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Black Pepper"
+    ],
+    "instructions": [
+      "Mix tuna with mayo in a bowl.",
+      "Spoon into lettuce leaves and fold like a taco."
+    ]
+  },
+  {
+    "id": 138,
+    "name": "Buffalo Chicken Ranch Wrap",
+    "method": "Microwave",
+    "mealType": "lunch_dinner",
+    "proteins": [
+      "chicken"
+    ],
+    "flavor": "spicy",
+    "activeTime": 4,
+    "tags": [
+      "grab_and_go"
+    ],
+    "components": [
+      {
+        "name": "Frozen Grilled Chicken Strips (pre-cooked)",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Buffalo Sauce (bottled)",
+        "quantity": 30,
+        "unit": "ml"
+      },
+      {
+        "name": "Ranch Dressing (bottled)",
+        "quantity": 30,
+        "unit": "ml"
+      },
+      {
+        "name": "Flour Tortilla (burrito-size)",
+        "quantity": 1,
+        "unit": "each"
+      },
+      {
+        "name": "Shredded Lettuce (bagged)",
+        "quantity": 40,
+        "unit": "g"
+      }
+    ],
+    "toppings": [],
+    "instructions": [
+      "Microwave chicken strips 2–3 minutes until hot, then toss in buffalo sauce.",
+      "Layer chicken, ranch, and lettuce onto the tortilla and roll into a wrap. Wrap in foil to take on the go."
     ]
   }
 ];

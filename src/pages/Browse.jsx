@@ -28,20 +28,37 @@ const FLAVORS = [
   { label: 'Mexican', value: 'mexican' },
 ];
 
+const METHODS = [
+  { label: 'Air Fryer', value: 'Air Fryer' },
+  { label: 'Slow Cooker', value: 'Slow Cooker' },
+  { label: 'Bake', value: 'Bake' },
+  { label: 'Skillet', value: 'Skillet' },
+  { label: 'Stovetop', value: 'Stovetop' },
+  { label: 'No Cook', value: 'No Cook' },
+  { label: 'Microwave', value: 'Microwave' },
+];
+
 export default function Browse({ onOpen, isSaved, toggleSaved }) {
   const [search, setSearch] = useState('');
   const [mealFilter, setMealFilter] = useState(null);
   const [proteinFilter, setProteinFilter] = useState(null);
   const [flavorFilter, setFlavorFilter] = useState(null);
+  const [methodFilter, setMethodFilter] = useState(null);
   const [showSavedOnly, setShowSavedOnly] = useState(false);
+  const [highProteinOnly, setHighProteinOnly] = useState(false);
+  const [grabAndGoOnly, setGrabAndGoOnly] = useState(false);
 
   const filtered = RECIPES.filter((r) => {
+    const tags = r.tags || [];
     const matchSearch = r.name.toLowerCase().includes(search.toLowerCase());
     const matchMeal = !mealFilter || r.mealType === mealFilter;
     const matchProtein = !proteinFilter || r.proteins.includes(proteinFilter);
     const matchFlavor = !flavorFilter || r.flavor === flavorFilter;
+    const matchMethod = !methodFilter || r.method === methodFilter;
     const matchSaved = !showSavedOnly || isSaved(r.id);
-    return matchSearch && matchMeal && matchProtein && matchFlavor && matchSaved;
+    const matchHighProtein = !highProteinOnly || tags.includes('high_protein');
+    const matchGrabAndGo = !grabAndGoOnly || tags.includes('grab_and_go');
+    return matchSearch && matchMeal && matchProtein && matchFlavor && matchMethod && matchSaved && matchHighProtein && matchGrabAndGo;
   });
 
   const sections = MEAL_SECTIONS.filter((s) => !mealFilter || s.value === mealFilter);
@@ -60,6 +77,20 @@ export default function Browse({ onOpen, isSaved, toggleSaved }) {
           <div style={{ fontSize: 11, color: 'var(--muted)' }}>
             {r.method}{r.method && r.activeTime ? ' · ' : ''}{r.activeTime ? `${r.activeTime} min` : ''}
           </div>
+          {(r.tags || []).length > 0 && (
+            <div style={{ display: 'flex', gap: 6, marginTop: 4 }}>
+              {r.tags.includes('high_protein') && (
+                <span style={{ fontSize: 10, fontWeight: 700, color: 'var(--lime)', border: '1px solid var(--border)', borderRadius: 100, padding: '2px 8px' }}>
+                  High Protein
+                </span>
+              )}
+              {r.tags.includes('grab_and_go') && (
+                <span style={{ fontSize: 10, fontWeight: 700, color: 'var(--lime)', border: '1px solid var(--border)', borderRadius: 100, padding: '2px 8px' }}>
+                  Grab & Go
+                </span>
+              )}
+            </div>
+          )}
         </div>
         <div onClick={(e) => { e.stopPropagation(); toggleSaved(r.id); }}>
           <StarIcon filled={isSaved(r.id)} size={20} />
@@ -91,6 +122,31 @@ export default function Browse({ onOpen, isSaved, toggleSaved }) {
           {MEAL_SECTIONS.map((s) => (
             <div key={s.value} className={`pill ${mealFilter === s.value ? 'active' : ''}`} onClick={() => setMealFilter(s.value)}>
               {s.label}
+            </div>
+          ))}
+        </div>
+
+        <div className="filter-label">Quick Filters</div>
+        <div className="scroll-row" style={{ marginBottom: 14 }}>
+          <div className={`pill ${highProteinOnly ? 'active' : ''}`} onClick={() => setHighProteinOnly((v) => !v)}>
+            High Protein
+          </div>
+          <div className={`pill ${grabAndGoOnly ? 'active' : ''}`} onClick={() => setGrabAndGoOnly((v) => !v)}>
+            Grab & Go
+          </div>
+          <div className={`pill ${methodFilter === 'Air Fryer' ? 'active' : ''}`} onClick={() => setMethodFilter(methodFilter === 'Air Fryer' ? null : 'Air Fryer')}>
+            Air Fryer
+          </div>
+        </div>
+
+        <div className="filter-label">Method</div>
+        <div className="scroll-row" style={{ marginBottom: 14 }}>
+          <div className={`pill ${!methodFilter ? 'active' : ''}`} onClick={() => setMethodFilter(null)}>
+            Any
+          </div>
+          {METHODS.map((m) => (
+            <div key={m.value} className={`pill ${methodFilter === m.value ? 'active' : ''}`} onClick={() => setMethodFilter(methodFilter === m.value ? null : m.value)}>
+              {m.label}
             </div>
           ))}
         </div>

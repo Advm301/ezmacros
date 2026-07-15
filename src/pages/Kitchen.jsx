@@ -28,12 +28,21 @@ const FLAVORS = [
   { label: 'Mexican', value: 'mexican' },
 ];
 
-function filterRecipes(recipes, mealTypeLabel, protein, flavor) {
+const QUICK_FILTERS = [
+  { label: 'Air Fryer', value: 'air_fryer' },
+  { label: 'High Protein', value: 'high_protein' },
+  { label: 'Grab & Go', value: 'grab_and_go' },
+];
+
+function filterRecipes(recipes, mealTypeLabel, protein, flavor, quickFilter) {
   const mealTypeValue = MEAL_TYPES.find((m) => m.label === mealTypeLabel)?.value;
   return recipes.filter((r) => {
     if (mealTypeValue && r.mealType !== mealTypeValue) return false;
     if (protein && !r.proteins.includes(protein)) return false;
     if (flavor && r.flavor !== flavor) return false;
+    if (quickFilter === 'air_fryer' && r.method !== 'Air Fryer') return false;
+    if (quickFilter === 'high_protein' && !(r.tags || []).includes('high_protein')) return false;
+    if (quickFilter === 'grab_and_go' && !(r.tags || []).includes('grab_and_go')) return false;
     return true;
   });
 }
@@ -42,16 +51,18 @@ export default function Kitchen({ onOpen }) {
   const [mealType, setMealType] = useState(null);
   const [protein, setProtein] = useState(null);
   const [flavor, setFlavor] = useState(null);
+  const [quickFilter, setQuickFilter] = useState(null);
   const [results, setResults] = useState(null);
 
   const handleFindRecipes = () => {
-    setResults(filterRecipes(RECIPES, mealType, protein, flavor));
+    setResults(filterRecipes(RECIPES, mealType, protein, flavor, quickFilter));
   };
 
   const reset = () => {
     setMealType(null);
     setProtein(null);
     setFlavor(null);
+    setQuickFilter(null);
     setResults(null);
   };
 
@@ -73,6 +84,21 @@ export default function Kitchen({ onOpen }) {
                 onClick={() => setMealType(mealType === m.label ? null : m.label)}
               >
                 {m.label}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="filter-sec">
+          <div className="filter-label">Quick Filter (optional)</div>
+          <div className="scroll-row">
+            {QUICK_FILTERS.map((q) => (
+              <div
+                key={q.value}
+                className={`pill ${quickFilter === q.value ? 'active' : ''}`}
+                onClick={() => setQuickFilter(quickFilter === q.value ? null : q.value)}
+              >
+                {q.label}
               </div>
             ))}
           </div>
