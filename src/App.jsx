@@ -167,6 +167,7 @@ export default function App() {
             toggleSaved={toggleSaved}
             onOpen={setOpenRecipe}
             getRatingSummary={getRatingSummary}
+            getEntry={getEntry}
             diary={diary}
             view={savedView}
             onViewChange={setSavedView}

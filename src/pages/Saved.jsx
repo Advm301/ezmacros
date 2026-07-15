@@ -21,6 +21,7 @@ export default function Saved({
   toggleSaved,
   onOpen,
   getRatingSummary,
+  getEntry,
   diary,
   view,
   onViewChange,
@@ -33,7 +34,7 @@ export default function Saved({
   const dayEntries = diary ? diary.getEntriesForDate(selectedDate) : [];
 
   const renderSavedRow = (r) => {
-    const entry = saved[r.id];
+    const entry = getEntry ? getEntry(r.id) : null;
     const hasNotes = entry && entry.notes && entry.notes.trim().length > 0;
     const hasOverrides = entry && (
       Object.keys(entry.ingredientOverrides || {}).length > 0 ||
@@ -89,7 +90,7 @@ export default function Saved({
         <>
           <div className="px">
             <div className="sub" style={{ marginBottom: 14 }}>
-              Recipes you've starred, saved, or customized.
+              Recipes you've starred.
             </div>
           </div>
           <div className="px">
