@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { RECIPES } from '../data/recipes.js';
+import { PANTRY_STAPLES } from '../data/pantryStaples.js';
 import { formatTime } from '../utils/time';
 
 const MEAL_TYPES = [
@@ -35,9 +36,14 @@ const QUICK_FILTERS = [
   { label: 'Grab & Go', value: 'grab_and_go' },
 ];
 
-function filterRecipes(recipes, mealTypeLabel, protein, flavor, quickFilter) {
+const PANTRY_LABELS = Object.fromEntries(PANTRY_STAPLES.map((s) => [s.id, s.label]));
+
+// When pantry staples are selected, recipes are filtered to those that use
+// at least one of them, then sorted so the recipes using the MOST of your
+// picks show up first -- closest matches to "what I already have" win.
+function filterRecipes(recipes, mealTypeLabel, protein, flavor, quickFilter, selectedStaples) {
   const mealTypeValue = MEAL_TYPES.find((m) => m.label === mealTypeLabel)?.value;
-  return recipes.filter((r) => {
+  let filtered = recipes.filter((r) => {
     if (mealTypeValue && r.mealType !== mealTypeValue) return false;
     if (protein && !r.proteins.includes(protein)) return false;
     if (flavor && r.flavor !== flavor) return false;
@@ -46,6 +52,15 @@ function filterRecipes(recipes, mealTypeLabel, protein, flavor, quickFilter) {
     if (quickFilter === 'grab_and_go' && !(r.tags || []).includes('grab_and_go')) return false;
     return true;
   });
+
+  if (selectedStaples.length > 0) {
+    filtered = filtered
+      .filter((r) => (r.pantryTags || []).some((t) => selectedStaples.includes(t)))
+      .map((r) => ({ ...r, _matchCount: (r.pantryTags || []).filter((t) => selectedStaples.includes(t)).length }))
+      .sort((a, b) => b._matchCount - a._matchCount);
+  }
+
+  return filtered;
 }
 
 export default function Kitchen({ onOpen, getRatingSummary }) {
@@ -53,10 +68,15 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
   const [protein, setProtein] = useState(null);
   const [flavor, setFlavor] = useState(null);
   const [quickFilter, setQuickFilter] = useState(null);
+  const [selectedStaples, setSelectedStaples] = useState([]);
   const [results, setResults] = useState(null);
 
+  const toggleStaple = (id) => {
+    setSelectedStaples((prev) => (prev.includes(id) ? prev.filter((s) => s !== id) : [...prev, id]));
+  };
+
   const handleFindRecipes = () => {
-    setResults(filterRecipes(RECIPES, mealType, protein, flavor, quickFilter));
+    setResults(filterRecipes(RECIPES, mealType, protein, flavor, quickFilter, selectedStaples));
   };
 
   const reset = () => {
@@ -64,6 +84,7 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
     setProtein(null);
     setFlavor(null);
     setQuickFilter(null);
+    setSelectedStaples([]);
     setResults(null);
   };
 
@@ -72,7 +93,7 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
       <div className="px pt">
         <div className="h1">What Can I Make?</div>
         <div className="sub" style={{ marginBottom: 14 }}>
-          Pick a meal type (or all), a protein, and (optionally) a flavor — get quick recipes.
+          Pick a meal type (or all), a protein, and (optionally) what's already in your kitchen — get quick recipes.
         </div>
 
         <div className="filter-sec">
@@ -132,7 +153,7 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
           </div>
         </div>
 
-        <div className="filter-sec" style={{ marginBottom: 16 }}>
+        <div className="filter-sec">
           <div className="filter-label">Flavor (optional)</div>
           <div className="scroll-row">
             {FLAVORS.map((f) => (
@@ -142,6 +163,21 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
                 onClick={() => setFlavor(flavor === f.value ? null : f.value)}
               >
                 {f.label}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="filter-sec" style={{ marginBottom: 16 }}>
+          <div className="filter-label">What Do You Have? (optional)</div>
+          <div className="scroll-row">
+            {PANTRY_STAPLES.map((s) => (
+              <div
+                key={s.id}
+                className={`pill ${selectedStaples.includes(s.id) ? 'active' : ''}`}
+                onClick={() => toggleStaple(s.id)}
+              >
+                {selectedStaples.includes(s.id) ? `✓ ${s.label}` : s.label}
               </div>
             ))}
           </div>
@@ -160,7 +196,7 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
                 No recipes match those filters
               </div>
               <div style={{ fontSize: 13, color: 'var(--muted)', lineHeight: 1.6, marginBottom: 14 }}>
-                Try a different protein or drop the flavor filter.
+                Try a different protein, drop the flavor filter, or select fewer pantry items.
               </div>
               <div className="quick-chip" style={{ display: 'inline-block' }} onClick={reset}>
                 Start Over
@@ -171,23 +207,38 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
               <div style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 10 }}>
                 <span style={{ color: 'var(--lime)' }}>●</span> {results.length} recipe{results.length > 1 ? 's' : ''}
               </div>
-              {results.map((r) => (
-                <div
-                  key={r.id}
-                  style={{ background: 'var(--s1)', border: '1px solid var(--border)', borderRadius: 14, padding: 14, marginBottom: 10, cursor: 'pointer' }}
-                  onClick={() => onOpen && onOpen(r)}
-                >
-                  <div style={{ fontWeight: 700, fontSize: 15, color: 'var(--cream)', marginBottom: 4 }}>
-                    {r.name}
-                  </div>
-                  <div style={{ fontSize: 11, color: 'var(--muted)' }}>
-                    {r.method}{r.method && r.activeTime ? ' · ' : ''}{formatTime(r.activeTime, r.totalTime)}
-                    {getRatingSummary && getRatingSummary(r.id) && (
-                      <> · ★ {getRatingSummary(r.id).avg.toFixed(1)} ({getRatingSummary(r.id).count})</>
+              {results.map((r) => {
+                const missingStaples = selectedStaples.length > 0
+                  ? (r.pantryTags || []).filter((t) => !selectedStaples.includes(t))
+                  : [];
+                return (
+                  <div
+                    key={r.id}
+                    style={{ background: 'var(--s1)', border: '1px solid var(--border)', borderRadius: 14, padding: 14, marginBottom: 10, cursor: 'pointer' }}
+                    onClick={() => onOpen && onOpen(r)}
+                  >
+                    <div style={{ fontWeight: 700, fontSize: 15, color: 'var(--cream)', marginBottom: 4 }}>
+                      {r.name}
+                    </div>
+                    <div style={{ fontSize: 11, color: 'var(--muted)' }}>
+                      {r.method}{r.method && r.activeTime ? ' · ' : ''}{formatTime(r.activeTime, r.totalTime)}
+                      {getRatingSummary && getRatingSummary(r.id) && (
+                        <> · ★ {getRatingSummary(r.id).avg.toFixed(1)} ({getRatingSummary(r.id).count})</>
+                      )}
+                    </div>
+                    {selectedStaples.length > 0 && (
+                      <div style={{ fontSize: 11, color: 'var(--lime)', marginTop: 4 }}>
+                        Uses {r._matchCount} of your {selectedStaples.length} pick{selectedStaples.length === 1 ? '' : 's'}
+                        {missingStaples.length > 0 && (
+                          <span style={{ color: 'var(--muted)' }}>
+                            {' '}· also needs: {missingStaples.map((t) => PANTRY_LABELS[t] || t).join(', ')}
+                          </span>
+                        )}
+                      </div>
                     )}
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </>
           )}
         </div>
