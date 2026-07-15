@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { hapticSelection } from '../utils/haptics';
 
 const SAVED_KEY = 'quickprep_saved_recipes';
 const CUSTOM_KEY = 'quickprep_recipe_customizations';
@@ -84,6 +85,7 @@ export default function useSavedRecipes() {
   const isSaved = (id) => Boolean(saved[id]);
 
   const toggleSaved = (id) => {
+    hapticSelection();
     setSaved((prev) => {
       if (prev[id]) {
         const next = { ...prev };

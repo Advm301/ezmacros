@@ -4,6 +4,7 @@ import useSavedRecipes from './hooks/useSavedRecipes';
 import useRecipeRatings from './hooks/useRecipeRatings';
 import useDiary, { todayString } from './hooks/useDiary';
 import { getGreeting } from './utils/greeting';
+import { hapticSelection, hapticMedium, hapticSuccess } from './utils/haptics';
 import Login from './pages/Login';
 import Kitchen from './pages/Kitchen';
 import Browse from './pages/Browse';
@@ -102,6 +103,7 @@ export default function App() {
       "This permanently deletes your account, diary, ratings, and any photos you've uploaded. This can't be undone. Continue?"
     );
     if (!confirmed) return;
+    hapticMedium();
     const { error } = await supabase.functions.invoke('delete-account');
     if (error) {
       showToast("Couldn't delete account -- try again.");
@@ -127,6 +129,7 @@ export default function App() {
   const handleAddToDiary = async (recipeId, date, slot) => {
     const ok = await diary.addEntry(date, slot, recipeId);
     if (ok) {
+      hapticSuccess();
       setSavedDate(date);
       setTab("saved");
       showToast("Recipe added to Diary!");
@@ -238,7 +241,7 @@ export default function App() {
         {/* Bottom nav */}
         <div style={{position: "fixed", bottom: 0, left: "50%", transform: "translateX(-50%)", width: "100%", maxWidth: 430, background: "#000", borderTop: "1px solid var(--border)", display: "flex", zIndex: 20}}>
           {tabs.map(t => (
-            <div key={t.id} onClick={() => setTab(t.id)}
+            <div key={t.id} onClick={() => { if (t.id !== tab) { hapticSelection(); setTab(t.id); } }}
               style={{flex: 1, display: "flex", flexDirection: "column", alignItems: "center", padding: "10px 0", cursor: "pointer", color: tab === t.id ? "var(--lime)" : "var(--muted)", borderTop: tab === t.id ? "2px solid var(--lime)" : "2px solid transparent", transition: "all .15s", position: "relative"}}>
               <t.Icon />
               <span style={{fontSize: 11, fontWeight: 600, marginTop: 2}}>{t.label}</span>

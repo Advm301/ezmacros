@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { RECIPES } from '../data/recipes.js';
 import { PANTRY_CATEGORIES, PANTRY_STAPLES } from '../data/pantryStaples.js';
 import { formatTime } from '../utils/time';
+import { hapticSelection, hapticLight, hapticMedium } from '../utils/haptics';
 
 const MEAL_TYPES = [
   { label: 'Breakfast', value: 'breakfast' },
@@ -74,10 +75,32 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
   const [surpriseError, setSurpriseError] = useState('');
 
   const toggleStaple = (id) => {
+    hapticSelection();
     setSelectedStaples((prev) => (prev.includes(id) ? prev.filter((s) => s !== id) : [...prev, id]));
   };
 
+  const selectMealType = (label) => {
+    hapticSelection();
+    setMealType(label);
+  };
+
+  const selectProtein = (value) => {
+    hapticSelection();
+    setProtein(value);
+  };
+
+  const selectFlavor = (value) => {
+    hapticSelection();
+    setFlavor(value);
+  };
+
+  const selectQuickFilter = (value) => {
+    hapticSelection();
+    setQuickFilter(value);
+  };
+
   const handleFindRecipes = () => {
+    hapticLight();
     setSurpriseError('');
     setResults(filterRecipes(RECIPES, mealType, protein, flavor, quickFilter, selectedStaples));
   };
@@ -86,6 +109,7 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
   // selection match (or the full recipe list if nothing is set) and opens
   // it directly -- a shortcut for "just decide for me."
   const handleSurpriseMe = () => {
+    hapticMedium();
     setSurpriseError('');
     const pool = filterRecipes(RECIPES, mealType, protein, flavor, quickFilter, selectedStaples);
     if (pool.length === 0) {
@@ -97,6 +121,7 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
   };
 
   const reset = () => {
+    hapticLight();
     setMealType(null);
     setProtein(null);
     setFlavor(null);
@@ -105,6 +130,11 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
     setPantrySearch('');
     setResults(null);
     setSurpriseError('');
+  };
+
+  const openRecipe = (r) => {
+    hapticLight();
+    if (onOpen) onOpen(r);
   };
 
   const searchLower = pantrySearch.trim().toLowerCase();
@@ -128,7 +158,7 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
           <div className="scroll-row">
             <div
               className={`pill ${mealType === null ? 'active' : ''}`}
-              onClick={() => setMealType(null)}
+              onClick={() => selectMealType(null)}
             >
               All Meals
             </div>
@@ -136,7 +166,7 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
               <div
                 key={m.label}
                 className={`pill ${mealType === m.label ? 'active' : ''}`}
-                onClick={() => setMealType(m.label)}
+                onClick={() => selectMealType(m.label)}
               >
                 {m.label}
               </div>
@@ -151,7 +181,7 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
               <div
                 key={q.value}
                 className={`pill ${quickFilter === q.value ? 'active' : ''}`}
-                onClick={() => setQuickFilter(quickFilter === q.value ? null : q.value)}
+                onClick={() => selectQuickFilter(quickFilter === q.value ? null : q.value)}
               >
                 {q.label}
               </div>
@@ -164,7 +194,7 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
           <div className="scroll-row">
             <div
               className={`pill ${protein === null ? 'active' : ''}`}
-              onClick={() => setProtein(null)}
+              onClick={() => selectProtein(null)}
             >
               Any Protein
             </div>
@@ -172,7 +202,7 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
               <div
                 key={p.value}
                 className={`pill ${protein === p.value ? 'active' : ''}`}
-                onClick={() => setProtein(protein === p.value ? null : p.value)}
+                onClick={() => selectProtein(protein === p.value ? null : p.value)}
               >
                 {p.label}
               </div>
@@ -187,7 +217,7 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
               <div
                 key={f.value}
                 className={`pill ${flavor === f.value ? 'active' : ''}`}
-                onClick={() => setFlavor(flavor === f.value ? null : f.value)}
+                onClick={() => selectFlavor(flavor === f.value ? null : f.value)}
               >
                 {f.label}
               </div>
@@ -202,7 +232,7 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
             </div>
             {selectedStaples.length > 0 && (
               <div
-                onClick={() => setSelectedStaples([])}
+                onClick={() => { hapticLight(); setSelectedStaples([]); }}
                 style={{ fontSize: 11, color: 'var(--muted)', cursor: 'pointer', textDecoration: 'underline' }}
               >
                 Clear ({selectedStaples.length})
@@ -299,7 +329,7 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
                   <div
                     key={r.id}
                     style={{ background: 'var(--s1)', border: '1px solid var(--border)', borderRadius: 14, padding: 14, marginBottom: 10, cursor: 'pointer' }}
-                    onClick={() => onOpen && onOpen(r)}
+                    onClick={() => openRecipe(r)}
                   >
                     <div style={{ fontWeight: 700, fontSize: 15, color: 'var(--cream)', marginBottom: 4 }}>
                       {r.name}

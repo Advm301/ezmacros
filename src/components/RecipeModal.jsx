@@ -3,6 +3,7 @@ import StarIcon from './StarIcon';
 import StarRating from './StarRating';
 import { MEAL_SLOTS, MEAL_SLOT_LABELS, todayString } from '../hooks/useDiary';
 import { formatTime } from '../utils/time';
+import { hapticSelection, hapticLight } from '../utils/haptics';
 
 const GRAMS_PER_OZ = 28.3495;
 const ML_PER_FLOZ = 29.5735;
@@ -154,10 +155,12 @@ export default function RecipeModal({
   });
 
   const toggleStepDone = (i) => {
+    hapticSelection();
     setCompletedSteps((prev) => ({ ...prev, [i]: !prev[i] }));
   };
 
   const toggleUnitMode = (i) => {
+    hapticSelection();
     setUnitModes((prev) => ({ ...prev, [i]: prev[i] === 'alt' ? 'native' : 'alt' }));
   };
 
@@ -207,6 +210,7 @@ export default function RecipeModal({
 
   const handleAddToDiary = async (slot) => {
     if (!onAddToDiary) return;
+    hapticSelection();
     setDiaryError('');
     setAddingToDiary(true);
     const ok = await onAddToDiary(r.id, diaryDate, slot);
@@ -253,7 +257,7 @@ export default function RecipeModal({
               </div>
             )}
             <button
-              onClick={onClose}
+              onClick={() => { hapticLight(); onClose(); }}
               style={{ background: 'var(--s3)', border: '1px solid var(--border)', color: 'var(--muted)', borderRadius: 8, padding: '6px 12px', cursor: 'pointer', fontSize: 13 }}
             >
               ✕ Close
@@ -345,7 +349,7 @@ export default function RecipeModal({
         {onAddToDiary && (
           <div style={{ marginBottom: 16 }}>
             <button
-              onClick={() => setDiaryOpen((v) => !v)}
+              onClick={() => { hapticLight(); setDiaryOpen((v) => !v); }}
               style={{ width: '100%', background: 'var(--s2)', border: '1px solid var(--border)', color: 'var(--cream)', borderRadius: 13, padding: 12, fontSize: 14, fontWeight: 700, fontFamily: "'Manrope',sans-serif", cursor: 'pointer' }}
             >
               {diaryOpen ? 'Close' : '+ Add to Diary'}

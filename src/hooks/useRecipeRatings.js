@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '../lib/supabase';
+import { hapticSuccess } from '../utils/haptics';
 
 // Signed URLs are short-lived download links into the private recipe-photos
 // bucket. An hour is more than enough for a single viewing session -- if it
@@ -122,6 +123,7 @@ export default function useRecipeRatings(userId) {
       return;
     }
 
+    hapticSuccess();
     // Re-fetch so the displayed average reflects the server's numbers
     // exactly (cheap at this scale, and avoids optimistic-math drift).
     refresh();

@@ -4,6 +4,7 @@ import StarIcon from '../components/StarIcon';
 import { MEAL_SLOTS, MEAL_SLOT_LABELS, todayString, formatDateString } from '../hooks/useDiary';
 import { formatTime } from '../utils/time';
 import { buildShoppingList, formatShoppingQuantity } from '../utils/shoppingList';
+import { hapticSelection, hapticLight, hapticMedium } from '../utils/haptics';
 
 // Maps a diary meal slot to the recipe mealType pool it should draw random
 // picks from. Lunch and Dinner share the same 'lunch_dinner' pool.
@@ -67,6 +68,7 @@ export default function Saved({
 
   const handleSurpriseDay = async () => {
     if (!diary) return;
+    hapticMedium();
     setGeneratingDay(true);
     const usedIds = [];
     let addedCount = 0;
@@ -89,6 +91,7 @@ export default function Saved({
 
   const handleRegenerate = async (entry) => {
     if (!diary) return;
+    hapticLight();
     setRegeneratingId(entry.id);
     const recipe = pickRandomRecipe(SLOT_MEAL_TYPE[entry.meal_slot] || 'lunch_dinner', [entry.recipe_id]);
     if (recipe) {
@@ -98,12 +101,28 @@ export default function Saved({
     setRegeneratingId(null);
   };
 
+  const handleRemoveEntry = (entryId) => {
+    hapticLight();
+    diary.removeEntry(entryId);
+  };
+
   const handleClearDay = async () => {
     if (!diary || dayEntries.length === 0) return;
     const confirmed = window.confirm(`Clear all ${dayEntries.length} ${dayEntries.length === 1 ? 'entry' : 'entries'} for ${displayDate(selectedDate)}?`);
     if (!confirmed) return;
+    hapticMedium();
     const ok = await diary.clearDay(selectedDate);
     showDayMessage(ok ? 'Day cleared.' : 'Could not clear the day -- try again.');
+  };
+
+  const openRecipe = (r) => {
+    hapticLight();
+    onOpen(r);
+  };
+
+  const shiftDate = (days) => {
+    hapticSelection();
+    onDateChange(shiftDateString(selectedDate, days));
   };
 
   const renderSavedRow = (r) => {
@@ -117,7 +136,7 @@ export default function Saved({
       <div
         key={r.id}
         style={{ background: 'var(--s1)', border: '1px solid var(--border)', borderRadius: 14, padding: 12, marginBottom: 10, cursor: 'pointer' }}
-        onClick={() => onOpen(r)}
+        onClick={() => openRecipe(r)}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <div style={{ flex: 1 }}>
@@ -152,7 +171,7 @@ export default function Saved({
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
           <div className="h1" style={{ marginBottom: 0 }}>Diary</div>
           <div
-            onClick={() => setShowSavedModal(true)}
+            onClick={() => { hapticLight(); setShowSavedModal(true); }}
             title="Saved recipes"
             style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 36, height: 36, borderRadius: 10, background: 'var(--s2)', border: '1px solid var(--border)', cursor: 'pointer' }}
           >
@@ -165,7 +184,7 @@ export default function Saved({
         </div>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginBottom: 16 }}>
           <div
-            onClick={() => onDateChange(shiftDateString(selectedDate, -1))}
+            onClick={() => shiftDate(-1)}
             style={{ width: 36, height: 36, borderRadius: 10, background: 'var(--s2)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'var(--cream)', fontSize: 16, flexShrink: 0 }}
           >
             ‹
@@ -180,7 +199,7 @@ export default function Saved({
             />
           </div>
           <div
-            onClick={() => onDateChange(shiftDateString(selectedDate, 1))}
+            onClick={() => shiftDate(1)}
             style={{ width: 36, height: 36, borderRadius: 10, background: 'var(--s2)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'var(--cream)', fontSize: 16, flexShrink: 0 }}
           >
             ›
@@ -208,7 +227,7 @@ export default function Saved({
             {generatingDay ? 'Picking…' : '✦ Surprise Me'}
           </button>
           <button
-            onClick={() => setShowShoppingList((v) => !v)}
+            onClick={() => { hapticSelection(); setShowShoppingList((v) => !v); }}
             style={{
               flex: 1,
               background: showShoppingList ? 'var(--lime)' : 'var(--s2)',
@@ -264,57 +283,72 @@ export default function Saved({
       </div>
 
       <div className="px">
-        {MEAL_SLOTS.map((slot) => {
-          const slotEntries = dayEntries.filter((e) => e.meal_slot === slot);
-          return (
-            <div key={slot} style={{ marginBottom: 18 }}>
-              <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 8 }}>
-                {MEAL_SLOT_LABELS[slot]}
-              </div>
-              {slotEntries.length === 0 ? (
-                <div style={{ fontSize: 12, color: 'var(--muted)', fontStyle: 'italic' }}>Nothing added yet</div>
-              ) : (
-                slotEntries.map((entry) => {
-                  const r = RECIPES.find((rec) => rec.id === entry.recipe_id);
-                  if (!r) return null;
-                  const isRegenerating = regeneratingId === entry.id;
-                  return (
-                    <div
-                      key={entry.id}
-                      style={{ background: 'var(--s1)', border: '1px solid var(--border)', borderRadius: 14, padding: 12, marginBottom: 8, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, opacity: isRegenerating ? 0.6 : 1 }}
-                      onClick={() => onOpen(r)}
-                    >
-                      <div style={{ flex: 1 }}>
-                        <div style={{ fontWeight: 700, fontSize: 14, color: 'var(--cream)' }}>{r.name}</div>
-                        <div style={{ fontSize: 11, color: 'var(--muted)' }}>
-                          {r.method}{r.method && r.activeTime ? ' · ' : ''}{formatTime(r.activeTime, r.totalTime)}
+        {dayEntries.length === 0 ? (
+          // The whole day is blank -- rather than four empty "Nothing added
+          // yet" slots, point at the two actual ways to fill it. Deliberately
+          // not calorie/nutrition framed (not this app's focus) and not the
+          // "Did you eat yet?" MyFitnessPal line.
+          <div style={{ background: 'var(--s1)', border: '1px solid var(--border)', borderRadius: 16, padding: 24, textAlign: 'center' }}>
+            <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--cream)', marginBottom: 6 }}>
+              Nothing on the books today.
+            </div>
+            <div style={{ fontSize: 13, color: 'var(--muted)', lineHeight: 1.6 }}>
+              Hit Surprise Me above, or head to Kitchen if you already know what you're working with.
+            </div>
+          </div>
+        ) : (
+          MEAL_SLOTS.map((slot) => {
+            const slotEntries = dayEntries.filter((e) => e.meal_slot === slot);
+            return (
+              <div key={slot} style={{ marginBottom: 18 }}>
+                <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 8 }}>
+                  {MEAL_SLOT_LABELS[slot]}
+                </div>
+                {slotEntries.length === 0 ? (
+                  <div style={{ fontSize: 12, color: 'var(--muted)', fontStyle: 'italic' }}>Nothing added yet</div>
+                ) : (
+                  slotEntries.map((entry) => {
+                    const r = RECIPES.find((rec) => rec.id === entry.recipe_id);
+                    if (!r) return null;
+                    const isRegenerating = regeneratingId === entry.id;
+                    return (
+                      <div
+                        key={entry.id}
+                        style={{ background: 'var(--s1)', border: '1px solid var(--border)', borderRadius: 14, padding: 12, marginBottom: 8, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, opacity: isRegenerating ? 0.6 : 1 }}
+                        onClick={() => openRecipe(r)}
+                      >
+                        <div style={{ flex: 1 }}>
+                          <div style={{ fontWeight: 700, fontSize: 14, color: 'var(--cream)' }}>{r.name}</div>
+                          <div style={{ fontSize: 11, color: 'var(--muted)' }}>
+                            {r.method}{r.method && r.activeTime ? ' · ' : ''}{formatTime(r.activeTime, r.totalTime)}
+                          </div>
+                        </div>
+                        <div
+                          onClick={(e) => { e.stopPropagation(); if (!isRegenerating) handleRegenerate(entry); }}
+                          title="Regenerate this meal"
+                          style={{ fontSize: 16, color: 'var(--muted)', padding: 6, cursor: isRegenerating ? 'default' : 'pointer' }}
+                        >
+                          ↻
+                        </div>
+                        <div
+                          onClick={(e) => { e.stopPropagation(); handleRemoveEntry(entry.id); }}
+                          style={{ fontSize: 18, color: 'var(--muted)', padding: 6, cursor: 'pointer' }}
+                        >
+                          ✕
                         </div>
                       </div>
-                      <div
-                        onClick={(e) => { e.stopPropagation(); if (!isRegenerating) handleRegenerate(entry); }}
-                        title="Regenerate this meal"
-                        style={{ fontSize: 16, color: 'var(--muted)', padding: 6, cursor: isRegenerating ? 'default' : 'pointer' }}
-                      >
-                        ↻
-                      </div>
-                      <div
-                        onClick={(e) => { e.stopPropagation(); diary.removeEntry(entry.id); }}
-                        style={{ fontSize: 18, color: 'var(--muted)', padding: 6, cursor: 'pointer' }}
-                      >
-                        ✕
-                      </div>
-                    </div>
-                  );
-                })
-              )}
-            </div>
-          );
-        })}
+                    );
+                  })
+                )}
+              </div>
+            );
+          })
+        )}
       </div>
 
       {showSavedModal && (
         <div
-          onClick={() => setShowSavedModal(false)}
+          onClick={() => { hapticLight(); setShowSavedModal(false); }}
           style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,.6)', zIndex: 70, display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}
         >
           <div
@@ -324,7 +358,7 @@ export default function Saved({
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
               <div className="h1" style={{ marginBottom: 0, fontSize: 18 }}>Saved Recipes</div>
               <div
-                onClick={() => setShowSavedModal(false)}
+                onClick={() => { hapticLight(); setShowSavedModal(false); }}
                 style={{ fontSize: 20, color: 'var(--muted)', cursor: 'pointer', padding: 4 }}
               >
                 ✕
