@@ -233,6 +233,21 @@ export const RECIPES = [
         "name": "Frozen Mixed Veg (steam-bag)",
         "quantity": 75,
         "unit": "g"
+      },
+      {
+        "name": "Garlic Powder (½ tsp)",
+        "quantity": 1.5,
+        "unit": "g"
+      },
+      {
+        "name": "Italian Seasoning (1 tsp)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "Salt (pinch)",
+        "quantity": 0.5,
+        "unit": "g"
       }
     ],
     "toppings": [
@@ -241,7 +256,7 @@ export const RECIPES = [
       "Hot Sauce"
     ],
     "instructions": [
-      "Add beef + canned tomatoes to slow cooker. Break up beef roughly.",
+      "Add beef, canned tomatoes, garlic powder, Italian seasoning, and salt to the slow cooker. Break up beef roughly and stir to combine.",
       "Cook HIGH 2 hrs or LOW 4 hrs.",
       "Microwave rice 90 sec + steam-bag veg 3 min.",
       "Build bowl. Toppings on the side."
@@ -273,6 +288,26 @@ export const RECIPES = [
         "name": "Egg White (carton pour)",
         "quantity": 30,
         "unit": "count"
+      },
+      {
+        "name": "Italian Seasoning (1 tbsp)",
+        "quantity": 3,
+        "unit": "g"
+      },
+      {
+        "name": "Garlic Powder (½ tsp)",
+        "quantity": 1.5,
+        "unit": "g"
+      },
+      {
+        "name": "Grated Parmesan (2 tbsp)",
+        "quantity": 10,
+        "unit": "g"
+      },
+      {
+        "name": "Salt (pinch)",
+        "quantity": 0.5,
+        "unit": "g"
       }
     ],
     "toppings": [
@@ -280,7 +315,7 @@ export const RECIPES = [
       "Shredded Mozzarella"
     ],
     "instructions": [
-      "Mix turkey, breadcrumbs, egg white carton pour, and Italian seasoning shaker in bowl.",
+      "Mix turkey, breadcrumbs, egg white, Italian seasoning, garlic powder, parmesan, and salt in a bowl until just combined.",
       "Roll into ~1.5-inch balls onto foil-lined baking sheet.",
       "Bake 400°F for 18–20 min.",
       "Add sauce and cheese as separate toppings."
@@ -408,7 +443,7 @@ export const RECIPES = [
   },
   {
     "id": 11,
-    "name": "Kodiak Protein Pancakes",
+    "name": "Protein Pancakes",
     "method": "Stovetop",
     "mealType": "breakfast",
     "proteins": [
@@ -418,7 +453,7 @@ export const RECIPES = [
     "activeTime": 8,
     "components": [
       {
-        "name": "Kodiak Cakes Mix (dry 1 cup)",
+        "name": "Protein Pancake Mix (dry 1 cup)",
         "quantity": 100,
         "unit": "g"
       },
@@ -443,7 +478,7 @@ export const RECIPES = [
       "Nut Butter (1 tbsp)"
     ],
     "instructions": [
-      "Mix Kodiak mix + egg + almond milk + honey in bowl until smooth.",
+      "Mix pancake mix + egg + almond milk + honey in bowl until smooth.",
       "Spray skillet and heat medium. Pour ⅓ cup batter per pancake. Cook 2 min per side.",
       "Stack on plate — syrup on the side."
     ]
@@ -1440,7 +1475,7 @@ export const RECIPES = [
     "activeTime": 2,
     "components": [
       {
-        "name": "Bumble Bee Salmon Pouch (6 oz)",
+        "name": "Salmon Pouch (6 oz)",
         "quantity": 170,
         "unit": "g"
       },
@@ -1764,7 +1799,7 @@ export const RECIPES = [
     "activeTime": 1,
     "components": [
       {
-        "name": "Jack Links Teriyaki Beef Jerky (1 oz)",
+        "name": "Teriyaki Beef Jerky (1 oz)",
         "quantity": 28,
         "unit": "g"
       },
@@ -1904,7 +1939,7 @@ export const RECIPES = [
     "activeTime": 3,
     "components": [
       {
-        "name": "King Oscar Sardines in Olive Oil (1 tin, drained)",
+        "name": "Sardines in Olive Oil (1 tin, drained)",
         "quantity": 85,
         "unit": "g"
       },
@@ -2173,15 +2208,29 @@ export const RECIPES = [
         "name": "Pickle Slices (jar, 2 tbsp)",
         "quantity": 30,
         "unit": "g"
+      },
+      {
+        "name": "Salt (pinch)",
+        "quantity": 0.5,
+        "unit": "g"
+      },
+      {
+        "name": "Black Pepper (pinch)",
+        "quantity": 0.5,
+        "unit": "g"
+      },
+      {
+        "name": "Onion Powder (pinch)",
+        "quantity": 0.5,
+        "unit": "g"
       }
     ],
     "toppings": [
-      "Mayonnaise",
-      "Onion Powder"
+      "Mayonnaise"
     ],
     "instructions": [
       "Heat cast iron skillet screaming hot (~400°F).",
-      "Roll beef into ball. Place on skillet and immediately smash flat with spatula.",
+      "Roll beef into a ball and season all over with salt, pepper, and onion powder. Place on skillet and immediately smash flat with spatula.",
       "Cook 2 min without moving. Flip, add cheese, cook 1 min.",
       "Toast bun lightly. Build burger with ketchup, mustard, pickles."
     ]
@@ -3128,13 +3177,8 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
-        "name": "Garlic Powder (½ tsp)",
-        "quantity": 1.5,
-        "unit": "g"
-      },
-      {
-        "name": "Salt (pinch)",
-        "quantity": 0.1,
+        "name": "Taco Seasoning (1 tbsp)",
+        "quantity": 8,
         "unit": "g"
       }
     ],
@@ -3144,14 +3188,14 @@ export const RECIPES = [
     ],
     "instructions": [
       "Microwave frozen sweet potato cubes 5 min (or air fry 12 min at 400°F if using pre-cut frozen).",
-      "Heat skillet over medium-high. Brown ground beef 4–5 min, breaking it up. Season with garlic powder + salt.",
-      "Build bowl: sweet potato base, beef on top, cottage cheese dollop.",
+      "Heat skillet over medium-high. Brown ground beef 4–5 min, breaking it up. Stir in taco seasoning + 2 tbsp water, simmer 1 minute.",
+      "Build bowl: sweet potato base, seasoned beef on top, cottage cheese dollop.",
       "Squeeze avocado + drizzle hot honey generously over top. Toppings on side."
     ]
   },
   {
     "id": 72,
-    "name": "Viral Baked Feta Pasta",
+    "name": "Baked Feta Pasta",
     "method": "Bake",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -3288,7 +3332,7 @@ export const RECIPES = [
   },
   {
     "id": 75,
-    "name": "Marry Me Chicken",
+    "name": "Creamy Sun-Dried Tomato Chicken",
     "method": "Slow Cooker",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -3344,7 +3388,7 @@ export const RECIPES = [
   },
   {
     "id": 76,
-    "name": "Viral Cucumber Tuna Salad",
+    "name": "Cucumber Tuna Salad",
     "method": "No Cook",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -3384,7 +3428,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Momofuku Chili Crisp (1 tsp)",
+        "name": "Chili Crisp (1 tsp)",
         "quantity": 5,
         "unit": "g"
       }
@@ -3935,7 +3979,7 @@ export const RECIPES = [
   },
   {
     "id": 87,
-    "name": "Dan Dan Noodles (EZ Version)",
+    "name": "Quick Dan Dan Noodles",
     "method": "Stovetop",
     "mealType": "lunch_dinner",
     "proteins": [
@@ -3955,7 +3999,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Momofuku Chili Crisp (2 tbsp)",
+        "name": "Chili Crisp (2 tbsp)",
         "quantity": 30,
         "unit": "g"
       },
@@ -4007,7 +4051,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Lee Kum Kee Beef & Broccoli Sauce (bottled, 3 tbsp)",
+        "name": "Beef & Broccoli Stir-Fry Sauce (bottled, 3 tbsp)",
         "quantity": 45,
         "unit": "ml"
       },
@@ -4038,7 +4082,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Heat oil in skillet over medium-high. Brown beef 4–5 min, breaking it up.",
-      "Add Lee Kum Kee sauce + frozen broccoli + garlic powder. Simmer 3 min.",
+      "Add stir-fry sauce + frozen broccoli + garlic powder. Simmer 3 min.",
       "Microwave rice 90 sec. Build bowl — toppings on side."
     ]
   },
@@ -4129,6 +4173,16 @@ export const RECIPES = [
         "name": "Garlic Powder (seasoning)",
         "quantity": 2,
         "unit": "g"
+      },
+      {
+        "name": "Cumin (shaker)",
+        "quantity": 1,
+        "unit": "g"
+      },
+      {
+        "name": "Smoked Paprika (shaker)",
+        "quantity": 1,
+        "unit": "g"
       }
     ],
     "toppings": [
@@ -4138,7 +4192,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Heat pan over medium. Add jar onions and cook 2 min until softened and fragrant.",
-      "Pour in the marinara sauce. Stir in garlic powder and onion powder. Simmer 3 min.",
+      "Pour in the marinara sauce. Stir in garlic powder, onion powder, cumin, and smoked paprika. Simmer 3 min.",
       "Create 4 wells in the sauce using a spoon. Crack one egg into each well.",
       "Cover pan with lid. Cook 5-7 min until whites are set but yolks still slightly runny. Crumble feta over top. Serve with sourdough for dipping."
     ]
