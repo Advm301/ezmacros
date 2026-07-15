@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from './lib/supabase';
 import useSavedRecipes from './hooks/useSavedRecipes';
 import useRecipeRatings from './hooks/useRecipeRatings';
+import useDiary from './hooks/useDiary';
 import Login from './pages/Login';
 import Kitchen from './pages/Kitchen';
 import Browse from './pages/Browse';
@@ -50,6 +51,7 @@ export default function App() {
     updateInstructionOverride,
   } = useSavedRecipes();
   const { getRatingSummary, getMyRatingEntry, rateRecipe } = useRecipeRatings(session?.user?.id);
+  const diary = useDiary(session?.user?.id);
 
   useEffect(() => {
     // Check for existing session on mount
@@ -135,7 +137,7 @@ export default function App() {
         {/* Page content */}
         {tab === "kitchen" && <Kitchen onOpen={setOpenRecipe} getRatingSummary={getRatingSummary} />}
         {tab === "browse" && <Browse onOpen={setOpenRecipe} isSaved={isSaved} toggleSaved={toggleSaved} getRatingSummary={getRatingSummary} />}
-        {tab === "saved" && <Saved saved={saved} isSaved={isSaved} toggleSaved={toggleSaved} onOpen={setOpenRecipe} getRatingSummary={getRatingSummary} />}
+        {tab === "saved" && <Saved saved={saved} isSaved={isSaved} toggleSaved={toggleSaved} onOpen={setOpenRecipe} getRatingSummary={getRatingSummary} diary={diary} />}
 
         {/* Bottom nav */}
         <div style={{position: "fixed", bottom: 0, left: "50%", transform: "translateX(-50%)", width: "100%", maxWidth: 430, background: "#000", borderTop: "1px solid var(--border)", display: "flex", zIndex: 20}}>
@@ -163,6 +165,7 @@ export default function App() {
           ratingSummary={getRatingSummary(openRecipe.id)}
           myRatingEntry={getMyRatingEntry(openRecipe.id)}
           onRate={rateRecipe}
+          onAddToDiary={diary.addEntry}
         />
       )}
     </>

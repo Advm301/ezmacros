@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import StarIcon from './StarIcon';
 import StarRating from './StarRating';
+import { MEAL_SLOTS, MEAL_SLOT_LABELS, todayString } from '../hooks/useDiary';
 
 const GRAMS_PER_OZ = 28.3495;
 const ML_PER_FLOZ = 29.5735;
@@ -77,6 +78,12 @@ function amountToQuantity(amount, unit, name, displayMode) {
   return amount;
 }
 
+function formatRatedAt(isoString) {
+  if (!isoString) return '';
+  const d = new Date(isoString);
+  return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
 export default function RecipeModal({
   recipe,
   onClose,
@@ -89,6 +96,7 @@ export default function RecipeModal({
   ratingSummary,
   myRatingEntry,
   onRate,
+  onAddToDiary,
 }) {
   // Rendered with key={recipe.id} by the parent, so this component remounts
   // fresh (and all local state below resets naturally) whenever a different
@@ -103,6 +111,9 @@ export default function RecipeModal({
   const [madeIt, setMadeIt] = useState(Boolean(myRatingEntry?.rating));
   const [photoFile, setPhotoFile] = useState(null);
   const [photoPreview, setPhotoPreview] = useState(myRatingEntry?.photoUrl || null);
+  const [diaryOpen, setDiaryOpen] = useState(false);
+  const [diaryDate, setDiaryDate] = useState(todayString());
+  const [diaryConfirmation, setDiaryConfirmation] = useState('');
 
   if (!recipe) return null;
   const r = recipe;
@@ -170,6 +181,13 @@ export default function RecipeModal({
     if (onRate && myRatingEntry?.rating) {
       onRate(r.id, myRatingEntry.rating, file);
     }
+  };
+
+  const handleAddToDiary = (slot) => {
+    if (!onAddToDiary) return;
+    onAddToDiary(r.id, diaryDate, slot);
+    const dateLabel = diaryDate === todayString() ? 'today' : diaryDate;
+    setDiaryConfirmation(`Added to ${MEAL_SLOT_LABELS[slot]} for ${dateLabel}.`);
   };
 
   return (
@@ -245,6 +263,11 @@ export default function RecipeModal({
               <>
                 <div style={{ fontSize: 11, color: 'var(--muted)', marginBottom: 4 }}>Your rating — tap a star</div>
                 <StarRating value={myRatingEntry?.rating || 0} onRate={handleRate} size={26} />
+                {myRatingEntry?.ratedAt && (
+                  <div style={{ fontSize: 11, color: 'var(--muted)', marginTop: 4 }}>
+                    You rated this on {formatRatedAt(myRatingEntry.ratedAt)}
+                  </div>
+                )}
 
                 <div style={{ marginTop: 12 }}>
                   <div style={{ fontSize: 11, color: 'var(--muted)', marginBottom: 6 }}>Add a photo (optional)</div>
@@ -264,6 +287,41 @@ export default function RecipeModal({
                   />
                 </div>
               </>
+            )}
+          </div>
+        )}
+
+        {/* Diary */}
+        {onAddToDiary && (
+          <div style={{ marginBottom: 16 }}>
+            <button
+              onClick={() => setDiaryOpen((v) => !v)}
+              style={{ width: '100%', background: 'var(--s2)', border: '1px solid var(--border)', color: 'var(--cream)', borderRadius: 13, padding: 12, fontSize: 14, fontWeight: 700, fontFamily: "'Manrope',sans-serif", cursor: 'pointer' }}
+            >
+              {diaryOpen ? 'Close' : '+ Add to Diary'}
+            </button>
+
+            {diaryOpen && (
+              <div style={{ marginTop: 10, background: 'var(--s1)', border: '1px solid var(--border)', borderRadius: 12, padding: 12 }}>
+                <div style={{ fontSize: 11, color: 'var(--muted)', marginBottom: 6 }}>Date</div>
+                <input
+                  type="date"
+                  value={diaryDate}
+                  onChange={(e) => { if (e.target.value) { setDiaryDate(e.target.value); setDiaryConfirmation(''); } }}
+                  style={{ background: 'var(--s2)', border: '1px solid var(--border)', borderRadius: 8, color: 'var(--cream)', fontSize: 13, padding: '6px 10px', marginBottom: 10 }}
+                />
+                <div style={{ fontSize: 11, color: 'var(--muted)', marginBottom: 6 }}>Add to</div>
+                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                  {MEAL_SLOTS.map((slot) => (
+                    <div key={slot} className="pill" onClick={() => handleAddToDiary(slot)}>
+                      {MEAL_SLOT_LABELS[slot]}
+                    </div>
+                  ))}
+                </div>
+                {diaryConfirmation && (
+                  <div style={{ fontSize: 12, color: 'var(--lime)', marginTop: 8 }}>{diaryConfirmation}</div>
+                )}
+              </div>
             )}
           </div>
         )}

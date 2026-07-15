@@ -13,7 +13,7 @@ export default function useRecipeRatings(userId) {
   const refresh = useCallback(async () => {
     const { data, error } = await supabase
       .from('recipe_ratings')
-      .select('recipe_id, rating, user_id, photo_url');
+      .select('recipe_id, rating, user_id, photo_url, created_at');
 
     if (error) {
       console.error('Error loading recipe ratings:', error);
@@ -29,7 +29,7 @@ export default function useRecipeRatings(userId) {
       sums[id].total += row.rating;
       sums[id].count += 1;
       if (userId && row.user_id === userId) {
-        mine[id] = { rating: row.rating, photoUrl: row.photo_url || null };
+        mine[id] = { rating: row.rating, photoUrl: row.photo_url || null, ratedAt: row.created_at };
       }
     }
 
