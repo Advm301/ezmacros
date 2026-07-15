@@ -71,17 +71,23 @@ export default function Kitchen({ onOpen }) {
       <div className="px pt">
         <div className="h1">What Can I Make?</div>
         <div className="sub" style={{ marginBottom: 14 }}>
-          Pick a meal, a protein, and (optionally) a flavor — get quick recipes.
+          Pick a meal type (or all), a protein, and (optionally) a flavor — get quick recipes.
         </div>
 
         <div className="filter-sec">
           <div className="filter-label">Meal Type</div>
           <div className="scroll-row">
+            <div
+              className={`pill ${mealType === null ? 'active' : ''}`}
+              onClick={() => setMealType(null)}
+            >
+              All Meals
+            </div>
             {MEAL_TYPES.map((m) => (
               <div
                 key={m.label}
                 className={`pill ${mealType === m.label ? 'active' : ''}`}
-                onClick={() => setMealType(mealType === m.label ? null : m.label)}
+                onClick={() => setMealType(m.label)}
               >
                 {m.label}
               </div>
@@ -140,14 +146,9 @@ export default function Kitchen({ onOpen }) {
           </div>
         </div>
 
-        <button className="gen-kitchen-btn" onClick={handleFindRecipes} disabled={!mealType}>
+        <button className="gen-kitchen-btn" onClick={handleFindRecipes}>
           ✦ Find Recipes
         </button>
-        {!mealType && (
-          <div style={{ fontSize: 11, color: 'var(--muted)', textAlign: 'center', marginTop: -8, marginBottom: 8 }}>
-            Pick a meal type to get started
-          </div>
-        )}
       </div>
 
       {results !== null && (
