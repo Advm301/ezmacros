@@ -4,13 +4,15 @@ import useSavedRecipes from './hooks/useSavedRecipes';
 import useRecipeRatings from './hooks/useRecipeRatings';
 import useDiary, { todayString } from './hooks/useDiary';
 import { getGreeting } from './utils/greeting';
-import { hapticSelection, hapticMedium, hapticSuccess } from './utils/haptics';
+import { hapticSelection, hapticLight, hapticMedium, hapticSuccess } from './utils/haptics';
+import { BETA_MODE, APP_VERSION } from './config';
 import appIconImg from './assets/app-icon.png';
 import Login from './pages/Login';
 import Kitchen from './pages/Kitchen';
 import Browse from './pages/Browse';
 import Saved from './pages/Saved';
 import RecipeModal from './components/RecipeModal';
+import FeedbackModal from './components/FeedbackModal';
 import './styles/globals.css';
 
 function KitchenIcon() {
@@ -39,6 +41,15 @@ function SavedIcon() {
   );
 }
 
+// Speech-bubble icon for the floating beta feedback button.
+function FeedbackIcon() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 5h16v11H8l-4 4V5z" />
+    </svg>
+  );
+}
+
 // App icon -- the real designed icon (meal-prep container with a
 // lightning bolt), used in the header logo slot as a white silhouette so
 // it blends directly into the teal header instead of sitting in a boxed
@@ -56,6 +67,7 @@ export default function App() {
   const [openRecipe, setOpenRecipe] = useState(null);
   const [toast, setToast] = useState(null);
   const [savedDate, setSavedDate] = useState(todayString());
+  const [showFeedback, setShowFeedback] = useState(false);
   const {
     saved,
     isSaved,
@@ -158,6 +170,28 @@ export default function App() {
     return ok;
   };
 
+  // Beta-only: writes a feedback submission tied to the signed-in user,
+  // whichever tab they were on, and the deployed build's git short SHA
+  // (APP_VERSION) so a report can be matched to the exact build it came
+  // from. Returns true/false so the modal can show success or let the
+  // person retry.
+  const handleSendFeedback = async (message) => {
+    if (!session?.user) return false;
+    const { error } = await supabase.from('feedback').insert({
+      user_id: session.user.id,
+      user_email: session.user.email,
+      message,
+      screen: tab,
+      app_version: APP_VERSION,
+    });
+    if (error) {
+      console.error('Error sending feedback:', error);
+      return false;
+    }
+    hapticSuccess();
+    return true;
+  };
+
   if (loading) {
     return (
       <div style={{
@@ -200,8 +234,15 @@ export default function App() {
               <AppIcon />
             </div>
             <div>
-              <div style={{fontFamily: "'Manrope',sans-serif", fontSize: 20, fontWeight: 800, color: "var(--cream)", lineHeight: 1.1}}>
-                QuickPrep
+              <div style={{display: "flex", alignItems: "center", gap: 6}}>
+                <div style={{fontFamily: "'Manrope',sans-serif", fontSize: 20, fontWeight: 800, color: "var(--cream)", lineHeight: 1.1}}>
+                  QuickPrep
+                </div>
+                {BETA_MODE && (
+                  <span style={{fontSize: 10, fontWeight: 700, color: "#000", background: "var(--lime)", borderRadius: 100, padding: "2px 7px", letterSpacing: 0.5}}>
+                    BETA
+                  </span>
+                )}
               </div>
               <div style={{fontSize: 11, color: "var(--muted)", marginTop: 2}}>
                 {greeting}
@@ -261,6 +302,38 @@ export default function App() {
           ))}
         </div>
 
+        {/* Beta feedback button -- floating, above the bottom nav, visible
+            on every tab since it lives in the persistent app shell rather
+            than any one page. Aligned to the same centered column as the
+            bottom nav so it lines up correctly on wide viewports too. */}
+        {BETA_MODE && (
+          <div style={{position: "fixed", bottom: 0, left: "50%", transform: "translateX(-50%)", width: "100%", maxWidth: 430, height: 0, zIndex: 50, pointerEvents: "none"}}>
+            <button
+              onClick={() => { hapticLight(); setShowFeedback(true); }}
+              title="Send feedback"
+              style={{
+                position: "absolute",
+                right: 18,
+                bottom: 76,
+                width: 48,
+                height: 48,
+                borderRadius: "50%",
+                background: "var(--lime)",
+                color: "#000",
+                border: "none",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                boxShadow: "0 4px 14px rgba(0,0,0,.35)",
+                cursor: "pointer",
+                pointerEvents: "auto",
+              }}
+            >
+              <FeedbackIcon />
+            </button>
+          </div>
+        )}
+
         {/* Toast */}
         {toast && (
           <div
@@ -302,6 +375,13 @@ export default function App() {
           onRate={rateRecipe}
           getPhotoSignedUrl={getPhotoSignedUrl}
           onAddToDiary={handleAddToDiary}
+        />
+      )}
+
+      {showFeedback && (
+        <FeedbackModal
+          onClose={() => setShowFeedback(false)}
+          onSubmit={handleSendFeedback}
         />
       )}
     </>
