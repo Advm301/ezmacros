@@ -1,10 +1,19 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { RECIPES } from '../data/recipes.js';
 import StarIcon from '../components/StarIcon';
 import { MEAL_SLOTS, MEAL_SLOT_LABELS, todayString, formatDateString } from '../hooks/useDiary';
 import { formatTime } from '../utils/time';
 import { buildShoppingList, formatShoppingQuantity } from '../utils/shoppingList';
+import { computeLoggingStreak } from '../utils/streak';
 import { hapticSelection, hapticLight, hapticMedium } from '../utils/haptics';
+
+function FlameIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 2c1.2 3.2-2.8 4.3-2.8 8.2a2.8 2.8 0 0 0 5.6 0c0-1-0.9-1.9-0.9-2.9 2 1 3.1 3 3.1 5.7a5 5 0 0 1-10 0c0-5.2 3.3-7.3 5-11z" />
+    </svg>
+  );
+}
 
 // Maps a diary meal slot to the recipe mealType pool it should draw random
 // picks from. Lunch and Dinner share the same 'lunch_dinner' pool.
@@ -60,6 +69,8 @@ export default function Saved({
   const savedRecipes = RECIPES.filter((r) => savedIds.includes(String(r.id)));
 
   const dayEntries = diary ? diary.getEntriesForDate(selectedDate) : [];
+
+  const streak = useMemo(() => computeLoggingStreak(diary?.entries || []), [diary]);
 
   const showDayMessage = (msg) => {
     setDayMessage(msg);
@@ -181,7 +192,18 @@ export default function Saved({
     <div style={{ paddingBottom: 20 }}>
       <div className="px pt">
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-          <div className="h1" style={{ marginBottom: 0 }}>Diary</div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div className="h1" style={{ marginBottom: 0 }}>Diary</div>
+            {streak > 0 && (
+              <div
+                title="Consecutive days with something logged"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 5, background: 'var(--s2)', border: '1px solid var(--border)', borderRadius: 100, padding: '4px 10px', color: 'var(--lime)' }}
+              >
+                <FlameIcon />
+                <span style={{ fontSize: 12, fontWeight: 700 }}>{streak} day{streak === 1 ? '' : 's'}</span>
+              </div>
+            )}
+          </div>
           <div
             onClick={() => { hapticLight(); setShowSavedModal(true); }}
             title="Saved recipes"
