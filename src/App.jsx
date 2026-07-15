@@ -257,9 +257,13 @@ export default function App() {
               style={{
                 // var(--s2)/s3 are translucent white overlays meant to sit
                 // on the app's near-black background -- against the solid
-                // teal header they read as barely-there. Opaque fill here
-                // instead so the button is clearly visible.
-                background: "#052d37",
+                // teal header they read as barely-there. The first retry
+                // used an opaque dark teal-blue, but that's still close
+                // enough in hue/brightness to the header's own teal to
+                // look like a faint shadow rather than a distinct button.
+                // Pure near-black (matching the bottom nav's solid #000)
+                // gives real contrast against the teal.
+                background: "#000",
                 border: "1px solid var(--border)",
                 color: "var(--cream)",
                 borderRadius: 8,
