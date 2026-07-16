@@ -17,7 +17,7 @@ function loadJSON(key, fallback) {
 }
 
 function blankCustomization() {
-  return { notes: '', ingredientOverrides: {}, instructionOverrides: {} };
+  return { notes: '', ingredientOverrides: {}, instructionOverrides: {}, stepNotes: {} };
 }
 
 // Computed once and memoized (not on every render) -- older versions of
@@ -138,6 +138,25 @@ export default function useSavedRecipes() {
     });
   };
 
+  // A per-step comment jotted while actually cooking ("used low-sodium
+  // sauce", "needed 2 extra minutes") -- separate from the single
+  // end-of-recipe notes field, and separate from instructionOverrides
+  // (which rewrites the instruction text itself). Same reasoning as
+  // updateNotes: this is exactly the kind of thing you'd want to find
+  // again later, so writing one auto-saves the recipe too.
+  const updateStepNote = (id, index, text) => {
+    setCustomizations((prev) => {
+      const entry = prev[id] || blankCustomization();
+      return {
+        ...prev,
+        [id]: { ...entry, stepNotes: { ...entry.stepNotes, [index]: text } },
+      };
+    });
+    if (text && text.trim().length > 0) {
+      setSaved((prev) => (prev[id] ? prev : { ...prev, [id]: { savedAt: Date.now() } }));
+    }
+  };
+
   return {
     saved,
     isSaved,
@@ -146,5 +165,6 @@ export default function useSavedRecipes() {
     updateNotes,
     updateIngredientOverride,
     updateInstructionOverride,
+    updateStepNote,
   };
 }

@@ -77,6 +77,7 @@ export default function App() {
     updateNotes,
     updateIngredientOverride,
     updateInstructionOverride,
+    updateStepNote,
   } = useSavedRecipes();
   const { getRatingSummary, getMyRatingEntry, rateRecipe, getPhotoSignedUrl } = useRecipeRatings(session?.user?.id);
   const diary = useDiary(session?.user?.id);
@@ -416,6 +417,7 @@ export default function App() {
           onUpdateNotes={updateNotes}
           onUpdateIngredientOverride={updateIngredientOverride}
           onUpdateInstructionOverride={updateInstructionOverride}
+          onUpdateStepNote={updateStepNote}
           ratingSummary={getRatingSummary(openRecipe.id)}
           myRatingEntry={getMyRatingEntry(openRecipe.id)}
           onRate={rateRecipe}

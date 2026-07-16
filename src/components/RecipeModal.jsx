@@ -115,6 +115,7 @@ export default function RecipeModal({
   onUpdateNotes,
   onUpdateIngredientOverride,
   onUpdateInstructionOverride,
+  onUpdateStepNote,
   ratingSummary,
   myRatingEntry,
   onRate,
@@ -136,6 +137,8 @@ export default function RecipeModal({
   const [unitModes, setUnitModes] = useState({});
   const [editingStepIndex, setEditingStepIndex] = useState(null);
   const [editingStepValue, setEditingStepValue] = useState('');
+  const [editingStepNoteIndex, setEditingStepNoteIndex] = useState(null);
+  const [editingStepNoteValue, setEditingStepNoteValue] = useState('');
   const [notesValue, setNotesValue] = useState(entry?.notes || '');
   const [madeIt, setMadeIt] = useState(false);
   const [photoFile, setPhotoFile] = useState(null);
@@ -254,6 +257,21 @@ export default function RecipeModal({
     if (onUpdateNotes) onUpdateNotes(r.id, notesValue);
   };
 
+  // Per-step comments, separate from the single end-of-recipe notes field
+  // above and from instructionOverrides (which rewrites the step text
+  // itself) -- this is for jotting something about a specific step while
+  // actually cooking it ("used low-sodium sauce here").
+  const startEditingStepNote = (i, existing) => {
+    hapticSelection();
+    setEditingStepNoteIndex(i);
+    setEditingStepNoteValue(existing || '');
+  };
+
+  const commitStepNote = (i) => {
+    if (onUpdateStepNote) onUpdateStepNote(r.id, i, editingStepNoteValue);
+    setEditingStepNoteIndex(null);
+  };
+
   const handleRate = (n) => {
     // Ratings are one-shot: once a rating exists, this control isn't shown
     // any more (see the read-only branch below), but guard here too in case
@@ -319,7 +337,7 @@ export default function RecipeModal({
   // hijack vertical scrolling. Tap buttons remain the primary, reliable way
   // to navigate; this is purely a nice-to-have on top.
   const handleTouchStart = (e) => {
-    if (editingIngredientIndex !== null || editingStepIndex !== null) {
+    if (editingIngredientIndex !== null || editingStepIndex !== null || editingStepNoteIndex !== null) {
       touchStartRef.current = null;
       return;
     }
@@ -345,6 +363,52 @@ export default function RecipeModal({
     } else if (screen === 'cook') {
       goPrevCookPage();
     }
+  };
+
+  // Shared between the decide screen (plan a meal ahead of cooking it) and
+  // the final rating page (log it right after making it) -- same
+  // diaryOpen/diaryDate state either way, so opening it from one place and
+  // then navigating away and back still remembers the picker's state.
+  const renderAddToDiaryBlock = () => {
+    if (!onAddToDiary) return null;
+    return (
+      <div style={{ marginBottom: 16 }}>
+        <button
+          onClick={() => { hapticLight(); setDiaryOpen((v) => !v); }}
+          style={{ width: '100%', background: 'var(--s2)', border: '1px solid var(--border)', color: 'var(--cream)', borderRadius: 13, padding: 12, fontSize: 14, fontWeight: 700, fontFamily: "'Manrope',sans-serif", cursor: 'pointer' }}
+        >
+          {diaryOpen ? 'Close' : '+ Add to Diary'}
+        </button>
+
+        {diaryOpen && (
+          <div style={{ marginTop: 10, background: 'var(--s1)', border: '1px solid var(--border)', borderRadius: 12, padding: 12 }}>
+            <div style={{ fontSize: 11, color: 'var(--muted)', marginBottom: 6 }}>Date</div>
+            <input
+              type="date"
+              value={diaryDate}
+              onChange={(e) => { if (e.target.value) setDiaryDate(e.target.value); }}
+              style={{ background: 'var(--s2)', border: '1px solid var(--border)', borderRadius: 8, color: 'var(--cream)', fontSize: 13, padding: '6px 10px', marginBottom: 10 }}
+            />
+            <div style={{ fontSize: 11, color: 'var(--muted)', marginBottom: 6 }}>Add to</div>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', opacity: addingToDiary ? 0.6 : 1 }}>
+              {MEAL_SLOTS.map((slot) => (
+                <div
+                  key={slot}
+                  className="pill"
+                  onClick={() => { if (!addingToDiary) handleAddToDiary(slot); }}
+                  style={{ cursor: addingToDiary ? 'default' : 'pointer' }}
+                >
+                  {MEAL_SLOT_LABELS[slot]}
+                </div>
+              ))}
+            </div>
+            {diaryError && (
+              <div style={{ fontSize: 12, color: '#ff8080', marginTop: 8 }}>{diaryError}</div>
+            )}
+          </div>
+        )}
+      </div>
+    );
   };
 
   const renderRatingBlock = () => (
@@ -515,6 +579,42 @@ export default function RecipeModal({
               Coming up: {nextPreview}
             </div>
           )}
+
+          {/* Per-step comment -- separate from the single end-of-recipe
+              Notes page, for jotting something about this specific step
+              while it's actually in front of you ("used low-sodium sauce",
+              "needed 2 extra minutes"). */}
+          <div style={{ marginTop: 14 }}>
+            {editingStepNoteIndex === i ? (
+              <textarea
+                autoFocus
+                value={editingStepNoteValue}
+                onChange={(e) => setEditingStepNoteValue(e.target.value)}
+                onBlur={() => commitStepNote(i)}
+                placeholder="Add a note for this step..."
+                style={{ width: '100%', minHeight: 60, background: 'var(--s2)', border: '1px solid var(--border)', borderRadius: 8, padding: 10, color: 'var(--cream)', fontSize: 13, fontFamily: "'Manrope',sans-serif", lineHeight: 1.5, resize: 'vertical', boxSizing: 'border-box' }}
+              />
+            ) : entry?.stepNotes?.[i] ? (
+              <div
+                onClick={() => startEditingStepNote(i, entry.stepNotes[i])}
+                style={{ background: 'var(--s1)', border: '1px solid var(--border)', borderRadius: 8, padding: '8px 10px', cursor: 'pointer' }}
+              >
+                <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 2 }}>
+                  Your Note
+                </div>
+                <div style={{ fontSize: 12.5, color: 'var(--cream)', lineHeight: 1.5 }}>
+                  {entry.stepNotes[i]}
+                </div>
+              </div>
+            ) : (
+              <div
+                onClick={() => startEditingStepNote(i, '')}
+                style={{ fontSize: 12, color: 'var(--muted)', textDecoration: 'underline', cursor: 'pointer', display: 'inline-block' }}
+              >
+                + Add a note for this step
+              </div>
+            )}
+          </div>
         </div>
       );
     }
@@ -574,6 +674,11 @@ export default function RecipeModal({
             Rate the recipe now that you've made it.
           </div>
           {renderRatingBlock()}
+
+          {/* Available here too, not just on the decide screen -- logging
+              the meal right after making it means not having to reopen the
+              recipe from scratch to find this button. */}
+          {renderAddToDiaryBlock()}
         </div>
       );
     }
@@ -634,44 +739,7 @@ export default function RecipeModal({
             <>
               {/* Diary -- available regardless of whether you've cooked yet,
                   so you can plan a meal ahead of actually making it. */}
-              {onAddToDiary && (
-                <div style={{ marginBottom: 16 }}>
-                  <button
-                    onClick={() => { hapticLight(); setDiaryOpen((v) => !v); }}
-                    style={{ width: '100%', background: 'var(--s2)', border: '1px solid var(--border)', color: 'var(--cream)', borderRadius: 13, padding: 12, fontSize: 14, fontWeight: 700, fontFamily: "'Manrope',sans-serif", cursor: 'pointer' }}
-                  >
-                    {diaryOpen ? 'Close' : '+ Add to Diary'}
-                  </button>
-
-                  {diaryOpen && (
-                    <div style={{ marginTop: 10, background: 'var(--s1)', border: '1px solid var(--border)', borderRadius: 12, padding: 12 }}>
-                      <div style={{ fontSize: 11, color: 'var(--muted)', marginBottom: 6 }}>Date</div>
-                      <input
-                        type="date"
-                        value={diaryDate}
-                        onChange={(e) => { if (e.target.value) setDiaryDate(e.target.value); }}
-                        style={{ background: 'var(--s2)', border: '1px solid var(--border)', borderRadius: 8, color: 'var(--cream)', fontSize: 13, padding: '6px 10px', marginBottom: 10 }}
-                      />
-                      <div style={{ fontSize: 11, color: 'var(--muted)', marginBottom: 6 }}>Add to</div>
-                      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', opacity: addingToDiary ? 0.6 : 1 }}>
-                        {MEAL_SLOTS.map((slot) => (
-                          <div
-                            key={slot}
-                            className="pill"
-                            onClick={() => { if (!addingToDiary) handleAddToDiary(slot); }}
-                            style={{ cursor: addingToDiary ? 'default' : 'pointer' }}
-                          >
-                            {MEAL_SLOT_LABELS[slot]}
-                          </div>
-                        ))}
-                      </div>
-                      {diaryError && (
-                        <div style={{ fontSize: 12, color: '#ff8080', marginTop: 8 }}>{diaryError}</div>
-                      )}
-                    </div>
-                  )}
-                </div>
-              )}
+              {renderAddToDiaryBlock()}
 
               {/* Ingredients */}
               {components.length > 0 && (
@@ -800,17 +868,14 @@ export default function RecipeModal({
             </>
           ) : (
             <>
-              {/* Flame grows with cookProgress across the whole wizard (not
-                  just instruction steps) -- a persistent "you're building
-                  toward something" signal that sits alongside the existing
-                  View All Steps link instead of adding a whole new row. */}
+              {/* Flame grows with cookProgress across the whole wizard --
+                  a persistent "you're building toward something" signal.
+                  No numeric count here on purpose: cookPages also includes
+                  Toppings/Notes/Rating, which aren't "steps" in the recipe
+                  sense, and the instruction page below already shows its
+                  own accurate "Step X of N" using the real step count. */}
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                  <FlameIcon size={14 + cookProgress * 12} />
-                  <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: 1 }}>
-                    {cookStep + 1} of {cookPages.length}
-                  </span>
-                </div>
+                <FlameIcon size={14 + cookProgress * 12} />
                 <div
                   onClick={() => { hapticLight(); setShowAllSteps(true); }}
                   style={{ fontSize: 12, color: 'var(--muted)', textDecoration: 'underline', cursor: 'pointer' }}
