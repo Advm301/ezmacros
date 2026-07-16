@@ -8,7 +8,7 @@
   --cream:#f5f7f6;--muted:rgba(255,255,255,0.62);--muted2:rgba(255,255,255,0.42);
   --orange:#ff8533;--blue:#4db8ff;--pink:#ff6baa;--red:#ff4d4d;
   --ez1:#c9f13a;--ez2:#ffc13a;--ez3:#ff8533;
-  --scale:#a8ff78;--ai:#39ff9a;
+  --scale:#a8ff78;--ai:#39ff9a;--magic:#b388ff;
   --r:16px;--rtag:100px;
 }
 html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-serif;font-size:15px;}
@@ -86,6 +86,26 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
 }
 @media (prefers-reduced-motion: no-preference) {
   .cook-complete-glow{animation:complete-glow-pulse 1.8s ease-in-out .6s infinite;}
+}
+
+/* SURPRISE ME: unique purple/pink "magic" gradient + pulsing glow + a few
+   twinkling sparkles, wherever this button appears, so it reads as a fun
+   wildcard action rather than just another button in the row. */
+.surprise-btn{position:relative;overflow:visible;background:linear-gradient(135deg,var(--magic) 0%,var(--pink) 100%) !important;color:#fff !important;border:1px solid rgba(255,255,255,.3) !important;}
+@media (prefers-reduced-motion: no-preference) {
+  .surprise-btn{animation:surprise-pulse 2.4s ease-in-out infinite;}
+}
+@keyframes surprise-pulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(179,136,255,.45);}
+  50%{box-shadow:0 0 0 7px rgba(179,136,255,0);}
+}
+.surprise-sparkle{position:absolute;color:#fff;pointer-events:none;opacity:0;}
+@media (prefers-reduced-motion: no-preference) {
+  .surprise-sparkle{animation:surprise-twinkle 2.6s ease-in-out infinite;}
+}
+@keyframes surprise-twinkle{
+  0%,100%{opacity:0;transform:scale(.4) rotate(0deg);}
+  50%{opacity:1;transform:scale(1) rotate(20deg);}
 }
 
 /* MACRO CHIPS */

@@ -6,14 +6,8 @@ import { formatTime } from '../utils/time';
 import { buildShoppingList, formatShoppingQuantity } from '../utils/shoppingList';
 import { computeLoggingStreak } from '../utils/streak';
 import { hapticSelection, hapticLight, hapticMedium } from '../utils/haptics';
-
-function FlameIcon() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 2c1.2 3.2-2.8 4.3-2.8 8.2a2.8 2.8 0 0 0 5.6 0c0-1-0.9-1.9-0.9-2.9 2 1 3.1 3 3.1 5.7a5 5 0 0 1-10 0c0-5.2 3.3-7.3 5-11z" />
-    </svg>
-  );
-}
+import FlameIcon from '../components/FlameIcon';
+import SurpriseSparkles from '../components/SurpriseSparkles';
 
 // Maps a diary meal slot to the recipe mealType pool it should draw random
 // picks from. Lunch and Dinner share the same 'lunch_dinner' pool.
@@ -241,25 +235,26 @@ export default function Saved({
         </div>
 
         <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
-          <button
-            onClick={handleSurpriseDay}
-            disabled={generatingDay}
-            style={{
-              flex: 1,
-              background: 'var(--s2)',
-              border: '1px solid var(--border)',
-              color: 'var(--cream)',
-              borderRadius: 13,
-              padding: 12,
-              fontSize: 13,
-              fontWeight: 700,
-              fontFamily: "'Manrope',sans-serif",
-              cursor: generatingDay ? 'default' : 'pointer',
-              opacity: generatingDay ? 0.6 : 1,
-            }}
-          >
-            {generatingDay ? 'Picking…' : '✦ Surprise Me'}
-          </button>
+          <div style={{ position: 'relative', flex: 1 }}>
+            <button
+              onClick={handleSurpriseDay}
+              disabled={generatingDay}
+              className="surprise-btn"
+              style={{
+                width: '100%',
+                borderRadius: 13,
+                padding: 12,
+                fontSize: 13,
+                fontWeight: 700,
+                fontFamily: "'Manrope',sans-serif",
+                cursor: generatingDay ? 'default' : 'pointer',
+                opacity: generatingDay ? 0.6 : 1,
+              }}
+            >
+              {generatingDay ? 'Picking…' : '✦ Surprise Me'}
+            </button>
+            {!generatingDay && <SurpriseSparkles />}
+          </div>
           <button
             onClick={() => { hapticSelection(); setShowShoppingList((v) => !v); }}
             style={{

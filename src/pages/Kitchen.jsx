@@ -4,6 +4,7 @@ import { PANTRY_STAPLES } from '../data/pantryStaples.js';
 import { formatTime } from '../utils/time';
 import { hapticSelection, hapticLight, hapticMedium } from '../utils/haptics';
 import PantryPickerModal from '../components/PantryPickerModal';
+import SurpriseSparkles from '../components/SurpriseSparkles';
 
 const MEAL_TYPES = [
   { label: 'Breakfast', value: 'breakfast' },
@@ -381,13 +382,16 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
           <button className="gen-kitchen-btn" style={{ flex: 1, marginBottom: 0 }} onClick={handleFindRecipes}>
             ✦ Find Recipes
           </button>
-          <button
-            className="gen-kitchen-btn"
-            style={{ flex: 1, marginBottom: 0, background: 'var(--s2)', color: 'var(--cream)' }}
-            onClick={handleSurpriseMe}
-          >
-            ✦ Surprise Me
-          </button>
+          <div style={{ position: 'relative', flex: 1 }}>
+            <button
+              className="gen-kitchen-btn surprise-btn"
+              style={{ width: '100%', marginBottom: 0 }}
+              onClick={handleSurpriseMe}
+            >
+              ✦ Surprise Me
+            </button>
+            <SurpriseSparkles />
+          </div>
         </div>
       </div>
 
