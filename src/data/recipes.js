@@ -3841,10 +3841,11 @@ export const RECIPES = [
     "mealType": "breakfast",
     "proteins": [
       "dairy",
-      "eggs"
+      "eggs",
+      "turkey"
     ],
     "flavor": "neutral",
-    "activeTime": 3,
+    "activeTime": 5,
     "tags": [
       "high_protein",
       "grab_and_go"
@@ -3861,24 +3862,36 @@ export const RECIPES = [
         "unit": "count"
       },
       {
-        "name": "Vanilla Extract (½ tsp, optional sweetness)",
-        "quantity": 2,
+        "name": "Deli Turkey (4 slices)",
+        "quantity": 80,
+        "unit": "g"
+      },
+      {
+        "name": "Baby Spinach (1 cup)",
+        "quantity": 30,
+        "unit": "g"
+      },
+      {
+        "name": "Dijon Mustard (1 tbsp)",
+        "quantity": 10,
         "unit": "g"
       }
     ],
     "toppings": [
-      "Marinara (¼ cup for pizza version)",
-      "Shredded Mozzarella (½ cup for pizza)"
+      "Everything Bagel Seasoning",
+      "Hot Sauce (optional)"
     ],
     "instructions": [
       "Blend cottage cheese + eggs in blender until completely smooth (no lumps).",
-      "Pour onto parchment-lined sheet pan. Spread evenly to ~¼ inch thick.",
-      "Bake 350°F for 25–30 min until golden brown. Cool 2 min. Use as wrap or pizza base."
+      "Pour onto parchment-lined sheet pan. Spread evenly to ~¼ inch thick. Bake at 350°F for 25–30 minutes until golden brown and set. Cool 5 minutes, then peel off the parchment.",
+      "Spread dijon mustard over the flatbread. Layer turkey and spinach over one half, then roll or fold it up like a wrap."
     ],
     "totalTime": 33,
     "pantryTags": [
       "eggs",
-      "cottage_cheese"
+      "cottage_cheese",
+      "deli_meat",
+      "salad_greens"
     ]
   },
   {
