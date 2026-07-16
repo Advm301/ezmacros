@@ -107,6 +107,34 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
   0%,100%{opacity:0;transform:scale(.4) rotate(0deg);}
   50%{opacity:1;transform:scale(1) rotate(20deg);}
 }
+/* Small persistent "this was a random pick" marker on diary meal rows --
+   the star itself stays solid (so it reads reliably as a badge, not a
+   flicker you might miss); only the tiny companion glyph twinkles. */
+.surprise-sparkle-inline{display:inline-block;font-size:8px;margin-left:1px;}
+@media (prefers-reduced-motion: no-preference) {
+  .surprise-sparkle-inline{animation:surprise-twinkle 2.2s ease-in-out infinite;}
+}
+
+/* FIND RECIPES: distinct from Surprise Me on purpose -- a soft green glow
+   (not a color swap; the button keeps its normal white/black look) and a
+   couple of faint gold sparkles, both slower and dimmer than Surprise Me's
+   so it reads as a gentle shimmer rather than competing for attention. */
+.find-recipes-btn{position:relative;overflow:visible;}
+@media (prefers-reduced-motion: no-preference) {
+  .find-recipes-btn{animation:find-glow 3.4s ease-in-out infinite;}
+}
+@keyframes find-glow{
+  0%,100%{box-shadow:0 0 0 0 rgba(168,255,120,0);}
+  50%{box-shadow:0 0 9px 2px rgba(168,255,120,.3);}
+}
+.find-sparkle{position:absolute;color:var(--ez2);pointer-events:none;opacity:0;}
+@media (prefers-reduced-motion: no-preference) {
+  .find-sparkle{animation:find-twinkle 3.8s ease-in-out infinite;}
+}
+@keyframes find-twinkle{
+  0%,100%{opacity:0;transform:scale(.3);}
+  50%{opacity:.5;transform:scale(1);}
+}
 
 /* MACRO CHIPS */
 .mchips{display:flex;gap:5px;}

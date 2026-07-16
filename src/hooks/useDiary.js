@@ -37,7 +37,7 @@ export default function useDiary(userId) {
     }
     const { data, error } = await supabase
       .from('diary_entries')
-      .select('id, entry_date, meal_slot, recipe_id, created_at')
+      .select('id, entry_date, meal_slot, recipe_id, created_at, is_surprise')
       .eq('user_id', userId)
       .order('created_at', { ascending: true });
 
@@ -61,11 +61,13 @@ export default function useDiary(userId) {
 
   // Returns true on success, false on failure, so callers can decide what
   // to do next (e.g. only show a confirmation / close the modal on success).
-  const addEntry = async (entryDate, mealSlot, recipeId) => {
+  // `isSurprise` marks entries added via the Surprise Me picker (as opposed
+  // to a deliberate pick) so the diary can badge them differently.
+  const addEntry = async (entryDate, mealSlot, recipeId, isSurprise = false) => {
     if (!userId) return false;
     const { error } = await supabase
       .from('diary_entries')
-      .insert({ user_id: userId, entry_date: entryDate, meal_slot: mealSlot, recipe_id: recipeId });
+      .insert({ user_id: userId, entry_date: entryDate, meal_slot: mealSlot, recipe_id: recipeId, is_surprise: isSurprise });
 
     if (error) {
       console.error('Error adding diary entry:', error);

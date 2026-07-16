@@ -83,7 +83,7 @@ export default function Saved({
       const recipe = pickRandomRecipe(SLOT_MEAL_TYPE[slot], usedIds);
       if (!recipe) continue;
       usedIds.push(recipe.id);
-      const ok = await diary.addEntry(selectedDate, slot, recipe.id);
+      const ok = await diary.addEntry(selectedDate, slot, recipe.id, true);
       if (ok) addedCount += 1;
     }
     setGeneratingDay(false);
@@ -101,7 +101,9 @@ export default function Saved({
     const recipe = pickRandomRecipe(SLOT_MEAL_TYPE[entry.meal_slot] || 'lunch_dinner', [entry.recipe_id]);
     if (recipe) {
       await diary.removeEntry(entry.id);
-      await diary.addEntry(entry.entry_date, entry.meal_slot, recipe.id);
+      // Regenerate is also a randomized pick (same pool logic as Surprise
+      // Me, just scoped to one slot), so it gets the same surprise badge.
+      await diary.addEntry(entry.entry_date, entry.meal_slot, recipe.id, true);
     }
     setRegeneratingId(null);
   };
@@ -347,7 +349,17 @@ export default function Saved({
                         onClick={() => openRecipe(r)}
                       >
                         <div style={{ flex: 1 }}>
-                          <div style={{ fontWeight: 700, fontSize: 14, color: 'var(--cream)' }}>{r.name}</div>
+                          <div style={{ fontWeight: 700, fontSize: 14, color: 'var(--cream)', display: 'flex', alignItems: 'center', gap: 5 }}>
+                            {r.name}
+                            {entry.is_surprise && (
+                              <span
+                                title="Added via Surprise Me"
+                                style={{ display: 'inline-flex', alignItems: 'center', color: 'var(--magic)', fontSize: 12, flexShrink: 0 }}
+                              >
+                                ★<span className="surprise-sparkle-inline" aria-hidden="true">✦</span>
+                              </span>
+                            )}
+                          </div>
                           <div style={{ fontSize: 11, color: 'var(--muted)' }}>
                             {r.method}{r.method && r.activeTime ? ' · ' : ''}{formatTime(r.activeTime, r.totalTime)}
                           </div>

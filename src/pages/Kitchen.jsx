@@ -5,6 +5,7 @@ import { formatTime } from '../utils/time';
 import { hapticSelection, hapticLight, hapticMedium } from '../utils/haptics';
 import PantryPickerModal from '../components/PantryPickerModal';
 import SurpriseSparkles from '../components/SurpriseSparkles';
+import FindRecipesSparkles from '../components/FindRecipesSparkles';
 
 const MEAL_TYPES = [
   { label: 'Breakfast', value: 'breakfast' },
@@ -379,9 +380,16 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
           sections, no matter how many are expanded. */}
       <div style={{ position: 'fixed', bottom: 58, left: '50%', transform: 'translateX(-50%)', width: '100%', maxWidth: 430, background: 'var(--bg)', borderTop: '1px solid var(--border)', padding: '10px 18px', boxSizing: 'border-box', zIndex: 25 }}>
         <div style={{ display: 'flex', gap: 10 }}>
-          <button className="gen-kitchen-btn" style={{ flex: 1, marginBottom: 0 }} onClick={handleFindRecipes}>
-            ✦ Find Recipes
-          </button>
+          <div style={{ position: 'relative', flex: 1 }}>
+            <button
+              className="gen-kitchen-btn find-recipes-btn"
+              style={{ width: '100%', marginBottom: 0 }}
+              onClick={handleFindRecipes}
+            >
+              ✦ Find Recipes
+            </button>
+            <FindRecipesSparkles />
+          </div>
           <div style={{ position: 'relative', flex: 1 }}>
             <button
               className="gen-kitchen-btn surprise-btn"
