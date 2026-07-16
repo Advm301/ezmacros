@@ -199,13 +199,15 @@ export default function RecipeModal({
   // buried where the gap actually bites.
   const preheatTip = detectPreheatTip(instructions.map((s) => s.text));
 
-  // The cook screen is a sequence of pages: one per instruction, then an
-  // optional toppings page, then notes, then rating as the closing "how'd
-  // it go" wrap-up. Built fresh each render (cheap) rather than stored in
-  // state, since it only depends on the recipe's own content.
+  // The cook screen is a sequence of pages: one per instruction, then notes,
+  // then rating as the closing "how'd it go" wrap-up. Optional toppings
+  // aren't a real step on their own -- they're folded into the last
+  // instruction page instead (see the 'instruction' branch of
+  // renderCookPage) so they don't inflate the step count with a page that
+  // has nothing to actually do. Built fresh each render (cheap) rather than
+  // stored in state, since it only depends on the recipe's own content.
   const cookPages = [];
   instructions.forEach((_, i) => cookPages.push({ type: 'instruction', index: i }));
-  if (hasToppings) cookPages.push({ type: 'toppings' });
   cookPages.push({ type: 'notes' });
   if (onRate) cookPages.push({ type: 'rating' });
 
@@ -615,26 +617,28 @@ export default function RecipeModal({
               </div>
             )}
           </div>
-        </div>
-      );
-    }
 
-    if (page.type === 'toppings') {
-      return (
-        <div>
-          <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--muted)', marginBottom: 10, textTransform: 'uppercase', letterSpacing: 1 }}>
-            Optional Toppings
-          </div>
-          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-            {r.toppings.map((t, i) => (
-              <span
-                key={i}
-                style={{ background: 'var(--s2)', border: '1px solid var(--border)', color: 'var(--cream)', borderRadius: 100, padding: '6px 14px', fontSize: 13 }}
-              >
-                {t}
-              </span>
-            ))}
-          </div>
+          {/* Optional toppings ride along on the last real step instead of
+              getting their own page -- there's nothing to actually "do" on
+              a toppings-only screen, so giving it a dedicated step just
+              inflated the step count without adding a real action. */}
+          {i === instructions.length - 1 && hasToppings && (
+            <div style={{ marginTop: 18 }}>
+              <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 8 }}>
+                Optional Toppings
+              </div>
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                {r.toppings.map((t, ti) => (
+                  <span
+                    key={ti}
+                    style={{ background: 'var(--s2)', border: '1px solid var(--border)', color: 'var(--cream)', borderRadius: 100, padding: '6px 14px', fontSize: 13 }}
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       );
     }
