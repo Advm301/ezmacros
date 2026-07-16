@@ -67,6 +67,27 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
   50%{opacity:1;transform:scaleY(1.15);}
 }
 
+/* COOK WIZARD: spark burst on Next + completion flourish on the final page */
+@keyframes spark-burst{
+  0%{transform:translate(0,0) scale(.4);opacity:0;}
+  15%{opacity:1;}
+  100%{transform:translate(var(--dx),var(--dy)) scale(1);opacity:0;}
+}
+.cook-complete-flourish{position:relative;display:flex;align-items:center;justify-content:center;height:64px;margin-bottom:14px;animation:complete-pop .6s cubic-bezier(.34,1.56,.64,1) both;}
+.cook-complete-glow{position:absolute;width:64px;height:64px;border-radius:50%;background:radial-gradient(circle,rgba(255,133,51,.35) 0%,rgba(255,133,51,0) 70%);}
+@keyframes complete-pop{
+  0%{transform:scale(0) rotate(-8deg);opacity:0;}
+  60%{transform:scale(1.15) rotate(4deg);opacity:1;}
+  100%{transform:scale(1) rotate(0deg);opacity:1;}
+}
+@keyframes complete-glow-pulse{
+  0%,100%{transform:scale(.9);opacity:.6;}
+  50%{transform:scale(1.15);opacity:1;}
+}
+@media (prefers-reduced-motion: no-preference) {
+  .cook-complete-glow{animation:complete-glow-pulse 1.8s ease-in-out .6s infinite;}
+}
+
 /* MACRO CHIPS */
 .mchips{display:flex;gap:5px;}
 .mc{flex:1;background:var(--s3);border-radius:10px;padding:7px 4px;text-align:center;}

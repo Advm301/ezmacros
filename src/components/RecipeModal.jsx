@@ -7,6 +7,8 @@ import { hapticSelection, hapticLight, hapticMedium } from '../utils/haptics';
 import { summarizeSteps } from '../utils/recipeSummary';
 import { detectPreheatTip, previewNextStep } from '../utils/stepHints';
 import { matchIngredientsForStep } from '../utils/ingredientMatch';
+import FlameIcon from './FlameIcon';
+import SparkBurst from './SparkBurst';
 
 const GRAMS_PER_OZ = 28.3495;
 const ML_PER_FLOZ = 29.5735;
@@ -125,6 +127,9 @@ export default function RecipeModal({
   const [screen, setScreen] = useState('decide'); // 'decide' | 'cook'
   const [cookStep, setCookStep] = useState(0);
   const [direction, setDirection] = useState('forward'); // drives the slide-in animation
+  // Bumped on every forward step through the cook wizard to (re)trigger a
+  // spark burst near the Next button; 0 means no burst currently showing.
+  const [burstId, setBurstId] = useState(0);
   const [completedSteps, setCompletedSteps] = useState({});
   const [editingIngredientIndex, setEditingIngredientIndex] = useState(null);
   const [editingIngredientValue, setEditingIngredientValue] = useState('');
@@ -200,6 +205,12 @@ export default function RecipeModal({
   if (hasToppings) cookPages.push({ type: 'toppings' });
   cookPages.push({ type: 'notes' });
   if (onRate) cookPages.push({ type: 'rating' });
+
+  // How far through the whole wizard (not just the instruction steps) the
+  // person currently is, 0 to 1 -- drives the size of the persistent flame
+  // indicator and the intensity of each Next-click spark burst, so both
+  // visibly build toward the finish rather than resetting per-section.
+  const cookProgress = cookPages.length > 1 ? cookStep / (cookPages.length - 1) : 1;
 
   const canCook = instructions.length > 0;
 
@@ -286,6 +297,7 @@ export default function RecipeModal({
     if (cookStep < cookPages.length - 1) {
       setDirection('forward');
       setCookStep((s) => s + 1);
+      setBurstId((id) => id + 1);
     } else {
       onClose();
     }
@@ -548,10 +560,17 @@ export default function RecipeModal({
     if (page.type === 'rating') {
       return (
         <div>
-          <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--muted)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: 1 }}>
+          {/* One-time "you made it" flourish -- the flame pops in with a
+              little bounce, then settles into a soft ambient glow. Subtle
+              on purpose: a quiet payoff for reaching the end, not confetti. */}
+          <div className="cook-complete-flourish">
+            <div className="cook-complete-glow" />
+            <FlameIcon size={40} />
+          </div>
+          <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--muted)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: 1, textAlign: 'center' }}>
             How'd It Go?
           </div>
-          <div style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 14 }}>
+          <div style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 14, textAlign: 'center' }}>
             Rate the recipe now that you've made it.
           </div>
           {renderRatingBlock()}
@@ -781,20 +800,37 @@ export default function RecipeModal({
             </>
           ) : (
             <>
-              <div
-                onClick={() => { hapticLight(); setShowAllSteps(true); }}
-                style={{ fontSize: 12, color: 'var(--muted)', textDecoration: 'underline', cursor: 'pointer', textAlign: 'right', marginBottom: 12 }}
-              >
-                View All Steps
+              {/* Flame grows with cookProgress across the whole wizard (not
+                  just instruction steps) -- a persistent "you're building
+                  toward something" signal that sits alongside the existing
+                  View All Steps link instead of adding a whole new row. */}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <FlameIcon size={14 + cookProgress * 12} />
+                  <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: 1 }}>
+                    {cookStep + 1} of {cookPages.length}
+                  </span>
+                </div>
+                <div
+                  onClick={() => { hapticLight(); setShowAllSteps(true); }}
+                  style={{ fontSize: 12, color: 'var(--muted)', textDecoration: 'underline', cursor: 'pointer' }}
+                >
+                  View All Steps
+                </div>
               </div>
               {renderCookPage()}
               <div style={{ display: 'flex', gap: 10, marginTop: 24 }}>
                 <button onClick={goPrevCookPage} style={navBtnStyle}>
                   ← Back
                 </button>
-                <button className="gen-kitchen-btn" onClick={goNextCookPage} style={{ flex: 1, marginBottom: 0 }}>
-                  {cookStep === cookPages.length - 1 ? 'Finish' : 'Next →'}
-                </button>
+                <div style={{ position: 'relative', flex: 1 }}>
+                  <button className="gen-kitchen-btn" onClick={goNextCookPage} style={{ width: '100%', marginBottom: 0 }}>
+                    {cookStep === cookPages.length - 1 ? 'Finish' : 'Next →'}
+                  </button>
+                  {burstId > 0 && (
+                    <SparkBurst key={burstId} intensity={cookProgress} onDone={() => setBurstId(0)} />
+                  )}
+                </div>
               </div>
             </>
           )}
