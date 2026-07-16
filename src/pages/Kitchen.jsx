@@ -6,7 +6,7 @@ import { hapticSelection, hapticLight, hapticMedium } from '../utils/haptics';
 import PantryPickerModal from '../components/PantryPickerModal';
 import SurpriseSparkles from '../components/SurpriseSparkles';
 import FindRecipesSparkles from '../components/FindRecipesSparkles';
-import { getProteinColor } from '../utils/proteinColors';
+import { getProteinCardBackground } from '../utils/proteinColors';
 
 const MEAL_TYPES = [
   { label: 'Breakfast', value: 'breakfast' },
@@ -347,9 +347,8 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
                   <div
                     key={r.id}
                     style={{
-                      background: 'var(--s1)',
+                      background: getProteinCardBackground(r.proteins),
                       border: '1px solid var(--border)',
-                      borderLeft: `4px solid ${getProteinColor(r.proteins) || 'var(--border)'}`,
                       borderRadius: 14,
                       padding: 14,
                       marginBottom: 10,

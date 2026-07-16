@@ -35,3 +35,20 @@ export function getProteinColor(proteins) {
   const primary = getPrimaryProtein(proteins);
   return primary ? PROTEIN_COLORS[primary] : null;
 }
+
+// Full `background` value for a recipe card: a glossy 6px accent strip on
+// the left edge (diagonal shine + bottom-darkened shadow layered over the
+// flat protein color, same recipe as the glossy buttons) sitting on top of
+// the card's normal fill. A plain flat-color CSS border can't carry a
+// gradient, so this is painted as a background layer instead, clipped to
+// the card's own border-radius automatically.
+export function getProteinCardBackground(proteins, fallbackBg = 'var(--s1)') {
+  const color = getProteinColor(proteins);
+  if (!color) return fallbackBg;
+  return [
+    'linear-gradient(135deg, rgba(255,255,255,.55) 0%, rgba(255,255,255,0) 60%) left / 6px 100% no-repeat',
+    'linear-gradient(180deg, rgba(255,255,255,0) 55%, rgba(0,0,0,.3) 100%) left / 6px 100% no-repeat',
+    `linear-gradient(${color}, ${color}) left / 6px 100% no-repeat`,
+    fallbackBg,
+  ].join(', ');
+}

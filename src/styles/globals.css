@@ -90,14 +90,26 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
 
 /* SURPRISE ME: unique purple/pink "magic" gradient + pulsing glow + a few
    twinkling sparkles, wherever this button appears, so it reads as a fun
-   wildcard action rather than just another button in the row. */
-.surprise-btn{position:relative;overflow:visible;background:linear-gradient(135deg,var(--magic) 0%,var(--pink) 100%) !important;color:#fff !important;border:1px solid rgba(255,255,255,.3) !important;}
+   wildcard action rather than just another button in the row. The extra
+   background layers (diagonal shine + bottom darkening) plus the inset/lip
+   box-shadows give it the glossy, chunky-3D look of Duolingo's tiles rather
+   than a flat color fill. */
+.surprise-btn{
+  position:relative;overflow:visible;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.55) 0%, rgba(255,255,255,.14) 24%, rgba(255,255,255,0) 45%),
+    linear-gradient(180deg, rgba(255,255,255,0) 55%, rgba(0,0,0,.22) 100%),
+    linear-gradient(135deg,var(--magic) 0%,var(--pink) 100%) !important;
+  color:#fff !important;
+  border:1px solid rgba(255,255,255,.3) !important;
+  box-shadow: inset 0 1px 1px rgba(255,255,255,.4), inset 0 -3px 5px rgba(0,0,0,.22), 0 3px 0 rgba(0,0,0,.3) !important;
+}
 @media (prefers-reduced-motion: no-preference) {
   .surprise-btn{animation:surprise-pulse 2.4s ease-in-out infinite;}
 }
 @keyframes surprise-pulse{
-  0%,100%{box-shadow:0 0 0 0 rgba(179,136,255,.45);}
-  50%{box-shadow:0 0 0 7px rgba(179,136,255,0);}
+  0%,100%{box-shadow:0 0 0 0 rgba(179,136,255,.45), inset 0 1px 1px rgba(255,255,255,.4), inset 0 -3px 5px rgba(0,0,0,.22), 0 3px 0 rgba(0,0,0,.3);}
+  50%{box-shadow:0 0 0 7px rgba(179,136,255,0), inset 0 1px 1px rgba(255,255,255,.4), inset 0 -3px 5px rgba(0,0,0,.22), 0 3px 0 rgba(0,0,0,.3);}
 }
 .surprise-sparkle{position:absolute;color:#fff;pointer-events:none;opacity:0;}
 @media (prefers-reduced-motion: no-preference) {
@@ -115,17 +127,27 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
   .surprise-sparkle-inline{animation:surprise-twinkle 2.2s ease-in-out infinite;}
 }
 
-/* FIND RECIPES: distinct from Surprise Me on purpose -- a soft green glow
-   (not a color swap; the button keeps its normal white/black look) and a
-   couple of faint gold sparkles, both slower and dimmer than Surprise Me's
-   so it reads as a gentle shimmer rather than competing for attention. */
-.find-recipes-btn{position:relative;overflow:visible;}
+/* FIND RECIPES: distinct from Surprise Me on purpose -- a soft, muted green
+   fill (not the bold purple/pink of Surprise Me) with the same glossy shine
+   treatment, plus a couple of faint gold sparkles. Deliberately calmer: a
+   single muted hue instead of a two-color gradient, and a fainter/slower
+   glow ring, so it reads as a gentle shimmer rather than competing. */
+.find-recipes-btn{
+  position:relative;overflow:visible;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.5) 0%, rgba(255,255,255,.12) 24%, rgba(255,255,255,0) 45%),
+    linear-gradient(180deg, rgba(255,255,255,0) 55%, rgba(0,0,0,.14) 100%),
+    linear-gradient(135deg, #a9d492 0%, #7cb563 100%) !important;
+  color:var(--bg) !important;
+  border:1px solid rgba(255,255,255,.35) !important;
+  box-shadow: inset 0 1px 1px rgba(255,255,255,.45), inset 0 -2px 4px rgba(0,0,0,.15), 0 3px 0 rgba(0,0,0,.22) !important;
+}
 @media (prefers-reduced-motion: no-preference) {
   .find-recipes-btn{animation:find-glow 3.4s ease-in-out infinite;}
 }
 @keyframes find-glow{
-  0%,100%{box-shadow:0 0 0 0 rgba(168,255,120,0);}
-  50%{box-shadow:0 0 9px 2px rgba(168,255,120,.3);}
+  0%,100%{box-shadow:0 0 0 0 rgba(168,255,120,0), inset 0 1px 1px rgba(255,255,255,.45), inset 0 -2px 4px rgba(0,0,0,.15), 0 3px 0 rgba(0,0,0,.22);}
+  50%{box-shadow:0 0 9px 2px rgba(168,255,120,.3), inset 0 1px 1px rgba(255,255,255,.45), inset 0 -2px 4px rgba(0,0,0,.15), 0 3px 0 rgba(0,0,0,.22);}
 }
 .find-sparkle{position:absolute;color:var(--ez2);pointer-events:none;opacity:0;}
 @media (prefers-reduced-motion: no-preference) {

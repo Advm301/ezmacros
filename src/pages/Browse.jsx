@@ -4,7 +4,7 @@ import StarIcon from '../components/StarIcon';
 import FlameIcon from '../components/FlameIcon';
 import { formatTime } from '../utils/time';
 import { hapticSelection, hapticLight } from '../utils/haptics';
-import { getProteinColor } from '../utils/proteinColors';
+import { getProteinCardBackground } from '../utils/proteinColors';
 
 const MEAL_SECTIONS = [
   { label: 'Breakfast', value: 'breakfast' },
@@ -154,9 +154,8 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
     <div
       key={r.id}
       style={{
-        background: 'var(--s1)',
+        background: getProteinCardBackground(r.proteins),
         border: '1px solid var(--border)',
-        borderLeft: `4px solid ${getProteinColor(r.proteins) || 'var(--border)'}`,
         borderRadius: 14,
         padding: 12,
         marginBottom: 10,

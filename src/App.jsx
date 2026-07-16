@@ -15,27 +15,32 @@ import RecipeModal from './components/RecipeModal';
 import FeedbackModal from './components/FeedbackModal';
 import './styles/globals.css';
 
-function KitchenIcon() {
+// Bottom-nav icons: bigger and always their own brand color now (no text
+// label alongside them any more, so the icon alone has to carry the tab's
+// identity, Duolingo-style). Kitchen keeps its stroke-outline "magnifying
+// glass" look since filling it wouldn't read as anything; Browse and Saved
+// switch to solid fills for a bolder, more prominent shape at this size.
+function KitchenIcon({ size = 28, color = 'var(--orange)' }) {
   return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round">
       <circle cx="11" cy="13" r="7" />
       <line x1="17.5" y1="9" x2="22.5" y2="5" />
     </svg>
   );
 }
 
-function BrowseIcon() {
+function BrowseIcon({ size = 28, color = 'var(--blue)' }) {
   return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg width={size} height={size} viewBox="0 0 24 24" fill={color} stroke={color} strokeWidth="0.5" strokeLinejoin="round">
       <path d="M2 5c2-1.4 5-1.4 7 0v14c-2-1.4-5-1.4-7 0V5z" />
       <path d="M22 5c-2-1.4-5-1.4-7 0v14c2-1.4 5-1.4 7 0V5z" />
     </svg>
   );
 }
 
-function SavedIcon() {
+function SavedIcon({ size = 28, color = 'var(--pink)' }) {
   return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg width={size} height={size} viewBox="0 0 24 24" fill={color} stroke={color} strokeWidth="0.5" strokeLinejoin="round">
       <path d="M6 3h12v18l-6-4.5L6 21V3z" />
     </svg>
   );
@@ -213,9 +218,9 @@ export default function App() {
   }
 
   const tabs = [
-    {id: "kitchen", label: "Kitchen", Icon: KitchenIcon},
-    {id: "browse", label: "Browse", Icon: BrowseIcon},
-    {id: "saved", label: "Diary", Icon: SavedIcon},
+    {id: "kitchen", Icon: KitchenIcon, color: 'var(--orange)'},
+    {id: "browse", Icon: BrowseIcon, color: 'var(--blue)'},
+    {id: "saved", Icon: SavedIcon, color: 'var(--pink)'},
   ];
 
   return (
@@ -339,9 +344,8 @@ export default function App() {
         <div style={{position: "fixed", bottom: 0, left: "50%", transform: "translateX(-50%)", width: "100%", maxWidth: 430, background: "#000", borderTop: "1px solid var(--border)", display: "flex", zIndex: 20}}>
           {tabs.map(t => (
             <div key={t.id} onClick={() => { if (t.id !== tab) { hapticSelection(); setTab(t.id); } }}
-              style={{flex: 1, display: "flex", flexDirection: "column", alignItems: "center", padding: "10px 0", cursor: "pointer", color: tab === t.id ? "var(--lime)" : "var(--muted)", borderTop: tab === t.id ? "2px solid var(--lime)" : "2px solid transparent", transition: "all .15s", position: "relative"}}>
-              <t.Icon />
-              <span style={{fontSize: 11, fontWeight: 600, marginTop: 2}}>{t.label}</span>
+              style={{flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "14px 0", cursor: "pointer", opacity: tab === t.id ? 1 : 0.4, borderTop: tab === t.id ? `2px solid ${t.color}` : "2px solid transparent", transition: "all .15s", position: "relative"}}>
+              <t.Icon color={t.color} />
             </div>
           ))}
         </div>
