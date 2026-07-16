@@ -5745,7 +5745,6 @@ export const RECIPES = [
     "mealType": "lunch_dinner",
     "proteins": [
       "chicken",
-      "beef",
       "eggs"
     ],
     "flavor": "saucy",
@@ -6160,7 +6159,6 @@ export const RECIPES = [
     "mealType": "lunch_dinner",
     "proteins": [
       "pork",
-      "beef",
       "eggs"
     ],
     "flavor": "saucy",
@@ -6575,7 +6573,6 @@ export const RECIPES = [
     "mealType": "lunch_dinner",
     "proteins": [
       "turkey",
-      "beef",
       "eggs"
     ],
     "flavor": "saucy",

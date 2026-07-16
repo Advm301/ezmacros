@@ -4,6 +4,7 @@ import StarIcon from '../components/StarIcon';
 import FlameIcon from '../components/FlameIcon';
 import { formatTime } from '../utils/time';
 import { hapticSelection, hapticLight } from '../utils/haptics';
+import { getProteinColor } from '../utils/proteinColors';
 
 const MEAL_SECTIONS = [
   { label: 'Breakfast', value: 'breakfast' },
@@ -152,7 +153,15 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
   const renderRecipeRow = (r) => (
     <div
       key={r.id}
-      style={{ background: 'var(--s1)', border: '1px solid var(--border)', borderRadius: 14, padding: 12, marginBottom: 10, cursor: 'pointer' }}
+      style={{
+        background: 'var(--s1)',
+        border: '1px solid var(--border)',
+        borderLeft: `4px solid ${getProteinColor(r.proteins) || 'var(--border)'}`,
+        borderRadius: 14,
+        padding: 12,
+        marginBottom: 10,
+        cursor: 'pointer',
+      }}
       onClick={() => openRecipe(r)}
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
