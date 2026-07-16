@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { RECIPES } from '../data/recipes.js';
 import StarIcon from '../components/StarIcon';
+import FlameIcon from '../components/FlameIcon';
 import { formatTime } from '../utils/time';
 import { hapticSelection, hapticLight } from '../utils/haptics';
 
@@ -175,7 +176,7 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
                   reads as "fresh/fast" -- distinct hues so the two are easy
                   to tell apart at a glance. */}
               {r.tags.includes('high_protein') && (
-                <span className="ezb ez3">🔥 High Protein</span>
+                <span className="ezb ez3"><FlameIcon size={12} /> High Protein</span>
               )}
               {r.tags.includes('grab_and_go') && (
                 <span className="ezb ez1">Grab & Go</span>

@@ -51,6 +51,22 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
 .ezb.ez3{background:rgba(255,133,51,.14);color:var(--ez3);border:1px solid rgba(255,133,51,.28);}
 .ezb.pkg{background:rgba(77,184,255,.14);color:var(--blue);border:1px solid rgba(77,184,255,.28);}
 
+/* FLAME ICON (animated, used on the High Protein badge) */
+@media (prefers-reduced-motion: no-preference) {
+  .flame-icon{transform-origin:50% 90%;animation:flame-flicker 1.6s ease-in-out infinite;}
+  .flame-icon .flame-inner{transform-origin:50% 95%;animation:flame-flicker-inner 1.15s ease-in-out infinite;}
+}
+@keyframes flame-flicker{
+  0%,100%{transform:scaleY(1) scaleX(1) rotate(0deg);}
+  25%{transform:scaleY(1.08) scaleX(.94) rotate(-2deg);}
+  50%{transform:scaleY(.95) scaleX(1.05) rotate(1.5deg);}
+  75%{transform:scaleY(1.05) scaleX(.97) rotate(-1deg);}
+}
+@keyframes flame-flicker-inner{
+  0%,100%{opacity:.85;transform:scaleY(1);}
+  50%{opacity:1;transform:scaleY(1.15);}
+}
+
 /* MACRO CHIPS */
 .mchips{display:flex;gap:5px;}
 .mc{flex:1;background:var(--s3);border-radius:10px;padding:7px 4px;text-align:center;}
