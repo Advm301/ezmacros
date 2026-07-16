@@ -286,7 +286,12 @@ export default function App() {
                   position: "absolute",
                   top: 38,
                   right: 0,
-                  background: "var(--s1)",
+                  // var(--s1) is an 8%-opacity white overlay -- fine on the
+                  // app's near-black background, but over the teal header
+                  // (or bleeding through to it) it reads as translucent,
+                  // same root cause as the ellipsis button above. Solid
+                  // black matches that fix and the bottom nav.
+                  background: "#000",
                   border: "1px solid var(--border)",
                   borderRadius: 10,
                   overflow: "hidden",

@@ -167,15 +167,18 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
           </div>
           {(r.tags || []).length > 0 && (
             <div style={{ display: 'flex', gap: 6, marginTop: 4 }}>
+              {/* .ezb.ez1/.ez3 are existing soft-tinted badge classes already
+                  defined in globals.css (same accent colors used elsewhere
+                  in the app) -- reusing them instead of one-off colors keeps
+                  these consistent with the rest of the palette. Orange for
+                  High Protein reads as "hot"/fire; lime-green for Grab & Go
+                  reads as "fresh/fast" -- distinct hues so the two are easy
+                  to tell apart at a glance. */}
               {r.tags.includes('high_protein') && (
-                <span style={{ fontSize: 10, fontWeight: 700, color: 'var(--lime)', border: '1px solid var(--border)', borderRadius: 100, padding: '2px 8px' }}>
-                  High Protein
-                </span>
+                <span className="ezb ez3">🔥 High Protein</span>
               )}
               {r.tags.includes('grab_and_go') && (
-                <span style={{ fontSize: 10, fontWeight: 700, color: 'var(--lime)', border: '1px solid var(--border)', borderRadius: 100, padding: '2px 8px' }}>
-                  Grab & Go
-                </span>
+                <span className="ezb ez1">Grab & Go</span>
               )}
             </div>
           )}
