@@ -40,6 +40,27 @@ function getCompletionMessage(servings, seed) {
   return pool[seed % pool.length];
 }
 
+// Shown briefly next to the Next button each time someone advances through
+// an instruction step -- a little "someone's paying attention" nudge to
+// keep things feeling encouraging rather than just mechanical page-turning.
+// Mostly generic lines, plus a couple that reference real progress (steps
+// completed / steps left) for variety -- those two take (doneCount,
+// totalCount) so they stay accurate regardless of recipe length.
+const MOTIVATION_MESSAGES = [
+  () => 'Nice, keep going!',
+  () => 'Nicely done!',
+  () => "You've got this.",
+  () => 'Cooking like a pro.',
+  () => 'Almost there!',
+  (done, total) => `That's ${done} step${done === 1 ? '' : 's'} down, ${Math.max(total - done, 0)} to go!`,
+  (done) => `Step ${done} done -- keep it up!`,
+];
+
+function getMotivationMessage(doneCount, totalCount) {
+  const pick = MOTIVATION_MESSAGES[Math.floor(Math.random() * MOTIVATION_MESSAGES.length)];
+  return pick(doneCount, totalCount);
+}
+
 // Round to 1 decimal place, stripping a trailing ".0".
 function formatNum(n) {
   const rounded = Math.round(n * 10) / 10;
@@ -158,6 +179,12 @@ export default function RecipeModal({
   // Bumped on every forward step through the cook wizard to (re)trigger a
   // spark burst near the Next button; 0 means no burst currently showing.
   const [burstId, setBurstId] = useState(0);
+  // Short encouragement shown next to the Next button each time someone
+  // advances through an instruction step -- null means nothing showing.
+  // Re-picked (not just re-shown) on every click so it doesn't feel like
+  // the same canned line every time; see MOTIVATION_MESSAGES below.
+  const [motivationMsg, setMotivationMsg] = useState(null);
+  const motivationTimeoutRef = useRef(null);
   const [completedSteps, setCompletedSteps] = useState({});
   const [editingIngredientIndex, setEditingIngredientIndex] = useState(null);
   const [editingIngredientValue, setEditingIngredientValue] = useState('');
@@ -203,6 +230,10 @@ export default function RecipeModal({
       cancelled = true;
     };
   }, [photoPath, getPhotoSignedUrl]);
+
+  useEffect(() => () => {
+    if (motivationTimeoutRef.current) clearTimeout(motivationTimeoutRef.current);
+  }, []);
 
   if (!recipe) return null;
   const r = recipe;
@@ -365,12 +396,30 @@ export default function RecipeModal({
     setCookStep(0);
   };
 
+  // Pops a short encouragement next to the Next button and clears it a
+  // beat later. Re-triggerable mid-fade (clears any pending hide first) so
+  // rapid-fire clicking through steps always shows the newest line instead
+  // of the old timeout wiping out a message that just appeared.
+  const showMotivation = (doneCount, totalCount) => {
+    if (motivationTimeoutRef.current) clearTimeout(motivationTimeoutRef.current);
+    setMotivationMsg(getMotivationMessage(doneCount, totalCount));
+    motivationTimeoutRef.current = setTimeout(() => setMotivationMsg(null), 1600);
+  };
+
   const goNextCookPage = () => {
     hapticLight();
     if (cookStep < cookPages.length - 1) {
+      const nextStep = cookStep + 1;
       setDirection('forward');
-      setCookStep((s) => s + 1);
+      setCookStep(nextStep);
       setBurstId((id) => id + 1);
+      // Only while still stepping between instructions -- the transition
+      // into the closing rating page already gets its own, bigger
+      // completion message, so a second little popup on top would just be
+      // noise.
+      if (cookPages[nextStep].type === 'instruction') {
+        showMotivation(cookStep + 1, instructions.length);
+      }
     } else {
       onClose();
     }
@@ -498,7 +547,7 @@ export default function RecipeModal({
         </div>
       ) : (
         <>
-          <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', marginBottom: madeIt ? 10 : 0 }}>
+          <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', marginBottom: madeIt ? 10 : 14 }}>
             <input
               type="checkbox"
               checked={madeIt}
@@ -954,11 +1003,14 @@ export default function RecipeModal({
               {/* Flame grows with cookProgress across the whole wizard --
                   a persistent "you're building toward something" signal.
                   No numeric count here on purpose: cookPages also includes
-                  Toppings/Notes/Rating, which aren't "steps" in the recipe
-                  sense, and the instruction page below already shows its
-                  own accurate "Step X of N" using the real step count. */}
+                  Toppings/Rating, which aren't "steps" in the recipe sense,
+                  and the instruction page below already shows its own
+                  accurate "Step X of N" using the real step count. Dropped
+                  entirely on the closing rating page -- once you're done
+                  cooking, "building toward something" no longer applies,
+                  and the space reads cleaner without it. */}
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-                <FlameIcon size={14 + cookProgress * 12} />
+                {cookPages[cookStep].type === 'rating' ? <div /> : <FlameIcon size={14 + cookProgress * 12} />}
                 <div
                   onClick={() => { hapticLight(); setShowAllSteps(true); }}
                   style={{ fontSize: 12, color: 'var(--muted)', textDecoration: 'underline', cursor: 'pointer' }}
@@ -977,6 +1029,33 @@ export default function RecipeModal({
                   </button>
                   {burstId > 0 && (
                     <SparkBurst key={burstId} intensity={cookProgress} onDone={() => setBurstId(0)} />
+                  )}
+                  {/* Brief encouragement popup, floating just above the Next
+                      button -- see showMotivation/goNextCookPage. Purely a
+                      little momentum boost through the middle of a recipe,
+                      not tied to anything persisted. */}
+                  {motivationMsg && (
+                    <div
+                      style={{
+                        position: 'absolute',
+                        bottom: '100%',
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        marginBottom: 10,
+                        background: 'var(--lime)',
+                        color: '#000',
+                        padding: '8px 16px',
+                        borderRadius: 100,
+                        fontSize: 13,
+                        fontWeight: 700,
+                        fontFamily: "'Manrope',sans-serif",
+                        whiteSpace: 'nowrap',
+                        boxShadow: '0 6px 18px rgba(0,0,0,.35)',
+                        pointerEvents: 'none',
+                      }}
+                    >
+                      {motivationMsg}
+                    </div>
                   )}
                 </div>
               </div>
