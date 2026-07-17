@@ -749,6 +749,10 @@ export default function RecipeModal({
                 {r.method}
                 {r.method && r.activeTime ? ' · ' : ''}
                 {formatTime(r.activeTime, r.totalTime)}
+                {/* Always show the serving count, even at the default of 1
+                    -- otherwise there's no visible confirmation the field
+                    exists at all until a recipe is actually multi-portion. */}
+                {' · '}Serves {r.servings || 1}
               </div>
             )}
             {r.servings > 1 && (
