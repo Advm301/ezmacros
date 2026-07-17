@@ -106,6 +106,23 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
   const [openSections, setOpenSections] = useState({});
 
   const moreFiltersCount = (proteinFilter ? 1 : 0) + (flavorFilter ? 1 : 0);
+  // Drives whether the "Clear All Filters" link shows at all -- no point
+  // offering to clear filters that are already at their defaults.
+  const anyFilterActive = Boolean(
+    search || mealFilter || proteinFilter || flavorFilter || methodFilter ||
+    showSavedOnly || highProteinOnly || grabAndGoOnly
+  );
+  const clearAllFilters = () => {
+    hapticLight();
+    setSearch('');
+    setMealFilter(null);
+    setProteinFilter(null);
+    setFlavorFilter(null);
+    setMethodFilter(null);
+    setShowSavedOnly(false);
+    setHighProteinOnly(false);
+    setGrabAndGoOnly(false);
+  };
   // A search or a picked meal type is an explicit signal the person wants to
   // see matches right now -- forcing sections open in that case avoids the
   // frustrating "I searched but the results are hidden behind a collapsed
@@ -202,7 +219,17 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
   return (
     <div style={{ paddingBottom: 20 }}>
       <div className="px pt">
-        <div className="h1" style={{ marginBottom: 12 }}>Browse Recipes</div>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginBottom: 12 }}>
+          <div className="h1" style={{ marginBottom: 0 }}>Browse Recipes</div>
+          {anyFilterActive && (
+            <div
+              onClick={clearAllFilters}
+              style={{ fontSize: 11, color: 'var(--muted)', cursor: 'pointer', textDecoration: 'underline', whiteSpace: 'nowrap' }}
+            >
+              Clear All Filters
+            </div>
+          )}
+        </div>
 
         <input
           value={search}

@@ -136,6 +136,11 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
   const [surpriseError, setSurpriseError] = useState('');
 
   const moreFiltersCount = (quickFilter ? 1 : 0) + (flavor ? 1 : 0);
+  // Drives whether the "Clear All Filters" link shows at all -- no point
+  // offering to clear filters that are already at their defaults.
+  const anyFilterActive = Boolean(
+    mealType || protein || flavor || quickFilter || selectedStaples.length > 0
+  );
 
   const toggleStaple = (id) => {
     hapticSelection();
@@ -202,7 +207,17 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
   return (
     <div style={{ paddingBottom: 150 }}>
       <div className="px pt">
-        <div className="h1">What Can I Make?</div>
+        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 10 }}>
+          <div className="h1">What Can I Make?</div>
+          {anyFilterActive && (
+            <div
+              onClick={reset}
+              style={{ fontSize: 11, color: 'var(--muted)', cursor: 'pointer', textDecoration: 'underline', whiteSpace: 'nowrap', marginTop: 6 }}
+            >
+              Clear All Filters
+            </div>
+          )}
+        </div>
         <div className="sub" style={{ marginBottom: 14 }}>
           Pick a meal type (or all), a protein, and (optionally) what's already in your kitchen — get quick recipes.
         </div>
