@@ -56,18 +56,22 @@ export default function PantryPickerModal({ selectedStaples, toggleStaple, onClo
   return (
     <div
       onClick={onClose}
-      style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,.6)', zIndex: 90, display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}
+      // Used to anchor to the bottom (alignItems: 'flex-end') as a proper
+      // bottom-sheet drawer, which made sense back when it was a flat 82vh
+      // regardless of content. Now that the sheet hugs its actual content
+      // height (see maxHeight below), anchoring it to the bottom left a
+      // large empty gap floating above a small card stuck to the bottom
+      // edge -- centering it reads as an intentional dialog instead.
+      style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,.6)', zIndex: 90, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px 0', boxSizing: 'border-box' }}
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        // Height used to be a flat 82vh regardless of content -- with the
-        // idle state now just a title, search box, and one row of category
-        // pills (no results list until you search or pick a category), a
-        // fixed 82vh left a big slab of empty sheet below it. maxHeight
-        // instead lets the sheet hug whatever's actually showing, and only
-        // grows toward the cap once a results list (bounded to its own
+        // Height hugs whatever's actually showing (idle state is just a
+        // title, search box, and one row of category pills -- no results
+        // list until you search or pick a category) and only grows toward
+        // the maxHeight cap once a results list (bounded to its own
         // maxHeight below) actually has something to show.
-        style={{ background: 'var(--bg)', width: '100%', maxWidth: 430, maxHeight: '82vh', borderRadius: '20px 20px 0 0', border: '1px solid var(--border)', borderBottom: 'none', padding: '18px 18px 0', boxSizing: 'border-box', display: 'flex', flexDirection: 'column' }}
+        style={{ background: 'var(--bg)', width: '100%', maxWidth: 430, maxHeight: '82vh', borderRadius: 20, border: '1px solid var(--border)', padding: '18px 18px 0', boxSizing: 'border-box', display: 'flex', flexDirection: 'column' }}
       >
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
           <div className="h1" style={{ marginBottom: 0, fontSize: 18 }}>What Do You Have?</div>
