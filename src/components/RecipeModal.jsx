@@ -624,7 +624,7 @@ export default function RecipeModal({
 
           <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start', minHeight: 140 }}>
             <div
-              onClick={() => toggleStepDone(i)}
+              onClick={(e) => { e.stopPropagation(); toggleStepDone(i); }}
               style={{
                 flexShrink: 0, width: 32, height: 32, borderRadius: '50%',
                 background: done ? 'var(--lime)' : 'var(--s2)',
@@ -640,11 +640,12 @@ export default function RecipeModal({
                 value={editingStepValue}
                 onChange={(e) => setEditingStepValue(e.target.value)}
                 onBlur={() => commitStepEdit(i)}
+                onClick={(e) => e.stopPropagation()}
                 style={{ flex: 1, background: 'var(--s2)', border: '1px solid var(--border)', borderRadius: 8, padding: 10, color: 'var(--cream)', fontSize: 16, fontFamily: "'Manrope',sans-serif", lineHeight: 1.5, resize: 'vertical', minHeight: 100 }}
               />
             ) : (
               <div
-                onClick={() => startEditingStep(i, step.text)}
+                onClick={(e) => { e.stopPropagation(); startEditingStep(i, step.text); }}
                 style={{
                   fontSize: 19, lineHeight: 1.55, cursor: 'pointer', flex: 1,
                   color: done ? 'var(--muted)' : (step.edited ? 'var(--lime)' : 'var(--cream)'),
@@ -704,12 +705,13 @@ export default function RecipeModal({
                 value={editingStepNoteValue}
                 onChange={(e) => setEditingStepNoteValue(e.target.value)}
                 onBlur={() => commitStepNote(i)}
+                onClick={(e) => e.stopPropagation()}
                 placeholder="Add a note for this step..."
                 style={{ width: '100%', minHeight: 60, background: 'var(--s2)', border: '1px solid var(--border)', borderRadius: 8, padding: 10, color: 'var(--cream)', fontSize: 13, fontFamily: "'Manrope',sans-serif", lineHeight: 1.5, resize: 'vertical', boxSizing: 'border-box' }}
               />
             ) : entry?.stepNotes?.[i] ? (
               <div
-                onClick={() => startEditingStepNote(i, entry.stepNotes[i])}
+                onClick={(e) => { e.stopPropagation(); startEditingStepNote(i, entry.stepNotes[i]); }}
                 style={{ background: 'var(--s1)', border: '1px solid var(--border)', borderRadius: 8, padding: '8px 10px', cursor: 'pointer' }}
               >
                 <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 2 }}>
@@ -721,7 +723,7 @@ export default function RecipeModal({
               </div>
             ) : (
               <div
-                onClick={() => startEditingStepNote(i, '')}
+                onClick={(e) => { e.stopPropagation(); startEditingStepNote(i, ''); }}
                 style={{ fontSize: 12, color: 'var(--muted)', textDecoration: 'underline', cursor: 'pointer', display: 'inline-block' }}
               >
                 + Add a note for this step
@@ -1018,7 +1020,24 @@ export default function RecipeModal({
                   View All Steps
                 </div>
               </div>
-              {renderCookPage()}
+              {cookPages[cookStep].type === 'instruction' ? (
+                // Tap-anywhere-to-advance zone, instruction pages only --
+                // greasy/wet fingers from actual cooking make hitting a
+                // precise "Next" button annoying, so the whole step area
+                // (text, ingredient chips, tips, the blank space around
+                // them) also advances on tap. The few genuinely interactive
+                // bits inside a step -- the done-circle, the step text
+                // (tap to edit), and the per-step note -- stop propagation
+                // on their own onClick so this doesn't fight them. Left off
+                // the rating page on purpose: that page is full of things
+                // you tap to interact with (stars, checkbox, notes), not
+                // page through.
+                <div onClick={goNextCookPage} style={{ cursor: 'pointer' }}>
+                  {renderCookPage()}
+                </div>
+              ) : (
+                renderCookPage()
+              )}
               <div style={{ display: 'flex', gap: 10, marginTop: 24 }}>
                 <button onClick={goPrevCookPage} style={navBtnStyle}>
                   ← Back
