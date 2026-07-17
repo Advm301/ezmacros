@@ -7,6 +7,7 @@ import { hapticSelection, hapticLight, hapticMedium } from '../utils/haptics';
 import { summarizeSteps } from '../utils/recipeSummary';
 import { detectPreheatTip, previewNextStep } from '../utils/stepHints';
 import { matchIngredientsForStep } from '../utils/ingredientMatch';
+import { getFreshAltHint } from '../utils/freshAltTips';
 import FlameIcon from './FlameIcon';
 import SparkBurst from './SparkBurst';
 
@@ -198,6 +199,25 @@ export default function RecipeModal({
   // mention of preheating. Shown as early as possible (step 1) rather than
   // buried where the gap actually bites.
   const preheatTip = detectPreheatTip(instructions.map((s) => s.text));
+
+  // For each component that has a fresh-substitute note (frozen steam-bag
+  // broccoli, bagged diced sweet potato, etc.), find the FIRST instruction
+  // step that actually calls for it and attach the note there -- so it
+  // shows exactly once, right when it's relevant, rather than repeating on
+  // every later step that happens to mention the ingredient again (e.g.
+  // "broccoli on the side" during plating).
+  const freshAltByStep = new Map();
+  components.forEach((c) => {
+    const hint = getFreshAltHint(c.name);
+    if (!hint) return;
+    for (let i = 0; i < instructions.length; i++) {
+      if (hint.stepMatch.test(instructions[i].text)) {
+        if (!freshAltByStep.has(i)) freshAltByStep.set(i, []);
+        freshAltByStep.get(i).push(hint.note);
+        break;
+      }
+    }
+  });
 
   // The cook screen is a sequence of pages: one per instruction, then notes,
   // then rating as the closing "how'd it go" wrap-up. Optional toppings
@@ -575,6 +595,15 @@ export default function RecipeModal({
               </div>
             </div>
           )}
+
+          {(freshAltByStep.get(i) || []).map((note, ni) => (
+            <div
+              key={ni}
+              style={{ marginTop: ni === 0 ? 18 : 8, background: 'rgba(127,163,99,.14)', border: '1px solid rgba(127,163,99,.32)', borderRadius: 10, padding: '10px 12px', fontSize: 12.5, color: '#9bc47d', lineHeight: 1.5 }}
+            >
+              🌱 {note}
+            </div>
+          ))}
 
           {nextPreview && (
             <div style={{ marginTop: 14, fontSize: 12, color: 'var(--muted)', fontStyle: 'italic' }}>
