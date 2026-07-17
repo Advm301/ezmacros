@@ -1,21 +1,56 @@
 import { useState } from 'react';
-import { PANTRY_CATEGORIES } from '../data/pantryStaples.js';
-import { hapticLight } from '../utils/haptics';
+import { PANTRY_CATEGORIES, PANTRY_STAPLES } from '../data/pantryStaples.js';
+import { hapticLight, hapticSelection } from '../utils/haptics';
 
-// Bottom-sheet drawer for picking pantry items -- pulled out of the Kitchen
-// tab's main flow so the always-visible page doesn't have to render all
-// ~30+ pantry chips across 5 categories up front. Kitchen just shows a
-// compact summary row and opens this on tap.
+const PANTRY_LABELS = Object.fromEntries(PANTRY_STAPLES.map((s) => [s.id, s.label]));
+
+// Short labels for the category quick-filter row -- the full category names
+// ("Canned & Condiments") are fine as section headers but too wide for a
+// row of 5 tappable pills across a 430px screen.
+const CATEGORY_SHORT_LABELS = {
+  'Grains & Starches': 'Grains',
+  'Proteins': 'Proteins',
+  'Dairy & Fridge': 'Dairy',
+  'Produce': 'Produce',
+  'Canned & Condiments': 'Condiments',
+};
+
+// Redesigned after the pantry list grew from ~27 to ~50 items (see
+// pantryStaples.js) -- rendering all of them as one flat wall of pills, all
+// the time, was exactly the "ton of touchable pills / long scroll bar"
+// problem at that scale. This is a search-then-click picker instead:
+// nothing but your already-picked chips shows by default, and a results
+// list only appears once you either type a search or tap one of the 5
+// category pills. Both narrow the same underlying item list, so you can
+// combine them (tap "Proteins" then type "chick" to jump straight to
+// chicken breast/thighs).
 export default function PantryPickerModal({ selectedStaples, toggleStaple, onClose }) {
   const [search, setSearch] = useState('');
+  const [activeCategory, setActiveCategory] = useState(null);
 
   const searchLower = search.trim().toLowerCase();
-  const visibleCategories = PANTRY_CATEGORIES.map((cat) => ({
-    category: cat.category,
-    items: searchLower
-      ? cat.items.filter((s) => s.label.toLowerCase().includes(searchLower))
-      : cat.items,
-  })).filter((cat) => cat.items.length > 0);
+  const showResults = searchLower.length > 0 || activeCategory !== null;
+
+  const results = showResults
+    ? PANTRY_CATEGORIES
+        .filter((cat) => !activeCategory || cat.category === activeCategory)
+        .flatMap((cat) => cat.items)
+        .filter((s) => !searchLower || s.label.toLowerCase().includes(searchLower))
+    : [];
+
+  const selectCategory = (category) => {
+    hapticSelection();
+    setActiveCategory((prev) => (prev === category ? null : category));
+  };
+
+  // Selecting doesn't close the picker or reset the category filter --
+  // just clears the search text so the same "type the next thing" flow
+  // works for adding several items in a row.
+  const selectResult = (id) => {
+    hapticSelection();
+    toggleStaple(id);
+    setSearch('');
+  };
 
   return (
     <div
@@ -33,39 +68,68 @@ export default function PantryPickerModal({ selectedStaples, toggleStaple, onClo
           </div>
         </div>
 
+        {/* Selected items as removable chips -- typically a handful, so
+            this stays compact even as the underlying list has grown. */}
+        {selectedStaples.length > 0 && (
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7, marginBottom: 12 }}>
+            {selectedStaples.map((id) => (
+              <div
+                key={id}
+                className="pill active"
+                onClick={() => { hapticLight(); toggleStaple(id); }}
+              >
+                {PANTRY_LABELS[id] || id} ✕
+              </div>
+            ))}
+          </div>
+        )}
+
         <input
           type="text"
           autoFocus
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search your pantry (e.g. rice, eggs, salsa)..."
-          style={{ width: '100%', boxSizing: 'border-box', background: 'var(--s2)', border: '1px solid var(--border)', borderRadius: 10, color: 'var(--cream)', fontSize: 13, padding: '10px 12px', marginBottom: 12, fontFamily: "'Manrope',sans-serif" }}
+          placeholder="Search 50+ ingredients (e.g. rice, chicken thighs)..."
+          style={{ width: '100%', boxSizing: 'border-box', background: 'var(--s2)', border: '1px solid var(--border)', borderRadius: 10, color: 'var(--cream)', fontSize: 13, padding: '10px 12px', marginBottom: 10, fontFamily: "'Manrope',sans-serif" }}
         />
 
+        {/* One row, 5 pills -- an alternative to typing when you're not sure
+            of the exact name, not a second wall of options. Tapping one
+            scopes the results below to that category; tapping it again (or
+            just searching across all of them) clears the scope. */}
+        <div style={{ display: 'flex', gap: 7, flexWrap: 'wrap', marginBottom: 12 }}>
+          {PANTRY_CATEGORIES.map((cat) => (
+            <div
+              key={cat.category}
+              className={`pill ${activeCategory === cat.category ? 'active' : ''}`}
+              onClick={() => selectCategory(cat.category)}
+            >
+              {CATEGORY_SHORT_LABELS[cat.category] || cat.category}
+            </div>
+          ))}
+        </div>
+
         <div style={{ flex: 1, overflowY: 'auto', paddingBottom: 12 }}>
-          {visibleCategories.length === 0 ? (
+          {!showResults ? (
+            <div style={{ fontSize: 12.5, color: 'var(--muted)', lineHeight: 1.6, textAlign: 'center', padding: '24px 12px' }}>
+              Search for an ingredient, or tap a category above to browse.
+            </div>
+          ) : results.length === 0 ? (
             <div style={{ fontSize: 12, color: 'var(--muted)', fontStyle: 'italic' }}>
               No pantry items match "{search}".
             </div>
           ) : (
-            visibleCategories.map((cat) => (
-              <div key={cat.category} style={{ marginBottom: 16 }}>
-                <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: 7 }}>
-                  {cat.category}
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7 }}>
+              {results.map((s) => (
+                <div
+                  key={s.id}
+                  className={`pill ${selectedStaples.includes(s.id) ? 'active' : ''}`}
+                  onClick={() => selectResult(s.id)}
+                >
+                  {selectedStaples.includes(s.id) ? `✓ ${s.label}` : s.label}
                 </div>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7 }}>
-                  {cat.items.map((s) => (
-                    <div
-                      key={s.id}
-                      className={`pill ${selectedStaples.includes(s.id) ? 'active' : ''}`}
-                      onClick={() => toggleStaple(s.id)}
-                    >
-                      {selectedStaples.includes(s.id) ? `✓ ${s.label}` : s.label}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))
+              ))}
+            </div>
           )}
         </div>
 

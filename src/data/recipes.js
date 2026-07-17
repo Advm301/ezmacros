@@ -63,9 +63,11 @@ export const RECIPES = [
     ],
     "totalTime": 17,
     "pantryTags": [
-      "rice",
       "frozen_veg",
-      "soy_sauce"
+      "rice",
+      "soy_sauce",
+      "teriyaki_sauce",
+      "white_fish"
     ]
   },
   {
@@ -122,11 +124,12 @@ export const RECIPES = [
     ],
     "totalTime": 19,
     "pantryTags": [
-      "rice",
       "frozen_veg",
-      "onion_garlic",
       "hot_sauce",
-      "soy_sauce"
+      "onion_garlic",
+      "rice",
+      "soy_sauce",
+      "white_fish"
     ]
   },
   {
@@ -174,8 +177,9 @@ export const RECIPES = [
     ],
     "totalTime": 24,
     "pantryTags": [
-      "onion_garlic",
-      "butter"
+      "butter",
+      "chicken_thighs",
+      "onion_garlic"
     ]
   },
   {
@@ -221,7 +225,9 @@ export const RECIPES = [
     ],
     "totalTime": 5,
     "pantryTags": [
-      "eggs"
+      "eggs",
+      "mayo",
+      "mustard"
     ]
   },
   {
@@ -295,11 +301,12 @@ export const RECIPES = [
     ],
     "totalTime": 245,
     "pantryTags": [
-      "rice",
+      "bbq_sauce",
       "canned_tomatoes",
       "frozen_veg",
       "ground_beef",
-      "onion_garlic"
+      "onion_garlic",
+      "rice"
     ]
   },
   {
@@ -370,10 +377,12 @@ export const RECIPES = [
     ],
     "totalTime": 28,
     "pantryTags": [
-      "eggs",
+      "canned_tomatoes",
       "cheese",
-      "onion_garlic",
-      "canned_tomatoes"
+      "eggs",
+      "ground_turkey",
+      "marinara",
+      "onion_garlic"
     ]
   },
   {
@@ -420,8 +429,9 @@ export const RECIPES = [
     ],
     "totalTime": 17,
     "pantryTags": [
+      "butter",
       "frozen_veg",
-      "butter"
+      "salmon"
     ]
   },
   {
@@ -470,6 +480,7 @@ export const RECIPES = [
     ],
     "totalTime": 2,
     "pantryTags": [
+      "fruit",
       "greek_yogurt"
     ]
   },
@@ -615,6 +626,7 @@ export const RECIPES = [
     ],
     "totalTime": 2,
     "pantryTags": [
+      "fruit",
       "milk"
     ]
   },
@@ -665,8 +677,11 @@ export const RECIPES = [
     "totalTime": 3,
     "pantryTags": [
       "bread",
+      "buns_rolls",
+      "canned_fish",
       "cheese",
-      "canned_fish"
+      "cream_cheese",
+      "salmon"
     ]
   },
   {
@@ -884,9 +899,12 @@ export const RECIPES = [
     "totalTime": 3,
     "pantryTags": [
       "bread",
+      "buns_rolls",
       "cheese",
+      "cream_cheese",
+      "deli_meat",
       "greek_yogurt",
-      "deli_meat"
+      "mustard"
     ]
   },
   {
@@ -936,6 +954,7 @@ export const RECIPES = [
     ],
     "totalTime": 3,
     "pantryTags": [
+      "avocado",
       "bread",
       "eggs"
     ]
@@ -986,6 +1005,7 @@ export const RECIPES = [
     ],
     "totalTime": 2,
     "pantryTags": [
+      "fruit",
       "greek_yogurt"
     ]
   },
@@ -1092,10 +1112,11 @@ export const RECIPES = [
     ],
     "totalTime": 22,
     "pantryTags": [
-      "rice",
-      "frozen_veg",
       "butter",
-      "hot_sauce"
+      "chicken_breast",
+      "frozen_veg",
+      "hot_sauce",
+      "rice"
     ]
   },
   {
@@ -1145,6 +1166,8 @@ export const RECIPES = [
     ],
     "totalTime": 24,
     "pantryTags": [
+      "bbq_sauce",
+      "chicken_thighs",
       "rice"
     ]
   },
@@ -1200,9 +1223,10 @@ export const RECIPES = [
     ],
     "totalTime": 2,
     "pantryTags": [
-      "rice",
       "frozen_veg",
       "onion_garlic",
+      "rice",
+      "rotisserie_chicken",
       "soy_sauce"
     ]
   },
@@ -1311,9 +1335,11 @@ export const RECIPES = [
     ],
     "totalTime": 3,
     "pantryTags": [
-      "rice",
-      "frozen_veg",
       "canned_fish",
+      "frozen_veg",
+      "mayo",
+      "rice",
+      "salmon",
       "soy_sauce"
     ]
   },
@@ -1374,10 +1400,11 @@ export const RECIPES = [
     ],
     "totalTime": 18,
     "pantryTags": [
-      "rice",
       "frozen_veg",
       "onion_garlic",
-      "soy_sauce"
+      "rice",
+      "soy_sauce",
+      "white_fish"
     ]
   },
   {
@@ -1505,8 +1532,10 @@ export const RECIPES = [
     ],
     "totalTime": 24,
     "pantryTags": [
-      "rice",
-      "frozen_veg"
+      "frozen_veg",
+      "mustard",
+      "pork",
+      "rice"
     ]
   },
   {
@@ -1561,9 +1590,10 @@ export const RECIPES = [
     ],
     "totalTime": 15,
     "pantryTags": [
-      "rice",
+      "butter",
       "frozen_veg",
-      "butter"
+      "rice",
+      "shrimp"
     ]
   },
   {
@@ -1618,6 +1648,7 @@ export const RECIPES = [
     ],
     "totalTime": 26,
     "pantryTags": [
+      "chicken_thighs",
       "rice"
     ]
   },
@@ -1677,9 +1708,10 @@ export const RECIPES = [
     ],
     "totalTime": 425,
     "pantryTags": [
-      "onion_garlic",
       "broth",
-      "butter"
+      "butter",
+      "chicken_thighs",
+      "onion_garlic"
     ]
   },
   {
@@ -1730,8 +1762,10 @@ export const RECIPES = [
     ],
     "totalTime": 4,
     "pantryTags": [
-      "pasta",
-      "canned_fish"
+      "canned_fish",
+      "mayo",
+      "mustard",
+      "pasta"
     ]
   },
   {
@@ -1836,9 +1870,10 @@ export const RECIPES = [
     ],
     "totalTime": 2,
     "pantryTags": [
-      "rice",
       "canned_fish",
-      "hot_sauce"
+      "hot_sauce",
+      "rice",
+      "salmon"
     ]
   },
   {
@@ -1896,7 +1931,8 @@ export const RECIPES = [
     "totalTime": 368,
     "pantryTags": [
       "canned_beans",
-      "canned_tomatoes"
+      "canned_tomatoes",
+      "ground_turkey"
     ]
   },
   {
@@ -1949,8 +1985,9 @@ export const RECIPES = [
     "totalTime": 19,
     "pantryTags": [
       "frozen_veg",
+      "hot_sauce",
       "onion_garlic",
-      "hot_sauce"
+      "salmon"
     ]
   },
   {
@@ -2071,8 +2108,10 @@ export const RECIPES = [
     ],
     "totalTime": 26,
     "pantryTags": [
-      "rice",
       "canned_beans",
+      "chicken_thighs",
+      "mayo",
+      "rice",
       "salsa"
     ]
   },
@@ -2122,8 +2161,10 @@ export const RECIPES = [
     ],
     "totalTime": 3,
     "pantryTags": [
-      "salad_greens",
-      "deli_meat"
+      "avocado",
+      "deli_meat",
+      "mustard",
+      "salad_greens"
     ]
   },
   {
@@ -2178,9 +2219,11 @@ export const RECIPES = [
     ],
     "totalTime": 18,
     "pantryTags": [
-      "rice",
       "frozen_veg",
-      "soy_sauce"
+      "rice",
+      "salmon",
+      "soy_sauce",
+      "teriyaki_sauce"
     ]
   },
   {
@@ -2224,7 +2267,8 @@ export const RECIPES = [
     "totalTime": 1,
     "pantryTags": [
       "rice",
-      "soy_sauce"
+      "soy_sauce",
+      "teriyaki_sauce"
     ]
   },
   {
@@ -2268,7 +2312,8 @@ export const RECIPES = [
     "totalTime": 2,
     "pantryTags": [
       "cheese",
-      "deli_meat"
+      "deli_meat",
+      "mustard"
     ]
   },
   {
@@ -2407,7 +2452,8 @@ export const RECIPES = [
     "totalTime": 3,
     "pantryTags": [
       "bread",
-      "canned_fish"
+      "canned_fish",
+      "mustard"
     ]
   },
   {
@@ -2450,6 +2496,7 @@ export const RECIPES = [
     ],
     "totalTime": 2,
     "pantryTags": [
+      "fruit",
       "greek_yogurt"
     ]
   },
@@ -2654,7 +2701,9 @@ export const RECIPES = [
     ],
     "totalTime": 2,
     "pantryTags": [
-      "hot_sauce"
+      "hot_sauce",
+      "mustard",
+      "rotisserie_chicken"
     ]
   },
   {
@@ -2731,8 +2780,10 @@ export const RECIPES = [
     "totalTime": 6,
     "pantryTags": [
       "bread",
+      "buns_rolls",
       "cheese",
       "ground_beef",
+      "mustard",
       "onion_garlic"
     ]
   },
@@ -2790,10 +2841,12 @@ export const RECIPES = [
     ],
     "totalTime": 8,
     "pantryTags": [
+      "bacon",
+      "bbq_sauce",
       "bread",
+      "buns_rolls",
       "cheese",
-      "ground_beef",
-      "bacon"
+      "ground_beef"
     ]
   },
   {
@@ -2854,7 +2907,11 @@ export const RECIPES = [
     ],
     "totalTime": 7,
     "pantryTags": [
+      "bbq_sauce",
       "bread",
+      "buns_rolls",
+      "ground_turkey",
+      "mustard",
       "onion_garlic"
     ]
   },
@@ -2912,7 +2969,10 @@ export const RECIPES = [
     "totalTime": 23,
     "pantryTags": [
       "bread",
-      "hot_sauce"
+      "buns_rolls",
+      "chicken_breast",
+      "hot_sauce",
+      "mayo"
     ]
   },
   {
@@ -2968,8 +3028,10 @@ export const RECIPES = [
     "totalTime": 14,
     "pantryTags": [
       "bread",
+      "canned_fish",
       "cheese",
-      "canned_fish"
+      "mayo",
+      "mustard"
     ]
   },
   {
@@ -3027,8 +3089,9 @@ export const RECIPES = [
     "totalTime": 6,
     "pantryTags": [
       "bread",
-      "eggs",
+      "buns_rolls",
       "cheese",
+      "eggs",
       "sausage"
     ]
   },
@@ -3143,10 +3206,11 @@ export const RECIPES = [
     ],
     "totalTime": 3,
     "pantryTags": [
-      "tortillas",
-      "salad_greens",
       "bacon",
-      "deli_meat"
+      "deli_meat",
+      "mayo",
+      "salad_greens",
+      "tortillas"
     ]
   },
   {
@@ -3204,6 +3268,7 @@ export const RECIPES = [
     "totalTime": 13,
     "pantryTags": [
       "cheese",
+      "marinara",
       "onion_garlic"
     ]
   },
@@ -3255,7 +3320,8 @@ export const RECIPES = [
     "totalTime": 3,
     "pantryTags": [
       "cheese",
-      "cottage_cheese"
+      "cottage_cheese",
+      "marinara"
     ]
   },
   {
@@ -3306,6 +3372,7 @@ export const RECIPES = [
     ],
     "totalTime": 13,
     "pantryTags": [
+      "bbq_sauce",
       "cheese",
       "rotisserie_chicken"
     ]
@@ -3482,9 +3549,11 @@ export const RECIPES = [
     ],
     "totalTime": 8,
     "pantryTags": [
-      "pasta",
+      "chicken_thighs",
       "frozen_veg",
-      "soy_sauce"
+      "pasta",
+      "soy_sauce",
+      "teriyaki_sauce"
     ]
   },
   {
@@ -3545,9 +3614,10 @@ export const RECIPES = [
     ],
     "totalTime": 8,
     "pantryTags": [
-      "rice",
       "eggs",
       "frozen_veg",
+      "rice",
+      "shrimp",
       "soy_sauce"
     ]
   },
@@ -3598,8 +3668,9 @@ export const RECIPES = [
     "totalTime": 5,
     "pantryTags": [
       "cheese",
+      "greek_yogurt",
       "potatoes",
-      "greek_yogurt"
+      "sour_cream"
     ]
   },
   {
@@ -3715,7 +3786,10 @@ export const RECIPES = [
     "totalTime": 5,
     "pantryTags": [
       "bread",
-      "cheese"
+      "buns_rolls",
+      "cheese",
+      "marinara",
+      "sausage"
     ]
   },
   {
@@ -3777,9 +3851,10 @@ export const RECIPES = [
     ],
     "totalTime": 7,
     "pantryTags": [
-      "rice",
       "ground_beef",
+      "hot_sauce",
       "onion_garlic",
+      "rice",
       "soy_sauce"
     ]
   },
@@ -3835,10 +3910,12 @@ export const RECIPES = [
     ],
     "totalTime": 3,
     "pantryTags": [
-      "tortillas",
-      "cheese",
       "canned_fish",
-      "salad_greens"
+      "cheese",
+      "salad_dressing",
+      "salad_greens",
+      "salmon",
+      "tortillas"
     ]
   },
   {
@@ -3900,9 +3977,10 @@ export const RECIPES = [
     ],
     "totalTime": 8,
     "pantryTags": [
-      "potatoes",
+      "avocado",
       "cottage_cheese",
-      "ground_beef"
+      "ground_beef",
+      "potatoes"
     ]
   },
   {
@@ -4020,9 +4098,10 @@ export const RECIPES = [
     ],
     "totalTime": 33,
     "pantryTags": [
-      "eggs",
       "cottage_cheese",
       "deli_meat",
+      "eggs",
+      "mustard",
       "salad_greens"
     ]
   },
@@ -4078,7 +4157,11 @@ export const RECIPES = [
     ],
     "totalTime": 15,
     "pantryTags": [
-      "rice"
+      "cucumber",
+      "hot_sauce",
+      "mayo",
+      "rice",
+      "shrimp"
     ]
   },
   {
@@ -4144,9 +4227,10 @@ export const RECIPES = [
     ],
     "totalTime": 365,
     "pantryTags": [
+      "broth",
       "cheese",
-      "onion_garlic",
-      "broth"
+      "chicken_thighs",
+      "onion_garlic"
     ]
   },
   {
@@ -4212,6 +4296,8 @@ export const RECIPES = [
     "totalTime": 4,
     "pantryTags": [
       "canned_fish",
+      "cucumber",
+      "hot_sauce",
       "soy_sauce"
     ]
   },
@@ -4269,9 +4355,11 @@ export const RECIPES = [
     ],
     "totalTime": 21,
     "pantryTags": [
-      "rice",
       "cheese",
       "hot_sauce",
+      "mayo",
+      "rice",
+      "shrimp",
       "soy_sauce"
     ]
   },
@@ -4332,8 +4420,10 @@ export const RECIPES = [
     "totalTime": 3,
     "pantryTags": [
       "bread",
+      "canned_fish",
       "cottage_cheese",
-      "canned_fish"
+      "cucumber",
+      "salmon"
     ]
   },
   {
@@ -4459,10 +4549,11 @@ export const RECIPES = [
     ],
     "totalTime": 10,
     "pantryTags": [
-      "tortillas",
+      "broth",
       "cheese",
       "ground_beef",
-      "broth"
+      "salsa",
+      "tortillas"
     ]
   },
   {
@@ -4519,7 +4610,8 @@ export const RECIPES = [
     "totalTime": 18,
     "pantryTags": [
       "frozen_veg",
-      "onion_garlic"
+      "onion_garlic",
+      "salmon"
     ]
   },
   {
@@ -4589,10 +4681,11 @@ export const RECIPES = [
     ],
     "totalTime": 7,
     "pantryTags": [
-      "rice",
       "frozen_veg",
-      "onion_garlic",
       "hot_sauce",
+      "onion_garlic",
+      "rice",
+      "shrimp",
       "soy_sauce"
     ]
   },
@@ -4659,8 +4752,11 @@ export const RECIPES = [
     "totalTime": 20,
     "pantryTags": [
       "bread",
-      "onion_garlic",
-      "hot_sauce"
+      "buns_rolls",
+      "chicken_breast",
+      "hot_sauce",
+      "mayo",
+      "onion_garlic"
     ]
   },
   {
@@ -4720,8 +4816,11 @@ export const RECIPES = [
     ],
     "totalTime": 19,
     "pantryTags": [
-      "rice",
       "frozen_veg",
+      "hot_sauce",
+      "mayo",
+      "rice",
+      "salmon",
       "soy_sauce"
     ]
   },
@@ -4784,9 +4883,11 @@ export const RECIPES = [
     ],
     "totalTime": 16,
     "pantryTags": [
-      "tortillas",
       "greek_yogurt",
-      "salsa"
+      "salsa",
+      "shrimp",
+      "sour_cream",
+      "tortillas"
     ]
   },
   {
@@ -4848,8 +4949,9 @@ export const RECIPES = [
     ],
     "totalTime": 7,
     "pantryTags": [
-      "rice",
       "canned_beans",
+      "ground_turkey",
+      "rice",
       "salsa"
     ]
   },
@@ -4912,9 +5014,12 @@ export const RECIPES = [
     ],
     "totalTime": 8,
     "pantryTags": [
+      "ground_pork",
+      "ground_turkey",
+      "hot_sauce",
       "pasta",
-      "soy_sauce",
-      "peanut_butter"
+      "peanut_butter",
+      "soy_sauce"
     ]
   },
   {
@@ -5034,9 +5139,11 @@ export const RECIPES = [
     ],
     "totalTime": 15,
     "pantryTags": [
-      "rice",
       "frozen_veg",
-      "hot_sauce"
+      "hot_sauce",
+      "rice",
+      "salad_dressing",
+      "shrimp"
     ]
   },
   {
@@ -5101,6 +5208,7 @@ export const RECIPES = [
     "totalTime": 12,
     "pantryTags": [
       "eggs",
+      "marinara",
       "onion_garlic"
     ]
   },
@@ -5277,9 +5385,10 @@ export const RECIPES = [
     ],
     "totalTime": 7,
     "pantryTags": [
+      "bbq_sauce",
       "frozen_veg",
-      "potatoes",
-      "ground_beef"
+      "ground_beef",
+      "potatoes"
     ]
   },
   {
@@ -5406,9 +5515,10 @@ export const RECIPES = [
     ],
     "totalTime": 7,
     "pantryTags": [
-      "rice",
       "frozen_veg",
       "ground_beef",
+      "hot_sauce",
+      "rice",
       "soy_sauce"
     ]
   },
@@ -5457,8 +5567,9 @@ export const RECIPES = [
     ],
     "totalTime": 7,
     "pantryTags": [
-      "pasta",
-      "ground_beef"
+      "ground_beef",
+      "marinara",
+      "pasta"
     ]
   },
   {
@@ -5572,9 +5683,10 @@ export const RECIPES = [
     ],
     "totalTime": 7,
     "pantryTags": [
-      "pasta",
       "frozen_veg",
-      "ground_beef"
+      "ground_beef",
+      "pasta",
+      "sour_cream"
     ]
   },
   {
@@ -5621,10 +5733,11 @@ export const RECIPES = [
     ],
     "totalTime": 6,
     "pantryTags": [
-      "rice",
       "frozen_veg",
       "ground_beef",
-      "soy_sauce"
+      "rice",
+      "soy_sauce",
+      "teriyaki_sauce"
     ]
   },
   {
@@ -5676,9 +5789,10 @@ export const RECIPES = [
     ],
     "totalTime": 6,
     "pantryTags": [
-      "rice",
       "frozen_veg",
+      "ground_chicken",
       "onion_garlic",
+      "rice",
       "soy_sauce"
     ]
   },
@@ -5727,7 +5841,9 @@ export const RECIPES = [
     ],
     "totalTime": 7,
     "pantryTags": [
+      "bbq_sauce",
       "frozen_veg",
+      "ground_chicken",
       "potatoes"
     ]
   },
@@ -5795,9 +5911,10 @@ export const RECIPES = [
     ],
     "totalTime": 6,
     "pantryTags": [
-      "rice",
+      "butter",
       "canned_tomatoes",
-      "butter"
+      "ground_chicken",
+      "rice"
     ]
   },
   {
@@ -5854,8 +5971,10 @@ export const RECIPES = [
     ],
     "totalTime": 7,
     "pantryTags": [
-      "rice",
       "frozen_veg",
+      "ground_chicken",
+      "hot_sauce",
+      "rice",
       "soy_sauce"
     ]
   },
@@ -5904,6 +6023,8 @@ export const RECIPES = [
     ],
     "totalTime": 7,
     "pantryTags": [
+      "ground_chicken",
+      "marinara",
       "pasta"
     ]
   },
@@ -5959,9 +6080,10 @@ export const RECIPES = [
     ],
     "totalTime": 6,
     "pantryTags": [
-      "tortillas",
       "frozen_veg",
-      "salsa"
+      "ground_chicken",
+      "salsa",
+      "tortillas"
     ]
   },
   {
@@ -6017,8 +6139,10 @@ export const RECIPES = [
     ],
     "totalTime": 7,
     "pantryTags": [
+      "frozen_veg",
+      "ground_chicken",
       "pasta",
-      "frozen_veg"
+      "sour_cream"
     ]
   },
   {
@@ -6065,9 +6189,11 @@ export const RECIPES = [
     ],
     "totalTime": 6,
     "pantryTags": [
-      "rice",
       "frozen_veg",
-      "soy_sauce"
+      "ground_chicken",
+      "rice",
+      "soy_sauce",
+      "teriyaki_sauce"
     ]
   },
   {
@@ -6119,9 +6245,10 @@ export const RECIPES = [
     ],
     "totalTime": 6,
     "pantryTags": [
-      "rice",
       "frozen_veg",
+      "ground_pork",
       "onion_garlic",
+      "rice",
       "soy_sauce"
     ]
   },
@@ -6170,7 +6297,9 @@ export const RECIPES = [
     ],
     "totalTime": 7,
     "pantryTags": [
+      "bbq_sauce",
       "frozen_veg",
+      "ground_pork",
       "potatoes"
     ]
   },
@@ -6238,9 +6367,10 @@ export const RECIPES = [
     ],
     "totalTime": 6,
     "pantryTags": [
-      "rice",
+      "butter",
       "canned_tomatoes",
-      "butter"
+      "ground_pork",
+      "rice"
     ]
   },
   {
@@ -6297,8 +6427,10 @@ export const RECIPES = [
     ],
     "totalTime": 7,
     "pantryTags": [
-      "rice",
       "frozen_veg",
+      "ground_pork",
+      "hot_sauce",
+      "rice",
       "soy_sauce"
     ]
   },
@@ -6347,6 +6479,8 @@ export const RECIPES = [
     ],
     "totalTime": 7,
     "pantryTags": [
+      "ground_pork",
+      "marinara",
       "pasta"
     ]
   },
@@ -6402,9 +6536,10 @@ export const RECIPES = [
     ],
     "totalTime": 6,
     "pantryTags": [
-      "tortillas",
       "frozen_veg",
-      "salsa"
+      "ground_pork",
+      "salsa",
+      "tortillas"
     ]
   },
   {
@@ -6460,8 +6595,10 @@ export const RECIPES = [
     ],
     "totalTime": 7,
     "pantryTags": [
+      "frozen_veg",
+      "ground_pork",
       "pasta",
-      "frozen_veg"
+      "sour_cream"
     ]
   },
   {
@@ -6508,9 +6645,11 @@ export const RECIPES = [
     ],
     "totalTime": 6,
     "pantryTags": [
-      "rice",
       "frozen_veg",
-      "soy_sauce"
+      "ground_pork",
+      "rice",
+      "soy_sauce",
+      "teriyaki_sauce"
     ]
   },
   {
@@ -6562,9 +6701,10 @@ export const RECIPES = [
     ],
     "totalTime": 6,
     "pantryTags": [
-      "rice",
       "frozen_veg",
+      "ground_turkey",
       "onion_garlic",
+      "rice",
       "soy_sauce"
     ]
   },
@@ -6613,7 +6753,9 @@ export const RECIPES = [
     ],
     "totalTime": 7,
     "pantryTags": [
+      "bbq_sauce",
       "frozen_veg",
+      "ground_turkey",
       "potatoes"
     ]
   },
@@ -6681,9 +6823,10 @@ export const RECIPES = [
     ],
     "totalTime": 6,
     "pantryTags": [
-      "rice",
+      "butter",
       "canned_tomatoes",
-      "butter"
+      "ground_turkey",
+      "rice"
     ]
   },
   {
@@ -6740,8 +6883,10 @@ export const RECIPES = [
     ],
     "totalTime": 7,
     "pantryTags": [
-      "rice",
       "frozen_veg",
+      "ground_turkey",
+      "hot_sauce",
+      "rice",
       "soy_sauce"
     ]
   },
@@ -6790,6 +6935,8 @@ export const RECIPES = [
     ],
     "totalTime": 7,
     "pantryTags": [
+      "ground_turkey",
+      "marinara",
       "pasta"
     ]
   },
@@ -6845,9 +6992,10 @@ export const RECIPES = [
     ],
     "totalTime": 6,
     "pantryTags": [
-      "tortillas",
       "frozen_veg",
-      "salsa"
+      "ground_turkey",
+      "salsa",
+      "tortillas"
     ]
   },
   {
@@ -6903,8 +7051,10 @@ export const RECIPES = [
     ],
     "totalTime": 7,
     "pantryTags": [
+      "frozen_veg",
+      "ground_turkey",
       "pasta",
-      "frozen_veg"
+      "sour_cream"
     ]
   },
   {
@@ -6951,9 +7101,11 @@ export const RECIPES = [
     ],
     "totalTime": 6,
     "pantryTags": [
-      "rice",
       "frozen_veg",
-      "soy_sauce"
+      "ground_turkey",
+      "rice",
+      "soy_sauce",
+      "teriyaki_sauce"
     ]
   },
   {
@@ -7007,10 +7159,11 @@ export const RECIPES = [
     ],
     "totalTime": 30,
     "pantryTags": [
-      "tortillas",
       "canned_beans",
       "cheese",
-      "potatoes"
+      "potatoes",
+      "salsa",
+      "tortillas"
     ]
   },
   {
@@ -7076,7 +7229,10 @@ export const RECIPES = [
     "totalTime": 15,
     "pantryTags": [
       "cheese",
-      "salad_greens"
+      "fruit",
+      "salad_dressing",
+      "salad_greens",
+      "salmon"
     ]
   },
   {
@@ -7192,6 +7348,7 @@ export const RECIPES = [
     ],
     "totalTime": 23,
     "pantryTags": [
+      "chicken_thighs",
       "pasta",
       "potatoes"
     ]
@@ -7317,8 +7474,10 @@ export const RECIPES = [
     ],
     "totalTime": 15,
     "pantryTags": [
+      "cheese",
+      "marinara",
       "pasta",
-      "cheese"
+      "sausage"
     ]
   },
   {
@@ -7366,7 +7525,11 @@ export const RECIPES = [
       "Toss coleslaw mix with dressing in a bowl. Serve alongside the pork chops."
     ],
     "totalTime": 19,
-    "pantryTags": []
+    "pantryTags": [
+      "bbq_sauce",
+      "pork",
+      "salad_dressing"
+    ]
   },
   {
     "id": 131,
@@ -7447,7 +7610,8 @@ export const RECIPES = [
     ],
     "totalTime": 2,
     "pantryTags": [
-      "cottage_cheese"
+      "cottage_cheese",
+      "fruit"
     ]
   },
   {
@@ -7546,6 +7710,7 @@ export const RECIPES = [
     ],
     "totalTime": 2,
     "pantryTags": [
+      "fruit",
       "greek_yogurt"
     ]
   },
@@ -7680,9 +7845,10 @@ export const RECIPES = [
     ],
     "totalTime": 4,
     "pantryTags": [
+      "butter",
       "canned_fish",
-      "salad_greens",
-      "butter"
+      "mayo",
+      "salad_greens"
     ]
   },
   {
@@ -7733,9 +7899,10 @@ export const RECIPES = [
     ],
     "totalTime": 4,
     "pantryTags": [
-      "tortillas",
+      "hot_sauce",
+      "salad_dressing",
       "salad_greens",
-      "hot_sauce"
+      "tortillas"
     ]
   },
   {
@@ -7794,6 +7961,7 @@ export const RECIPES = [
     "pantryTags": [
       "bread",
       "cheese",
+      "marinara",
       "onion_garlic"
     ]
   },
@@ -7840,8 +8008,9 @@ export const RECIPES = [
     ],
     "totalTime": 8,
     "pantryTags": [
+      "cheese",
       "eggs",
-      "cheese"
+      "sausage"
     ]
   },
   {
@@ -7898,10 +8067,11 @@ export const RECIPES = [
     ],
     "totalTime": 8,
     "pantryTags": [
-      "tortillas",
-      "eggs",
       "cheese",
-      "salsa"
+      "eggs",
+      "salsa",
+      "sausage",
+      "tortillas"
     ]
   },
   {
@@ -7959,9 +8129,10 @@ export const RECIPES = [
     ],
     "totalTime": 28,
     "pantryTags": [
-      "eggs",
+      "bacon",
       "cheese",
-      "bacon"
+      "cream_cheese",
+      "eggs"
     ]
   },
   {
@@ -8014,8 +8185,9 @@ export const RECIPES = [
     ],
     "totalTime": 8,
     "pantryTags": [
-      "rice",
-      "eggs"
+      "eggs",
+      "hot_sauce",
+      "rice"
     ]
   },
   {
@@ -8127,9 +8299,11 @@ export const RECIPES = [
     "totalTime": 5,
     "pantryTags": [
       "bread",
-      "eggs",
+      "buns_rolls",
       "cheese",
-      "hot_sauce"
+      "eggs",
+      "hot_sauce",
+      "mayo"
     ]
   }
 ];
