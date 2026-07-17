@@ -54,6 +54,22 @@ const MOTIVATION_MESSAGES = [
   () => 'Almost there!',
   (done, total) => `That's ${done} step${done === 1 ? '' : 's'} down, ${Math.max(total - done, 0)} to go!`,
   (done) => `Step ${done} done -- keep it up!`,
+  () => 'Smells good already.',
+  () => 'Look at you go.',
+  () => "You're on a roll.",
+  () => 'Great progress.',
+  () => 'One step closer to dinner.',
+  () => 'Crushing it.',
+  () => 'Keep that momentum up.',
+  () => "That's the way.",
+  () => 'Making it happen.',
+  () => 'Onward!',
+  () => 'Nailed it.',
+  () => 'Solid work.',
+  () => 'This is coming together nicely.',
+  () => 'Chef mode: activated.',
+  () => "You're doing great.",
+  () => 'Not so bad, right?',
 ];
 
 function getMotivationMessage(doneCount, totalCount) {
@@ -1038,6 +1054,32 @@ export default function RecipeModal({
               ) : (
                 renderCookPage()
               )}
+              {/* Brief encouragement pill -- see showMotivation/
+                  goNextCookPage. Sits in normal flow between the step
+                  content and the Back/Next row rather than floating over
+                  the button, so it never overlaps whatever the step
+                  happens to end with (toppings, a note link, etc.) -- it
+                  just nudges the buttons down a touch while it's showing. */}
+              {motivationMsg && (
+                <div style={{ display: 'flex', justifyContent: 'center', marginTop: 14 }}>
+                  <div
+                    style={{
+                      background: 'var(--lime)',
+                      color: '#000',
+                      padding: '5px 13px',
+                      borderRadius: 100,
+                      fontSize: 12,
+                      fontWeight: 700,
+                      fontFamily: "'Manrope',sans-serif",
+                      whiteSpace: 'nowrap',
+                      boxShadow: '0 4px 12px rgba(0,0,0,.3)',
+                      pointerEvents: 'none',
+                    }}
+                  >
+                    {motivationMsg}
+                  </div>
+                </div>
+              )}
               <div style={{ display: 'flex', gap: 10, marginTop: 24 }}>
                 <button onClick={goPrevCookPage} style={navBtnStyle}>
                   ← Back
@@ -1048,33 +1090,6 @@ export default function RecipeModal({
                   </button>
                   {burstId > 0 && (
                     <SparkBurst key={burstId} intensity={cookProgress} onDone={() => setBurstId(0)} />
-                  )}
-                  {/* Brief encouragement popup, floating just above the Next
-                      button -- see showMotivation/goNextCookPage. Purely a
-                      little momentum boost through the middle of a recipe,
-                      not tied to anything persisted. */}
-                  {motivationMsg && (
-                    <div
-                      style={{
-                        position: 'absolute',
-                        bottom: '100%',
-                        left: '50%',
-                        transform: 'translateX(-50%)',
-                        marginBottom: 10,
-                        background: 'var(--lime)',
-                        color: '#000',
-                        padding: '8px 16px',
-                        borderRadius: 100,
-                        fontSize: 13,
-                        fontWeight: 700,
-                        fontFamily: "'Manrope',sans-serif",
-                        whiteSpace: 'nowrap',
-                        boxShadow: '0 6px 18px rgba(0,0,0,.35)',
-                        pointerEvents: 'none',
-                      }}
-                    >
-                      {motivationMsg}
-                    </div>
                   )}
                 </div>
               </div>
