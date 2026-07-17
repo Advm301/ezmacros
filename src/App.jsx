@@ -74,6 +74,12 @@ export default function App() {
   const [savedDate, setSavedDate] = useState(todayString());
   const [showFeedback, setShowFeedback] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+
+  const showToast = (message) => {
+    setToast(message);
+    setTimeout(() => setToast(null), 2500);
+  };
+
   const {
     saved,
     isSaved,
@@ -83,7 +89,7 @@ export default function App() {
     updateIngredientOverride,
     updateInstructionOverride,
     updateStepNote,
-  } = useSavedRecipes();
+  } = useSavedRecipes(() => showToast('★ Saved to Favorites'));
   const { getRatingSummary, getMyRatingEntry, rateRecipe, getPhotoSignedUrl } = useRecipeRatings(session?.user?.id);
   const diary = useDiary(session?.user?.id);
 
@@ -155,11 +161,6 @@ export default function App() {
       console.error('Error clearing local recipe data:', err);
     }
     await supabase.auth.signOut();
-  };
-
-  const showToast = (message) => {
-    setToast(message);
-    setTimeout(() => setToast(null), 2500);
   };
 
   // Bridges RecipeModal's (recipeId, date, slot) call shape to useDiary's
