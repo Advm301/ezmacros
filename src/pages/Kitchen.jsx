@@ -8,182 +8,59 @@ import SurpriseSparkles from '../components/SurpriseSparkles';
 import FindRecipesSparkles from '../components/FindRecipesSparkles';
 import { getProteinCardBackground } from '../utils/proteinColors';
 
-const MEAL_TYPES = [
-  { label: 'Breakfast', value: 'breakfast' },
-  { label: 'Lunch', value: 'lunch_dinner' },
-  { label: 'Dinner', value: 'lunch_dinner' },
-  { label: 'Snack', value: 'snack' },
-];
-
-const PROTEINS = [
-  { label: 'Chicken', value: 'chicken' },
-  { label: 'Beef', value: 'beef' },
-  { label: 'Turkey', value: 'turkey' },
-  { label: 'Fish', value: 'fish' },
-  { label: 'Eggs', value: 'eggs' },
-  { label: 'Pork', value: 'pork' },
-];
-
-const FLAVORS = [
-  { label: 'Spicy', value: 'spicy' },
-  { label: 'Saucy', value: 'saucy' },
-  { label: 'Neutral', value: 'neutral' },
-  { label: 'Asian', value: 'asian' },
-  { label: 'Italian', value: 'italian' },
-  { label: 'Mediterranean', value: 'mediterranean' },
-  { label: 'BBQ', value: 'bbq' },
-  { label: 'Mexican', value: 'mexican' },
-];
-
-// "High Protein" = estimated 35g+ protein per serving -- called out here
-// since it's not obvious from the label alone what the cutoff is.
-const QUICK_FILTERS = [
-  { label: 'Air Fryer', value: 'air_fryer' },
-  { label: 'High Protein (35g+)', value: 'high_protein' },
-  { label: 'Grab & Go', value: 'grab_and_go' },
-  { label: 'Meal Prep (multi-portion)', value: 'meal_prep' },
-];
-
 const PANTRY_LABELS = Object.fromEntries(PANTRY_STAPLES.map((s) => [s.id, s.label]));
 
-// Native <select> in place of a horizontally-scrolling pill row -- tapping
-// it opens the OS's own picker (the wheel on iOS) instead of requiring a
-// swipe gesture to see the rest of the options. Styled to match the pill
-// aesthetic as closely as a native form control allows; the picker sheet
-// itself is rendered by the OS and isn't something we can restyle.
-function FilterSelect({ label, value, onChange, options, placeholder }) {
-  return (
-    <div className="filter-sec">
-      <div className="filter-label">{label}</div>
-      <div style={{ position: 'relative' }}>
-        <select
-          value={value ?? ''}
-          onChange={(e) => onChange(e.target.value || null)}
-          style={{
-            width: '100%',
-            boxSizing: 'border-box',
-            appearance: 'none',
-            WebkitAppearance: 'none',
-            MozAppearance: 'none',
-            background: 'var(--s2)',
-            border: '1px solid var(--border)',
-            borderRadius: 10,
-            color: 'var(--cream)',
-            fontSize: 13,
-            fontWeight: 600,
-            fontFamily: "'Manrope',sans-serif",
-            padding: '11px 34px 11px 14px',
-            cursor: 'pointer',
-          }}
-        >
-          {/* Real CSS gradients aren't supported inside a native <option>
-              list (it renders in its own OS popup, not the app's DOM
-              layers) -- this solid dark blue-black is the closest match to
-              the app's teal-to-near-black palette that's reliably
-              respected cross-browser, instead of the browser's default
-              white. */}
-          <option value="" style={{ backgroundColor: '#052d37', color: 'var(--cream)' }}>{placeholder}</option>
-          {options.map((o) => (
-            <option key={o.value} value={o.value} style={{ backgroundColor: '#052d37', color: 'var(--cream)' }}>
-              {o.label}
-            </option>
-          ))}
-        </select>
-        <span
-          aria-hidden="true"
-          style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', fontSize: 11, color: 'var(--muted)', pointerEvents: 'none' }}
-        >
-          ▾
-        </span>
-      </div>
-    </div>
-  );
-}
-
-// When pantry staples are selected, recipes are filtered to those that use
-// at least one of them, then sorted so the recipes using the MOST of your
-// picks show up first -- closest matches to "what I already have" win.
-function filterRecipes(recipes, mealTypeLabel, protein, flavor, quickFilter, selectedStaples) {
-  const mealTypeValue = MEAL_TYPES.find((m) => m.label === mealTypeLabel)?.value;
-  let filtered = recipes.filter((r) => {
-    if (mealTypeValue && r.mealType !== mealTypeValue) return false;
-    if (protein && !r.proteins.includes(protein)) return false;
-    if (flavor && r.flavor !== flavor) return false;
-    if (quickFilter === 'air_fryer' && r.method !== 'Air Fryer') return false;
-    if (quickFilter === 'high_protein' && !(r.tags || []).includes('high_protein')) return false;
-    if (quickFilter === 'grab_and_go' && !(r.tags || []).includes('grab_and_go')) return false;
-    if (quickFilter === 'meal_prep' && !(r.servings > 1)) return false;
-    return true;
-  });
-
-  if (selectedStaples.length > 0) {
-    filtered = filtered
-      .filter((r) => (r.pantryTags || []).some((t) => selectedStaples.includes(t)))
-      .map((r) => ({ ...r, _matchCount: (r.pantryTags || []).filter((t) => selectedStaples.includes(t)).length }))
-      .sort((a, b) => b._matchCount - a._matchCount);
-  }
-
-  return filtered;
+// Kitchen used to duplicate Browse's Meal Type/Protein/Flavor/Quick Filter
+// dropdowns almost exactly -- same filters, same underlying data, just a
+// second place to set them. That overlap made the two tabs feel
+// interchangeable rather than distinct. Kitchen's actual, unique job is
+// "what can I make with what's already here" -- so it's now pantry-in,
+// recipe-out (plus the no-input Surprise Me shortcut) and nothing else.
+// Browse remains the general-purpose search/filter/sort tool over the
+// whole catalog.
+//
+// With no staples selected, every recipe is an equally valid match (there's
+// nothing to rank against), so this just returns the full list -- Surprise
+// Me uses that to mean "pick anything," while Find Recipes is disabled
+// below until at least one staple is picked, since showing all 144 recipes
+// unranked isn't a useful "find" result.
+function filterRecipes(recipes, selectedStaples) {
+  if (selectedStaples.length === 0) return recipes;
+  return recipes
+    .filter((r) => (r.pantryTags || []).some((t) => selectedStaples.includes(t)))
+    .map((r) => ({ ...r, _matchCount: (r.pantryTags || []).filter((t) => selectedStaples.includes(t)).length }))
+    .sort((a, b) => b._matchCount - a._matchCount);
 }
 
 export default function Kitchen({ onOpen, getRatingSummary }) {
-  const [mealType, setMealType] = useState(null);
-  const [protein, setProtein] = useState(null);
-  const [flavor, setFlavor] = useState(null);
-  const [quickFilter, setQuickFilter] = useState(null);
   const [selectedStaples, setSelectedStaples] = useState([]);
-  const [showMoreFilters, setShowMoreFilters] = useState(false);
   const [showPantryModal, setShowPantryModal] = useState(false);
   const [results, setResults] = useState(null);
   const [surpriseError, setSurpriseError] = useState('');
 
-  const moreFiltersCount = (quickFilter ? 1 : 0) + (flavor ? 1 : 0);
-  // Drives whether the "Clear All Filters" link shows at all -- no point
-  // offering to clear filters that are already at their defaults.
-  const anyFilterActive = Boolean(
-    mealType || protein || flavor || quickFilter || selectedStaples.length > 0
-  );
+  const anyFilterActive = selectedStaples.length > 0;
 
   const toggleStaple = (id) => {
     hapticSelection();
     setSelectedStaples((prev) => (prev.includes(id) ? prev.filter((s) => s !== id) : [...prev, id]));
   };
 
-  const selectMealType = (label) => {
-    hapticSelection();
-    setMealType(label);
-  };
-
-  const selectProtein = (value) => {
-    hapticSelection();
-    setProtein(value);
-  };
-
-  const selectFlavor = (value) => {
-    hapticSelection();
-    setFlavor(value);
-  };
-
-  const selectQuickFilter = (value) => {
-    hapticSelection();
-    setQuickFilter(value);
-  };
-
   const handleFindRecipes = () => {
+    if (selectedStaples.length === 0) return;
     hapticLight();
     setSurpriseError('');
-    setResults(filterRecipes(RECIPES, mealType, protein, flavor, quickFilter, selectedStaples));
+    setResults(filterRecipes(RECIPES, selectedStaples));
   };
 
-  // Picks one random recipe from whatever the current filters/pantry
-  // selection match (or the full recipe list if nothing is set) and opens
-  // it directly -- a shortcut for "just decide for me."
+  // Picks one random recipe from whatever your pantry picks match (or the
+  // full recipe list if nothing's selected yet) and opens it directly -- a
+  // shortcut for "just decide for me," no ingredients required.
   const handleSurpriseMe = () => {
     hapticMedium();
     setSurpriseError('');
-    const pool = filterRecipes(RECIPES, mealType, protein, flavor, quickFilter, selectedStaples);
+    const pool = filterRecipes(RECIPES, selectedStaples);
     if (pool.length === 0) {
-      setSurpriseError('No recipes match those filters to surprise you with -- try loosening them.');
+      setSurpriseError('No recipes match those ingredients to surprise you with -- try picking a few different ones.');
       return;
     }
     const pick = pool[Math.floor(Math.random() * pool.length)];
@@ -192,10 +69,6 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
 
   const reset = () => {
     hapticLight();
-    setMealType(null);
-    setProtein(null);
-    setFlavor(null);
-    setQuickFilter(null);
     setSelectedStaples([]);
     setResults(null);
     setSurpriseError('');
@@ -221,71 +94,12 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
               onClick={reset}
               style={{ fontSize: 11, color: 'var(--muted)', cursor: 'pointer', textDecoration: 'underline', whiteSpace: 'nowrap', marginTop: 6 }}
             >
-              Clear All Filters
+              Clear
             </div>
           )}
         </div>
         <div className="sub" style={{ marginBottom: 14 }}>
-          Pick a meal type (or all), a protein, and (optionally) what's already in your kitchen — get quick recipes.
-        </div>
-
-        <FilterSelect
-          label="Meal Type"
-          placeholder="All Meals"
-          value={mealType}
-          onChange={(val) => selectMealType(val)}
-          options={MEAL_TYPES.map((m) => ({ label: m.label, value: m.label }))}
-        />
-
-        <FilterSelect
-          label="Protein"
-          placeholder="Any Protein"
-          value={protein}
-          onChange={(val) => selectProtein(val)}
-          options={PROTEINS.map((p) => ({ label: p.label, value: p.value }))}
-        />
-
-        {/* Quick Filter and Flavor are both optional refinements -- tucked
-            behind a single collapsible toggle so the page doesn't front-load
-            two extra rows of chips nobody has to touch. */}
-        <div className="filter-sec">
-          <div
-            onClick={() => { hapticSelection(); setShowMoreFilters((v) => !v); }}
-            style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer', padding: '6px 0' }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--cream)' }}>More Filters</span>
-              <span style={{ fontSize: 11, color: 'var(--muted)' }}>(Quick Filter, Flavor)</span>
-              {moreFiltersCount > 0 && (
-                <span style={{ fontSize: 10, fontWeight: 700, color: '#000', background: 'var(--lime)', borderRadius: 100, padding: '2px 7px' }}>
-                  {moreFiltersCount}
-                </span>
-              )}
-            </div>
-            <span style={{ fontSize: 11, color: 'var(--muted)', transform: showMoreFilters ? 'rotate(180deg)' : 'none', transition: 'transform .15s', display: 'inline-block' }}>
-              ▾
-            </span>
-          </div>
-
-          {showMoreFilters && (
-            <div style={{ marginTop: 8 }}>
-              <FilterSelect
-                label="Quick Filter (optional)"
-                placeholder="Any"
-                value={quickFilter}
-                onChange={(val) => selectQuickFilter(val)}
-                options={QUICK_FILTERS.map((q) => ({ label: q.label, value: q.value }))}
-              />
-
-              <FilterSelect
-                label="Flavor (optional)"
-                placeholder="Any Flavor"
-                value={flavor}
-                onChange={(val) => selectFlavor(val)}
-                options={FLAVORS.map((f) => ({ label: f.label, value: f.value }))}
-              />
-            </div>
-          )}
+          Tell us what's already in your kitchen and we'll find recipes that use it -- or hit Surprise Me to skip the decision entirely.
         </div>
 
         {/* Pantry picking lives in its own drawer (PantryPickerModal) instead
@@ -294,7 +108,7 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
         <div className="filter-sec" style={{ marginBottom: 10 }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
             <div className="filter-label" style={{ marginBottom: 0 }}>
-              What Do You Have? (optional)
+              What Do You Have?
             </div>
             {selectedStaples.length > 0 && (
               <div
@@ -347,10 +161,10 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
           {results.length === 0 ? (
             <div style={{ background: 'var(--s1)', border: '2px solid var(--lime)', borderRadius: 16, padding: 20, textAlign: 'center' }}>
               <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--cream)', marginBottom: 10 }}>
-                No recipes match those filters
+                No recipes match those ingredients
               </div>
               <div style={{ fontSize: 13, color: 'var(--muted)', lineHeight: 1.6, marginBottom: 14 }}>
-                Try a different protein, drop the flavor filter, or select fewer pantry items.
+                Try picking a few different pantry items.
               </div>
               <div className="quick-chip" style={{ display: 'inline-block' }} onClick={reset}>
                 Start Over
@@ -411,14 +225,18 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
       )}
 
       {/* Sticky action bar -- always visible above the bottom nav so the
-          primary "do the thing" action never gets buried below the filter
-          sections, no matter how many are expanded. */}
+          primary "do the thing" action never gets buried below the pantry
+          picker. Find Recipes is disabled until at least one ingredient is
+          picked (unranked "here's all 144 recipes" isn't a useful "find"
+          result); Surprise Me stays enabled always, since it needs no
+          input at all -- that's the whole point of it. */}
       <div style={{ position: 'fixed', bottom: 58, left: '50%', transform: 'translateX(-50%)', width: '100%', maxWidth: 430, background: 'var(--bg)', borderTop: '1px solid var(--border)', padding: '10px 18px', boxSizing: 'border-box', zIndex: 25 }}>
         <div style={{ display: 'flex', gap: 10 }}>
           <div style={{ position: 'relative', flex: 1 }}>
             <button
               className="gen-kitchen-btn find-recipes-btn"
               style={{ width: '100%', marginBottom: 0 }}
+              disabled={selectedStaples.length === 0}
               onClick={handleFindRecipes}
             >
               ✦ Find Recipes
