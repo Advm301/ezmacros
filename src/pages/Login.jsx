@@ -2,38 +2,39 @@ import { useState } from 'react';
 import { supabase } from '../lib/supabase';
 
 export default function Login() {
-  const [step, setStep] = useState("email"); // "email" or "code"
+  const [mode, setMode] = useState("signin"); // "signin" or "signup"
   const [email, setEmail] = useState("");
-  const [code, setCode] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [verifying, setVerifying] = useState(false);
   const [message, setMessage] = useState(null);
   const [error, setError] = useState(null);
 
-  const handleSendMagicLink = async (e) => {
+  const switchMode = (nextMode) => {
+    setMode(nextMode);
+    setError(null);
+    setMessage(null);
+  };
+
+  const handleSignIn = async (e) => {
     e.preventDefault();
     setError(null);
     setMessage(null);
 
-    if (!email.trim()) {
-      setError("Please enter your email");
+    if (!email.trim() || !password) {
+      setError("Please enter your email and password");
       return;
     }
 
     setLoading(true);
     try {
-      const { error: err } = await supabase.auth.signInWithOtp({
+      const { error: err } = await supabase.auth.signInWithPassword({
         email: email.trim(),
-        options: {
-          emailRedirectTo: window.location.origin,
-        },
+        password,
       });
 
       if (err) {
         setError(err.message);
-      } else {
-        setMessage("Code sent to your email");
-        setStep("code");
       }
     } catch (err) {
       setError(err.message || "Something went wrong");
@@ -42,33 +43,82 @@ export default function Login() {
     }
   };
 
-  const handleVerifyCode = async (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
     setError(null);
     setMessage(null);
 
-    if (!code.trim() || code.length !== 6) {
-      setError("Please enter a 6-digit code");
+    if (!email.trim() || !password) {
+      setError("Please enter your email and password");
       return;
     }
 
-    setVerifying(true);
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError("Passwords don't match");
+      return;
+    }
+
+    setLoading(true);
     try {
-      const { error: err } = await supabase.auth.verifyOtp({
+      const { data, error: err } = await supabase.auth.signUp({
         email: email.trim(),
-        token: code.trim(),
-        type: 'email',
+        password,
       });
 
       if (err) {
         setError(err.message);
+      } else if (!data.session) {
+        setMessage("Account created. Check your email to confirm, then sign in.");
+        setMode("signin");
       }
+      // If a session comes back immediately, App.jsx's auth listener
+      // will pick it up and move past the login screen.
     } catch (err) {
       setError(err.message || "Something went wrong");
     } finally {
-      setVerifying(false);
+      setLoading(false);
     }
   };
+
+  const inputStyle = {
+    width: "100%",
+    background: "var(--s2)",
+    border: "1px solid var(--border)",
+    borderRadius: 12,
+    padding: "14px 16px",
+    color: "var(--cream)",
+    fontSize: 15,
+    fontFamily: "'Manrope', sans-serif",
+    marginBottom: 16,
+    boxSizing: "border-box",
+    outline: "none",
+    transition: "border-color 0.15s",
+  };
+
+  const focusHandlers = {
+    onFocus: (e) => { e.target.style.borderColor = "var(--lime)"; },
+    onBlur: (e) => { e.target.style.borderColor = "var(--border)"; },
+  };
+
+  const buttonStyle = (disabled) => ({
+    width: "100%",
+    background: "var(--lime)",
+    color: "#000",
+    border: "none",
+    borderRadius: 12,
+    padding: "14px 16px",
+    fontSize: 15,
+    fontWeight: 700,
+    fontFamily: "'Manrope', sans-serif",
+    cursor: disabled ? "not-allowed" : "pointer",
+    opacity: disabled ? 0.6 : 1,
+    transition: "opacity 0.15s",
+  });
 
   return (
     <div style={{
@@ -108,130 +158,95 @@ export default function Login() {
           Real meals. Real ingredients. Actually easy.
         </div>
 
-        {/* Step 1: Email */}
-        {step === "email" && (
-          <form onSubmit={handleSendMagicLink} style={{marginBottom: 24}}>
+        {/* Sign In */}
+        {mode === "signin" && (
+          <form onSubmit={handleSignIn} style={{marginBottom: 24}}>
             <input
               type="email"
               placeholder="you@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               disabled={loading}
-              style={{
-                width: "100%",
-                background: "var(--s2)",
-                border: "1px solid var(--border)",
-                borderRadius: 12,
-                padding: "14px 16px",
-                color: "var(--cream)",
-                fontSize: 15,
-                fontFamily: "'Manrope', sans-serif",
-                marginBottom: 16,
-                boxSizing: "border-box",
-                outline: "none",
-                transition: "border-color 0.15s",
-              }}
-              onFocus={(e) => {
-                e.target.style.borderColor = "var(--lime)";
-              }}
-              onBlur={(e) => {
-                e.target.style.borderColor = "var(--border)";
-              }}
+              style={inputStyle}
+              {...focusHandlers}
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              disabled={loading}
+              style={inputStyle}
+              {...focusHandlers}
             />
 
-            <button
-              type="submit"
-              disabled={loading}
-              style={{
-                width: "100%",
-                background: "var(--lime)",
-                color: "#000",
-                border: "none",
-                borderRadius: 12,
-                padding: "14px 16px",
-                fontSize: 15,
-                fontWeight: 700,
-                fontFamily: "'Manrope', sans-serif",
-                cursor: loading ? "not-allowed" : "pointer",
-                opacity: loading ? 0.6 : 1,
-                transition: "opacity 0.15s",
-              }}
-            >
-              {loading ? "Sending..." : "Send Magic Link"}
+            <button type="submit" disabled={loading} style={buttonStyle(loading)}>
+              {loading ? "Signing in..." : "Sign In"}
             </button>
-          </form>
-        )}
 
-        {/* Step 2: Code Verification */}
-        {step === "code" && (
-          <form onSubmit={handleVerifyCode} style={{marginBottom: 24}}>
             <div style={{
               fontSize: 13,
               color: "var(--muted)",
-              marginBottom: 12,
-              fontWeight: 600,
+              marginTop: 16,
             }}>
-              Enter the code from your email
+              Don't have an account?{" "}
+              <span
+                onClick={() => switchMode("signup")}
+                style={{ color: "var(--lime)", cursor: "pointer", fontWeight: 600 }}
+              >
+                Sign up
+              </span>
             </div>
+          </form>
+        )}
+
+        {/* Sign Up */}
+        {mode === "signup" && (
+          <form onSubmit={handleSignUp} style={{marginBottom: 24}}>
             <input
-              type="text"
-              placeholder="000000"
-              maxLength="6"
-              value={code}
-              onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))}
-              disabled={verifying}
-              style={{
-                width: "100%",
-                background: "var(--s2)",
-                border: "1px solid var(--border)",
-                borderRadius: 12,
-                padding: "14px 16px",
-                color: "var(--cream)",
-                fontSize: 15,
-                fontFamily: "'Courier New', monospace",
-                marginBottom: 16,
-                boxSizing: "border-box",
-                outline: "none",
-                transition: "border-color 0.15s",
-                textAlign: "center",
-                letterSpacing: "2px",
-              }}
-              onFocus={(e) => {
-                e.target.style.borderColor = "var(--lime)";
-              }}
-              onBlur={(e) => {
-                e.target.style.borderColor = "var(--border)";
-              }}
+              type="email"
+              placeholder="you@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              disabled={loading}
+              style={inputStyle}
+              {...focusHandlers}
+            />
+            <input
+              type="password"
+              placeholder="Password (min 6 characters)"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              disabled={loading}
+              style={inputStyle}
+              {...focusHandlers}
+            />
+            <input
+              type="password"
+              placeholder="Confirm password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              disabled={loading}
+              style={inputStyle}
+              {...focusHandlers}
             />
 
-            <button
-              type="submit"
-              disabled={verifying}
-              style={{
-                width: "100%",
-                background: "var(--lime)",
-                color: "#000",
-                border: "none",
-                borderRadius: 12,
-                padding: "14px 16px",
-                fontSize: 15,
-                fontWeight: 700,
-                fontFamily: "'Manrope', sans-serif",
-                cursor: verifying ? "not-allowed" : "pointer",
-                opacity: verifying ? 0.6 : 1,
-                transition: "opacity 0.15s",
-              }}
-            >
-              {verifying ? "Verifying..." : "Verify Code"}
+            <button type="submit" disabled={loading} style={buttonStyle(loading)}>
+              {loading ? "Creating account..." : "Create Account"}
             </button>
 
             <div style={{
-              fontSize: 12,
+              fontSize: 13,
               color: "var(--muted)",
               marginTop: 16,
-              lineHeight: 1.6,
             }}>
-              Or click the link in the email
+              Already have an account?{" "}
+              <span
+                onClick={() => switchMode("signin")}
+                style={{ color: "var(--lime)", cursor: "pointer", fontWeight: 600 }}
+              >
+                Sign in
+              </span>
             </div>
           </form>
         )}
@@ -267,17 +282,6 @@ export default function Login() {
             ✕ {error}
           </div>
         )}
-
-
-        {/* Footer */}
-        <div style={{
-          fontSize: 12,
-          color: "var(--muted)",
-          marginTop: 40,
-          lineHeight: 1.6,
-        }}>
-          We'll send you a magic link. No password needed.
-        </div>
       </div>
     </div>
   );
