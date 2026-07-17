@@ -129,6 +129,32 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
   100%{left:130%;}
 }
 
+/* COOK ACTION: 'Let's Make It' and the cook wizard's Next/Finish button --
+   the two primary "keep moving forward" CTAs in the recipe flow, previously
+   plain white like every other .gen-kitchen-btn. Electric blue-to-teal
+   gradient ties back to the modal's own teal header without repeating
+   Surprise Me's purple, Find Recipes' green, or the motivation pill's gold.
+   Same glossy shine-layer technique as those; unlike the pill (which pops
+   in once and is gone in ~1.6s) these buttons sit on screen for the whole
+   step, so they get the slow ring-pulse loop instead of a one-shot entrance. */
+.cook-action-btn{
+  position:relative;overflow:visible;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.5) 0%, rgba(255,255,255,.14) 24%, rgba(255,255,255,0) 45%),
+    linear-gradient(180deg, rgba(255,255,255,0) 55%, rgba(0,0,0,.22) 100%),
+    linear-gradient(135deg, var(--blue) 0%, var(--teal) 100%) !important;
+  color:#fff !important;
+  border:1px solid rgba(255,255,255,.35) !important;
+  box-shadow: inset 0 1px 1px rgba(255,255,255,.4), inset 0 -3px 5px rgba(0,0,0,.22), 0 3px 0 rgba(0,0,0,.3) !important;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .cook-action-btn{animation:cook-action-pulse 2.6s ease-in-out infinite;}
+}
+@keyframes cook-action-pulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(77,184,255,.45), inset 0 1px 1px rgba(255,255,255,.4), inset 0 -3px 5px rgba(0,0,0,.22), 0 3px 0 rgba(0,0,0,.3);}
+  50%{box-shadow:0 0 0 7px rgba(77,184,255,0), inset 0 1px 1px rgba(255,255,255,.4), inset 0 -3px 5px rgba(0,0,0,.22), 0 3px 0 rgba(0,0,0,.3);}
+}
+
 /* SURPRISE ME: unique purple/pink "magic" gradient + pulsing glow + a few
    twinkling sparkles, wherever this button appears, so it reads as a fun
    wildcard action rather than just another button in the row. The extra

@@ -1013,7 +1013,7 @@ export default function RecipeModal({
 
               {canCook && (
                 <>
-                  <button className="gen-kitchen-btn" onClick={goToCook} style={{ marginTop: 4, marginBottom: 8 }}>
+                  <button className="gen-kitchen-btn cook-action-btn" onClick={goToCook} style={{ marginTop: 4, marginBottom: 8 }}>
                     Let's Make It
                   </button>
                   <div style={{ fontSize: 11, color: 'var(--muted)', textAlign: 'center' }}>
@@ -1097,7 +1097,7 @@ export default function RecipeModal({
                   ← Back
                 </button>
                 <div style={{ position: 'relative', flex: 1 }}>
-                  <button className="gen-kitchen-btn" onClick={goNextCookPage} style={{ width: '100%', marginBottom: 0 }}>
+                  <button className="gen-kitchen-btn cook-action-btn" onClick={goNextCookPage} style={{ width: '100%', marginBottom: 0 }}>
                     {cookStep === cookPages.length - 1 ? 'Finish' : 'Next →'}
                   </button>
                   {burstId > 0 && (
