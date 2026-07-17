@@ -751,6 +751,11 @@ export default function RecipeModal({
                 {formatTime(r.activeTime, r.totalTime)}
               </div>
             )}
+            {r.servings > 1 && (
+              <div style={{ marginTop: 6 }}>
+                <span className="ezb pkg">📦 Meal Prep · Makes {r.servings}</span>
+              </div>
+            )}
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 8 }}>
             {toggleSaved && (

@@ -41,6 +41,7 @@ const QUICK_FILTERS = [
   { label: 'Air Fryer', value: 'air_fryer' },
   { label: 'High Protein (35g+)', value: 'high_protein' },
   { label: 'Grab & Go', value: 'grab_and_go' },
+  { label: 'Meal Prep (multi-portion)', value: 'meal_prep' },
 ];
 
 const PANTRY_LABELS = Object.fromEntries(PANTRY_STAPLES.map((s) => [s.id, s.label]));
@@ -111,6 +112,7 @@ function filterRecipes(recipes, mealTypeLabel, protein, flavor, quickFilter, sel
     if (quickFilter === 'air_fryer' && r.method !== 'Air Fryer') return false;
     if (quickFilter === 'high_protein' && !(r.tags || []).includes('high_protein')) return false;
     if (quickFilter === 'grab_and_go' && !(r.tags || []).includes('grab_and_go')) return false;
+    if (quickFilter === 'meal_prep' && !(r.servings > 1)) return false;
     return true;
   });
 
@@ -380,6 +382,11 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
                         <> · ★ {getRatingSummary(r.id).avg.toFixed(1)} ({getRatingSummary(r.id).count})</>
                       )}
                     </div>
+                    {r.servings > 1 && (
+                      <div style={{ marginTop: 4 }}>
+                        <span className="ezb pkg">📦 Meal Prep · Makes {r.servings}</span>
+                      </div>
+                    )}
                     {selectedStaples.length > 0 && (
                       <div style={{ fontSize: 11, color: 'var(--lime)', marginTop: 4 }}>
                         Uses {r._matchCount} of your {selectedStaples.length} pick{selectedStaples.length === 1 ? '' : 's'}

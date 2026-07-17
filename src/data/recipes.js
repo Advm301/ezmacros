@@ -21,6 +21,7 @@ export const RECIPES = [
     "name": "Teriyaki Cod Bowl",
     "method": "Bake",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "fish"
     ],
@@ -72,6 +73,7 @@ export const RECIPES = [
     "name": "Spicy Asian Cod Bowl",
     "method": "Bake",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "fish"
     ],
@@ -132,6 +134,7 @@ export const RECIPES = [
     "name": "Air Fryer Chicken Thighs",
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "chicken"
     ],
@@ -173,6 +176,7 @@ export const RECIPES = [
     "name": "Deviled Eggs",
     "method": "No Cook",
     "mealType": "snack",
+    "servings": 1,
     "proteins": [
       "eggs"
     ],
@@ -218,6 +222,7 @@ export const RECIPES = [
     "name": "Slow Cooker Beef Rice Bowl",
     "method": "Slow Cooker",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "beef"
     ],
@@ -285,6 +290,7 @@ export const RECIPES = [
     "name": "Sheet Pan Turkey Meatballs",
     "method": "Bake",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "turkey",
       "eggs"
@@ -353,6 +359,7 @@ export const RECIPES = [
     "name": "Salmon Lemon Herb Bake",
     "method": "Bake",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "fish"
     ],
@@ -399,6 +406,7 @@ export const RECIPES = [
     "name": "Greek Yogurt Power Bowl",
     "method": "No Cook",
     "mealType": "breakfast",
+    "servings": 1,
     "proteins": [
       "dairy"
     ],
@@ -447,6 +455,7 @@ export const RECIPES = [
     "name": "Egg White Scramble",
     "method": "Stovetop",
     "mealType": "breakfast",
+    "servings": 1,
     "proteins": [
       "eggs"
     ],
@@ -489,6 +498,7 @@ export const RECIPES = [
     "name": "Protein Pancakes",
     "method": "Stovetop",
     "mealType": "breakfast",
+    "servings": 1,
     "proteins": [
       "eggs"
     ],
@@ -536,6 +546,7 @@ export const RECIPES = [
     "name": "PB Banana Protein Shake",
     "method": "No Cook",
     "mealType": "breakfast",
+    "servings": 1,
     "proteins": [
       "protein_powder"
     ],
@@ -589,6 +600,7 @@ export const RECIPES = [
     "name": "Smoked Salmon Bagel",
     "method": "No Cook",
     "mealType": "breakfast",
+    "servings": 1,
     "proteins": [
       "fish"
     ],
@@ -639,6 +651,7 @@ export const RECIPES = [
     "name": "Cottage Cheese Toast",
     "method": "No Cook",
     "mealType": "breakfast",
+    "servings": 1,
     "proteins": [
       "dairy"
     ],
@@ -688,6 +701,7 @@ export const RECIPES = [
     "name": "Protein Overnight Oats",
     "method": "No Cook",
     "mealType": "breakfast",
+    "servings": 1,
     "proteins": [
       "dairy",
       "protein_powder"
@@ -745,6 +759,7 @@ export const RECIPES = [
     "name": "Scrambled Eggs & Turkey Sausage",
     "method": "Stovetop",
     "mealType": "breakfast",
+    "servings": 1,
     "proteins": [
       "eggs",
       "turkey"
@@ -798,6 +813,7 @@ export const RECIPES = [
     "name": "High Protein Bagel",
     "method": "No Cook",
     "mealType": "breakfast",
+    "servings": 1,
     "proteins": [
       "turkey",
       "dairy"
@@ -855,6 +871,7 @@ export const RECIPES = [
     "name": "Avocado Egg Toast",
     "method": "No Cook",
     "mealType": "breakfast",
+    "servings": 1,
     "proteins": [
       "eggs"
     ],
@@ -905,6 +922,7 @@ export const RECIPES = [
     "name": "Greek Yogurt Parfait",
     "method": "No Cook",
     "mealType": "breakfast",
+    "servings": 1,
     "proteins": [
       "dairy"
     ],
@@ -953,6 +971,7 @@ export const RECIPES = [
     "name": "Microwave Egg Mug",
     "method": "Microwave",
     "mealType": "breakfast",
+    "servings": 1,
     "proteins": [
       "eggs"
     ],
@@ -1003,6 +1022,7 @@ export const RECIPES = [
     "name": "Buffalo Chicken Rice Bowl",
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "chicken"
     ],
@@ -1060,6 +1080,7 @@ export const RECIPES = [
     "name": "BBQ Chicken Rice Bowl",
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "chicken"
     ],
@@ -1109,6 +1130,7 @@ export const RECIPES = [
     "name": "Canned Chicken Rice Bowl",
     "method": "No Cook",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "chicken"
     ],
@@ -1166,6 +1188,7 @@ export const RECIPES = [
     "name": "Rotisserie Chicken Bowl",
     "method": "No Cook",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "chicken"
     ],
@@ -1218,6 +1241,7 @@ export const RECIPES = [
     "name": "Salmon Poke Bowl",
     "method": "No Cook",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "fish"
     ],
@@ -1275,6 +1299,7 @@ export const RECIPES = [
     "name": "Honey Garlic Cod Bowl",
     "method": "Bake",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "fish"
     ],
@@ -1337,6 +1362,7 @@ export const RECIPES = [
     "name": "Ground Beef Taco Bowl",
     "method": "Stovetop",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "beef"
     ],
@@ -1399,6 +1425,7 @@ export const RECIPES = [
     "name": "Pork Tenderloin Bowl",
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "pork"
     ],
@@ -1454,6 +1481,7 @@ export const RECIPES = [
     "name": "Lemon Pepper Shrimp Bowl",
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "fish"
     ],
@@ -1509,6 +1537,7 @@ export const RECIPES = [
     "name": "Greek Chicken Bowl",
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "chicken"
     ],
@@ -1563,6 +1592,7 @@ export const RECIPES = [
     "name": "Slow Cooker Chicken Thighs",
     "method": "Slow Cooker",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "chicken"
     ],
@@ -1609,6 +1639,7 @@ export const RECIPES = [
     "name": "Tuna Pasta Salad",
     "method": "No Cook",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "plant",
       "fish"
@@ -1660,6 +1691,7 @@ export const RECIPES = [
     "name": "Black Bean Quesadilla",
     "method": "Stovetop",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "plant"
     ],
@@ -1708,6 +1740,7 @@ export const RECIPES = [
     "name": "Microwave Salmon Pouch Bowl",
     "method": "Microwave",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "fish"
     ],
@@ -1759,6 +1792,7 @@ export const RECIPES = [
     "name": "High Protein Chili",
     "method": "Slow Cooker",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "turkey",
       "plant"
@@ -1815,6 +1849,7 @@ export const RECIPES = [
     "name": "Honey Sriracha Salmon",
     "method": "Bake",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "fish"
     ],
@@ -1868,6 +1903,7 @@ export const RECIPES = [
     "name": "Egg Fried Rice",
     "method": "Stovetop",
     "mealType": "breakfast",
+    "servings": 1,
     "proteins": [
       "eggs"
     ],
@@ -1922,6 +1958,7 @@ export const RECIPES = [
     "name": "Chipotle Style Chicken Bowl",
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "chicken",
       "plant"
@@ -1984,6 +2021,7 @@ export const RECIPES = [
     "name": "Turkey Lettuce Wraps",
     "method": "No Cook",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "turkey"
     ],
@@ -2033,6 +2071,7 @@ export const RECIPES = [
     "name": "Teriyaki Salmon Bowl",
     "method": "Bake",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "fish"
     ],
@@ -2089,6 +2128,7 @@ export const RECIPES = [
     "name": "Beef Jerky & Rice Cakes",
     "method": "No Cook",
     "mealType": "snack",
+    "servings": 1,
     "proteins": [
       "beef"
     ],
@@ -2132,6 +2172,7 @@ export const RECIPES = [
     "name": "String Cheese & Turkey Roll-Ups",
     "method": "No Cook",
     "mealType": "snack",
+    "servings": 1,
     "proteins": [
       "turkey"
     ],
@@ -2175,6 +2216,7 @@ export const RECIPES = [
     "name": "Cottage Cheese & Pineapple",
     "method": "No Cook",
     "mealType": "snack",
+    "servings": 1,
     "proteins": [
       "dairy"
     ],
@@ -2217,6 +2259,7 @@ export const RECIPES = [
     "name": "Hard Boiled Eggs with Hot Sauce",
     "method": "No Cook",
     "mealType": "snack",
+    "servings": 1,
     "proteins": [
       "eggs"
     ],
@@ -2262,6 +2305,7 @@ export const RECIPES = [
     "name": "Sardines on Toast",
     "method": "No Cook",
     "mealType": "snack",
+    "servings": 1,
     "proteins": [
       "fish"
     ],
@@ -2311,6 +2355,7 @@ export const RECIPES = [
     "name": "Skyr & Berries",
     "method": "No Cook",
     "mealType": "snack",
+    "servings": 1,
     "proteins": [
       "dairy"
     ],
@@ -2353,6 +2398,7 @@ export const RECIPES = [
     "name": "Chicken & Salsa Wrap",
     "method": "No Cook",
     "mealType": "snack",
+    "servings": 1,
     "proteins": [
       "chicken"
     ],
@@ -2405,6 +2451,7 @@ export const RECIPES = [
     "name": "Protein Pudding",
     "method": "No Cook",
     "mealType": "snack",
+    "servings": 1,
     "proteins": [
       "dairy",
       "protein_powder"
@@ -2456,6 +2503,7 @@ export const RECIPES = [
     "name": "Edamame Bowl",
     "method": "Microwave",
     "mealType": "snack",
+    "servings": 1,
     "proteins": [
       "plant"
     ],
@@ -2505,6 +2553,7 @@ export const RECIPES = [
     "name": "Canned Chicken & Crackers",
     "method": "No Cook",
     "mealType": "snack",
+    "servings": 1,
     "proteins": [
       "chicken"
     ],
@@ -2553,6 +2602,7 @@ export const RECIPES = [
     "name": "Classic Smash Burger",
     "method": "Stovetop",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "beef"
     ],
@@ -2631,6 +2681,7 @@ export const RECIPES = [
     "name": "BBQ Bacon Burger",
     "method": "Stovetop",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "beef"
     ],
@@ -2690,6 +2741,7 @@ export const RECIPES = [
     "name": "Turkey Burger",
     "method": "Stovetop",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "turkey"
     ],
@@ -2751,6 +2803,7 @@ export const RECIPES = [
     "name": "Spicy Chicken Sandwich",
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "chicken"
     ],
@@ -2807,6 +2860,7 @@ export const RECIPES = [
     "name": "Tuna Melt",
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "fish"
     ],
@@ -2863,6 +2917,7 @@ export const RECIPES = [
     "name": "Egg & Cheese Breakfast Sandwich",
     "method": "Stovetop",
     "mealType": "breakfast",
+    "servings": 1,
     "proteins": [
       "eggs",
       "turkey"
@@ -2922,6 +2977,7 @@ export const RECIPES = [
     "name": "Rotisserie Chicken Wrap",
     "method": "No Cook",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "chicken",
       "dairy"
@@ -2981,6 +3037,7 @@ export const RECIPES = [
     "name": "BLT Protein Wrap",
     "method": "No Cook",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "turkey"
     ],
@@ -3037,6 +3094,7 @@ export const RECIPES = [
     "name": "Air Fryer Protein Pizza",
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "turkey"
     ],
@@ -3094,6 +3152,7 @@ export const RECIPES = [
     "name": "Cottage Cheese Pizza Bowl",
     "method": "Microwave",
     "mealType": "breakfast",
+    "servings": 1,
     "proteins": [
       "dairy",
       "turkey"
@@ -3144,6 +3203,7 @@ export const RECIPES = [
     "name": "BBQ Chicken Flatbread",
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "chicken"
     ],
@@ -3195,6 +3255,7 @@ export const RECIPES = [
     "name": "Pesto Chicken Flatbread",
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "chicken"
     ],
@@ -3251,6 +3312,7 @@ export const RECIPES = [
     "name": "Beef & Rice Power Bowl",
     "method": "Stovetop",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "beef"
     ],
@@ -3316,6 +3378,7 @@ export const RECIPES = [
     "name": "Chicken Teriyaki Noodles",
     "method": "Stovetop",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "chicken"
     ],
@@ -3369,6 +3432,7 @@ export const RECIPES = [
     "name": "Shrimp Fried Rice",
     "method": "Stovetop",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "fish",
       "eggs"
@@ -3432,6 +3496,7 @@ export const RECIPES = [
     "name": "Loaded Baked Potato",
     "method": "Microwave",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "dairy"
     ],
@@ -3482,6 +3547,7 @@ export const RECIPES = [
     "name": "Protein French Toast",
     "method": "Stovetop",
     "mealType": "breakfast",
+    "servings": 1,
     "proteins": [
       "eggs",
       "protein_powder"
@@ -3545,6 +3611,7 @@ export const RECIPES = [
     "name": "Turkey Meatball Sub",
     "method": "Microwave",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "turkey"
     ],
@@ -3596,6 +3663,7 @@ export const RECIPES = [
     "name": "Spicy Korean Ground Beef Bowl",
     "method": "Stovetop",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "beef"
     ],
@@ -3660,6 +3728,7 @@ export const RECIPES = [
     "name": "Canned Salmon Caesar Wrap",
     "method": "No Cook",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "fish"
     ],
@@ -3717,6 +3786,7 @@ export const RECIPES = [
     "name": "Sweet Potato Cottage Cheese Power Bowl",
     "method": "Stovetop",
     "mealType": "breakfast",
+    "servings": 1,
     "proteins": [
       "beef",
       "dairy"
@@ -3780,6 +3850,7 @@ export const RECIPES = [
     "name": "Baked Feta Pasta",
     "method": "Bake",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "plant"
     ],
@@ -3839,6 +3910,7 @@ export const RECIPES = [
     "name": "Cottage Cheese Flatbread",
     "method": "Bake",
     "mealType": "breakfast",
+    "servings": 1,
     "proteins": [
       "dairy",
       "eggs",
@@ -3899,6 +3971,7 @@ export const RECIPES = [
     "name": "Bang Bang Shrimp Bowl",
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "fish"
     ],
@@ -3953,6 +4026,7 @@ export const RECIPES = [
     "name": "Creamy Sun-Dried Tomato Chicken",
     "method": "Slow Cooker",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "chicken"
     ],
@@ -4018,6 +4092,7 @@ export const RECIPES = [
     "name": "Cucumber Tuna Salad",
     "method": "No Cook",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "fish"
     ],
@@ -4083,6 +4158,7 @@ export const RECIPES = [
     "name": "High Protein Sushi Bake",
     "method": "Bake",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "fish"
     ],
@@ -4142,6 +4218,7 @@ export const RECIPES = [
     "name": "Smoked Salmon Everything Bites",
     "method": "No Cook",
     "mealType": "snack",
+    "servings": 1,
     "proteins": [
       "dairy",
       "fish"
@@ -4202,6 +4279,7 @@ export const RECIPES = [
     "name": "Egg White Fried Rice",
     "method": "Stovetop",
     "mealType": "breakfast",
+    "servings": 1,
     "proteins": [
       "eggs"
     ],
@@ -4262,6 +4340,7 @@ export const RECIPES = [
     "name": "High Protein Birria Tacos",
     "method": "Stovetop",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "beef"
     ],
@@ -4324,6 +4403,7 @@ export const RECIPES = [
     "name": "Hot Honey Salmon",
     "method": "Bake",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "fish"
     ],
@@ -4380,6 +4460,7 @@ export const RECIPES = [
     "name": "Spicy Garlic Shrimp Bowl",
     "method": "Stovetop",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "fish"
     ],
@@ -4453,6 +4534,7 @@ export const RECIPES = [
     "name": "Nashville Hot Chicken Tenders",
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "chicken"
     ],
@@ -4519,6 +4601,7 @@ export const RECIPES = [
     "name": "Spicy Salmon Bowl",
     "method": "Bake",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "fish"
     ],
@@ -4580,6 +4663,7 @@ export const RECIPES = [
     "name": "Chili Lime Shrimp Tacos",
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "fish",
       "dairy"
@@ -4643,6 +4727,7 @@ export const RECIPES = [
     "name": "Spicy Turkey Taco Bowl",
     "method": "Stovetop",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "turkey",
       "plant"
@@ -4706,6 +4791,7 @@ export const RECIPES = [
     "name": "Quick Dan Dan Noodles",
     "method": "Stovetop",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "turkey"
     ],
@@ -4769,6 +4855,7 @@ export const RECIPES = [
     "name": "Spicy Beef & Broccoli",
     "method": "Stovetop",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "beef"
     ],
@@ -4828,6 +4915,7 @@ export const RECIPES = [
     "name": "Buffalo Shrimp Rice Bowl",
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "fish"
     ],
@@ -4889,6 +4977,7 @@ export const RECIPES = [
     "name": "Easy Shakshuka",
     "method": "Stovetop",
     "mealType": "breakfast",
+    "servings": 1,
     "proteins": [
       "eggs"
     ],
@@ -4953,6 +5042,7 @@ export const RECIPES = [
     "name": "Shakshuka from Scratch",
     "method": "Stovetop",
     "mealType": "breakfast",
+    "servings": 1,
     "proteins": [
       "eggs"
     ],
@@ -5024,6 +5114,7 @@ export const RECIPES = [
     "name": "Skillet Beef Soy Garlic Rice",
     "method": "Skillet",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "beef"
     ],
@@ -5079,6 +5170,7 @@ export const RECIPES = [
     "name": "BBQ Skillet Beef Hash Browns",
     "method": "Skillet",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "beef"
     ],
@@ -5128,6 +5220,7 @@ export const RECIPES = [
     "name": "Saucy Tomato Beef Bowl",
     "method": "Skillet",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "beef"
     ],
@@ -5181,6 +5274,7 @@ export const RECIPES = [
     "name": "Spicy Korean Gochujang Beef Rice",
     "method": "Skillet",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "beef"
     ],
@@ -5240,6 +5334,7 @@ export const RECIPES = [
     "name": "Beef Pasta Marinara Skillet",
     "method": "Skillet",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "beef"
     ],
@@ -5288,6 +5383,7 @@ export const RECIPES = [
     "name": "Taco Beef Tortilla Skillet",
     "method": "Skillet",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "beef"
     ],
@@ -5340,6 +5436,7 @@ export const RECIPES = [
     "name": "Creamy Beef Mushroom Skillet",
     "method": "Skillet",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "beef",
       "eggs"
@@ -5397,6 +5494,7 @@ export const RECIPES = [
     "name": "Teriyaki Beef Broccoli Bowl",
     "method": "Skillet",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "beef"
     ],
@@ -5446,6 +5544,7 @@ export const RECIPES = [
     "name": "Skillet Chicken Soy Garlic Rice",
     "method": "Skillet",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "chicken"
     ],
@@ -5500,6 +5599,7 @@ export const RECIPES = [
     "name": "BBQ Skillet Chicken Hash Browns",
     "method": "Skillet",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "chicken"
     ],
@@ -5548,6 +5648,7 @@ export const RECIPES = [
     "name": "Saucy Tomato Chicken Bowl",
     "method": "Skillet",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "chicken"
     ],
@@ -5600,6 +5701,7 @@ export const RECIPES = [
     "name": "Spicy Gochujang Chicken Rice",
     "method": "Skillet",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "chicken"
     ],
@@ -5658,6 +5760,7 @@ export const RECIPES = [
     "name": "Chicken Pasta Marinara Skillet",
     "method": "Skillet",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "chicken"
     ],
@@ -5705,6 +5808,7 @@ export const RECIPES = [
     "name": "Chicken Taco Tortilla Skillet",
     "method": "Skillet",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "chicken"
     ],
@@ -5756,6 +5860,7 @@ export const RECIPES = [
     "name": "Creamy Chicken Mushroom Skillet",
     "method": "Skillet",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "chicken",
       "eggs"
@@ -5812,6 +5917,7 @@ export const RECIPES = [
     "name": "Teriyaki Chicken Broccoli Bowl",
     "method": "Skillet",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "chicken"
     ],
@@ -5860,6 +5966,7 @@ export const RECIPES = [
     "name": "Skillet Pork Soy Garlic Rice",
     "method": "Skillet",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "pork"
     ],
@@ -5914,6 +6021,7 @@ export const RECIPES = [
     "name": "BBQ Skillet Pork Hash Browns",
     "method": "Skillet",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "pork"
     ],
@@ -5962,6 +6070,7 @@ export const RECIPES = [
     "name": "Saucy Tomato Pork Bowl",
     "method": "Skillet",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "pork"
     ],
@@ -6014,6 +6123,7 @@ export const RECIPES = [
     "name": "Spicy Gochujang Pork Rice",
     "method": "Skillet",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "pork"
     ],
@@ -6072,6 +6182,7 @@ export const RECIPES = [
     "name": "Pork Pasta Marinara Skillet",
     "method": "Skillet",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "pork"
     ],
@@ -6119,6 +6230,7 @@ export const RECIPES = [
     "name": "Pork Taco Tortilla Skillet",
     "method": "Skillet",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "pork"
     ],
@@ -6170,6 +6282,7 @@ export const RECIPES = [
     "name": "Creamy Pork Mushroom Skillet",
     "method": "Skillet",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "pork",
       "eggs"
@@ -6226,6 +6339,7 @@ export const RECIPES = [
     "name": "Teriyaki Pork Broccoli Bowl",
     "method": "Skillet",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "pork"
     ],
@@ -6274,6 +6388,7 @@ export const RECIPES = [
     "name": "Skillet Turkey Soy Garlic Rice",
     "method": "Skillet",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "turkey"
     ],
@@ -6328,6 +6443,7 @@ export const RECIPES = [
     "name": "BBQ Skillet Turkey Hash Browns",
     "method": "Skillet",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "turkey"
     ],
@@ -6376,6 +6492,7 @@ export const RECIPES = [
     "name": "Saucy Tomato Turkey Bowl",
     "method": "Skillet",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "turkey"
     ],
@@ -6428,6 +6545,7 @@ export const RECIPES = [
     "name": "Spicy Gochujang Turkey Rice",
     "method": "Skillet",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "turkey"
     ],
@@ -6486,6 +6604,7 @@ export const RECIPES = [
     "name": "Turkey Pasta Marinara Skillet",
     "method": "Skillet",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "turkey"
     ],
@@ -6533,6 +6652,7 @@ export const RECIPES = [
     "name": "Turkey Taco Tortilla Skillet",
     "method": "Skillet",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "turkey"
     ],
@@ -6584,6 +6704,7 @@ export const RECIPES = [
     "name": "Creamy Turkey Mushroom Skillet",
     "method": "Skillet",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "turkey",
       "eggs"
@@ -6640,6 +6761,7 @@ export const RECIPES = [
     "name": "Teriyaki Turkey Broccoli Bowl",
     "method": "Skillet",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "turkey"
     ],
@@ -6688,6 +6810,7 @@ export const RECIPES = [
     "name": "Sweet Potato Black Bean Enchiladas",
     "method": "Bake",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "plant"
     ],
@@ -6744,6 +6867,7 @@ export const RECIPES = [
     "name": "Air Fryer Salmon with Arugula Berry Salad",
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "fish"
     ],
@@ -6809,6 +6933,7 @@ export const RECIPES = [
     "name": "Egg & Sausage Casserole",
     "method": "Bake",
     "mealType": "breakfast",
+    "servings": 1,
     "proteins": [
       "eggs",
       "pork"
@@ -6870,6 +6995,7 @@ export const RECIPES = [
     "name": "Jamaican Jerk Chicken with Sweet Potato Zoodles",
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "chicken"
     ],
@@ -6919,6 +7045,7 @@ export const RECIPES = [
     "name": "Slow Cooker Chicken & Sausage Gumbo",
     "method": "Slow Cooker",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "chicken",
       "pork"
@@ -6991,6 +7118,7 @@ export const RECIPES = [
     "name": "Air Fryer Turkey Meatballs with Marinara",
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "turkey"
     ],
@@ -7041,6 +7169,7 @@ export const RECIPES = [
     "name": "Air Fryer BBQ Pork Chops with Coleslaw",
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "pork"
     ],
@@ -7087,6 +7216,7 @@ export const RECIPES = [
     "name": "Air Fryer Buffalo Chicken Bites",
     "method": "Air Fryer",
     "mealType": "snack",
+    "servings": 1,
     "proteins": [
       "chicken"
     ],
@@ -7122,6 +7252,7 @@ export const RECIPES = [
     "name": "Cottage Cheese Protein Bowl",
     "method": "No Cook",
     "mealType": "breakfast",
+    "servings": 1,
     "proteins": [
       "dairy"
     ],
@@ -7167,6 +7298,7 @@ export const RECIPES = [
     "name": "Turkey & Egg Breakfast Wrap",
     "method": "Microwave",
     "mealType": "breakfast",
+    "servings": 1,
     "proteins": [
       "turkey",
       "eggs"
@@ -7219,6 +7351,7 @@ export const RECIPES = [
     "name": "Greek Yogurt Protein Parfait",
     "method": "No Cook",
     "mealType": "breakfast",
+    "servings": 1,
     "proteins": [
       "dairy"
     ],
@@ -7264,6 +7397,7 @@ export const RECIPES = [
     "name": "Rotisserie Chicken Caesar Grab Bowl",
     "method": "No Cook",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "chicken"
     ],
@@ -7303,6 +7437,7 @@ export const RECIPES = [
     "name": "Overnight Oats with Protein Powder",
     "method": "No Cook",
     "mealType": "breakfast",
+    "servings": 1,
     "proteins": [
       "dairy"
     ],
@@ -7352,6 +7487,7 @@ export const RECIPES = [
     "name": "Tuna Salad Lettuce Wraps",
     "method": "No Cook",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "fish"
     ],
@@ -7397,6 +7533,7 @@ export const RECIPES = [
     "name": "Buffalo Chicken Ranch Wrap",
     "method": "Microwave",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "chicken"
     ],
@@ -7449,6 +7586,7 @@ export const RECIPES = [
     "name": "Air Fryer Sourdough Pizza",
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
+    "servings": 1,
     "proteins": [
       "turkey"
     ],
@@ -7507,6 +7645,7 @@ export const RECIPES = [
     "name": "Chorizo Scrambled Eggs",
     "method": "Stovetop",
     "mealType": "breakfast",
+    "servings": 1,
     "proteins": [
       "pork",
       "eggs"
@@ -7553,6 +7692,7 @@ export const RECIPES = [
     "name": "Spicy Breakfast Burrito",
     "method": "Stovetop",
     "mealType": "breakfast",
+    "servings": 1,
     "proteins": [
       "pork",
       "eggs"
@@ -7612,6 +7752,7 @@ export const RECIPES = [
     "name": "Jalapeño Popper Egg Muffins",
     "method": "Bake",
     "mealType": "breakfast",
+    "servings": 1,
     "proteins": [
       "eggs",
       "pork"
@@ -7671,6 +7812,7 @@ export const RECIPES = [
     "name": "Spicy Kimchi Fried Rice with Egg",
     "method": "Stovetop",
     "mealType": "breakfast",
+    "servings": 1,
     "proteins": [
       "eggs"
     ],
@@ -7724,6 +7866,7 @@ export const RECIPES = [
     "name": "Easy Huevos Rancheros",
     "method": "Stovetop",
     "mealType": "breakfast",
+    "servings": 1,
     "proteins": [
       "eggs"
     ],
@@ -7780,6 +7923,7 @@ export const RECIPES = [
     "name": "Sriracha Egg & Cheese Breakfast Sandwich",
     "method": "Microwave",
     "mealType": "breakfast",
+    "servings": 1,
     "proteins": [
       "eggs"
     ],

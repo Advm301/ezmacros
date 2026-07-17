@@ -98,6 +98,7 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
   const [showSavedOnly, setShowSavedOnly] = useState(false);
   const [highProteinOnly, setHighProteinOnly] = useState(false);
   const [grabAndGoOnly, setGrabAndGoOnly] = useState(false);
+  const [mealPrepOnly, setMealPrepOnly] = useState(false);
   const [showMoreFilters, setShowMoreFilters] = useState(false);
   // Each meal section (Breakfast / Lunch & Dinner / Snacks) starts closed --
   // all three expanded by default was the exact "everything dumped on one
@@ -110,7 +111,7 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
   // offering to clear filters that are already at their defaults.
   const anyFilterActive = Boolean(
     search || mealFilter || proteinFilter || flavorFilter || methodFilter ||
-    showSavedOnly || highProteinOnly || grabAndGoOnly
+    showSavedOnly || highProteinOnly || grabAndGoOnly || mealPrepOnly
   );
   const clearAllFilters = () => {
     hapticLight();
@@ -122,6 +123,7 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
     setShowSavedOnly(false);
     setHighProteinOnly(false);
     setGrabAndGoOnly(false);
+    setMealPrepOnly(false);
   };
   // A search or a picked meal type is an explicit signal the person wants to
   // see matches right now -- forcing sections open in that case avoids the
@@ -144,7 +146,8 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
     const matchSaved = !showSavedOnly || isSaved(r.id);
     const matchHighProtein = !highProteinOnly || tags.includes('high_protein');
     const matchGrabAndGo = !grabAndGoOnly || tags.includes('grab_and_go');
-    return matchSearch && matchMeal && matchProtein && matchFlavor && matchMethod && matchSaved && matchHighProtein && matchGrabAndGo;
+    const matchMealPrep = !mealPrepOnly || r.servings > 1;
+    return matchSearch && matchMeal && matchProtein && matchFlavor && matchMethod && matchSaved && matchHighProtein && matchGrabAndGo && matchMealPrep;
   });
 
   const sections = MEAL_SECTIONS.filter((s) => !mealFilter || s.value === mealFilter);
@@ -161,6 +164,7 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
   const toggleSavedOnly = () => { hapticSelection(); setShowSavedOnly((v) => !v); };
   const toggleHighProtein = () => { hapticSelection(); setHighProteinOnly((v) => !v); };
   const toggleGrabAndGo = () => { hapticSelection(); setGrabAndGoOnly((v) => !v); };
+  const toggleMealPrep = () => { hapticSelection(); setMealPrepOnly((v) => !v); };
 
   const openRecipe = (r) => {
     hapticLight();
@@ -206,6 +210,11 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
               {r.tags.includes('grab_and_go') && (
                 <span className="ezb ez1">Grab & Go</span>
               )}
+            </div>
+          )}
+          {r.servings > 1 && (
+            <div style={{ marginTop: 4 }}>
+              <span className="ezb pkg">📦 Meal Prep · Makes {r.servings}</span>
             </div>
           )}
         </div>
@@ -270,6 +279,9 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
             </div>
             <div className={`pill ${grabAndGoOnly ? 'active' : ''}`} onClick={toggleGrabAndGo}>
               Grab & Go
+            </div>
+            <div className={`pill ${mealPrepOnly ? 'active' : ''}`} onClick={toggleMealPrep}>
+              📦 Meal Prep
             </div>
           </div>
         </div>
