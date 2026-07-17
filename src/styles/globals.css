@@ -15,30 +15,31 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
 .app{max-width:430px;margin:0 auto;min-height:100vh;padding-bottom:80px;position:relative;}
 .app-bg{position:fixed;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(to bottom, #08677B 0%, #08677B 20%, #041A20 65%, #000000 100%);}
 
-/* APP LOGO: metallic gradient wordmark instead of a flat white "QuickPrep"
-   label. Reuses the Surprise Me button's own purple-pink identity
-   (var(--magic) -> var(--pink)) rather than inventing a third color scheme
-   for the app's own name -- alternating white/magic/pink bands stand in
-   for a brushed-metal sheen, and a slow background-position animation lets
-   it "catch the light" instead of sitting as a static flat gradient. */
-.app-logo-text{
-  font-family:'Manrope',sans-serif;
-  font-size:20px;
-  font-weight:800;
-  line-height:1.1;
-  background:linear-gradient(120deg, #fff 0%, var(--magic) 18%, var(--pink) 38%, #fff 50%, var(--pink) 62%, var(--magic) 82%, #fff 100%);
-  background-size:250% 100%;
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
-  -webkit-text-fill-color:transparent;
+/* APP HEADER BAR: blue metallic glossy background instead of the flat
+   var(--teal) fill it used to be. Same shine-layer technique as the
+   Surprise Me/Find Recipes buttons (a diagonal highlight sweep layered
+   over a multi-band gradient), scoped to the app's own blue (matching
+   BrowseIcon and the bottom nav's blue accent) rather than reusing
+   Surprise Me's purple -- the QuickPrep wordmark stays plain white on top
+   of it. The base gradient never dips lighter than a mid-bright blue (no
+   near-white band passing behind the text), and animates slowly since
+   this bar is permanently on screen rather than a one-off flourish. */
+.app-header-bar{
+  position:sticky;
+  top:0;
+  z-index:10;
+  overflow:hidden;
+  background:
+    linear-gradient(115deg, rgba(255,255,255,.32) 0%, rgba(255,255,255,.05) 30%, rgba(255,255,255,0) 45%),
+    linear-gradient(120deg, #052e3d 0%, #0e5a76 18%, #1f8bb8 36%, #4db8ff 50%, #1f8bb8 64%, #0e5a76 82%, #052e3d 100%);
+  background-size:100% 100%, 260% 100%;
 }
 @media (prefers-reduced-motion: no-preference) {
-  .app-logo-text{animation:logo-shimmer 5s ease-in-out infinite;}
+  .app-header-bar{animation:header-metal-shimmer 9s ease-in-out infinite;}
 }
-@keyframes logo-shimmer{
-  0%,100%{background-position:0% 50%;}
-  50%{background-position:100% 50%;}
+@keyframes header-metal-shimmer{
+  0%,100%{background-position:0 0, 0% 50%;}
+  50%{background-position:0 0, 100% 50%;}
 }
 
 /* NAV */

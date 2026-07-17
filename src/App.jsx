@@ -233,8 +233,9 @@ export default function App() {
     <>
       <div className="app-bg" aria-hidden="true"></div>
       <div className="app">
-        {/* Header */}
-        <div style={{padding: "14px 18px 10px", position: "sticky", top: 0, background: "var(--teal)", zIndex: 10, display: "flex", justifyContent: "space-between", alignItems: "flex-start"}}>
+        {/* Header -- background is the animated blue metallic bar (see
+            .app-header-bar in globals.css); layout/spacing stays inline. */}
+        <div className="app-header-bar" style={{padding: "14px 18px 10px", display: "flex", justifyContent: "space-between", alignItems: "flex-start"}}>
           <div style={{display: "flex", alignItems: "center", gap: 10}}>
             <div style={{
               width: 36,
@@ -248,12 +249,12 @@ export default function App() {
             </div>
             <div>
               <div style={{display: "flex", alignItems: "center", gap: 6}}>
-                {/* Metallic gradient wordmark (see .app-logo-text in
-                    globals.css) instead of a flat white label -- echoes the
-                    Surprise Me button's purple-pink identity with a slow
-                    shimmer, rather than introducing a third unrelated
-                    color scheme for the app's own name. */}
-                <div className="app-logo-text">
+                {/* Plain white wordmark -- the metallic/glossy treatment
+                    moved to the header bar's own background instead (see
+                    .app-header-bar in globals.css). A subtle text-shadow
+                    keeps it legible against that animated background at
+                    every point in its shimmer cycle. */}
+                <div style={{fontFamily: "'Manrope',sans-serif", fontSize: 20, fontWeight: 800, color: "#fff", lineHeight: 1.1, textShadow: "0 1px 3px rgba(0,0,0,.4)"}}>
                   QuickPrep
                 </div>
                 {BETA_MODE && (
@@ -265,8 +266,9 @@ export default function App() {
               {/* Daily message set in the same playful Baloo 2 used for the
                   three page headers (see .page-h1), rather than the app's
                   usual Manrope -- a small consistent touch of personality
-                  right where it's first seen. */}
-              <div style={{fontFamily: "'Baloo 2',sans-serif", fontWeight: 600, fontSize: 12, color: "var(--muted)", marginTop: 2}}>
+                  right where it's first seen. Same text-shadow reasoning
+                  as the wordmark above. */}
+              <div style={{fontFamily: "'Baloo 2',sans-serif", fontWeight: 600, fontSize: 12, color: "rgba(255,255,255,.85)", textShadow: "0 1px 2px rgba(0,0,0,.35)", marginTop: 2}}>
                 {greeting}
               </div>
             </div>
