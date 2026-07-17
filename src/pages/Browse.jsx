@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { RECIPES } from '../data/recipes.js';
 import StarIcon from '../components/StarIcon';
 import FlameIcon from '../components/FlameIcon';
+import EffortGauge from '../components/EffortGauge';
 import { formatTime } from '../utils/time';
 import { hapticSelection, hapticLight } from '../utils/haptics';
 import { getProteinCardBackground } from '../utils/proteinColors';
@@ -208,11 +209,19 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
           <div style={{ fontWeight: 700, fontSize: 15, color: 'var(--cream)', marginBottom: 2 }}>
             {r.name}
           </div>
-          <div style={{ fontSize: 11, color: 'var(--muted)' }}>
-            {r.method}{r.method && r.activeTime ? ' · ' : ''}{formatTime(r.activeTime, r.totalTime)}
-            {getRatingSummary && getRatingSummary(r.id) && (
-              <> · ★ {getRatingSummary(r.id).avg.toFixed(1)} ({getRatingSummary(r.id).count})</>
-            )}
+          <div style={{ fontSize: 11, color: 'var(--muted)', display: 'flex', alignItems: 'center', gap: 5, flexWrap: 'wrap' }}>
+            <span>
+              {r.method}{r.method && r.activeTime ? ' · ' : ''}{formatTime(r.activeTime, r.totalTime)}
+              {getRatingSummary && getRatingSummary(r.id) && (
+                <> · ★ {getRatingSummary(r.id).avg.toFixed(1)} ({getRatingSummary(r.id).count})</>
+              )}
+            </span>
+            {/* Quick Prep gauge -- 1-3 flames showing relative effort (see
+                EffortGauge/utils/effortLevel.js). Everything here is
+                already quick; this just surfaces which are the absolute
+                quickest vs. a touch more involved. */}
+            <span>·</span>
+            <EffortGauge recipe={r} size={11} />
           </div>
           {(r.tags || []).length > 0 && (
             <div style={{ display: 'flex', gap: 6, marginTop: 4 }}>

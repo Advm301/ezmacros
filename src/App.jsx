@@ -248,7 +248,12 @@ export default function App() {
             </div>
             <div>
               <div style={{display: "flex", alignItems: "center", gap: 6}}>
-                <div style={{fontFamily: "'Manrope',sans-serif", fontSize: 20, fontWeight: 800, color: "var(--cream)", lineHeight: 1.1}}>
+                {/* Metallic gradient wordmark (see .app-logo-text in
+                    globals.css) instead of a flat white label -- echoes the
+                    Surprise Me button's purple-pink identity with a slow
+                    shimmer, rather than introducing a third unrelated
+                    color scheme for the app's own name. */}
+                <div className="app-logo-text">
                   QuickPrep
                 </div>
                 {BETA_MODE && (
@@ -257,7 +262,11 @@ export default function App() {
                   </span>
                 )}
               </div>
-              <div style={{fontSize: 11, color: "var(--muted)", marginTop: 2}}>
+              {/* Daily message set in the same playful Baloo 2 used for the
+                  three page headers (see .page-h1), rather than the app's
+                  usual Manrope -- a small consistent touch of personality
+                  right where it's first seen. */}
+              <div style={{fontFamily: "'Baloo 2',sans-serif", fontWeight: 600, fontSize: 12, color: "var(--muted)", marginTop: 2}}>
                 {greeting}
               </div>
             </div>

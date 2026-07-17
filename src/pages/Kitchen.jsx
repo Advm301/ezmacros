@@ -5,6 +5,7 @@ import { formatTime } from '../utils/time';
 import { hapticSelection, hapticLight, hapticMedium } from '../utils/haptics';
 import PantryPickerModal from '../components/PantryPickerModal';
 import SurpriseSparkles from '../components/SurpriseSparkles';
+import EffortGauge from '../components/EffortGauge';
 import { getProteinCardBackground } from '../utils/proteinColors';
 
 const PANTRY_LABELS = Object.fromEntries(PANTRY_STAPLES.map((s) => [s.id, s.label]));
@@ -213,11 +214,15 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
                     <div style={{ fontWeight: 700, fontSize: 15, color: 'var(--cream)', marginBottom: 4 }}>
                       {r.name}
                     </div>
-                    <div style={{ fontSize: 11, color: 'var(--muted)' }}>
-                      {r.method}{r.method && r.activeTime ? ' · ' : ''}{formatTime(r.activeTime, r.totalTime)}
-                      {getRatingSummary && getRatingSummary(r.id) && (
-                        <> · ★ {getRatingSummary(r.id).avg.toFixed(1)} ({getRatingSummary(r.id).count})</>
-                      )}
+                    <div style={{ fontSize: 11, color: 'var(--muted)', display: 'flex', alignItems: 'center', gap: 5, flexWrap: 'wrap' }}>
+                      <span>
+                        {r.method}{r.method && r.activeTime ? ' · ' : ''}{formatTime(r.activeTime, r.totalTime)}
+                        {getRatingSummary && getRatingSummary(r.id) && (
+                          <> · ★ {getRatingSummary(r.id).avg.toFixed(1)} ({getRatingSummary(r.id).count})</>
+                        )}
+                      </span>
+                      <span>·</span>
+                      <EffortGauge recipe={r} size={11} />
                     </div>
                     {r.servings > 1 && (
                       <div style={{ marginTop: 4 }}>

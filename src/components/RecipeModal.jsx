@@ -10,6 +10,7 @@ import { matchIngredientsForStep } from '../utils/ingredientMatch';
 import { getFreshAltHint } from '../utils/freshAltTips';
 import FlameIcon from './FlameIcon';
 import SparkBurst from './SparkBurst';
+import EffortGauge from './EffortGauge';
 
 const GRAMS_PER_OZ = 28.3495;
 const ML_PER_FLOZ = 29.5735;
@@ -874,6 +875,14 @@ export default function RecipeModal({
                 {' · '}Serves {r.servings || 1}
               </div>
             )}
+            {/* Quick Prep gauge -- 1-3 flames showing effort relative to the
+                rest of the app (see EffortGauge/utils/effortLevel.js). Shown
+                with its label here (unlike the compact version on Browse/
+                Kitchen cards) since there's room and it's the main detail
+                view. */}
+            <div style={{ marginTop: 6 }}>
+              <EffortGauge recipe={r} size={13} showLabel />
+            </div>
             {r.servings > 1 && (
               <div style={{ marginTop: 6 }}>
                 <span className="ezb pkg">📦 Meal Prep · Makes {r.servings}</span>

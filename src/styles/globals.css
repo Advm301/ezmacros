@@ -15,6 +15,32 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
 .app{max-width:430px;margin:0 auto;min-height:100vh;padding-bottom:80px;position:relative;}
 .app-bg{position:fixed;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(to bottom, #08677B 0%, #08677B 20%, #041A20 65%, #000000 100%);}
 
+/* APP LOGO: metallic gradient wordmark instead of a flat white "QuickPrep"
+   label. Reuses the Surprise Me button's own purple-pink identity
+   (var(--magic) -> var(--pink)) rather than inventing a third color scheme
+   for the app's own name -- alternating white/magic/pink bands stand in
+   for a brushed-metal sheen, and a slow background-position animation lets
+   it "catch the light" instead of sitting as a static flat gradient. */
+.app-logo-text{
+  font-family:'Manrope',sans-serif;
+  font-size:20px;
+  font-weight:800;
+  line-height:1.1;
+  background:linear-gradient(120deg, #fff 0%, var(--magic) 18%, var(--pink) 38%, #fff 50%, var(--pink) 62%, var(--magic) 82%, #fff 100%);
+  background-size:250% 100%;
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  -webkit-text-fill-color:transparent;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .app-logo-text{animation:logo-shimmer 5s ease-in-out infinite;}
+}
+@keyframes logo-shimmer{
+  0%,100%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+}
+
 /* NAV */
 .nav{display:flex;justify-content:space-between;align-items:center;padding:14px 18px 10px;position:sticky;top:0;background:var(--bg);z-index:30;border-bottom:1px solid var(--border);}
 .logo{font-family:'Clash Display',sans-serif;font-size:20px;font-weight:700;}
@@ -73,6 +99,10 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
 @media (prefers-reduced-motion: no-preference) {
   .flame-icon{transform-origin:50% 90%;animation:flame-flicker 1.6s ease-in-out infinite;}
   .flame-icon .flame-inner{transform-origin:50% 95%;animation:flame-flicker-inner 1.15s ease-in-out infinite;}
+  /* Unfilled slots in the Quick Prep effort gauge (FlameIcon muted=true) --
+     dim and deliberately static, so it's obvious at a glance which flames
+     are "lit" versus just placeholders completing the row of 3. */
+  .flame-icon-muted, .flame-icon-muted .flame-inner{animation:none;}
 }
 @keyframes flame-flicker{
   0%,100%{transform:scaleY(1) scaleX(1) rotate(0deg);}
