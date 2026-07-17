@@ -42,6 +42,11 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
+        "name": "Garlic Powder (¼ tsp)",
+        "quantity": 1,
+        "unit": "g"
+      },
+      {
         "name": "White Rice Pouch (microwaveable)",
         "quantity": 200,
         "unit": "g"
@@ -57,7 +62,7 @@ export const RECIPES = [
       "Sriracha"
     ],
     "instructions": [
-      "Pat cod dry with paper towels. Place on foil-lined baking sheet. Drizzle teriyaki sauce over the fish.",
+      "Pat cod dry with paper towels. Place on foil-lined baking sheet. Dust with garlic powder, then drizzle teriyaki sauce over the fish.",
       "Bake at 425°F for 12–14 minutes until the fish flakes easily with a fork.",
       "While the oven heats, microwave rice pouch for 90 seconds. Microwave green beans steam-bag for 3 minutes. Season the green beans with a pinch of garlic powder and sesame seeds. Arrange rice on a plate, top with cod, and add green beans to the side."
     ],
@@ -1086,6 +1091,11 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
+        "name": "Garlic Powder (½ tsp)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
         "name": "White Rice Pouch (microwaveable)",
         "quantity": 200,
         "unit": "g"
@@ -1106,7 +1116,7 @@ export const RECIPES = [
       "Celery Powder"
     ],
     "instructions": [
-      "Spray chicken with butter. Air fry 400°F for 16–18 min, shaking halfway.",
+      "Spray chicken with butter and dust with garlic powder. Air fry 400°F for 16–18 min, shaking halfway.",
       "Microwave rice 90 sec. Microwave broccoli 3 min. Season the broccoli with garlic powder, onion powder, and a pinch of chili flakes. Toss chicken in buffalo sauce.",
       "Build bowl — toppings separate."
     ],
@@ -1145,6 +1155,16 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
+        "name": "Garlic Powder (½ tsp)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "Onion Powder (½ tsp)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
         "name": "White Rice Pouch",
         "quantity": 200,
         "unit": "g"
@@ -1156,11 +1176,10 @@ export const RECIPES = [
       }
     ],
     "toppings": [
-      "Corn (frozen, thawed)",
-      "Red Onion (powder)"
+      "Corn (frozen, thawed)"
     ],
     "instructions": [
-      "Spray chicken with olive oil. Air fry 400°F for 18–20 min, shaking at 10 min.",
+      "Spray chicken with olive oil and rub with garlic powder and onion powder. Air fry 400°F for 18–20 min, shaking at 10 min.",
       "Microwave rice 90 sec. Brush BBQ sauce on cooked chicken.",
       "Build bowl — extra sauce on the side."
     ],
@@ -2193,6 +2212,11 @@ export const RECIPES = [
         "unit": "g"
       },
       {
+        "name": "Garlic Powder (¼ tsp)",
+        "quantity": 1,
+        "unit": "g"
+      },
+      {
         "name": "White Rice Pouch",
         "quantity": 200,
         "unit": "g"
@@ -2213,7 +2237,7 @@ export const RECIPES = [
       "Green Onion (dried)"
     ],
     "instructions": [
-      "Spray salmon with oil. Place on foil-lined sheet. Brush teriyaki sauce over top.",
+      "Spray salmon with oil. Place on foil-lined sheet. Dust with garlic powder, then brush teriyaki sauce over top.",
       "Bake 425°F for 12–14 min. Microwave rice 90 sec + edamame 3 min.",
       "Build bowl — toppings separate."
     ],
@@ -2827,14 +2851,33 @@ export const RECIPES = [
         "name": "Brioche Bun",
         "quantity": 80,
         "unit": "g"
+      },
+      {
+        "name": "Salt (pinch)",
+        "quantity": 0.5,
+        "unit": "g"
+      },
+      {
+        "name": "Black Pepper (pinch)",
+        "quantity": 0.5,
+        "unit": "g"
+      },
+      {
+        "name": "Onion Powder (pinch)",
+        "quantity": 0.5,
+        "unit": "g"
+      },
+      {
+        "name": "Garlic Powder (pinch)",
+        "quantity": 0.5,
+        "unit": "g"
       }
     ],
     "toppings": [
-      "Lettuce Leaf",
-      "Onion Powder"
+      "Lettuce Leaf"
     ],
     "instructions": [
-      "Heat skillet medium-high. Form beef into patty. Cook 3–4 min per side (~160°F internal).",
+      "Heat skillet medium-high. Season beef all over with salt, pepper, onion powder, and garlic powder, then form into a patty. Cook 3–4 min per side (~160°F internal).",
       "Microwave bacon strips 2 min. Add cheese to burger last min.",
       "Toast bun. Brush BBQ sauce on inside.",
       "Stack burger + bacon on bun."
@@ -2955,6 +2998,26 @@ export const RECIPES = [
         "name": "Dill Pickle Slices (jar, 2 tbsp)",
         "quantity": 30,
         "unit": "g"
+      },
+      {
+        "name": "Garlic Powder (½ tsp)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "Paprika (½ tsp)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "Salt (pinch)",
+        "quantity": 0.5,
+        "unit": "g"
+      },
+      {
+        "name": "Black Pepper (pinch)",
+        "quantity": 0.5,
+        "unit": "g"
       }
     ],
     "toppings": [
@@ -2962,7 +3025,7 @@ export const RECIPES = [
       "Celery Powder"
     ],
     "instructions": [
-      "Air fry chicken breast 400°F for 16–18 min.",
+      "Season chicken breast all over with garlic powder, paprika, salt, and pepper. Air fry 400°F for 16–18 min.",
       "Toss cooked chicken in hot sauce. Toast bun.",
       "Spread mayo on bun. Stack chicken + pickles."
     ],
@@ -3536,6 +3599,21 @@ export const RECIPES = [
         "name": "Water (3 cups)",
         "quantity": 720,
         "unit": "g"
+      },
+      {
+        "name": "Garlic Powder (½ tsp)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "Salt (pinch)",
+        "quantity": 0.5,
+        "unit": "g"
+      },
+      {
+        "name": "Black Pepper (pinch)",
+        "quantity": 0.5,
+        "unit": "g"
       }
     ],
     "toppings": [
@@ -3544,7 +3622,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Boil water in pot. Add noodles, cook per package directions (usually 2–4 min). Add frozen veg, cook 2 min more. Drain.",
-      "Heat skillet. Cook chicken 5 min per side. Brush teriyaki sauce on chicken.",
+      "Season chicken with garlic powder, salt, and pepper. Heat skillet. Cook chicken 5 min per side. Add teriyaki sauce and simmer 1 min, turning chicken to coat.",
       "Plate noodles + veg, top with chicken. Toppings on side."
     ],
     "totalTime": 8,
@@ -4144,6 +4222,21 @@ export const RECIPES = [
         "name": "Pre-Cut Cucumber Slices (½ cup)",
         "quantity": 80,
         "unit": "g"
+      },
+      {
+        "name": "Garlic Powder (½ tsp)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "Salt (pinch)",
+        "quantity": 0.5,
+        "unit": "g"
+      },
+      {
+        "name": "Black Pepper (pinch)",
+        "quantity": 0.5,
+        "unit": "g"
       }
     ],
     "toppings": [
@@ -4152,7 +4245,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Mix mayo + sweet chili sauce + ½ tsp sriracha in bowl.",
-      "Air fry thawed shrimp 380°F for 8–10 min, shaking halfway. Toss in bang bang sauce.",
+      "Toss thawed shrimp with garlic powder, salt, and pepper. Air fry 380°F for 8–10 min, shaking halfway. Toss in bang bang sauce.",
       "Microwave rice 90 sec. Build bowl with shrimp, cucumber slices. Toppings on side."
     ],
     "totalTime": 15,
@@ -5126,6 +5219,21 @@ export const RECIPES = [
         "name": "Olive Oil Spray",
         "quantity": 2,
         "unit": "spray"
+      },
+      {
+        "name": "Garlic Powder (½ tsp)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "Salt (pinch)",
+        "quantity": 0.5,
+        "unit": "g"
+      },
+      {
+        "name": "Black Pepper (pinch)",
+        "quantity": 0.5,
+        "unit": "g"
       }
     ],
     "toppings": [
@@ -5133,7 +5241,7 @@ export const RECIPES = [
       "Parmesan"
     ],
     "instructions": [
-      "Spray shrimp with olive oil. Air fry 380°F for 8–10 min. Toss in buffalo sauce.",
+      "Spray shrimp with olive oil and season with garlic powder, salt, and pepper. Air fry 380°F for 8–10 min. Toss in buffalo sauce.",
       "Microwave rice 90 sec + broccoli 3 min. Season the broccoli with garlic powder, onion powder, and a pinch of chili flakes. Build bowl.",
       "Drizzle ranch dressing over shrimp. Toppings on side."
     ],
@@ -5363,6 +5471,26 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
+        "name": "Garlic Powder (½ tsp)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "Onion Powder (½ tsp)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "Salt (pinch)",
+        "quantity": 0.5,
+        "unit": "g"
+      },
+      {
+        "name": "Black Pepper (pinch)",
+        "quantity": 0.5,
+        "unit": "g"
+      },
+      {
         "name": "Frozen Hash Browns (microwaved)",
         "quantity": 150,
         "unit": "g"
@@ -5378,7 +5506,7 @@ export const RECIPES = [
       "Fried Onions (canned)"
     ],
     "instructions": [
-      "Heat a skillet over medium-high heat. Add ground beef and break apart with a spoon. Cook 5-6 minutes until browned.",
+      "Heat a skillet over medium-high heat. Add ground beef, garlic powder, onion powder, salt, and pepper, breaking the meat apart with a spoon. Cook 5-6 minutes until browned.",
       "Stir in BBQ sauce generously. Cook 1-2 minutes more.",
       "Microwave hash browns per package directions (usually 2-3 min) and steam-bag broccoli 3 min. Season the broccoli with garlic powder, onion powder, and a pinch of chili flakes.",
       "Scoop hash browns onto plate, top with beef mixture. Add broccoli to the side. Toppings on the side."
@@ -5712,6 +5840,11 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
+        "name": "Garlic Powder (½ tsp)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
         "name": "White Rice Pouch (microwaveable)",
         "quantity": 200,
         "unit": "g"
@@ -5727,7 +5860,7 @@ export const RECIPES = [
       "Green Onion"
     ],
     "instructions": [
-      "Heat a skillet over medium-high heat. Add ground beef and break apart. Cook 5 minutes until browned.",
+      "Heat a skillet over medium-high heat. Add ground beef and garlic powder, breaking the meat apart. Cook 5 minutes until browned.",
       "Drizzle teriyaki sauce over beef and stir well. Cook 1 minute more.",
       "Microwave rice 90 sec + steam-bag broccoli 3 min. Season the broccoli with a pinch of garlic powder and sesame seeds. Build bowl with rice, top with beef, broccoli on side. Toppings on top."
     ],
@@ -5819,6 +5952,26 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
+        "name": "Garlic Powder (½ tsp)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "Onion Powder (½ tsp)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "Salt (pinch)",
+        "quantity": 0.5,
+        "unit": "g"
+      },
+      {
+        "name": "Black Pepper (pinch)",
+        "quantity": 0.5,
+        "unit": "g"
+      },
+      {
         "name": "Frozen Hash Browns (microwaved)",
         "quantity": 150,
         "unit": "g"
@@ -5834,7 +5987,7 @@ export const RECIPES = [
       "Fried Onions (canned)"
     ],
     "instructions": [
-      "Heat a skillet over medium-high heat. Add ground chicken and break apart with a spoon. Cook 5-6 minutes until cooked through.",
+      "Heat a skillet over medium-high heat. Add ground chicken, garlic powder, onion powder, salt, and pepper, breaking the meat apart with a spoon. Cook 5-6 minutes until cooked through.",
       "Stir in BBQ sauce generously. Cook 1-2 minutes more.",
       "Microwave hash browns per package (usually 2-3 min) and steam-bag broccoli 3 min. Season the broccoli with garlic powder, onion powder, and a pinch of chili flakes.",
       "Scoop hash browns onto plate, top with chicken BBQ mixture. Add broccoli to the side. Toppings on the side."
@@ -6168,6 +6321,11 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
+        "name": "Garlic Powder (½ tsp)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
         "name": "White Rice Pouch (microwaveable)",
         "quantity": 200,
         "unit": "g"
@@ -6183,7 +6341,7 @@ export const RECIPES = [
       "Green Onion"
     ],
     "instructions": [
-      "Heat a skillet over medium-high heat. Add ground chicken and break apart. Cook 5 minutes until cooked through.",
+      "Heat a skillet over medium-high heat. Add ground chicken and garlic powder, breaking the meat apart. Cook 5 minutes until cooked through.",
       "Drizzle teriyaki sauce over chicken and stir well. Cook 1 minute more.",
       "Microwave rice 90 sec + steam-bag broccoli 3 min. Season the broccoli with a pinch of garlic powder and sesame seeds. Build bowl with rice, top with chicken, broccoli on side. Toppings on top."
     ],
@@ -6275,6 +6433,26 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
+        "name": "Garlic Powder (½ tsp)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "Onion Powder (½ tsp)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "Salt (pinch)",
+        "quantity": 0.5,
+        "unit": "g"
+      },
+      {
+        "name": "Black Pepper (pinch)",
+        "quantity": 0.5,
+        "unit": "g"
+      },
+      {
         "name": "Frozen Hash Browns (microwaved)",
         "quantity": 150,
         "unit": "g"
@@ -6290,7 +6468,7 @@ export const RECIPES = [
       "Fried Onions (canned)"
     ],
     "instructions": [
-      "Heat a skillet over medium-high heat. Add ground pork and break apart with a spoon. Cook 5-6 minutes until browned.",
+      "Heat a skillet over medium-high heat. Add ground pork, garlic powder, onion powder, salt, and pepper, breaking the meat apart with a spoon. Cook 5-6 minutes until browned.",
       "Stir in BBQ sauce generously. Cook 1-2 minutes more.",
       "Microwave hash browns per package (usually 2-3 min) and steam-bag broccoli 3 min. Season the broccoli with garlic powder, onion powder, and a pinch of chili flakes.",
       "Scoop hash browns onto plate, top with pork BBQ mixture. Add broccoli to the side. Toppings on the side."
@@ -6624,6 +6802,11 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
+        "name": "Garlic Powder (½ tsp)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
         "name": "White Rice Pouch (microwaveable)",
         "quantity": 200,
         "unit": "g"
@@ -6639,7 +6822,7 @@ export const RECIPES = [
       "Green Onion"
     ],
     "instructions": [
-      "Heat a skillet over medium-high heat. Add ground pork and break apart. Cook 5 minutes until browned.",
+      "Heat a skillet over medium-high heat. Add ground pork and garlic powder, breaking the meat apart. Cook 5 minutes until browned.",
       "Drizzle teriyaki sauce over pork and stir well. Cook 1 minute more.",
       "Microwave rice 90 sec + steam-bag broccoli 3 min. Season the broccoli with a pinch of garlic powder and sesame seeds. Build bowl with rice, top with pork, broccoli on side. Toppings on top."
     ],
@@ -6731,6 +6914,26 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
+        "name": "Garlic Powder (½ tsp)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "Onion Powder (½ tsp)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "Salt (pinch)",
+        "quantity": 0.5,
+        "unit": "g"
+      },
+      {
+        "name": "Black Pepper (pinch)",
+        "quantity": 0.5,
+        "unit": "g"
+      },
+      {
         "name": "Frozen Hash Browns (microwaved)",
         "quantity": 150,
         "unit": "g"
@@ -6746,7 +6949,7 @@ export const RECIPES = [
       "Fried Onions (canned)"
     ],
     "instructions": [
-      "Heat a skillet over medium-high heat. Add ground turkey and break apart with a spoon. Cook 5-6 minutes until cooked through.",
+      "Heat a skillet over medium-high heat. Add ground turkey, garlic powder, onion powder, salt, and pepper, breaking the meat apart with a spoon. Cook 5-6 minutes until cooked through.",
       "Stir in BBQ sauce generously. Cook 1-2 minutes more.",
       "Microwave hash browns per package (usually 2-3 min) and steam-bag broccoli 3 min. Season the broccoli with garlic powder, onion powder, and a pinch of chili flakes.",
       "Scoop hash browns onto plate, top with turkey BBQ mixture. Add broccoli to the side. Toppings on the side."
@@ -7080,6 +7283,11 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
+        "name": "Garlic Powder (½ tsp)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
         "name": "White Rice Pouch (microwaveable)",
         "quantity": 200,
         "unit": "g"
@@ -7095,7 +7303,7 @@ export const RECIPES = [
       "Green Onion"
     ],
     "instructions": [
-      "Heat a skillet over medium-high heat. Add ground turkey and break apart. Cook 5 minutes until cooked through.",
+      "Heat a skillet over medium-high heat. Add ground turkey and garlic powder, breaking the meat apart. Cook 5 minutes until cooked through.",
       "Drizzle teriyaki sauce over turkey and stir well. Cook 1 minute more.",
       "Microwave rice 90 sec + steam-bag broccoli 3 min. Season the broccoli with a pinch of garlic powder and sesame seeds. Build bowl with rice, top with turkey, broccoli on side. Toppings on top."
     ],
@@ -7514,13 +7722,33 @@ export const RECIPES = [
         "name": "Coleslaw Dressing (bottled)",
         "quantity": 30,
         "unit": "ml"
+      },
+      {
+        "name": "Garlic Powder (½ tsp)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "Smoked Paprika (½ tsp)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "Salt (pinch)",
+        "quantity": 0.5,
+        "unit": "g"
+      },
+      {
+        "name": "Black Pepper (pinch)",
+        "quantity": 0.5,
+        "unit": "g"
       }
     ],
     "toppings": [
       "Extra BBQ Sauce"
     ],
     "instructions": [
-      "Brush pork chops with half the BBQ sauce.",
+      "Season pork chops all over with garlic powder, smoked paprika, salt, and pepper, then brush with half the BBQ sauce.",
       "Air fry 380°F for 12–14 minutes, flipping halfway, until internal temp reaches 145°F. Brush with remaining sauce for the last 2 minutes.",
       "Toss coleslaw mix with dressing in a bowl. Serve alongside the pork chops."
     ],
@@ -7834,13 +8062,28 @@ export const RECIPES = [
         "name": "Butter Lettuce Leaves (bagged, pre-washed)",
         "quantity": 60,
         "unit": "g"
+      },
+      {
+        "name": "Dijon Mustard (1 tsp)",
+        "quantity": 5,
+        "unit": "g"
+      },
+      {
+        "name": "Dill (dried, pinch)",
+        "quantity": 0.5,
+        "unit": "g"
+      },
+      {
+        "name": "Black Pepper (pinch)",
+        "quantity": 0.5,
+        "unit": "g"
       }
     ],
     "toppings": [
       "Black Pepper"
     ],
     "instructions": [
-      "Mix tuna with mayo in a bowl.",
+      "Mix tuna with mayo, dijon mustard, dill, and pepper in a bowl.",
       "Spoon into lettuce leaves and fold like a taco."
     ],
     "totalTime": 4,
