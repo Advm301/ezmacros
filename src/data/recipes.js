@@ -155,6 +155,11 @@ export const RECIPES = [
         "name": "Garlic Herb Seasoning (shaker)",
         "quantity": 3,
         "unit": "g"
+      },
+      {
+        "name": "Butter (1 tbsp)",
+        "quantity": 15,
+        "unit": "g"
       }
     ],
     "toppings": [
@@ -164,11 +169,13 @@ export const RECIPES = [
     "instructions": [
       "Spray chicken with olive oil spray. Shake seasoning over both sides.",
       "Air fry 400°F for 18–20 min, flip once at 10 min.",
-      "Rest 2 min. Add toppings on the side."
+      "Melt butter and brush over the hot chicken right out of the air fryer -- it picks up the garlic-herb flavor and keeps the chicken from tasting dry. Rest 2 min.",
+      "Add toppings on the side."
     ],
     "totalTime": 24,
     "pantryTags": [
-      "onion_garlic"
+      "onion_garlic",
+      "butter"
     ]
   },
   {
@@ -263,6 +270,16 @@ export const RECIPES = [
         "name": "Salt (¼ tsp)",
         "quantity": 2,
         "unit": "g"
+      },
+      {
+        "name": "Tomato Paste (2 tbsp)",
+        "quantity": 32,
+        "unit": "g"
+      },
+      {
+        "name": "Worcestershire Sauce (1 tbsp)",
+        "quantity": 15,
+        "unit": "ml"
       }
     ],
     "toppings": [
@@ -271,7 +288,7 @@ export const RECIPES = [
       "Hot Sauce"
     ],
     "instructions": [
-      "Add beef, canned tomatoes, garlic powder, Italian seasoning, and salt to the slow cooker. Break up beef roughly and stir to combine.",
+      "Add beef, canned tomatoes, tomato paste, Worcestershire, garlic powder, Italian seasoning, and salt to the slow cooker. Break up beef roughly and stir to combine.",
       "Cook HIGH 2 hrs or LOW 4 hrs.",
       "Divide the beef mixture evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave a rice pouch 90 sec + a steam-bag veg 3 min. Build bowl with beef mixture. Toppings on the side."
@@ -335,23 +352,28 @@ export const RECIPES = [
         "name": "Salt (pinch)",
         "quantity": 0.5,
         "unit": "g"
+      },
+      {
+        "name": "Marinara Sauce (jarred, ⅓ cup)",
+        "quantity": 80,
+        "unit": "ml"
       }
     ],
     "toppings": [
-      "Marinara",
       "Shredded Mozzarella"
     ],
     "instructions": [
       "Mix turkey, breadcrumbs, egg white, Italian seasoning, garlic powder, parmesan, and salt in a bowl until just combined.",
       "Roll into ~1.5-inch balls onto foil-lined baking sheet.",
       "Bake 400°F for 18–20 min.",
-      "Add sauce and cheese as separate toppings."
+      "Warm the marinara (microwave 60 sec) and toss the meatballs in it right on the sheet pan. Top with mozzarella."
     ],
     "totalTime": 28,
     "pantryTags": [
       "eggs",
       "cheese",
-      "onion_garlic"
+      "onion_garlic",
+      "canned_tomatoes"
     ]
   },
   {
@@ -372,9 +394,9 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Olive Oil Spray",
-        "quantity": 4,
-        "unit": "spray"
+        "name": "Butter (1 tbsp)",
+        "quantity": 15,
+        "unit": "g"
       },
       {
         "name": "Lemon Pepper Seasoning (shaker)",
@@ -392,13 +414,14 @@ export const RECIPES = [
       "Hot Sauce"
     ],
     "instructions": [
-      "Place salmon skin-down on foil-lined sheet. Spray with oil, shake seasoning on top.",
+      "Melt butter and mix with the lemon pepper seasoning. Brush over the salmon on a foil-lined sheet.",
       "Bake 425°F for 12–14 min.",
       "Microwave steam-bag broccoli 4 min. Plate together — toppings separate."
     ],
     "totalTime": 17,
     "pantryTags": [
-      "frozen_veg"
+      "frozen_veg",
+      "butter"
     ]
   },
   {
@@ -1402,22 +1425,27 @@ export const RECIPES = [
         "name": "Olive Oil (½ tbsp)",
         "quantity": 7.5,
         "unit": "g"
+      },
+      {
+        "name": "Salsa (fresh, ¼ cup)",
+        "quantity": 64,
+        "unit": "ml"
       }
     ],
     "toppings": [
-      "Shredded Cheddar",
-      "Salsa (fresh)"
+      "Shredded Cheddar"
     ],
     "instructions": [
       "Heat oil in skillet over medium-high. Brown beef 4–5 min, breaking it up as it cooks.",
-      "Add taco seasoning + water. Simmer 2 min. Microwave rice 90 sec + beans 60 sec.",
+      "Add taco seasoning + water. Simmer 2 min, then stir in the salsa. Microwave rice 90 sec + beans 60 sec.",
       "Build bowl — toppings on side."
     ],
     "totalTime": 8,
     "pantryTags": [
       "rice",
       "canned_beans",
-      "ground_beef"
+      "ground_beef",
+      "salsa"
     ]
   },
   {
@@ -1441,9 +1469,14 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Italian Herb Seasoning (1 tbsp)",
-        "quantity": 3,
+        "name": "Dijon Mustard (1 tbsp)",
+        "quantity": 10,
         "unit": "g"
+      },
+      {
+        "name": "Honey (1 tbsp)",
+        "quantity": 20,
+        "unit": "ml"
       },
       {
         "name": "Olive Oil Spray",
@@ -1466,9 +1499,9 @@ export const RECIPES = [
       "Black Pepper"
     ],
     "instructions": [
-      "Spray pork with oil. Coat evenly with Italian seasoning.",
-      "Air fry 400°F for 16–18 min, shaking at 9 min. Rest 2 min. Slice.",
-      "Microwave rice 90 sec + veg 3 min. Build bowl."
+      "Mix dijon mustard and honey in a small bowl. Coat the pork tenderloin with half the mixture, reserving the rest.",
+      "Spray with oil. Air fry 400°F for 16–18 min, shaking at 9 min. Rest 2 min. Slice.",
+      "Drizzle the reserved honey mustard over the sliced pork. Microwave rice 90 sec + veg 3 min. Build bowl."
     ],
     "totalTime": 24,
     "pantryTags": [
@@ -1497,14 +1530,14 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Lemon Pepper Seasoning (1 tsp)",
-        "quantity": 2,
+        "name": "Butter (1 tbsp)",
+        "quantity": 15,
         "unit": "g"
       },
       {
-        "name": "Olive Oil Spray",
-        "quantity": 3,
-        "unit": "spray"
+        "name": "Lemon Pepper Seasoning (1 tsp)",
+        "quantity": 2,
+        "unit": "g"
       },
       {
         "name": "White Rice Pouch",
@@ -1522,14 +1555,15 @@ export const RECIPES = [
       "Parmesan"
     ],
     "instructions": [
-      "Pat shrimp dry. Spray with oil + season with lemon pepper.",
+      "Pat shrimp dry. Toss with melted butter and lemon pepper seasoning.",
       "Air fry 380°F for 8–10 min, shaking halfway. Microwave rice 90 sec + broccoli 3 min.",
       "Build bowl — toppings separate."
     ],
     "totalTime": 15,
     "pantryTags": [
       "rice",
-      "frozen_veg"
+      "frozen_veg",
+      "butter"
     ]
   },
   {
@@ -1618,6 +1652,16 @@ export const RECIPES = [
         "name": "Garlic Powder (2 tsp)",
         "quantity": 6,
         "unit": "g"
+      },
+      {
+        "name": "Butter (2 tbsp)",
+        "quantity": 30,
+        "unit": "g"
+      },
+      {
+        "name": "Lemon Juice (2 tbsp)",
+        "quantity": 30,
+        "unit": "ml"
       }
     ],
     "toppings": [
@@ -1627,13 +1671,15 @@ export const RECIPES = [
     "instructions": [
       "Add chicken, broth, and seasonings to slow cooker.",
       "Cook LOW 6–7 hrs or HIGH 3–4 hrs. Shred all the chicken.",
-      "Divide shredded chicken evenly into 4 containers with a bit of the cooking liquid spooned over each to keep it moist. Refrigerate up to 4 days, or freeze.",
+      "Stir in butter and lemon juice until the butter melts into the broth for a richer, brighter sauce.",
+      "Divide shredded chicken evenly into 4 containers with a bit of the sauce spooned over each to keep it moist. Refrigerate up to 4 days, or freeze.",
       "Reheat one portion at a time. Serve with toppings on the side."
     ],
     "totalTime": 425,
     "pantryTags": [
       "onion_garlic",
-      "broth"
+      "broth",
+      "butter"
     ]
   },
   {
@@ -1719,14 +1765,19 @@ export const RECIPES = [
         "name": "Olive Oil (1 tbsp)",
         "quantity": 15,
         "unit": "g"
+      },
+      {
+        "name": "Salsa (fresh, 2 tbsp)",
+        "quantity": 32,
+        "unit": "g"
       }
     ],
     "toppings": [
-      "Salsa",
       "Sour Cream"
     ],
     "instructions": [
-      "Heat oil in skillet over medium. Place 1 tortilla down. Spread beans + cheese on half.",
+      "Mix black beans with the salsa in a small bowl.",
+      "Heat oil in skillet over medium. Place 1 tortilla down. Spread bean mixture + cheese on half.",
       "Fold in half. Cook 2 min per side until golden + cheese melts. Repeat with second tortilla.",
       "Cut into triangles. Toppings on side."
     ],
@@ -1734,7 +1785,8 @@ export const RECIPES = [
     "pantryTags": [
       "tortillas",
       "canned_beans",
-      "cheese"
+      "cheese",
+      "salsa"
     ]
   },
   {
@@ -2001,6 +2053,11 @@ export const RECIPES = [
         "name": "Salsa (fresh, 3 tbsp)",
         "quantity": 48,
         "unit": "ml"
+      },
+      {
+        "name": "Chipotle Mayo (2 tbsp)",
+        "quantity": 30,
+        "unit": "g"
       }
     ],
     "toppings": [
@@ -2010,7 +2067,7 @@ export const RECIPES = [
     "instructions": [
       "Spray chicken with oil. Coat with chipotle seasoning.",
       "Air fry 400°F for 18–20 min, shaking at 10 min. Microwave rice 90 sec + beans 60 sec.",
-      "Build bowl with salsa drizzled on chicken. Cheese + lime on side."
+      "Build bowl with salsa drizzled on chicken, then finish with the chipotle mayo -- the seasoning alone is milder than the name suggests, and this is where the real chipotle flavor comes from. Cheese + lime on side."
     ],
     "totalTime": 26,
     "pantryTags": [
@@ -4366,6 +4423,11 @@ export const RECIPES = [
         "unit": "g"
       },
       {
+        "name": "Red Enchilada Sauce (canned, ¼ cup)",
+        "quantity": 60,
+        "unit": "ml"
+      },
+      {
         "name": "Beef Broth (small can, 1.5 cups)",
         "quantity": 360,
         "unit": "g"
@@ -4391,8 +4453,8 @@ export const RECIPES = [
       "Cilantro (fresh or dried)"
     ],
     "instructions": [
-      "Heat oil in skillet. Brown beef 4–5 min. Add taco seasoning + beef broth. Simmer 5 min.",
-      "Dip corn tortillas in the hot beef broth until crispy (~20 sec per side).",
+      "Heat oil in skillet. Brown beef 4–5 min. Add taco seasoning + beef broth + enchilada sauce. Simmer 5 min -- the enchilada sauce gives the broth real birria-style depth instead of relying on the seasoning packet alone.",
+      "Dip corn tortillas in the hot broth until crispy (~20 sec per side).",
       "Fill dipped tortillas with cheese + shredded beef from the pan + lime + cilantro. Serve with extra broth for dipping."
     ],
     "totalTime": 10,
@@ -5243,8 +5305,23 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
+        "name": "Tomato Paste (1 tbsp)",
+        "quantity": 16,
+        "unit": "g"
+      },
+      {
+        "name": "Garlic Powder (½ tsp)",
+        "quantity": 1.5,
+        "unit": "g"
+      },
+      {
         "name": "Italian Seasoning (shaker)",
         "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "Butter (1 tbsp)",
+        "quantity": 15,
         "unit": "g"
       },
       {
@@ -5264,14 +5341,15 @@ export const RECIPES = [
     ],
     "instructions": [
       "Heat a skillet over medium-high heat. Add ground beef and break apart. Cook 4-5 minutes until mostly browned.",
-      "Add canned tomatoes (with liquid), Italian seasoning, and spinach. Simmer 2 minutes, stirring until the spinach wilts.",
-      "Microwave rice 90 sec. Build bowl with rice, top with beef & tomato sauce (spinach mixed in)."
+      "Stir in tomato paste and garlic powder, cook 30 sec until fragrant. Add canned tomatoes (with liquid), Italian seasoning, and spinach. Simmer 2 minutes, stirring until the spinach wilts.",
+      "Stir in butter off heat for a glossy, rich sauce. Microwave rice 90 sec. Build bowl with rice, top with ground beef & tomato sauce (spinach mixed in)."
     ],
     "totalTime": 6,
     "pantryTags": [
       "rice",
       "canned_tomatoes",
-      "ground_beef"
+      "ground_beef",
+      "butter"
     ]
   },
   {
@@ -5409,6 +5487,11 @@ export const RECIPES = [
         "unit": "g"
       },
       {
+        "name": "Salsa (bottled, 3 tbsp)",
+        "quantity": 48,
+        "unit": "ml"
+      },
+      {
         "name": "Corn Tortillas (2, warmed)",
         "quantity": 52,
         "unit": "g"
@@ -5421,19 +5504,19 @@ export const RECIPES = [
     ],
     "toppings": [
       "Shredded Cheddar",
-      "Salsa (bottled)",
       "Sour Cream"
     ],
     "instructions": [
       "Heat a skillet over medium-high. Add ground beef and break apart. Cook 5 minutes until browned.",
-      "Sprinkle taco seasoning over beef and add 2 tbsp water. Stir and simmer 1 minute.",
-      "Heat tortillas in a dry pan 30 sec per side. Microwave veg 3 min. Build tacos with beef. Toppings on the side."
+      "Sprinkle taco seasoning over the meat and stir in the salsa (instead of water) -- it cooks down into a real sauce that coats the meat, not just a dry-seasoned crumble. Simmer 1 minute.",
+      "Heat tortillas in a dry pan 30 sec per side. Microwave veg 3 min. Build tacos with ground beef. Toppings on the side."
     ],
     "totalTime": 6,
     "pantryTags": [
       "tortillas",
       "frozen_veg",
-      "ground_beef"
+      "ground_beef",
+      "salsa"
     ]
   },
   {
@@ -5671,8 +5754,23 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
+        "name": "Tomato Paste (1 tbsp)",
+        "quantity": 16,
+        "unit": "g"
+      },
+      {
+        "name": "Garlic Powder (½ tsp)",
+        "quantity": 1.5,
+        "unit": "g"
+      },
+      {
         "name": "Italian Seasoning (shaker)",
         "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "Butter (1 tbsp)",
+        "quantity": 15,
         "unit": "g"
       },
       {
@@ -5692,13 +5790,14 @@ export const RECIPES = [
     ],
     "instructions": [
       "Heat a skillet over medium-high heat. Add ground chicken and break apart. Cook 4-5 minutes until mostly cooked through.",
-      "Add canned tomatoes (with liquid), Italian seasoning, and spinach. Simmer 2 minutes, stirring until the spinach wilts.",
-      "Microwave rice 90 sec. Build bowl with rice, top with chicken & tomato sauce (spinach mixed in)."
+      "Stir in tomato paste and garlic powder, cook 30 sec until fragrant. Add canned tomatoes (with liquid), Italian seasoning, and spinach. Simmer 2 minutes, stirring until the spinach wilts.",
+      "Stir in butter off heat for a glossy, rich sauce. Microwave rice 90 sec. Build bowl with rice, top with ground chicken & tomato sauce (spinach mixed in)."
     ],
     "totalTime": 6,
     "pantryTags": [
       "rice",
-      "canned_tomatoes"
+      "canned_tomatoes",
+      "butter"
     ]
   },
   {
@@ -5834,6 +5933,11 @@ export const RECIPES = [
         "unit": "g"
       },
       {
+        "name": "Salsa (bottled, 3 tbsp)",
+        "quantity": 48,
+        "unit": "ml"
+      },
+      {
         "name": "Corn Tortillas (2, warmed)",
         "quantity": 52,
         "unit": "g"
@@ -5846,18 +5950,18 @@ export const RECIPES = [
     ],
     "toppings": [
       "Shredded Cheddar",
-      "Salsa (bottled)",
       "Sour Cream"
     ],
     "instructions": [
       "Heat a skillet over medium-high. Add ground chicken and break apart. Cook 5 minutes until cooked through.",
-      "Sprinkle taco seasoning over chicken and add 2 tbsp water. Stir and simmer 1 minute.",
-      "Heat tortillas in a dry pan 30 sec per side. Microwave veg 3 min. Build tacos with chicken. Toppings on the side."
+      "Sprinkle taco seasoning over the meat and stir in the salsa (instead of water) -- it cooks down into a real sauce that coats the meat, not just a dry-seasoned crumble. Simmer 1 minute.",
+      "Heat tortillas in a dry pan 30 sec per side. Microwave veg 3 min. Build tacos with ground chicken. Toppings on the side."
     ],
     "totalTime": 6,
     "pantryTags": [
       "tortillas",
-      "frozen_veg"
+      "frozen_veg",
+      "salsa"
     ]
   },
   {
@@ -6093,8 +6197,23 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
+        "name": "Tomato Paste (1 tbsp)",
+        "quantity": 16,
+        "unit": "g"
+      },
+      {
+        "name": "Garlic Powder (½ tsp)",
+        "quantity": 1.5,
+        "unit": "g"
+      },
+      {
         "name": "Italian Seasoning (shaker)",
         "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "Butter (1 tbsp)",
+        "quantity": 15,
         "unit": "g"
       },
       {
@@ -6114,13 +6233,14 @@ export const RECIPES = [
     ],
     "instructions": [
       "Heat a skillet over medium-high heat. Add ground pork and break apart. Cook 4-5 minutes until mostly browned.",
-      "Add canned tomatoes (with liquid), Italian seasoning, and spinach. Simmer 2 minutes, stirring until the spinach wilts.",
-      "Microwave rice 90 sec. Build bowl with rice, top with pork & tomato sauce (spinach mixed in)."
+      "Stir in tomato paste and garlic powder, cook 30 sec until fragrant. Add canned tomatoes (with liquid), Italian seasoning, and spinach. Simmer 2 minutes, stirring until the spinach wilts.",
+      "Stir in butter off heat for a glossy, rich sauce. Microwave rice 90 sec. Build bowl with rice, top with ground pork & tomato sauce (spinach mixed in)."
     ],
     "totalTime": 6,
     "pantryTags": [
       "rice",
-      "canned_tomatoes"
+      "canned_tomatoes",
+      "butter"
     ]
   },
   {
@@ -6256,6 +6376,11 @@ export const RECIPES = [
         "unit": "g"
       },
       {
+        "name": "Salsa (bottled, 3 tbsp)",
+        "quantity": 48,
+        "unit": "ml"
+      },
+      {
         "name": "Corn Tortillas (2, warmed)",
         "quantity": 52,
         "unit": "g"
@@ -6268,18 +6393,18 @@ export const RECIPES = [
     ],
     "toppings": [
       "Shredded Cheddar",
-      "Salsa (bottled)",
       "Sour Cream"
     ],
     "instructions": [
       "Heat a skillet over medium-high. Add ground pork and break apart. Cook 5 minutes until browned.",
-      "Sprinkle taco seasoning over pork and add 2 tbsp water. Stir and simmer 1 minute.",
-      "Heat tortillas in a dry pan 30 sec per side. Microwave veg 3 min. Build tacos with pork. Toppings on the side."
+      "Sprinkle taco seasoning over the meat and stir in the salsa (instead of water) -- it cooks down into a real sauce that coats the meat, not just a dry-seasoned crumble. Simmer 1 minute.",
+      "Heat tortillas in a dry pan 30 sec per side. Microwave veg 3 min. Build tacos with ground pork. Toppings on the side."
     ],
     "totalTime": 6,
     "pantryTags": [
       "tortillas",
-      "frozen_veg"
+      "frozen_veg",
+      "salsa"
     ]
   },
   {
@@ -6515,8 +6640,23 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
+        "name": "Tomato Paste (1 tbsp)",
+        "quantity": 16,
+        "unit": "g"
+      },
+      {
+        "name": "Garlic Powder (½ tsp)",
+        "quantity": 1.5,
+        "unit": "g"
+      },
+      {
         "name": "Italian Seasoning (shaker)",
         "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "Butter (1 tbsp)",
+        "quantity": 15,
         "unit": "g"
       },
       {
@@ -6536,13 +6676,14 @@ export const RECIPES = [
     ],
     "instructions": [
       "Heat a skillet over medium-high heat. Add ground turkey and break apart. Cook 4-5 minutes until mostly cooked through.",
-      "Add canned tomatoes (with liquid), Italian seasoning, and spinach. Simmer 2 minutes, stirring until the spinach wilts.",
-      "Microwave rice 90 sec. Build bowl with rice, top with turkey & tomato sauce (spinach mixed in)."
+      "Stir in tomato paste and garlic powder, cook 30 sec until fragrant. Add canned tomatoes (with liquid), Italian seasoning, and spinach. Simmer 2 minutes, stirring until the spinach wilts.",
+      "Stir in butter off heat for a glossy, rich sauce. Microwave rice 90 sec. Build bowl with rice, top with ground turkey & tomato sauce (spinach mixed in)."
     ],
     "totalTime": 6,
     "pantryTags": [
       "rice",
-      "canned_tomatoes"
+      "canned_tomatoes",
+      "butter"
     ]
   },
   {
@@ -6678,6 +6819,11 @@ export const RECIPES = [
         "unit": "g"
       },
       {
+        "name": "Salsa (bottled, 3 tbsp)",
+        "quantity": 48,
+        "unit": "ml"
+      },
+      {
         "name": "Corn Tortillas (2, warmed)",
         "quantity": 52,
         "unit": "g"
@@ -6690,18 +6836,18 @@ export const RECIPES = [
     ],
     "toppings": [
       "Shredded Cheddar",
-      "Salsa (bottled)",
       "Sour Cream"
     ],
     "instructions": [
       "Heat a skillet over medium-high. Add ground turkey and break apart. Cook 5 minutes until cooked through.",
-      "Sprinkle taco seasoning over turkey and add 2 tbsp water. Stir and simmer 1 minute.",
-      "Heat tortillas in a dry pan 30 sec per side. Microwave veg 3 min. Build tacos with turkey. Toppings on the side."
+      "Sprinkle taco seasoning over the meat and stir in the salsa (instead of water) -- it cooks down into a real sauce that coats the meat, not just a dry-seasoned crumble. Simmer 1 minute.",
+      "Heat tortillas in a dry pan 30 sec per side. Microwave veg 3 min. Build tacos with ground turkey. Toppings on the side."
     ],
     "totalTime": 6,
     "pantryTags": [
       "tortillas",
-      "frozen_veg"
+      "frozen_veg",
+      "salsa"
     ]
   },
   {
@@ -7013,9 +7159,14 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Jerk Seasoning (bottled paste or dry rub)",
+        "name": "Jerk Marinade Paste (jarred, wet, 1 tbsp)",
         "quantity": 15,
         "unit": "g"
+      },
+      {
+        "name": "Lime Juice (1 tbsp)",
+        "quantity": 15,
+        "unit": "ml"
       },
       {
         "name": "Sweet Potato Noodles (pre-spiralized, steam-bag)",
@@ -7034,10 +7185,10 @@ export const RECIPES = [
       "Sliced Scallions (pre-sliced bag)"
     ],
     "instructions": [
-      "Coat chicken thighs in jerk seasoning on both sides.",
+      "Mix jerk marinade paste with lime juice. Coat chicken thighs on both sides.",
       "Air fry 380°F for 16–18 minutes, flipping halfway, until internal temp reaches 165°F.",
       "Microwave the sweet potato noodle pouch 3–4 minutes until just tender.",
-      "Plate chicken over the zoodles. Squeeze lime and add toppings."
+      "Plate chicken over the zoodles. Add toppings."
     ],
     "totalTime": 23,
     "pantryTags": [
