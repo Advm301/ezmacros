@@ -5,7 +5,6 @@ import { formatTime } from '../utils/time';
 import { hapticSelection, hapticLight, hapticMedium } from '../utils/haptics';
 import PantryPickerModal from '../components/PantryPickerModal';
 import SurpriseSparkles from '../components/SurpriseSparkles';
-import FindRecipesSparkles from '../components/FindRecipesSparkles';
 import { getProteinCardBackground } from '../utils/proteinColors';
 
 const PANTRY_LABELS = Object.fromEntries(PANTRY_STAPLES.map((s) => [s.id, s.label]));
@@ -71,6 +70,17 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
     setResults(filterRecipes(RECIPES, selectedStaples));
   };
 
+  // Find Recipes now lives inside the pantry picker itself (replacing what
+  // used to be a plain "Done" button) rather than as a separate, mostly-
+  // disabled button on the main page -- there's no reason to show a button
+  // that only works after you've already gone into the picker anyway. This
+  // runs the search and closes the drawer in one tap.
+  const handleFindRecipesAndClose = () => {
+    if (selectedStaples.length === 0) return;
+    handleFindRecipes();
+    setShowPantryModal(false);
+  };
+
   // Picks one random recipe from whatever your pantry picks match (or the
   // full recipe list if nothing's selected yet) and opens it directly -- a
   // shortcut for "just decide for me," no ingredients required.
@@ -131,7 +141,7 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
             </div>
             {selectedStaples.length > 0 && (
               <div
-                onClick={() => { hapticLight(); setSelectedStaples([]); }}
+                onClick={reset}
                 style={{ fontSize: 11, color: 'var(--muted)', cursor: 'pointer', textDecoration: 'underline' }}
               >
                 Clear ({selectedStaples.length})
@@ -243,35 +253,23 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
         </div>
       )}
 
-      {/* Sticky action bar -- always visible above the bottom nav so the
-          primary "do the thing" action never gets buried below the pantry
-          picker. Find Recipes is disabled until at least one ingredient is
-          picked (unranked "here's all 144 recipes" isn't a useful "find"
-          result); Surprise Me stays enabled always, since it needs no
-          input at all -- that's the whole point of it. */}
+      {/* Sticky action bar -- always visible above the bottom nav. Just
+          Surprise Me now: Find Recipes moved into the pantry picker itself
+          (it only ever made sense once you'd already opened that drawer
+          and picked something, so a second, mostly-disabled button for it
+          out here was redundant). Surprise Me needs no input at all --
+          that's the whole point of it -- so it's the one thing that
+          belongs on the main page regardless of what you've picked. */}
       <div style={{ position: 'fixed', bottom: 58, left: '50%', transform: 'translateX(-50%)', width: '100%', maxWidth: 430, background: 'var(--bg)', borderTop: '1px solid var(--border)', padding: '10px 18px', boxSizing: 'border-box', zIndex: 25 }}>
-        <div style={{ display: 'flex', gap: 10 }}>
-          <div style={{ position: 'relative', flex: 1 }}>
-            <button
-              className="gen-kitchen-btn find-recipes-btn"
-              style={{ width: '100%', marginBottom: 0 }}
-              disabled={selectedStaples.length === 0}
-              onClick={handleFindRecipes}
-            >
-              ✦ Find Recipes
-            </button>
-            <FindRecipesSparkles />
-          </div>
-          <div style={{ position: 'relative', flex: 1 }}>
-            <button
-              className="gen-kitchen-btn surprise-btn"
-              style={{ width: '100%', marginBottom: 0 }}
-              onClick={handleSurpriseMe}
-            >
-              ✦ Surprise Me
-            </button>
-            <SurpriseSparkles />
-          </div>
+        <div style={{ position: 'relative' }}>
+          <button
+            className="gen-kitchen-btn surprise-btn"
+            style={{ width: '100%', marginBottom: 0 }}
+            onClick={handleSurpriseMe}
+          >
+            ✦ Surprise Me
+          </button>
+          <SurpriseSparkles />
         </div>
       </div>
 
@@ -280,6 +278,7 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
           selectedStaples={selectedStaples}
           toggleStaple={toggleStaple}
           onClose={() => setShowPantryModal(false)}
+          onFindRecipes={handleFindRecipesAndClose}
         />
       )}
     </div>

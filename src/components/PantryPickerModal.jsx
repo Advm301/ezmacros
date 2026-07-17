@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { PANTRY_CATEGORIES, PANTRY_STAPLES } from '../data/pantryStaples.js';
 import { hapticLight, hapticSelection } from '../utils/haptics';
+import FindRecipesSparkles from './FindRecipesSparkles';
 
 const PANTRY_LABELS = Object.fromEntries(PANTRY_STAPLES.map((s) => [s.id, s.label]));
 
@@ -24,7 +25,7 @@ const CATEGORY_SHORT_LABELS = {
 // category pills. Both narrow the same underlying item list, so you can
 // combine them (tap "Proteins" then type "chick" to jump straight to
 // chicken breast/thighs).
-export default function PantryPickerModal({ selectedStaples, toggleStaple, onClose }) {
+export default function PantryPickerModal({ selectedStaples, toggleStaple, onClose, onFindRecipes }) {
   const [search, setSearch] = useState('');
   const [activeCategory, setActiveCategory] = useState(null);
 
@@ -59,7 +60,14 @@ export default function PantryPickerModal({ selectedStaples, toggleStaple, onClo
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        style={{ background: 'var(--bg)', width: '100%', maxWidth: 430, height: '82vh', borderRadius: '20px 20px 0 0', border: '1px solid var(--border)', borderBottom: 'none', padding: '18px 18px 0', boxSizing: 'border-box', display: 'flex', flexDirection: 'column' }}
+        // Height used to be a flat 82vh regardless of content -- with the
+        // idle state now just a title, search box, and one row of category
+        // pills (no results list until you search or pick a category), a
+        // fixed 82vh left a big slab of empty sheet below it. maxHeight
+        // instead lets the sheet hug whatever's actually showing, and only
+        // grows toward the cap once a results list (bounded to its own
+        // maxHeight below) actually has something to show.
+        style={{ background: 'var(--bg)', width: '100%', maxWidth: 430, maxHeight: '82vh', borderRadius: '20px 20px 0 0', border: '1px solid var(--border)', borderBottom: 'none', padding: '18px 18px 0', boxSizing: 'border-box', display: 'flex', flexDirection: 'column' }}
       >
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
           <div className="h1" style={{ marginBottom: 0, fontSize: 18 }}>What Do You Have?</div>
@@ -109,9 +117,9 @@ export default function PantryPickerModal({ selectedStaples, toggleStaple, onClo
           ))}
         </div>
 
-        <div style={{ flex: 1, overflowY: 'auto', paddingBottom: 12 }}>
+        <div style={{ maxHeight: '46vh', overflowY: 'auto', paddingBottom: 12 }}>
           {!showResults ? (
-            <div style={{ fontSize: 12.5, color: 'var(--muted)', lineHeight: 1.6, textAlign: 'center', padding: '24px 12px' }}>
+            <div style={{ fontSize: 12.5, color: 'var(--muted)', lineHeight: 1.6, textAlign: 'center', padding: '10px 12px' }}>
               Search for an ingredient, or tap a category above to browse.
             </div>
           ) : results.length === 0 ? (
@@ -133,14 +141,21 @@ export default function PantryPickerModal({ selectedStaples, toggleStaple, onClo
           )}
         </div>
 
-        <div style={{ padding: '12px 0 18px', borderTop: '1px solid var(--border)' }}>
+        {/* Used to be a plain "Done" that just closed the drawer -- now it
+            IS the Find Recipes action (the old main-page button was
+            redundant with this one and mostly sat there disabled). Stays
+            disabled until at least one ingredient is picked, same as
+            before. */}
+        <div style={{ padding: '12px 0 18px', borderTop: '1px solid var(--border)', position: 'relative' }}>
           <button
-            className="gen-kitchen-btn"
+            className="gen-kitchen-btn find-recipes-btn"
             style={{ marginBottom: 0 }}
-            onClick={() => { hapticLight(); onClose(); }}
+            disabled={selectedStaples.length === 0}
+            onClick={onFindRecipes}
           >
-            Done{selectedStaples.length > 0 ? ` (${selectedStaples.length} selected)` : ''}
+            ✦ Find Recipes{selectedStaples.length > 0 ? ` (${selectedStaples.length})` : ''}
           </button>
+          <FindRecipesSparkles />
         </div>
       </div>
     </div>
