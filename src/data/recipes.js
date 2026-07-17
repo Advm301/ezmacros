@@ -1823,13 +1823,28 @@ export const RECIPES = [
         "name": "Salsa (fresh, 2 tbsp)",
         "quantity": 32,
         "unit": "g"
+      },
+      {
+        "name": "Ground Cumin (½ tsp)",
+        "quantity": 1,
+        "unit": "g"
+      },
+      {
+        "name": "Chili Powder (½ tsp)",
+        "quantity": 1,
+        "unit": "g"
+      },
+      {
+        "name": "Garlic Powder (¼ tsp)",
+        "quantity": 1,
+        "unit": "g"
       }
     ],
     "toppings": [
       "Sour Cream"
     ],
     "instructions": [
-      "Mix black beans with the salsa in a small bowl.",
+      "Mix black beans with the salsa, cumin, chili powder, and garlic powder in a small bowl -- this is what gives the filling real flavor instead of tasting like plain beans and cheese.",
       "Heat oil in skillet over medium. Place 1 tortilla down. Spread bean mixture + cheese on half.",
       "Fold in half. Cook 2 min per side until golden + cheese melts. Repeat with second tortilla.",
       "Cut into triangles. Toppings on side."
@@ -2045,6 +2060,16 @@ export const RECIPES = [
         "name": "Frozen Peas (microwave bag, ¾ cup)",
         "quantity": 100,
         "unit": "g"
+      },
+      {
+        "name": "Garlic Powder (½ tsp)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "White Pepper (¼ tsp)",
+        "quantity": 1,
+        "unit": "g"
       }
     ],
     "toppings": [
@@ -2053,7 +2078,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Heat sesame oil in large skillet over high heat. Scramble eggs 2 min, remove to plate.",
-      "Add rice to skillet, break up clumps. Stir 2 min. Add peas + soy sauce.",
+      "Add rice to skillet, break up clumps. Stir 2 min. Add peas + soy sauce + garlic powder + white pepper -- the white pepper especially is what makes fried rice taste like fried rice instead of just rice with soy sauce.",
       "Return eggs to skillet, toss everything 1 min. Toppings on side."
     ],
     "totalTime": 8,
@@ -3679,6 +3704,16 @@ export const RECIPES = [
         "name": "Frozen Peas (½ cup)",
         "quantity": 65,
         "unit": "g"
+      },
+      {
+        "name": "Garlic Powder (½ tsp)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "White Pepper (¼ tsp)",
+        "quantity": 1,
+        "unit": "g"
       }
     ],
     "toppings": [
@@ -3687,7 +3722,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Heat sesame oil in large skillet over high. Scramble eggs, remove to plate.",
-      "Add rice, break up clumps, stir 2 min. Add peas + soy sauce + shrimp.",
+      "Add rice, break up clumps, stir 2 min. Add peas + soy sauce + garlic powder + white pepper + shrimp.",
       "Return eggs, toss everything 1 min. Toppings on side."
     ],
     "totalTime": 8,
@@ -4102,6 +4137,16 @@ export const RECIPES = [
         "name": "Garlic Powder (½ tsp)",
         "quantity": 1.5,
         "unit": "g"
+      },
+      {
+        "name": "Red Pepper Flakes (¼ tsp)",
+        "quantity": 0.5,
+        "unit": "g"
+      },
+      {
+        "name": "Honey (1 tsp)",
+        "quantity": 7,
+        "unit": "g"
       }
     ],
     "toppings": [
@@ -4109,8 +4154,8 @@ export const RECIPES = [
       "Black Pepper"
     ],
     "instructions": [
-      "Place feta block in small baking dish. Pour canned cherry tomatoes around it (don't drain completely).",
-      "Spray feta lightly with olive oil. Shake Italian seasoning + garlic powder over top.",
+      "Place feta block in small baking dish. Pour canned cherry tomatoes around it (don't drain completely). Drizzle honey over the tomatoes -- it caramelizes in the oven and balances their acidity.",
+      "Spray feta lightly with olive oil. Shake Italian seasoning + garlic powder + red pepper flakes over top.",
       "Bake 400°F for 25 min. Mash feta and tomatoes together until creamy. Toss with cooked pasta."
     ],
     "totalTime": 33,
@@ -4306,6 +4351,11 @@ export const RECIPES = [
         "name": "Garlic Powder (2 tsp)",
         "quantity": 6,
         "unit": "g"
+      },
+      {
+        "name": "Red Pepper Flakes (½ tsp)",
+        "quantity": 1,
+        "unit": "g"
       }
     ],
     "toppings": [
@@ -4313,7 +4363,7 @@ export const RECIPES = [
       "Black Pepper"
     ],
     "instructions": [
-      "Add chicken, sun-dried tomatoes, broth, Italian seasoning, and garlic powder to slow cooker.",
+      "Add chicken, sun-dried tomatoes, broth, Italian seasoning, garlic powder, and red pepper flakes to slow cooker -- the red pepper flakes are what push this from a mild cream sauce toward a real Tuscan-style flavor.",
       "Cook LOW 5–6 hrs or HIGH 2–3 hrs. Stir in heavy cream + parmesan in last 30 min.",
       "Divide chicken and sauce evenly into 4 containers. Refrigerate up to 4 days.",
       "Reheat one portion at a time. Serve over a fresh white rice pouch."
@@ -4560,6 +4610,11 @@ export const RECIPES = [
         "name": "Garlic Powder (½ tsp)",
         "quantity": 1.5,
         "unit": "g"
+      },
+      {
+        "name": "White Pepper (¼ tsp)",
+        "quantity": 1,
+        "unit": "g"
       }
     ],
     "toppings": [
@@ -4568,7 +4623,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Heat sesame oil in large skillet over high heat. Scramble egg whites 2 min until just set. Remove to plate.",
-      "Add rice to skillet, break up clumps, stir 2 min. Add peas + soy sauce + garlic powder.",
+      "Add rice to skillet, break up clumps, stir 2 min. Add peas + soy sauce + garlic powder + white pepper.",
       "Return eggs, toss everything 1 min. Toppings on side."
     ],
     "totalTime": 7,
@@ -5547,13 +5602,38 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Garlic Powder (½ tsp)",
-        "quantity": 1.5,
+        "name": "Garlic Powder (1 tsp)",
+        "quantity": 3,
         "unit": "g"
       },
       {
-        "name": "Italian Seasoning (shaker)",
+        "name": "Onion Powder (1 tsp)",
+        "quantity": 3,
+        "unit": "g"
+      },
+      {
+        "name": "Ground Cumin (1 tsp)",
         "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "Dried Oregano (1 tsp)",
+        "quantity": 1,
+        "unit": "g"
+      },
+      {
+        "name": "Red Pepper Flakes (½ tsp)",
+        "quantity": 1,
+        "unit": "g"
+      },
+      {
+        "name": "Smoked Paprika (½ tsp)",
+        "quantity": 1,
+        "unit": "g"
+      },
+      {
+        "name": "Salt (¼ tsp)",
+        "quantity": 1.5,
         "unit": "g"
       },
       {
@@ -5578,7 +5658,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Heat a skillet over medium-high heat. Add ground beef and break apart. Cook 4-5 minutes until mostly browned.",
-      "Stir in tomato paste and garlic powder, cook 30 sec until fragrant. Add canned tomatoes (with liquid), Italian seasoning, and spinach. Simmer 2 minutes, stirring until the spinach wilts.",
+      "Stir in tomato paste, garlic powder, onion powder, cumin, oregano, red pepper flakes, smoked paprika, and salt, cooking 30 sec until fragrant -- this is where the real flavor comes from, not just the tomatoes. Add canned tomatoes (with liquid) and spinach. Simmer 2 minutes, stirring until the spinach wilts and the sauce thickens slightly.",
       "Stir in butter off heat for a glossy, rich sauce. Microwave rice 90 sec. Build bowl with rice, top with ground beef & tomato sauce (spinach mixed in)."
     ],
     "totalTime": 6,
@@ -6028,13 +6108,38 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Garlic Powder (½ tsp)",
-        "quantity": 1.5,
+        "name": "Garlic Powder (1 tsp)",
+        "quantity": 3,
         "unit": "g"
       },
       {
-        "name": "Italian Seasoning (shaker)",
+        "name": "Onion Powder (1 tsp)",
+        "quantity": 3,
+        "unit": "g"
+      },
+      {
+        "name": "Ground Cumin (1 tsp)",
         "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "Dried Oregano (1 tsp)",
+        "quantity": 1,
+        "unit": "g"
+      },
+      {
+        "name": "Red Pepper Flakes (½ tsp)",
+        "quantity": 1,
+        "unit": "g"
+      },
+      {
+        "name": "Smoked Paprika (½ tsp)",
+        "quantity": 1,
+        "unit": "g"
+      },
+      {
+        "name": "Salt (¼ tsp)",
+        "quantity": 1.5,
         "unit": "g"
       },
       {
@@ -6059,7 +6164,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Heat a skillet over medium-high heat. Add ground chicken and break apart. Cook 4-5 minutes until mostly cooked through.",
-      "Stir in tomato paste and garlic powder, cook 30 sec until fragrant. Add canned tomatoes (with liquid), Italian seasoning, and spinach. Simmer 2 minutes, stirring until the spinach wilts.",
+      "Stir in tomato paste, garlic powder, onion powder, cumin, oregano, red pepper flakes, smoked paprika, and salt, cooking 30 sec until fragrant -- this is where the real flavor comes from, not just the tomatoes. Add canned tomatoes (with liquid) and spinach. Simmer 2 minutes, stirring until the spinach wilts and the sauce thickens slightly.",
       "Stir in butter off heat for a glossy, rich sauce. Microwave rice 90 sec. Build bowl with rice, top with ground chicken & tomato sauce (spinach mixed in)."
     ],
     "totalTime": 6,
@@ -6509,13 +6614,38 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Garlic Powder (½ tsp)",
-        "quantity": 1.5,
+        "name": "Garlic Powder (1 tsp)",
+        "quantity": 3,
         "unit": "g"
       },
       {
-        "name": "Italian Seasoning (shaker)",
+        "name": "Onion Powder (1 tsp)",
+        "quantity": 3,
+        "unit": "g"
+      },
+      {
+        "name": "Ground Cumin (1 tsp)",
         "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "Dried Oregano (1 tsp)",
+        "quantity": 1,
+        "unit": "g"
+      },
+      {
+        "name": "Red Pepper Flakes (½ tsp)",
+        "quantity": 1,
+        "unit": "g"
+      },
+      {
+        "name": "Smoked Paprika (½ tsp)",
+        "quantity": 1,
+        "unit": "g"
+      },
+      {
+        "name": "Salt (¼ tsp)",
+        "quantity": 1.5,
         "unit": "g"
       },
       {
@@ -6540,7 +6670,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Heat a skillet over medium-high heat. Add ground pork and break apart. Cook 4-5 minutes until mostly browned.",
-      "Stir in tomato paste and garlic powder, cook 30 sec until fragrant. Add canned tomatoes (with liquid), Italian seasoning, and spinach. Simmer 2 minutes, stirring until the spinach wilts.",
+      "Stir in tomato paste, garlic powder, onion powder, cumin, oregano, red pepper flakes, smoked paprika, and salt, cooking 30 sec until fragrant -- this is where the real flavor comes from, not just the tomatoes. Add canned tomatoes (with liquid) and spinach. Simmer 2 minutes, stirring until the spinach wilts and the sauce thickens slightly.",
       "Stir in butter off heat for a glossy, rich sauce. Microwave rice 90 sec. Build bowl with rice, top with ground pork & tomato sauce (spinach mixed in)."
     ],
     "totalTime": 6,
@@ -6990,13 +7120,38 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Garlic Powder (½ tsp)",
-        "quantity": 1.5,
+        "name": "Garlic Powder (1 tsp)",
+        "quantity": 3,
         "unit": "g"
       },
       {
-        "name": "Italian Seasoning (shaker)",
+        "name": "Onion Powder (1 tsp)",
+        "quantity": 3,
+        "unit": "g"
+      },
+      {
+        "name": "Ground Cumin (1 tsp)",
         "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "Dried Oregano (1 tsp)",
+        "quantity": 1,
+        "unit": "g"
+      },
+      {
+        "name": "Red Pepper Flakes (½ tsp)",
+        "quantity": 1,
+        "unit": "g"
+      },
+      {
+        "name": "Smoked Paprika (½ tsp)",
+        "quantity": 1,
+        "unit": "g"
+      },
+      {
+        "name": "Salt (¼ tsp)",
+        "quantity": 1.5,
         "unit": "g"
       },
       {
@@ -7021,7 +7176,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Heat a skillet over medium-high heat. Add ground turkey and break apart. Cook 4-5 minutes until mostly cooked through.",
-      "Stir in tomato paste and garlic powder, cook 30 sec until fragrant. Add canned tomatoes (with liquid), Italian seasoning, and spinach. Simmer 2 minutes, stirring until the spinach wilts.",
+      "Stir in tomato paste, garlic powder, onion powder, cumin, oregano, red pepper flakes, smoked paprika, and salt, cooking 30 sec until fragrant -- this is where the real flavor comes from, not just the tomatoes. Add canned tomatoes (with liquid) and spinach. Simmer 2 minutes, stirring until the spinach wilts and the sauce thickens slightly.",
       "Stir in butter off heat for a glossy, rich sauce. Microwave rice 90 sec. Build bowl with rice, top with ground turkey & tomato sauce (spinach mixed in)."
     ],
     "totalTime": 6,
@@ -7352,6 +7507,21 @@ export const RECIPES = [
         "name": "Shredded Mexican Cheese Blend (bagged)",
         "quantity": 120,
         "unit": "g"
+      },
+      {
+        "name": "Ground Cumin (1 tsp)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "Chili Powder (1 tsp)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "Garlic Powder (½ tsp)",
+        "quantity": 2,
+        "unit": "g"
       }
     ],
     "toppings": [
@@ -7361,7 +7531,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Preheat oven to 375°F. Microwave the steam-bag sweet potato 5 minutes until fork-tender.",
-      "In a bowl, mix black beans, sweet potato, and ¼ cup of the enchilada sauce.",
+      "In a bowl, mix black beans, sweet potato, cumin, chili powder, garlic powder, and ¼ cup of the enchilada sauce -- seasoning the filling directly keeps it from tasting like plain beans under sauce.",
       "Spoon filling onto tortillas, roll, and place seam-down in a baking dish. Pour remaining sauce over the top, then sprinkle with cheese.",
       "Bake 20 minutes until the cheese is melted and the edges are bubbling."
     ],
@@ -8469,6 +8639,21 @@ export const RECIPES = [
         "name": "Shredded Mexican Cheese Blend (bagged)",
         "quantity": 40,
         "unit": "g"
+      },
+      {
+        "name": "Ground Cumin (½ tsp)",
+        "quantity": 1,
+        "unit": "g"
+      },
+      {
+        "name": "Chili Powder (½ tsp)",
+        "quantity": 1,
+        "unit": "g"
+      },
+      {
+        "name": "Garlic Powder (¼ tsp)",
+        "quantity": 1,
+        "unit": "g"
       }
     ],
     "toppings": [
@@ -8477,7 +8662,7 @@ export const RECIPES = [
       "Sliced Avocado (pre-cut)"
     ],
     "instructions": [
-      "Microwave refried beans in a bowl 1–2 minutes until warmed through.",
+      "Microwave refried beans with cumin, chili powder, and garlic powder in a bowl 1–2 minutes until warmed through and stirred in -- plain refried beans need this to taste like a real ranchero-style base instead of just canned beans.",
       "Warm tortillas in a dry pan 30 seconds per side. Fry eggs in the same pan to your liking.",
       "Spread beans over the tortillas, top with fried eggs, salsa, and cheese."
     ],
