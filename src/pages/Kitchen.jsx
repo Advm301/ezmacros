@@ -256,9 +256,15 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
           belongs on the main page regardless of what you've picked. */}
       {/* Bottom nav in App.jsx is now a floating pill sitting 14px above the
           true screen edge instead of flush at bottom:0 -- bumped this up
-          from 58 to clear it with a small gap. */}
-      <div style={{ position: 'fixed', bottom: 90, left: '50%', transform: 'translateX(-50%)', width: '100%', maxWidth: 430, background: 'var(--bg)', borderTop: '1px solid var(--border)', padding: '10px 18px', boxSizing: 'border-box', zIndex: 25 }}>
-        <div style={{ position: 'relative' }}>
+          from 58 to clear it with a small gap. No background/border-top on
+          this wrapper anymore either -- with only one button left here
+          (Find Recipes moved into the pantry picker), a full-width opaque
+          bar with a separator line above it just read as an odd dark slab
+          around a lone button. It's centered and about half-width instead,
+          floating on its own like the Surprise Me button does everywhere
+          else it appears (e.g. the Kitchen recipe modal). */}
+      <div style={{ position: 'fixed', bottom: 90, left: '50%', transform: 'translateX(-50%)', width: '100%', maxWidth: 430, padding: '0 18px', boxSizing: 'border-box', zIndex: 25, display: 'flex', justifyContent: 'center' }}>
+        <div style={{ position: 'relative', width: '50%' }}>
           <button
             className="gen-kitchen-btn surprise-btn"
             style={{ width: '100%', marginBottom: 0 }}
