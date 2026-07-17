@@ -1061,7 +1061,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Hot Sauce (3 tbsp)",
+        "name": "Buffalo Sauce (3 tbsp)",
         "quantity": 45,
         "unit": "ml"
       },
@@ -1087,7 +1087,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Spray chicken with butter. Air fry 400°F for 16–18 min, shaking halfway.",
-      "Microwave rice 90 sec. Microwave broccoli 3 min. Season the broccoli with garlic powder, onion powder, and a pinch of chili flakes. Toss chicken in hot sauce.",
+      "Microwave rice 90 sec. Microwave broccoli 3 min. Season the broccoli with garlic powder, onion powder, and a pinch of chili flakes. Toss chicken in buffalo sauce.",
       "Build bowl — toppings separate."
     ],
     "totalTime": 22,
@@ -4998,7 +4998,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Hot Sauce (3 tbsp)",
+        "name": "Buffalo Sauce (3 tbsp)",
         "quantity": 45,
         "unit": "ml"
       },
@@ -5028,7 +5028,7 @@ export const RECIPES = [
       "Parmesan"
     ],
     "instructions": [
-      "Spray shrimp with olive oil. Air fry 380°F for 8–10 min. Toss in hot sauce.",
+      "Spray shrimp with olive oil. Air fry 380°F for 8–10 min. Toss in buffalo sauce.",
       "Microwave rice 90 sec + broccoli 3 min. Season the broccoli with garlic powder, onion powder, and a pinch of chili flakes. Build bowl.",
       "Drizzle ranch dressing over shrimp. Toppings on side."
     ],

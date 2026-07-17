@@ -100,6 +100,10 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
   const [grabAndGoOnly, setGrabAndGoOnly] = useState(false);
   const [mealPrepOnly, setMealPrepOnly] = useState(false);
   const [showMoreFilters, setShowMoreFilters] = useState(false);
+  // Sorting is separate from the filters above -- it reorders results
+  // rather than removing any, so it's left out of anyFilterActive /
+  // clearAllFilters on purpose.
+  const [sortByRating, setSortByRating] = useState(false);
   // Each meal section (Breakfast / Lunch & Dinner / Snacks) starts closed --
   // all three expanded by default was the exact "everything dumped on one
   // screen" clutter this redesign is meant to fix. Opening one reveals its
@@ -136,7 +140,7 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
     setOpenSections((prev) => ({ ...prev, [value]: !prev[value] }));
   };
 
-  const filtered = RECIPES.filter((r) => {
+  let filtered = RECIPES.filter((r) => {
     const tags = r.tags || [];
     const matchSearch = r.name.toLowerCase().includes(search.toLowerCase());
     const matchMeal = !mealFilter || r.mealType === mealFilter;
@@ -149,6 +153,21 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
     const matchMealPrep = !mealPrepOnly || r.servings > 1;
     return matchSearch && matchMeal && matchProtein && matchFlavor && matchMethod && matchSaved && matchHighProtein && matchGrabAndGo && matchMealPrep;
   });
+
+  // Top-rated first: recipes with at least one rating sort by average
+  // (ties broken by rating count, so a 5.0 from 1 person doesn't outrank a
+  // 4.8 from 20), unrated recipes drop to the bottom rather than being
+  // filtered out entirely -- this is a reorder, not a filter.
+  if (sortByRating && getRatingSummary) {
+    filtered = [...filtered].sort((a, b) => {
+      const ra = getRatingSummary(a.id);
+      const rb = getRatingSummary(b.id);
+      if (ra && rb) return rb.avg - ra.avg || rb.count - ra.count;
+      if (ra && !rb) return -1;
+      if (!ra && rb) return 1;
+      return 0;
+    });
+  }
 
   const sections = MEAL_SECTIONS.filter((s) => !mealFilter || s.value === mealFilter);
 
@@ -329,8 +348,16 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
           )}
         </div>
 
-        <div className="sub" style={{ marginTop: 10 }}>
-          {filtered.length} recipe{filtered.length !== 1 ? 's' : ''}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 10 }}>
+          <div className="sub" style={{ marginTop: 0 }}>
+            {filtered.length} recipe{filtered.length !== 1 ? 's' : ''}
+          </div>
+          <div
+            className={`pill ${sortByRating ? 'active' : ''}`}
+            onClick={() => { hapticSelection(); setSortByRating((v) => !v); }}
+          >
+            ★ Top Rated
+          </div>
         </div>
       </div>
 
