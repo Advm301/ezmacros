@@ -135,18 +135,12 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
             of rendering all ~30 chips across 5 categories inline -- this row
             is just a compact summary/entry point into it. */}
         <div className="filter-sec" style={{ marginBottom: 10 }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-            <div className="filter-label" style={{ marginBottom: 0 }}>
-              What Do You Have?
-            </div>
-            {selectedStaples.length > 0 && (
-              <div
-                onClick={reset}
-                style={{ fontSize: 11, color: 'var(--muted)', cursor: 'pointer', textDecoration: 'underline' }}
-              >
-                Clear ({selectedStaples.length})
-              </div>
-            )}
+          {/* The "Clear" link next to the page title above already resets
+              everything -- a second one here duplicated it for no reason
+              (Browse's single "Clear All Filters" link is the pattern this
+              now matches). */}
+          <div className="filter-label" style={{ marginBottom: 8 }}>
+            What Do You Have?
           </div>
 
           {selectedStaples.length === 0 ? (
@@ -260,7 +254,10 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
           out here was redundant). Surprise Me needs no input at all --
           that's the whole point of it -- so it's the one thing that
           belongs on the main page regardless of what you've picked. */}
-      <div style={{ position: 'fixed', bottom: 58, left: '50%', transform: 'translateX(-50%)', width: '100%', maxWidth: 430, background: 'var(--bg)', borderTop: '1px solid var(--border)', padding: '10px 18px', boxSizing: 'border-box', zIndex: 25 }}>
+      {/* Bottom nav in App.jsx is now a floating pill sitting 14px above the
+          true screen edge instead of flush at bottom:0 -- bumped this up
+          from 58 to clear it with a small gap. */}
+      <div style={{ position: 'fixed', bottom: 90, left: '50%', transform: 'translateX(-50%)', width: '100%', maxWidth: 430, background: 'var(--bg)', borderTop: '1px solid var(--border)', padding: '10px 18px', boxSizing: 'border-box', zIndex: 25 }}>
         <div style={{ position: 'relative' }}>
           <button
             className="gen-kitchen-btn surprise-btn"

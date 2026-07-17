@@ -218,11 +218,16 @@ export default function App() {
     return <Login />;
   }
 
+  // softColor backs the sliding highlight pill behind the active tab (see
+  // the bottom nav below) -- a literal rgba rather than deriving one from
+  // the `color` CSS var, since you can't append an alpha channel to a var()
+  // that already resolves to a full hex string.
   const tabs = [
-    {id: "kitchen", Icon: KitchenIcon, color: 'var(--orange)'},
-    {id: "browse", Icon: BrowseIcon, color: 'var(--blue)'},
-    {id: "saved", Icon: SavedIcon, color: 'var(--pink)'},
+    {id: "kitchen", Icon: KitchenIcon, color: 'var(--orange)', softColor: 'rgba(255,133,51,0.22)'},
+    {id: "browse", Icon: BrowseIcon, color: 'var(--blue)', softColor: 'rgba(77,184,255,0.22)'},
+    {id: "saved", Icon: SavedIcon, color: 'var(--pink)', softColor: 'rgba(255,107,170,0.22)'},
   ];
+  const activeTabIndex = tabs.findIndex((t) => t.id === tab);
 
   return (
     <>
@@ -341,17 +346,48 @@ export default function App() {
           />
         )}
 
-        {/* Bottom nav -- solid background matching the app's own base color
-            (not a stark black box) so it reads as part of the shell rather
-            than a distinct bar, but still opaque: without a solid fill here,
-            scrolled card content shows through underneath the icons. */}
-        <div style={{position: "fixed", bottom: 0, left: "50%", transform: "translateX(-50%)", width: "100%", maxWidth: 430, background: "var(--bg)", borderTop: "1px solid var(--border)", display: "flex", zIndex: 20}}>
-          {tabs.map(t => (
-            <div key={t.id} onClick={() => { if (t.id !== tab) { hapticSelection(); setTab(t.id); } }}
-              style={{flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "14px 0", cursor: "pointer", opacity: tab === t.id ? 1 : 0.4, borderTop: tab === t.id ? `2px solid ${t.color}` : "2px solid transparent", transition: "all .15s", position: "relative"}}>
-              <t.Icon color={t.color} />
-            </div>
-          ))}
+        {/* Bottom nav -- MyFitnessPal-style floating pill: a frosted-glass
+            bar (translucent fill + backdrop blur, so scrolled content
+            underneath reads as softly blurred rather than either fully
+            see-through or a flat opaque block) sitting with a gap above the
+            true screen edge, in a heavily rounded/pill-shaped container.
+            The active tab is marked by a sliding soft-colored pill behind
+            its icon (each tab's own color at low opacity, see `softColor`
+            above) instead of the old top border line -- it animates its
+            position with a slight bounce (cubic-bezier overshoot) whenever
+            the tab changes, rather than snapping instantly. */}
+        <div style={{position: "fixed", bottom: 14, left: "50%", transform: "translateX(-50%)", width: "calc(100% - 24px)", maxWidth: 406, zIndex: 20}}>
+          <div style={{
+            position: "relative",
+            display: "flex",
+            background: "rgba(4,20,26,0.6)",
+            backdropFilter: "blur(20px)",
+            WebkitBackdropFilter: "blur(20px)",
+            border: "1px solid rgba(255,255,255,0.10)",
+            borderRadius: 32,
+            padding: 6,
+            boxShadow: "0 10px 30px rgba(0,0,0,.4)",
+          }}>
+            <div
+              aria-hidden="true"
+              style={{
+                position: "absolute",
+                top: 6,
+                bottom: 6,
+                left: `calc(6px + (100% - 12px) / 3 * ${activeTabIndex})`,
+                width: "calc((100% - 12px) / 3)",
+                background: tabs[activeTabIndex]?.softColor,
+                borderRadius: 26,
+                transition: "left .4s cubic-bezier(.34,1.56,.64,1), background .25s ease",
+              }}
+            />
+            {tabs.map(t => (
+              <div key={t.id} onClick={() => { if (t.id !== tab) { hapticSelection(); setTab(t.id); } }}
+                style={{flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "12px 0", cursor: "pointer", position: "relative", zIndex: 1}}>
+                <t.Icon color={tab === t.id ? t.color : "var(--muted)"} />
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Beta feedback button -- floating, above the bottom nav, visible
@@ -366,10 +402,13 @@ export default function App() {
               style={{
                 position: "absolute",
                 right: 18,
-                // Kitchen tab has its own sticky action bar just above the
-                // bottom nav (see Kitchen.jsx) -- push the feedback button
-                // up further there so it doesn't sit on top of it.
-                bottom: tab === "kitchen" ? 138 : 76,
+                // Bottom nav is now a floating pill sitting 14px above the
+                // true screen edge (see the nav block above) rather than
+                // flush at bottom:0, so this shifted up to clear it. Kitchen
+                // tab has its own sticky action bar just above that floating
+                // nav (see Kitchen.jsx) -- push the feedback button up
+                // further there so it doesn't sit on top of it.
+                bottom: tab === "kitchen" ? 172 : 90,
                 width: 48,
                 height: 48,
                 borderRadius: "50%",
