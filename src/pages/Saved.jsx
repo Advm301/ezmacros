@@ -140,6 +140,16 @@ export default function Saved({
   const renderSavedRow = (r) => {
     const entry = getEntry ? getEntry(r.id) : null;
     const hasNotes = entry && entry.notes && entry.notes.trim().length > 0;
+    // Per-step comments jotted mid-cook ("used low-sodium sauce", "needed 2
+    // extra minutes") -- these also auto-save the recipe (see
+    // useSavedRecipes' updateStepNote), but were previously invisible here:
+    // finding one again meant reopening the full cook wizard and clicking
+    // through to that exact step. Surfacing them right in this row, labeled
+    // by step number, is the point of this view -- see the note without
+    // starting the recipe over.
+    const stepNoteEntries = Object.entries(entry?.stepNotes || {})
+      .filter(([, text]) => text && text.trim().length > 0)
+      .sort(([a], [b]) => Number(a) - Number(b));
     const hasOverrides = entry && (
       Object.keys(entry.ingredientOverrides || {}).length > 0 ||
       Object.keys(entry.instructionOverrides || {}).length > 0
@@ -161,9 +171,21 @@ export default function Saved({
                 <> · ★ {getRatingSummary(r.id).avg.toFixed(1)} ({getRatingSummary(r.id).count})</>
               )}
             </div>
-            {(hasNotes || hasOverrides) && (
-              <div style={{ fontSize: 11, color: 'var(--muted)', marginTop: 4, fontStyle: 'italic' }}>
-                {hasNotes ? entry.notes.slice(0, 60) : 'Customized'}
+            {(hasNotes || stepNoteEntries.length > 0 || hasOverrides) && (
+              <div style={{ marginTop: 6, display: 'flex', flexDirection: 'column', gap: 3 }}>
+                {hasNotes && (
+                  <div style={{ fontSize: 11.5, color: 'var(--cream)', fontStyle: 'italic', lineHeight: 1.4 }}>
+                    "{entry.notes}"
+                  </div>
+                )}
+                {stepNoteEntries.map(([index, text]) => (
+                  <div key={index} style={{ fontSize: 11.5, color: 'var(--muted)', lineHeight: 1.4 }}>
+                    <span style={{ color: 'var(--lime)', fontWeight: 700 }}>Step {Number(index) + 1}:</span> {text}
+                  </div>
+                ))}
+                {!hasNotes && stepNoteEntries.length === 0 && hasOverrides && (
+                  <div style={{ fontSize: 11, color: 'var(--muted)', fontStyle: 'italic' }}>Customized</div>
+                )}
               </div>
             )}
           </div>
