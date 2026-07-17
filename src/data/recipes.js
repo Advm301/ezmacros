@@ -222,7 +222,7 @@ export const RECIPES = [
     "name": "Slow Cooker Beef Rice Bowl",
     "method": "Slow Cooker",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 4,
     "proteins": [
       "beef"
     ],
@@ -231,37 +231,37 @@ export const RECIPES = [
     "components": [
       {
         "name": "Ground Beef (93% lean)",
-        "quantity": 142,
+        "quantity": 568,
         "unit": "g"
       },
       {
         "name": "Canned Diced Tomatoes",
-        "quantity": 120,
+        "quantity": 480,
         "unit": "ml"
       },
       {
-        "name": "Rice Pouch (microwaveable)",
-        "quantity": 200,
+        "name": "Rice Pouch (microwaveable, 1 per meal)",
+        "quantity": 4,
+        "unit": "each"
+      },
+      {
+        "name": "Frozen Mixed Veg (steam-bag, 1 per meal)",
+        "quantity": 4,
+        "unit": "each"
+      },
+      {
+        "name": "Garlic Powder (2 tsp)",
+        "quantity": 6,
         "unit": "g"
       },
       {
-        "name": "Frozen Mixed Veg (steam-bag)",
-        "quantity": 75,
+        "name": "Italian Seasoning (4 tsp)",
+        "quantity": 8,
         "unit": "g"
       },
       {
-        "name": "Garlic Powder (½ tsp)",
-        "quantity": 1.5,
-        "unit": "g"
-      },
-      {
-        "name": "Italian Seasoning (1 tsp)",
+        "name": "Salt (¼ tsp)",
         "quantity": 2,
-        "unit": "g"
-      },
-      {
-        "name": "Salt (pinch)",
-        "quantity": 0.5,
         "unit": "g"
       }
     ],
@@ -273,8 +273,8 @@ export const RECIPES = [
     "instructions": [
       "Add beef, canned tomatoes, garlic powder, Italian seasoning, and salt to the slow cooker. Break up beef roughly and stir to combine.",
       "Cook HIGH 2 hrs or LOW 4 hrs.",
-      "Microwave rice 90 sec + steam-bag veg 3 min.",
-      "Build bowl. Toppings on the side."
+      "Divide the beef mixture evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
+      "To serve one portion: microwave a rice pouch 90 sec + a steam-bag veg 3 min. Build bowl with beef mixture. Toppings on the side."
     ],
     "totalTime": 245,
     "pantryTags": [
@@ -1592,7 +1592,7 @@ export const RECIPES = [
     "name": "Slow Cooker Chicken Thighs",
     "method": "Slow Cooker",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 4,
     "proteins": [
       "chicken"
     ],
@@ -1600,23 +1600,23 @@ export const RECIPES = [
     "activeTime": 5,
     "components": [
       {
-        "name": "Chicken Thighs (boneless, skinless, 6 oz)",
-        "quantity": 170,
+        "name": "Chicken Thighs (boneless, skinless, 4 thighs)",
+        "quantity": 680,
         "unit": "g"
       },
       {
-        "name": "Low-Sodium Chicken Broth (1 cup)",
-        "quantity": 240,
+        "name": "Low-Sodium Chicken Broth (4 cups)",
+        "quantity": 960,
         "unit": "g"
       },
       {
-        "name": "Italian Herb Seasoning (1 tbsp)",
-        "quantity": 3,
+        "name": "Italian Herb Seasoning (4 tbsp)",
+        "quantity": 12,
         "unit": "g"
       },
       {
-        "name": "Garlic Powder (½ tsp)",
-        "quantity": 1.5,
+        "name": "Garlic Powder (2 tsp)",
+        "quantity": 6,
         "unit": "g"
       }
     ],
@@ -1626,7 +1626,9 @@ export const RECIPES = [
     ],
     "instructions": [
       "Add chicken, broth, and seasonings to slow cooker.",
-      "Cook LOW 6–7 hrs or HIGH 3–4 hrs. Shred chicken. Serve with toppings on side."
+      "Cook LOW 6–7 hrs or HIGH 3–4 hrs. Shred all the chicken.",
+      "Divide shredded chicken evenly into 4 containers with a bit of the cooking liquid spooned over each to keep it moist. Refrigerate up to 4 days, or freeze.",
+      "Reheat one portion at a time. Serve with toppings on the side."
     ],
     "totalTime": 425,
     "pantryTags": [
@@ -1792,7 +1794,7 @@ export const RECIPES = [
     "name": "High Protein Chili",
     "method": "Slow Cooker",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 4,
     "proteins": [
       "turkey",
       "plant"
@@ -1805,27 +1807,27 @@ export const RECIPES = [
     "components": [
       {
         "name": "Ground Turkey (93% lean)",
-        "quantity": 142,
+        "quantity": 568,
         "unit": "g"
       },
       {
-        "name": "Canned Red Kidney Beans (1 can, drained)",
-        "quantity": 270,
+        "name": "Canned Red Kidney Beans (4 cans, drained)",
+        "quantity": 1080,
         "unit": "g"
       },
       {
-        "name": "Canned Diced Tomatoes (1 can, undrained)",
-        "quantity": 240,
+        "name": "Canned Diced Tomatoes (4 cans, undrained)",
+        "quantity": 960,
         "unit": "ml"
       },
       {
-        "name": "Chili Seasoning Packet",
-        "quantity": 25,
+        "name": "Chili Seasoning Packet (4 packets)",
+        "quantity": 100,
         "unit": "g"
       },
       {
-        "name": "Olive Oil (1 tsp)",
-        "quantity": 5,
+        "name": "Olive Oil (4 tsp)",
+        "quantity": 20,
         "unit": "g"
       }
     ],
@@ -1834,9 +1836,10 @@ export const RECIPES = [
       "Sour Cream"
     ],
     "instructions": [
-      "Heat oil in skillet. Brown turkey 4–5 min, breaking it up. Transfer to slow cooker.",
+      "Heat oil in skillet. Brown turkey in batches if needed, breaking it up, 6–8 min. Transfer to slow cooker.",
       "Add beans, tomatoes, and chili seasoning. Stir well.",
-      "Cook LOW 5–6 hrs or HIGH 2–3 hrs. Stir occasionally. Top with cheese + sour cream."
+      "Cook LOW 5–6 hrs or HIGH 2–3 hrs. Stir occasionally.",
+      "Divide into 4 containers and refrigerate up to 4 days, or freeze. Reheat one portion at a time, topped with cheese + sour cream."
     ],
     "totalTime": 368,
     "pantryTags": [
@@ -4026,7 +4029,7 @@ export const RECIPES = [
     "name": "Creamy Sun-Dried Tomato Chicken",
     "method": "Slow Cooker",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 4,
     "proteins": [
       "chicken"
     ],
@@ -4037,38 +4040,38 @@ export const RECIPES = [
     ],
     "components": [
       {
-        "name": "Chicken Thighs (boneless, skinless, 6 oz)",
-        "quantity": 170,
+        "name": "Chicken Thighs (boneless, skinless, 4 thighs)",
+        "quantity": 680,
         "unit": "g"
       },
       {
-        "name": "Sun-Dried Tomatoes (jarred, oil-packed, 3 tbsp)",
-        "quantity": 30,
+        "name": "Sun-Dried Tomatoes (jarred, oil-packed, ¾ cup)",
+        "quantity": 120,
         "unit": "ml"
       },
       {
-        "name": "Low-Sodium Chicken Broth (1 cup)",
+        "name": "Low-Sodium Chicken Broth (4 cups)",
+        "quantity": 960,
+        "unit": "g"
+      },
+      {
+        "name": "Heavy Cream (1 cup)",
         "quantity": 240,
-        "unit": "g"
-      },
-      {
-        "name": "Heavy Cream (¼ cup)",
-        "quantity": 60,
         "unit": "ml"
       },
       {
-        "name": "Italian Seasoning (1 tbsp)",
-        "quantity": 3,
+        "name": "Italian Seasoning (4 tbsp)",
+        "quantity": 12,
         "unit": "g"
       },
       {
-        "name": "Parmesan (2 tbsp shaker)",
-        "quantity": 14,
+        "name": "Parmesan (½ cup shaker)",
+        "quantity": 56,
         "unit": "g"
       },
       {
-        "name": "Garlic Powder (½ tsp)",
-        "quantity": 1.5,
+        "name": "Garlic Powder (2 tsp)",
+        "quantity": 6,
         "unit": "g"
       }
     ],
@@ -4078,7 +4081,9 @@ export const RECIPES = [
     ],
     "instructions": [
       "Add chicken, sun-dried tomatoes, broth, Italian seasoning, and garlic powder to slow cooker.",
-      "Cook LOW 5–6 hrs or HIGH 2–3 hrs. Stir in heavy cream + parmesan in last 30 min. Serve over white rice pouch."
+      "Cook LOW 5–6 hrs or HIGH 2–3 hrs. Stir in heavy cream + parmesan in last 30 min.",
+      "Divide chicken and sauce evenly into 4 containers. Refrigerate up to 4 days.",
+      "Reheat one portion at a time. Serve over a fresh white rice pouch."
     ],
     "totalTime": 365,
     "pantryTags": [
@@ -6810,7 +6815,7 @@ export const RECIPES = [
     "name": "Sweet Potato Black Bean Enchiladas",
     "method": "Bake",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 4,
     "proteins": [
       "plant"
     ],
@@ -6933,7 +6938,7 @@ export const RECIPES = [
     "name": "Egg & Sausage Casserole",
     "method": "Bake",
     "mealType": "breakfast",
-    "servings": 1,
+    "servings": 6,
     "proteins": [
       "eggs",
       "pork"
@@ -7045,7 +7050,7 @@ export const RECIPES = [
     "name": "Slow Cooker Chicken & Sausage Gumbo",
     "method": "Slow Cooker",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 4,
     "proteins": [
       "chicken",
       "pork"
@@ -7058,38 +7063,38 @@ export const RECIPES = [
     "components": [
       {
         "name": "Frozen Seasoning Blend \"Holy Trinity\" (onion, celery, bell pepper, pre-chopped)",
-        "quantity": 300,
+        "quantity": 1200,
         "unit": "g"
       },
       {
         "name": "Andouille Sausage (pre-cooked, sliced)",
-        "quantity": 200,
+        "quantity": 800,
         "unit": "g"
       },
       {
         "name": "Rotisserie Chicken (shredded, pre-cooked)",
-        "quantity": 200,
+        "quantity": 800,
         "unit": "g"
       },
       {
         "name": "Instant Dark Roux (jarred)",
-        "quantity": 60,
+        "quantity": 240,
         "unit": "g"
       },
       {
         "name": "Chicken Broth (carton)",
-        "quantity": 500,
+        "quantity": 2000,
         "unit": "ml"
       },
       {
         "name": "Cajun Seasoning (shaker)",
-        "quantity": 10,
+        "quantity": 40,
         "unit": "g"
       },
       {
-        "name": "White Rice Pouch (for serving)",
-        "quantity": 200,
-        "unit": "g"
+        "name": "White Rice Pouch (1 per meal)",
+        "quantity": 4,
+        "unit": "each"
       }
     ],
     "toppings": [
@@ -7100,7 +7105,8 @@ export const RECIPES = [
       "Add the seasoning blend, sausage, roux, broth, and cajun seasoning to the slow cooker. Stir until the roux dissolves.",
       "Cook on LOW 6 hours or HIGH 3 hours.",
       "Stir in the shredded rotisserie chicken for the last 30 minutes to warm through.",
-      "Microwave the rice pouch 90 seconds. Serve the gumbo over rice."
+      "Divide the gumbo evenly into 4 containers and refrigerate up to 4 days, or freeze.",
+      "To serve one portion: microwave a rice pouch 90 seconds. Serve the gumbo over rice."
     ],
     "totalTime": 368,
     "pantryTags": [
