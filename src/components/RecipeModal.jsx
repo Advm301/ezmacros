@@ -200,6 +200,11 @@ export default function RecipeModal({
   // Re-picked (not just re-shown) on every click so it doesn't feel like
   // the same canned line every time; see MOTIVATION_MESSAGES below.
   const [motivationMsg, setMotivationMsg] = useState(null);
+  // Bumped alongside motivationMsg so the pill's key changes and React
+  // remounts it -- otherwise the CSS pop-in/shine/glow animations would
+  // only ever play once, since React just swaps the text node on a DOM
+  // element that never actually re-enters the page.
+  const [motivationId, setMotivationId] = useState(0);
   const motivationTimeoutRef = useRef(null);
   const [completedSteps, setCompletedSteps] = useState({});
   const [editingIngredientIndex, setEditingIngredientIndex] = useState(null);
@@ -419,6 +424,7 @@ export default function RecipeModal({
   const showMotivation = (doneCount, totalCount) => {
     if (motivationTimeoutRef.current) clearTimeout(motivationTimeoutRef.current);
     setMotivationMsg(getMotivationMessage(doneCount, totalCount));
+    setMotivationId((id) => id + 1);
     motivationTimeoutRef.current = setTimeout(() => setMotivationMsg(null), 1600);
   };
 
@@ -1059,20 +1065,26 @@ export default function RecipeModal({
                   content and the Back/Next row rather than floating over
                   the button, so it never overlaps whatever the step
                   happens to end with (toppings, a note link, etc.) -- it
-                  just nudges the buttons down a touch while it's showing. */}
+                  just nudges the buttons down a touch while it's showing.
+                  Styled via .motivation-pill in globals.css (warm gold/
+                  orange glossy gradient with a pop-in, one shine sweep, and
+                  one glow pulse) rather than inline, since the animations
+                  need real @keyframes. Keyed on motivationId so each new
+                  message is a fresh DOM node -- otherwise React would just
+                  swap the text and the entrance animation would never
+                  replay after the first time. */}
               {motivationMsg && (
                 <div style={{ display: 'flex', justifyContent: 'center', marginTop: 14 }}>
                   <div
+                    key={motivationId}
+                    className="motivation-pill"
                     style={{
-                      background: 'var(--lime)',
-                      color: '#000',
-                      padding: '5px 13px',
+                      padding: '6px 15px',
                       borderRadius: 100,
-                      fontSize: 12,
+                      fontSize: 12.5,
                       fontWeight: 700,
                       fontFamily: "'Manrope',sans-serif",
                       whiteSpace: 'nowrap',
-                      boxShadow: '0 4px 12px rgba(0,0,0,.3)',
                       pointerEvents: 'none',
                     }}
                   >

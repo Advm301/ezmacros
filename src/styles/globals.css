@@ -88,6 +88,47 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
   .cook-complete-glow{animation:complete-glow-pulse 1.8s ease-in-out .6s infinite;}
 }
 
+/* COOK WIZARD: per-step motivation popup. Warm flame-toned gold/orange
+   gradient (ties to the cooking theme rather than reusing Surprise Me's
+   purple or Find Recipes' green -- see those .surprise-btn/.find-recipes-btn
+   blocks above for the same shine-layer technique) with the diagonal-shine
+   + bottom-darkening layers and inset box-shadows that give the app's other
+   highlighted buttons their glossy, chunky look. Since this only stays on
+   screen a couple seconds, it gets a bouncy pop-in plus a single shine
+   sweep and one glow pulse rather than a slow ambient loop -- something
+   worth noticing right away instead of a subtle effect it might outlive. */
+.motivation-pill{
+  position:relative;overflow:hidden;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.6) 0%, rgba(255,255,255,.18) 24%, rgba(255,255,255,0) 45%),
+    linear-gradient(180deg, rgba(255,255,255,0) 55%, rgba(0,0,0,.2) 100%),
+    linear-gradient(135deg, var(--ez2) 0%, var(--ez3) 100%);
+  color:var(--bg);
+  border:1px solid rgba(255,255,255,.4);
+  box-shadow: inset 0 1px 1px rgba(255,255,255,.55), inset 0 -2px 4px rgba(0,0,0,.2), 0 3px 10px rgba(255,133,51,.4);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .motivation-pill{animation:motivation-pop .45s cubic-bezier(.34,1.56,.64,1) both, motivation-glow 1.6s ease-in-out .1s both;}
+  .motivation-pill::after{
+    content:'';position:absolute;top:0;left:-60%;width:35%;height:100%;
+    background:linear-gradient(115deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.75) 50%, rgba(255,255,255,0) 100%);
+    animation:motivation-shine 1s ease-out .2s both;
+  }
+}
+@keyframes motivation-pop{
+  0%{transform:scale(.4) translateY(6px);opacity:0;}
+  60%{transform:scale(1.1) translateY(-2px);opacity:1;}
+  100%{transform:scale(1) translateY(0);opacity:1;}
+}
+@keyframes motivation-glow{
+  0%,100%{box-shadow: inset 0 1px 1px rgba(255,255,255,.55), inset 0 -2px 4px rgba(0,0,0,.2), 0 3px 10px rgba(255,133,51,.4);}
+  50%{box-shadow: inset 0 1px 1px rgba(255,255,255,.55), inset 0 -2px 4px rgba(0,0,0,.2), 0 4px 18px rgba(255,133,51,.7);}
+}
+@keyframes motivation-shine{
+  0%{left:-60%;}
+  100%{left:130%;}
+}
+
 /* SURPRISE ME: unique purple/pink "magic" gradient + pulsing glow + a few
    twinkling sparkles, wherever this button appears, so it reads as a fun
    wildcard action rather than just another button in the row. The extra
