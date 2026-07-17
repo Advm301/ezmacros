@@ -389,24 +389,33 @@ export default function App() {
           </div>
         )}
 
-        {/* Toast */}
+        {/* Toast -- centered on screen rather than anchored to the bottom
+            nav area. It was easy to miss down there, and worse, its
+            z-index (60) sat BELOW the recipe modal's overlay (100), so any
+            toast fired while a recipe was open (e.g. "Saved to Favorites"
+            after adding a note) was rendered completely behind the modal's
+            dark backdrop -- invisible, not just low. Centering it and
+            raising it above every modal in the app (highest z-index used
+            elsewhere is 110) fixes both at once. */}
         {toast && (
           <div
             style={{
               position: "fixed",
-              bottom: tab === "kitchen" ? 138 : 76,
+              top: "50%",
               left: "50%",
-              transform: "translateX(-50%)",
+              transform: "translate(-50%, -50%)",
               background: "var(--lime)",
               color: "#000",
-              padding: "10px 18px",
-              borderRadius: 100,
-              fontSize: 13,
+              padding: "14px 22px",
+              borderRadius: 16,
+              fontSize: 14,
               fontWeight: 700,
               fontFamily: "'Manrope',sans-serif",
-              zIndex: 60,
-              boxShadow: "0 4px 14px rgba(0,0,0,.35)",
-              whiteSpace: "nowrap",
+              zIndex: 200,
+              boxShadow: "0 8px 28px rgba(0,0,0,.45)",
+              maxWidth: 300,
+              textAlign: "center",
+              lineHeight: 1.4,
             }}
           >
             {toast}
