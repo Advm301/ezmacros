@@ -340,10 +340,11 @@ export default function App() {
           />
         )}
 
-        {/* Bottom nav -- no background box any more, just a thin divider
-            line above the icons so they sit directly on the app background
-            instead of inside a distinct black bar. */}
-        <div style={{position: "fixed", bottom: 0, left: "50%", transform: "translateX(-50%)", width: "100%", maxWidth: 430, borderTop: "1px solid var(--border)", display: "flex", zIndex: 20}}>
+        {/* Bottom nav -- solid background matching the app's own base color
+            (not a stark black box) so it reads as part of the shell rather
+            than a distinct bar, but still opaque: without a solid fill here,
+            scrolled card content shows through underneath the icons. */}
+        <div style={{position: "fixed", bottom: 0, left: "50%", transform: "translateX(-50%)", width: "100%", maxWidth: 430, background: "var(--bg)", borderTop: "1px solid var(--border)", display: "flex", zIndex: 20}}>
           {tabs.map(t => (
             <div key={t.id} onClick={() => { if (t.id !== tab) { hapticSelection(); setTab(t.id); } }}
               style={{flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "14px 0", cursor: "pointer", opacity: tab === t.id ? 1 : 0.4, borderTop: tab === t.id ? `2px solid ${t.color}` : "2px solid transparent", transition: "all .15s", position: "relative"}}>
