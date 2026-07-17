@@ -112,12 +112,7 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
     <div style={{ paddingBottom: 150 }}>
       <div className="px pt">
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 10 }}>
-          {/* This is the app's flagship screen -- pick what you have, get a
-              recipe -- so the title gets its own gradient treatment
-              (kitchen-hero-title in globals.css) instead of the plain .h1
-              every other page uses, tying back to this tab's own orange
-              identity color (see KitchenIcon in App.jsx). */}
-          <div className="kitchen-hero-title">What's In Your Kitchen?</div>
+          <div className="page-h1">What's In Your Kitchen?</div>
           {anyFilterActive && (
             <div
               onClick={reset}

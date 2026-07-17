@@ -211,10 +211,7 @@ export default function Saved({
       <div className="px pt">
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            {/* Colored to match this tab's own accent in the bottom nav
-                (SavedIcon in App.jsx uses var(--pink)) so the page title
-                ties back to the same identity color as the tab icon. */}
-            <div className="h1" style={{ marginBottom: 0, color: 'var(--pink)' }}>Diary</div>
+            <div className="page-h1" style={{ marginBottom: 0 }}>Diary</div>
             {streak > 0 && (
               <div
                 title="Consecutive days with something logged"

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Baloo+2:wght@600;700;800&display=swap');
 
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 :root{
@@ -32,23 +32,23 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
 .px{padding-left:18px;padding-right:18px;}
 .pt{padding-top:18px;}
 .h1{font-family:'Manrope',sans-serif;font-size:22px;font-weight:800;margin-bottom:3px;}
-/* KITCHEN: the app's flagship "what can I make" screen gets its own title
-   treatment instead of the plain white .h1 every other page uses -- a
-   gold-to-orange gradient fill (matching this tab's own orange identity
-   color from KitchenIcon in App.jsx) and a slightly larger size, so it
-   reads as the hallmark feature it is rather than just another page
-   header. */
-.kitchen-hero-title{
-  font-family:'Manrope',sans-serif;
+/* PAGE HEADERS: the three main tab titles (Browse Recipes, What's In Your
+   Kitchen?, Diary) previously each had their own one-off treatment --
+   Kitchen had a gold/orange gradient fill, Browse and Diary briefly had
+   per-tab accent colors (blue/pink) matching the bottom nav. Reverted all
+   of that: every page header is now identical -- plain white/cream, no
+   per-tab tinting -- and set in Baloo 2 (rounded, friendly letterforms)
+   instead of the app's usual Manrope, so headers read as a bit more
+   playful than the rest of the UI without tipping into looking like a
+   kids'-app font. Manrope stays everywhere else (body text, buttons,
+   smaller modal titles via .h1). */
+.page-h1{
+  font-family:'Baloo 2',sans-serif;
   font-size:25px;
-  font-weight:800;
-  letter-spacing:-.3px;
+  font-weight:700;
+  letter-spacing:-.2px;
+  color:var(--cream);
   margin-bottom:3px;
-  background:linear-gradient(135deg, var(--ez2) 0%, var(--orange) 100%);
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
-  -webkit-text-fill-color:transparent;
 }
 .sub{font-size:12px;color:var(--muted);margin-bottom:14px;}
 .filter-label{font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted2);margin-bottom:7px;font-weight:700;}
