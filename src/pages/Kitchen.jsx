@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { RECIPES } from '../data/recipes.js';
-import { PANTRY_STAPLES } from '../data/pantryStaples.js';
+import { PANTRY_STAPLES, PANTRY_CATEGORIES } from '../data/pantryStaples.js';
 import { formatTime } from '../utils/time';
 import { hapticSelection, hapticLight, hapticMedium } from '../utils/haptics';
 import PantryPickerModal from '../components/PantryPickerModal';
@@ -9,6 +9,19 @@ import FindRecipesSparkles from '../components/FindRecipesSparkles';
 import { getProteinCardBackground } from '../utils/proteinColors';
 
 const PANTRY_LABELS = Object.fromEntries(PANTRY_STAPLES.map((s) => [s.id, s.label]));
+
+// Straight "matches ANY of your picks" was surfacing recipes that shared
+// only a side ingredient (rice, bell peppers, hot sauce) with a completely
+// different protein than the one actually selected -- picking Chicken
+// Breast alongside a couple of pantry basics would still return cod, ground
+// beef, and pork recipes, because they also happened to use rice. Proteins
+// are the actual entree, not just another ingredient to tally, so they get
+// a harder rule: if you've picked one or more proteins, a recipe MUST use
+// at least one of them to show up at all. Everything else you've picked
+// stays a soft "nice to have" signal that only affects ranking.
+const PROTEIN_IDS = new Set(
+  (PANTRY_CATEGORIES.find((c) => c.category === 'Proteins')?.items || []).map((i) => i.id)
+);
 
 // Kitchen used to duplicate Browse's Meal Type/Protein/Flavor/Quick Filter
 // dropdowns almost exactly -- same filters, same underlying data, just a
@@ -26,7 +39,13 @@ const PANTRY_LABELS = Object.fromEntries(PANTRY_STAPLES.map((s) => [s.id, s.labe
 // unranked isn't a useful "find" result.
 function filterRecipes(recipes, selectedStaples) {
   if (selectedStaples.length === 0) return recipes;
-  return recipes
+
+  const selectedProteins = selectedStaples.filter((id) => PROTEIN_IDS.has(id));
+  const pool = selectedProteins.length > 0
+    ? recipes.filter((r) => (r.pantryTags || []).some((t) => selectedProteins.includes(t)))
+    : recipes;
+
+  return pool
     .filter((r) => (r.pantryTags || []).some((t) => selectedStaples.includes(t)))
     .map((r) => ({ ...r, _matchCount: (r.pantryTags || []).filter((t) => selectedStaples.includes(t)).length }))
     .sort((a, b) => b._matchCount - a._matchCount);
