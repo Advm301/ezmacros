@@ -248,7 +248,10 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
     <div style={{ paddingBottom: 20 }}>
       <div className="px pt">
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginBottom: 12 }}>
-          <div className="h1" style={{ marginBottom: 0 }}>Browse Recipes</div>
+          {/* Colored to match this tab's own accent in the bottom nav
+              (BrowseIcon in App.jsx uses var(--blue)) so the page title
+              ties back to the same identity color as the tab icon. */}
+          <div className="h1" style={{ marginBottom: 0, color: 'var(--blue)' }}>Browse Recipes</div>
           {anyFilterActive && (
             <div
               onClick={clearAllFilters}
