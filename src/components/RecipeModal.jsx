@@ -14,6 +14,32 @@ import SparkBurst from './SparkBurst';
 const GRAMS_PER_OZ = 28.3495;
 const ML_PER_FLOZ = 29.5735;
 
+// Shown on the finish screen once a recipe is completed -- the point is to
+// make people feel good about having just cooked instead of ordering in,
+// not to overstate any one dish. Two pools rather than one: a meal-prep
+// recipe (servings > 1) earns a different kind of payoff ("N meals ready
+// to go") than a single-serving one, so the message stays true to what was
+// actually just made instead of a generic line that doesn't quite fit.
+const COMPLETION_MESSAGES_SINGLE = [
+  "Nice work -- that wasn't so bad, and now you've got a healthy meal ready to go.",
+  "Well done! One more real meal made instead of ordering in.",
+  "You did it -- fresh, home-cooked, and better than delivery.",
+];
+const COMPLETION_MESSAGES_MEAL_PREP = [
+  (n) => `Nice work -- that wasn't so bad, and now you've got ${n} healthy meals prepped and ready to go.`,
+  (n) => `Well done! ${n} meals down, zero decisions left to make later this week.`,
+  (n) => `You did it -- ${n} healthy meals ready whenever you need them.`,
+];
+
+function getCompletionMessage(servings, seed) {
+  if (servings > 1) {
+    const pool = COMPLETION_MESSAGES_MEAL_PREP;
+    return pool[seed % pool.length](servings);
+  }
+  const pool = COMPLETION_MESSAGES_SINGLE;
+  return pool[seed % pool.length];
+}
+
 // Round to 1 decimal place, stripping a trailing ".0".
 function formatNum(n) {
   const rounded = Math.round(n * 10) / 10;
@@ -150,6 +176,12 @@ export default function RecipeModal({
   const [diaryError, setDiaryError] = useState('');
   const [addingToDiary, setAddingToDiary] = useState(false);
   const [showAllSteps, setShowAllSteps] = useState(false);
+  // Picked once per recipe-modal session (not re-rolled on every render as
+  // you page through steps) so the same line stays put through to Finish.
+  // The actual pool (single-serving vs. meal-prep) is chosen later once
+  // `r.servings` is known -- this just needs a stable index into whichever
+  // pool applies.
+  const [completionMsgSeed] = useState(() => Math.floor(Math.random() * 3));
 
   const touchStartRef = useRef(null);
 
@@ -219,16 +251,17 @@ export default function RecipeModal({
     }
   });
 
-  // The cook screen is a sequence of pages: one per instruction, then notes,
-  // then rating as the closing "how'd it go" wrap-up. Optional toppings
-  // aren't a real step on their own -- they're folded into the last
-  // instruction page instead (see the 'instruction' branch of
-  // renderCookPage) so they don't inflate the step count with a page that
-  // has nothing to actually do. Built fresh each render (cheap) rather than
-  // stored in state, since it only depends on the recipe's own content.
+  // The cook screen is a sequence of pages: one per instruction, then
+  // rating as the closing "how'd it go" wrap-up (which also now carries the
+  // Notes field -- see the 'rating' branch of renderCookPage -- rather than
+  // giving notes their own page to click through). Optional toppings aren't
+  // a real step on their own -- they're folded into the last instruction
+  // page instead (see the 'instruction' branch of renderCookPage) so they
+  // don't inflate the step count with a page that has nothing to actually
+  // do. Built fresh each render (cheap) rather than stored in state, since
+  // it only depends on the recipe's own content.
   const cookPages = [];
   instructions.forEach((_, i) => cookPages.push({ type: 'instruction', index: i }));
-  cookPages.push({ type: 'notes' });
   if (onRate) cookPages.push({ type: 'rating' });
 
   // How far through the whole wizard (not just the instruction steps) the
@@ -672,24 +705,6 @@ export default function RecipeModal({
       );
     }
 
-    if (page.type === 'notes') {
-      return (
-        <div>
-          <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--muted)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: 1 }}>
-            Notes
-          </div>
-          <textarea
-            autoFocus
-            value={notesValue}
-            onChange={(e) => setNotesValue(e.target.value)}
-            onBlur={commitNotes}
-            placeholder="Add your own notes -- substitutions, timing tweaks, anything worth remembering."
-            style={{ width: '100%', minHeight: 120, background: 'var(--s2)', border: '1px solid var(--border)', borderRadius: 10, padding: 12, color: 'var(--cream)', fontSize: 15, fontFamily: "'Manrope',sans-serif", lineHeight: 1.5, resize: 'vertical', boxSizing: 'border-box' }}
-          />
-        </div>
-      );
-    }
-
     if (page.type === 'rating') {
       return (
         <div>
@@ -703,6 +718,16 @@ export default function RecipeModal({
           <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--muted)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: 1, textAlign: 'center' }}>
             How'd It Go?
           </div>
+          {/* The whole point of finishing a recipe is that it wasn't as bad
+              as you feared and you now have real food -- say so explicitly
+              rather than jumping straight to "please rate this." Picked
+              once per session (completionMsgSeed) so it doesn't reshuffle
+              on every re-render, and pulled from a meal-prep-aware pool so
+              a batch-cooked recipe gets credit for the number of meals it
+              actually produced instead of a generic line. */}
+          <div style={{ fontSize: 14, color: 'var(--cream)', marginBottom: 14, textAlign: 'center', lineHeight: 1.5, fontWeight: 600 }}>
+            {getCompletionMessage(r.servings, completionMsgSeed)}
+          </div>
           <div style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 14, textAlign: 'center' }}>
             Rate the recipe now that you've made it.
           </div>
@@ -712,6 +737,22 @@ export default function RecipeModal({
               the meal right after making it means not having to reopen the
               recipe from scratch to find this button. */}
           {renderAddToDiaryBlock()}
+
+          {/* Notes used to be their own page you had to click through --
+              folded in here instead so finishing the recipe, rating it, and
+              jotting anything worth remembering all happen on one screen. */}
+          <div style={{ marginTop: 20 }}>
+            <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--muted)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: 1 }}>
+              Notes
+            </div>
+            <textarea
+              value={notesValue}
+              onChange={(e) => setNotesValue(e.target.value)}
+              onBlur={commitNotes}
+              placeholder="Add your own notes -- substitutions, timing tweaks, anything worth remembering."
+              style={{ width: '100%', minHeight: 100, background: 'var(--s2)', border: '1px solid var(--border)', borderRadius: 10, padding: 12, color: 'var(--cream)', fontSize: 15, fontFamily: "'Manrope',sans-serif", lineHeight: 1.5, resize: 'vertical', boxSizing: 'border-box' }}
+            />
+          </div>
         </div>
       );
     }
