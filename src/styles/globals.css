@@ -32,6 +32,24 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
 .px{padding-left:18px;padding-right:18px;}
 .pt{padding-top:18px;}
 .h1{font-family:'Manrope',sans-serif;font-size:22px;font-weight:800;margin-bottom:3px;}
+/* KITCHEN: the app's flagship "what can I make" screen gets its own title
+   treatment instead of the plain white .h1 every other page uses -- a
+   gold-to-orange gradient fill (matching this tab's own orange identity
+   color from KitchenIcon in App.jsx) and a slightly larger size, so it
+   reads as the hallmark feature it is rather than just another page
+   header. */
+.kitchen-hero-title{
+  font-family:'Manrope',sans-serif;
+  font-size:25px;
+  font-weight:800;
+  letter-spacing:-.3px;
+  margin-bottom:3px;
+  background:linear-gradient(135deg, var(--ez2) 0%, var(--orange) 100%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  -webkit-text-fill-color:transparent;
+}
 .sub{font-size:12px;color:var(--muted);margin-bottom:14px;}
 .filter-label{font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted2);margin-bottom:7px;font-weight:700;}
 .scroll-row{display:flex;gap:7px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none;}
@@ -93,10 +111,15 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
    purple or Find Recipes' green -- see those .surprise-btn/.find-recipes-btn
    blocks above for the same shine-layer technique) with the diagonal-shine
    + bottom-darkening layers and inset box-shadows that give the app's other
-   highlighted buttons their glossy, chunky look. Since this only stays on
-   screen a couple seconds, it gets a bouncy pop-in plus a single shine
-   sweep and one glow pulse rather than a slow ambient loop -- something
-   worth noticing right away instead of a subtle effect it might outlive. */
+   highlighted buttons their glossy, chunky look.
+   Lifecycle is one 2.6s animation (matched to the JS timeout in
+   RecipeModal's showMotivation -- keep both in sync): pop in with a bit of
+   overshoot, hold, then fade back out on its own rather than being yanked
+   off screen the instant the JS timeout fires. A separate glow animation
+   loops the whole time it's visible (continuous, not a single pulse) so
+   it keeps drawing the eye instead of going static after the first beat --
+   this was too easy to miss with hands full mid-recipe at the old 1.6s/
+   single-pulse version. */
 .motivation-pill{
   position:relative;overflow:hidden;
   background:
@@ -108,17 +131,19 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
   box-shadow: inset 0 1px 1px rgba(255,255,255,.55), inset 0 -2px 4px rgba(0,0,0,.2), 0 3px 10px rgba(255,133,51,.4);
 }
 @media (prefers-reduced-motion: no-preference) {
-  .motivation-pill{animation:motivation-pop .45s cubic-bezier(.34,1.56,.64,1) both, motivation-glow 1.6s ease-in-out .1s both;}
+  .motivation-pill{animation:motivation-lifecycle 2.6s cubic-bezier(.34,1.56,.64,1) forwards, motivation-glow 1s ease-in-out .3s infinite;}
   .motivation-pill::after{
     content:'';position:absolute;top:0;left:-60%;width:35%;height:100%;
     background:linear-gradient(115deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.75) 50%, rgba(255,255,255,0) 100%);
     animation:motivation-shine 1s ease-out .2s both;
   }
 }
-@keyframes motivation-pop{
+@keyframes motivation-lifecycle{
   0%{transform:scale(.4) translateY(6px);opacity:0;}
-  60%{transform:scale(1.1) translateY(-2px);opacity:1;}
-  100%{transform:scale(1) translateY(0);opacity:1;}
+  10%{transform:scale(1.12) translateY(-2px);opacity:1;}
+  18%{transform:scale(1) translateY(0);opacity:1;}
+  85%{transform:scale(1) translateY(0);opacity:1;}
+  100%{transform:scale(.92) translateY(4px);opacity:0;}
 }
 @keyframes motivation-glow{
   0%,100%{box-shadow: inset 0 1px 1px rgba(255,255,255,.55), inset 0 -2px 4px rgba(0,0,0,.2), 0 3px 10px rgba(255,133,51,.4);}

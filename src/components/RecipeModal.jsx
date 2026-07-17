@@ -425,7 +425,12 @@ export default function RecipeModal({
     if (motivationTimeoutRef.current) clearTimeout(motivationTimeoutRef.current);
     setMotivationMsg(getMotivationMessage(doneCount, totalCount));
     setMotivationId((id) => id + 1);
-    motivationTimeoutRef.current = setTimeout(() => setMotivationMsg(null), 1600);
+    // Kept in sync with the `motivation-lifecycle` animation's duration in
+    // globals.css (2.6s) -- that keyframe fades the pill back out on its
+    // own, so this timeout should unmount it right as the fade finishes,
+    // not cut it off mid-animation. 1.6s was proving too quick to reliably
+    // catch mid-recipe with hands full.
+    motivationTimeoutRef.current = setTimeout(() => setMotivationMsg(null), 2600);
   };
 
   const goNextCookPage = () => {
