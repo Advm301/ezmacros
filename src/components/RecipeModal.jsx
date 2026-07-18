@@ -11,7 +11,9 @@ import { splitIngredients } from '../utils/ingredientClassify';
 import { getFreshAltHint } from '../utils/freshAltTips';
 import LightningIcon from './LightningIcon';
 import SparkBurst from './SparkBurst';
+import LightningStrike from './LightningStrike';
 import EffortGauge from './EffortGauge';
+import InstructionText from './InstructionText';
 
 const GRAMS_PER_OZ = 28.3495;
 const ML_PER_FLOZ = 29.5735;
@@ -692,7 +694,7 @@ export default function RecipeModal({
                   textDecoration: done ? 'line-through' : 'none',
                 }}
               >
-                {step.text}
+                {done ? step.text : <InstructionText text={step.text} />}
               </div>
             )}
           </div>
@@ -1099,17 +1101,14 @@ export default function RecipeModal({
             </>
           ) : (
             <>
-              {/* Bolt grows with cookProgress across the whole wizard --
-                  a persistent "you're building toward something" signal.
-                  No numeric count here on purpose: cookPages also includes
-                  Toppings/Rating, which aren't "steps" in the recipe sense,
-                  and the instruction page below already shows its own
-                  accurate "Step X of N" using the real step count. Dropped
-                  entirely on the closing rating page -- once you're done
-                  cooking, "building toward something" no longer applies,
-                  and the space reads cleaner without it. */}
+              {/* The persistent growing-bolt progress indicator that used to
+                  live here was replaced with LightningStrike below -- a
+                  single quick strike across the whole screen fired on each
+                  Next tap, rather than one icon slowly growing across the
+                  whole wizard. Kept this row's layout (empty div so "View
+                  All Steps" stays right-aligned via space-between). */}
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-                {cookPages[cookStep].type === 'rating' ? <div /> : <LightningIcon id="cook-progress" size={14 + cookProgress * 12} />}
+                <div />
                 <div
                   onClick={() => { hapticLight(); setShowAllSteps(true); }}
                   style={{ fontSize: 12, color: 'var(--muted)', textDecoration: 'underline', cursor: 'pointer' }}
@@ -1180,6 +1179,9 @@ export default function RecipeModal({
                   )}
                 </div>
               </div>
+              {burstId > 0 && (
+                <LightningStrike key={`strike-${burstId}`} onDone={() => setBurstId(0)} />
+              )}
             </>
           )}
         </div>
@@ -1235,7 +1237,7 @@ export default function RecipeModal({
                           textDecoration: done ? 'line-through' : 'none',
                         }}
                       >
-                        {step.text}
+                        {done ? step.text : <InstructionText text={step.text} />}
                       </div>
                     )}
                   </div>

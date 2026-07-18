@@ -5546,7 +5546,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Frozen Hash Browns (microwaved)",
+        "name": "Frozen Hash Browns (shredded, bagged)",
         "quantity": 150,
         "unit": "g"
       },
@@ -5563,7 +5563,7 @@ export const RECIPES = [
     "instructions": [
       "Heat a skillet over medium-high heat. Add ground beef, garlic powder, onion powder, salt, and pepper, breaking the meat apart with a spoon. Cook 5-6 minutes until browned.",
       "Stir in BBQ sauce generously. Cook 1-2 minutes more.",
-      "Microwave hash browns per package directions (usually 2-3 min) and steam-bag broccoli 3 min. Season the broccoli with garlic powder, onion powder, and a pinch of chili flakes.",
+      "Microwave hash browns per package directions (usually 2-3 min) for the fastest route, or air fry 400°F for 10-12 min or bake 425°F for 15-20 min (check the package for exact times) if you'd rather have them crispy. Steam-bag broccoli 3 min. Season the broccoli with garlic powder, onion powder, and a pinch of chili flakes.",
       "Scoop hash browns onto plate, top with beef mixture. Add broccoli to the side. Toppings on the side."
     ],
     "totalTime": 7,
@@ -6052,7 +6052,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Frozen Hash Browns (microwaved)",
+        "name": "Frozen Hash Browns (shredded, bagged)",
         "quantity": 150,
         "unit": "g"
       },
@@ -6069,7 +6069,7 @@ export const RECIPES = [
     "instructions": [
       "Heat a skillet over medium-high heat. Add ground chicken, garlic powder, onion powder, salt, and pepper, breaking the meat apart with a spoon. Cook 5-6 minutes until cooked through.",
       "Stir in BBQ sauce generously. Cook 1-2 minutes more.",
-      "Microwave hash browns per package (usually 2-3 min) and steam-bag broccoli 3 min. Season the broccoli with garlic powder, onion powder, and a pinch of chili flakes.",
+      "Microwave hash browns per package directions (usually 2-3 min) for the fastest route, or air fry 400°F for 10-12 min or bake 425°F for 15-20 min (check the package for exact times) if you'd rather have them crispy. Steam-bag broccoli 3 min. Season the broccoli with garlic powder, onion powder, and a pinch of chili flakes.",
       "Scoop hash browns onto plate, top with chicken BBQ mixture. Add broccoli to the side. Toppings on the side."
     ],
     "totalTime": 7,
@@ -6558,7 +6558,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Frozen Hash Browns (microwaved)",
+        "name": "Frozen Hash Browns (shredded, bagged)",
         "quantity": 150,
         "unit": "g"
       },
@@ -6575,7 +6575,7 @@ export const RECIPES = [
     "instructions": [
       "Heat a skillet over medium-high heat. Add ground pork, garlic powder, onion powder, salt, and pepper, breaking the meat apart with a spoon. Cook 5-6 minutes until browned.",
       "Stir in BBQ sauce generously. Cook 1-2 minutes more.",
-      "Microwave hash browns per package (usually 2-3 min) and steam-bag broccoli 3 min. Season the broccoli with garlic powder, onion powder, and a pinch of chili flakes.",
+      "Microwave hash browns per package directions (usually 2-3 min) for the fastest route, or air fry 400°F for 10-12 min or bake 425°F for 15-20 min (check the package for exact times) if you'd rather have them crispy. Steam-bag broccoli 3 min. Season the broccoli with garlic powder, onion powder, and a pinch of chili flakes.",
       "Scoop hash browns onto plate, top with pork BBQ mixture. Add broccoli to the side. Toppings on the side."
     ],
     "totalTime": 7,
@@ -7064,7 +7064,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Frozen Hash Browns (microwaved)",
+        "name": "Frozen Hash Browns (shredded, bagged)",
         "quantity": 150,
         "unit": "g"
       },
@@ -7081,7 +7081,7 @@ export const RECIPES = [
     "instructions": [
       "Heat a skillet over medium-high heat. Add ground turkey, garlic powder, onion powder, salt, and pepper, breaking the meat apart with a spoon. Cook 5-6 minutes until cooked through.",
       "Stir in BBQ sauce generously. Cook 1-2 minutes more.",
-      "Microwave hash browns per package (usually 2-3 min) and steam-bag broccoli 3 min. Season the broccoli with garlic powder, onion powder, and a pinch of chili flakes.",
+      "Microwave hash browns per package directions (usually 2-3 min) for the fastest route, or air fry 400°F for 10-12 min or bake 425°F for 15-20 min (check the package for exact times) if you'd rather have them crispy. Steam-bag broccoli 3 min. Season the broccoli with garlic powder, onion powder, and a pinch of chili flakes.",
       "Scoop hash browns onto plate, top with turkey BBQ mixture. Add broccoli to the side. Toppings on the side."
     ],
     "totalTime": 7,

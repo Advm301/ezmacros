@@ -28,7 +28,12 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
   position:sticky;
   top:0;
   z-index:10;
-  overflow:hidden;
+  /* No overflow:hidden here -- backgrounds are clipped to the box by
+     default with no help needed, and this header is the positioning
+     ancestor for the account-menu dropdown (see App.jsx). overflow:hidden
+     was clipping that dropdown's box wherever it extended past the
+     header's own (short) height, which is why it used to render as a
+     truncated black rectangle instead of a proper floating menu. */
   background:
     linear-gradient(115deg, rgba(255,255,255,.32) 0%, rgba(255,255,255,.05) 30%, rgba(255,255,255,0) 45%),
     linear-gradient(120deg, #052e3d 0%, #0e5a76 18%, #1f8bb8 36%, #4db8ff 50%, #1f8bb8 64%, #0e5a76 82%, #052e3d 100%);
@@ -128,11 +133,62 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
   90%{opacity:0;transform:scale(.6);}
 }
 
+/* ACTION WORDS: the recognized command verbs within an instruction step
+   (see components/InstructionText.jsx + utils/actionWords.js) -- set in
+   the app's playful Baloo 2 rather than its usual Manrope, with an
+   animated gold gradient text-fill so "Heat", "Add", "Stir" etc. jump out
+   of the sentence instead of blending into it. Meant to make a step read
+   as a sequence of distinct commands rather than a paragraph to parse. */
+.action-word{
+  font-family:'Baloo 2',sans-serif;
+  font-weight:700;
+  background-image:linear-gradient(90deg, #e6a400 0%, #fff2a8 25%, #ffcc33 50%, #fff2a8 75%, #e6a400 100%);
+  background-size:250% 100%;
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  -webkit-text-fill-color:transparent;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .action-word{animation:action-word-shimmer 3s linear infinite;}
+}
+@keyframes action-word-shimmer{
+  0%{background-position:0% 50%;}
+  100%{background-position:250% 50%;}
+}
+
 /* COOK WIZARD: spark burst on Next + completion flourish on the final page */
 @keyframes spark-burst{
   0%{transform:translate(0,0) scale(.4);opacity:0;}
   15%{opacity:1;}
   100%{transform:translate(var(--dx),var(--dy)) scale(1);opacity:0;}
+}
+
+/* COOK WIZARD: full-screen lightning strike, fired on every Next tap (see
+   components/LightningStrike.jsx) -- replaced the old persistent bolt icon
+   that grew across the whole wizard with one quick strike per step
+   instead. Sits above everything, including the modal backdrop (z-index
+   100) and the View All Steps sheet (110). Suppressed entirely under
+   prefers-reduced-motion rather than shown as a static flash -- a
+   full-screen flash with no motion easing would still be jarring, so the
+   more respectful choice here is no effect at all rather than a lesser one. */
+.lightning-strike-overlay{position:fixed;inset:0;z-index:200;pointer-events:none;overflow:hidden;display:flex;align-items:flex-start;justify-content:center;}
+.lightning-strike-flash{position:absolute;inset:0;background:#fff9d6;opacity:0;}
+.lightning-strike-bolt{width:120px;height:100%;transform-origin:50% 0%;transform:scaleY(0);opacity:0;filter:drop-shadow(0 0 14px rgba(255,204,51,.85));}
+@media (prefers-reduced-motion: no-preference) {
+  .lightning-strike-flash{animation:strike-flash .45s ease-out forwards;}
+  .lightning-strike-bolt{animation:strike-bolt .4s cubic-bezier(.2,.9,.3,1) forwards;}
+}
+@keyframes strike-flash{
+  0%{opacity:0;}
+  8%{opacity:.5;}
+  100%{opacity:0;}
+}
+@keyframes strike-bolt{
+  0%{transform:scaleY(0);opacity:0;}
+  12%{opacity:1;}
+  55%{transform:scaleY(1);opacity:1;}
+  100%{transform:scaleY(1);opacity:0;}
 }
 .cook-complete-flourish{position:relative;display:flex;align-items:center;justify-content:center;height:64px;margin-bottom:14px;animation:complete-pop .6s cubic-bezier(.34,1.56,.64,1) both;}
 .cook-complete-glow{position:absolute;width:64px;height:64px;border-radius:50%;background:radial-gradient(circle,rgba(255,204,51,.35) 0%,rgba(255,204,51,0) 70%);}
