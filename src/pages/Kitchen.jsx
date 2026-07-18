@@ -169,8 +169,25 @@ export default function Kitchen({ onOpen, getRatingSummary, initialPicks, onCons
               everything -- a second one here duplicated it for no reason
               (Browse's single "Clear All Filters" link is the pattern this
               now matches). */}
-          <div className="filter-label" style={{ marginBottom: 8 }}>
-            What Do You Have?
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+            <div className="filter-label" style={{ marginBottom: 0 }}>
+              What Do You Have?
+            </div>
+            {/* Lives right next to the label (rather than appended at the
+                tail end of the pill row below) so it's always on screen --
+                with several staples picked, the pill row scrolls
+                horizontally and a trailing "+ Edit" pill there could sit
+                fully off-screen, reachable only by scrolling. The whole
+                pill row is still clickable too; this is just a guaranteed-
+                visible entry point into the same pantry drawer. */}
+            {selectedStaples.length > 0 && (
+              <div
+                onClick={() => { hapticLight(); setShowPantryModal(true); }}
+                style={{ fontSize: 12, fontWeight: 700, color: 'var(--lime)', cursor: 'pointer', whiteSpace: 'nowrap' }}
+              >
+                + Edit
+              </div>
+            )}
           </div>
 
           {selectedStaples.length === 0 ? (
@@ -199,7 +216,6 @@ export default function Kitchen({ onOpen, getRatingSummary, initialPicks, onCons
                   {PANTRY_LABELS[id] || id}
                 </div>
               ))}
-              <div className="pill">+ Edit</div>
             </div>
           )}
         </div>
