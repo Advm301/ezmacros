@@ -543,7 +543,14 @@ export default function RecipeModal({
     // Ratings are one-shot: once a rating exists, this control isn't shown
     // any more (see the read-only branch below), but guard here too in case
     // of a stale click during the re-render.
-    if (onRate && !alreadyRated) onRate(r.id, n, photoFile);
+    if (onRate && !alreadyRated) {
+      onRate(r.id, n, photoFile);
+      // Rating a recipe means you actually made and judged it -- that's a
+      // strong enough signal to also save it to Favorites automatically,
+      // so it shows up in Saved without a separate manual tap. Only saves
+      // (never un-saves) if it isn't already there.
+      if (toggleSaved && !saved) toggleSaved(r.id);
+    }
   };
 
   const handlePhotoChange = (e) => {
