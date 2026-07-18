@@ -1,28 +1,16 @@
 import { useEffect, useState } from 'react';
 import { RECIPES } from '../data/recipes.js';
-import { PANTRY_STAPLES, PANTRY_CATEGORIES, QUICK_PICKS } from '../data/pantryStaples.js';
+import { PANTRY_STAPLES, QUICK_PICKS } from '../data/pantryStaples.js';
 import { formatTime } from '../utils/time';
 import { hapticSelection, hapticLight, hapticMedium } from '../utils/haptics';
 import PantryPickerModal from '../components/PantryPickerModal';
 import SurpriseSparkles from '../components/SurpriseSparkles';
 import EffortGauge from '../components/EffortGauge';
 import { getProteinCardBackground } from '../utils/proteinColors';
-import { rankForGoal } from '../utils/onboardingGoals';
+import { rankForPreferences } from '../utils/onboardingGoals';
+import { filterRecipes } from '../utils/pantryMatch';
 
 const PANTRY_LABELS = Object.fromEntries(PANTRY_STAPLES.map((s) => [s.id, s.label]));
-
-// Straight "matches ANY of your picks" was surfacing recipes that shared
-// only a side ingredient (rice, bell peppers, hot sauce) with a completely
-// different protein than the one actually selected -- picking Chicken
-// Breast alongside a couple of pantry basics would still return cod, ground
-// beef, and pork recipes, because they also happened to use rice. Proteins
-// are the actual entree, not just another ingredient to tally, so they get
-// a harder rule: if you've picked one or more proteins, a recipe MUST use
-// at least one of them to show up at all. Everything else you've picked
-// stays a soft "nice to have" signal that only affects ranking.
-const PROTEIN_IDS = new Set(
-  (PANTRY_CATEGORIES.find((c) => c.category === 'Proteins')?.items || []).map((i) => i.id)
-);
 
 // Kitchen used to duplicate Browse's Meal Type/Protein/Flavor/Quick Filter
 // dropdowns almost exactly -- same filters, same underlying data, just a
@@ -31,42 +19,30 @@ const PROTEIN_IDS = new Set(
 // "what can I make with what's already here" -- so it's now pantry-in,
 // recipe-out (plus the no-input Surprise Me shortcut) and nothing else.
 // Browse remains the general-purpose search/filter/sort tool over the
-// whole catalog.
-//
-// With no staples selected, every recipe is an equally valid match (there's
-// nothing to rank against), so this just returns the full list -- Surprise
-// Me uses that to mean "pick anything," while Find Recipes is disabled
-// below until at least one staple is picked, since showing all 144 recipes
-// unranked isn't a useful "find" result.
-function filterRecipes(recipes, selectedStaples) {
-  if (selectedStaples.length === 0) return recipes;
+// whole catalog. The actual matching rule (filterRecipes) now lives in
+// utils/pantryMatch.js, shared with App.jsx's onboarding "plan my day"
+// flow -- Find Recipes is disabled below until at least one staple is
+// picked, since showing all 144 recipes unranked isn't a useful "find"
+// result.
 
-  const selectedProteins = selectedStaples.filter((id) => PROTEIN_IDS.has(id));
-  const pool = selectedProteins.length > 0
-    ? recipes.filter((r) => (r.pantryTags || []).some((t) => selectedProteins.includes(t)))
-    : recipes;
-
-  return pool
-    .filter((r) => (r.pantryTags || []).some((t) => selectedStaples.includes(t)))
-    .map((r) => ({ ...r, _matchCount: (r.pantryTags || []).filter((t) => selectedStaples.includes(t)).length }))
-    .sort((a, b) => b._matchCount - a._matchCount);
-}
-
-// `initialPicks` (shape { staples: string[], goal: string|null }) arrives
-// once, right after onboarding finishes (see App.jsx) -- it's how the app
-// shows a real, personalized set of recipes the instant onboarding ends
-// instead of dropping someone onto this same empty screen to do the work
-// themselves a second time. `goal` only ever affects THIS one seed: it
-// biases which of the matching recipes shows up first (see rankForGoal),
-// it doesn't change how filterRecipes itself works for any later search,
-// since there's no ongoing "goal" setting visible anywhere else in the
-// app for a person to reason about.
+// `initialPicks` (shape { staples, goal, servingsPref }) arrives once,
+// right after onboarding finishes (see App.jsx) -- it's how the app shows
+// a real, personalized set of recipes the instant onboarding ends instead
+// of dropping someone onto this same empty screen to do the work
+// themselves a second time. `goal`/`servingsPref` only ever affect THIS
+// one seed: they bias which of the matching recipes shows up first (see
+// rankForPreferences), they don't change how filterRecipes itself works
+// for any later search, since there's no ongoing preference setting
+// visible anywhere else in the app for a person to reason about. (When
+// onboarding's "plan my day" option is picked instead, App.jsx logs a
+// full day to the Diary directly and never hands Kitchen anything --
+// see utils/fullDayPlan.js.)
 export default function Kitchen({ onOpen, getRatingSummary, initialPicks, onConsumeInitialPicks }) {
   const [selectedStaples, setSelectedStaples] = useState(() => initialPicks?.staples || []);
   const [showPantryModal, setShowPantryModal] = useState(false);
   const [results, setResults] = useState(() => (
     initialPicks?.staples?.length
-      ? rankForGoal(filterRecipes(RECIPES, initialPicks.staples), initialPicks.goal)
+      ? rankForPreferences(filterRecipes(RECIPES, initialPicks.staples), initialPicks)
       : null
   ));
   const [surpriseError, setSurpriseError] = useState('');

@@ -14,6 +14,10 @@ import Saved from './pages/Saved';
 import RecipeModal from './components/RecipeModal';
 import FeedbackModal from './components/FeedbackModal';
 import Onboarding from './components/Onboarding';
+import { RECIPES } from './data/recipes.js';
+import { filterRecipes } from './utils/pantryMatch';
+import { rankForPreferences } from './utils/onboardingGoals';
+import { buildFullDayPlan } from './utils/fullDayPlan';
 import './styles/globals.css';
 
 // Set once onboarding finishes (however it finishes -- picks made, or
@@ -89,10 +93,19 @@ export default function App() {
   // consume-once effect that clears this back to null after.
   const [initialKitchenPicks, setInitialKitchenPicks] = useState(null);
 
-  // Called with either { staples, goal } or null (full skip) from
-  // Onboarding. Either way, marks onboarding done so it never shows again
-  // on this device, and hands whatever picks exist (if any) to Kitchen.
-  const handleOnboardingComplete = (picks) => {
+  // Called with either { staples, goal, servingsPref, mealCountPref } or
+  // null (full skip) from Onboarding. Either way, marks onboarding done so
+  // it never shows again on this device. What happens next branches on
+  // mealCountPref: "one" hands the picks to Kitchen (same as before this
+  // question existed) so it shows a real search result immediately;
+  // "full_day" skips Kitchen entirely and logs a whole day -- Breakfast,
+  // Lunch, and Dinner -- straight to today's Diary instead, landing on the
+  // Saved tab (which doubles as the Diary view) so the very first thing a
+  // new user sees is their day already planned. Either path reuses exactly
+  // the same pantry-match + preference-ranking logic Kitchen's own search
+  // uses (see utils/pantryMatch.js + utils/onboardingGoals.js), just fed
+  // into utils/fullDayPlan.js's per-slot picker for the full-day case.
+  const handleOnboardingComplete = async (picks) => {
     try {
       localStorage.setItem(ONBOARDED_KEY, '1');
     } catch {
@@ -100,7 +113,32 @@ export default function App() {
       // next visit -- not worth blocking on.
     }
     setOnboarded(true);
-    if (picks && picks.staples && picks.staples.length > 0) {
+
+    if (!picks) return; // full skip -- land on the normal empty Kitchen tab, same as always.
+
+    if (picks.mealCountPref === 'full_day') {
+      const preferredPool = rankForPreferences(filterRecipes(RECIPES, picks.staples), picks);
+      const plan = buildFullDayPlan(preferredPool);
+      const date = todayString();
+      let addedCount = 0;
+      for (const slot of ['breakfast', 'lunch', 'dinner']) {
+        const recipe = plan[slot];
+        if (!recipe) continue;
+        // Sequential (not Promise.all) -- three inserts for one person's
+        // onboarding, not a hot loop; sequential keeps the addedCount
+        // tally simple and correct.
+        const ok = await diary.addEntry(date, slot, recipe.id, true);
+        if (ok) addedCount += 1;
+      }
+      if (addedCount > 0) {
+        hapticSuccess();
+        setTab('saved');
+        showToast(`Your day is planned -- ${addedCount} meal${addedCount === 1 ? '' : 's'} added to your Diary!`);
+      }
+      return;
+    }
+
+    if (picks.staples && picks.staples.length > 0) {
       setInitialKitchenPicks(picks);
     }
   };

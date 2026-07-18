@@ -1,30 +1,62 @@
 import { useState } from 'react';
 import { QUICK_PICKS } from '../data/pantryStaples.js';
-import { ONBOARDING_GOALS } from '../utils/onboardingGoals';
+import { ONBOARDING_GOALS, SERVING_PREFS } from '../utils/onboardingGoals';
 import { hapticSelection, hapticLight, hapticMedium } from '../utils/haptics';
 import LightningIcon from './LightningIcon';
 
-// Two-screen, skippable flow shown once, right after a brand-new sign-in --
-// see App.jsx, which gates this behind a localStorage flag so it never
+const STEPS = ['goal', 'servings', 'mealCount', 'proteins'];
+
+// The "how many meals do you want lined up" question -- its own screen
+// since it's not a recipe-ranking preference like goal/servingsPref (see
+// utils/onboardingGoals.js), it's a decision about what onboarding itself
+// produces: one recommended search (the existing behavior, handed to
+// Kitchen as initialPicks) versus a whole day logged straight to the
+// Diary (see utils/fullDayPlan.js + App.jsx's handleOnboardingComplete).
+const MEAL_COUNT_OPTIONS = [
+  { id: 'one', label: 'Just One Meal', description: 'Get one great recipe to start with' },
+  { id: 'full_day', label: 'A Full Day', description: "Breakfast, lunch & dinner, planned and added to your Diary" },
+];
+
+// Four-screen, skippable flow shown once, right after a brand-new sign-in
+// -- see App.jsx, which gates this behind a localStorage flag so it never
 // shows again after the first pass (or after Skip). Replaces dropping
-// someone straight onto an empty Kitchen tab with two ~10-second taps that
-// (a) set expectations for what this app actually does and (b) collect
-// just enough signal -- a goal and a few proteins you actually have -- to
-// hand Kitchen a real, personalized set of recipes the instant this
-// finishes, instead of making a first-time visitor do that work themselves
-// before seeing any payoff. `onComplete` is called with either
-// `{ staples, goal }` or `null` (full skip) -- see App.jsx for how that
-// feeds into Kitchen's initialPicks prop.
+// someone straight onto an empty Kitchen tab with a handful of ~5-second
+// taps that (a) set expectations for what this app actually does and (b)
+// collect just enough signal -- what matters most, how meals should be
+// sized, how many meals to plan, and a few proteins you actually have --
+// to hand off a real, personalized result the instant this finishes,
+// instead of making a first-time visitor do that work themselves before
+// seeing any payoff. `onComplete` is called with either
+// `{ staples, goal, servingsPref, mealCountPref }` or `null` (full skip)
+// -- see App.jsx for how that feeds into either Kitchen's initialPicks
+// prop or a full day logged directly to the Diary.
 export default function Onboarding({ onComplete }) {
-  const [step, setStep] = useState('goal'); // 'goal' | 'proteins'
+  const [step, setStep] = useState('goal');
   const [goal, setGoal] = useState(null);
+  const [servingsPref, setServingsPref] = useState(null);
+  const [mealCountPref, setMealCountPref] = useState(null);
   const [proteins, setProteins] = useState([]);
 
+  const stepIndex = STEPS.indexOf(step);
+
+  // Single-select screens auto-advance on tap -- each is a single,
+  // single-purpose question, so a separate "Next" button would just be
+  // one more tap for no benefit.
   const chooseGoal = (id) => {
     hapticSelection();
     setGoal(id);
-    // Auto-advance -- this is a single-select, single-purpose screen, so a
-    // separate "Next" button would just be one more tap for no benefit.
+    setStep('servings');
+  };
+
+  const chooseServingsPref = (id) => {
+    hapticSelection();
+    setServingsPref(id);
+    setStep('mealCount');
+  };
+
+  const chooseMealCount = (id) => {
+    hapticSelection();
+    setMealCountPref(id);
     setStep('proteins');
   };
 
@@ -35,7 +67,7 @@ export default function Onboarding({ onComplete }) {
 
   const finish = () => {
     hapticMedium();
-    onComplete({ staples: proteins, goal });
+    onComplete({ staples: proteins, goal, servingsPref, mealCountPref });
   };
 
   const skipAll = () => {
@@ -43,17 +75,26 @@ export default function Onboarding({ onComplete }) {
     onComplete(null);
   };
 
+  const finishLabel = mealCountPref === 'full_day'
+    ? 'Plan My Day'
+    : (proteins.length > 0 ? 'Show Me Recipes' : "I'll Add These Later");
+
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 24, boxSizing: 'border-box' }}>
       <div style={{ maxWidth: 430, width: '100%' }}>
-        {/* Step dots -- just enough progress signal to make two quick
-            screens feel like a short flow rather than an open-ended form. */}
+        {/* Step dots -- just enough progress signal to make a handful of
+            quick screens feel like a short flow rather than an open-ended
+            form. */}
         <div style={{ display: 'flex', gap: 6, justifyContent: 'center', marginBottom: 22 }}>
-          <div style={{ width: 22, height: 4, borderRadius: 100, background: 'var(--lime)' }} />
-          <div style={{ width: 22, height: 4, borderRadius: 100, background: step === 'proteins' ? 'var(--lime)' : 'var(--s2)' }} />
+          {STEPS.map((s, i) => (
+            <div
+              key={s}
+              style={{ width: 22, height: 4, borderRadius: 100, background: i <= stepIndex ? 'var(--lime)' : 'var(--s2)' }}
+            />
+          ))}
         </div>
 
-        {step === 'goal' ? (
+        {step === 'goal' && (
           <>
             <div style={{ textAlign: 'center', marginBottom: 6 }}>
               <LightningIcon size={40} id="onboarding-goal" />
@@ -64,28 +105,50 @@ export default function Onboarding({ onComplete }) {
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               {ONBOARDING_GOALS.map((g) => (
-                <div
-                  key={g.id}
-                  onClick={() => chooseGoal(g.id)}
-                  style={{
-                    background: 'var(--s1)',
-                    border: '1px solid var(--border)',
-                    borderRadius: 14,
-                    padding: '14px 16px',
-                    cursor: 'pointer',
-                  }}
-                >
-                  <div style={{ fontSize: 16, fontWeight: 700, color: 'var(--cream)', marginBottom: 2 }}>
-                    {g.label}
-                  </div>
-                  <div style={{ fontSize: 12.5, color: 'var(--muted)' }}>
-                    {g.description}
-                  </div>
+                <div key={g.id} onClick={() => chooseGoal(g.id)} className="onboarding-card">
+                  <div className="onboarding-card-title">{g.label}</div>
+                  <div className="onboarding-card-desc">{g.description}</div>
                 </div>
               ))}
             </div>
           </>
-        ) : (
+        )}
+
+        {step === 'servings' && (
+          <>
+            <div className="page-h1" style={{ textAlign: 'center' }}>How do you want your meals sized?</div>
+            <div className="sub" style={{ textAlign: 'center', marginBottom: 22 }}>
+              This just changes portion sizing -- you can mix and match either way later.
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {SERVING_PREFS.map((s) => (
+                <div key={s.id} onClick={() => chooseServingsPref(s.id)} className="onboarding-card">
+                  <div className="onboarding-card-title">{s.label}</div>
+                  <div className="onboarding-card-desc">{s.description}</div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+
+        {step === 'mealCount' && (
+          <>
+            <div className="page-h1" style={{ textAlign: 'center' }}>How many meals should we line up?</div>
+            <div className="sub" style={{ textAlign: 'center', marginBottom: 22 }}>
+              A full day goes straight into your Diary, ready to cook through.
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {MEAL_COUNT_OPTIONS.map((m) => (
+                <div key={m.id} onClick={() => chooseMealCount(m.id)} className="onboarding-card">
+                  <div className="onboarding-card-title">{m.label}</div>
+                  <div className="onboarding-card-desc">{m.description}</div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+
+        {step === 'proteins' && (
           <>
             <div className="page-h1" style={{ textAlign: 'center' }}>What do you usually have?</div>
             <div className="sub" style={{ textAlign: 'center', marginBottom: 18 }}>
@@ -102,12 +165,8 @@ export default function Onboarding({ onComplete }) {
                 </div>
               ))}
             </div>
-            <button
-              className="gen-kitchen-btn"
-              style={{ marginBottom: 12 }}
-              onClick={finish}
-            >
-              {proteins.length > 0 ? 'Show Me Recipes' : "I'll Add These Later"}
+            <button className="gen-kitchen-btn" style={{ marginBottom: 12 }} onClick={finish}>
+              {finishLabel}
             </button>
           </>
         )}
