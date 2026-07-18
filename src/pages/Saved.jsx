@@ -9,6 +9,8 @@ import { hapticSelection, hapticLight, hapticMedium } from '../utils/haptics';
 import LightningIcon from '../components/LightningIcon';
 import SurpriseSparkles from '../components/SurpriseSparkles';
 import FirstVisitTip from '../components/FirstVisitTip';
+import InfoIcon from '../components/InfoIcon';
+import useFirstVisitTip from '../hooks/useFirstVisitTip';
 
 // Maps a diary meal slot to the recipe mealType pool it should draw random
 // picks from. Lunch and Dinner share the same 'lunch_dinner' pool.
@@ -43,6 +45,23 @@ function pickRandomRecipe(mealType, excludeIds) {
   return finalPool[Math.floor(Math.random() * finalPool.length)];
 }
 
+// Shopping-list "have it already" checkboxes are saved per-day so hiding and
+// re-showing the list (or leaving and coming back to the same date) doesn't
+// lose what was already checked off -- keyed by date since a different day's
+// list is an entirely different set of items.
+function shoppingCheckedKey(dateStr) {
+  return `quickprep_shopping_checked_${dateStr}`;
+}
+
+function loadShoppingChecked(dateStr) {
+  try {
+    const raw = localStorage.getItem(shoppingCheckedKey(dateStr));
+    return raw ? JSON.parse(raw) : {};
+  } catch {
+    return {};
+  }
+}
+
 export default function Saved({
   saved,
   isSaved,
@@ -68,6 +87,33 @@ export default function Saved({
   // Saved fully unmounts on every tab switch, so without consuming the
   // flag it would silently re-show every time this tab is revisited.
   const [showShoppingCallout, setShowShoppingCallout] = useState(() => !!shoppingListHint);
+  const [shoppingChecked, setShoppingChecked] = useState(() => loadShoppingChecked(selectedDate));
+  const tip = useFirstVisitTip('quickprep_seen_diary_tip');
+
+  // Re-derive the checked-off map whenever the viewed date changes -- this
+  // is the "adjust state when a prop changes" pattern React recommends
+  // doing directly during render (not inside an effect, which would cause
+  // an extra cascading render pass just to reset state a prop already told
+  // us to reset). A ref alone can't drive this since the new value has to
+  // come from localStorage, not be derived from selectedDate directly.
+  const [checkedForDate, setCheckedForDate] = useState(selectedDate);
+  if (checkedForDate !== selectedDate) {
+    setCheckedForDate(selectedDate);
+    setShoppingChecked(loadShoppingChecked(selectedDate));
+  }
+
+  const toggleShoppingChecked = (itemName) => {
+    hapticSelection();
+    setShoppingChecked((prev) => {
+      const next = { ...prev, [itemName]: !prev[itemName] };
+      try {
+        localStorage.setItem(shoppingCheckedKey(selectedDate), JSON.stringify(next));
+      } catch {
+        // Storage unavailable -- checkbox state just won't persist this session.
+      }
+      return next;
+    });
+  };
 
   useEffect(() => {
     if (shoppingListHint && onConsumeShoppingListHint) onConsumeShoppingListHint();
@@ -233,6 +279,9 @@ export default function Saved({
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <div className="page-h1" style={{ marginBottom: 0 }}>Diary</div>
+            <div className="info-btn" onClick={tip.reopen} title="Show info">
+              <InfoIcon />
+            </div>
             {streak > 0 && (
               <div
                 title="Consecutive days with something logged"
@@ -256,7 +305,7 @@ export default function Saved({
           Organize what you're eating each day -- no macros, just easy meals.
         </div>
 
-        <FirstVisitTip storageKey="quickprep_seen_diary_tip">
+        <FirstVisitTip show={tip.show} onDismiss={tip.dismiss}>
           This is your Diary -- log what you're eating for Breakfast, Lunch, Dinner, and Snacks, one day at a time. Hit Surprise Me for an instant pick, or use Shopping List to see everything you'll need for the day.
         </FirstVisitTip>
 
@@ -358,15 +407,47 @@ export default function Saved({
                 Nothing planned for this day yet -- add a meal to build a list.
               </div>
             ) : (
-              shoppingList.map((item, i) => (
-                <div
-                  key={`${item.name}-${item.unit}`}
-                  style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0', borderBottom: i < shoppingList.length - 1 ? '1px solid var(--border)' : 'none' }}
-                >
-                  <span style={{ fontSize: 13, color: 'var(--cream)' }}>{item.name}</span>
-                  <span style={{ fontSize: 13, color: 'var(--muted)' }}>{formatShoppingQuantity(item)}</span>
-                </div>
-              ))
+              shoppingList.map((item, i) => {
+                const checked = !!shoppingChecked[item.name];
+                return (
+                  <div
+                    key={`${item.name}-${item.unit}`}
+                    onClick={() => toggleShoppingChecked(item.name)}
+                    style={{ display: 'flex', alignItems: 'center', gap: 10, justifyContent: 'space-between', padding: '6px 0', borderBottom: i < shoppingList.length - 1 ? '1px solid var(--border)' : 'none', cursor: 'pointer' }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 0 }}>
+                      <div
+                        style={{
+                          width: 18,
+                          height: 18,
+                          borderRadius: 5,
+                          flexShrink: 0,
+                          border: `1.5px solid ${checked ? 'var(--lime)' : 'var(--border)'}`,
+                          background: checked ? 'var(--lime)' : 'transparent',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: 12,
+                          fontWeight: 900,
+                          color: '#000',
+                        }}
+                      >
+                        {checked ? '✓' : ''}
+                      </div>
+                      <span
+                        style={{
+                          fontSize: 13,
+                          color: checked ? 'var(--muted)' : 'var(--cream)',
+                          textDecoration: checked ? 'line-through' : 'none',
+                        }}
+                      >
+                        {item.name}
+                      </span>
+                    </div>
+                    <span style={{ fontSize: 13, color: 'var(--muted)', flexShrink: 0 }}>{formatShoppingQuantity(item)}</span>
+                  </div>
+                );
+              })
             )}
           </div>
         )}

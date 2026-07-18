@@ -4,6 +4,8 @@ import StarIcon from '../components/StarIcon';
 import LightningIcon from '../components/LightningIcon';
 import EffortGauge from '../components/EffortGauge';
 import FirstVisitTip from '../components/FirstVisitTip';
+import InfoIcon from '../components/InfoIcon';
+import useFirstVisitTip from '../hooks/useFirstVisitTip';
 import { formatTime } from '../utils/time';
 import { hapticSelection, hapticLight } from '../utils/haptics';
 import { getProteinCardBackground } from '../utils/proteinColors';
@@ -92,6 +94,7 @@ function FilterSelect({ label, value, onChange, options, placeholder }) {
 }
 
 export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary }) {
+  const tip = useFirstVisitTip('quickprep_seen_browse_tip');
   const [search, setSearch] = useState('');
   const [mealFilter, setMealFilter] = useState(null);
   const [proteinFilter, setProteinFilter] = useState(null);
@@ -257,8 +260,13 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
   return (
     <div style={{ paddingBottom: 20 }}>
       <div className="px pt">
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginBottom: 12 }}>
-          <div className="page-h1" style={{ marginBottom: 0 }}>Browse Recipes</div>
+        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 10, marginBottom: 12 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <div className="page-h1" style={{ marginBottom: 0 }}>Browse Recipes</div>
+            <div className="info-btn" onClick={tip.reopen} title="Show info">
+              <InfoIcon />
+            </div>
+          </div>
           {anyFilterActive && (
             <div
               onClick={clearAllFilters}
@@ -269,7 +277,7 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
           )}
         </div>
 
-        <FirstVisitTip storageKey="quickprep_seen_browse_tip">
+        <FirstVisitTip show={tip.show} onDismiss={tip.dismiss}>
           This is the full QuickPrep catalog -- search by name or use the filters below to narrow it down by meal type, method, protein, or effort level.
         </FirstVisitTip>
 

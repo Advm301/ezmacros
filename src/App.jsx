@@ -34,8 +34,10 @@ const ONBOARDED_KEY = 'quickprep_onboarded';
 // handleOnboardingComplete) -- matched to .generating-bolt-fill's own
 // animation-duration in globals.css so the bolt reads as freshly "full"
 // right around when this screen gets swapped out, regardless of how
-// long the real work underneath it actually took.
-const GENERATING_MIN_MS = 1800;
+// long the real work underneath it actually took. Bumped up from 1.8s so
+// the stuttering bolt-charge animation (globals.css) has room to actually
+// read as irregular rather than rushing by.
+const GENERATING_MIN_MS = 3600;
 
 // Bottom-nav icons: bigger and always their own brand color now (no text
 // label alongside them any more, so the icon alone has to carry the tab's
@@ -183,7 +185,14 @@ export default function App() {
         showToast(`Your day is planned -- ${addedCount} meal${addedCount === 1 ? '' : 's'} added to your Diary!`);
         setShoppingListHint(true);
       }
-    } else if (picks.staples && picks.staples.length > 0) {
+    } else {
+      // The single-meal path always hands its picks to Kitchen now, even
+      // when no pantry staples were selected ("I'll Add These Later") --
+      // Kitchen.jsx's own seeding logic falls back to a single random
+      // pick matching whatever goal/servingsPref/mealType WERE chosen in
+      // that case (see utils/onboardingGoals.js's pickBestMatch), rather
+      // than this landing on the ordinary empty Kitchen state just
+      // because no specific ingredients were picked.
       setInitialKitchenPicks(picks);
     }
 

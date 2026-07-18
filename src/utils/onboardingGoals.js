@@ -83,3 +83,24 @@ export function rankForPreferences(recipes, { goal, servingsPref, mealType } = {
     (matchesMealType(r, mealType) ? 0 : 1);
   return [...recipes].sort((a, b) => score(a) - score(b));
 }
+
+// Picks one random recipe out of `pool`, preferring one that fully
+// matches every preference that was actually set (goal, servingsPref,
+// mealType), and only falling back to any recipe in `pool` if nothing
+// matches all of them at once. Used by Kitchen.jsx to seed a single
+// result when onboarding hands off preferences but no pantry staples
+// were ever picked ("I'll Add These Later") -- without this, that combo
+// used to land on Kitchen's normal empty state instead of generating
+// anything, even though real preferences (like a chosen meal type) had
+// been collected. Same graceful-relaxation shape as
+// utils/fullDayPlan.js's per-slot picker: never returns nothing just
+// because the ideal match doesn't exist, only ever null if `pool` itself
+// was already empty.
+export function pickBestMatch(pool, { goal, servingsPref, mealType } = {}) {
+  if (pool.length === 0) return null;
+  const bestMatches = pool.filter(
+    (r) => matchesGoal(r, goal) && matchesServingsPref(r, servingsPref) && matchesMealType(r, mealType)
+  );
+  const finalPool = bestMatches.length > 0 ? bestMatches : pool;
+  return finalPool[Math.floor(Math.random() * finalPool.length)];
+}

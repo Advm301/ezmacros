@@ -8,8 +8,10 @@ import SurpriseSparkles from '../components/SurpriseSparkles';
 import EffortGauge from '../components/EffortGauge';
 import LightningIcon from '../components/LightningIcon';
 import FirstVisitTip from '../components/FirstVisitTip';
+import InfoIcon from '../components/InfoIcon';
+import useFirstVisitTip from '../hooks/useFirstVisitTip';
 import { getProteinCardBackground } from '../utils/proteinColors';
-import { rankForPreferences } from '../utils/onboardingGoals';
+import { rankForPreferences, pickBestMatch } from '../utils/onboardingGoals';
 import { filterRecipes } from '../utils/pantryMatch';
 
 const PANTRY_LABELS = Object.fromEntries(PANTRY_STAPLES.map((s) => [s.id, s.label]));
@@ -27,35 +29,52 @@ const PANTRY_LABELS = Object.fromEntries(PANTRY_STAPLES.map((s) => [s.id, s.labe
 // picked, since showing all 144 recipes unranked isn't a useful "find"
 // result.
 
-// `initialPicks` (shape { staples, goal, servingsPref }) arrives once,
-// right after onboarding finishes (see App.jsx) -- it's how the app shows
-// a real, personalized set of recipes the instant onboarding ends instead
-// of dropping someone onto this same empty screen to do the work
+// `initialPicks` (shape { staples, goal, servingsPref, mealType }) arrives
+// once, right after onboarding finishes (see App.jsx) -- it's how the app
+// shows a real, personalized set of recipes the instant onboarding ends
+// instead of dropping someone onto this same empty screen to do the work
 // themselves a second time. `goal`/`servingsPref` only ever affect THIS
 // one seed: they bias which of the matching recipes shows up first (see
 // rankForPreferences), they don't change how filterRecipes itself works
 // for any later search, since there's no ongoing preference setting
-// visible anywhere else in the app for a person to reason about. (When
-// onboarding's "plan my day" option is picked instead, App.jsx logs a
-// full day to the Diary directly and never hands Kitchen anything --
-// see utils/fullDayPlan.js.)
+// visible anywhere else in the app for a person to reason about. If no
+// staples were picked at all, there's nothing for filterRecipes to match
+// against -- see the lazy `results` initializer below, which falls back
+// to a single random pick scoped to whatever preferences WERE chosen
+// instead of leaving this on the empty state. (When onboarding's "plan my
+// day" option is picked instead, App.jsx logs a full day to the Diary
+// directly and never hands Kitchen anything -- see utils/fullDayPlan.js.)
 export default function Kitchen({ onOpen, getRatingSummary, initialPicks, onConsumeInitialPicks }) {
+  const tip = useFirstVisitTip('quickprep_seen_kitchen_tip');
   const [selectedStaples, setSelectedStaples] = useState(() => initialPicks?.staples || []);
   const [showPantryModal, setShowPantryModal] = useState(false);
-  const [results, setResults] = useState(() => (
-    initialPicks?.staples?.length
-      ? rankForPreferences(filterRecipes(RECIPES, initialPicks.staples), initialPicks)
-      : null
-  ));
+  const [results, setResults] = useState(() => {
+    if (!initialPicks) return null;
+    if (initialPicks.staples?.length) {
+      return rankForPreferences(filterRecipes(RECIPES, initialPicks.staples), initialPicks);
+    }
+    // No pantry staples were picked during onboarding ("I'll Add These
+    // Later") -- rather than leaving this on the normal empty state,
+    // fall back to a single random pick from whatever DOES match the
+    // meal type/goal/servings preferences that WERE chosen (mealType is
+    // always set on this path -- see components/Onboarding.jsx), same
+    // spirit as Surprise Me but scoped to what onboarding actually asked.
+    const pool = initialPicks.mealType
+      ? RECIPES.filter((r) => r.mealType === initialPicks.mealType)
+      : RECIPES;
+    const pick = pickBestMatch(pool, initialPicks);
+    return pick ? [pick] : null;
+  });
   const [surpriseError, setSurpriseError] = useState('');
   // Whether this particular mount of Kitchen is the one, one-time reveal
   // right after onboarding hands off real results -- captured once, at
-  // mount, same as `results` above, so it stays true for this view even
+  // mount, same as `results` above (and reusing its already-computed
+  // value rather than recomputing), so it stays true for this view even
   // after the consume-once effect below clears `initialPicks` back to
   // null a moment later. Drives the celebratory banner below; Kitchen
   // fully unmounts on every tab switch (see App.jsx), so this can never
   // resurface on a later, ordinary visit to the tab.
-  const [justOnboarded] = useState(() => !!initialPicks?.staples?.length);
+  const [justOnboarded] = useState(() => !!initialPicks && results !== null);
 
   // Runs once, right after mount -- tells the parent the initial picks
   // have been consumed so it can clear them. Kitchen fully unmounts every
@@ -143,7 +162,12 @@ export default function Kitchen({ onOpen, getRatingSummary, initialPicks, onCons
     <div style={{ paddingBottom: 150 }}>
       <div className="px pt">
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 10 }}>
-          <div className="page-h1">What's In Your Kitchen?</div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <div className="page-h1" style={{ marginBottom: 0 }}>What's In Your Kitchen?</div>
+            <div className="info-btn" onClick={tip.reopen} title="Show info">
+              <InfoIcon />
+            </div>
+          </div>
           {anyFilterActive && (
             <div
               onClick={reset}
@@ -157,7 +181,7 @@ export default function Kitchen({ onOpen, getRatingSummary, initialPicks, onCons
           Tell us what's already in your kitchen and we'll find recipes that use it -- or hit Surprise Me to skip the decision entirely.
         </div>
 
-        <FirstVisitTip storageKey="quickprep_seen_kitchen_tip">
+        <FirstVisitTip show={tip.show} onDismiss={tip.dismiss}>
           This is your shortcut to "what can I make right now?" -- pick a few things you have on hand and we'll match them to real recipes, or tap Surprise Me below if you'd rather skip the decision entirely.
         </FirstVisitTip>
 

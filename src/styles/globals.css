@@ -91,7 +91,7 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
   color:var(--cream);
   margin-bottom:3px;
 }
-.sub{font-size:12px;color:var(--muted);margin-bottom:14px;}
+.sub{font-size:12px;color:var(--muted);margin-bottom:14px;text-wrap:balance;}
 .filter-label{font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted2);margin-bottom:7px;font-weight:700;}
 .scroll-row{display:flex;gap:7px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none;}
 .scroll-row::-webkit-scrollbar{display:none;}
@@ -982,13 +982,32 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
 .generating-bolt-track{opacity:.28;}
 .generating-bolt-fill{clip-path:inset(100% 0 0 0);}
 @media (prefers-reduced-motion: no-preference) {
-  .generating-bolt-fill{animation:generating-bolt-charge 1.8s ease-in-out forwards;}
+  .generating-bolt-fill{animation:generating-bolt-charge 3.6s linear forwards;}
 }
 @media (prefers-reduced-motion: reduce) {
   .generating-bolt-fill{clip-path:inset(0 0 0 0);}
 }
+/* Deliberately NOT a smooth ease -- holds at uneven plateaus (each a
+   different length) before lurching forward again, so it reads as
+   "working on it" in fits and starts rather than a predictable fill
+   that undersells how much is actually happening behind the scenes.
+   Percentages come in held pairs (same clip-path back to back) to
+   create each pause; matches App.jsx's GENERATING_MIN_MS so the bolt
+   lands on "full" right as the screen is swapped out. */
 @keyframes generating-bolt-charge{
   0%{clip-path:inset(100% 0 0 0);}
+  7%{clip-path:inset(79% 0 0 0);}
+  21%{clip-path:inset(79% 0 0 0);}
+  27%{clip-path:inset(66% 0 0 0);}
+  30%{clip-path:inset(66% 0 0 0);}
+  46%{clip-path:inset(52% 0 0 0);}
+  47%{clip-path:inset(52% 0 0 0);}
+  49%{clip-path:inset(47% 0 0 0);}
+  61%{clip-path:inset(47% 0 0 0);}
+  67%{clip-path:inset(31% 0 0 0);}
+  80%{clip-path:inset(31% 0 0 0);}
+  86%{clip-path:inset(17% 0 0 0);}
+  94%{clip-path:inset(17% 0 0 0);}
   100%{clip-path:inset(0% 0 0 0);}
 }
 .generating-text{font-family:'Baloo 2',sans-serif;font-size:16px;font-weight:700;color:var(--cream);}
@@ -1042,6 +1061,13 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
    around it.  */
 .coach-callout{position:absolute;z-index:30;bottom:calc(100% + 12px);left:50%;transform:translateX(-50%);width:200px;background:var(--lime);color:#000;font-size:12px;font-weight:600;line-height:1.45;text-align:center;padding:10px 12px;border-radius:12px;box-shadow:0 8px 22px rgba(0,0,0,.4);animation:fadeUp .25s ease;}
 .coach-callout::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:7px solid transparent;border-top-color:var(--lime);}
+
+/* INFO ICON BUTTON: sits next to a page's title (Kitchen/Browse/Diary),
+   reopens that tab's FirstVisitTip banner on tap (see InfoIcon.jsx +
+   hooks/useFirstVisitTip.js) -- the tip only auto-shows once, so without
+   this there'd be no way to see it again after dismissing it. */
+.info-btn{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:var(--s2);border:1px solid var(--border);cursor:pointer;flex-shrink:0;}
+.info-btn:active{background:var(--s3);}
 
 /* FIRST-VISIT TABS TIP: a one-time "here's what this tab does" banner
    (see components/FirstVisitTip.jsx), shown the very first time someone
