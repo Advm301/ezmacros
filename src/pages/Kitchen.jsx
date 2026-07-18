@@ -65,8 +65,6 @@ export default function Kitchen({
     return () => clearTimeout(timer);
   }, [justOnboarded, onDismissJustOnboarded]);
 
-  const anyFilterActive = selectedStaples.length > 0;
-
   const toggleStaple = (id) => {
     hapticSelection();
     setSelectedStaples((prev) => (prev.includes(id) ? prev.filter((s) => s !== id) : [...prev, id]));
@@ -138,21 +136,11 @@ export default function Kitchen({
   return (
     <div style={{ paddingBottom: 150 }}>
       <div className="px pt">
-        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 10 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <div className="page-h1" style={{ marginBottom: 0 }}>What's In Your Kitchen?</div>
-            <div className="info-btn" onClick={tip.reopen} title="Show info">
-              <InfoIcon />
-            </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div className="page-h1" style={{ marginBottom: 0 }}>What's In Your Kitchen?</div>
+          <div className="info-btn" onClick={tip.reopen} title="Show info">
+            <InfoIcon />
           </div>
-          {anyFilterActive && (
-            <div
-              onClick={reset}
-              style={{ fontSize: 11, color: 'var(--muted)', cursor: 'pointer', textDecoration: 'underline', whiteSpace: 'nowrap', marginTop: 6 }}
-            >
-              Clear
-            </div>
-          )}
         </div>
         <div className="sub" style={{ marginBottom: 14 }}>
           Tell us what's already in your kitchen and we'll find recipes that use it -- or hit Surprise Me to skip the decision entirely.
@@ -166,10 +154,6 @@ export default function Kitchen({
             of rendering all ~30 chips across 5 categories inline -- this row
             is just a compact summary/entry point into it. */}
         <div className="filter-sec" style={{ marginBottom: 10 }}>
-          {/* The "Clear" link next to the page title above already resets
-              everything -- a second one here duplicated it for no reason
-              (Browse's single "Clear All Filters" link is the pattern this
-              now matches). */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
             <div className="filter-label" style={{ marginBottom: 0 }}>
               What Do You Have?
@@ -288,12 +272,32 @@ export default function Kitchen({
                   unmistakably the one thing to look at, not just the top
                   row of a list. The "N recipes" count line is dropped in
                   this case since it'd just say "1 recipe" right above the
-                  thing it's emphasizing. */}
-              {results.length > 1 && (
-                <div style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 10 }}>
-                  <span style={{ color: 'var(--lime)' }}>●</span> {results.length} recipes
+                  thing it's emphasizing.
+
+                  Clear now lives right here, immediately above the
+                  result(s), rather than up by the page title -- the
+                  onboarding hand-off in particular lands here with no
+                  staples picked at all, so the old title-row Clear link
+                  (only shown when selectedStaples was non-empty) never
+                  appeared, leaving no way to dismiss a generated meal you
+                  didn't want. Showing unconditionally whenever there's
+                  something to clear (any time `results` isn't null) fixes
+                  that, and putting it right next to what it clears is a
+                  clearer pairing than a link way up at the top of the
+                  page. */}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+                <div style={{ fontSize: 12, color: 'var(--muted)' }}>
+                  {results.length > 1 && (
+                    <><span style={{ color: 'var(--lime)' }}>●</span> {results.length} recipes</>
+                  )}
                 </div>
-              )}
+                <div
+                  onClick={reset}
+                  style={{ fontSize: 11, color: 'var(--muted)', cursor: 'pointer', textDecoration: 'underline', whiteSpace: 'nowrap' }}
+                >
+                  Clear
+                </div>
+              </div>
               {results.map((r, i) => {
                 const missingStaples = selectedStaples.length > 0
                   ? (r.pantryTags || []).filter((t) => !selectedStaples.includes(t))
