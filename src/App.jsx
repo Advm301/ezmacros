@@ -30,6 +30,30 @@ import './styles/globals.css';
 // switch to do its job (show the flow exactly once per install).
 const ONBOARDED_KEY = 'quickprep_onboarded';
 
+// Persists Kitchen's pantry selections + search results (see
+// kitchenStaples/kitchenResults/kitchenJustOnboarded below) across a full
+// page reload / app relaunch, not just across tab switches -- lifting that
+// state up to App.jsx (see the comment there) only kept it alive as long
+// as the in-memory session did, so refreshing the page (or force-quitting
+// the app) still wiped out someone's first generated meal. Stores the
+// actual result recipe objects rather than just their ids, since re-
+// deriving them would mean re-running whichever of filterRecipes/
+// rankForPreferences/pickBestMatch originally produced them -- simpler and
+// just as correct to store the already-computed output directly, since
+// it's plain, serializable data either way.
+const KITCHEN_STATE_KEY = 'quickprep_kitchen_state';
+
+function loadKitchenState() {
+  try {
+    const raw = localStorage.getItem(KITCHEN_STATE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    return parsed && typeof parsed === 'object' ? parsed : null;
+  } catch {
+    return null;
+  }
+}
+
 // Minimum time GeneratingScreen stays up after onboarding finishes (see
 // handleOnboardingComplete) -- matched to .generating-bolt-fill's own
 // animation-duration in globals.css so the bolt reads as freshly "full"
@@ -108,10 +132,27 @@ export default function App() {
   // as long as the rest of the app's state does. `kitchenJustOnboarded`
   // drives Kitchen's one-time "Your First Picks Are Ready!" banner; it's
   // lifted too so a quick tab-away-and-back right after onboarding doesn't
-  // lose the flag along with everything else.
-  const [kitchenStaples, setKitchenStaples] = useState([]);
-  const [kitchenResults, setKitchenResults] = useState(null);
-  const [kitchenJustOnboarded, setKitchenJustOnboarded] = useState(false);
+  // lose the flag along with everything else. Seeded from localStorage
+  // (see loadKitchenState/KITCHEN_STATE_KEY above) and re-saved below any
+  // time it changes, so a page refresh or a fully-quit-and-reopened app
+  // doesn't lose it either -- only Clear (reset) or a fresh search
+  // actually replaces it, same as an ordinary in-session tab switch.
+  const [kitchenStaples, setKitchenStaples] = useState(() => loadKitchenState()?.staples || []);
+  const [kitchenResults, setKitchenResults] = useState(() => loadKitchenState()?.results ?? null);
+  const [kitchenJustOnboarded, setKitchenJustOnboarded] = useState(() => loadKitchenState()?.justOnboarded || false);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(KITCHEN_STATE_KEY, JSON.stringify({
+        staples: kitchenStaples,
+        results: kitchenResults,
+        justOnboarded: kitchenJustOnboarded,
+      }));
+    } catch {
+      // Storage being unavailable just means this won't survive a refresh
+      // this session -- not worth blocking on.
+    }
+  }, [kitchenStaples, kitchenResults, kitchenJustOnboarded]);
   // Gates the one-time splash screen (see components/SplashScreen.jsx)
   // shown between a brand-new sign-in and the very first onboarding
   // question -- only relevant while onboarding hasn't happened yet, so a
