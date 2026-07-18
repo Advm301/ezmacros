@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { supabase } from '../lib/supabase';
+import quickPrepLogo from '../assets/quickprep-logo-header.png';
 
 export default function Login() {
   const [mode, setMode] = useState("signin"); // "signin" or "signup"
@@ -136,17 +137,15 @@ export default function Login() {
         width: "100%",
         textAlign: "center",
       }}>
-        {/* Logo */}
-        <div style={{
-          fontFamily: "'Manrope', sans-serif",
-          fontSize: 36,
-          fontWeight: 800,
-          marginBottom: 16,
-          letterSpacing: "-0.5px",
-          color: "var(--cream)",
-        }}>
-          QuickPrep
-        </div>
+        {/* Logo -- same designed "QuickPrep" wordmark used in the app
+            header (see src/assets/quickprep-logo-header.png), just larger
+            here since there's a whole screen of room instead of a header
+            row to share with the account menu. */}
+        <img
+          src={quickPrepLogo}
+          alt="QuickPrep"
+          style={{ height: 56, width: "auto", display: "block", margin: "0 auto 16px" }}
+        />
 
         {/* Tagline */}
         <div style={{

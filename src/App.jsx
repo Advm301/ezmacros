@@ -6,7 +6,7 @@ import useDiary, { todayString } from './hooks/useDiary';
 import { getGreeting } from './utils/greeting';
 import { hapticSelection, hapticLight, hapticMedium, hapticSuccess } from './utils/haptics';
 import { BETA_MODE, APP_VERSION } from './config';
-import appIconImg from './assets/app-icon.png';
+import quickPrepLogo from './assets/quickprep-logo-header.png';
 import Login from './pages/Login';
 import Kitchen from './pages/Kitchen';
 import Browse from './pages/Browse';
@@ -53,16 +53,6 @@ function FeedbackIcon() {
       <path d="M4 5h16v11H8l-4 4V5z" />
     </svg>
   );
-}
-
-// App icon -- the real designed icon (meal-prep container with a
-// lightning bolt), used in the header logo slot as a white silhouette so
-// it blends directly into the teal header instead of sitting in a boxed
-// tile. The iOS app icon, favicon, and PWA icons use a separate,
-// full-color version composited onto an opaque background (those can't
-// be transparent) -- see src/assets/app-icon.png for this one.
-function AppIcon() {
-  return <img src={appIconImg} alt="" style={{ width: 30, height: 'auto', display: 'block' }} />;
 }
 
 export default function App() {
@@ -237,26 +227,22 @@ export default function App() {
             .app-header-bar in globals.css); layout/spacing stays inline. */}
         <div className="app-header-bar" style={{padding: "14px 18px 10px", display: "flex", justifyContent: "space-between", alignItems: "flex-start"}}>
           <div style={{display: "flex", alignItems: "center", gap: 10}}>
-            <div style={{
-              width: 36,
-              height: 36,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              flexShrink: 0,
-            }}>
-              <AppIcon />
-            </div>
             <div>
-              <div style={{display: "flex", alignItems: "center", gap: 6}}>
-                {/* Plain white wordmark -- the metallic/glossy treatment
-                    moved to the header bar's own background instead (see
-                    .app-header-bar in globals.css). A subtle text-shadow
-                    keeps it legible against that animated background at
-                    every point in its shimmer cycle. */}
-                <div style={{fontFamily: "'Manrope',sans-serif", fontSize: 20, fontWeight: 800, color: "#fff", lineHeight: 1.1, textShadow: "0 1px 3px rgba(0,0,0,.4)"}}>
-                  QuickPrep
-                </div>
+              <div style={{display: "flex", alignItems: "center", gap: 8}}>
+                {/* The designed "QuickPrep" wordmark (white text + gold
+                    lightning bolt, glow baked in) replaces the old plain-text
+                    wordmark + separate bolt icon -- see
+                    src/assets/quickprep-logo-header.png, cropped down from
+                    Images/quickprep_logo2_headerlogo.png (a much larger
+                    canvas with a lot of surrounding transparent margin) to
+                    just the glyph + its glow so it isn't tiny inside the
+                    header row. Sized by height, same as the icon it
+                    replaces, so the header's overall height doesn't shift. */}
+                <img
+                  src={quickPrepLogo}
+                  alt="QuickPrep"
+                  style={{ height: 32, width: "auto", display: "block" }}
+                />
                 {BETA_MODE && (
                   <span style={{fontSize: 10, fontWeight: 700, color: "#000", background: "var(--lime)", borderRadius: 100, padding: "2px 7px", letterSpacing: 0.5}}>
                     BETA
@@ -266,9 +252,8 @@ export default function App() {
               {/* Daily message set in the same playful Baloo 2 used for the
                   three page headers (see .page-h1), rather than the app's
                   usual Manrope -- a small consistent touch of personality
-                  right where it's first seen. Same text-shadow reasoning
-                  as the wordmark above. */}
-              <div style={{fontFamily: "'Baloo 2',sans-serif", fontWeight: 600, fontSize: 12, color: "rgba(255,255,255,.85)", textShadow: "0 1px 2px rgba(0,0,0,.35)", marginTop: 2}}>
+                  right where it's first seen. */}
+              <div style={{fontFamily: "'Baloo 2',sans-serif", fontWeight: 600, fontSize: 12, color: "rgba(255,255,255,.85)", textShadow: "0 1px 2px rgba(0,0,0,.35)", marginTop: 3}}>
                 {greeting}
               </div>
             </div>
