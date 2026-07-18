@@ -13,7 +13,14 @@
 }
 html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-serif;font-size:15px;}
 .app{max-width:430px;margin:0 auto;min-height:100vh;padding-bottom:80px;position:relative;}
-.app-bg{position:fixed;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(to bottom, #08677B 0%, #08677B 20%, #041A20 65%, #000000 100%);}
+/* Page backdrop, all tabs -- a slow teal-to-black fade down the whole
+   screen rather than the old bright teal band that only really showed in
+   a thin strip right under the header before dropping to solid black by
+   65%. Starts at a deliberately dark/muted teal (not the header bar's
+   brighter --teal) and spreads the fade all the way to the bottom of the
+   viewport, so scrolling any page still reads as a gradient rather than
+   flat black beneath the header. */
+.app-bg{position:fixed;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(to bottom, #0c2f36 0%, #06222a 35%, #04141a 70%, #000000 100%);}
 
 /* APP HEADER BAR: blue metallic glossy background instead of the flat
    var(--teal) fill it used to be. Same shine-layer technique as the
