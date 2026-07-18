@@ -7,6 +7,7 @@ import { hapticSelection, hapticLight, hapticMedium } from '../utils/haptics';
 import { summarizeSteps } from '../utils/recipeSummary';
 import { detectPreheatTip, previewNextStep } from '../utils/stepHints';
 import { matchIngredientsForStep } from '../utils/ingredientMatch';
+import { splitIngredients } from '../utils/ingredientClassify';
 import { getFreshAltHint } from '../utils/freshAltTips';
 import FlameIcon from './FlameIcon';
 import SparkBurst from './SparkBurst';
@@ -911,57 +912,84 @@ export default function RecipeModal({
                   so you can plan a meal ahead of actually making it. */}
               {renderAddToDiaryBlock()}
 
-              {/* Ingredients */}
-              {components.length > 0 && (
-                <div style={{ marginBottom: 16 }}>
-                  <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--muted)', marginBottom: 2, textTransform: 'uppercase', letterSpacing: 1 }}>
-                    Ingredients
-                  </div>
-                  <div style={{ fontSize: 11, color: 'var(--muted)', marginBottom: 8 }}>
-                    Tap a quantity to edit it. Tap the unit badge to switch between g/oz or ml/fl oz.
-                  </div>
-                  {components.map((c, i) => {
-                    const isEditing = editingIngredientIndex === i;
-                    const display = getQuantityDisplay(c.quantity, c.unit, c.name, unitModes[i]);
-                    return (
-                      <div
-                        key={i}
-                        style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 0', borderBottom: i < components.length - 1 ? '1px solid var(--border)' : 'none' }}
-                      >
-                        <span style={{ fontSize: 13, color: 'var(--cream)' }}>{c.name}</span>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginLeft: 12 }}>
-                          {isEditing ? (
-                            <input
-                              type="number"
-                              autoFocus
-                              value={editingIngredientValue}
-                              onChange={(e) => setEditingIngredientValue(e.target.value)}
-                              onBlur={() => commitIngredientEdit(i, c)}
-                              onKeyDown={(e) => { if (e.key === 'Enter') e.target.blur(); }}
-                              style={{ width: 64, background: 'var(--s2)', border: '1px solid var(--border)', borderRadius: 6, padding: '4px 6px', color: 'var(--cream)', fontSize: 13, textAlign: 'right' }}
-                            />
-                          ) : (
-                            <span
-                              onClick={() => startEditingIngredient(i, c)}
-                              style={{ fontSize: 13, color: c.edited ? 'var(--lime)' : 'var(--muted)', whiteSpace: 'nowrap', cursor: 'pointer', textDecoration: 'underline dotted', textUnderlineOffset: 3 }}
-                            >
-                              {display.value}{display.suffix}
-                            </span>
-                          )}
-                          {display.toggleable && (
-                            <span
-                              onClick={(e) => { e.stopPropagation(); toggleUnitMode(i); }}
-                              style={{ fontSize: 10, fontWeight: 700, color: 'var(--muted)', border: '1px solid var(--border)', borderRadius: 6, padding: '2px 6px', cursor: 'pointer', whiteSpace: 'nowrap' }}
-                            >
-                              {display.altLabel}
-                            </span>
-                          )}
-                        </div>
+              {/* Ingredients -- split into two side-by-side tables (Core
+                  Ingredients / Seasonings) instead of one long stacked list.
+                  A recipe like Saucy Tomato Beef Bowl now carries 6-7 spice-
+                  rack items alongside its 5-6 real ingredients, and reading
+                  those as one undifferentiated column reads as a much
+                  longer, more intimidating list than it is -- splitting by
+                  kind also matches how someone actually shops/checks their
+                  kitchen: "do I have this food" is a different question
+                  than "do I have this spice." isSeasoning() classifies by
+                  name (see utils/ingredientClassify.js); each item keeps its
+                  original array index so tap-to-edit still targets the
+                  right ingredientOverrides slot after the split. */}
+              {components.length > 0 && (() => {
+                const { core, seasonings } = splitIngredients(components);
+                const renderRow = (c, origIndex, isLast) => {
+                  const isEditing = editingIngredientIndex === origIndex;
+                  const display = getQuantityDisplay(c.quantity, c.unit, c.name, unitModes[origIndex]);
+                  return (
+                    <div
+                      key={origIndex}
+                      style={{ padding: '7px 0', borderBottom: isLast ? 'none' : '1px solid var(--border)' }}
+                    >
+                      <div style={{ fontSize: 12.5, color: 'var(--cream)', marginBottom: 3, lineHeight: 1.3 }}>{c.name}</div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                        {isEditing ? (
+                          <input
+                            type="number"
+                            autoFocus
+                            value={editingIngredientValue}
+                            onChange={(e) => setEditingIngredientValue(e.target.value)}
+                            onBlur={() => commitIngredientEdit(origIndex, c)}
+                            onKeyDown={(e) => { if (e.key === 'Enter') e.target.blur(); }}
+                            style={{ width: 56, background: 'var(--s2)', border: '1px solid var(--border)', borderRadius: 6, padding: '4px 6px', color: 'var(--cream)', fontSize: 12, textAlign: 'right' }}
+                          />
+                        ) : (
+                          <span
+                            onClick={() => startEditingIngredient(origIndex, c)}
+                            style={{ fontSize: 12, color: c.edited ? 'var(--lime)' : 'var(--muted)', whiteSpace: 'nowrap', cursor: 'pointer', textDecoration: 'underline dotted', textUnderlineOffset: 3 }}
+                          >
+                            {display.value}{display.suffix}
+                          </span>
+                        )}
+                        {display.toggleable && (
+                          <span
+                            onClick={(e) => { e.stopPropagation(); toggleUnitMode(origIndex); }}
+                            style={{ fontSize: 9, fontWeight: 700, color: 'var(--muted)', border: '1px solid var(--border)', borderRadius: 6, padding: '1px 5px', cursor: 'pointer', whiteSpace: 'nowrap' }}
+                          >
+                            {display.altLabel}
+                          </span>
+                        )}
                       </div>
-                    );
-                  })}
-                </div>
-              )}
+                    </div>
+                  );
+                };
+                return (
+                  <div style={{ marginBottom: 16 }}>
+                    <div style={{ fontSize: 11, color: 'var(--muted)', marginBottom: 8 }}>
+                      Tap a quantity to edit it. Tap the unit badge to switch between g/oz or ml/fl oz.
+                    </div>
+                    <div style={{ display: 'flex' }}>
+                      <div style={{ flex: 1, paddingRight: seasonings.length > 0 ? 14 : 0 }}>
+                        <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--muted)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: 1 }}>
+                          Core Ingredients
+                        </div>
+                        {core.map((c, idx) => renderRow(c, c.index, idx === core.length - 1))}
+                      </div>
+                      {seasonings.length > 0 && (
+                        <div style={{ flex: 1, paddingLeft: 14, borderLeft: '1px solid var(--border)' }}>
+                          <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--muted)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: 1 }}>
+                            Seasonings
+                          </div>
+                          {seasonings.map((c, idx) => renderRow(c, c.index, idx === seasonings.length - 1))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                );
+              })()}
 
               {/* Fallback: if a recipe somehow has no instructions, there's
                   nothing to "cook" through, so show rating/notes/toppings
