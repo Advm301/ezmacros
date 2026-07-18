@@ -18,7 +18,7 @@ import SplashScreen from './components/SplashScreen';
 import GeneratingScreen from './components/GeneratingScreen';
 import { RECIPES } from './data/recipes.js';
 import { filterRecipes } from './utils/pantryMatch';
-import { rankForPreferences } from './utils/onboardingGoals';
+import { rankForPreferences, pickBestMatch } from './utils/onboardingGoals';
 import { buildFullDayPlan } from './utils/fullDayPlan';
 import { now } from './utils/timing';
 import './styles/globals.css';
@@ -99,11 +99,19 @@ export default function App() {
       return true; // if storage is unavailable for some reason, don't block the app on it
     }
   });
-  // Handed to Kitchen exactly once, right after onboarding finishes, so it
-  // can show a real personalized recipe list immediately instead of its
-  // normal empty state -- see Kitchen.jsx's initialPicks prop and the
-  // consume-once effect that clears this back to null after.
-  const [initialKitchenPicks, setInitialKitchenPicks] = useState(null);
+  // Kitchen's pantry selections + search results now live up here rather
+  // than as Kitchen's own local state -- Kitchen fully unmounts every time
+  // you switch tabs away from it (see the tab === "kitchen" conditional
+  // render below), so state that lived inside Kitchen itself was getting
+  // wiped out on every tab switch, including a just-onboarded person's
+  // very first generated meal. Lifting it here means it survives exactly
+  // as long as the rest of the app's state does. `kitchenJustOnboarded`
+  // drives Kitchen's one-time "Your First Picks Are Ready!" banner; it's
+  // lifted too so a quick tab-away-and-back right after onboarding doesn't
+  // lose the flag along with everything else.
+  const [kitchenStaples, setKitchenStaples] = useState([]);
+  const [kitchenResults, setKitchenResults] = useState(null);
+  const [kitchenJustOnboarded, setKitchenJustOnboarded] = useState(false);
   // Gates the one-time splash screen (see components/SplashScreen.jsx)
   // shown between a brand-new sign-in and the very first onboarding
   // question -- only relevant while onboarding hasn't happened yet, so a
@@ -186,14 +194,29 @@ export default function App() {
         setShoppingListHint(true);
       }
     } else {
-      // The single-meal path always hands its picks to Kitchen now, even
-      // when no pantry staples were selected ("I'll Add These Later") --
-      // Kitchen.jsx's own seeding logic falls back to a single random
-      // pick matching whatever goal/servingsPref/mealType WERE chosen in
-      // that case (see utils/onboardingGoals.js's pickBestMatch), rather
-      // than this landing on the ordinary empty Kitchen state just
-      // because no specific ingredients were picked.
-      setInitialKitchenPicks(picks);
+      // The single-meal path always seeds Kitchen now, even when no
+      // pantry staples were selected ("I'll Add These Later") -- falling
+      // back to a single random pick matching whatever goal/servingsPref/
+      // mealType WERE chosen in that case (see utils/onboardingGoals.js's
+      // pickBestMatch), rather than landing on the ordinary empty Kitchen
+      // state just because no specific ingredients were picked. This used
+      // to be handed to Kitchen as a raw `initialPicks` prop for Kitchen
+      // itself to seed from on mount; now that Kitchen's staples/results
+      // state lives up here (see kitchenStaples/kitchenResults above), the
+      // same seeding logic runs right here instead.
+      setKitchenStaples(picks.staples || []);
+      let seededResults;
+      if (picks.staples?.length) {
+        seededResults = rankForPreferences(filterRecipes(RECIPES, picks.staples), picks);
+      } else {
+        const pool = picks.mealType
+          ? RECIPES.filter((r) => r.mealType === picks.mealType)
+          : RECIPES;
+        const pick = pickBestMatch(pool, picks);
+        seededResults = pick ? [pick] : null;
+      }
+      setKitchenResults(seededResults);
+      setKitchenJustOnboarded(seededResults !== null);
     }
 
     // Pads the rest of GeneratingScreen's minimum display time -- without
@@ -499,8 +522,12 @@ export default function App() {
           <Kitchen
             onOpen={setOpenRecipe}
             getRatingSummary={getRatingSummary}
-            initialPicks={initialKitchenPicks}
-            onConsumeInitialPicks={() => setInitialKitchenPicks(null)}
+            selectedStaples={kitchenStaples}
+            setSelectedStaples={setKitchenStaples}
+            results={kitchenResults}
+            setResults={setKitchenResults}
+            justOnboarded={kitchenJustOnboarded}
+            onDismissJustOnboarded={() => setKitchenJustOnboarded(false)}
           />
         )}
         {tab === "browse" && <Browse onOpen={setOpenRecipe} isSaved={isSaved} toggleSaved={toggleSaved} getRatingSummary={getRatingSummary} />}

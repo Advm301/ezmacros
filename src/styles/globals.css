@@ -1034,6 +1034,31 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
   100%{opacity:1;transform:translateY(0);}
 }
 
+/* KITCHEN HERO CARD: when Kitchen has exactly one matched recipe -- the
+   post-onboarding single-meal handoff (see App.jsx's kitchenJustOnboarded)
+   or a Quick Pick narrowed all the way down to one match -- that card
+   needs to visually win the screen instead of reading like the top row
+   of an ordinary list (see the "I selected single meal... but no meal
+   generated"-adjacent feedback: once one *is* generated, it should be
+   unmissable). A pulsing blue-to-gold glow ring around the card (same
+   color pairing as .onboarding-finish-btn's pulse, tying this "payoff"
+   moment back to that one) plus a small label above it and a couple of
+   twinkling bolt sparkles overlaid on the card itself (reusing
+   OnboardingFinishSparkles rather than a fourth sparkle animation). */
+.kitchen-hero-label{display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:8px;}
+.kitchen-hero-label span{font-family:'Baloo 2',sans-serif;font-size:13px;font-weight:800;color:var(--cream);text-transform:uppercase;letter-spacing:1.2px;}
+.kitchen-hero-card{border:2px solid rgba(255,193,58,.55) !important;}
+@media (prefers-reduced-motion: no-preference) {
+  .kitchen-hero-card{animation:kitchen-card-in .38s ease-out both, kitchen-hero-pulse 2.2s ease-in-out .4s infinite;}
+}
+@media (prefers-reduced-motion: reduce) {
+  .kitchen-hero-card{box-shadow:0 0 14px 2px rgba(255,193,58,.35);}
+}
+@keyframes kitchen-hero-pulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(77,184,255,.35);}
+  50%{box-shadow:0 0 16px 4px rgba(255,193,58,.5);}
+}
+
 /* One-time celebratory flourish shown only right after onboarding hands
    Kitchen its very first personalized results (see Kitchen.jsx's
    `justOnboarded`) -- the same bolt-pop-then-glow flourish used for the

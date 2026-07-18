@@ -5,13 +5,13 @@ import { formatTime } from '../utils/time';
 import { hapticSelection, hapticLight, hapticMedium } from '../utils/haptics';
 import PantryPickerModal from '../components/PantryPickerModal';
 import SurpriseSparkles from '../components/SurpriseSparkles';
+import OnboardingFinishSparkles from '../components/OnboardingFinishSparkles';
 import EffortGauge from '../components/EffortGauge';
 import LightningIcon from '../components/LightningIcon';
 import FirstVisitTip from '../components/FirstVisitTip';
 import InfoIcon from '../components/InfoIcon';
 import useFirstVisitTip from '../hooks/useFirstVisitTip';
 import { getProteinCardBackground } from '../utils/proteinColors';
-import { rankForPreferences, pickBestMatch } from '../utils/onboardingGoals';
 import { filterRecipes } from '../utils/pantryMatch';
 
 const PANTRY_LABELS = Object.fromEntries(PANTRY_STAPLES.map((s) => [s.id, s.label]));
@@ -29,64 +29,41 @@ const PANTRY_LABELS = Object.fromEntries(PANTRY_STAPLES.map((s) => [s.id, s.labe
 // picked, since showing all 144 recipes unranked isn't a useful "find"
 // result.
 
-// `initialPicks` (shape { staples, goal, servingsPref, mealType }) arrives
-// once, right after onboarding finishes (see App.jsx) -- it's how the app
-// shows a real, personalized set of recipes the instant onboarding ends
-// instead of dropping someone onto this same empty screen to do the work
-// themselves a second time. `goal`/`servingsPref` only ever affect THIS
-// one seed: they bias which of the matching recipes shows up first (see
-// rankForPreferences), they don't change how filterRecipes itself works
-// for any later search, since there's no ongoing preference setting
-// visible anywhere else in the app for a person to reason about. If no
-// staples were picked at all, there's nothing for filterRecipes to match
-// against -- see the lazy `results` initializer below, which falls back
-// to a single random pick scoped to whatever preferences WERE chosen
-// instead of leaving this on the empty state. (When onboarding's "plan my
-// day" option is picked instead, App.jsx logs a full day to the Diary
-// directly and never hands Kitchen anything -- see utils/fullDayPlan.js.)
-export default function Kitchen({ onOpen, getRatingSummary, initialPicks, onConsumeInitialPicks }) {
+// `selectedStaples`/`results` (and the post-onboarding `justOnboarded`
+// flag) are now owned by App.jsx rather than local state here -- Kitchen
+// fully unmounts every time you switch tabs away from it (see App.jsx's
+// tab === "kitchen" conditional render), so state that lived only inside
+// Kitchen itself, including a just-onboarded person's very first
+// generated meal, was getting silently wiped out by a simple tab-away-
+// and-back. Lifting it to App.jsx means it survives exactly as long as
+// the rest of the app's state does; App.jsx also does the one-time
+// "seed from onboarding picks" work that used to happen in a lazy
+// `useState` initializer here (see its handleOnboardingComplete, which
+// mirrors the same rankForPreferences/pickBestMatch fallback logic this
+// used to run locally).
+export default function Kitchen({
+  onOpen,
+  getRatingSummary,
+  selectedStaples,
+  setSelectedStaples,
+  results,
+  setResults,
+  justOnboarded,
+  onDismissJustOnboarded,
+}) {
   const tip = useFirstVisitTip('quickprep_seen_kitchen_tip');
-  const [selectedStaples, setSelectedStaples] = useState(() => initialPicks?.staples || []);
   const [showPantryModal, setShowPantryModal] = useState(false);
-  const [results, setResults] = useState(() => {
-    if (!initialPicks) return null;
-    if (initialPicks.staples?.length) {
-      return rankForPreferences(filterRecipes(RECIPES, initialPicks.staples), initialPicks);
-    }
-    // No pantry staples were picked during onboarding ("I'll Add These
-    // Later") -- rather than leaving this on the normal empty state,
-    // fall back to a single random pick from whatever DOES match the
-    // meal type/goal/servings preferences that WERE chosen (mealType is
-    // always set on this path -- see components/Onboarding.jsx), same
-    // spirit as Surprise Me but scoped to what onboarding actually asked.
-    const pool = initialPicks.mealType
-      ? RECIPES.filter((r) => r.mealType === initialPicks.mealType)
-      : RECIPES;
-    const pick = pickBestMatch(pool, initialPicks);
-    return pick ? [pick] : null;
-  });
   const [surpriseError, setSurpriseError] = useState('');
-  // Whether this particular mount of Kitchen is the one, one-time reveal
-  // right after onboarding hands off real results -- captured once, at
-  // mount, same as `results` above (and reusing its already-computed
-  // value rather than recomputing), so it stays true for this view even
-  // after the consume-once effect below clears `initialPicks` back to
-  // null a moment later. Drives the celebratory banner below; Kitchen
-  // fully unmounts on every tab switch (see App.jsx), so this can never
-  // resurface on a later, ordinary visit to the tab.
-  const [justOnboarded] = useState(() => !!initialPicks && results !== null);
 
-  // Runs once, right after mount -- tells the parent the initial picks
-  // have been consumed so it can clear them. Kitchen fully unmounts every
-  // time you switch tabs away from it (see App.jsx's tab === "kitchen"
-  // conditional render) and remounts fresh on the way back, so without
-  // this, the lazy initializers above would silently reseed the same
-  // onboarding picks every single time you revisit the tab, overwriting
-  // whatever you'd searched for since.
+  // The "Your First Picks Are Ready!" banner is a one-time celebratory
+  // flourish, not a permanent fixture -- since justOnboarded now lives in
+  // App.jsx (and so survives tab switches), it needs its own explicit
+  // auto-dismiss rather than relying on Kitchen unmounting to clear it.
   useEffect(() => {
-    if (initialPicks && onConsumeInitialPicks) onConsumeInitialPicks();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    if (!justOnboarded) return;
+    const timer = setTimeout(() => onDismissJustOnboarded?.(), 5000);
+    return () => clearTimeout(timer);
+  }, [justOnboarded, onDismissJustOnboarded]);
 
   const anyFilterActive = selectedStaples.length > 0;
 
@@ -301,56 +278,79 @@ export default function Kitchen({ onOpen, getRatingSummary, initialPicks, onCons
                   <div className="kitchen-ready-sub">Matched to what you told us -- tap any recipe to dive in.</div>
                 </div>
               )}
-              <div style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 10 }}>
-                <span style={{ color: 'var(--lime)' }}>●</span> {results.length} recipe{results.length > 1 ? 's' : ''}
-              </div>
+              {/* A single result (typical of the post-onboarding single-
+                  meal handoff, or a Quick Pick narrowed all the way down)
+                  gets its own "hero" treatment instead of blending in with
+                  an ordinary result list -- a pulsing glow border, a small
+                  "Your Match" label, and a couple of twinkling bolt
+                  sparkles (reusing OnboardingFinishSparkles rather than
+                  inventing a third sparkle animation) so this is
+                  unmistakably the one thing to look at, not just the top
+                  row of a list. The "N recipes" count line is dropped in
+                  this case since it'd just say "1 recipe" right above the
+                  thing it's emphasizing. */}
+              {results.length > 1 && (
+                <div style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 10 }}>
+                  <span style={{ color: 'var(--lime)' }}>●</span> {results.length} recipes
+                </div>
+              )}
               {results.map((r, i) => {
                 const missingStaples = selectedStaples.length > 0
                   ? (r.pantryTags || []).filter((t) => !selectedStaples.includes(t))
                   : [];
+                const isHero = results.length === 1;
                 return (
-                  <div
-                    key={r.id}
-                    className="kitchen-result-card"
-                    style={{
-                      background: getProteinCardBackground(r.proteins),
-                      border: '1px solid var(--border)',
-                      borderRadius: 14,
-                      padding: 14,
-                      marginBottom: 10,
-                      cursor: 'pointer',
-                      '--card-i': Math.min(i, 8),
-                    }}
-                    onClick={() => openRecipe(r)}
-                  >
-                    <div style={{ fontWeight: 700, fontSize: 15, color: 'var(--cream)', marginBottom: 4 }}>
-                      {r.name}
-                    </div>
-                    <div style={{ fontSize: 11, color: 'var(--muted)', display: 'flex', alignItems: 'center', gap: 5, flexWrap: 'wrap' }}>
-                      <span>
-                        {r.method}{r.method && r.activeTime ? ' · ' : ''}{formatTime(r.activeTime, r.totalTime)}
-                        {getRatingSummary && getRatingSummary(r.id) && (
-                          <> · ★ {getRatingSummary(r.id).avg.toFixed(1)} ({getRatingSummary(r.id).count})</>
-                        )}
-                      </span>
-                      <span>·</span>
-                      <EffortGauge recipe={r} size={11} />
-                    </div>
-                    {r.servings > 1 && (
-                      <div style={{ marginTop: 4 }}>
-                        <span className="ezb pkg">📦 Meal Prep · Makes {r.servings}</span>
+                  <div key={r.id} style={isHero ? { position: 'relative' } : undefined}>
+                    {isHero && (
+                      <div className="kitchen-hero-label">
+                        <LightningIcon size={16} id="kitchen-hero" />
+                        <span>Your Match</span>
                       </div>
                     )}
-                    {selectedStaples.length > 0 && (
-                      <div style={{ fontSize: 11, color: 'var(--lime)', marginTop: 4 }}>
-                        Uses {r._matchCount} of your {selectedStaples.length} pick{selectedStaples.length === 1 ? '' : 's'}
-                        {missingStaples.length > 0 && (
-                          <span style={{ color: 'var(--muted)' }}>
-                            {' '}· also needs: {missingStaples.map((t) => PANTRY_LABELS[t] || t).join(', ')}
-                          </span>
-                        )}
+                    <div
+                      className={`kitchen-result-card${isHero ? ' kitchen-hero-card' : ''}`}
+                      style={{
+                        position: 'relative',
+                        background: getProteinCardBackground(r.proteins),
+                        border: '1px solid var(--border)',
+                        borderRadius: 14,
+                        padding: isHero ? 18 : 14,
+                        marginBottom: 10,
+                        cursor: 'pointer',
+                        '--card-i': Math.min(i, 8),
+                      }}
+                      onClick={() => openRecipe(r)}
+                    >
+                      {isHero && <OnboardingFinishSparkles />}
+                      <div style={{ fontWeight: 700, fontSize: isHero ? 18 : 15, color: 'var(--cream)', marginBottom: 4 }}>
+                        {r.name}
                       </div>
-                    )}
+                      <div style={{ fontSize: 11, color: 'var(--muted)', display: 'flex', alignItems: 'center', gap: 5, flexWrap: 'wrap' }}>
+                        <span>
+                          {r.method}{r.method && r.activeTime ? ' · ' : ''}{formatTime(r.activeTime, r.totalTime)}
+                          {getRatingSummary && getRatingSummary(r.id) && (
+                            <> · ★ {getRatingSummary(r.id).avg.toFixed(1)} ({getRatingSummary(r.id).count})</>
+                          )}
+                        </span>
+                        <span>·</span>
+                        <EffortGauge recipe={r} size={11} />
+                      </div>
+                      {r.servings > 1 && (
+                        <div style={{ marginTop: 4 }}>
+                          <span className="ezb pkg">📦 Meal Prep · Makes {r.servings}</span>
+                        </div>
+                      )}
+                      {selectedStaples.length > 0 && (
+                        <div style={{ fontSize: 11, color: 'var(--lime)', marginTop: 4 }}>
+                          Uses {r._matchCount} of your {selectedStaples.length} pick{selectedStaples.length === 1 ? '' : 's'}
+                          {missingStaples.length > 0 && (
+                            <span style={{ color: 'var(--muted)' }}>
+                              {' '}· also needs: {missingStaples.map((t) => PANTRY_LABELS[t] || t).join(', ')}
+                            </span>
+                          )}
+                        </div>
+                      )}
+                    </div>
                   </div>
                 );
               })}
