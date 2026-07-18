@@ -132,7 +132,7 @@ export default function App() {
 
     if (picks.mealCountPref === 'full_day') {
       const preferredPool = rankForPreferences(filterRecipes(RECIPES, picks.staples), picks);
-      const plan = buildFullDayPlan(preferredPool);
+      const plan = buildFullDayPlan(preferredPool, picks);
       const date = todayString();
       let addedCount = 0;
       for (const slot of ['breakfast', 'lunch', 'dinner']) {
