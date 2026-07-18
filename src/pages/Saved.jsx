@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { RECIPES } from '../data/recipes.js';
 import StarIcon from '../components/StarIcon';
 import { MEAL_SLOTS, MEAL_SLOT_LABELS, todayString, formatDateString } from '../hooks/useDiary';
@@ -52,12 +52,32 @@ export default function Saved({
   diary,
   selectedDate,
   onDateChange,
+  shoppingListHint,
+  onConsumeShoppingListHint,
 }) {
   const [dayMessage, setDayMessage] = useState('');
   const [generatingDay, setGeneratingDay] = useState(false);
   const [regeneratingId, setRegeneratingId] = useState(null);
   const [showShoppingList, setShowShoppingList] = useState(false);
   const [showSavedModal, setShowSavedModal] = useState(false);
+  // Short-lived callout pointing at the Shopping List button, shown once
+  // right after onboarding's "plan my day" option lands here with a full
+  // day already logged (see App.jsx's shoppingListHint prop). Captured
+  // once at mount, same consume-once pattern as Kitchen's initialPicks --
+  // Saved fully unmounts on every tab switch, so without consuming the
+  // flag it would silently re-show every time this tab is revisited.
+  const [showShoppingCallout, setShowShoppingCallout] = useState(() => !!shoppingListHint);
+
+  useEffect(() => {
+    if (shoppingListHint && onConsumeShoppingListHint) onConsumeShoppingListHint();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (!showShoppingCallout) return;
+    const timer = setTimeout(() => setShowShoppingCallout(false), 4500);
+    return () => clearTimeout(timer);
+  }, [showShoppingCallout]);
 
   const savedIds = Object.keys(saved);
   const savedRecipes = RECIPES.filter((r) => savedIds.includes(String(r.id)));
@@ -279,23 +299,34 @@ export default function Saved({
             </button>
             {!generatingDay && <SurpriseSparkles />}
           </div>
-          <button
-            onClick={() => { hapticSelection(); setShowShoppingList((v) => !v); }}
-            style={{
-              flex: 1,
-              background: showShoppingList ? 'var(--lime)' : 'var(--s2)',
-              border: '1px solid var(--border)',
-              color: showShoppingList ? '#000' : 'var(--cream)',
-              borderRadius: 13,
-              padding: 12,
-              fontSize: 13,
-              fontWeight: 700,
-              fontFamily: "'Manrope',sans-serif",
-              cursor: 'pointer',
-            }}
-          >
-            {showShoppingList ? 'Hide List' : 'Shopping List'}
-          </button>
+          <div style={{ position: 'relative', flex: 1 }}>
+            <button
+              onClick={() => {
+                hapticSelection();
+                setShowShoppingList((v) => !v);
+                setShowShoppingCallout(false);
+              }}
+              style={{
+                width: '100%',
+                background: showShoppingList ? 'var(--lime)' : 'var(--s2)',
+                border: '1px solid var(--border)',
+                color: showShoppingList ? '#000' : 'var(--cream)',
+                borderRadius: 13,
+                padding: 12,
+                fontSize: 13,
+                fontWeight: 700,
+                fontFamily: "'Manrope',sans-serif",
+                cursor: 'pointer',
+              }}
+            >
+              {showShoppingList ? 'Hide List' : 'Shopping List'}
+            </button>
+            {showShoppingCallout && (
+              <div className="coach-callout">
+                Tap here to view the full shopping list of what you'll need to prep these meals
+              </div>
+            )}
+          </div>
         </div>
 
         {dayEntries.length > 0 && (

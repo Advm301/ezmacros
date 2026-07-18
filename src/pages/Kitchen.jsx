@@ -7,6 +7,7 @@ import PantryPickerModal from '../components/PantryPickerModal';
 import SurpriseSparkles from '../components/SurpriseSparkles';
 import EffortGauge from '../components/EffortGauge';
 import LightningIcon from '../components/LightningIcon';
+import FirstVisitTip from '../components/FirstVisitTip';
 import { getProteinCardBackground } from '../utils/proteinColors';
 import { rankForPreferences } from '../utils/onboardingGoals';
 import { filterRecipes } from '../utils/pantryMatch';
@@ -155,6 +156,10 @@ export default function Kitchen({ onOpen, getRatingSummary, initialPicks, onCons
         <div className="sub" style={{ marginBottom: 14 }}>
           Tell us what's already in your kitchen and we'll find recipes that use it -- or hit Surprise Me to skip the decision entirely.
         </div>
+
+        <FirstVisitTip storageKey="quickprep_seen_kitchen_tip">
+          This is your shortcut to "what can I make right now?" -- pick a few things you have on hand and we'll match them to real recipes, or tap Surprise Me below if you'd rather skip the decision entirely.
+        </FirstVisitTip>
 
         {/* Pantry picking lives in its own drawer (PantryPickerModal) instead
             of rendering all ~30 chips across 5 categories inline -- this row

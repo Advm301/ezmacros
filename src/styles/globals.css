@@ -105,6 +105,23 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
 .onboarding-card:active{background:var(--s2);}
 .onboarding-card-title{font-size:16px;font-weight:700;color:var(--cream);margin-bottom:2px;}
 .onboarding-card-desc{font-size:12.5px;color:var(--muted);}
+/* Shown instead of .onboarding-card's default look when its option is the
+   one already picked -- only matters once the new Back button (see
+   components/Onboarding.jsx) lets someone revisit a screen they've
+   already answered; without this, a step you've been to before looks
+   identical to one you haven't touched yet. Same white-fill/black-text
+   treatment as .pill.active elsewhere in the app. */
+.onboarding-card-active{background:var(--lime);border-color:var(--lime);}
+.onboarding-card-active .onboarding-card-title{color:#000;}
+.onboarding-card-active .onboarding-card-desc{color:rgba(0,0,0,.62);}
+
+/* Small "‹ Back" link shown above the question on every onboarding
+   screen except the first -- lets someone revisit and change an earlier
+   answer instead of the flow being forward-only. Lives beside "Skip for
+   now" in spirit (low-emphasis text link, not a full button) since it's
+   a secondary escape hatch, not the primary action on the screen. */
+.onboarding-back{display:inline-flex;align-items:center;gap:3px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;margin-bottom:14px;}
+.onboarding-back:active{color:var(--cream);}
 
 /* PILLS */
 .pill{padding:6px 14px;border-radius:var(--rtag);border:1px solid var(--border);font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;background:var(--s2);color:var(--muted);transition:all .12s;}
@@ -940,3 +957,29 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
   0%{opacity:0;transform:translateY(-10px) scale(.94);}
   100%{opacity:1;transform:translateY(0) scale(1);}
 }
+
+/* SHOPPING LIST CALLOUT: a short-lived speech-bubble that points down at
+   the Shopping List button, shown once right after onboarding's "plan my
+   day" option logs a full day to the Diary (see Saved.jsx's
+   shoppingListHint prop + App.jsx) -- calls out where to find the list
+   for everything that full day just planned, since it's easy to land on
+   a Diary full of meals and not notice that button by itself. Positioned
+   by its parent (a `position:relative` wrapper around just the Shopping
+   List button, same wrapping pattern the Surprise Me button next to it
+   already uses for its sparkle overlay) rather than being fixed/global,
+   so it always points at the right spot regardless of layout changes
+   around it.  */
+.coach-callout{position:absolute;z-index:30;bottom:calc(100% + 12px);left:50%;transform:translateX(-50%);width:200px;background:var(--lime);color:#000;font-size:12px;font-weight:600;line-height:1.45;text-align:center;padding:10px 12px;border-radius:12px;box-shadow:0 8px 22px rgba(0,0,0,.4);animation:fadeUp .25s ease;}
+.coach-callout::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:7px solid transparent;border-top-color:var(--lime);}
+
+/* FIRST-VISIT TABS TIP: a one-time "here's what this tab does" banner
+   (see components/FirstVisitTip.jsx), shown the very first time someone
+   ever opens Kitchen or Browse -- gated by its own localStorage flag,
+   independent of the main onboarding flow so it still shows even for
+   someone who skipped onboarding entirely. Neutral informational styling
+   (not tied to either tab's own accent color) since the same component
+   serves both. */
+.first-visit-tip{display:flex;align-items:flex-start;gap:10px;background:var(--s1);border:1px solid rgba(77,184,255,.35);border-radius:12px;padding:11px 12px;margin-bottom:14px;animation:fadeUp .25s ease;}
+.first-visit-tip-text{flex:1;font-size:12.5px;line-height:1.5;color:var(--muted);}
+.first-visit-tip-close{flex-shrink:0;cursor:pointer;color:var(--muted);font-size:11px;padding:3px 5px;}
+.first-visit-tip-close:active{color:var(--cream);}

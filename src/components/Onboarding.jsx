@@ -80,6 +80,18 @@ export default function Onboarding({ onComplete }) {
     setStep('proteins');
   };
 
+  // Lets someone revisit and change an earlier answer -- every screen
+  // auto-advances forward on tap (see the choose* handlers above), so
+  // without this the flow would be entirely one-way. Steps back within
+  // whichever list is currently active (see `steps` above), which is
+  // exactly right even on the "full day" path where `mealType` isn't
+  // part of the sequence at all.
+  const goBack = () => {
+    hapticLight();
+    const idx = steps.indexOf(step);
+    if (idx > 0) setStep(steps[idx - 1]);
+  };
+
   const toggleProtein = (id) => {
     hapticSelection();
     setProteins((prev) => (prev.includes(id) ? prev.filter((p) => p !== id) : [...prev, id]));
@@ -114,6 +126,12 @@ export default function Onboarding({ onComplete }) {
           ))}
         </div>
 
+        {/* Revisit-and-edit escape hatch -- every screen but the very
+            first (nothing to go back to from "goal"). See goBack above. */}
+        {stepIndex > 0 && (
+          <div className="onboarding-back" onClick={goBack}>‹ Back</div>
+        )}
+
         {step === 'goal' && (
           <>
             <div style={{ textAlign: 'center', marginBottom: 6 }}>
@@ -125,7 +143,11 @@ export default function Onboarding({ onComplete }) {
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               {ONBOARDING_GOALS.map((g) => (
-                <div key={g.id} onClick={() => chooseGoal(g.id)} className="onboarding-card">
+                <div
+                  key={g.id}
+                  onClick={() => chooseGoal(g.id)}
+                  className={`onboarding-card${goal === g.id ? ' onboarding-card-active' : ''}`}
+                >
                   <div className="onboarding-card-title">{g.label}</div>
                   <div className="onboarding-card-desc">{g.description}</div>
                 </div>
@@ -142,7 +164,11 @@ export default function Onboarding({ onComplete }) {
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               {SERVING_PREFS.map((s) => (
-                <div key={s.id} onClick={() => chooseServingsPref(s.id)} className="onboarding-card">
+                <div
+                  key={s.id}
+                  onClick={() => chooseServingsPref(s.id)}
+                  className={`onboarding-card${servingsPref === s.id ? ' onboarding-card-active' : ''}`}
+                >
                   <div className="onboarding-card-title">{s.label}</div>
                   <div className="onboarding-card-desc">{s.description}</div>
                 </div>
@@ -159,7 +185,11 @@ export default function Onboarding({ onComplete }) {
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               {MEAL_COUNT_OPTIONS.map((m) => (
-                <div key={m.id} onClick={() => chooseMealCount(m.id)} className="onboarding-card">
+                <div
+                  key={m.id}
+                  onClick={() => chooseMealCount(m.id)}
+                  className={`onboarding-card${mealCountPref === m.id ? ' onboarding-card-active' : ''}`}
+                >
                   <div className="onboarding-card-title">{m.label}</div>
                   <div className="onboarding-card-desc">{m.description}</div>
                 </div>
@@ -176,7 +206,11 @@ export default function Onboarding({ onComplete }) {
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               {MEAL_TYPES.map((m) => (
-                <div key={m.id} onClick={() => chooseMealType(m.id)} className="onboarding-card">
+                <div
+                  key={m.id}
+                  onClick={() => chooseMealType(m.id)}
+                  className={`onboarding-card${mealType === m.id ? ' onboarding-card-active' : ''}`}
+                >
                   <div className="onboarding-card-title">{m.label}</div>
                   <div className="onboarding-card-desc">{m.description}</div>
                 </div>

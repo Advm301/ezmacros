@@ -100,6 +100,12 @@ export default function App() {
   // don't hit the `!onboarded` branch below in the first place). Starts
   // false and flips true once, permanently, when the splash finishes.
   const [splashDone, setSplashDone] = useState(false);
+  // Tells Saved (the Diary tab) to show a short-lived callout pointing at
+  // its Shopping List button, right after onboarding's "plan my day"
+  // option logs a full day of meals there -- see Saved.jsx's
+  // shoppingListHint prop. Consumed once by Saved the same way Kitchen
+  // consumes initialKitchenPicks above.
+  const [shoppingListHint, setShoppingListHint] = useState(false);
 
   // Called with either { staples, goal, servingsPref, mealCountPref } or
   // null (full skip) from Onboarding. Either way, marks onboarding done so
@@ -142,6 +148,7 @@ export default function App() {
         hapticSuccess();
         setTab('saved');
         showToast(`Your day is planned -- ${addedCount} meal${addedCount === 1 ? '' : 's'} added to your Diary!`);
+        setShoppingListHint(true);
       }
       return;
     }
@@ -446,6 +453,8 @@ export default function App() {
             diary={diary}
             selectedDate={savedDate}
             onDateChange={setSavedDate}
+            shoppingListHint={shoppingListHint}
+            onConsumeShoppingListHint={() => setShoppingListHint(false)}
           />
         )}
 

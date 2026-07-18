@@ -3,6 +3,7 @@ import { RECIPES } from '../data/recipes.js';
 import StarIcon from '../components/StarIcon';
 import LightningIcon from '../components/LightningIcon';
 import EffortGauge from '../components/EffortGauge';
+import FirstVisitTip from '../components/FirstVisitTip';
 import { formatTime } from '../utils/time';
 import { hapticSelection, hapticLight } from '../utils/haptics';
 import { getProteinCardBackground } from '../utils/proteinColors';
@@ -267,6 +268,10 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
             </div>
           )}
         </div>
+
+        <FirstVisitTip storageKey="quickprep_seen_browse_tip">
+          This is the full QuickPrep catalog -- search by name or use the filters below to narrow it down by meal type, method, protein, or effort level.
+        </FirstVisitTip>
 
         <input
           value={search}
