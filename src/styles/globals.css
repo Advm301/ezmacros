@@ -929,6 +929,41 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
   100%{opacity:0;transform:scale(1.06);}
 }
 
+/* GENERATING SCREEN: shown right after onboarding finishes, while the
+   real work (ranking recipes, or logging a full day to the Diary --see
+   App.jsx's generatingMeals state) happens behind it. The centerpiece is
+   a lightning bolt that visually "charges up" instead of a plain
+   progress bar: a dim, static bolt (.generating-bolt-track) sits as the
+   empty backdrop, and an identical bright bolt on top
+   (.generating-bolt-fill) is revealed bottom-to-top via an animated
+   clip-path, like a battery filling -- ties the wait to the same bolt
+   motif used throughout the app (LightningIcon, the header wordmark, the
+   cook-complete flourish) rather than a generic bar. */
+.generating-screen{position:fixed;inset:0;z-index:1000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;background:var(--bg);}
+.generating-logo{height:52px;width:auto;opacity:.92;}
+.generating-bolt-wrap{position:relative;width:72px;height:88px;}
+.generating-bolt-track,.generating-bolt-fill{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+.generating-bolt-track{opacity:.28;}
+.generating-bolt-fill{clip-path:inset(100% 0 0 0);}
+@media (prefers-reduced-motion: no-preference) {
+  .generating-bolt-fill{animation:generating-bolt-charge 1.8s ease-in-out forwards;}
+}
+@media (prefers-reduced-motion: reduce) {
+  .generating-bolt-fill{clip-path:inset(0 0 0 0);}
+}
+@keyframes generating-bolt-charge{
+  0%{clip-path:inset(100% 0 0 0);}
+  100%{clip-path:inset(0% 0 0 0);}
+}
+.generating-text{font-family:'Baloo 2',sans-serif;font-size:16px;font-weight:700;color:var(--cream);}
+@media (prefers-reduced-motion: no-preference) {
+  .generating-text{animation:generating-text-pulse 1.4s ease-in-out infinite;}
+}
+@keyframes generating-text-pulse{
+  0%,100%{opacity:.65;}
+  50%{opacity:1;}
+}
+
 /* KITCHEN RESULTS: staggered cascade-in for recipe cards, so a whole
    list of matches doesn't just thump into place all at once -- each
    card fades/slides up on its own slight delay (set inline per-card via
@@ -978,8 +1013,34 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
    independent of the main onboarding flow so it still shows even for
    someone who skipped onboarding entirely. Neutral informational styling
    (not tied to either tab's own accent color) since the same component
-   serves both. */
-.first-visit-tip{display:flex;align-items:flex-start;gap:10px;background:var(--s1);border:1px solid rgba(77,184,255,.35);border-radius:12px;padding:11px 12px;margin-bottom:14px;animation:fadeUp .25s ease;}
-.first-visit-tip-text{flex:1;font-size:12.5px;line-height:1.5;color:var(--muted);}
-.first-visit-tip-close{flex-shrink:0;cursor:pointer;color:var(--muted);font-size:11px;padding:3px 5px;}
+   serves both. Deliberately loud (gold-bordered glow, not the same muted
+   `.s1` panel look every other card on the page uses) and no longer
+   auto-dismisses -- a first version faded away on its own after a few
+   seconds, which meant it could disappear before someone finished
+   reading it. It now only goes away when tapped, which is also why the
+   whole card (not just the small close icon) is a dismiss target, with
+   the uppercase "Tap to dismiss" hint spelling that out. */
+.first-visit-tip{
+  position:relative;display:flex;align-items:flex-start;gap:12px;
+  background:linear-gradient(160deg, rgba(255,204,51,.16) 0%, rgba(4,20,26,.5) 65%);
+  border:1.5px solid rgba(255,204,51,.6);
+  border-radius:14px;padding:13px 14px;margin-bottom:14px;cursor:pointer;
+  box-shadow:0 6px 20px rgba(255,180,40,.2), inset 0 1px 0 rgba(255,255,255,.06);
+  animation:first-visit-tip-in .45s cubic-bezier(.34,1.56,.64,1) both;
+}
+.first-visit-tip-body{flex:1;display:flex;flex-direction:column;gap:4px;}
+.first-visit-tip-text{font-size:13px;line-height:1.55;font-weight:600;color:var(--cream);}
+.first-visit-tip-hint{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:var(--ez2);}
+.first-visit-tip-close{flex-shrink:0;cursor:pointer;color:var(--muted);font-size:13px;padding:2px 4px;font-weight:700;}
 .first-visit-tip-close:active{color:var(--cream);}
+@keyframes first-visit-tip-in{
+  0%{opacity:0;transform:translateY(-10px) scale(.94);}
+  100%{opacity:1;transform:translateY(0) scale(1);}
+}
+@media (prefers-reduced-motion: no-preference) {
+  .first-visit-tip{animation:first-visit-tip-in .45s cubic-bezier(.34,1.56,.64,1) both, first-visit-tip-glow 2.4s ease-in-out .45s infinite;}
+}
+@keyframes first-visit-tip-glow{
+  0%,100%{box-shadow:0 6px 20px rgba(255,180,40,.2), inset 0 1px 0 rgba(255,255,255,.06);}
+  50%{box-shadow:0 6px 26px rgba(255,180,40,.38), inset 0 1px 0 rgba(255,255,255,.06);}
+}

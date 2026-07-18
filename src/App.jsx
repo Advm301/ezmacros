@@ -15,10 +15,12 @@ import RecipeModal from './components/RecipeModal';
 import FeedbackModal from './components/FeedbackModal';
 import Onboarding from './components/Onboarding';
 import SplashScreen from './components/SplashScreen';
+import GeneratingScreen from './components/GeneratingScreen';
 import { RECIPES } from './data/recipes.js';
 import { filterRecipes } from './utils/pantryMatch';
 import { rankForPreferences } from './utils/onboardingGoals';
 import { buildFullDayPlan } from './utils/fullDayPlan';
+import { now } from './utils/timing';
 import './styles/globals.css';
 
 // Set once onboarding finishes (however it finishes -- picks made, or
@@ -27,6 +29,13 @@ import './styles/globals.css';
 // work needed to ship this, and it doesn't need to survive a device
 // switch to do its job (show the flow exactly once per install).
 const ONBOARDED_KEY = 'quickprep_onboarded';
+
+// Minimum time GeneratingScreen stays up after onboarding finishes (see
+// handleOnboardingComplete) -- matched to .generating-bolt-fill's own
+// animation-duration in globals.css so the bolt reads as freshly "full"
+// right around when this screen gets swapped out, regardless of how
+// long the real work underneath it actually took.
+const GENERATING_MIN_MS = 1800;
 
 // Bottom-nav icons: bigger and always their own brand color now (no text
 // label alongside them any more, so the icon alone has to carry the tab's
@@ -106,6 +115,15 @@ export default function App() {
   // shoppingListHint prop. Consumed once by Saved the same way Kitchen
   // consumes initialKitchenPicks above.
   const [shoppingListHint, setShoppingListHint] = useState(false);
+  // Whether the post-onboarding GeneratingScreen (see components/
+  // GeneratingScreen.jsx) should render instead of the tab it's about to
+  // land on. Only relevant for the "picks were actually made" path below
+  // -- a full skip has nothing to generate, so it's never set there. As
+  // a side benefit, this also fully guarantees Kitchen can't render
+  // during the full-day path's diary inserts (belt-and-suspenders on top
+  // of setTab('saved') below), since nothing gets past this gate at all
+  // until generatingMeals flips back to false.
+  const [generatingMeals, setGeneratingMeals] = useState(false);
 
   // Called with either { staples, goal, servingsPref, mealCountPref } or
   // null (full skip) from Onboarding. Either way, marks onboarding done so
@@ -119,6 +137,13 @@ export default function App() {
   // the same pantry-match + preference-ranking logic Kitchen's own search
   // uses (see utils/pantryMatch.js + utils/onboardingGoals.js), just fed
   // into utils/fullDayPlan.js's per-slot picker for the full-day case.
+  //
+  // Whenever picks were actually made (not a full skip), GeneratingScreen
+  // covers this whole function's work -- the single-recipe path has no
+  // real async work of its own, so GENERATING_MIN_MS below is what gives
+  // the loading screen something to actually show; the full-day path's
+  // real diary inserts count against that same minimum instead of adding
+  // on top of it, so the wait never stacks needlessly.
   const handleOnboardingComplete = async (picks) => {
     try {
       localStorage.setItem(ONBOARDED_KEY, '1');
@@ -130,17 +155,15 @@ export default function App() {
 
     if (!picks) return; // full skip -- land on the normal empty Kitchen tab, same as always.
 
+    setGeneratingMeals(true);
+    const start = now();
+
     if (picks.mealCountPref === 'full_day') {
       // Set before the first `await` below, in the same synchronous pass
-      // as setOnboarded(true) above, so React batches them into one
-      // render where onboarded is already true AND tab is already
-      // "saved" -- otherwise (as it did before this fix) the default
-      // "kitchen" tab briefly renders for a frame in between, since
-      // nothing had told it to be anything else yet while the diary
-      // inserts below were still in flight. That flash also had a nasty
-      // side effect: it silently counted as Kitchen's very first mount,
-      // burning FirstVisitTip's one-time "seen it" flag before anyone
-      // could actually see the tip.
+      // as setOnboarded(true)/setGeneratingMeals(true) above, so tab is
+      // already "saved" (and generatingMeals is already covering the
+      // screen) the instant Kitchen's default tab state would otherwise
+      // have rendered.
       setTab('saved');
       const preferredPool = rankForPreferences(filterRecipes(RECIPES, picks.staples), picks);
       const plan = buildFullDayPlan(preferredPool, picks);
@@ -160,12 +183,22 @@ export default function App() {
         showToast(`Your day is planned -- ${addedCount} meal${addedCount === 1 ? '' : 's'} added to your Diary!`);
         setShoppingListHint(true);
       }
-      return;
-    }
-
-    if (picks.staples && picks.staples.length > 0) {
+    } else if (picks.staples && picks.staples.length > 0) {
       setInitialKitchenPicks(picks);
     }
+
+    // Pads the rest of GeneratingScreen's minimum display time -- without
+    // this, the single-recipe path (no awaits above at all) would finish
+    // instantly and the loading screen would flash by too fast to read,
+    // and even the full-day path's real diary-insert time varies with
+    // network conditions rather than reliably matching the bolt-charge
+    // animation's duration.
+    const elapsed = now() - start;
+    const remaining = GENERATING_MIN_MS - elapsed;
+    if (remaining > 0) {
+      await new Promise((resolve) => setTimeout(resolve, remaining));
+    }
+    setGeneratingMeals(false);
   };
 
   const showToast = (message) => {
@@ -323,6 +356,16 @@ export default function App() {
       return <SplashScreen onFinish={() => setSplashDone(true)} />;
     }
     return <Onboarding onComplete={handleOnboardingComplete} />;
+  }
+
+  // Covers the moment right after onboarding finishes while
+  // handleOnboardingComplete above is still doing its work (or just
+  // padding out to its minimum display time) -- see
+  // components/GeneratingScreen.jsx. Checked after the !onboarded branch
+  // so it only ever applies on that one handoff, never on an ordinary
+  // tab switch later.
+  if (generatingMeals) {
+    return <GeneratingScreen />;
   }
 
   // softColor backs the sliding highlight pill behind the active tab (see
