@@ -10,6 +10,23 @@ import { getProteinCardBackground } from '../utils/proteinColors';
 
 const PANTRY_LABELS = Object.fromEntries(PANTRY_STAPLES.map((s) => [s.id, s.label]));
 
+// One-tap shortcuts for the most common "what's actually in the fridge"
+// picks, shown on the idle Kitchen screen (before you've searched or opened
+// the full pantry drawer) so that screen isn't just a title and an empty
+// input box with a wall of blank space beneath it. Mostly proteins, since
+// a protein is the hard filter that actually decides what you can make
+// (see filterRecipes above), plus the two most common carb staples --
+// tapping one runs the same pantry match Find Recipes does, immediately
+// filling that space with real results instead of leaving it empty until
+// the picker drawer is opened.
+const QUICK_PICK_IDS = [
+  'chicken_breast', 'ground_beef', 'eggs', 'chicken_thighs', 'ground_turkey',
+  'salmon', 'shrimp', 'rotisserie_chicken', 'rice', 'pasta',
+];
+const QUICK_PICKS = QUICK_PICK_IDS
+  .map((id) => PANTRY_STAPLES.find((s) => s.id === id))
+  .filter(Boolean);
+
 // Straight "matches ANY of your picks" was surfacing recipes that shared
 // only a side ingredient (rice, bell peppers, hot sauce) with a completely
 // different protein than the one actually selected -- picking Chicken
@@ -97,6 +114,24 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
     if (onOpen) onOpen(pick);
   };
 
+  // One-tap version of picking a single item in the pantry drawer and
+  // hitting Find Recipes -- toggles it in/out of selectedStaples and runs
+  // the match immediately, so tapping a Quick Pick chip fills the empty
+  // space below with real recipes in one step instead of needing to open
+  // the full picker first. Deselecting back down to zero picks clears
+  // results back to the empty state (showing the Quick Picks again)
+  // rather than dumping the full unranked 144-recipe catalog, which is
+  // what filterRecipes returns for an empty selection.
+  const handleQuickPick = (id) => {
+    hapticSelection();
+    setSurpriseError('');
+    const next = selectedStaples.includes(id)
+      ? selectedStaples.filter((s) => s !== id)
+      : [...selectedStaples, id];
+    setSelectedStaples(next);
+    setResults(next.length > 0 ? filterRecipes(RECIPES, next) : null);
+  };
+
   const reset = () => {
     hapticLight();
     setSelectedStaples([]);
@@ -172,6 +207,32 @@ export default function Kitchen({ onOpen, getRatingSummary }) {
 
         {surpriseError && (
           <div style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 4 }}>{surpriseError}</div>
+        )}
+
+        {/* Quick Picks -- shown only on the idle screen (nothing searched
+            yet), so the space between the pantry input and the floating
+            Surprise Me button isn't just empty. One tap runs the same
+            match Find Recipes does (see handleQuickPick above), so results
+            appear right below immediately instead of requiring a trip
+            through the full pantry drawer first. Mostly proteins since
+            that's the hard filter that actually narrows things down. */}
+        {results === null && (
+          <div style={{ marginTop: 18 }}>
+            <div className="filter-label" style={{ marginBottom: 8 }}>
+              Quick Picks
+            </div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7 }}>
+              {QUICK_PICKS.map((s) => (
+                <div
+                  key={s.id}
+                  className={`pill ${selectedStaples.includes(s.id) ? 'active' : ''}`}
+                  onClick={() => handleQuickPick(s.id)}
+                >
+                  {selectedStaples.includes(s.id) ? `✓ ${s.label}` : s.label}
+                </div>
+              ))}
+            </div>
+          </div>
         )}
       </div>
 
