@@ -172,9 +172,19 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
    prefers-reduced-motion rather than shown as a static flash -- a
    full-screen flash with no motion easing would still be jarring, so the
    more respectful choice here is no effect at all rather than a lesser one. */
-.lightning-strike-overlay{position:fixed;inset:0;z-index:200;pointer-events:none;overflow:hidden;display:flex;align-items:flex-start;justify-content:center;}
+/* Capped to the app's own column width the same way .tabbar is, rather
+   than the full browser viewport -- on narrow phone screens (the actual
+   target) these are identical, but this keeps the strike over the app
+   itself instead of the empty margin on a wider desktop preview. The
+   bolt's random left position (set inline per-strike in
+   LightningStrike.jsx) is a percent of this width. */
+.lightning-strike-overlay{position:fixed;top:0;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;z-index:200;pointer-events:none;overflow:hidden;}
 .lightning-strike-flash{position:absolute;inset:0;background:#fff9d6;opacity:0;}
-.lightning-strike-bolt{width:120px;height:100%;transform-origin:50% 0%;transform:scaleY(0);opacity:0;filter:drop-shadow(0 0 14px rgba(255,204,51,.85));}
+/* Wrapper carries the per-strike random left/rotate (inline style, static)
+   so it doesn't fight with .lightning-strike-bolt's own animated
+   transform (scaleY for the strike-down motion) on the same element. */
+.lightning-strike-bolt-wrap{position:absolute;top:0;height:100%;width:120px;}
+.lightning-strike-bolt{width:100%;height:100%;transform-origin:50% 0%;transform:scaleY(0);opacity:0;filter:drop-shadow(0 0 14px rgba(255,204,51,.85));}
 @media (prefers-reduced-motion: no-preference) {
   .lightning-strike-flash{animation:strike-flash .45s ease-out forwards;}
   .lightning-strike-bolt{animation:strike-bolt .4s cubic-bezier(.2,.9,.3,1) forwards;}
