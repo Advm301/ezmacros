@@ -1,10 +1,16 @@
 import { useState } from 'react';
 import { QUICK_PICKS } from '../data/pantryStaples.js';
-import { ONBOARDING_GOALS, SERVING_PREFS } from '../utils/onboardingGoals';
+import { ONBOARDING_GOALS, SERVING_PREFS, MEAL_TYPES } from '../utils/onboardingGoals';
 import { hapticSelection, hapticLight, hapticMedium } from '../utils/haptics';
 import LightningIcon from './LightningIcon';
 
-const STEPS = ['goal', 'servings', 'mealCount', 'proteins'];
+// mealType only applies to the "one meal" path -- a "full_day" plan
+// already covers breakfast, lunch, and dinner by definition, so asking
+// which one it is would be a pointless extra tap on that path. This is
+// why STEPS is computed from mealCountPref below rather than being a
+// fixed list.
+const STEPS_ONE = ['goal', 'servings', 'mealCount', 'mealType', 'proteins'];
+const STEPS_FULL_DAY = ['goal', 'servings', 'mealCount', 'proteins'];
 
 // The "how many meals do you want lined up" question -- its own screen
 // since it's not a recipe-ranking preference like goal/servingsPref (see
@@ -17,27 +23,35 @@ const MEAL_COUNT_OPTIONS = [
   { id: 'full_day', label: 'A Full Day', description: "Breakfast, lunch & dinner, planned and added to your Diary" },
 ];
 
-// Four-screen, skippable flow shown once, right after a brand-new sign-in
-// -- see App.jsx, which gates this behind a localStorage flag so it never
-// shows again after the first pass (or after Skip). Replaces dropping
-// someone straight onto an empty Kitchen tab with a handful of ~5-second
-// taps that (a) set expectations for what this app actually does and (b)
-// collect just enough signal -- what matters most, how meals should be
-// sized, how many meals to plan, and a few proteins you actually have --
-// to hand off a real, personalized result the instant this finishes,
-// instead of making a first-time visitor do that work themselves before
-// seeing any payoff. `onComplete` is called with either
-// `{ staples, goal, servingsPref, mealCountPref }` or `null` (full skip)
-// -- see App.jsx for how that feeds into either Kitchen's initialPicks
-// prop or a full day logged directly to the Diary.
+// Five-screen (four on the "full day" path), skippable flow shown once,
+// right after a brand-new sign-in -- see App.jsx, which gates this
+// behind a localStorage flag so it never shows again after the first
+// pass (or after Skip). Replaces dropping someone straight onto an empty
+// Kitchen tab with a handful of ~5-second taps that (a) set expectations
+// for what this app actually does and (b) collect just enough signal --
+// what matters most, how meals should be sized, how many meals to plan,
+// what kind of meal (when on the single-meal path), and a few proteins
+// you actually have -- to hand off a real, personalized result the
+// instant this finishes, instead of making a first-time visitor do that
+// work themselves before seeing any payoff. `onComplete` is called with
+// either `{ staples, goal, servingsPref, mealCountPref, mealType }` or
+// `null` (full skip) -- see App.jsx for how that feeds into either
+// Kitchen's initialPicks prop or a full day logged directly to the
+// Diary.
 export default function Onboarding({ onComplete }) {
   const [step, setStep] = useState('goal');
   const [goal, setGoal] = useState(null);
   const [servingsPref, setServingsPref] = useState(null);
   const [mealCountPref, setMealCountPref] = useState(null);
+  const [mealType, setMealType] = useState(null);
   const [proteins, setProteins] = useState([]);
 
-  const stepIndex = STEPS.indexOf(step);
+  // Defaults to the longer, 5-step list before mealCount is answered --
+  // once someone picks "full_day" the mealType dot simply drops out,
+  // which reads as the progress bar naturally shortening rather than
+  // anything broken.
+  const steps = mealCountPref === 'full_day' ? STEPS_FULL_DAY : STEPS_ONE;
+  const stepIndex = steps.indexOf(step);
 
   // Single-select screens auto-advance on tap -- each is a single,
   // single-purpose question, so a separate "Next" button would just be
@@ -57,6 +71,12 @@ export default function Onboarding({ onComplete }) {
   const chooseMealCount = (id) => {
     hapticSelection();
     setMealCountPref(id);
+    setStep(id === 'full_day' ? 'proteins' : 'mealType');
+  };
+
+  const chooseMealType = (id) => {
+    hapticSelection();
+    setMealType(id);
     setStep('proteins');
   };
 
@@ -67,7 +87,7 @@ export default function Onboarding({ onComplete }) {
 
   const finish = () => {
     hapticMedium();
-    onComplete({ staples: proteins, goal, servingsPref, mealCountPref });
+    onComplete({ staples: proteins, goal, servingsPref, mealCountPref, mealType });
   };
 
   const skipAll = () => {
@@ -86,7 +106,7 @@ export default function Onboarding({ onComplete }) {
             quick screens feel like a short flow rather than an open-ended
             form. */}
         <div style={{ display: 'flex', gap: 6, justifyContent: 'center', marginBottom: 22 }}>
-          {STEPS.map((s, i) => (
+          {steps.map((s, i) => (
             <div
               key={s}
               style={{ width: 22, height: 4, borderRadius: 100, background: i <= stepIndex ? 'var(--lime)' : 'var(--s2)' }}
@@ -140,6 +160,23 @@ export default function Onboarding({ onComplete }) {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               {MEAL_COUNT_OPTIONS.map((m) => (
                 <div key={m.id} onClick={() => chooseMealCount(m.id)} className="onboarding-card">
+                  <div className="onboarding-card-title">{m.label}</div>
+                  <div className="onboarding-card-desc">{m.description}</div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+
+        {step === 'mealType' && (
+          <>
+            <div className="page-h1" style={{ textAlign: 'center' }}>What kind of meal?</div>
+            <div className="sub" style={{ textAlign: 'center', marginBottom: 22 }}>
+              Just for this one -- doesn't limit what you can search for later.
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {MEAL_TYPES.map((m) => (
+                <div key={m.id} onClick={() => chooseMealType(m.id)} className="onboarding-card">
                   <div className="onboarding-card-title">{m.label}</div>
                   <div className="onboarding-card-desc">{m.description}</div>
                 </div>

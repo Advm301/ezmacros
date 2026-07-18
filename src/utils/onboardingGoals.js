@@ -24,6 +24,19 @@ export const SERVING_PREFS = [
   { id: 'meal_prep', label: 'Meal Prep', description: 'Batch-cook once, eat all week' },
 ];
 
+// The "what kind of meal" question -- only asked when onboarding's
+// mealCountPref is "one" (see components/Onboarding.jsx), since a
+// "full_day" plan already covers breakfast, lunch, and dinner by
+// definition and this question wouldn't add any information there. Ids
+// map directly onto recipe.mealType (see data/recipes.js's schema
+// comment) so matchesMealType below is a one-line lookup, same pattern
+// as matchesServingsPref.
+export const MEAL_TYPES = [
+  { id: 'breakfast', label: 'Breakfast', description: 'Morning-friendly recipes' },
+  { id: 'lunch_dinner', label: 'Lunch & Dinner', description: 'Heartier, any-time-of-day meals' },
+  { id: 'snack', label: 'A Snack', description: 'Something small to tide you over' },
+];
+
 // Whether a recipe fits the chosen goal -- used only to bias ordering
 // (see rankForPreferences), never to exclude a recipe outright.
 export function matchesGoal(recipe, goal) {
@@ -43,6 +56,13 @@ export function matchesServingsPref(recipe, servingsPref) {
   return true;
 }
 
+// Whether a recipe fits the chosen meal type -- same soft-bias role as
+// the two above, along the "when would you eat this" axis.
+export function matchesMealType(recipe, mealType) {
+  if (!mealType) return true;
+  return recipe.mealType === mealType;
+}
+
 // Stable-sorts an already-ranked recipe list (e.g. Kitchen's pantry-match
 // results, highest _matchCount first, or a full-day plan's candidate pool
 // -- see utils/fullDayPlan.js) so recipes matching more of the chosen
@@ -50,14 +70,16 @@ export function matchesServingsPref(recipe, servingsPref) {
 // each score bucket -- a recipe using 3 of your pantry picks still
 // outranks one using 1 within the same preference-match bucket, since
 // Array.prototype.sort is a stable sort in every modern JS engine.
-// `{ goal, servingsPref }` are read off whatever object is passed (e.g.
-// onboarding's picks directly) -- either or both can be missing/null, in
-// which case that axis just doesn't affect ordering.
-export function rankForPreferences(recipes, { goal, servingsPref } = {}) {
-  if (!goal && !servingsPref) return recipes;
-  return [...recipes].sort((a, b) => {
-    const aScore = (matchesGoal(a, goal) ? 0 : 1) + (matchesServingsPref(a, servingsPref) ? 0 : 1);
-    const bScore = (matchesGoal(b, goal) ? 0 : 1) + (matchesServingsPref(b, servingsPref) ? 0 : 1);
-    return aScore - bScore;
-  });
+// `{ goal, servingsPref, mealType }` are read off whatever object is
+// passed (e.g. onboarding's picks directly) -- any of the three can be
+// missing/null, in which case that axis just doesn't affect ordering.
+// None of these are hard filters, so this can never turn a non-empty
+// list into an empty one -- only reorder it.
+export function rankForPreferences(recipes, { goal, servingsPref, mealType } = {}) {
+  if (!goal && !servingsPref && !mealType) return recipes;
+  const score = (r) =>
+    (matchesGoal(r, goal) ? 0 : 1) +
+    (matchesServingsPref(r, servingsPref) ? 0 : 1) +
+    (matchesMealType(r, mealType) ? 0 : 1);
+  return [...recipes].sort((a, b) => score(a) - score(b));
 }
