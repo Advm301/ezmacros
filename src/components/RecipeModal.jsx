@@ -212,6 +212,12 @@ export default function RecipeModal({
   const [editingIngredientIndex, setEditingIngredientIndex] = useState(null);
   const [editingIngredientValue, setEditingIngredientValue] = useState('');
   const [unitModes, setUnitModes] = useState({});
+  // "Do I already have this" checklist for the ingredients screen -- purely
+  // a reading-time aid (checking the fridge/pantry before you shop or
+  // cook), not something tied to the recipe itself, so it's plain local
+  // state keyed by each ingredient's original components[] index rather
+  // than anything persisted to the diary entry.
+  const [haveIngredient, setHaveIngredient] = useState({});
   const [editingStepIndex, setEditingStepIndex] = useState(null);
   const [editingStepValue, setEditingStepValue] = useState('');
   const [editingStepNoteIndex, setEditingStepNoteIndex] = useState(null);
@@ -334,6 +340,11 @@ export default function RecipeModal({
   const toggleUnitMode = (i) => {
     hapticSelection();
     setUnitModes((prev) => ({ ...prev, [i]: prev[i] === 'alt' ? 'native' : 'alt' }));
+  };
+
+  const toggleHaveIngredient = (i) => {
+    hapticSelection();
+    setHaveIngredient((prev) => ({ ...prev, [i]: !prev[i] }));
   };
 
   const startEditingIngredient = (i, comp) => {
@@ -929,39 +940,61 @@ export default function RecipeModal({
                 const renderRow = (c, origIndex, isLast) => {
                   const isEditing = editingIngredientIndex === origIndex;
                   const display = getQuantityDisplay(c.quantity, c.unit, c.name, unitModes[origIndex]);
+                  const have = Boolean(haveIngredient[origIndex]);
                   return (
                     <div
                       key={origIndex}
-                      style={{ padding: '7px 0', borderBottom: isLast ? 'none' : '1px solid var(--border)' }}
+                      style={{ display: 'flex', alignItems: 'flex-start', gap: 8, padding: '7px 0', borderBottom: isLast ? 'none' : '1px solid var(--border)' }}
                     >
-                      <div style={{ fontSize: 12.5, color: 'var(--cream)', marginBottom: 3, lineHeight: 1.3 }}>{c.name}</div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                        {isEditing ? (
-                          <input
-                            type="number"
-                            autoFocus
-                            value={editingIngredientValue}
-                            onChange={(e) => setEditingIngredientValue(e.target.value)}
-                            onBlur={() => commitIngredientEdit(origIndex, c)}
-                            onKeyDown={(e) => { if (e.key === 'Enter') e.target.blur(); }}
-                            style={{ width: 56, background: 'var(--s2)', border: '1px solid var(--border)', borderRadius: 6, padding: '4px 6px', color: 'var(--cream)', fontSize: 12, textAlign: 'right' }}
-                          />
-                        ) : (
-                          <span
-                            onClick={() => startEditingIngredient(origIndex, c)}
-                            style={{ fontSize: 12, color: c.edited ? 'var(--lime)' : 'var(--muted)', whiteSpace: 'nowrap', cursor: 'pointer', textDecoration: 'underline dotted', textUnderlineOffset: 3 }}
-                          >
-                            {display.value}{display.suffix}
-                          </span>
-                        )}
-                        {display.toggleable && (
-                          <span
-                            onClick={(e) => { e.stopPropagation(); toggleUnitMode(origIndex); }}
-                            style={{ fontSize: 9, fontWeight: 700, color: 'var(--muted)', border: '1px solid var(--border)', borderRadius: 6, padding: '1px 5px', cursor: 'pointer', whiteSpace: 'nowrap' }}
-                          >
-                            {display.altLabel}
-                          </span>
-                        )}
+                      {/* "Do I have this" checkbox -- a reading-time aid, not
+                          part of the recipe data itself (see haveIngredient
+                          state above). Checking it dims + strikes the row
+                          rather than removing it, so it's still visible if
+                          tapped by mistake. */}
+                      <div
+                        onClick={() => toggleHaveIngredient(origIndex)}
+                        role="checkbox"
+                        aria-checked={have}
+                        style={{
+                          flexShrink: 0, width: 16, height: 16, marginTop: 3, borderRadius: 4,
+                          border: `1px solid ${have ? 'var(--lime)' : 'var(--border)'}`,
+                          background: have ? 'var(--lime)' : 'transparent',
+                          color: '#000', fontSize: 11, fontWeight: 700, lineHeight: 1,
+                          display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer',
+                        }}
+                      >
+                        {have ? '✓' : ''}
+                      </div>
+                      <div style={{ flex: 1, minWidth: 0, opacity: have ? 0.5 : 1 }}>
+                        <div style={{ fontSize: 12.5, color: 'var(--cream)', marginBottom: 3, lineHeight: 1.3, textDecoration: have ? 'line-through' : 'none' }}>{c.name}</div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                          {isEditing ? (
+                            <input
+                              type="number"
+                              autoFocus
+                              value={editingIngredientValue}
+                              onChange={(e) => setEditingIngredientValue(e.target.value)}
+                              onBlur={() => commitIngredientEdit(origIndex, c)}
+                              onKeyDown={(e) => { if (e.key === 'Enter') e.target.blur(); }}
+                              style={{ width: 56, background: 'var(--s2)', border: '1px solid var(--border)', borderRadius: 6, padding: '4px 6px', color: 'var(--cream)', fontSize: 12, textAlign: 'right' }}
+                            />
+                          ) : (
+                            <span
+                              onClick={() => startEditingIngredient(origIndex, c)}
+                              style={{ fontSize: 12, color: c.edited ? 'var(--lime)' : 'var(--muted)', whiteSpace: 'nowrap', cursor: 'pointer', textDecoration: 'underline dotted', textUnderlineOffset: 3 }}
+                            >
+                              {display.value}{display.suffix}
+                            </span>
+                          )}
+                          {display.toggleable && (
+                            <span
+                              onClick={(e) => { e.stopPropagation(); toggleUnitMode(origIndex); }}
+                              style={{ fontSize: 9, fontWeight: 700, color: 'var(--muted)', border: '1px solid var(--border)', borderRadius: 6, padding: '1px 5px', cursor: 'pointer', whiteSpace: 'nowrap' }}
+                            >
+                              {display.altLabel}
+                            </span>
+                          )}
+                        </div>
                       </div>
                     </div>
                   );
@@ -969,7 +1002,7 @@ export default function RecipeModal({
                 return (
                   <div style={{ marginBottom: 16 }}>
                     <div style={{ fontSize: 11, color: 'var(--muted)', marginBottom: 8 }}>
-                      Tap a quantity to edit it. Tap the unit badge to switch between g/oz or ml/fl oz.
+                      Check off what you already have. Tap a quantity to edit it, or the unit badge to switch between g/oz or ml/fl oz.
                     </div>
                     <div style={{ display: 'flex' }}>
                       <div style={{ flex: 1, paddingRight: seasonings.length > 0 ? 14 : 0 }}>
