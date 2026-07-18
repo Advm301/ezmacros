@@ -883,3 +883,60 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
 .scale-tip-box{background:rgba(168,255,120,.05);border:1px solid rgba(168,255,120,.12);border-radius:10px;padding:9px 12px;margin-top:10px;font-size:12px;color:var(--muted);line-height:1.5;}
 .scale-tip-box b{color:var(--scale);}
 .ez-level-info{background:var(--lime3);border:1px solid rgba(201,241,58,.13);border-radius:10px;padding:9px 12px;margin-bottom:14px;display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);}
+
+/* SPLASH SCREEN: shown once, right after a brand-new sign-in, before the
+   very first onboarding question -- see components/SplashScreen.jsx +
+   App.jsx. Reuses the same teal-to-black .app-bg backdrop as every other
+   screen so this doesn't read as a separate, disconnected "loading page"
+   dropped in front of the app -- it's the app's own background, just
+   with the logo held on top of it for a beat. The logo's whole lifecycle
+   (fade in, hold, fade out) is one CSS animation so the component only
+   has to listen for it to end rather than juggling its own timers for
+   each phase. Total duration here (2.2s) is mirrored by a setTimeout
+   fallback in the component in case prefers-reduced-motion strips the
+   animation entirely.  */
+.splash-screen{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;background:var(--bg);}
+.splash-logo{height:76px;width:auto;opacity:0;}
+@media (prefers-reduced-motion: no-preference) {
+  .splash-logo{animation:splash-logo-life 2.2s ease-in-out forwards;}
+}
+@media (prefers-reduced-motion: reduce) {
+  /* No animation to listen for an end event on -- just show the logo
+     plainly; the component's setTimeout fallback still advances things. */
+  .splash-logo{opacity:1;}
+}
+@keyframes splash-logo-life{
+  0%{opacity:0;transform:scale(.82);}
+  22%{opacity:1;transform:scale(1);}
+  78%{opacity:1;transform:scale(1);}
+  100%{opacity:0;transform:scale(1.06);}
+}
+
+/* KITCHEN RESULTS: staggered cascade-in for recipe cards, so a whole
+   list of matches doesn't just thump into place all at once -- each
+   card fades/slides up on its own slight delay (set inline per-card via
+   --card-i, capped at 8 so a big result list doesn't leave the last few
+   cards waiting through a multi-second queue). Because React keeps a
+   card's existing DOM node across re-renders when its key (recipe id)
+   hasn't changed, this animation only plays for cards that are actually
+   new to the screen -- re-sorting an already-visible list doesn't
+   replay it, but a fresh search's newly-appearing cards cascade in. */
+.kitchen-result-card{animation:kitchen-card-in .38s ease-out both;animation-delay:calc(var(--card-i, 0) * 55ms);}
+@keyframes kitchen-card-in{
+  0%{opacity:0;transform:translateY(16px);}
+  100%{opacity:1;transform:translateY(0);}
+}
+
+/* One-time celebratory flourish shown only right after onboarding hands
+   Kitchen its very first personalized results (see Kitchen.jsx's
+   `justOnboarded`) -- the same bolt-pop-then-glow flourish used for the
+   cook-wizard's "you made it" moment (.cook-complete-flourish above),
+   reused here so the two "real payoff" moments in the app share one
+   visual language instead of inventing a second one. */
+.kitchen-ready-banner{text-align:center;margin-bottom:16px;animation:kitchen-ready-in .5s cubic-bezier(.34,1.56,.64,1) both;}
+.kitchen-ready-title{font-family:'Baloo 2',sans-serif;font-size:19px;font-weight:800;color:var(--cream);margin-top:2px;}
+.kitchen-ready-sub{font-size:12px;color:var(--muted);margin-top:2px;}
+@keyframes kitchen-ready-in{
+  0%{opacity:0;transform:translateY(-10px) scale(.94);}
+  100%{opacity:1;transform:translateY(0) scale(1);}
+}

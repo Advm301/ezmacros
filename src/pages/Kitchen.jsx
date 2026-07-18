@@ -6,6 +6,7 @@ import { hapticSelection, hapticLight, hapticMedium } from '../utils/haptics';
 import PantryPickerModal from '../components/PantryPickerModal';
 import SurpriseSparkles from '../components/SurpriseSparkles';
 import EffortGauge from '../components/EffortGauge';
+import LightningIcon from '../components/LightningIcon';
 import { getProteinCardBackground } from '../utils/proteinColors';
 import { rankForPreferences } from '../utils/onboardingGoals';
 import { filterRecipes } from '../utils/pantryMatch';
@@ -46,6 +47,14 @@ export default function Kitchen({ onOpen, getRatingSummary, initialPicks, onCons
       : null
   ));
   const [surpriseError, setSurpriseError] = useState('');
+  // Whether this particular mount of Kitchen is the one, one-time reveal
+  // right after onboarding hands off real results -- captured once, at
+  // mount, same as `results` above, so it stays true for this view even
+  // after the consume-once effect below clears `initialPicks` back to
+  // null a moment later. Drives the celebratory banner below; Kitchen
+  // fully unmounts on every tab switch (see App.jsx), so this can never
+  // resurface on a later, ordinary visit to the tab.
+  const [justOnboarded] = useState(() => !!initialPicks?.staples?.length);
 
   // Runs once, right after mount -- tells the parent the initial picks
   // have been consumed so it can clear them. Kitchen fully unmounts every
@@ -237,16 +246,27 @@ export default function Kitchen({ onOpen, getRatingSummary, initialPicks, onCons
             </div>
           ) : (
             <>
+              {/* One-time celebratory hand-off from onboarding -- see
+                  `justOnboarded` above. Never shown for an ordinary
+                  Find Recipes/Quick Pick search, only this first reveal. */}
+              {justOnboarded && (
+                <div className="kitchen-ready-banner">
+                  <LightningIcon size={30} id="kitchen-ready" />
+                  <div className="kitchen-ready-title">Your First Picks Are Ready!</div>
+                  <div className="kitchen-ready-sub">Matched to what you told us -- tap any recipe to dive in.</div>
+                </div>
+              )}
               <div style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 10 }}>
                 <span style={{ color: 'var(--lime)' }}>●</span> {results.length} recipe{results.length > 1 ? 's' : ''}
               </div>
-              {results.map((r) => {
+              {results.map((r, i) => {
                 const missingStaples = selectedStaples.length > 0
                   ? (r.pantryTags || []).filter((t) => !selectedStaples.includes(t))
                   : [];
                 return (
                   <div
                     key={r.id}
+                    className="kitchen-result-card"
                     style={{
                       background: getProteinCardBackground(r.proteins),
                       border: '1px solid var(--border)',
@@ -254,6 +274,7 @@ export default function Kitchen({ onOpen, getRatingSummary, initialPicks, onCons
                       padding: 14,
                       marginBottom: 10,
                       cursor: 'pointer',
+                      '--card-i': Math.min(i, 8),
                     }}
                     onClick={() => openRecipe(r)}
                   >

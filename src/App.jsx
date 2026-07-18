@@ -14,6 +14,7 @@ import Saved from './pages/Saved';
 import RecipeModal from './components/RecipeModal';
 import FeedbackModal from './components/FeedbackModal';
 import Onboarding from './components/Onboarding';
+import SplashScreen from './components/SplashScreen';
 import { RECIPES } from './data/recipes.js';
 import { filterRecipes } from './utils/pantryMatch';
 import { rankForPreferences } from './utils/onboardingGoals';
@@ -92,6 +93,13 @@ export default function App() {
   // normal empty state -- see Kitchen.jsx's initialPicks prop and the
   // consume-once effect that clears this back to null after.
   const [initialKitchenPicks, setInitialKitchenPicks] = useState(null);
+  // Gates the one-time splash screen (see components/SplashScreen.jsx)
+  // shown between a brand-new sign-in and the very first onboarding
+  // question -- only relevant while onboarding hasn't happened yet, so a
+  // returning user who's already onboarded never sees this at all (they
+  // don't hit the `!onboarded` branch below in the first place). Starts
+  // false and flips true once, permanently, when the splash finishes.
+  const [splashDone, setSplashDone] = useState(false);
 
   // Called with either { staples, goal, servingsPref, mealCountPref } or
   // null (full skip) from Onboarding. Either way, marks onboarding done so
@@ -289,8 +297,14 @@ export default function App() {
   // Shown once, right after a brand-new sign-in -- before the very first
   // Kitchen tab a person ever sees, not layered on top of it. See
   // ONBOARDED_KEY/handleOnboardingComplete above for how this gate clears
-  // itself permanently once finished (or skipped).
+  // itself permanently once finished (or skipped). A brief branded splash
+  // (see components/SplashScreen.jsx) plays first, once, so the jump from
+  // Login straight into "What are you after?" doesn't feel like an
+  // instant, jarring cut.
   if (!onboarded) {
+    if (!splashDone) {
+      return <SplashScreen onFinish={() => setSplashDone(true)} />;
+    }
     return <Onboarding onComplete={handleOnboardingComplete} />;
   }
 
