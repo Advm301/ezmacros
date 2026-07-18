@@ -2,53 +2,21 @@ import { useEffect, useState } from 'react';
 import { hapticSelection, hapticLight } from '../utils/haptics';
 import LightningIcon from './LightningIcon';
 
-// Guided, click-through walkthrough of the recipe modal's "decide" screen --
-// launched manually via the small info button next to Let's Make It (see
-// RecipeModal.jsx), unlike the one-time automatic coach callouts elsewhere
-// in that file (useFirstVisitTip-backed, shown once and never again). This
-// is meant to be revisitable any time someone wants a refresher, so it's
-// not gated by localStorage at all.
+// Guided, click-through walkthrough of one screen of the recipe modal --
+// RecipeModal.jsx renders two different instances of this, each with its
+// own `steps` array (one for the decide screen, one for the first cook
+// step), both launched automatically the very first time their screen is
+// ever reached (see RecipeModal's activeTutorial state) and, on that first
+// pass, `mandatory` -- no Skip link, the only way through is Next. The
+// same tour can also be replayed voluntarily later via the info button
+// next to Let's Make It, which passes `mandatory={false}` so Skip shows.
 //
 // Each step names a CSS selector for the real, already-on-screen element
-// it's explaining (Add to Diary, the effort gauge, etc.) -- all six live on
-// the decide screen, so no screen navigation is needed mid-tour. A
-// full-screen click-catcher blocks interaction with anything underneath
-// while the tour is active ("can only proceed by clicking Next"), and a
-// `box-shadow: 0 0 0 9999px` spotlight ring is drawn around whichever
-// element the current step targets, without needing an SVG mask.
-const RECIPE_TUTORIAL_STEPS = [
-  {
-    selector: '#tour-add-to-diary',
-    title: 'Add to Diary',
-    text: "Log this meal to a specific day in your Diary -- track what you're eating, or plan ahead for later in the week.",
-  },
-  {
-    selector: '#tour-effort-gauge',
-    title: 'Quick Prep Gauge',
-    text: 'These bolts show how much effort a recipe takes relative to the rest of the app -- 1 lit bolt is the easiest, 3 is more involved.',
-  },
-  {
-    selector: '#tour-ingredients-check',
-    title: 'Check What You Have',
-    text: "Tap the checkbox next to any ingredient or seasoning to mark it off as something you've already got -- handy for a quick reality check before you shop or start cooking.",
-  },
-  {
-    selector: '#tour-quantity-edit',
-    title: 'Customize Amounts',
-    text: "Tap any quantity to edit it -- and once you're cooking, tap any instruction step the same way to rewrite it. Make it match your own kitchen.",
-  },
-  {
-    selector: '#tour-favorite-star',
-    title: 'Save to Favorites',
-    text: "Tap the star to save a recipe to your Favorites -- or just leave a note anywhere on it, and it'll save itself automatically.",
-  },
-  {
-    selector: '#tour-view-all-steps',
-    title: 'View All Steps',
-    text: 'See every instruction at once instead of one at a time -- a quick way to read through the whole recipe before you dive in.',
-  },
-];
-
+// it's explaining -- all of one tour's targets live on the same screen, so
+// no screen navigation happens mid-tour. A full-screen click-catcher
+// blocks interaction with anything underneath while the tour is active,
+// and a `box-shadow: 0 0 0 9999px` spotlight ring is drawn around
+// whichever element the current step targets, without needing an SVG mask.
 function measure(selector) {
   const el = document.querySelector(selector);
   if (!el) return null;
@@ -56,11 +24,11 @@ function measure(selector) {
   return { top: r.top, left: r.left, width: r.width, height: r.height };
 }
 
-export default function RecipeTutorial({ onClose }) {
+export default function RecipeTutorial({ steps, mandatory, onClose }) {
   const [stepIndex, setStepIndex] = useState(0);
   const [rect, setRect] = useState(null);
-  const step = RECIPE_TUTORIAL_STEPS[stepIndex];
-  const isLast = stepIndex === RECIPE_TUTORIAL_STEPS.length - 1;
+  const step = steps[stepIndex];
+  const isLast = stepIndex === steps.length - 1;
 
   useEffect(() => {
     let cancelled = false;
@@ -144,17 +112,24 @@ export default function RecipeTutorial({ onClose }) {
         />
       )}
 
+      {/* Solid, fully-opaque panel -- var(--s1)/var(--s2) etc. are all
+          translucent white tints meant to sit on top of the app's own
+          solid background (see globals.css), NOT to stand alone over
+          arbitrary content. Using one here let the ingredients table
+          underneath show right through the tooltip, making the text
+          unreadable. var(--bg) is the one genuinely solid color the app
+          uses (same as the All Steps bottom sheet). */}
       <div
         style={{
           position: 'fixed',
           top: tooltipTop,
           left: tooltipLeft,
           width: TOOLTIP_WIDTH,
-          background: 'var(--s1)',
+          background: 'var(--bg)',
           border: '1px solid rgba(255,193,58,.5)',
           borderRadius: 14,
           padding: 14,
-          boxShadow: '0 10px 30px rgba(0,0,0,.5)',
+          boxShadow: '0 10px 30px rgba(0,0,0,.6)',
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6 }}>
@@ -168,12 +143,14 @@ export default function RecipeTutorial({ onClose }) {
         </div>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
           <div style={{ fontSize: 11, color: 'var(--muted)' }}>
-            {stepIndex + 1} / {RECIPE_TUTORIAL_STEPS.length}
+            {stepIndex + 1} / {steps.length}
           </div>
-          <div style={{ display: 'flex', gap: 8 }}>
-            <div onClick={skip} style={{ fontSize: 12, color: 'var(--muted)', textDecoration: 'underline', cursor: 'pointer', padding: '8px 4px' }}>
-              Skip
-            </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            {!mandatory && (
+              <div onClick={skip} style={{ fontSize: 12, color: 'var(--muted)', textDecoration: 'underline', cursor: 'pointer', padding: '8px 4px' }}>
+                Skip
+              </div>
+            )}
             <button
               onClick={goNext}
               style={{ background: 'var(--lime)', color: '#000', border: 'none', borderRadius: 10, padding: '8px 16px', fontSize: 13, fontWeight: 700, fontFamily: "'Manrope',sans-serif", cursor: 'pointer' }}

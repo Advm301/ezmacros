@@ -84,6 +84,56 @@ function getMotivationMessage(doneCount, totalCount) {
   return pick(doneCount, totalCount);
 }
 
+// Two mandatory, no-skip-allowed guided tours (see RecipeTutorial.jsx and
+// the activeTutorial state below) -- split by screen since their targets
+// only exist on one screen or the other. DECIDE_TUTORIAL_STEPS deliberately
+// leaves out quantity editing: the ingredients table already says "Tap a
+// quantity to edit it" right on screen, so a tutorial step just repeating
+// that would be redundant. COOK_TUTORIAL_STEPS covers editing an
+// instruction's text and adding a per-step note instead -- neither is
+// visible until you're actually on the first real cook step, which is why
+// that tour launches there rather than up front with the other one.
+const DECIDE_TUTORIAL_STEPS = [
+  {
+    selector: '#tour-add-to-diary',
+    title: 'Add to Diary',
+    text: "Log this meal to a specific day in your Diary -- track what you're eating, or plan ahead for later in the week.",
+  },
+  {
+    selector: '#tour-effort-gauge',
+    title: 'Quick Prep Gauge',
+    text: 'These bolts show how much effort a recipe takes relative to the rest of the app -- 1 lit bolt is the easiest, 3 is more involved.',
+  },
+  {
+    selector: '#tour-ingredients-check',
+    title: 'Check What You Have',
+    text: "Tap the checkbox next to any ingredient or seasoning to mark it off as something you've already got -- handy for a quick reality check before you shop or start cooking.",
+  },
+  {
+    selector: '#tour-favorite-star',
+    title: 'Save to Favorites',
+    text: 'Tap the star to save this recipe to your Favorites, so you can find it again later.',
+  },
+  {
+    selector: '#tour-view-all-steps',
+    title: 'View All Steps',
+    text: 'See every instruction at once instead of one at a time -- a quick way to read through the whole recipe before you dive in.',
+  },
+];
+
+const COOK_TUTORIAL_STEPS = [
+  {
+    selector: '#tour-edit-step-text',
+    title: 'Edit Any Step',
+    text: "Tap a step's text to rewrite it in your own words -- swap an ingredient, adjust a technique, whatever makes it yours.",
+  },
+  {
+    selector: '#tour-add-step-note',
+    title: 'Add a Note',
+    text: "Jot a quick note on any step -- what worked, what you'd change next time. Adding any note automatically saves this recipe to your Favorites too.",
+  },
+];
+
 // Round to 1 decimal place, stripping a trailing ".0".
 function formatNum(n) {
   const rounded = Math.round(n * 10) / 10;
@@ -243,21 +293,54 @@ export default function RecipeModal({
   // `r.servings` is known -- this just needs a stable index into whichever
   // pool applies.
   const [completionMsgSeed] = useState(() => Math.floor(Math.random() * 3));
-  // Guided walkthrough of the decide screen (see RecipeTutorial.jsx) --
-  // manually launched via the info button next to Let's Make It, not
-  // gated by localStorage like the one-time coach callouts below (this
-  // one's meant to be revisitable any time someone wants a refresher).
-  const [showTutorial, setShowTutorial] = useState(false);
-  // Three separate one-time "here's what this does" callouts (same
-  // useFirstVisitTip hook the Kitchen/Browse/Diary tabs use for their own
-  // first-visit tips), each shown automatically the first time its target
-  // is ever on screen -- not the guided tutorial above, and independent of
-  // it, so someone who never opens the tutorial still gets a lightweight
-  // explanation of Add to Diary, editing amounts, and notes-auto-saving
-  // the first time they'd naturally run into each one.
-  const diaryTip = useFirstVisitTip('quickprep_seen_recipe_diary_tip');
-  const editTip = useFirstVisitTip('quickprep_seen_recipe_edit_tip');
-  const favoriteTip = useFirstVisitTip('quickprep_seen_recipe_favorite_tip');
+  // Guided walkthrough (see RecipeTutorial.jsx), split into two mandatory,
+  // no-skip-allowed passes the very first time each is reached -- one
+  // covering the decide screen (Add to Diary, effort gauge, ingredient
+  // checkboxes, favorites, View All Steps), launched automatically the
+  // first time ANY recipe modal is ever opened; the other covering
+  // per-step editing and notes, launched automatically the first time
+  // someone reaches the very first cook-wizard step, ever. Each is gated
+  // by its own useFirstVisitTip flag so it only forces itself once, but
+  // `activeTutorial` (which one, if any, is currently showing) and
+  // `tutorialSkippable` (whether Skip is allowed) are separate local state
+  // -- the same tour can also be replayed voluntarily later via the info
+  // button next to Let's Make It, which IS skippable, unlike the mandatory
+  // first pass.
+  const decideTutorialTip = useFirstVisitTip('quickprep_seen_recipe_decide_tutorial');
+  const cookTutorialTip = useFirstVisitTip('quickprep_seen_recipe_cook_tutorial');
+  // Decided once, right in the lazy initializer, rather than via an effect
+  // that fires setState on mount -- this is the actual initial render
+  // value, not a follow-up render, so there's no cascading-render effect
+  // to avoid in the first place. `recipe` (a prop) is used directly here
+  // instead of the `canCook`/`instructions` derived further down, since
+  // those come after this component's early `if (!recipe) return null`
+  // guard and can't be referenced before it without breaking hook order.
+  const [activeTutorial, setActiveTutorial] = useState(() => {
+    const canCookNow = (recipe?.instructions?.length ?? 0) > 0;
+    return decideTutorialTip.show && canCookNow ? 'decide' : null;
+  }); // null | 'decide' | 'cook'
+  const [tutorialSkippable, setTutorialSkippable] = useState(false);
+  // Tracks the previous `screen` value so the cook-wizard tutorial can be
+  // triggered the moment `screen` becomes 'cook' -- compared and acted on
+  // directly during render (React's documented pattern for reacting to a
+  // value changing) rather than in a useEffect, which would otherwise
+  // trigger the same "setState synchronously inside an effect causes a
+  // cascading extra render" concern the lazy initializer above avoids.
+  const [prevScreenForTutorial, setPrevScreenForTutorial] = useState(screen);
+  if (screen !== prevScreenForTutorial) {
+    setPrevScreenForTutorial(screen);
+    if (screen === 'cook' && cookStep === 0 && cookTutorialTip.show) {
+      setActiveTutorial('cook');
+      setTutorialSkippable(false);
+    }
+  }
+
+  const closeTutorial = () => {
+    if (activeTutorial === 'decide') decideTutorialTip.dismiss();
+    if (activeTutorial === 'cook') cookTutorialTip.dismiss();
+    setActiveTutorial(null);
+    setTutorialSkippable(false);
+  };
 
   const touchStartRef = useRef(null);
 
@@ -536,17 +619,7 @@ export default function RecipeModal({
   const renderAddToDiaryBlock = () => {
     if (!onAddToDiary) return null;
     return (
-      <div id="tour-add-to-diary" style={{ marginBottom: 16, position: 'relative' }}>
-        {/* First-time-only explanation of what this button actually does --
-            aimed at someone who picked a single meal during onboarding and
-            is opening a recipe for the very first time, before they've even
-            seen the Diary tab. Never shown again once dismissed (see
-            useFirstVisitTip). */}
-        {diaryTip.show && (
-          <div className="coach-callout" onClick={diaryTip.dismiss}>
-            Add meals to your daily Diary to keep track of what you're eating, or plan ahead.
-          </div>
-        )}
+      <div id="tour-add-to-diary" style={{ marginBottom: 16 }}>
         <button
           onClick={() => { hapticLight(); setDiaryOpen((v) => !v); }}
           style={{ width: '100%', background: 'var(--s2)', border: '1px solid var(--border)', color: 'var(--cream)', borderRadius: 13, padding: 12, fontSize: 14, fontWeight: 700, fontFamily: "'Manrope',sans-serif", cursor: 'pointer' }}
@@ -715,6 +788,7 @@ export default function RecipeModal({
               />
             ) : (
               <div
+                id={i === 0 ? 'tour-edit-step-text' : undefined}
                 onClick={(e) => { e.stopPropagation(); startEditingStep(i, step.text); }}
                 style={{
                   fontSize: 19, lineHeight: 1.55, cursor: 'pointer', flex: 1,
@@ -793,6 +867,7 @@ export default function RecipeModal({
               </div>
             ) : (
               <div
+                id={i === 0 ? 'tour-add-step-note' : undefined}
                 onClick={(e) => { e.stopPropagation(); startEditingStepNote(i, ''); }}
                 style={{ fontSize: 12, color: 'var(--muted)', textDecoration: 'underline', cursor: 'pointer', display: 'inline-block' }}
               >
@@ -862,16 +937,7 @@ export default function RecipeModal({
           {/* Notes used to be their own page you had to click through --
               folded in here instead so finishing the recipe, rating it, and
               jotting anything worth remembering all happen on one screen. */}
-          <div style={{ marginTop: 20, position: 'relative' }}>
-            {/* First-time-only explanation of the auto-save-to-Favorites
-                behavior (see useSavedRecipes' autoSaveIfNeeded) -- easy to
-                miss since nothing here says "favorites" anywhere on screen
-                otherwise. */}
-            {favoriteTip.show && (
-              <div className="coach-callout" onClick={favoriteTip.dismiss}>
-                Adding a note here automatically saves this recipe to your Favorites, so it's easy to find again.
-              </div>
-            )}
+          <div style={{ marginTop: 20 }}>
             <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--muted)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: 1 }}>
               Notes
             </div>
@@ -976,7 +1042,7 @@ export default function RecipeModal({
                   right ingredientOverrides slot after the split. */}
               {components.length > 0 && (() => {
                 const { core, seasonings } = splitIngredients(components);
-                const renderRow = (c, origIndex, isLast, isFirst) => {
+                const renderRow = (c, origIndex, isLast) => {
                   const isEditing = editingIngredientIndex === origIndex;
                   const display = getQuantityDisplay(c.quantity, c.unit, c.name, unitModes[origIndex]);
                   const have = Boolean(haveIngredient[origIndex]);
@@ -1019,7 +1085,6 @@ export default function RecipeModal({
                             />
                           ) : (
                             <span
-                              id={isFirst ? 'tour-quantity-edit' : undefined}
                               onClick={() => startEditingIngredient(origIndex, c)}
                               style={{ fontSize: 12, color: c.edited ? 'var(--lime)' : 'var(--muted)', whiteSpace: 'nowrap', cursor: 'pointer', textDecoration: 'underline dotted', textUnderlineOffset: 3 }}
                             >
@@ -1040,18 +1105,7 @@ export default function RecipeModal({
                   );
                 };
                 return (
-                  <div style={{ marginBottom: 16, position: 'relative' }}>
-                    {/* First-time-only explanation of the two things this
-                        whole block lets you do -- tweak amounts here, and
-                        (once cooking starts) tweak instruction wording too.
-                        Anchored to the section as a whole rather than a
-                        single row, since it's explaining a pattern that
-                        applies to every row. */}
-                    {editTip.show && (
-                      <div className="coach-callout" onClick={editTip.dismiss}>
-                        Tap any quantity to edit it -- and once you're cooking, tap any instruction step to rewrite it your way.
-                      </div>
-                    )}
+                  <div style={{ marginBottom: 16 }}>
                     <div id="tour-ingredients-check" style={{ fontSize: 11, color: 'var(--muted)', marginBottom: 8 }}>
                       Check off what you already have. Tap a quantity to edit it, or the unit badge to switch between g/oz or ml/fl oz.
                     </div>
@@ -1060,14 +1114,14 @@ export default function RecipeModal({
                         <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--muted)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: 1 }}>
                           Core Ingredients
                         </div>
-                        {core.map((c, idx) => renderRow(c, c.index, idx === core.length - 1, idx === 0))}
+                        {core.map((c, idx) => renderRow(c, c.index, idx === core.length - 1))}
                       </div>
                       {seasonings.length > 0 && (
                         <div style={{ flex: 1, paddingLeft: 14, borderLeft: '1px solid var(--border)' }}>
                           <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--muted)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: 1 }}>
                             Seasonings
                           </div>
-                          {seasonings.map((c, idx) => renderRow(c, c.index, idx === seasonings.length - 1, false))}
+                          {seasonings.map((c, idx) => renderRow(c, c.index, idx === seasonings.length - 1))}
                         </div>
                       )}
                     </div>
@@ -1144,13 +1198,16 @@ export default function RecipeModal({
                     <button className="gen-kitchen-btn cook-action-btn" onClick={goToCook} style={{ flex: 1, marginTop: 0, marginBottom: 0 }}>
                       Let's Make It
                     </button>
-                    {/* Manually-launched guided walkthrough of this whole
-                        screen (see RecipeTutorial.jsx) -- separate from the
-                        one-time automatic coach callouts sprinkled through
-                        this file, and revisitable any time, not just once. */}
+                    {/* Voluntary replay of the decide-screen tutorial (see
+                        RecipeTutorial.jsx) -- the mandatory, non-skippable
+                        first pass launches itself automatically (see
+                        activeTutorial's lazy initializer above), so this
+                        is only ever reached after that's already been
+                        completed once, which is why a replay is allowed
+                        to be skipped. */}
                     <div
                       className="info-btn"
-                      onClick={() => { hapticLight(); setShowTutorial(true); }}
+                      onClick={() => { hapticLight(); setActiveTutorial('decide'); setTutorialSkippable(true); }}
                       title="How this screen works"
                     >
                       <InfoIcon />
@@ -1317,7 +1374,12 @@ export default function RecipeModal({
         </div>
       )}
 
-      {showTutorial && <RecipeTutorial onClose={() => setShowTutorial(false)} />}
+      {activeTutorial === 'decide' && (
+        <RecipeTutorial steps={DECIDE_TUTORIAL_STEPS} mandatory={!tutorialSkippable} onClose={closeTutorial} />
+      )}
+      {activeTutorial === 'cook' && (
+        <RecipeTutorial steps={COOK_TUTORIAL_STEPS} mandatory={!tutorialSkippable} onClose={closeTutorial} />
+      )}
     </div>
   );
 }
