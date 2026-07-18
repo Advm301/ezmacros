@@ -1,4 +1,6 @@
-// "Quick Prep Gauge" -- a relative effort indicator shown as 1-3 flames.
+// "Quick Prep Gauge" -- a relative effort indicator shown as 1-3 lightning
+// bolts (QuickPrep is about speed, so bolts replaced the flames this used
+// to render as -- see components/LightningIcon.jsx).
 // Every recipe in this app is already quick and easy (the whole point of
 // the app), so this isn't sorting "easy" from "hard" -- it's surfacing
 // which ones are the absolute quickest grab-and-go options versus the ones
@@ -26,9 +28,9 @@ const TIER_1_MAX = 0.43;
 const TIER_2_MAX = 0.545;
 
 export const EFFORT_LEVELS = {
-  1: { tier: 1, label: 'Quickest', flames: 1 },
-  2: { tier: 2, label: 'Easy', flames: 2 },
-  3: { tier: 3, label: 'A Little More Involved', flames: 3 },
+  1: { tier: 1, label: 'Quickest', bolts: 1 },
+  2: { tier: 2, label: 'Easy', bolts: 2 },
+  3: { tier: 3, label: 'A Little More Involved', bolts: 3 },
 };
 
 export function getEffortScore(recipe) {

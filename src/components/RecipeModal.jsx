@@ -9,7 +9,7 @@ import { detectPreheatTip, previewNextStep } from '../utils/stepHints';
 import { matchIngredientsForStep } from '../utils/ingredientMatch';
 import { splitIngredients } from '../utils/ingredientClassify';
 import { getFreshAltHint } from '../utils/freshAltTips';
-import FlameIcon from './FlameIcon';
+import LightningIcon from './LightningIcon';
 import SparkBurst from './SparkBurst';
 import EffortGauge from './EffortGauge';
 
@@ -325,7 +325,7 @@ export default function RecipeModal({
   if (onRate) cookPages.push({ type: 'rating' });
 
   // How far through the whole wizard (not just the instruction steps) the
-  // person currently is, 0 to 1 -- drives the size of the persistent flame
+  // person currently is, 0 to 1 -- drives the size of the persistent bolt
   // indicator and the intensity of each Next-click spark burst, so both
   // visibly build toward the finish rather than resetting per-section.
   const cookProgress = cookPages.length > 1 ? cookStep / (cookPages.length - 1) : 1;
@@ -799,12 +799,12 @@ export default function RecipeModal({
     if (page.type === 'rating') {
       return (
         <div>
-          {/* One-time "you made it" flourish -- the flame pops in with a
+          {/* One-time "you made it" flourish -- the bolt pops in with a
               little bounce, then settles into a soft ambient glow. Subtle
               on purpose: a quiet payoff for reaching the end, not confetti. */}
           <div className="cook-complete-flourish">
             <div className="cook-complete-glow" />
-            <FlameIcon size={40} />
+            <LightningIcon id="cook-complete" size={40} />
           </div>
           <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--muted)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: 1, textAlign: 'center' }}>
             How'd It Go?
@@ -887,7 +887,7 @@ export default function RecipeModal({
                 {' · '}Serves {r.servings || 1}
               </div>
             )}
-            {/* Quick Prep gauge -- 1-3 flames showing effort relative to the
+            {/* Quick Prep gauge -- 1-3 bolts showing effort relative to the
                 rest of the app (see EffortGauge/utils/effortLevel.js). Shown
                 with its label here (unlike the compact version on Browse/
                 Kitchen cards) since there's room and it's the main detail
@@ -1099,7 +1099,7 @@ export default function RecipeModal({
             </>
           ) : (
             <>
-              {/* Flame grows with cookProgress across the whole wizard --
+              {/* Bolt grows with cookProgress across the whole wizard --
                   a persistent "you're building toward something" signal.
                   No numeric count here on purpose: cookPages also includes
                   Toppings/Rating, which aren't "steps" in the recipe sense,
@@ -1109,7 +1109,7 @@ export default function RecipeModal({
                   cooking, "building toward something" no longer applies,
                   and the space reads cleaner without it. */}
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-                {cookPages[cookStep].type === 'rating' ? <div /> : <FlameIcon size={14 + cookProgress * 12} />}
+                {cookPages[cookStep].type === 'rating' ? <div /> : <LightningIcon id="cook-progress" size={14 + cookProgress * 12} />}
                 <div
                   onClick={() => { hapticLight(); setShowAllSteps(true); }}
                   style={{ fontSize: 12, color: 'var(--muted)', textDecoration: 'underline', cursor: 'pointer' }}

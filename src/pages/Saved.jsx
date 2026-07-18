@@ -6,7 +6,7 @@ import { formatTime } from '../utils/time';
 import { buildShoppingList, formatShoppingQuantity } from '../utils/shoppingList';
 import { computeLoggingStreak } from '../utils/streak';
 import { hapticSelection, hapticLight, hapticMedium } from '../utils/haptics';
-import FlameIcon from '../components/FlameIcon';
+import LightningIcon from '../components/LightningIcon';
 import SurpriseSparkles from '../components/SurpriseSparkles';
 
 // Maps a diary meal slot to the recipe mealType pool it should draw random
@@ -217,7 +217,7 @@ export default function Saved({
                 title="Consecutive days with something logged"
                 style={{ display: 'inline-flex', alignItems: 'center', gap: 5, background: 'var(--s2)', border: '1px solid var(--border)', borderRadius: 100, padding: '4px 10px', color: 'var(--lime)' }}
               >
-                <FlameIcon />
+                <LightningIcon id="streak" />
                 <span style={{ fontSize: 12, fontWeight: 700 }}>{streak} day{streak === 1 ? '' : 's'}</span>
               </div>
             )}

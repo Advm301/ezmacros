@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
 
-// A short-lived burst of glowing particles, fired each time the person taps
-// "Next" in the cook wizard -- meant to make advancing through a recipe feel
-// like it's stoking a fire that builds as they get further along.
+// A short-lived burst of glowing gold particles, fired each time the person
+// taps "Next" in the cook wizard -- meant to make advancing through a
+// recipe feel like it's building a charge that peaks as they get further
+// along (matching the app's lightning-bolt motif -- see LightningIcon).
 // `intensity` (0-1, how far through the wizard this click landed) scales
 // both the particle count and how far/big they fly, so the very first click
-// gives a small flicker and the last few feel like a proper flare-up.
+// gives a small crackle and the last few feel like a proper surge.
 // Self-removing: renders nothing once its longest-lived particle finishes
 // (reported via onDone) so the parent doesn't need its own timers.
-const COLORS = ['#ff8533', '#ffc13a', '#ff6b35'];
+const COLORS = ['#ffd700', '#fff3b0', '#ffb300'];
 
 export default function SparkBurst({ intensity = 0.3, onDone }) {
   const clamped = Math.max(0, Math.min(1, intensity));

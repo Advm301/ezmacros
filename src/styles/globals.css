@@ -96,24 +96,36 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
 .ezb.ez3{background:rgba(255,133,51,.14);color:var(--ez3);border:1px solid rgba(255,133,51,.28);}
 .ezb.pkg{background:rgba(77,184,255,.14);color:var(--blue);border:1px solid rgba(77,184,255,.28);}
 
-/* FLAME ICON (animated, used on the High Protein badge) */
+/* LIGHTNING BOLT ICON (animated -- replaces the old flame icon everywhere:
+   Quick Prep effort gauge, Diary streak pill, cook-progress indicator, the
+   "you made it" flourish, and the High Protein badge). Two independently
+   animated layers like the flame it replaces (outer bolt + inner shine),
+   plus a couple of tiny spark particles that crackle near the tips. */
 @media (prefers-reduced-motion: no-preference) {
-  .flame-icon{transform-origin:50% 90%;animation:flame-flicker 1.6s ease-in-out infinite;}
-  .flame-icon .flame-inner{transform-origin:50% 95%;animation:flame-flicker-inner 1.15s ease-in-out infinite;}
-  /* Unfilled slots in the Quick Prep effort gauge (FlameIcon muted=true) --
-     dim and deliberately static, so it's obvious at a glance which flames
-     are "lit" versus just placeholders completing the row of 3. */
-  .flame-icon-muted, .flame-icon-muted .flame-inner{animation:none;}
+  .bolt-icon{transform-origin:50% 50%;animation:bolt-flicker 2.4s ease-in-out infinite;}
+  .bolt-icon .bolt-inner{animation:bolt-shine 1.1s ease-in-out infinite;}
+  .bolt-icon .bolt-spark{animation:bolt-spark-flash 2.6s ease-in-out infinite;}
+  .bolt-icon .bolt-spark-2{animation-delay:1.2s;}
+  /* Unfilled slots in the Quick Prep effort gauge (LightningIcon muted=true)
+     -- dim and deliberately static (no inner shine/sparks are even rendered
+     in muted mode), so it's obvious at a glance which bolts are "lit"
+     versus just placeholders completing the row of 3. */
+  .bolt-icon-muted{animation:none;}
 }
-@keyframes flame-flicker{
-  0%,100%{transform:scaleY(1) scaleX(1) rotate(0deg);}
-  25%{transform:scaleY(1.08) scaleX(.94) rotate(-2deg);}
-  50%{transform:scaleY(.95) scaleX(1.05) rotate(1.5deg);}
-  75%{transform:scaleY(1.05) scaleX(.97) rotate(-1deg);}
+@keyframes bolt-flicker{
+  0%,88%,100%{opacity:1;transform:scale(1) skewX(0deg);}
+  90%{opacity:.55;transform:scale(.97) skewX(-2deg);}
+  93%{opacity:1;transform:scale(1.05) skewX(1deg);}
+  96%{opacity:.7;transform:scale(.98) skewX(-1deg);}
 }
-@keyframes flame-flicker-inner{
-  0%,100%{opacity:.85;transform:scaleY(1);}
-  50%{opacity:1;transform:scaleY(1.15);}
+@keyframes bolt-shine{
+  0%,100%{opacity:.45;}
+  50%{opacity:1;}
+}
+@keyframes bolt-spark-flash{
+  0%,78%,100%{opacity:0;transform:scale(.4);}
+  84%{opacity:1;transform:scale(1.3);}
+  90%{opacity:0;transform:scale(.6);}
 }
 
 /* COOK WIZARD: spark burst on Next + completion flourish on the final page */
@@ -123,7 +135,7 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
   100%{transform:translate(var(--dx),var(--dy)) scale(1);opacity:0;}
 }
 .cook-complete-flourish{position:relative;display:flex;align-items:center;justify-content:center;height:64px;margin-bottom:14px;animation:complete-pop .6s cubic-bezier(.34,1.56,.64,1) both;}
-.cook-complete-glow{position:absolute;width:64px;height:64px;border-radius:50%;background:radial-gradient(circle,rgba(255,133,51,.35) 0%,rgba(255,133,51,0) 70%);}
+.cook-complete-glow{position:absolute;width:64px;height:64px;border-radius:50%;background:radial-gradient(circle,rgba(255,204,51,.35) 0%,rgba(255,204,51,0) 70%);}
 @keyframes complete-pop{
   0%{transform:scale(0) rotate(-8deg);opacity:0;}
   60%{transform:scale(1.15) rotate(4deg);opacity:1;}
@@ -137,8 +149,8 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
   .cook-complete-glow{animation:complete-glow-pulse 1.8s ease-in-out .6s infinite;}
 }
 
-/* COOK WIZARD: per-step motivation popup. Warm flame-toned gold/orange
-   gradient (ties to the cooking theme rather than reusing Surprise Me's
+/* COOK WIZARD: per-step motivation popup. Warm gold/orange gradient (ties
+   to the app's lightning-bolt theme rather than reusing Surprise Me's
    purple or Find Recipes' green -- see those .surprise-btn/.find-recipes-btn
    blocks above for the same shine-layer technique) with the diagonal-shine
    + bottom-darkening layers and inset box-shadows that give the app's other

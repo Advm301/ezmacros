@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { RECIPES } from '../data/recipes.js';
 import StarIcon from '../components/StarIcon';
-import FlameIcon from '../components/FlameIcon';
+import LightningIcon from '../components/LightningIcon';
 import EffortGauge from '../components/EffortGauge';
 import { formatTime } from '../utils/time';
 import { hapticSelection, hapticLight } from '../utils/haptics';
@@ -216,7 +216,7 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
                 <> · ★ {getRatingSummary(r.id).avg.toFixed(1)} ({getRatingSummary(r.id).count})</>
               )}
             </span>
-            {/* Quick Prep gauge -- 1-3 flames showing relative effort (see
+            {/* Quick Prep gauge -- 1-3 bolts showing relative effort (see
                 EffortGauge/utils/effortLevel.js). Everything here is
                 already quick; this just surfaces which are the absolute
                 quickest vs. a touch more involved. */}
@@ -228,12 +228,12 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
               {/* .ezb.ez1/.ez3 are existing soft-tinted badge classes already
                   defined in globals.css (same accent colors used elsewhere
                   in the app) -- reusing them instead of one-off colors keeps
-                  these consistent with the rest of the palette. Orange for
-                  High Protein reads as "hot"/fire; lime-green for Grab & Go
-                  reads as "fresh/fast" -- distinct hues so the two are easy
-                  to tell apart at a glance. */}
+                  these consistent with the rest of the palette. Gold for
+                  High Protein reads as "powered up"/energy; lime-green for
+                  Grab & Go reads as "fresh/fast" -- distinct hues so the two
+                  are easy to tell apart at a glance. */}
               {r.tags.includes('high_protein') && (
-                <span className="ezb ez3"><FlameIcon size={12} /> High Protein</span>
+                <span className="ezb ez3"><LightningIcon id={`browse-hp-${r.id}`} size={12} /> High Protein</span>
               )}
               {r.tags.includes('grab_and_go') && (
                 <span className="ezb ez1">Grab & Go</span>
