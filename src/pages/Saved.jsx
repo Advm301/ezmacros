@@ -8,6 +8,7 @@ import { computeLoggingStreak } from '../utils/streak';
 import { hapticSelection, hapticLight, hapticMedium } from '../utils/haptics';
 import LightningIcon from '../components/LightningIcon';
 import SurpriseSparkles from '../components/SurpriseSparkles';
+import FirstVisitTip from '../components/FirstVisitTip';
 
 // Maps a diary meal slot to the recipe mealType pool it should draw random
 // picks from. Lunch and Dinner share the same 'lunch_dinner' pool.
@@ -254,6 +255,11 @@ export default function Saved({
         <div className="sub" style={{ marginBottom: 14 }}>
           Organize what you're eating each day -- no macros, just easy meals.
         </div>
+
+        <FirstVisitTip storageKey="quickprep_seen_diary_tip">
+          This is your Diary -- log what you're eating for Breakfast, Lunch, Dinner, and Snacks, one day at a time. Hit Surprise Me for an instant pick, or use Shopping List to see everything you'll need for the day.
+        </FirstVisitTip>
+
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginBottom: 16 }}>
           <div
             onClick={() => shiftDate(-1)}

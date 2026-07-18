@@ -3,6 +3,7 @@ import { QUICK_PICKS } from '../data/pantryStaples.js';
 import { ONBOARDING_GOALS, SERVING_PREFS, MEAL_TYPES } from '../utils/onboardingGoals';
 import { hapticSelection, hapticLight, hapticMedium } from '../utils/haptics';
 import LightningIcon from './LightningIcon';
+import OnboardingFinishSparkles from './OnboardingFinishSparkles';
 
 // mealType only applies to the "one meal" path -- a "full_day" plan
 // already covers breakfast, lunch, and dinner by definition, so asking
@@ -236,9 +237,12 @@ export default function Onboarding({ onComplete }) {
                 </div>
               ))}
             </div>
-            <button className="gen-kitchen-btn" style={{ marginBottom: 12 }} onClick={finish}>
-              {finishLabel}
-            </button>
+            <div style={{ position: 'relative' }}>
+              <button className="gen-kitchen-btn onboarding-finish-btn" style={{ marginBottom: 12 }} onClick={finish}>
+                {finishLabel}
+              </button>
+              <OnboardingFinishSparkles />
+            </div>
           </>
         )}
 
