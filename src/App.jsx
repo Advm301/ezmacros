@@ -13,7 +13,15 @@ import Browse from './pages/Browse';
 import Saved from './pages/Saved';
 import RecipeModal from './components/RecipeModal';
 import FeedbackModal from './components/FeedbackModal';
+import Onboarding from './components/Onboarding';
 import './styles/globals.css';
+
+// Set once onboarding finishes (however it finishes -- picks made, or
+// skipped) so it never shows again on this device/browser. A plain
+// localStorage flag rather than a Supabase profile column -- no backend
+// work needed to ship this, and it doesn't need to survive a device
+// switch to do its job (show the flow exactly once per install).
+const ONBOARDED_KEY = 'quickprep_onboarded';
 
 // Bottom-nav icons: bigger and always their own brand color now (no text
 // label alongside them any more, so the icon alone has to carry the tab's
@@ -64,6 +72,38 @@ export default function App() {
   const [savedDate, setSavedDate] = useState(todayString());
   const [showFeedback, setShowFeedback] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+  // Whether the one-time first-session onboarding (see components/
+  // Onboarding.jsx) still needs to run. Read from localStorage once at
+  // mount -- a returning user with the flag already set skips straight
+  // past it, same as today.
+  const [onboarded, setOnboarded] = useState(() => {
+    try {
+      return localStorage.getItem(ONBOARDED_KEY) === '1';
+    } catch {
+      return true; // if storage is unavailable for some reason, don't block the app on it
+    }
+  });
+  // Handed to Kitchen exactly once, right after onboarding finishes, so it
+  // can show a real personalized recipe list immediately instead of its
+  // normal empty state -- see Kitchen.jsx's initialPicks prop and the
+  // consume-once effect that clears this back to null after.
+  const [initialKitchenPicks, setInitialKitchenPicks] = useState(null);
+
+  // Called with either { staples, goal } or null (full skip) from
+  // Onboarding. Either way, marks onboarding done so it never shows again
+  // on this device, and hands whatever picks exist (if any) to Kitchen.
+  const handleOnboardingComplete = (picks) => {
+    try {
+      localStorage.setItem(ONBOARDED_KEY, '1');
+    } catch {
+      // Storage being unavailable just means onboarding may show again
+      // next visit -- not worth blocking on.
+    }
+    setOnboarded(true);
+    if (picks && picks.staples && picks.staples.length > 0) {
+      setInitialKitchenPicks(picks);
+    }
+  };
 
   const showToast = (message) => {
     setToast(message);
@@ -208,6 +248,14 @@ export default function App() {
     return <Login />;
   }
 
+  // Shown once, right after a brand-new sign-in -- before the very first
+  // Kitchen tab a person ever sees, not layered on top of it. See
+  // ONBOARDED_KEY/handleOnboardingComplete above for how this gate clears
+  // itself permanently once finished (or skipped).
+  if (!onboarded) {
+    return <Onboarding onComplete={handleOnboardingComplete} />;
+  }
+
   // softColor backs the sliding highlight pill behind the active tab (see
   // the bottom nav below) -- a literal rgba rather than deriving one from
   // the `color` CSS var, since you can't append an alpha channel to a var()
@@ -326,7 +374,14 @@ export default function App() {
         </div>
 
         {/* Page content */}
-        {tab === "kitchen" && <Kitchen onOpen={setOpenRecipe} getRatingSummary={getRatingSummary} />}
+        {tab === "kitchen" && (
+          <Kitchen
+            onOpen={setOpenRecipe}
+            getRatingSummary={getRatingSummary}
+            initialPicks={initialKitchenPicks}
+            onConsumeInitialPicks={() => setInitialKitchenPicks(null)}
+          />
+        )}
         {tab === "browse" && <Browse onOpen={setOpenRecipe} isSaved={isSaved} toggleSaved={toggleSaved} getRatingSummary={getRatingSummary} />}
         {tab === "saved" && (
           <Saved

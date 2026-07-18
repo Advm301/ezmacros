@@ -1,31 +1,15 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { RECIPES } from '../data/recipes.js';
-import { PANTRY_STAPLES, PANTRY_CATEGORIES } from '../data/pantryStaples.js';
+import { PANTRY_STAPLES, PANTRY_CATEGORIES, QUICK_PICKS } from '../data/pantryStaples.js';
 import { formatTime } from '../utils/time';
 import { hapticSelection, hapticLight, hapticMedium } from '../utils/haptics';
 import PantryPickerModal from '../components/PantryPickerModal';
 import SurpriseSparkles from '../components/SurpriseSparkles';
 import EffortGauge from '../components/EffortGauge';
 import { getProteinCardBackground } from '../utils/proteinColors';
+import { rankForGoal } from '../utils/onboardingGoals';
 
 const PANTRY_LABELS = Object.fromEntries(PANTRY_STAPLES.map((s) => [s.id, s.label]));
-
-// One-tap shortcuts for the most common "what's actually in the fridge"
-// picks, shown on the idle Kitchen screen (before you've searched or opened
-// the full pantry drawer) so that screen isn't just a title and an empty
-// input box with a wall of blank space beneath it. Mostly proteins, since
-// a protein is the hard filter that actually decides what you can make
-// (see filterRecipes above), plus the two most common carb staples --
-// tapping one runs the same pantry match Find Recipes does, immediately
-// filling that space with real results instead of leaving it empty until
-// the picker drawer is opened.
-const QUICK_PICK_IDS = [
-  'chicken_breast', 'ground_beef', 'eggs', 'chicken_thighs', 'ground_turkey',
-  'salmon', 'shrimp', 'rotisserie_chicken', 'rice', 'pasta',
-];
-const QUICK_PICKS = QUICK_PICK_IDS
-  .map((id) => PANTRY_STAPLES.find((s) => s.id === id))
-  .filter(Boolean);
 
 // Straight "matches ANY of your picks" was surfacing recipes that shared
 // only a side ingredient (rice, bell peppers, hot sauce) with a completely
@@ -68,11 +52,36 @@ function filterRecipes(recipes, selectedStaples) {
     .sort((a, b) => b._matchCount - a._matchCount);
 }
 
-export default function Kitchen({ onOpen, getRatingSummary }) {
-  const [selectedStaples, setSelectedStaples] = useState([]);
+// `initialPicks` (shape { staples: string[], goal: string|null }) arrives
+// once, right after onboarding finishes (see App.jsx) -- it's how the app
+// shows a real, personalized set of recipes the instant onboarding ends
+// instead of dropping someone onto this same empty screen to do the work
+// themselves a second time. `goal` only ever affects THIS one seed: it
+// biases which of the matching recipes shows up first (see rankForGoal),
+// it doesn't change how filterRecipes itself works for any later search,
+// since there's no ongoing "goal" setting visible anywhere else in the
+// app for a person to reason about.
+export default function Kitchen({ onOpen, getRatingSummary, initialPicks, onConsumeInitialPicks }) {
+  const [selectedStaples, setSelectedStaples] = useState(() => initialPicks?.staples || []);
   const [showPantryModal, setShowPantryModal] = useState(false);
-  const [results, setResults] = useState(null);
+  const [results, setResults] = useState(() => (
+    initialPicks?.staples?.length
+      ? rankForGoal(filterRecipes(RECIPES, initialPicks.staples), initialPicks.goal)
+      : null
+  ));
   const [surpriseError, setSurpriseError] = useState('');
+
+  // Runs once, right after mount -- tells the parent the initial picks
+  // have been consumed so it can clear them. Kitchen fully unmounts every
+  // time you switch tabs away from it (see App.jsx's tab === "kitchen"
+  // conditional render) and remounts fresh on the way back, so without
+  // this, the lazy initializers above would silently reseed the same
+  // onboarding picks every single time you revisit the tab, overwriting
+  // whatever you'd searched for since.
+  useEffect(() => {
+    if (initialPicks && onConsumeInitialPicks) onConsumeInitialPicks();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const anyFilterActive = selectedStaples.length > 0;
 

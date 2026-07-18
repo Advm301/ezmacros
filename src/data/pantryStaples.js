@@ -98,3 +98,18 @@ export const PANTRY_CATEGORIES = [
 // Flat list, kept for anything that just needs id/label pairs regardless of
 // category (search filtering, id -> label lookups, etc.).
 export const PANTRY_STAPLES = PANTRY_CATEGORIES.flatMap((c) => c.items);
+
+// One-tap shortcuts for the most common "what's actually in the fridge"
+// picks -- shown both on the idle Kitchen screen (see Kitchen.jsx's Quick
+// Picks row) and in the onboarding flow's "what do you usually have?" step
+// (see components/Onboarding.jsx), so both places offer the exact same
+// list rather than two hand-maintained copies drifting apart. Mostly
+// proteins, since a protein is the hard filter that actually narrows down
+// what you can make, plus the two most common carb staples.
+export const QUICK_PICK_IDS = [
+  'chicken_breast', 'ground_beef', 'eggs', 'chicken_thighs', 'ground_turkey',
+  'salmon', 'shrimp', 'rotisserie_chicken', 'rice', 'pasta',
+];
+export const QUICK_PICKS = QUICK_PICK_IDS
+  .map((id) => PANTRY_STAPLES.find((s) => s.id === id))
+  .filter(Boolean);
