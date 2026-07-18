@@ -780,6 +780,11 @@ export const RECIPES = [
         "name": "Honey (1 tsp)",
         "quantity": 28,
         "unit": "ml"
+      },
+      {
+        "name": "16 oz Mason Jars or Lidded Containers (1 per serving)",
+        "quantity": 4,
+        "unit": "count"
       }
     ],
     "toppings": [
@@ -8208,6 +8213,11 @@ export const RECIPES = [
         "name": "Chia Seeds",
         "quantity": 40,
         "unit": "g"
+      },
+      {
+        "name": "16 oz Mason Jars or Lidded Containers (1 per serving)",
+        "quantity": 4,
+        "unit": "count"
       }
     ],
     "toppings": [

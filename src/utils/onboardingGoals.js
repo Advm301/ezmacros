@@ -14,7 +14,7 @@ import { getEffortTier } from './effortLevel';
 // better-ordered one.
 export const ONBOARDING_GOALS = [
   { id: 'quick', label: 'Quick & Easy', description: 'The fastest, least-fuss options' },
-  { id: 'high_protein', label: 'High Protein', description: 'Recipes built around hitting your protein' },
+  { id: 'high_protein', label: 'High Protein', description: 'Recipes built around maximizing your protein intake' },
 ];
 
 // The "how do you want your meals sized" question, onboarding's second
