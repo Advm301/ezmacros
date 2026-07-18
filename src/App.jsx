@@ -131,6 +131,17 @@ export default function App() {
     if (!picks) return; // full skip -- land on the normal empty Kitchen tab, same as always.
 
     if (picks.mealCountPref === 'full_day') {
+      // Set before the first `await` below, in the same synchronous pass
+      // as setOnboarded(true) above, so React batches them into one
+      // render where onboarded is already true AND tab is already
+      // "saved" -- otherwise (as it did before this fix) the default
+      // "kitchen" tab briefly renders for a frame in between, since
+      // nothing had told it to be anything else yet while the diary
+      // inserts below were still in flight. That flash also had a nasty
+      // side effect: it silently counted as Kitchen's very first mount,
+      // burning FirstVisitTip's one-time "seen it" flag before anyone
+      // could actually see the tip.
+      setTab('saved');
       const preferredPool = rankForPreferences(filterRecipes(RECIPES, picks.staples), picks);
       const plan = buildFullDayPlan(preferredPool, picks);
       const date = todayString();
@@ -146,7 +157,6 @@ export default function App() {
       }
       if (addedCount > 0) {
         hapticSuccess();
-        setTab('saved');
         showToast(`Your day is planned -- ${addedCount} meal${addedCount === 1 ? '' : 's'} added to your Diary!`);
         setShoppingListHint(true);
       }
