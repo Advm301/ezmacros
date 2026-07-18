@@ -1087,6 +1087,16 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
 .coach-callout{position:absolute;z-index:30;bottom:calc(100% + 12px);left:50%;transform:translateX(-50%);width:200px;background:var(--lime);color:#000;font-size:12px;font-weight:600;line-height:1.45;text-align:center;padding:10px 12px;border-radius:12px;box-shadow:0 8px 22px rgba(0,0,0,.4);animation:fadeUp .25s ease;}
 .coach-callout::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:7px solid transparent;border-top-color:var(--lime);}
 
+/* RECIPE TUTORIAL SPOTLIGHT: the guided walkthrough (see
+   components/RecipeTutorial.jsx) highlights one real on-screen element per
+   step by drawing a glowing ring around it -- the giant box-shadow is what
+   also dims everything else in the viewport, so a single element does both
+   jobs (spotlight ring + backdrop dimming) without needing an SVG mask. */
+.recipe-tutorial-spotlight{border:2px solid rgba(255,193,58,.85);box-shadow:0 0 0 9999px rgba(0,0,0,.72), 0 0 18px 2px rgba(255,193,58,.5);pointer-events:none;transition:top .25s ease, left .25s ease, width .25s ease, height .25s ease;}
+@media (prefers-reduced-motion: no-preference) {
+  .recipe-tutorial-spotlight{animation:kitchen-hero-pulse 2s ease-in-out infinite;}
+}
+
 /* INFO ICON BUTTON: sits next to a page's title (Kitchen/Browse/Diary),
    reopens that tab's FirstVisitTip banner on tap (see InfoIcon.jsx +
    hooks/useFirstVisitTip.js) -- the tip only auto-shows once, so without

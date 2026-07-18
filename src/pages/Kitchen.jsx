@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { RECIPES } from '../data/recipes.js';
 import { PANTRY_STAPLES, QUICK_PICKS } from '../data/pantryStaples.js';
 import { formatTime } from '../utils/time';
@@ -55,26 +55,28 @@ export default function Kitchen({
   const [showPantryModal, setShowPantryModal] = useState(false);
   const [surpriseError, setSurpriseError] = useState('');
 
-  // The "Your First Picks Are Ready!" banner is a one-time celebratory
-  // flourish, not a permanent fixture -- since justOnboarded now lives in
-  // App.jsx (and so survives tab switches), it needs its own explicit
-  // auto-dismiss rather than relying on Kitchen unmounting to clear it.
-  useEffect(() => {
-    if (!justOnboarded) return;
-    const timer = setTimeout(() => onDismissJustOnboarded?.(), 5000);
-    return () => clearTimeout(timer);
-  }, [justOnboarded, onDismissJustOnboarded]);
-
   const toggleStaple = (id) => {
     hapticSelection();
     setSelectedStaples((prev) => (prev.includes(id) ? prev.filter((s) => s !== id) : [...prev, id]));
   };
 
+  // The "Your First Picks Are Ready!" banner (see justOnboarded below) is
+  // meant to stay up as long as those original onboarding picks are still
+  // what's on screen -- it should NOT auto-dismiss on a timer; someone
+  // reading the recipe card, getting distracted, and coming back a few
+  // seconds later shouldn't find it already gone. It only stops making
+  // sense once the picks it's celebrating are no longer what's showing --
+  // either Clear (reset, below) wipes them back to the empty state, or a
+  // fresh Find Recipes/Quick Pick search replaces them with different
+  // results the banner's "matched to what you told us" text no longer
+  // describes. So it's dismissed explicitly at exactly those two points,
+  // never on a blind timer.
   const handleFindRecipes = () => {
     if (selectedStaples.length === 0) return;
     hapticLight();
     setSurpriseError('');
     setResults(filterRecipes(RECIPES, selectedStaples));
+    onDismissJustOnboarded?.();
   };
 
   // Find Recipes now lives inside the pantry picker itself (replacing what
@@ -119,6 +121,7 @@ export default function Kitchen({
       : [...selectedStaples, id];
     setSelectedStaples(next);
     setResults(next.length > 0 ? filterRecipes(RECIPES, next) : null);
+    onDismissJustOnboarded?.();
   };
 
   const reset = () => {
@@ -126,6 +129,7 @@ export default function Kitchen({
     setSelectedStaples([]);
     setResults(null);
     setSurpriseError('');
+    onDismissJustOnboarded?.();
   };
 
   const openRecipe = (r) => {

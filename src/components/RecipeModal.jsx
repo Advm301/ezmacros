@@ -14,6 +14,9 @@ import SparkBurst from './SparkBurst';
 import LightningStrike from './LightningStrike';
 import EffortGauge from './EffortGauge';
 import InstructionText from './InstructionText';
+import InfoIcon from './InfoIcon';
+import RecipeTutorial from './RecipeTutorial';
+import useFirstVisitTip from '../hooks/useFirstVisitTip';
 
 const GRAMS_PER_OZ = 28.3495;
 const ML_PER_FLOZ = 29.5735;
@@ -240,6 +243,21 @@ export default function RecipeModal({
   // `r.servings` is known -- this just needs a stable index into whichever
   // pool applies.
   const [completionMsgSeed] = useState(() => Math.floor(Math.random() * 3));
+  // Guided walkthrough of the decide screen (see RecipeTutorial.jsx) --
+  // manually launched via the info button next to Let's Make It, not
+  // gated by localStorage like the one-time coach callouts below (this
+  // one's meant to be revisitable any time someone wants a refresher).
+  const [showTutorial, setShowTutorial] = useState(false);
+  // Three separate one-time "here's what this does" callouts (same
+  // useFirstVisitTip hook the Kitchen/Browse/Diary tabs use for their own
+  // first-visit tips), each shown automatically the first time its target
+  // is ever on screen -- not the guided tutorial above, and independent of
+  // it, so someone who never opens the tutorial still gets a lightweight
+  // explanation of Add to Diary, editing amounts, and notes-auto-saving
+  // the first time they'd naturally run into each one.
+  const diaryTip = useFirstVisitTip('quickprep_seen_recipe_diary_tip');
+  const editTip = useFirstVisitTip('quickprep_seen_recipe_edit_tip');
+  const favoriteTip = useFirstVisitTip('quickprep_seen_recipe_favorite_tip');
 
   const touchStartRef = useRef(null);
 
@@ -518,7 +536,17 @@ export default function RecipeModal({
   const renderAddToDiaryBlock = () => {
     if (!onAddToDiary) return null;
     return (
-      <div style={{ marginBottom: 16 }}>
+      <div id="tour-add-to-diary" style={{ marginBottom: 16, position: 'relative' }}>
+        {/* First-time-only explanation of what this button actually does --
+            aimed at someone who picked a single meal during onboarding and
+            is opening a recipe for the very first time, before they've even
+            seen the Diary tab. Never shown again once dismissed (see
+            useFirstVisitTip). */}
+        {diaryTip.show && (
+          <div className="coach-callout" onClick={diaryTip.dismiss}>
+            Add meals to your daily Diary to keep track of what you're eating, or plan ahead.
+          </div>
+        )}
         <button
           onClick={() => { hapticLight(); setDiaryOpen((v) => !v); }}
           style={{ width: '100%', background: 'var(--s2)', border: '1px solid var(--border)', color: 'var(--cream)', borderRadius: 13, padding: 12, fontSize: 14, fontWeight: 700, fontFamily: "'Manrope',sans-serif", cursor: 'pointer' }}
@@ -834,7 +862,16 @@ export default function RecipeModal({
           {/* Notes used to be their own page you had to click through --
               folded in here instead so finishing the recipe, rating it, and
               jotting anything worth remembering all happen on one screen. */}
-          <div style={{ marginTop: 20 }}>
+          <div style={{ marginTop: 20, position: 'relative' }}>
+            {/* First-time-only explanation of the auto-save-to-Favorites
+                behavior (see useSavedRecipes' autoSaveIfNeeded) -- easy to
+                miss since nothing here says "favorites" anywhere on screen
+                otherwise. */}
+            {favoriteTip.show && (
+              <div className="coach-callout" onClick={favoriteTip.dismiss}>
+                Adding a note here automatically saves this recipe to your Favorites, so it's easy to find again.
+              </div>
+            )}
             <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--muted)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: 1 }}>
               Notes
             </div>
@@ -894,7 +931,7 @@ export default function RecipeModal({
                 with its label here (unlike the compact version on Browse/
                 Kitchen cards) since there's room and it's the main detail
                 view. */}
-            <div style={{ marginTop: 6 }}>
+            <div id="tour-effort-gauge" style={{ marginTop: 6, display: 'inline-block' }}>
               <EffortGauge recipe={r} size={13} showLabel />
             </div>
             {r.servings > 1 && (
@@ -905,7 +942,7 @@ export default function RecipeModal({
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 8 }}>
             {toggleSaved && (
-              <div onClick={(e) => { e.stopPropagation(); toggleSaved(r.id); }} style={{ cursor: 'pointer' }} title={saved ? 'Tap to unsave' : 'Tap to save'}>
+              <div id="tour-favorite-star" onClick={(e) => { e.stopPropagation(); toggleSaved(r.id); }} style={{ cursor: 'pointer' }} title={saved ? 'Tap to unsave' : 'Tap to save'}>
                 <StarIcon filled={saved} size={24} />
               </div>
             )}
@@ -939,7 +976,7 @@ export default function RecipeModal({
                   right ingredientOverrides slot after the split. */}
               {components.length > 0 && (() => {
                 const { core, seasonings } = splitIngredients(components);
-                const renderRow = (c, origIndex, isLast) => {
+                const renderRow = (c, origIndex, isLast, isFirst) => {
                   const isEditing = editingIngredientIndex === origIndex;
                   const display = getQuantityDisplay(c.quantity, c.unit, c.name, unitModes[origIndex]);
                   const have = Boolean(haveIngredient[origIndex]);
@@ -982,6 +1019,7 @@ export default function RecipeModal({
                             />
                           ) : (
                             <span
+                              id={isFirst ? 'tour-quantity-edit' : undefined}
                               onClick={() => startEditingIngredient(origIndex, c)}
                               style={{ fontSize: 12, color: c.edited ? 'var(--lime)' : 'var(--muted)', whiteSpace: 'nowrap', cursor: 'pointer', textDecoration: 'underline dotted', textUnderlineOffset: 3 }}
                             >
@@ -1002,8 +1040,19 @@ export default function RecipeModal({
                   );
                 };
                 return (
-                  <div style={{ marginBottom: 16 }}>
-                    <div style={{ fontSize: 11, color: 'var(--muted)', marginBottom: 8 }}>
+                  <div style={{ marginBottom: 16, position: 'relative' }}>
+                    {/* First-time-only explanation of the two things this
+                        whole block lets you do -- tweak amounts here, and
+                        (once cooking starts) tweak instruction wording too.
+                        Anchored to the section as a whole rather than a
+                        single row, since it's explaining a pattern that
+                        applies to every row. */}
+                    {editTip.show && (
+                      <div className="coach-callout" onClick={editTip.dismiss}>
+                        Tap any quantity to edit it -- and once you're cooking, tap any instruction step to rewrite it your way.
+                      </div>
+                    )}
+                    <div id="tour-ingredients-check" style={{ fontSize: 11, color: 'var(--muted)', marginBottom: 8 }}>
                       Check off what you already have. Tap a quantity to edit it, or the unit badge to switch between g/oz or ml/fl oz.
                     </div>
                     <div style={{ display: 'flex' }}>
@@ -1011,14 +1060,14 @@ export default function RecipeModal({
                         <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--muted)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: 1 }}>
                           Core Ingredients
                         </div>
-                        {core.map((c, idx) => renderRow(c, c.index, idx === core.length - 1))}
+                        {core.map((c, idx) => renderRow(c, c.index, idx === core.length - 1, idx === 0))}
                       </div>
                       {seasonings.length > 0 && (
                         <div style={{ flex: 1, paddingLeft: 14, borderLeft: '1px solid var(--border)' }}>
                           <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--muted)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: 1 }}>
                             Seasonings
                           </div>
-                          {seasonings.map((c, idx) => renderRow(c, c.index, idx === seasonings.length - 1))}
+                          {seasonings.map((c, idx) => renderRow(c, c.index, idx === seasonings.length - 1, false))}
                         </div>
                       )}
                     </div>
@@ -1080,6 +1129,7 @@ export default function RecipeModal({
                     </div>
                   )}
                   <div
+                    id="tour-view-all-steps"
                     onClick={() => { hapticLight(); setShowAllSteps(true); }}
                     style={{ fontSize: 12, color: 'var(--lime)', textDecoration: 'underline', cursor: 'pointer', display: 'inline-block' }}
                   >
@@ -1090,9 +1140,22 @@ export default function RecipeModal({
 
               {canCook && (
                 <>
-                  <button className="gen-kitchen-btn cook-action-btn" onClick={goToCook} style={{ marginTop: 4, marginBottom: 8 }}>
-                    Let's Make It
-                  </button>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 4, marginBottom: 8 }}>
+                    <button className="gen-kitchen-btn cook-action-btn" onClick={goToCook} style={{ flex: 1, marginTop: 0, marginBottom: 0 }}>
+                      Let's Make It
+                    </button>
+                    {/* Manually-launched guided walkthrough of this whole
+                        screen (see RecipeTutorial.jsx) -- separate from the
+                        one-time automatic coach callouts sprinkled through
+                        this file, and revisitable any time, not just once. */}
+                    <div
+                      className="info-btn"
+                      onClick={() => { hapticLight(); setShowTutorial(true); }}
+                      title="How this screen works"
+                    >
+                      <InfoIcon />
+                    </div>
+                  </div>
                   <div style={{ fontSize: 11, color: 'var(--muted)', textAlign: 'center' }}>
                     or swipe right to start cooking
                   </div>
@@ -1253,6 +1316,8 @@ export default function RecipeModal({
           </div>
         </div>
       )}
+
+      {showTutorial && <RecipeTutorial onClose={() => setShowTutorial(false)} />}
     </div>
   );
 }
