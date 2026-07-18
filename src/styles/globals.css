@@ -1097,6 +1097,22 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
   .recipe-tutorial-spotlight{animation:kitchen-hero-pulse 2s ease-in-out infinite;}
 }
 
+/* DIARY ENTRY HIGHLIGHT: briefly called out after RecipeModal's Finish
+   button navigates here (see App.jsx's highlightedDiaryEntryId +
+   Saved.jsx) -- since Add to Diary no longer auto-jumps to this tab by
+   itself, landing on a list of entries after tapping Finish needs some way
+   to say "this one" without the person having to guess which row just
+   changed. Reuses the same blue-to-gold pulse language as
+   .kitchen-hero-card/.recipe-tutorial-spotlight rather than inventing a
+   fourth glow animation. */
+.diary-entry-highlight{border-color:rgba(255,193,58,.7) !important;}
+@media (prefers-reduced-motion: no-preference) {
+  .diary-entry-highlight{animation:kitchen-hero-pulse 1.1s ease-in-out 3;}
+}
+@media (prefers-reduced-motion: reduce) {
+  .diary-entry-highlight{box-shadow:0 0 14px 2px rgba(255,193,58,.4);}
+}
+
 /* INFO ICON BUTTON: sits next to a page's title (Kitchen/Browse/Diary),
    reopens that tab's FirstVisitTip banner on tap (see InfoIcon.jsx +
    hooks/useFirstVisitTip.js) -- the tip only auto-shows once, so without

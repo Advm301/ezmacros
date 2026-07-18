@@ -59,22 +59,27 @@ export default function useDiary(userId) {
     refresh();
   }, [refresh]);
 
-  // Returns true on success, false on failure, so callers can decide what
-  // to do next (e.g. only show a confirmation / close the modal on success).
-  // `isSurprise` marks entries added via the Surprise Me picker (as opposed
-  // to a deliberate pick) so the diary can badge them differently.
+  // Returns the newly-inserted row (including its `id`) on success, null on
+  // failure, so callers can decide what to do next (e.g. only show a
+  // confirmation on success) and, since RecipeModal's Add to Diary no
+  // longer auto-navigates away on its own, so App.jsx can remember exactly
+  // which entry to highlight if the person later hits Finish. `isSurprise`
+  // marks entries added via the Surprise Me picker (as opposed to a
+  // deliberate pick) so the diary can badge them differently.
   const addEntry = async (entryDate, mealSlot, recipeId, isSurprise = false) => {
-    if (!userId) return false;
-    const { error } = await supabase
+    if (!userId) return null;
+    const { data, error } = await supabase
       .from('diary_entries')
-      .insert({ user_id: userId, entry_date: entryDate, meal_slot: mealSlot, recipe_id: recipeId, is_surprise: isSurprise });
+      .insert({ user_id: userId, entry_date: entryDate, meal_slot: mealSlot, recipe_id: recipeId, is_surprise: isSurprise })
+      .select()
+      .single();
 
     if (error) {
       console.error('Error adding diary entry:', error);
-      return false;
+      return null;
     }
     refresh();
-    return true;
+    return data;
   };
 
   const removeEntry = async (entryId) => {

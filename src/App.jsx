@@ -110,6 +110,30 @@ export default function App() {
   const [openRecipe, setOpenRecipe] = useState(null);
   const [toast, setToast] = useState(null);
   const [savedDate, setSavedDate] = useState(todayString());
+  // Tracks the most recent diary entry added from inside the currently-open
+  // recipe modal (see handleAddToDiary) -- Add to Diary itself no longer
+  // closes the modal or jumps to the Diary tab; it just confirms via toast
+  // and stays put, so someone can keep cooking/rating afterward. Only when
+  // they explicitly hit Finish (see handleFinishCooking) does the app
+  // navigate to Diary and briefly highlight whichever entry this was --
+  // and only if something actually got added this session, otherwise
+  // Finish just closes the modal like normal. Cleared whenever a new
+  // recipe is opened (see handleOpenRecipe) so a stale add from a
+  // previous recipe can't leak into this one.
+  const [lastAddedDiaryEntry, setLastAddedDiaryEntry] = useState(null); // { date, entryId } | null
+  // Handed to Saved.jsx so it can apply a few-seconds-long highlight to
+  // the specific entry Finish just confirmed, rather than just landing on
+  // a Diary full of entries with no indication which one is new.
+  const [highlightedDiaryEntryId, setHighlightedDiaryEntryId] = useState(null);
+
+  // Every onOpen prop (Kitchen/Browse/Saved) goes through this now instead
+  // of calling setOpenRecipe directly, so opening any new recipe always
+  // starts that modal's "was anything added to Diary this session" state
+  // fresh.
+  const handleOpenRecipe = (recipe) => {
+    setLastAddedDiaryEntry(null);
+    setOpenRecipe(recipe);
+  };
   const [showFeedback, setShowFeedback] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   // Whether the one-time first-session onboarding (see components/
@@ -365,16 +389,40 @@ export default function App() {
   // Bridges RecipeModal's (recipeId, date, slot) call shape to useDiary's
   // addEntry(entryDate, mealSlot, recipeId) shape -- keeping the argument
   // reordering in one place instead of relying on both sides agreeing on it.
+  //
+  // Deliberately does NOT switch tabs or close the modal any more -- doing
+  // both immediately, right when someone taps a date/slot, meant Add to
+  // Diary always ended the whole recipe session on the spot, even if they
+  // were just planning ahead and still meant to keep reading or start
+  // cooking. Now it just confirms via toast and stays put; navigating to
+  // Diary only happens later, when Finish is explicitly clicked (see
+  // handleFinishCooking below), and only because something was actually
+  // added this session.
   const handleAddToDiary = async (recipeId, date, slot) => {
-    const ok = await diary.addEntry(date, slot, recipeId);
-    if (ok) {
+    const entryRow = await diary.addEntry(date, slot, recipeId);
+    if (entryRow) {
       hapticSuccess();
-      setSavedDate(date);
-      setTab("saved");
-      showToast("Recipe added to Diary!");
-      setOpenRecipe(null);
+      showToast("Added to Diary!");
+      setLastAddedDiaryEntry({ date, entryId: entryRow.id });
     }
-    return ok;
+    return !!entryRow;
+  };
+
+  // Called when Finish is clicked on the recipe modal's closing rating
+  // page (as opposed to the plain "✕ Close" button/backdrop, which just
+  // closes -- see RecipeModal's onClose vs onFinish props). Only navigates
+  // to Diary (and briefly highlights whatever was added -- see
+  // highlightedDiaryEntryId, consumed by Saved.jsx) if this particular
+  // modal session actually added something; otherwise Finish behaves
+  // exactly like closing normally.
+  const handleFinishCooking = () => {
+    if (lastAddedDiaryEntry) {
+      setSavedDate(lastAddedDiaryEntry.date);
+      setHighlightedDiaryEntryId(lastAddedDiaryEntry.entryId);
+      setTab("saved");
+      setLastAddedDiaryEntry(null);
+    }
+    setOpenRecipe(null);
   };
 
   // Beta-only: writes a feedback submission tied to the signed-in user,
@@ -561,7 +609,7 @@ export default function App() {
         {/* Page content */}
         {tab === "kitchen" && (
           <Kitchen
-            onOpen={setOpenRecipe}
+            onOpen={handleOpenRecipe}
             getRatingSummary={getRatingSummary}
             selectedStaples={kitchenStaples}
             setSelectedStaples={setKitchenStaples}
@@ -571,13 +619,13 @@ export default function App() {
             onDismissJustOnboarded={() => setKitchenJustOnboarded(false)}
           />
         )}
-        {tab === "browse" && <Browse onOpen={setOpenRecipe} isSaved={isSaved} toggleSaved={toggleSaved} getRatingSummary={getRatingSummary} />}
+        {tab === "browse" && <Browse onOpen={handleOpenRecipe} isSaved={isSaved} toggleSaved={toggleSaved} getRatingSummary={getRatingSummary} />}
         {tab === "saved" && (
           <Saved
             saved={saved}
             isSaved={isSaved}
             toggleSaved={toggleSaved}
-            onOpen={setOpenRecipe}
+            onOpen={handleOpenRecipe}
             getRatingSummary={getRatingSummary}
             getEntry={getEntry}
             diary={diary}
@@ -585,6 +633,8 @@ export default function App() {
             onDateChange={setSavedDate}
             shoppingListHint={shoppingListHint}
             onConsumeShoppingListHint={() => setShoppingListHint(false)}
+            highlightedEntryId={highlightedDiaryEntryId}
+            onConsumeHighlightedEntry={() => setHighlightedDiaryEntryId(null)}
           />
         )}
 
@@ -709,6 +759,7 @@ export default function App() {
           key={openRecipe.id}
           recipe={openRecipe}
           onClose={() => setOpenRecipe(null)}
+          onFinish={handleFinishCooking}
           isSaved={isSaved}
           toggleSaved={toggleSaved}
           entry={getEntry(openRecipe.id)}

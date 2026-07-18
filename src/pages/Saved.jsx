@@ -74,6 +74,8 @@ export default function Saved({
   onDateChange,
   shoppingListHint,
   onConsumeShoppingListHint,
+  highlightedEntryId,
+  onConsumeHighlightedEntry,
 }) {
   const [dayMessage, setDayMessage] = useState('');
   const [generatingDay, setGeneratingDay] = useState(false);
@@ -125,6 +127,18 @@ export default function Saved({
     const timer = setTimeout(() => setShowShoppingCallout(false), 4500);
     return () => clearTimeout(timer);
   }, [showShoppingCallout]);
+
+  // Briefly calls out whichever entry Finish just navigated here for (see
+  // App.jsx's highlightedDiaryEntryId) -- self-clears after a few seconds
+  // via onConsumeHighlightedEntry so the glow doesn't linger forever, and
+  // clears early if the person navigates away/back before the timer fires.
+  useEffect(() => {
+    if (!highlightedEntryId) return;
+    const timer = setTimeout(() => {
+      if (onConsumeHighlightedEntry) onConsumeHighlightedEntry();
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, [highlightedEntryId, onConsumeHighlightedEntry]);
 
   const savedIds = Object.keys(saved);
   const savedRecipes = RECIPES.filter((r) => savedIds.includes(String(r.id)));
@@ -482,9 +496,11 @@ export default function Saved({
                     const r = RECIPES.find((rec) => rec.id === entry.recipe_id);
                     if (!r) return null;
                     const isRegenerating = regeneratingId === entry.id;
+                    const isHighlighted = entry.id === highlightedEntryId;
                     return (
                       <div
                         key={entry.id}
+                        className={isHighlighted ? 'diary-entry-highlight' : undefined}
                         style={{ background: 'var(--s1)', border: '1px solid var(--border)', borderRadius: 14, padding: 12, marginBottom: 8, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, opacity: isRegenerating ? 0.6 : 1 }}
                         onClick={() => openRecipe(r)}
                       >

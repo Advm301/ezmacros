@@ -134,6 +134,29 @@ const COOK_TUTORIAL_STEPS = [
   },
 ];
 
+// Third mandatory tour, covering the closing "How'd It Go" rating page --
+// launched automatically the first time anyone ever reaches it (see
+// isRatingPageNow below), same no-skip-the-first-time pattern as the other
+// two. Kept to just these two things, per how this screen is actually used
+// step by step: check "I made this recipe" first, which is what actually
+// reveals the tappable star row underneath it -- so the tour points at the
+// checkbox and at the always-visible rating summary above it (which
+// explains what tapping a star there will do) rather than at the stars
+// themselves, since they don't exist in the DOM yet on someone's very
+// first visit to this page.
+const RATING_TUTORIAL_STEPS = [
+  {
+    selector: '#tour-made-it-checkbox',
+    title: 'Made This Recipe?',
+    text: 'Check this once you’ve actually made it -- it unlocks the star rating right below.',
+  },
+  {
+    selector: '#tour-rating-summary',
+    title: 'Rate It',
+    text: "This shows the recipe's overall rating from everyone who's tried it. Once you check the box above, tap a star here to leave your own -- ratings can't be changed once submitted.",
+  },
+];
+
 // Round to 1 decimal place, stripping a trailing ".0".
 function formatNum(n) {
   const rounded = Math.round(n * 10) / 10;
@@ -230,6 +253,7 @@ const navBtnStyle = {
 export default function RecipeModal({
   recipe,
   onClose,
+  onFinish,
   isSaved,
   toggleSaved,
   entry,
@@ -293,21 +317,22 @@ export default function RecipeModal({
   // `r.servings` is known -- this just needs a stable index into whichever
   // pool applies.
   const [completionMsgSeed] = useState(() => Math.floor(Math.random() * 3));
-  // Guided walkthrough (see RecipeTutorial.jsx), split into two mandatory,
-  // no-skip-allowed passes the very first time each is reached -- one
-  // covering the decide screen (Add to Diary, effort gauge, ingredient
-  // checkboxes, favorites, View All Steps), launched automatically the
-  // first time ANY recipe modal is ever opened; the other covering
-  // per-step editing and notes, launched automatically the first time
-  // someone reaches the very first cook-wizard step, ever. Each is gated
-  // by its own useFirstVisitTip flag so it only forces itself once, but
+  // Guided walkthrough (see RecipeTutorial.jsx), split into three
+  // mandatory, no-skip-allowed passes, each launched automatically the
+  // very first time it's reached: one covering the decide screen (Add to
+  // Diary, effort gauge, ingredient checkboxes, favorites, View All
+  // Steps), one covering per-step editing and notes on the very first
+  // cook-wizard step, and one covering the closing "How'd It Go" rating
+  // page (checking "I made this recipe", and rating). Each is gated by its
+  // own useFirstVisitTip flag so it only forces itself once, but
   // `activeTutorial` (which one, if any, is currently showing) and
   // `tutorialSkippable` (whether Skip is allowed) are separate local state
-  // -- the same tour can also be replayed voluntarily later via the info
-  // button next to Let's Make It, which IS skippable, unlike the mandatory
-  // first pass.
+  // -- the decide-screen tour can also be replayed voluntarily later via
+  // the info button next to Let's Make It, which IS skippable, unlike the
+  // mandatory first pass.
   const decideTutorialTip = useFirstVisitTip('quickprep_seen_recipe_decide_tutorial');
   const cookTutorialTip = useFirstVisitTip('quickprep_seen_recipe_cook_tutorial');
+  const ratingTutorialTip = useFirstVisitTip('quickprep_seen_recipe_rating_tutorial');
   // Decided once, right in the lazy initializer, rather than via an effect
   // that fires setState on mount -- this is the actual initial render
   // value, not a follow-up render, so there's no cascading-render effect
@@ -318,7 +343,7 @@ export default function RecipeModal({
   const [activeTutorial, setActiveTutorial] = useState(() => {
     const canCookNow = (recipe?.instructions?.length ?? 0) > 0;
     return decideTutorialTip.show && canCookNow ? 'decide' : null;
-  }); // null | 'decide' | 'cook'
+  }); // null | 'decide' | 'cook' | 'rating'
   const [tutorialSkippable, setTutorialSkippable] = useState(false);
   // Tracks the previous `screen` value so the cook-wizard tutorial can be
   // triggered the moment `screen` becomes 'cook' -- compared and acted on
@@ -335,9 +360,28 @@ export default function RecipeModal({
     }
   }
 
+  // Same render-time-comparison pattern as the cook tutorial above, but for
+  // reaching the closing "How'd It Go" rating page specifically -- that's
+  // always the very last cook-wizard page (see cookPages further down),
+  // computed here directly from `recipe`/`onRate` rather than the later
+  // derived `cookPages`/`instructions`, for the same early-return/hook-
+  // order reason explained on activeTutorial's lazy initializer above.
+  const instructionsCountForTutorial = recipe?.instructions?.length ?? 0;
+  const totalCookPagesForTutorial = instructionsCountForTutorial + (onRate ? 1 : 0);
+  const isRatingPageNow = screen === 'cook' && Boolean(onRate) && cookStep === totalCookPagesForTutorial - 1;
+  const [prevIsRatingPageForTutorial, setPrevIsRatingPageForTutorial] = useState(isRatingPageNow);
+  if (isRatingPageNow !== prevIsRatingPageForTutorial) {
+    setPrevIsRatingPageForTutorial(isRatingPageNow);
+    if (isRatingPageNow && ratingTutorialTip.show) {
+      setActiveTutorial('rating');
+      setTutorialSkippable(false);
+    }
+  }
+
   const closeTutorial = () => {
     if (activeTutorial === 'decide') decideTutorialTip.dismiss();
     if (activeTutorial === 'cook') cookTutorialTip.dismiss();
+    if (activeTutorial === 'rating') ratingTutorialTip.dismiss();
     setActiveTutorial(null);
     setTutorialSkippable(false);
   };
@@ -564,7 +608,13 @@ export default function RecipeModal({
         showMotivation(cookStep + 1, instructions.length);
       }
     } else {
-      onClose();
+      // Finish, on the closing rating page -- distinct from the plain
+      // "✕ Close" button/backdrop (which always just calls onClose). If
+      // anything was added to the Diary this session, the parent (see
+      // App.jsx's handleFinishCooking) navigates to Diary and briefly
+      // highlights it instead of just closing; falls back to onClose if a
+      // caller doesn't pass onFinish, so this never silently does nothing.
+      (onFinish || onClose)();
     }
   };
 
@@ -660,7 +710,7 @@ export default function RecipeModal({
 
   const renderRatingBlock = () => (
     <>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+      <div id="tour-rating-summary" style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
         <StarRating value={ratingSummary?.avg || 0} readOnly size={16} />
         <span style={{ fontSize: 12, color: 'var(--muted)' }}>
           {ratingSummary
@@ -690,7 +740,7 @@ export default function RecipeModal({
         </div>
       ) : (
         <>
-          <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', marginBottom: madeIt ? 10 : 14 }}>
+          <label id="tour-made-it-checkbox" style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', marginBottom: madeIt ? 10 : 14 }}>
             <input
               type="checkbox"
               checked={madeIt}
@@ -1379,6 +1429,9 @@ export default function RecipeModal({
       )}
       {activeTutorial === 'cook' && (
         <RecipeTutorial steps={COOK_TUTORIAL_STEPS} mandatory={!tutorialSkippable} onClose={closeTutorial} />
+      )}
+      {activeTutorial === 'rating' && (
+        <RecipeTutorial steps={RATING_TUTORIAL_STEPS} mandatory={!tutorialSkippable} onClose={closeTutorial} />
       )}
     </div>
   );
