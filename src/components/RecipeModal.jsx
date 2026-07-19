@@ -46,6 +46,34 @@ function scaleQuantity(quantity, factor) {
   return Math.max(scaled, floor);
 }
 
+const GRAMS_PER_LB = 453.592;
+
+// Whether this ingredient is a weight-based protein someone would actually
+// be comparing against a real package sitting on their counter (ground
+// meat, a fillet, a chop, a bag of shrimp) -- these get a "(X lb)" readout
+// next to their gram amount below, so a glance at e.g. "568g (1.25 lb)"
+// immediately tells someone whether that matches the 1lb or 3lb package
+// they bought, without doing the g-to-lb math themselves before deciding
+// whether to bump the servings picker. Deliberately NOT applied to every
+// gram-weighted ingredient (rice, veg, cottage cheese, etc.) -- just the
+// ones people actually buy and think about in pounds.
+const BULK_PROTEIN_KEYWORDS = [
+  'Ground Beef', 'Ground Turkey', 'Ground Pork', 'Ground Chicken', 'Ground Mexican Chorizo', 'Chorizo',
+  'Chicken Breast', 'Chicken Thigh', 'Chicken Tender',
+  'Pork Chop', 'Pork Tenderloin', 'Pork Shoulder',
+  'Turkey Breast', 'Turkey Tenderloin',
+  'Steak', 'Ham',
+  'Cod Fillet', 'Salmon Fillet', 'Tilapia', 'Frozen Shrimp',
+];
+
+function isBulkProteinComponent(name) {
+  return Boolean(name) && BULK_PROTEIN_KEYWORDS.some((k) => name.includes(k));
+}
+
+function formatLb(grams) {
+  return formatNum(grams / GRAMS_PER_LB);
+}
+
 // Shown on the finish screen once a recipe is completed -- the point is to
 // make people feel good about having just cooked instead of ordering in,
 // not to overstate any one dish. Two pools rather than one: a meal-prep
@@ -1208,6 +1236,11 @@ export default function RecipeModal({
                               style={{ fontSize: 12, color: c.edited ? 'var(--lime)' : 'var(--muted)', whiteSpace: 'nowrap', cursor: 'pointer', textDecoration: 'underline dotted', textUnderlineOffset: 3 }}
                             >
                               {display.value}{display.suffix}
+                            </span>
+                          )}
+                          {c.unit === 'g' && isBulkProteinComponent(c.name) && (
+                            <span style={{ fontSize: 10.5, color: 'var(--muted)', whiteSpace: 'nowrap' }}>
+                              ({formatLb(c.quantity)} lb)
                             </span>
                           )}
                           {display.toggleable && (
