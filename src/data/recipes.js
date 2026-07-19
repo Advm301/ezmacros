@@ -2819,7 +2819,7 @@ export const RECIPES = [
     "id": 51,
     "method": "Stovetop",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 4,
     "proteins": [
       "beef"
     ],
@@ -2832,47 +2832,47 @@ export const RECIPES = [
     "components": [
       {
         "name": "Ground Beef (80/20)",
-        "quantity": 142,
+        "quantity": 568,
         "unit": "g"
       },
       {
-        "name": "American Cheese Slice",
-        "quantity": 21,
-        "unit": "g"
+        "name": "American Cheese Slices (1 per burger)",
+        "quantity": 4,
+        "unit": "each"
       },
       {
-        "name": "Brioche Bun",
-        "quantity": 80,
-        "unit": "g"
+        "name": "Brioche Buns (1 per burger)",
+        "quantity": 4,
+        "unit": "each"
       },
       {
-        "name": "Ketchup (2 tbsp)",
-        "quantity": 32,
+        "name": "Ketchup (2 tbsp per burger)",
+        "quantity": 128,
         "unit": "ml"
       },
       {
-        "name": "Yellow Mustard (1 tbsp)",
-        "quantity": 5,
+        "name": "Yellow Mustard (1 tbsp per burger)",
+        "quantity": 20,
         "unit": "ml"
       },
       {
-        "name": "Pickle Slices (jar, 2 tbsp)",
-        "quantity": 30,
+        "name": "Pickle Slices (jar, 2 tbsp per burger)",
+        "quantity": 120,
         "unit": "g"
       },
       {
-        "name": "Salt (pinch)",
-        "quantity": 0.5,
+        "name": "Salt (pinch per burger)",
+        "quantity": 2,
         "unit": "g"
       },
       {
-        "name": "Black Pepper (pinch)",
-        "quantity": 0.5,
+        "name": "Black Pepper (pinch per burger)",
+        "quantity": 2,
         "unit": "g"
       },
       {
-        "name": "Onion Powder (pinch)",
-        "quantity": 0.5,
+        "name": "Onion Powder (pinch per burger)",
+        "quantity": 2,
         "unit": "g"
       }
     ],
@@ -2880,10 +2880,10 @@ export const RECIPES = [
       "Mayonnaise"
     ],
     "instructions": [
-      "Heat cast iron skillet screaming hot (~400°F).",
-      "Roll beef into a ball and season all over with salt, pepper, and onion powder. Place on skillet and immediately smash flat with spatula.",
-      "Cook 2 min without moving. Flip, add cheese, cook 1 min.",
-      "Toast bun lightly. Build burger with ketchup, mustard, pickles."
+      "Roll beef into 4 balls (about 142g/5oz each) and season all over with salt, pepper, and onion powder.",
+      "Heat cast iron skillet screaming hot (~400°F). Working in batches, smash each ball flat with a spatula. Cook 2 min without moving, then flip and cook 1 min more.",
+      "Refrigerate the cooked patties (up to 4 days) or freeze -- they reheat great.",
+      "To serve one: reheat a patty in a hot skillet about 1 min per side, melting a cheese slice on top in the last minute. Toast a bun, build with ketchup, mustard, and pickles."
     ],
     "totalTime": 6,
     "pantryTags": [
@@ -2901,7 +2901,7 @@ export const RECIPES = [
     "id": 52,
     "method": "Stovetop",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 4,
     "proteins": [
       "beef"
     ],
@@ -2914,47 +2914,47 @@ export const RECIPES = [
     "components": [
       {
         "name": "Ground Beef (93% lean)",
-        "quantity": 142,
+        "quantity": 568,
         "unit": "g"
       },
       {
-        "name": "Pre-Cooked Bacon (microwave, 3 strips)",
-        "quantity": 42,
+        "name": "Pre-Cooked Bacon (microwave, 3 strips per burger)",
+        "quantity": 168,
         "unit": "g"
       },
       {
-        "name": "BBQ Sauce (2 tbsp)",
-        "quantity": 34,
+        "name": "BBQ Sauce (2 tbsp per burger)",
+        "quantity": 136,
         "unit": "ml"
       },
       {
-        "name": "Cheddar Slice",
-        "quantity": 28,
+        "name": "Cheddar Slices (1 per burger)",
+        "quantity": 4,
+        "unit": "each"
+      },
+      {
+        "name": "Brioche Buns (1 per burger)",
+        "quantity": 4,
+        "unit": "each"
+      },
+      {
+        "name": "Salt (pinch per burger)",
+        "quantity": 2,
         "unit": "g"
       },
       {
-        "name": "Brioche Bun",
-        "quantity": 80,
+        "name": "Black Pepper (pinch per burger)",
+        "quantity": 2,
         "unit": "g"
       },
       {
-        "name": "Salt (pinch)",
-        "quantity": 0.5,
+        "name": "Onion Powder (pinch per burger)",
+        "quantity": 2,
         "unit": "g"
       },
       {
-        "name": "Black Pepper (pinch)",
-        "quantity": 0.5,
-        "unit": "g"
-      },
-      {
-        "name": "Onion Powder (pinch)",
-        "quantity": 0.5,
-        "unit": "g"
-      },
-      {
-        "name": "Garlic Powder (pinch)",
-        "quantity": 0.5,
+        "name": "Garlic Powder (pinch per burger)",
+        "quantity": 2,
         "unit": "g"
       }
     ],
@@ -2962,10 +2962,10 @@ export const RECIPES = [
       "Lettuce Leaf"
     ],
     "instructions": [
-      "Heat skillet medium-high. Season beef all over with salt, pepper, onion powder, and garlic powder, then form into a patty. Cook 3–4 min per side (~160°F internal).",
-      "Microwave bacon strips 2 min. Add cheese to burger last min.",
-      "Toast bun. Brush BBQ sauce on inside.",
-      "Stack burger + bacon on bun."
+      "Season beef all over with salt, pepper, onion powder, and garlic powder, then divide and form into 4 patties (~142g/5oz each).",
+      "Heat skillet medium-high. Cook patties in batches, 3–4 min per side (~160°F internal). Microwave bacon strips 2 min.",
+      "Refrigerate the cooked patties and bacon (up to 4 days) or freeze.",
+      "To serve one: reheat a patty in a hot pan, melting cheese on top in the last minute. Toast a bun, brush BBQ sauce on the inside, stack burger + bacon."
     ],
     "totalTime": 8,
     "pantryTags": [
@@ -2983,7 +2983,7 @@ export const RECIPES = [
     "id": 53,
     "method": "Stovetop",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 4,
     "proteins": [
       "turkey"
     ],
@@ -2996,32 +2996,32 @@ export const RECIPES = [
     "components": [
       {
         "name": "Ground Turkey (93% lean)",
-        "quantity": 142,
+        "quantity": 568,
         "unit": "g"
       },
       {
-        "name": "Minced Garlic (jarred, 1½ tsp)",
-        "quantity": 7.5,
-        "unit": "g"
-      },
-      {
-        "name": "Worcestershire Sauce (1 tbsp)",
-        "quantity": 15,
-        "unit": "ml"
-      },
-      {
-        "name": "Brioche Bun",
-        "quantity": 80,
-        "unit": "g"
-      },
-      {
-        "name": "Yellow Mustard (2 tbsp)",
-        "quantity": 10,
-        "unit": "ml"
-      },
-      {
-        "name": "Dill Pickle Slices (jar, 2 tbsp)",
+        "name": "Minced Garlic (jarred, 1½ tsp per patty)",
         "quantity": 30,
+        "unit": "g"
+      },
+      {
+        "name": "Worcestershire Sauce (1 tbsp per patty)",
+        "quantity": 60,
+        "unit": "ml"
+      },
+      {
+        "name": "Brioche Buns (1 per burger)",
+        "quantity": 4,
+        "unit": "each"
+      },
+      {
+        "name": "Yellow Mustard (2 tbsp per burger)",
+        "quantity": 40,
+        "unit": "ml"
+      },
+      {
+        "name": "Dill Pickle Slices (jar, 2 tbsp per burger)",
+        "quantity": 120,
         "unit": "g"
       }
     ],
@@ -3030,9 +3030,10 @@ export const RECIPES = [
       "Hot Sauce"
     ],
     "instructions": [
-      "Mix ground turkey with minced garlic + Worcestershire in bowl.",
-      "Form into patty. Heat skillet medium-high. Cook 4–5 min per side (~165°F internal).",
-      "Toast bun. Spread mustard. Build burger with pickles + toppings on side."
+      "Mix ground turkey with minced garlic + Worcestershire in a bowl. Divide and form into 4 patties.",
+      "Heat skillet medium-high. Cook patties in batches, 4–5 min per side (~165°F internal).",
+      "Refrigerate the cooked patties (up to 4 days) or freeze.",
+      "To serve one: reheat a patty in a hot pan. Toast a bun, spread mustard, build burger with pickles + toppings on side."
     ],
     "totalTime": 7,
     "pantryTags": [
@@ -3598,7 +3599,7 @@ export const RECIPES = [
     "id": 63,
     "method": "Stovetop",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 4,
     "proteins": [
       "beef"
     ],
@@ -3607,37 +3608,37 @@ export const RECIPES = [
     "components": [
       {
         "name": "Ground Beef (93% lean)",
-        "quantity": 142,
+        "quantity": 568,
         "unit": "g"
       },
       {
-        "name": "Low-Sodium Soy Sauce (1.5 tbsp)",
-        "quantity": 22.5,
+        "name": "Low-Sodium Soy Sauce (1.5 tbsp per bowl)",
+        "quantity": 90,
         "unit": "g"
       },
       {
-        "name": "Minced Garlic (jarred, 3 tsp)",
-        "quantity": 15,
+        "name": "Minced Garlic (jarred, 3 tsp per bowl)",
+        "quantity": 60,
         "unit": "g"
       },
       {
-        "name": "Honey (1 tbsp)",
-        "quantity": 20,
+        "name": "Honey (1 tbsp per bowl)",
+        "quantity": 80,
         "unit": "ml"
       },
       {
-        "name": "White Rice Pouch",
-        "quantity": 200,
-        "unit": "g"
+        "name": "White Rice Pouch (microwaveable, 1 per meal)",
+        "quantity": 4,
+        "unit": "each"
       },
       {
-        "name": "Frozen Broccoli (steam-bag)",
-        "quantity": 100,
-        "unit": "g"
+        "name": "Frozen Broccoli (steam-bag, 1 per meal)",
+        "quantity": 4,
+        "unit": "each"
       },
       {
-        "name": "Olive Oil (1 tsp)",
-        "quantity": 5,
+        "name": "Olive Oil (1 tsp per bowl)",
+        "quantity": 20,
         "unit": "g"
       }
     ],
@@ -3646,9 +3647,10 @@ export const RECIPES = [
       "Green Onion (dried)"
     ],
     "instructions": [
-      "Heat oil in skillet over medium-high. Brown beef 4–5 min, breaking it up.",
-      "Add soy sauce + garlic + honey. Simmer 2 min. Microwave rice 90 sec + broccoli 3 min.",
-      "Build bowl — toppings separate."
+      "Heat oil in a large skillet over medium-high. Add ground beef, breaking it apart with a spoon. Cook 10-12 minutes, stirring occasionally, until browned throughout.",
+      "Add soy sauce, garlic, and honey. Simmer 2-3 minutes, stirring, until the glaze coats the beef.",
+      "Divide the beef evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
+      "To serve one portion: microwave rice pouch 90 sec + steam-bag broccoli 3 min. Build bowl with rice, top with a portion of beef, broccoli on side. Toppings on side."
     ],
     "totalTime": 7,
     "pantryTags": [
@@ -3982,73 +3984,6 @@ export const RECIPES = [
     ]
   },
   {
-    "name": "Spicy Korean Ground Beef Bowl",
-    "description": "A spicy, gochujang-glazed Korean-style ground beef bowl with a touch of honey and garlic.",
-    "id": 69,
-    "method": "Stovetop",
-    "mealType": "lunch_dinner",
-    "servings": 1,
-    "proteins": [
-      "beef"
-    ],
-    "flavor": "spicy",
-    "activeTime": 7,
-    "components": [
-      {
-        "name": "Ground Beef (93% lean)",
-        "quantity": 142,
-        "unit": "g"
-      },
-      {
-        "name": "Gochujang Sauce (bottled, 2 tbsp)",
-        "quantity": 30,
-        "unit": "ml"
-      },
-      {
-        "name": "Low-Sodium Soy Sauce (1 tbsp)",
-        "quantity": 15,
-        "unit": "ml"
-      },
-      {
-        "name": "Honey (1 tsp)",
-        "quantity": 7,
-        "unit": "ml"
-      },
-      {
-        "name": "Minced Garlic (jarred, 1½ tsp)",
-        "quantity": 7.5,
-        "unit": "g"
-      },
-      {
-        "name": "White Rice Pouch",
-        "quantity": 200,
-        "unit": "g"
-      },
-      {
-        "name": "Olive Oil (1 tsp)",
-        "quantity": 5,
-        "unit": "g"
-      }
-    ],
-    "toppings": [
-      "Sesame Seeds",
-      "Green Onion (dried)"
-    ],
-    "instructions": [
-      "Heat oil in skillet. Brown beef 4–5 min, breaking it up.",
-      "Add gochujang + soy + honey + minced garlic. Simmer 2 min. Microwave rice 90 sec.",
-      "Build bowl — toppings separate."
-    ],
-    "totalTime": 7,
-    "pantryTags": [
-      "ground_beef",
-      "hot_sauce",
-      "onion_garlic",
-      "rice",
-      "soy_sauce"
-    ]
-  },
-  {
     "name": "Canned Salmon Caesar Wrap",
     "description": "A no-cook Caesar-style salmon wrap with romaine, parmesan, and creamy Caesar dressing.",
     "id": 70,
@@ -4115,7 +4050,7 @@ export const RECIPES = [
     "id": 71,
     "method": "Stovetop",
     "mealType": "breakfast",
-    "servings": 1,
+    "servings": 4,
     "proteins": [
       "beef",
       "dairy"
@@ -4127,33 +4062,33 @@ export const RECIPES = [
     ],
     "components": [
       {
-        "name": "Frozen Sweet Potato Cubes (pre-cut, 1.5 cups)",
-        "quantity": 225,
+        "name": "Frozen Sweet Potato Cubes (pre-cut)",
+        "quantity": 900,
         "unit": "g"
       },
       {
         "name": "Ground Beef (93% lean)",
-        "quantity": 142,
+        "quantity": 568,
         "unit": "g"
       },
       {
         "name": "Cottage Cheese",
-        "quantity": 112,
+        "quantity": 448,
         "unit": "g"
       },
       {
-        "name": "Guacamole (2 tbsp)",
-        "quantity": 56,
+        "name": "Guacamole (2 tbsp per bowl)",
+        "quantity": 224,
         "unit": "g"
       },
       {
-        "name": "Hot Honey (2 tbsp)",
-        "quantity": 34,
+        "name": "Hot Honey (2 tbsp per bowl)",
+        "quantity": 136,
         "unit": "ml"
       },
       {
-        "name": "Taco Seasoning (1 tbsp)",
-        "quantity": 8,
+        "name": "Taco Seasoning (1 tbsp per bowl)",
+        "quantity": 32,
         "unit": "g"
       }
     ],
@@ -4162,10 +4097,10 @@ export const RECIPES = [
       "Cilantro (dried)"
     ],
     "instructions": [
-      "Microwave frozen sweet potato cubes 5 min (or air fry 12 min at 400°F if using pre-cut frozen).",
-      "Heat skillet over medium-high. Brown ground beef 4–5 min, breaking it up. Stir in taco seasoning + 2 tbsp water, simmer 1 minute.",
-      "Build bowl: sweet potato base, seasoned beef on top, cottage cheese dollop.",
-      "Squeeze avocado + drizzle hot honey generously over top. Toppings on side."
+      "Microwave the frozen sweet potato cubes in batches, about 5 min per batch (or air fry 12 min at 400°F), until tender.",
+      "Heat a large skillet over medium-high. Brown ground beef 10-12 min, breaking it apart. Stir in taco seasoning + ¼ cup water, simmer 2 minutes.",
+      "Divide the sweet potato and seasoned beef evenly into 4 containers, each with a dollop of cottage cheese, and refrigerate (up to 4 days) or freeze.",
+      "To serve one portion: reheat, then squeeze fresh guacamole and drizzle hot honey on top -- adding these fresh at serving time keeps them from browning or separating in storage. Toppings on side."
     ],
     "totalTime": 8,
     "pantryTags": [
@@ -4728,7 +4663,7 @@ export const RECIPES = [
     "id": 80,
     "method": "Stovetop",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 4,
     "proteins": [
       "beef"
     ],
@@ -4740,37 +4675,37 @@ export const RECIPES = [
     "components": [
       {
         "name": "Ground Beef (93% lean)",
-        "quantity": 142,
+        "quantity": 568,
         "unit": "g"
       },
       {
-        "name": "Taco Seasoning (1 packet)",
-        "quantity": 25,
+        "name": "Taco Seasoning (1 packet per serving)",
+        "quantity": 100,
         "unit": "g"
       },
       {
-        "name": "Red Enchilada Sauce (canned, ¼ cup)",
-        "quantity": 60,
+        "name": "Red Enchilada Sauce (canned, ¼ cup per serving)",
+        "quantity": 240,
         "unit": "ml"
       },
       {
-        "name": "Beef Broth (small can, 1.5 cups)",
-        "quantity": 360,
+        "name": "Beef Broth (1 large carton, ~6 cups)",
+        "quantity": 1440,
         "unit": "g"
       },
       {
-        "name": "Corn Tortillas (2 medium)",
-        "quantity": 52,
+        "name": "Corn Tortillas (2 medium per serving)",
+        "quantity": 208,
         "unit": "g"
       },
       {
-        "name": "Shredded Mexican Cheese (½ cup)",
-        "quantity": 56,
+        "name": "Shredded Mexican Cheese (½ cup per serving)",
+        "quantity": 224,
         "unit": "g"
       },
       {
-        "name": "Olive Oil (1 tsp)",
-        "quantity": 5,
+        "name": "Olive Oil (1 tsp per serving)",
+        "quantity": 20,
         "unit": "g"
       }
     ],
@@ -4779,9 +4714,10 @@ export const RECIPES = [
       "Cilantro (fresh or dried)"
     ],
     "instructions": [
-      "Heat oil in skillet. Brown beef 4–5 min. Add taco seasoning + beef broth + enchilada sauce. Simmer 5 min -- the enchilada sauce gives the broth real birria-style depth instead of relying on the seasoning packet alone.",
-      "Dip corn tortillas in the hot broth until crispy (~20 sec per side).",
-      "Fill dipped tortillas with cheese + shredded beef from the pan + lime + cilantro. Serve with extra broth for dipping."
+      "Heat oil in a large pot. Brown beef 10-12 min, breaking it apart. Add taco seasoning, beef broth, and enchilada sauce. Simmer 10-12 minutes -- the enchilada sauce gives the broth real birria-style depth instead of relying on the seasoning packet alone.",
+      "Divide the beef and about ½ cup of broth per portion into 4 containers, and refrigerate (up to 4 days) or freeze. Save the rest of the broth separately for dipping.",
+      "To serve one portion: reheat that portion's broth in a small pot. Dip 2 corn tortillas in the hot broth until crispy (~20 sec per side).",
+      "Fill the dipped tortillas with cheese + shredded beef from that portion + lime + cilantro. Serve with extra broth for dipping."
     ],
     "totalTime": 10,
     "pantryTags": [
@@ -5137,7 +5073,7 @@ export const RECIPES = [
     "id": 86,
     "method": "Stovetop",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 4,
     "proteins": [
       "turkey",
       "plant"
@@ -5151,32 +5087,32 @@ export const RECIPES = [
     "components": [
       {
         "name": "Ground Turkey (93% lean)",
-        "quantity": 142,
+        "quantity": 568,
         "unit": "g"
       },
       {
-        "name": "Chipotle Seasoning Powder (1 tbsp)",
-        "quantity": 10,
+        "name": "Chipotle Seasoning Powder (1 tbsp per bowl)",
+        "quantity": 40,
         "unit": "g"
       },
       {
-        "name": "Canned Black Beans (½ can, drained)",
-        "quantity": 135,
+        "name": "Canned Black Beans (2 cans, drained)",
+        "quantity": 540,
         "unit": "g"
       },
       {
-        "name": "White Rice Pouch",
-        "quantity": 200,
-        "unit": "g"
+        "name": "White Rice Pouch (microwaveable, 1 per meal)",
+        "quantity": 4,
+        "unit": "each"
       },
       {
-        "name": "Salsa Verde (jarred, 3 tbsp)",
-        "quantity": 48,
+        "name": "Salsa Verde (jarred, 3 tbsp per bowl)",
+        "quantity": 192,
         "unit": "ml"
       },
       {
-        "name": "Olive Oil (1 tsp)",
-        "quantity": 5,
+        "name": "Olive Oil (1 tsp per bowl)",
+        "quantity": 20,
         "unit": "g"
       }
     ],
@@ -5185,9 +5121,10 @@ export const RECIPES = [
       "Cilantro (dried)"
     ],
     "instructions": [
-      "Heat oil in skillet. Brown turkey 4–5 min, breaking it up.",
-      "Add chipotle seasoning + beans + salsa verde. Simmer 2 min. Microwave rice 90 sec.",
-      "Build bowl — toppings on side."
+      "Heat oil in a large skillet. Brown turkey 10-12 min, breaking it apart.",
+      "Add chipotle seasoning, black beans, and salsa verde. Simmer 3-4 minutes.",
+      "Divide the turkey mixture evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
+      "To serve one portion: microwave rice pouch 90 sec. Build bowl with rice, top with a portion of the turkey mixture. Toppings on side."
     ],
     "totalTime": 7,
     "pantryTags": [
@@ -5203,7 +5140,7 @@ export const RECIPES = [
     "id": 87,
     "method": "Stovetop",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 4,
     "proteins": [
       "turkey"
     ],
@@ -5211,37 +5148,37 @@ export const RECIPES = [
     "activeTime": 8,
     "components": [
       {
-        "name": "Ramen-Style Noodles (dried or fresh, any brand -- no seasoning packet)",
+        "name": "Ramen-Style Noodles (dried or fresh, any brand -- no seasoning packet, 1 serving at a time)",
         "quantity": 56,
         "unit": "g"
       },
       {
         "name": "Ground Pork or Turkey (93% lean)",
-        "quantity": 142,
+        "quantity": 568,
         "unit": "g"
       },
       {
-        "name": "Chili Crisp (2 tbsp)",
-        "quantity": 30,
+        "name": "Chili Crisp (2 tbsp per serving)",
+        "quantity": 120,
         "unit": "g"
       },
       {
-        "name": "Low-Sodium Soy Sauce (1.5 tbsp)",
-        "quantity": 22.5,
+        "name": "Low-Sodium Soy Sauce (1.5 tbsp per serving)",
+        "quantity": 90,
         "unit": "g"
       },
       {
-        "name": "PB2 Peanut Butter Powder (2 tbsp)",
-        "quantity": 16,
+        "name": "PB2 Peanut Butter Powder (2 tbsp per serving)",
+        "quantity": 64,
         "unit": "g"
       },
       {
-        "name": "Sesame Oil (½ tsp)",
-        "quantity": 2.5,
+        "name": "Sesame Oil (½ tsp per serving)",
+        "quantity": 10,
         "unit": "g"
       },
       {
-        "name": "Water (4 cups)",
+        "name": "Water (for boiling noodles, about 4 cups per serving)",
         "quantity": 960,
         "unit": "g"
       }
@@ -5251,9 +5188,10 @@ export const RECIPES = [
       "Green Onion (dried)"
     ],
     "instructions": [
-      "Boil water in pot. Add noodles, cook per package directions (usually 2–4 min). Drain.",
-      "In skillet, brown ground meat 4–5 min. Add soy sauce + PB2 + chili crisp + sesame oil. Toss noodles into mixture.",
-      "Cook 1 min more. Toppings on side."
+      "In a large skillet, brown the ground meat 10-12 min, breaking it apart. Add soy sauce, PB2, chili crisp, and sesame oil. Stir to combine and simmer 2 minutes.",
+      "Divide the meat sauce evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
+      "To serve one portion: boil water and cook one serving of noodles (about 56g) per package directions, usually 2-4 min. Drain.",
+      "Toss the noodles with a reheated portion of meat sauce. Toppings on side."
     ],
     "totalTime": 8,
     "pantryTags": [
@@ -5271,7 +5209,7 @@ export const RECIPES = [
     "id": 88,
     "method": "Stovetop",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 4,
     "proteins": [
       "beef"
     ],
@@ -5280,32 +5218,32 @@ export const RECIPES = [
     "components": [
       {
         "name": "Ground Beef (93% lean)",
-        "quantity": 142,
+        "quantity": 568,
         "unit": "g"
       },
       {
-        "name": "Beef & Broccoli Stir-Fry Sauce (bottled, 3 tbsp)",
-        "quantity": 45,
+        "name": "Beef & Broccoli Stir-Fry Sauce (bottled, 3 tbsp per bowl)",
+        "quantity": 180,
         "unit": "ml"
       },
       {
-        "name": "Frozen Broccoli (steam-bag, 1 cup)",
-        "quantity": 150,
+        "name": "Frozen Broccoli (steam-bag, 1 per meal)",
+        "quantity": 4,
+        "unit": "each"
+      },
+      {
+        "name": "White Rice Pouch (microwaveable, 1 per meal)",
+        "quantity": 4,
+        "unit": "each"
+      },
+      {
+        "name": "Olive Oil (1 tsp per bowl)",
+        "quantity": 20,
         "unit": "g"
       },
       {
-        "name": "White Rice Pouch",
-        "quantity": 200,
-        "unit": "g"
-      },
-      {
-        "name": "Olive Oil (1 tsp)",
-        "quantity": 5,
-        "unit": "g"
-      },
-      {
-        "name": "Minced Garlic (jarred, 1½ tsp)",
-        "quantity": 7.5,
+        "name": "Minced Garlic (jarred, 1½ tsp per bowl)",
+        "quantity": 30,
         "unit": "g"
       }
     ],
@@ -5314,9 +5252,10 @@ export const RECIPES = [
       "Red Pepper Flakes"
     ],
     "instructions": [
-      "Heat oil in skillet over medium-high. Brown beef 4–5 min, breaking it up.",
-      "Add stir-fry sauce + frozen broccoli + minced garlic. Simmer 3 min.",
-      "Microwave rice 90 sec. Build bowl — toppings on side."
+      "Heat oil in a large skillet over medium-high. Add ground beef, breaking it apart with a spoon. Cook 10-12 minutes, stirring occasionally, until browned throughout.",
+      "Add stir-fry sauce and minced garlic. Simmer 3-4 minutes, stirring, until the sauce thickens slightly and coats the beef.",
+      "Divide the beef evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
+      "To serve one portion: microwave rice pouch 90 sec + steam-bag broccoli 3 min. Build bowl with rice, top with a portion of beef, broccoli on side. Toppings on side."
     ],
     "totalTime": 7,
     "pantryTags": [
@@ -8641,7 +8580,7 @@ export const RECIPES = [
     "id": 140,
     "method": "Stovetop",
     "mealType": "breakfast",
-    "servings": 1,
+    "servings": 4,
     "proteins": [
       "pork",
       "eggs"
@@ -8654,17 +8593,17 @@ export const RECIPES = [
     "components": [
       {
         "name": "Ground Mexican Chorizo (raw, casing removed)",
-        "quantity": 113,
+        "quantity": 452,
         "unit": "g"
       },
       {
-        "name": "Whole Eggs (4 large)",
-        "quantity": 200,
+        "name": "Whole Eggs (16 large)",
+        "quantity": 800,
         "unit": "count"
       },
       {
         "name": "Shredded Pepper Jack (bagged)",
-        "quantity": 56,
+        "quantity": 224,
         "unit": "g"
       }
     ],
@@ -8673,9 +8612,10 @@ export const RECIPES = [
       "Fresh Cilantro"
     ],
     "instructions": [
-      "Heat a skillet over medium-high. Add chorizo and break apart. Cook 4–5 minutes until browned and cooked through.",
-      "Whisk eggs in a bowl. Pour into the skillet with the chorizo and scramble until just set.",
-      "Top with pepper jack and let it melt. Serve with salsa and cilantro."
+      "Heat a large skillet over medium-high. Add chorizo and break apart. Cook 8-10 minutes until browned and cooked through.",
+      "Whisk all the eggs together in a large bowl. Pour into the skillet with the chorizo and scramble until just set.",
+      "Top with pepper jack and let it melt. Divide evenly into 4 portions.",
+      "Refrigerate (up to 3 days) or freeze; reheat gently in the microwave. Serve with salsa and cilantro."
     ],
     "totalTime": 8,
     "pantryTags": [
