@@ -1,10 +1,14 @@
 // QuickPrep recipe data -- simple recipe suggestion app (no macros/nutrition info)
-// Each recipe: id, name, method, mealType (breakfast | lunch_dinner | snack),
-// proteins (array of protein categories present), flavor (single flavor/cuisine tag),
-// activeTime (minutes -- hands-on prep/cook time only), totalTime (minutes -- activeTime
-// plus any passive time like baking, air frying, or slow cooking; equals activeTime for
-// methods with no passive gap), components (ingredients: name/quantity/unit), toppings
-// (optional garnish names), instructions (cooking steps), tags (optional array, e.g.
+// Each recipe: id, name, description (a short 1-2 sentence appetizing summary --
+// shown on the recipe modal's decide screen in place of the ingredients-table
+// how-to text, which moved into the mandatory decide-screen tutorial instead;
+// see components/RecipeModal.jsx), method, mealType (breakfast | lunch_dinner |
+// snack), proteins (array of protein categories present), flavor (single
+// flavor/cuisine tag), activeTime (minutes -- hands-on prep/cook time only),
+// totalTime (minutes -- activeTime plus any passive time like baking, air
+// frying, or slow cooking; equals activeTime for methods with no passive gap),
+// components (ingredients: name/quantity/unit), toppings (optional garnish
+// names), instructions (cooking steps), tags (optional array, e.g.
 // 'high_protein', 'grab_and_go' -- used for quick-filter chips in Browse/Kitchen),
 // pantryTags (array of common-staple ids from pantryStaples.js that this recipe's
 // ingredients draw from -- used for "what can I make with what I have" matching).
@@ -17,8 +21,9 @@ export const FLAVORS = ['spicy', 'saucy', 'neutral', 'asian', 'italian', 'medite
 
 export const RECIPES = [
   {
-    "id": 1,
     "name": "Teriyaki Cod Bowl",
+    "description": "A light, Asian-inspired baked cod bowl glazed in sweet-savory teriyaki, served over fluffy white rice with tender green beans.",
+    "id": 1,
     "method": "Bake",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -76,8 +81,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 2,
     "name": "Spicy Asian Cod Bowl",
+    "description": "A bright, spicy-sweet baked cod bowl finished with a soy-sriracha glaze and honey, paired with rice and crisp green beans.",
+    "id": 2,
     "method": "Bake",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -138,8 +144,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 3,
     "name": "Air Fryer Chicken Thighs",
+    "description": "Simple, juicy air-fried chicken thighs seasoned with garlic herb and finished in butter for an easy weeknight protein.",
+    "id": 3,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -188,8 +195,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 5,
     "name": "Deviled Eggs",
+    "description": "Classic creamy deviled eggs with a tangy mustard-mayo filling -- a quick, no-cook protein snack.",
+    "id": 5,
     "method": "No Cook",
     "mealType": "snack",
     "servings": 1,
@@ -236,8 +244,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 6,
     "name": "Slow Cooker Beef Rice Bowl",
+    "description": "A hands-off, slow-simmered beef and tomato rice bowl built on garlic, Italian seasoning, and a splash of Worcestershire.",
+    "id": 6,
     "method": "Slow Cooker",
     "mealType": "lunch_dinner",
     "servings": 4,
@@ -315,8 +324,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 7,
     "name": "Sheet Pan Turkey Meatballs",
+    "description": "Baked Italian-style turkey meatballs tossed in marinara and melted mozzarella, sized for easy weekly meal prep.",
+    "id": 7,
     "method": "Bake",
     "mealType": "lunch_dinner",
     "servings": 4,
@@ -391,8 +401,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 8,
     "name": "Salmon Lemon Herb Bake",
+    "description": "A simple baked salmon with buttery lemon-pepper seasoning, served alongside tender broccoli.",
+    "id": 8,
     "method": "Bake",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -440,8 +451,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 9,
     "name": "Greek Yogurt Power Bowl",
+    "description": "A quick no-cook breakfast bowl of Greek yogurt swirled with honey, blueberries, and vanilla protein powder.",
+    "id": 9,
     "method": "No Cook",
     "mealType": "breakfast",
     "servings": 1,
@@ -490,8 +502,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 10,
     "name": "Egg White Scramble",
+    "description": "A light, high-protein egg white scramble with melty cheddar and fresh baby spinach.",
+    "id": 10,
     "method": "Stovetop",
     "mealType": "breakfast",
     "servings": 1,
@@ -533,8 +546,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 11,
     "name": "Protein Pancakes",
+    "description": "Fluffy protein pancakes made from a quick mix, egg, and almond milk, finished with a drizzle of honey.",
+    "id": 11,
     "method": "Stovetop",
     "mealType": "breakfast",
     "servings": 1,
@@ -581,8 +595,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 12,
     "name": "PB Banana Protein Shake",
+    "description": "A creamy, no-cook peanut butter banana protein shake blended with chocolate protein powder and almond milk.",
+    "id": 12,
     "method": "No Cook",
     "mealType": "breakfast",
     "servings": 1,
@@ -636,8 +651,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 13,
     "name": "Smoked Salmon Bagel",
+    "description": "A classic no-cook smoked salmon bagel with light cream cheese and briny capers.",
+    "id": 13,
     "method": "No Cook",
     "mealType": "breakfast",
     "servings": 1,
@@ -690,8 +706,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 14,
     "name": "Cottage Cheese Toast",
+    "description": "Whole grain toast piled with cottage cheese, everything bagel seasoning, and a drizzle of honey.",
+    "id": 14,
     "method": "No Cook",
     "mealType": "breakfast",
     "servings": 1,
@@ -740,8 +757,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 15,
     "name": "Protein Overnight Oats",
+    "description": "Creamy make-ahead overnight oats blended with Greek yogurt and chocolate protein powder, ready to grab all week.",
+    "id": 15,
     "method": "No Cook",
     "mealType": "breakfast",
     "servings": 4,
@@ -803,8 +821,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 16,
     "name": "Scrambled Eggs & Turkey Sausage",
+    "description": "A hearty, high-protein stovetop breakfast of cheesy scrambled eggs with savory turkey sausage links.",
+    "id": 16,
     "method": "Stovetop",
     "mealType": "breakfast",
     "servings": 1,
@@ -857,8 +876,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 17,
     "name": "High Protein Bagel",
+    "description": "A no-cook everything bagel piled with deli turkey, light cream cheese, and a tangy Greek yogurt mustard spread.",
+    "id": 17,
     "method": "No Cook",
     "mealType": "breakfast",
     "servings": 1,
@@ -918,8 +938,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 18,
     "name": "Avocado Egg Toast",
+    "description": "Creamy guacamole and boiled egg piled onto whole grain toast with a sprinkle of everything bagel seasoning.",
+    "id": 18,
     "method": "No Cook",
     "mealType": "breakfast",
     "servings": 1,
@@ -970,8 +991,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 19,
     "name": "Greek Yogurt Parfait",
+    "description": "A no-cook parfait layering Greek yogurt, mixed berries, crunchy granola, and honey.",
+    "id": 19,
     "method": "No Cook",
     "mealType": "breakfast",
     "servings": 1,
@@ -1020,8 +1042,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 20,
     "name": "Microwave Egg Mug",
+    "description": "A fast microwave egg mug with melty cheddar and salsa -- breakfast in under two minutes.",
+    "id": 20,
     "method": "Microwave",
     "mealType": "breakfast",
     "servings": 1,
@@ -1071,8 +1094,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 21,
     "name": "Buffalo Chicken Rice Bowl",
+    "description": "A spicy air-fried buffalo chicken bowl over rice with steamed broccoli to cool things down.",
+    "id": 21,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -1135,8 +1159,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 22,
     "name": "BBQ Chicken Rice Bowl",
+    "description": "Smoky, garlic-seasoned air-fried BBQ chicken thighs served over rice.",
+    "id": 22,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -1196,8 +1221,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 23,
     "name": "Canned Chicken Rice Bowl",
+    "description": "A fast, no-cook soy-garlic chicken and rice bowl built from pantry staples.",
+    "id": 23,
     "method": "No Cook",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -1255,8 +1281,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 24,
     "name": "Rotisserie Chicken Bowl",
+    "description": "A no-cook rotisserie chicken bowl with rice, broccoli, and a kick of hot sauce.",
+    "id": 24,
     "method": "No Cook",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -1308,8 +1335,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 25,
     "name": "Salmon Poke Bowl",
+    "description": "A no-cook, poke-inspired smoked salmon bowl with rice, edamame, and a savory soy-mayo drizzle.",
+    "id": 25,
     "method": "No Cook",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -1368,8 +1396,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 26,
     "name": "Honey Garlic Cod Bowl",
+    "description": "Baked cod glazed in a sticky honey-garlic soy sauce, served over rice with green beans.",
+    "id": 26,
     "method": "Bake",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -1432,8 +1461,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 27,
     "name": "Ground Beef Taco Bowl",
+    "description": "A spicy, high-protein taco-seasoned ground beef bowl with black beans, rice, and salsa.",
+    "id": 27,
     "method": "Stovetop",
     "mealType": "lunch_dinner",
     "servings": 4,
@@ -1500,8 +1530,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 28,
     "name": "Pork Tenderloin Bowl",
+    "description": "Air-fried pork tenderloin glazed in honey mustard, served over rice with mixed veg.",
+    "id": 28,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -1563,8 +1594,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 29,
     "name": "Lemon Pepper Shrimp Bowl",
+    "description": "Buttery lemon-pepper air-fried shrimp over rice with steamed broccoli.",
+    "id": 29,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -1621,8 +1653,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 30,
     "name": "Greek Chicken Bowl",
+    "description": "A Mediterranean-style air-fried Greek chicken bowl with rice and cooling tzatziki.",
+    "id": 30,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -1677,8 +1710,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 31,
     "name": "Slow Cooker Chicken Thighs",
+    "description": "Slow-cooked chicken thighs in a garlicky broth, finished bright with butter and lemon juice.",
+    "id": 31,
     "method": "Slow Cooker",
     "mealType": "lunch_dinner",
     "servings": 4,
@@ -1739,8 +1773,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 32,
     "name": "Tuna Pasta Salad",
+    "description": "A no-cook, high-protein chickpea pasta salad with tuna, mayo, and mustard.",
+    "id": 32,
     "method": "No Cook",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -1793,8 +1828,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 33,
     "name": "Black Bean Quesadilla",
+    "description": "A Mexican-style black bean and cheese quesadilla, filling seasoned with cumin, chili powder, and garlic before it hits the skillet.",
+    "id": 33,
     "method": "Stovetop",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -1863,8 +1899,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 34,
     "name": "Microwave Salmon Pouch Bowl",
+    "description": "A grab-and-go microwave salmon pouch bowl with rice and a kick of hot sauce.",
+    "id": 34,
     "method": "Microwave",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -1916,8 +1953,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 35,
     "name": "High Protein Chili",
+    "description": "A hearty, slow-cooked turkey chili loaded with kidney beans and a warming chili seasoning blend.",
+    "id": 35,
     "method": "Slow Cooker",
     "mealType": "lunch_dinner",
     "servings": 4,
@@ -1975,8 +2013,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 36,
     "name": "Honey Sriracha Salmon",
+    "description": "Baked salmon glazed in a sweet-and-spicy honey sriracha garlic sauce, served with broccoli.",
+    "id": 36,
     "method": "Bake",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -2030,8 +2069,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 37,
     "name": "Egg Fried Rice",
+    "description": "Classic Asian-style egg fried rice with garlic, sesame oil, peas, and a hit of white pepper.",
+    "id": 37,
     "method": "Stovetop",
     "mealType": "breakfast",
     "servings": 1,
@@ -2095,8 +2135,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 38,
     "name": "Chipotle Style Chicken Bowl",
+    "description": "A smoky chipotle-seasoned chicken bowl with black beans, rice, salsa, and chipotle mayo.",
+    "id": 38,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -2165,8 +2206,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 39,
     "name": "Turkey Lettuce Wraps",
+    "description": "Light, no-cook turkey lettuce wraps with guacamole and a tangy Dijon kick.",
+    "id": 39,
     "method": "No Cook",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -2217,8 +2259,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 40,
     "name": "Teriyaki Salmon Bowl",
+    "description": "Baked teriyaki-glazed salmon over rice with edamame -- an easy Asian-inspired dinner.",
+    "id": 40,
     "method": "Bake",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -2281,8 +2324,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 41,
     "name": "Beef Jerky & Rice Cakes",
+    "description": "A grab-and-go snack of teriyaki beef jerky and rice cakes with almond butter.",
+    "id": 41,
     "method": "No Cook",
     "mealType": "snack",
     "servings": 1,
@@ -2326,8 +2370,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 42,
     "name": "String Cheese & Turkey Roll-Ups",
+    "description": "A simple no-cook snack of deli turkey rolled around string cheese with a dab of Dijon.",
+    "id": 42,
     "method": "No Cook",
     "mealType": "snack",
     "servings": 1,
@@ -2371,8 +2416,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 43,
     "name": "Cottage Cheese & Pineapple",
+    "description": "Sweet and creamy cottage cheese with pineapple chunks and a drizzle of honey.",
+    "id": 43,
     "method": "No Cook",
     "mealType": "snack",
     "servings": 1,
@@ -2414,8 +2460,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 44,
     "name": "Hard Boiled Eggs with Hot Sauce",
+    "description": "Boiled eggs with a spicy hot sauce kick and everything bagel seasoning.",
+    "id": 44,
     "method": "No Cook",
     "mealType": "snack",
     "servings": 4,
@@ -2460,8 +2507,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 45,
     "name": "Sardines on Toast",
+    "description": "Savory sardines in olive oil on whole grain toast with Dijon and lemon.",
+    "id": 45,
     "method": "No Cook",
     "mealType": "snack",
     "servings": 1,
@@ -2511,8 +2559,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 46,
     "name": "Skyr & Berries",
+    "description": "A protein-packed no-cook snack of skyr with mixed berries and honey.",
+    "id": 46,
     "method": "No Cook",
     "mealType": "snack",
     "servings": 1,
@@ -2555,8 +2604,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 47,
     "name": "Chicken & Salsa Wrap",
+    "description": "A spicy, no-cook rotisserie chicken wrap with salsa and melty cheddar.",
+    "id": 47,
     "method": "No Cook",
     "mealType": "snack",
     "servings": 1,
@@ -2608,8 +2658,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 48,
     "name": "Protein Pudding",
+    "description": "A creamy, high-protein chocolate pudding made from Greek yogurt, cocoa, and protein powder.",
+    "id": 48,
     "method": "No Cook",
     "mealType": "snack",
     "servings": 1,
@@ -2660,8 +2711,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 49,
     "name": "Edamame Bowl",
+    "description": "A spicy, Asian-style steamed edamame snack tossed in soy sauce, sesame oil, and red pepper flakes.",
+    "id": 49,
     "method": "Microwave",
     "mealType": "snack",
     "servings": 1,
@@ -2710,8 +2762,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 50,
     "name": "Canned Chicken & Crackers",
+    "description": "A simple grab-and-go snack of canned chicken with crackers, Dijon, and hot sauce.",
+    "id": 50,
     "method": "No Cook",
     "mealType": "snack",
     "servings": 1,
@@ -2761,8 +2814,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 51,
     "name": "Classic Smash Burger",
+    "description": "A classic diner-style smash burger with melted American cheese, ketchup, mustard, and pickles.",
+    "id": 51,
     "method": "Stovetop",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -2842,8 +2896,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 52,
     "name": "BBQ Bacon Burger",
+    "description": "A smoky BBQ bacon cheeseburger stacked with cheddar and a brush of BBQ sauce.",
+    "id": 52,
     "method": "Stovetop",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -2923,8 +2978,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 53,
     "name": "Turkey Burger",
+    "description": "A leaner turkey burger seasoned with garlic and Worcestershire, topped with mustard and pickles.",
+    "id": 53,
     "method": "Stovetop",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -2989,8 +3045,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 54,
     "name": "Spicy Chicken Sandwich",
+    "description": "A crispy, garlic-seasoned air-fried spicy chicken sandwich with hot sauce, mayo, and pickles.",
+    "id": 54,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -3069,8 +3126,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 55,
     "name": "Tuna Melt",
+    "description": "A classic air-fried tuna melt with mayo, mustard, and melted cheddar on toasted bread.",
+    "id": 55,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -3128,8 +3186,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 56,
     "name": "Egg & Cheese Breakfast Sandwich",
+    "description": "A hearty egg and cheddar breakfast sandwich on an English muffin with savory turkey sausage.",
+    "id": 56,
     "method": "Stovetop",
     "mealType": "breakfast",
     "servings": 1,
@@ -3189,8 +3248,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 57,
     "name": "Rotisserie Chicken Wrap",
+    "description": "A no-cook rotisserie chicken wrap with cheddar, salsa, and a tangy Greek yogurt drizzle.",
+    "id": 57,
     "method": "No Cook",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -3249,8 +3309,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 58,
     "name": "BLT Protein Wrap",
+    "description": "A no-cook turkey bacon lettuce wrap with a light mayo spread -- a protein-forward take on a BLT.",
+    "id": 58,
     "method": "No Cook",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -3307,8 +3368,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 59,
     "name": "Air Fryer Protein Pizza",
+    "description": "A quick air-fried naan pizza topped with marinara, mozzarella, and turkey pepperoni.",
+    "id": 59,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -3366,8 +3428,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 60,
     "name": "Cottage Cheese Pizza Bowl",
+    "description": "A fun microwave cottage cheese \"pizza bowl\" with marinara, mozzarella, and turkey pepperoni.",
+    "id": 60,
     "method": "Microwave",
     "mealType": "breakfast",
     "servings": 1,
@@ -3418,8 +3481,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 61,
     "name": "BBQ Chicken Flatbread",
+    "description": "A smoky BBQ chicken flatbread topped with melty mozzarella on crispy air-fried naan.",
+    "id": 61,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -3471,8 +3535,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 62,
     "name": "Pesto Chicken Flatbread",
+    "description": "A Mediterranean-style pesto chicken flatbread with sun-dried tomatoes and melty mozzarella.",
+    "id": 62,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -3528,8 +3593,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 63,
     "name": "Beef & Rice Power Bowl",
+    "description": "An Asian-inspired ground beef and rice bowl in a garlicky honey-soy glaze, served with broccoli.",
+    "id": 63,
     "method": "Stovetop",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -3594,8 +3660,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 64,
     "name": "Chicken Teriyaki Noodles",
+    "description": "Asian-style teriyaki chicken and noodles tossed with stir-fry vegetables.",
+    "id": 64,
     "method": "Stovetop",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -3665,8 +3732,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 65,
     "name": "Shrimp Fried Rice",
+    "description": "Classic Asian-style shrimp fried rice with egg, garlic, sesame oil, and peas.",
+    "id": 65,
     "method": "Stovetop",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -3740,8 +3808,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 66,
     "name": "Loaded Baked Potato",
+    "description": "A hearty microwave loaded baked potato topped with chili, cheddar, and a dollop of Greek yogurt.",
+    "id": 66,
     "method": "Microwave",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -3792,8 +3861,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 67,
     "name": "Protein French Toast",
+    "description": "High-protein cinnamon French toast made with egg whites and vanilla protein powder.",
+    "id": 67,
     "method": "Stovetop",
     "mealType": "breakfast",
     "servings": 1,
@@ -3856,8 +3926,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 68,
     "name": "Turkey Meatball Sub",
+    "description": "A classic Italian-style turkey meatball sub loaded with marinara and melted mozzarella.",
+    "id": 68,
     "method": "Microwave",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -3911,8 +3982,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 69,
     "name": "Spicy Korean Ground Beef Bowl",
+    "description": "A spicy, gochujang-glazed Korean-style ground beef bowl with a touch of honey and garlic.",
+    "id": 69,
     "method": "Stovetop",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -3977,8 +4049,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 70,
     "name": "Canned Salmon Caesar Wrap",
+    "description": "A no-cook Caesar-style salmon wrap with romaine, parmesan, and creamy Caesar dressing.",
+    "id": 70,
     "method": "No Cook",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -4037,8 +4110,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 71,
     "name": "Sweet Potato Cottage Cheese Power Bowl",
+    "description": "A spicy, high-protein bowl of taco-seasoned ground beef, sweet potato, and cottage cheese finished with guacamole and hot honey.",
+    "id": 71,
     "method": "Stovetop",
     "mealType": "breakfast",
     "servings": 1,
@@ -4102,8 +4176,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 72,
     "name": "Baked Feta Pasta",
+    "description": "A viral-style baked feta pasta with blistered cherry tomatoes, Italian seasoning, and a touch of chili and honey, tossed with chickpea pasta.",
+    "id": 72,
     "method": "Bake",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -4172,8 +4247,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 73,
     "name": "Cottage Cheese Flatbread",
+    "description": "A savory baked flatbread of cottage cheese and eggs topped with deli turkey and spinach.",
+    "id": 73,
     "method": "Bake",
     "mealType": "breakfast",
     "servings": 1,
@@ -4234,8 +4310,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 74,
     "name": "Bang Bang Shrimp Bowl",
+    "description": "Crispy air-fried shrimp tossed in a spicy-sweet bang bang sauce, served over rice with cucumber.",
+    "id": 74,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -4308,8 +4385,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 75,
     "name": "Creamy Sun-Dried Tomato Chicken",
+    "description": "A slow-cooked, Italian-style creamy sun-dried tomato chicken with parmesan and a hit of red pepper flakes.",
+    "id": 75,
     "method": "Slow Cooker",
     "mealType": "lunch_dinner",
     "servings": 4,
@@ -4382,8 +4460,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 76,
     "name": "Cucumber Tuna Salad",
+    "description": "A no-cook, Asian-inspired spicy tuna and cucumber salad with rice vinegar, sesame oil, and chili crisp.",
+    "id": 76,
     "method": "No Cook",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -4450,8 +4529,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 77,
     "name": "High Protein Sushi Bake",
+    "description": "A baked, sushi-inspired rice bowl with imitation crab, spicy mayo, and melted mozzarella.",
+    "id": 77,
     "method": "Bake",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -4512,8 +4592,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 78,
     "name": "Smoked Salmon Everything Bites",
+    "description": "No-cook smoked salmon and cottage cheese bites on cucumber rounds with everything bagel seasoning and dill.",
+    "id": 78,
     "method": "No Cook",
     "mealType": "snack",
     "servings": 1,
@@ -4575,8 +4656,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 79,
     "name": "Egg White Fried Rice",
+    "description": "A lighter, Asian-style egg white fried rice with garlic, sesame oil, and peas.",
+    "id": 79,
     "method": "Stovetop",
     "mealType": "breakfast",
     "servings": 1,
@@ -4641,8 +4723,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 80,
     "name": "High Protein Birria Tacos",
+    "description": "Spicy, Mexican-style birria-inspired beef tacos in a rich enchilada-broth sauce with melty cheese.",
+    "id": 80,
     "method": "Stovetop",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -4710,8 +4793,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 81,
     "name": "Hot Honey Salmon",
+    "description": "Baked salmon glazed in sweet-spicy hot honey and garlic, brightened with a squeeze of lemon.",
+    "id": 81,
     "method": "Bake",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -4768,8 +4852,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 82,
     "name": "Spicy Garlic Shrimp Bowl",
+    "description": "A spicy garlic shrimp bowl in a sriracha-honey-soy sauce, served over rice with broccoli.",
+    "id": 82,
     "method": "Stovetop",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -4843,8 +4928,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 83,
     "name": "Nashville Hot Chicken Tenders",
+    "description": "Crispy air-fried Nashville-style hot chicken tenders with a cayenne-garlic kick, served on a bun with pickles.",
+    "id": 83,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -4913,8 +4999,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 84,
     "name": "Spicy Salmon Bowl",
+    "description": "Baked salmon in a spicy gochujang-soy glaze over rice with edamame and a drizzle of mayo.",
+    "id": 84,
     "method": "Bake",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -4978,8 +5065,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 85,
     "name": "Chili Lime Shrimp Tacos",
+    "description": "Zesty chili-lime air-fried shrimp tacos with a cooling Greek yogurt and salsa verde crema.",
+    "id": 85,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -5044,8 +5132,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 86,
     "name": "Spicy Turkey Taco Bowl",
+    "description": "A smoky chipotle ground turkey taco bowl with black beans, rice, and salsa verde.",
+    "id": 86,
     "method": "Stovetop",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -5109,8 +5198,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 87,
     "name": "Quick Dan Dan Noodles",
+    "description": "A quick, spicy Sichuan-inspired dan dan noodle bowl with chili crisp, peanut, and sesame flavors.",
+    "id": 87,
     "method": "Stovetop",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -5176,8 +5266,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 88,
     "name": "Spicy Beef & Broccoli",
+    "description": "A spicy beef and broccoli stir-fry in a garlicky stir-fry sauce, served over rice.",
+    "id": 88,
     "method": "Stovetop",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -5236,8 +5327,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 89,
     "name": "Buffalo Shrimp Rice Bowl",
+    "description": "Crispy air-fried buffalo shrimp over rice with broccoli and a cooling ranch drizzle.",
+    "id": 89,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -5315,8 +5407,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 90,
     "name": "Easy Shakshuka",
+    "description": "A quick, spiced shakshuka of eggs poached in a garlicky marinara sauce with cumin and smoked paprika.",
+    "id": 90,
     "method": "Stovetop",
     "mealType": "breakfast",
     "servings": 1,
@@ -5381,8 +5474,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 91,
     "name": "Shakshuka from Scratch",
+    "description": "A from-scratch spiced shakshuka -- eggs poached in a garlicky, cumin-and-paprika crushed tomato sauce with a touch of heat.",
+    "id": 91,
     "method": "Stovetop",
     "mealType": "breakfast",
     "servings": 1,
@@ -5453,8 +5547,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 92,
     "name": "Skillet Beef Soy Garlic Rice",
+    "description": "An Asian-inspired ground beef and rice skillet in a garlic-ginger soy glaze with a touch of brown sugar and sesame oil.",
+    "id": 92,
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "servings": 4,
@@ -5530,8 +5625,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 93,
     "name": "BBQ Skillet Beef Hash Browns",
+    "description": "A smoky BBQ ground beef and hash brown skillet with garlic and a side of seasoned broccoli.",
+    "id": 93,
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "servings": 4,
@@ -5601,8 +5697,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 94,
     "name": "Saucy Tomato Beef Bowl",
+    "description": "A saucy, well-spiced ground beef and tomato skillet with cumin, oregano, and smoked paprika, finished with butter and spinach over rice.",
+    "id": 94,
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "servings": 4,
@@ -5697,8 +5794,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 95,
     "name": "Spicy Korean Gochujang Beef Rice",
+    "description": "A spicy Korean-style gochujang beef and rice skillet with a touch of honey.",
+    "id": 95,
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "servings": 4,
@@ -5759,8 +5857,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 96,
     "name": "Beef Pasta Marinara Skillet",
+    "description": "A quick Italian-style ground beef and marinara pasta skillet with wilted spinach.",
+    "id": 96,
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "servings": 4,
@@ -5809,8 +5908,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 97,
     "name": "Taco Beef Tortilla Skillet",
+    "description": "A Mexican-style taco beef and tortilla skillet with salsa and mixed veg.",
+    "id": 97,
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "servings": 4,
@@ -5868,8 +5968,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 98,
     "name": "Creamy Beef Mushroom Skillet",
+    "description": "A creamy, high-protein beef stroganoff-style skillet with sour cream over egg noodles.",
+    "id": 98,
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "servings": 4,
@@ -5928,8 +6029,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 99,
     "name": "Teriyaki Beef Broccoli Bowl",
+    "description": "An Asian-inspired teriyaki ground beef and broccoli bowl over rice.",
+    "id": 99,
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "servings": 4,
@@ -5985,8 +6087,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 100,
     "name": "Skillet Chicken Soy Garlic Rice",
+    "description": "An Asian-inspired ground chicken and rice skillet in a garlic-ginger soy glaze with brown sugar and sesame oil.",
+    "id": 100,
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "servings": 4,
@@ -6062,8 +6165,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 101,
     "name": "BBQ Skillet Chicken Hash Browns",
+    "description": "A smoky BBQ ground chicken and hash brown skillet with garlic and seasoned broccoli.",
+    "id": 101,
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "servings": 4,
@@ -6133,8 +6237,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 102,
     "name": "Saucy Tomato Chicken Bowl",
+    "description": "A saucy, well-spiced ground chicken and tomato skillet with cumin, oregano, and smoked paprika, finished with butter and spinach over rice.",
+    "id": 102,
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "servings": 4,
@@ -6229,8 +6334,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 103,
     "name": "Spicy Gochujang Chicken Rice",
+    "description": "A spicy Korean-style gochujang chicken and rice skillet with a touch of honey.",
+    "id": 103,
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "servings": 4,
@@ -6291,8 +6397,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 104,
     "name": "Chicken Pasta Marinara Skillet",
+    "description": "A quick Italian-style ground chicken and marinara pasta skillet with wilted spinach.",
+    "id": 104,
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "servings": 4,
@@ -6341,8 +6448,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 105,
     "name": "Chicken Taco Tortilla Skillet",
+    "description": "A Mexican-style taco chicken and tortilla skillet with salsa and mixed veg.",
+    "id": 105,
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "servings": 4,
@@ -6400,8 +6508,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 106,
     "name": "Creamy Chicken Mushroom Skillet",
+    "description": "A creamy, high-protein chicken stroganoff-style skillet with sour cream over egg noodles.",
+    "id": 106,
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "servings": 4,
@@ -6460,8 +6569,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 107,
     "name": "Teriyaki Chicken Broccoli Bowl",
+    "description": "An Asian-inspired teriyaki ground chicken and broccoli bowl over rice.",
+    "id": 107,
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "servings": 4,
@@ -6517,8 +6627,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 108,
     "name": "Skillet Pork Soy Garlic Rice",
+    "description": "An Asian-inspired ground pork and rice skillet in a garlic-ginger soy glaze with brown sugar and sesame oil.",
+    "id": 108,
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "servings": 4,
@@ -6594,8 +6705,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 109,
     "name": "BBQ Skillet Pork Hash Browns",
+    "description": "A smoky BBQ ground pork and hash brown skillet with garlic and seasoned broccoli.",
+    "id": 109,
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "servings": 4,
@@ -6665,8 +6777,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 110,
     "name": "Saucy Tomato Pork Bowl",
+    "description": "A saucy, well-spiced ground pork and tomato skillet with cumin, oregano, and smoked paprika, finished with butter and spinach over rice.",
+    "id": 110,
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "servings": 4,
@@ -6761,8 +6874,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 111,
     "name": "Spicy Gochujang Pork Rice",
+    "description": "A spicy Korean-style gochujang pork and rice skillet with a touch of honey.",
+    "id": 111,
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "servings": 4,
@@ -6823,8 +6937,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 112,
     "name": "Pork Pasta Marinara Skillet",
+    "description": "A quick Italian-style ground pork and marinara pasta skillet with wilted spinach.",
+    "id": 112,
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "servings": 4,
@@ -6873,8 +6988,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 113,
     "name": "Pork Taco Tortilla Skillet",
+    "description": "A Mexican-style taco pork and tortilla skillet with salsa and mixed veg.",
+    "id": 113,
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "servings": 4,
@@ -6932,8 +7048,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 114,
     "name": "Creamy Pork Mushroom Skillet",
+    "description": "A creamy, high-protein pork stroganoff-style skillet with sour cream over egg noodles.",
+    "id": 114,
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "servings": 4,
@@ -6992,8 +7109,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 115,
     "name": "Teriyaki Pork Broccoli Bowl",
+    "description": "An Asian-inspired teriyaki ground pork and broccoli bowl over rice.",
+    "id": 115,
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "servings": 4,
@@ -7049,8 +7167,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 116,
     "name": "Skillet Turkey Soy Garlic Rice",
+    "description": "An Asian-inspired ground turkey and rice skillet in a garlic-ginger soy glaze with brown sugar and sesame oil.",
+    "id": 116,
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "servings": 4,
@@ -7126,8 +7245,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 117,
     "name": "BBQ Skillet Turkey Hash Browns",
+    "description": "A smoky BBQ ground turkey and hash brown skillet with garlic and seasoned broccoli.",
+    "id": 117,
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "servings": 4,
@@ -7197,8 +7317,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 118,
     "name": "Saucy Tomato Turkey Bowl",
+    "description": "A saucy, well-spiced ground turkey and tomato skillet with cumin, oregano, and smoked paprika, finished with butter and spinach over rice.",
+    "id": 118,
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "servings": 4,
@@ -7293,8 +7414,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 119,
     "name": "Spicy Gochujang Turkey Rice",
+    "description": "A spicy Korean-style gochujang turkey and rice skillet with a touch of honey.",
+    "id": 119,
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "servings": 4,
@@ -7355,8 +7477,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 120,
     "name": "Turkey Pasta Marinara Skillet",
+    "description": "A quick Italian-style ground turkey and marinara pasta skillet with wilted spinach.",
+    "id": 120,
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "servings": 4,
@@ -7405,8 +7528,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 121,
     "name": "Turkey Taco Tortilla Skillet",
+    "description": "A Mexican-style taco turkey and tortilla skillet with salsa and mixed veg.",
+    "id": 121,
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "servings": 4,
@@ -7464,8 +7588,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 122,
     "name": "Creamy Turkey Mushroom Skillet",
+    "description": "A creamy, high-protein turkey stroganoff-style skillet with sour cream over egg noodles.",
+    "id": 122,
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "servings": 4,
@@ -7524,8 +7649,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 123,
     "name": "Teriyaki Turkey Broccoli Bowl",
+    "description": "An Asian-inspired teriyaki ground turkey and broccoli bowl over rice.",
+    "id": 123,
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "servings": 4,
@@ -7581,8 +7707,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 124,
     "name": "Sweet Potato Black Bean Enchiladas",
+    "description": "Mexican-style baked enchiladas filled with black beans and sweet potato, smothered in enchilada sauce and cheese.",
+    "id": 124,
     "method": "Bake",
     "mealType": "lunch_dinner",
     "servings": 4,
@@ -7654,8 +7781,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 125,
     "name": "Air Fryer Salmon with Arugula Berry Salad",
+    "description": "Mediterranean-style air-fried lemon-pepper salmon over a peppery arugula and berry salad with feta and balsamic.",
+    "id": 125,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -7723,8 +7851,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 126,
     "name": "Egg & Sausage Casserole",
+    "description": "A hearty baked egg and sausage casserole with hash browns, cheddar, and milk -- great for meal prep.",
+    "id": 126,
     "method": "Bake",
     "mealType": "breakfast",
     "servings": 6,
@@ -7785,8 +7914,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 127,
     "name": "Jamaican Jerk Chicken with Sweet Potato Zoodles",
+    "description": "Caribbean-style jerk chicken thighs air-fried and served over bright lime-kissed sweet potato noodles.",
+    "id": 127,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -7841,8 +7971,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 128,
     "name": "Slow Cooker Chicken & Sausage Gumbo",
+    "description": "A slow-cooked Cajun-style gumbo with andouille sausage, rotisserie chicken, and a dark roux, served over rice.",
+    "id": 128,
     "method": "Slow Cooker",
     "mealType": "lunch_dinner",
     "servings": 4,
@@ -7915,8 +8046,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 129,
     "name": "Air Fryer Turkey Meatballs with Marinara",
+    "description": "Air-fried Italian-style turkey meatballs in marinara with mozzarella, served over spaghetti.",
+    "id": 129,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
     "servings": 4,
@@ -7969,8 +8101,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 130,
     "name": "Air Fryer BBQ Pork Chops with Coleslaw",
+    "description": "Smoky air-fried BBQ pork chops with smoked paprika, served alongside creamy coleslaw.",
+    "id": 130,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -8040,8 +8173,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 131,
     "name": "Air Fryer Buffalo Chicken Bites",
+    "description": "Crispy air-fried breaded chicken bites tossed in spicy buffalo sauce -- a fast snack.",
+    "id": 131,
     "method": "Air Fryer",
     "mealType": "snack",
     "servings": 1,
@@ -8076,8 +8210,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 132,
     "name": "Cottage Cheese Protein Bowl",
+    "description": "A simple no-cook cottage cheese bowl with berries, granola, and honey.",
+    "id": 132,
     "method": "No Cook",
     "mealType": "breakfast",
     "servings": 1,
@@ -8123,8 +8258,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 133,
     "name": "Turkey & Egg Breakfast Wrap",
+    "description": "A grab-and-go microwave breakfast wrap with eggs, turkey sausage, and melted cheddar.",
+    "id": 133,
     "method": "Microwave",
     "mealType": "breakfast",
     "servings": 1,
@@ -8176,8 +8312,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 134,
     "name": "Greek Yogurt Protein Parfait",
+    "description": "A Mediterranean-style Greek yogurt parfait layered with granola, berries, and honey.",
+    "id": 134,
     "method": "No Cook",
     "mealType": "breakfast",
     "servings": 1,
@@ -8223,8 +8360,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 135,
     "name": "Rotisserie Chicken Caesar Grab Bowl",
+    "description": "A no-cook rotisserie chicken Caesar salad bowl, ready straight from the kit.",
+    "id": 135,
     "method": "No Cook",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -8263,8 +8401,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 136,
     "name": "Overnight Oats with Protein Powder",
+    "description": "Make-ahead vanilla protein overnight oats with chia seeds, ready to grab all week.",
+    "id": 136,
     "method": "No Cook",
     "mealType": "breakfast",
     "servings": 4,
@@ -8318,8 +8457,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 137,
     "name": "Tuna Salad Lettuce Wraps",
+    "description": "Light, no-cook tuna salad lettuce wraps with Dijon and dill.",
+    "id": 137,
     "method": "No Cook",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -8380,8 +8520,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 138,
     "name": "Buffalo Chicken Ranch Wrap",
+    "description": "A spicy microwave buffalo chicken wrap with cooling ranch and crisp lettuce.",
+    "id": 138,
     "method": "Microwave",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -8434,8 +8575,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 139,
     "name": "Air Fryer Sourdough Pizza",
+    "description": "A crispy air-fried sourdough pizza topped with marinara, mozzarella, and turkey pepperoni.",
+    "id": 139,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -8494,8 +8636,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 140,
     "name": "Chorizo Scrambled Eggs",
+    "description": "Spicy Mexican-style chorizo scrambled eggs with melty pepper jack.",
+    "id": 140,
     "method": "Stovetop",
     "mealType": "breakfast",
     "servings": 1,
@@ -8542,8 +8685,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 141,
     "name": "Spicy Breakfast Burrito",
+    "description": "A spicy Mexican-style chorizo and egg breakfast burrito with pepper jack and salsa.",
+    "id": 141,
     "method": "Stovetop",
     "mealType": "breakfast",
     "servings": 4,
@@ -8604,8 +8748,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 142,
     "name": "Jalapeño Popper Egg Muffins",
+    "description": "Baked jalapeño popper egg muffins with cream cheese, bacon, and cheddar -- a spicy grab-and-go breakfast.",
+    "id": 142,
     "method": "Bake",
     "mealType": "breakfast",
     "servings": 6,
@@ -8665,8 +8810,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 143,
     "name": "Spicy Kimchi Fried Rice with Egg",
+    "description": "A tangy, spicy kimchi fried rice topped with a fried egg and a drizzle of gochujang.",
+    "id": 143,
     "method": "Stovetop",
     "mealType": "breakfast",
     "servings": 1,
@@ -8720,8 +8866,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 144,
     "name": "Easy Huevos Rancheros",
+    "description": "Mexican-style huevos rancheros with warmed refried beans, fried eggs, salsa, and cheese on tortillas.",
+    "id": 144,
     "method": "Stovetop",
     "mealType": "breakfast",
     "servings": 1,
@@ -8792,8 +8939,9 @@ export const RECIPES = [
     ]
   },
   {
-    "id": 145,
     "name": "Sriracha Egg & Cheese Breakfast Sandwich",
+    "description": "A spicy sriracha egg and cheese breakfast sandwich on a toasted English muffin.",
+    "id": 145,
     "method": "Microwave",
     "mealType": "breakfast",
     "servings": 1,

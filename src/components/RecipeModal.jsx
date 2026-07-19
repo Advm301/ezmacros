@@ -86,10 +86,12 @@ function getMotivationMessage(doneCount, totalCount) {
 
 // Two mandatory, no-skip-allowed guided tours (see RecipeTutorial.jsx and
 // the activeTutorial state below) -- split by screen since their targets
-// only exist on one screen or the other. DECIDE_TUTORIAL_STEPS deliberately
-// leaves out quantity editing: the ingredients table already says "Tap a
-// quantity to edit it" right on screen, so a tutorial step just repeating
-// that would be redundant. COOK_TUTORIAL_STEPS covers editing an
+// only exist on one screen or the other. DECIDE_TUTORIAL_STEPS' "Check What
+// You Have" step also covers quantity editing and unit toggling now that
+// the ingredients table's old inline how-to text has been replaced with the
+// recipe's own description (see recipe.description in data/recipes.js) --
+// without folding that explanation in here, nothing on screen would explain
+// either behavior anymore. COOK_TUTORIAL_STEPS covers editing an
 // instruction's text and adding a per-step note instead -- neither is
 // visible until you're actually on the first real cook step, which is why
 // that tour launches there rather than up front with the other one.
@@ -107,7 +109,7 @@ const DECIDE_TUTORIAL_STEPS = [
   {
     selector: '#tour-ingredients-check',
     title: 'Check What You Have',
-    text: "Tap the checkbox next to any ingredient or seasoning to mark it off as something you've already got -- handy for a quick reality check before you shop or start cooking.",
+    text: "Tap the checkbox next to any ingredient or seasoning to mark it off as something you've already got. Tap a quantity to edit it, or the unit badge to switch between g/oz or ml/fl oz.",
   },
   {
     selector: '#tour-favorite-star',
@@ -1163,8 +1165,18 @@ export default function RecipeModal({
                 };
                 return (
                   <div style={{ marginBottom: 16 }}>
-                    <div id="tour-ingredients-check" style={{ fontSize: 11, color: 'var(--muted)', marginBottom: 8 }}>
-                      Check off what you already have. Tap a quantity to edit it, or the unit badge to switch between g/oz or ml/fl oz.
+                    {/* Used to carry inline how-to text ("Check off what you
+                        already have...") -- that behavior is now explained
+                        by the mandatory first-time tutorial instead (see
+                        DECIDE_TUTORIAL_STEPS' "Check What You Have" step
+                        above, which still targets this same #tour-
+                        ingredients-check spot), freeing this space up for
+                        the recipe's own short description. The wrapper
+                        always renders (even on the off chance a recipe has
+                        no description) so the tutorial always has a real
+                        element here to spotlight. */}
+                    <div id="tour-ingredients-check" style={{ fontSize: 12, color: 'var(--muted)', lineHeight: 1.5, marginBottom: 12, minHeight: 1 }}>
+                      {r.description}
                     </div>
                     <div style={{ display: 'flex' }}>
                       <div style={{ flex: 1, paddingRight: seasonings.length > 0 ? 14 : 0 }}>
