@@ -122,9 +122,17 @@ export default function App() {
   // previous recipe can't leak into this one.
   const [lastAddedDiaryEntry, setLastAddedDiaryEntry] = useState(null); // { date, entryId } | null
   // Handed to Saved.jsx so it can apply a few-seconds-long highlight to
-  // the specific entry Finish just confirmed, rather than just landing on
-  // a Diary full of entries with no indication which one is new.
-  const [highlightedDiaryEntryId, setHighlightedDiaryEntryId] = useState(null);
+  // whichever entry/entries just landed in the Diary, rather than just
+  // landing on a Diary full of entries with no indication which one(s) are
+  // new. An array (not a single id) so the full-day onboarding hand-off --
+  // which adds breakfast, lunch, and dinner all at once -- can highlight
+  // all three together; handleFinishCooking's ordinary single-entry case
+  // just sets a one-element array.
+  const [highlightedDiaryEntryIds, setHighlightedDiaryEntryIds] = useState([]);
+  // Set true only by the full-day onboarding hand-off, driving Saved.jsx's
+  // "Your Day Is Ready!" banner (the Diary-tab equivalent of Kitchen's
+  // justOnboarded banner). Cleared together with the highlight above.
+  const [justPlannedFullDay, setJustPlannedFullDay] = useState(false);
 
   // Every onOpen prop (Kitchen/Browse/Saved) goes through this now instead
   // of calling setOpenRecipe directly, so opening any new recipe always
@@ -246,19 +254,27 @@ export default function App() {
       const preferredPool = rankForPreferences(filterRecipes(RECIPES, picks.staples), picks);
       const plan = buildFullDayPlan(preferredPool, picks);
       const date = todayString();
-      let addedCount = 0;
+      const addedEntryIds = [];
       for (const slot of ['breakfast', 'lunch', 'dinner']) {
         const recipe = plan[slot];
         if (!recipe) continue;
         // Sequential (not Promise.all) -- three inserts for one person's
-        // onboarding, not a hot loop; sequential keeps the addedCount
-        // tally simple and correct.
-        const ok = await diary.addEntry(date, slot, recipe.id, true);
-        if (ok) addedCount += 1;
+        // onboarding, not a hot loop; sequential keeps addedEntryIds in a
+        // predictable order.
+        const entryRow = await diary.addEntry(date, slot, recipe.id, true);
+        if (entryRow) addedEntryIds.push(entryRow.id);
       }
-      if (addedCount > 0) {
+      if (addedEntryIds.length > 0) {
         hapticSuccess();
-        showToast(`Your day is planned -- ${addedCount} meal${addedCount === 1 ? '' : 's'} added to your Diary!`);
+        // No toast here any more -- instead of a white-text popup, the
+        // three newly-added entries themselves get the same pulsing
+        // blue-gold highlight (and a "Your Day Is Ready!" banner) that
+        // Kitchen's single-meal onboarding hand-off already uses, so the
+        // celebration lives right on the actual Diary entries rather than
+        // in a transient toast. See highlightedDiaryEntryIds/
+        // justPlannedFullDay above, consumed by Saved.jsx.
+        setHighlightedDiaryEntryIds(addedEntryIds);
+        setJustPlannedFullDay(true);
         setShoppingListHint(true);
       }
     } else {
@@ -315,7 +331,7 @@ export default function App() {
     updateIngredientOverride,
     updateInstructionOverride,
     updateStepNote,
-  } = useSavedRecipes(() => showToast('★ Saved to Favorites'));
+  } = useSavedRecipes();
   const { getRatingSummary, getMyRatingEntry, rateRecipe, getPhotoSignedUrl } = useRecipeRatings(session?.user?.id);
   const diary = useDiary(session?.user?.id);
 
@@ -415,13 +431,13 @@ export default function App() {
   // page (as opposed to the plain "✕ Close" button/backdrop, which just
   // closes -- see RecipeModal's onClose vs onFinish props). Only navigates
   // to Diary (and briefly highlights whatever was added -- see
-  // highlightedDiaryEntryId, consumed by Saved.jsx) if this particular
+  // highlightedDiaryEntryIds, consumed by Saved.jsx) if this particular
   // modal session actually added something; otherwise Finish behaves
   // exactly like closing normally.
   const handleFinishCooking = () => {
     if (lastAddedDiaryEntry) {
       setSavedDate(lastAddedDiaryEntry.date);
-      setHighlightedDiaryEntryId(lastAddedDiaryEntry.entryId);
+      setHighlightedDiaryEntryIds([lastAddedDiaryEntry.entryId]);
       setTab("saved");
       setLastAddedDiaryEntry(null);
     }
@@ -639,8 +655,12 @@ export default function App() {
             onDateChange={setSavedDate}
             shoppingListHint={shoppingListHint}
             onConsumeShoppingListHint={() => setShoppingListHint(false)}
-            highlightedEntryId={highlightedDiaryEntryId}
-            onConsumeHighlightedEntry={() => setHighlightedDiaryEntryId(null)}
+            highlightedEntryIds={highlightedDiaryEntryIds}
+            onConsumeHighlightedEntry={() => {
+              setHighlightedDiaryEntryIds([]);
+              setJustPlannedFullDay(false);
+            }}
+            justPlannedFullDay={justPlannedFullDay}
           />
         )}
 
@@ -778,6 +798,7 @@ export default function App() {
           onRate={rateRecipe}
           getPhotoSignedUrl={getPhotoSignedUrl}
           onAddToDiary={handleAddToDiary}
+          onFavoriteAutoSaved={() => showToast('★ Saved to Favorites')}
         />
       )}
 

@@ -57,33 +57,22 @@ function loadInitialState() {
 }
 
 // Two independent, per-device localStorage stores:
-// - `saved`: recipes the user has starred/favorited, either explicitly via
-//   the star icon or implicitly by customizing it (see autoSaveIfNeeded) --
-//   this is what puts a recipe on the Saved list.
-// - `customizations`: per-recipe notes and ingredient/instruction edits.
-//   These persist regardless of whether the recipe is starred. ANY
-//   customization -- a note, a per-step comment, an edited ingredient
-//   amount, or a rewritten instruction -- auto-saves the recipe, since all
-//   of them represent "this is now my version, I'd want to find it again."
-//
-// `onAutoSave(id)`, if provided, fires exactly once at the moment a recipe
-// transitions from not-saved to saved because of a customization (not on
-// every subsequent edit to an already-saved recipe) -- callers use this to
-// surface a one-time "Saved to Favorites" confirmation instead of silently
-// flipping the star with no feedback.
-export default function useSavedRecipes(onAutoSave) {
+// - `saved`: recipes the user has starred/favorited -- either explicitly
+//   via the star icon, or automatically the moment they actually cook one
+//   (see RecipeModal's handleRate, which calls toggleSaved when "I made
+//   this recipe" is rated). This is what puts a recipe on the Saved list.
+// - `customizations`: per-recipe notes, per-step comments, and
+//   ingredient/instruction edits. These persist regardless of whether the
+//   recipe is starred, and deliberately do NOT auto-save it any more --
+//   merely tweaking an ingredient amount or jotting a note doesn't mean
+//   you've actually made the thing, and used to silently star it anyway
+//   (a reported bug: editing one ingredient amount, without ever cooking,
+//   immediately added the recipe to Favorites). Saving to Favorites is now
+//   driven only by an explicit star tap, or by actually rating a cooked
+//   recipe -- see handleRate in RecipeModal.jsx.
+export default function useSavedRecipes() {
   const [saved, setSaved] = useState(() => loadInitialState().saved);
   const [customizations, setCustomizations] = useState(() => loadInitialState().customizations);
-
-  // Reads `saved` via closure rather than inside the setSaved updater --
-  // keeps the updater itself pure (no side effects in a function React may
-  // invoke more than once) while still only notifying on a genuine
-  // not-saved -> saved transition.
-  const autoSaveIfNeeded = (id) => {
-    if (saved[id]) return;
-    if (onAutoSave) onAutoSave(id);
-    setSaved((prev) => (prev[id] ? prev : { ...prev, [id]: { savedAt: Date.now() } }));
-  };
 
   useEffect(() => {
     try {
@@ -117,27 +106,17 @@ export default function useSavedRecipes(onAutoSave) {
 
   const getEntry = (id) => customizations[id] || null;
 
+  // None of the four update* functions below auto-save any more (see the
+  // comment above useSavedRecipes) -- they only ever touch `customizations`,
+  // never `saved`. Editing an ingredient/instruction, jotting a note, or
+  // leaving a per-step comment no longer implies "I cooked this."
   const updateNotes = (id, notes) => {
     setCustomizations((prev) => ({
       ...prev,
       [id]: { ...(prev[id] || blankCustomization()), notes },
     }));
-    // Notes are personal reference material -- if you wrote something down
-    // but never explicitly starred the recipe, you'd have to browse the
-    // whole catalog to find it again to see what you wrote. Writing a note
-    // auto-saves the recipe so it always shows up on Saved. Clearing notes
-    // back to empty deliberately does NOT auto-unsave -- that stays an
-    // explicit action via the star, since you may still want it saved for
-    // other reasons.
-    if (notes && notes.trim().length > 0) {
-      autoSaveIfNeeded(id);
-    }
   };
 
-  // Committing an ingredient override always represents a deliberate edit
-  // (the UI only calls this when a valid new amount was entered) -- unlike
-  // notes there's no "empty" state to distinguish from "no edit at all", so
-  // every call here auto-saves.
   const updateIngredientOverride = (id, index, override) => {
     setCustomizations((prev) => {
       const entry = prev[id] || blankCustomization();
@@ -146,11 +125,8 @@ export default function useSavedRecipes(onAutoSave) {
         [id]: { ...entry, ingredientOverrides: { ...entry.ingredientOverrides, [index]: override } },
       };
     });
-    autoSaveIfNeeded(id);
   };
 
-  // Same reasoning as updateIngredientOverride -- the UI only calls this
-  // with real, non-empty rewritten instruction text.
   const updateInstructionOverride = (id, index, text) => {
     setCustomizations((prev) => {
       const entry = prev[id] || blankCustomization();
@@ -159,15 +135,12 @@ export default function useSavedRecipes(onAutoSave) {
         [id]: { ...entry, instructionOverrides: { ...entry.instructionOverrides, [index]: text } },
       };
     });
-    autoSaveIfNeeded(id);
   };
 
   // A per-step comment jotted while actually cooking ("used low-sodium
   // sauce", "needed 2 extra minutes") -- separate from the single
   // end-of-recipe notes field, and separate from instructionOverrides
-  // (which rewrites the instruction text itself). Same reasoning as
-  // updateNotes: this is exactly the kind of thing you'd want to find
-  // again later, so writing one auto-saves the recipe too.
+  // (which rewrites the instruction text itself).
   const updateStepNote = (id, index, text) => {
     setCustomizations((prev) => {
       const entry = prev[id] || blankCustomization();
@@ -176,9 +149,6 @@ export default function useSavedRecipes(onAutoSave) {
         [id]: { ...entry, stepNotes: { ...entry.stepNotes, [index]: text } },
       };
     });
-    if (text && text.trim().length > 0) {
-      autoSaveIfNeeded(id);
-    }
   };
 
   return {

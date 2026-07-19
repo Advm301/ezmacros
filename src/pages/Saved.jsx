@@ -74,8 +74,19 @@ export default function Saved({
   onDateChange,
   shoppingListHint,
   onConsumeShoppingListHint,
-  highlightedEntryId,
+  // Generalized from a single id to an array so the full-day onboarding
+  // hand-off (breakfast + lunch + dinner all added at once) can highlight
+  // all three entries together, not just one -- see App.jsx's
+  // highlightedDiaryEntryIds. handleFinishCooking's ordinary single-entry
+  // case just passes a one-element array.
+  highlightedEntryIds = [],
   onConsumeHighlightedEntry,
+  // Set true only by the full-day onboarding hand-off (never by an
+  // ordinary Finish-cooking add), driving the "Your Day Is Ready!" banner
+  // below -- reuses Kitchen's exact .kitchen-ready-banner styling (see
+  // Kitchen.jsx's justOnboarded banner) so the two "onboarding just
+  // delivered your first real payoff" moments share one visual language.
+  justPlannedFullDay,
 }) {
   const [dayMessage, setDayMessage] = useState('');
   const [generatingDay, setGeneratingDay] = useState(false);
@@ -133,12 +144,15 @@ export default function Saved({
   // via onConsumeHighlightedEntry so the glow doesn't linger forever, and
   // clears early if the person navigates away/back before the timer fires.
   useEffect(() => {
-    if (!highlightedEntryId) return;
+    if (highlightedEntryIds.length === 0) return;
+    // Slightly longer than the old single-entry timeout (3000ms) since the
+    // full-day case can be highlighting up to three cards at once -- give
+    // someone a beat longer to actually read all of them.
     const timer = setTimeout(() => {
       if (onConsumeHighlightedEntry) onConsumeHighlightedEntry();
-    }, 3000);
+    }, 4000);
     return () => clearTimeout(timer);
-  }, [highlightedEntryId, onConsumeHighlightedEntry]);
+  }, [highlightedEntryIds, onConsumeHighlightedEntry]);
 
   const savedIds = Object.keys(saved);
   const savedRecipes = RECIPES.filter((r) => savedIds.includes(String(r.id)));
@@ -323,6 +337,23 @@ export default function Saved({
           This is your Diary -- log what you're eating for Breakfast, Lunch, Dinner, and Snacks, one day at a time. Hit Surprise Me for an instant pick, or use Shopping List to see everything you'll need for the day.
         </FirstVisitTip>
 
+        {/* One-time celebratory hand-off from full-day onboarding -- the
+            Diary-tab equivalent of Kitchen's justOnboarded banner (see
+            Kitchen.jsx), reusing the exact same .kitchen-ready-banner/
+            .kitchen-ready-title/.kitchen-ready-sub classes so both
+            "onboarding just delivered your first real payoff" moments look
+            and feel like the same feature. Clears together with the three
+            highlighted entries below (see the highlightedEntryIds effect
+            above) rather than lingering once its cards have stopped
+            glowing. */}
+        {justPlannedFullDay && (
+          <div className="kitchen-ready-banner">
+            <LightningIcon size={30} id="diary-ready" />
+            <div className="kitchen-ready-title">Your Day Is Ready!</div>
+            <div className="kitchen-ready-sub">Breakfast, lunch, and dinner are all set below -- tap any meal to dive in.</div>
+          </div>
+        )}
+
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginBottom: 16 }}>
           <div
             onClick={() => shiftDate(-1)}
@@ -496,7 +527,7 @@ export default function Saved({
                     const r = RECIPES.find((rec) => rec.id === entry.recipe_id);
                     if (!r) return null;
                     const isRegenerating = regeneratingId === entry.id;
-                    const isHighlighted = entry.id === highlightedEntryId;
+                    const isHighlighted = highlightedEntryIds.includes(entry.id);
                     return (
                       <div
                         key={entry.id}

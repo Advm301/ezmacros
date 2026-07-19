@@ -268,6 +268,13 @@ export default function RecipeModal({
   onRate,
   getPhotoSignedUrl,
   onAddToDiary,
+  // Fired (with no args) the moment rating this recipe also auto-saves it
+  // to Favorites (see handleRate below) -- lets the parent show a one-time
+  // "Saved to Favorites" confirmation instead of silently flipping the
+  // star with no feedback. This is now the ONLY thing that can implicitly
+  // save a recipe; editing an ingredient/instruction or jotting a note no
+  // longer does (see hooks/useSavedRecipes.js).
+  onFavoriteAutoSaved,
 }) {
   // Rendered with key={recipe.id} by the parent, so this component remounts
   // fresh (and all local state below resets naturally, including `screen`)
@@ -551,7 +558,10 @@ export default function RecipeModal({
       // strong enough signal to also save it to Favorites automatically,
       // so it shows up in Saved without a separate manual tap. Only saves
       // (never un-saves) if it isn't already there.
-      if (toggleSaved && !saved) toggleSaved(r.id);
+      if (toggleSaved && !saved) {
+        toggleSaved(r.id);
+        if (onFavoriteAutoSaved) onFavoriteAutoSaved();
+      }
     }
   };
 
