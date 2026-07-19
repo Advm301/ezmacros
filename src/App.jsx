@@ -177,12 +177,15 @@ export default function App() {
       // this session -- not worth blocking on.
     }
   }, [kitchenStaples, kitchenResults, kitchenJustOnboarded]);
-  // Gates the one-time splash screen (see components/SplashScreen.jsx)
-  // shown between a brand-new sign-in and the very first onboarding
-  // question -- only relevant while onboarding hasn't happened yet, so a
-  // returning user who's already onboarded never sees this at all (they
-  // don't hit the `!onboarded` branch below in the first place). Starts
-  // false and flips true once, permanently, when the splash finishes.
+  // Gates the animated welcome screen (see components/SplashScreen.jsx) --
+  // shown after every sign-in, and after every fresh app open, not just
+  // the brand-new-user path before onboarding (see the render gate below,
+  // which checks this before even looking at `onboarded`). Deliberately
+  // plain useState (not localStorage-backed) so it resets -- and the
+  // welcome screen plays again -- on every real app launch/reload, while
+  // still only playing once per already-running session (switching tabs
+  // or reopening a recipe modal doesn't remount App, so it won't replay
+  // mid-session).
   const [splashDone, setSplashDone] = useState(false);
   // Tells Saved (the Diary tab) to show a short-lived callout pointing at
   // its Shopping List button, right after onboarding's "plan my day"
@@ -465,17 +468,20 @@ export default function App() {
     return <Login />;
   }
 
+  // The animated welcome screen (see components/SplashScreen.jsx) plays
+  // right after every sign-in and every fresh app open -- checked before
+  // `onboarded` so it's the very first thing anyone sees, whether this is
+  // a brand-new account about to land on "What are you after?" or a
+  // returning user headed straight back into their own Kitchen/Diary.
+  if (!splashDone) {
+    return <SplashScreen onFinish={() => setSplashDone(true)} />;
+  }
+
   // Shown once, right after a brand-new sign-in -- before the very first
   // Kitchen tab a person ever sees, not layered on top of it. See
   // ONBOARDED_KEY/handleOnboardingComplete above for how this gate clears
-  // itself permanently once finished (or skipped). A brief branded splash
-  // (see components/SplashScreen.jsx) plays first, once, so the jump from
-  // Login straight into "What are you after?" doesn't feel like an
-  // instant, jarring cut.
+  // itself permanently once finished (or skipped).
   if (!onboarded) {
-    if (!splashDone) {
-      return <SplashScreen onFinish={() => setSplashDone(true)} />;
-    }
     return <Onboarding onComplete={handleOnboardingComplete} />;
   }
 

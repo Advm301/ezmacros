@@ -1,9 +1,20 @@
 import { useState } from 'react';
 import { QUICK_PICKS } from '../data/pantryStaples.js';
-import { ONBOARDING_GOALS, SERVING_PREFS, MEAL_TYPES } from '../utils/onboardingGoals';
+import { ONBOARDING_GOALS, SERVING_PREFS, MEAL_TYPES, MEAL_TYPE_SURPRISE } from '../utils/onboardingGoals';
 import { hapticSelection, hapticLight, hapticMedium } from '../utils/haptics';
 import LightningIcon from './LightningIcon';
 import OnboardingFinishSparkles from './OnboardingFinishSparkles';
+
+// Per-card entrance stagger for a screen's choice list -- a fixed base
+// delay (long enough for the icon/header/subtext's own fade-in sequence,
+// see .onboarding-fade-1/2/3 in globals.css, to mostly clear first) plus
+// a small per-index increment so cards visibly cascade in one after
+// another instead of all popping in at once.
+const CARD_BASE_DELAY = 0.36;
+const CARD_STEP_DELAY = 0.08;
+function cardDelay(i) {
+  return `${(CARD_BASE_DELAY + i * CARD_STEP_DELAY).toFixed(2)}s`;
+}
 
 // mealType only applies to the "one meal" path -- a "full_day" plan
 // already covers breakfast, lunch, and dinner by definition, so asking
@@ -44,7 +55,13 @@ export default function Onboarding({ onComplete }) {
   const [goal, setGoal] = useState(null);
   const [servingsPref, setServingsPref] = useState(null);
   const [mealCountPref, setMealCountPref] = useState(null);
-  const [mealType, setMealType] = useState(null);
+  // undefined (not null!) means "not answered yet" -- null is reserved for
+  // an explicit "Surprise Me / doesn't matter" pick (see MEAL_TYPE_SURPRISE
+  // in utils/onboardingGoals.js), so the two states stay distinguishable
+  // for highlighting which card is active; matchesMealType downstream
+  // treats both the same way (no preference), so this distinction only
+  // matters here in the UI, not to any ranking logic.
+  const [mealType, setMealType] = useState(undefined);
   const [proteins, setProteins] = useState([]);
 
   // Defaults to the longer, 5-step list before mealCount is answered --
@@ -122,7 +139,7 @@ export default function Onboarding({ onComplete }) {
           {steps.map((s, i) => (
             <div
               key={s}
-              style={{ width: 22, height: 4, borderRadius: 100, background: i <= stepIndex ? 'var(--lime)' : 'var(--s2)' }}
+              style={{ width: 22, height: 4, borderRadius: 100, background: i <= stepIndex ? 'var(--blue)' : 'var(--s2)' }}
             />
           ))}
         </div>
@@ -133,118 +150,142 @@ export default function Onboarding({ onComplete }) {
           <div className="onboarding-back" onClick={goBack}>‹ Back</div>
         )}
 
-        {step === 'goal' && (
-          <>
-            <div style={{ textAlign: 'center', marginBottom: 6 }}>
-              <LightningIcon size={40} id="onboarding-goal" />
-            </div>
-            <div className="page-h1" style={{ textAlign: 'center' }}>What are you after?</div>
-            <div className="sub" style={{ textAlign: 'center', marginBottom: 22 }}>
-              Tell us what you've got, we'll tell you what to make -- no more staring into the fridge.
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {ONBOARDING_GOALS.map((g) => (
-                <div
-                  key={g.id}
-                  onClick={() => chooseGoal(g.id)}
-                  className={`onboarding-card${goal === g.id ? ' onboarding-card-active' : ''}`}
-                >
-                  <div className="onboarding-card-title">{g.label}</div>
-                  <div className="onboarding-card-desc">{g.description}</div>
-                </div>
-              ))}
-            </div>
-          </>
-        )}
+        {/* key={step} forces a full remount of everything below on every
+            step change (even between two screens that happen to share the
+            same DOM shape) -- without it, React would just patch the
+            existing elements in place and none of the fade-in animations
+            below would ever replay past the very first screen. */}
+        <div key={step}>
+          {step === 'goal' && (
+            <>
+              <div className="onboarding-fade-1" style={{ textAlign: 'center', marginBottom: 6 }}>
+                <LightningIcon size={40} id="onboarding-goal" />
+              </div>
+              <div className="onboarding-h1 onboarding-fade-2" style={{ textAlign: 'center' }}>What are you after?</div>
+              <div className="onboarding-sub onboarding-fade-3" style={{ textAlign: 'center', marginBottom: 22 }}>
+                Tell us what you've got, we'll tell you what to make -- no more staring into the fridge.
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {ONBOARDING_GOALS.map((g, i) => (
+                  <div
+                    key={g.id}
+                    onClick={() => chooseGoal(g.id)}
+                    className={`onboarding-card onboarding-card-enter${goal === g.id ? ' onboarding-card-active' : ''}`}
+                    style={{ animationDelay: cardDelay(i) }}
+                  >
+                    <div className="onboarding-card-title">{g.label}</div>
+                    <div className="onboarding-card-desc">{g.description}</div>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
 
-        {step === 'servings' && (
-          <>
-            <div className="page-h1" style={{ textAlign: 'center' }}>How do you want your meals sized?</div>
-            <div className="sub" style={{ textAlign: 'center', marginBottom: 22 }}>
-              This just changes portion sizing -- you can mix and match either way later.
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {SERVING_PREFS.map((s) => (
-                <div
-                  key={s.id}
-                  onClick={() => chooseServingsPref(s.id)}
-                  className={`onboarding-card${servingsPref === s.id ? ' onboarding-card-active' : ''}`}
-                >
-                  <div className="onboarding-card-title">{s.label}</div>
-                  <div className="onboarding-card-desc">{s.description}</div>
-                </div>
-              ))}
-            </div>
-          </>
-        )}
+          {step === 'servings' && (
+            <>
+              <div className="onboarding-h1 onboarding-fade-1" style={{ textAlign: 'center' }}>How do you want your meals sized?</div>
+              <div className="onboarding-sub onboarding-fade-2" style={{ textAlign: 'center', marginBottom: 22 }}>
+                This just changes portion sizing -- you can mix and match either way later.
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {SERVING_PREFS.map((s, i) => (
+                  <div
+                    key={s.id}
+                    onClick={() => chooseServingsPref(s.id)}
+                    className={`onboarding-card onboarding-card-enter${servingsPref === s.id ? ' onboarding-card-active' : ''}`}
+                    style={{ animationDelay: cardDelay(i) }}
+                  >
+                    <div className="onboarding-card-title">{s.label}</div>
+                    <div className="onboarding-card-desc">{s.description}</div>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
 
-        {step === 'mealCount' && (
-          <>
-            <div className="page-h1" style={{ textAlign: 'center' }}>How many meals should we line up?</div>
-            <div className="sub" style={{ textAlign: 'center', marginBottom: 22 }}>
-              A full day goes straight into your Diary, ready to cook through.
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {MEAL_COUNT_OPTIONS.map((m) => (
-                <div
-                  key={m.id}
-                  onClick={() => chooseMealCount(m.id)}
-                  className={`onboarding-card${mealCountPref === m.id ? ' onboarding-card-active' : ''}`}
-                >
-                  <div className="onboarding-card-title">{m.label}</div>
-                  <div className="onboarding-card-desc">{m.description}</div>
-                </div>
-              ))}
-            </div>
-          </>
-        )}
+          {step === 'mealCount' && (
+            <>
+              <div className="onboarding-h1 onboarding-fade-1" style={{ textAlign: 'center' }}>How many meals should we line up?</div>
+              <div className="onboarding-sub onboarding-fade-2" style={{ textAlign: 'center', marginBottom: 22 }}>
+                A full day goes straight into your Diary, ready to cook through.
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {MEAL_COUNT_OPTIONS.map((m, i) => (
+                  <div
+                    key={m.id}
+                    onClick={() => chooseMealCount(m.id)}
+                    className={`onboarding-card onboarding-card-enter${mealCountPref === m.id ? ' onboarding-card-active' : ''}`}
+                    style={{ animationDelay: cardDelay(i) }}
+                  >
+                    <div className="onboarding-card-title">{m.label}</div>
+                    <div className="onboarding-card-desc">{m.description}</div>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
 
-        {step === 'mealType' && (
-          <>
-            <div className="page-h1" style={{ textAlign: 'center' }}>What kind of meal?</div>
-            <div className="sub" style={{ textAlign: 'center', marginBottom: 22 }}>
-              Just for this one -- doesn't limit what you can search for later.
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {MEAL_TYPES.map((m) => (
+          {step === 'mealType' && (
+            <>
+              <div className="onboarding-h1 onboarding-fade-1" style={{ textAlign: 'center' }}>What kind of meal?</div>
+              <div className="onboarding-sub onboarding-fade-2" style={{ textAlign: 'center', marginBottom: 22 }}>
+                Just for this one -- doesn't limit what you can search for later.
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {MEAL_TYPES.map((m, i) => (
+                  <div
+                    key={m.id}
+                    onClick={() => chooseMealType(m.id)}
+                    className={`onboarding-card onboarding-card-enter${mealType === m.id ? ' onboarding-card-active' : ''}`}
+                    style={{ animationDelay: cardDelay(i) }}
+                  >
+                    <div className="onboarding-card-title">{m.label}</div>
+                    <div className="onboarding-card-desc">{m.description}</div>
+                  </div>
+                ))}
+                {/* Surprise Me sits one beat after the real meal types
+                    (see cardDelay(MEAL_TYPES.length)) and its own purple
+                    tint (see .onboarding-card-surprise) so it visually
+                    reads as "no strong opinion" rather than a fourth,
+                    equally-weighted meal type. */}
                 <div
-                  key={m.id}
-                  onClick={() => chooseMealType(m.id)}
-                  className={`onboarding-card${mealType === m.id ? ' onboarding-card-active' : ''}`}
+                  onClick={() => chooseMealType(MEAL_TYPE_SURPRISE.id)}
+                  className={`onboarding-card onboarding-card-enter onboarding-card-surprise${mealType === MEAL_TYPE_SURPRISE.id ? ' onboarding-card-active' : ''}`}
+                  style={{ animationDelay: cardDelay(MEAL_TYPES.length) }}
                 >
-                  <div className="onboarding-card-title">{m.label}</div>
-                  <div className="onboarding-card-desc">{m.description}</div>
+                  <div className="onboarding-card-title">✦ {MEAL_TYPE_SURPRISE.label}</div>
+                  <div className="onboarding-card-desc">{MEAL_TYPE_SURPRISE.description}</div>
                 </div>
-              ))}
-            </div>
-          </>
-        )}
+              </div>
+            </>
+          )}
 
-        {step === 'proteins' && (
-          <>
-            <div className="page-h1" style={{ textAlign: 'center' }}>What do you usually have?</div>
-            <div className="sub" style={{ textAlign: 'center', marginBottom: 18 }}>
-              Pick a few -- we'll find recipes that use them right away. You can always add more later.
-            </div>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, justifyContent: 'center', marginBottom: 26 }}>
-              {QUICK_PICKS.map((s) => (
-                <div
-                  key={s.id}
-                  className={`pill ${proteins.includes(s.id) ? 'active' : ''}`}
-                  onClick={() => toggleProtein(s.id)}
-                >
-                  {proteins.includes(s.id) ? `✓ ${s.label}` : s.label}
-                </div>
-              ))}
-            </div>
-            <div style={{ position: 'relative' }}>
-              <button className="gen-kitchen-btn onboarding-finish-btn" style={{ marginBottom: 12 }} onClick={finish}>
-                {finishLabel}
-              </button>
-              <OnboardingFinishSparkles />
-            </div>
-          </>
-        )}
+          {step === 'proteins' && (
+            <>
+              <div className="onboarding-h1 onboarding-fade-1" style={{ textAlign: 'center' }}>What do you usually have?</div>
+              <div className="onboarding-sub onboarding-fade-2" style={{ textAlign: 'center', marginBottom: 18 }}>
+                Pick a few -- we'll find recipes that use them right away. You can always add more later.
+              </div>
+              <div className="onboarding-fade-3" style={{ display: 'flex', flexWrap: 'wrap', gap: 8, justifyContent: 'center', marginBottom: 26 }}>
+                {QUICK_PICKS.map((s) => (
+                  <div
+                    key={s.id}
+                    className={`pill ${proteins.includes(s.id) ? 'active' : ''}`}
+                    onClick={() => toggleProtein(s.id)}
+                  >
+                    {proteins.includes(s.id) ? `✓ ${s.label}` : s.label}
+                  </div>
+                ))}
+              </div>
+              <div style={{ position: 'relative' }}>
+                <button className="gen-kitchen-btn onboarding-finish-btn" style={{ marginBottom: 12 }} onClick={finish}>
+                  {finishLabel}
+                </button>
+                <OnboardingFinishSparkles />
+              </div>
+            </>
+          )}
+        </div>
 
         <div
           onClick={skipAll}

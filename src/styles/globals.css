@@ -101,8 +101,8 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
    three onboarding screens (see components/Onboarding.jsx) -- larger tap
    targets than .pill chips since there's only 2 options per screen and
    plenty of room, not a dense multi-select grid like the protein picks. */
-.onboarding-card{background:var(--s1);border:1px solid var(--border);border-radius:14px;padding:14px 16px;cursor:pointer;transition:background .15s;}
-.onboarding-card:active{background:var(--s2);}
+.onboarding-card{background:var(--s1);border:1px solid rgba(77,184,255,.22);border-radius:14px;padding:14px 16px;cursor:pointer;transition:background .15s, border-color .15s;}
+.onboarding-card:active{background:var(--s2);border-color:rgba(77,184,255,.4);}
 .onboarding-card-title{font-size:16px;font-weight:700;color:var(--cream);margin-bottom:2px;}
 .onboarding-card-desc{font-size:12.5px;color:var(--muted);}
 /* Shown instead of .onboarding-card's default look when its option is the
@@ -114,6 +114,14 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
 .onboarding-card-active{background:var(--lime);border-color:var(--lime);}
 .onboarding-card-active .onboarding-card-title{color:#000;}
 .onboarding-card-active .onboarding-card-desc{color:rgba(0,0,0,.62);}
+/* The "Surprise Me / doesn't matter" catch-all option on the meal-type
+   screen -- tinted with the app's existing magic/surprise purple (see
+   Saved.jsx's Surprise Me button, --magic) instead of the same blue as
+   the real meal-type choices above it, so it visually reads as its own
+   "no strong opinion" category rather than a fourth meal type. */
+.onboarding-card-surprise{border-color:rgba(179,136,255,.35);}
+.onboarding-card-surprise:active{border-color:rgba(179,136,255,.55);}
+.onboarding-card-surprise .onboarding-card-title{color:var(--magic);}
 
 /* Small "‹ Back" link shown above the question on every onboarding
    screen except the first -- lets someone revisit and change an earlier
@@ -122,6 +130,42 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
    a secondary escape hatch, not the primary action on the screen. */
 .onboarding-back{display:inline-flex;align-items:center;gap:3px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;margin-bottom:14px;}
 .onboarding-back:active{color:var(--cream);}
+
+/* Onboarding headers/subtext get their own colored treatment instead of
+   reusing the app's plain white/cream .page-h1/.sub (which are
+   deliberately un-tinted everywhere else -- see that comment above) --
+   onboarding is a one-time, higher-energy introduction, not an ordinary
+   tab, so it's the one place a bit of brand color earns its keep. Headers
+   pick up a warm cream-to-gold gradient (same gold as the lightning bolt
+   motif) to feel "lit up," while subtext is tinted a cool blue instead of
+   plain gray -- the same blue/gold pairing used throughout the app's own
+   pulses and glows -- so the two text roles stay visually distinct at a
+   glance, not just by size. */
+.onboarding-h1{
+  font-family:'Baloo 2',sans-serif;
+  font-size:25px;
+  font-weight:700;
+  letter-spacing:-.2px;
+  margin-bottom:3px;
+  background:linear-gradient(90deg, var(--cream) 15%, var(--ez2) 100%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.onboarding-sub{font-size:12px;color:rgba(150,210,255,.82);margin-bottom:14px;text-wrap:balance;}
+
+/* Progressive reveal: each onboarding screen's icon/header/subtext fade
+   and slide up in sequence (not all at once) via staggered animation-delay
+   on mount, and each choice card/pill does the same a beat later, staggered
+   again by its own index -- see the .onboarding-fade-N helpers below and
+   Onboarding.jsx's key={step} wrapper (forces a real remount on every step
+   change so these replay every time, not just on first load). Reuses the
+   app's existing fadeUp keyframe (see far below) rather than a new one, for
+   the same "slide up and fade" as everything else that enters the screen. */
+.onboarding-fade-1{opacity:0;animation:fadeUp .5s ease-out .04s forwards;}
+.onboarding-fade-2{opacity:0;animation:fadeUp .5s ease-out .16s forwards;}
+.onboarding-fade-3{opacity:0;animation:fadeUp .5s ease-out .28s forwards;}
+.onboarding-card-enter{opacity:0;animation:fadeUp .45s ease-out forwards;}
 
 /* PILLS */
 .pill{padding:6px 14px;border-radius:var(--rtag);border:1px solid var(--border);font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;background:var(--s2);color:var(--muted);transition:all .12s;}
@@ -937,32 +981,66 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
 .scale-tip-box b{color:var(--scale);}
 .ez-level-info{background:var(--lime3);border:1px solid rgba(201,241,58,.13);border-radius:10px;padding:9px 12px;margin-bottom:14px;display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);}
 
-/* SPLASH SCREEN: shown once, right after a brand-new sign-in, before the
-   very first onboarding question -- see components/SplashScreen.jsx +
-   App.jsx. Reuses the same teal-to-black .app-bg backdrop as every other
-   screen so this doesn't read as a separate, disconnected "loading page"
-   dropped in front of the app -- it's the app's own background, just
-   with the logo held on top of it for a beat. The logo's whole lifecycle
-   (fade in, hold, fade out) is one CSS animation so the component only
-   has to listen for it to end rather than juggling its own timers for
-   each phase. Total duration here (2.2s) is mirrored by a setTimeout
-   fallback in the component in case prefers-reduced-motion strips the
-   animation entirely.  */
-.splash-screen{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;background:var(--bg);}
-.splash-logo{height:76px;width:auto;opacity:0;}
+/* WELCOME SCREEN: shown right after every sign-in AND every fresh app
+   open (not just the brand-new-user path before onboarding -- see
+   App.jsx, which now gates on this before even checking whether
+   onboarding is done) -- see components/SplashScreen.jsx. Reuses the
+   same teal-to-black .app-bg backdrop as every other screen so this
+   reads as the app's own background with the logo held on top of it,
+   not a separate disconnected loading page.
+   Two JS-timed beats (see the component) rather than one long CSS
+   animation: the logo fades/settles in large and centered with a soft
+   pulsing glow behind it, holds for a beat, then a lightning bolt
+   strikes straight down through it (same bolt shape/gradient as
+   LightningStrike's per-step cook-wizard hits, just centered and
+   full-height instead of randomly placed) and the logo gets jolted and
+   flung away -- ties the app's very first moment directly into its own
+   lightning-bolt identity (LightningIcon, the header wordmark) rather
+   than a generic fade transition. */
+.welcome-screen{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;background:var(--bg);overflow:hidden;}
+.welcome-glow{position:absolute;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle, rgba(77,184,255,.32) 0%, rgba(255,193,58,.18) 45%, rgba(255,193,58,0) 72%);}
 @media (prefers-reduced-motion: no-preference) {
-  .splash-logo{animation:splash-logo-life 2.2s ease-in-out forwards;}
+  .welcome-glow{animation:welcome-glow-pulse 1.6s ease-in-out infinite;}
+}
+@keyframes welcome-glow-pulse{
+  0%,100%{transform:scale(.92);opacity:.75;}
+  50%{transform:scale(1.08);opacity:1;}
+}
+.welcome-logo{position:relative;height:132px;width:auto;opacity:0;filter:drop-shadow(0 0 26px rgba(77,184,255,.4));}
+@media (prefers-reduced-motion: no-preference) {
+  .welcome-logo{animation:welcome-logo-in .6s cubic-bezier(.34,1.56,.64,1) forwards;}
+  .welcome-logo.welcome-logo-struck{animation:welcome-logo-struck .56s cubic-bezier(.36,0,.66,-0.56) forwards;}
 }
 @media (prefers-reduced-motion: reduce) {
-  /* No animation to listen for an end event on -- just show the logo
-     plainly; the component's setTimeout fallback still advances things. */
-  .splash-logo{opacity:1;}
+  .welcome-logo{opacity:1;}
+  .welcome-logo.welcome-logo-struck{opacity:0;}
 }
-@keyframes splash-logo-life{
-  0%{opacity:0;transform:scale(.82);}
-  22%{opacity:1;transform:scale(1);}
-  78%{opacity:1;transform:scale(1);}
-  100%{opacity:0;transform:scale(1.06);}
+@keyframes welcome-logo-in{
+  0%{opacity:0;transform:scale(.7);}
+  62%{opacity:1;transform:scale(1.05);}
+  100%{opacity:1;transform:scale(1);}
+}
+@keyframes welcome-logo-struck{
+  0%{opacity:1;transform:scale(1) rotate(0deg) translate(0,0);}
+  14%{transform:scale(1.05) rotate(-4deg) translate(-6px,0);}
+  28%{transform:scale(1.02) rotate(4deg) translate(6px,0);}
+  42%{opacity:1;transform:scale(1.08) rotate(-3deg) translate(-4px,1px);}
+  100%{opacity:0;transform:scale(1.4) rotate(10deg) translate(34px,-70px);}
+}
+/* Full-height, dead-center strike (vs. LightningStrike's randomized
+   per-tap position elsewhere) -- this one has one job: land squarely on
+   the logo. Reuses the same strike-flash/strike-bolt keyframes as the
+   cook wizard's LightningStrike for a consistent hit. */
+.welcome-strike{position:fixed;inset:0;z-index:5;pointer-events:none;overflow:hidden;}
+.welcome-strike-flash{position:absolute;inset:0;background:#fff9d6;opacity:0;}
+.welcome-strike-bolt-wrap{position:absolute;top:0;left:50%;transform:translateX(-50%);height:100%;width:170px;}
+.welcome-strike-bolt{width:100%;height:100%;transform-origin:50% 0%;transform:scaleY(0);opacity:0;filter:drop-shadow(0 0 26px rgba(255,204,51,.9));}
+@media (prefers-reduced-motion: no-preference) {
+  .welcome-strike-flash{animation:strike-flash .45s ease-out forwards;}
+  .welcome-strike-bolt{animation:strike-bolt .4s cubic-bezier(.2,.9,.3,1) forwards;}
+}
+@media (prefers-reduced-motion: reduce) {
+  .welcome-strike{display:none;}
 }
 
 /* GENERATING SCREEN: shown right after onboarding finishes, while the

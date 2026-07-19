@@ -37,6 +37,15 @@ export const MEAL_TYPES = [
   { id: 'snack', label: 'A Snack', description: 'Something small to tide you over' },
 ];
 
+// A fourth, catch-all option on the same screen -- `id: null` rather than
+// a real mealType, since matchesMealType already treats a null mealType
+// as "no preference, matches everything" (see below). That's exactly
+// "doesn't matter" for free, without needing a fake mealType value that
+// would never equal any real recipe.mealType and would therefore wrongly
+// exclude every recipe from pickBestMatch's exact-match pass instead of
+// truly meaning "no opinion here."
+export const MEAL_TYPE_SURPRISE = { id: null, label: 'Surprise Me', description: "We'll pick whatever fits best" };
+
 // Whether a recipe fits the chosen goal -- used only to bias ordering
 // (see rankForPreferences), never to exclude a recipe outright.
 export function matchesGoal(recipe, goal) {
