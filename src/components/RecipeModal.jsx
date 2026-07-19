@@ -74,6 +74,34 @@ function formatLb(grams) {
   return formatNum(grams / GRAMS_PER_LB);
 }
 
+// Approximate per-unit gram weight for "each"-style convenience sides (a
+// microwave rice pouch, a steam-bag of broccoli, a pre-cooked pasta
+// pouch) -- these are written as "1 per meal" so the ingredient list stays
+// easy to read, but that shouldn't leave out anyone who isn't buying that
+// exact packaged product (cooking rice from scratch, air-frying loose
+// frozen broccoli instead of a steam bag, etc.). The gram figures match
+// what these same ingredients are already written as elsewhere in the
+// catalog wherever a recipe calls for them in plain grams instead of
+// "each" (e.g. every non-meal-prep rice bowl already calls for 200g of
+// rice) -- so "1 pouch" here and "200g" there mean the same thing.
+// Deliberately only covers sides with an obvious from-scratch/bulk
+// alternative -- burger buns, cheese slices, and tortillas don't have the
+// same ambiguity (nobody weighs a bun), so they're left alone.
+const EACH_ITEM_GRAMS = [
+  ['Rice Pouch', 200],
+  ['Frozen Broccoli', 100],
+  ['Frozen Mixed Veg', 85],
+  ['Frozen Hash Browns', 100],
+  ['Egg Noodles', 150],
+  ['Spaghetti Pouch', 200],
+];
+
+function getEachItemGramsPerUnit(name) {
+  if (!name) return null;
+  const match = EACH_ITEM_GRAMS.find(([key]) => name.includes(key));
+  return match ? match[1] : null;
+}
+
 // Shown on the finish screen once a recipe is completed -- the point is to
 // make people feel good about having just cooked instead of ordering in,
 // not to overstate any one dish. Two pools rather than one: a meal-prep
@@ -1241,6 +1269,11 @@ export default function RecipeModal({
                           {c.unit === 'g' && isBulkProteinComponent(c.name) && (
                             <span style={{ fontSize: 10.5, color: 'var(--muted)', whiteSpace: 'nowrap' }}>
                               ({formatLb(c.quantity)} lb)
+                            </span>
+                          )}
+                          {c.unit === 'each' && getEachItemGramsPerUnit(c.name) != null && (
+                            <span style={{ fontSize: 10.5, color: 'var(--muted)', whiteSpace: 'nowrap' }}>
+                              (≈{Math.round(c.quantity) * getEachItemGramsPerUnit(c.name)}g)
                             </span>
                           )}
                           {display.toggleable && (
