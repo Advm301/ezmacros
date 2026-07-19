@@ -268,8 +268,8 @@ export const RECIPES = [
         "unit": "each"
       },
       {
-        "name": "Garlic Powder (2 tsp)",
-        "quantity": 6,
+        "name": "Minced Garlic (jarred, 6 tsp)",
+        "quantity": 30,
         "unit": "g"
       },
       {
@@ -299,7 +299,7 @@ export const RECIPES = [
       "Hot Sauce"
     ],
     "instructions": [
-      "Add beef, canned tomatoes, tomato paste, Worcestershire, garlic powder, Italian seasoning, and salt to the slow cooker. Break up beef roughly and stir to combine.",
+      "Add beef, canned tomatoes, tomato paste, Worcestershire, minced garlic, Italian seasoning, and salt to the slow cooker. Break up beef roughly and stir to combine.",
       "Cook HIGH 2 hrs or LOW 4 hrs.",
       "Divide the beef mixture evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave a rice pouch 90 sec + a steam-bag veg 3 min. Build bowl with beef mixture. Toppings on the side."
@@ -351,8 +351,8 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Garlic Powder (½ tsp)",
-        "quantity": 6,
+        "name": "Minced Garlic (jarred, 1½ tsp)",
+        "quantity": 7.5,
         "unit": "g"
       },
       {
@@ -375,7 +375,7 @@ export const RECIPES = [
       "Shredded Mozzarella"
     ],
     "instructions": [
-      "Mix turkey, breadcrumbs, egg white, Italian seasoning, garlic powder, parmesan, and salt in a bowl until just combined.",
+      "Mix turkey, breadcrumbs, egg white, Italian seasoning, minced garlic, parmesan, and salt in a bowl until just combined.",
       "Roll into ~1.5-inch balls (about 20-24 total) onto foil-lined baking sheet(s).",
       "Bake 400°F for 18–20 min.",
       "Warm the marinara (microwave 2-3 min) and toss the meatballs in it. Top with mozzarella. Divide evenly into 4 containers and refrigerate (up to 4 days) or freeze. To serve one portion: reheat in the microwave until hot throughout."
@@ -1393,8 +1393,8 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
-        "name": "Garlic Powder (½ tsp)",
-        "quantity": 1.5,
+        "name": "Minced Garlic (jarred, 1½ tsp)",
+        "quantity": 7.5,
         "unit": "g"
       },
       {
@@ -1418,7 +1418,7 @@ export const RECIPES = [
       "Green Onion (dried)"
     ],
     "instructions": [
-      "Mix honey + soy sauce + garlic powder. Place cod on foil. Drizzle sauce over top.",
+      "Mix honey + soy sauce + minced garlic. Place cod on foil. Drizzle sauce over top.",
       "Bake 425°F for 12–14 min. Microwave rice 90 sec + green beans 3 min.",
       "Build bowl — toppings separate."
     ],
@@ -1704,8 +1704,8 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Garlic Powder (2 tsp)",
-        "quantity": 6,
+        "name": "Minced Garlic (jarred, 6 tsp)",
+        "quantity": 30,
         "unit": "g"
       },
       {
@@ -2002,8 +2002,8 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
-        "name": "Garlic Powder (½ tsp)",
-        "quantity": 1.5,
+        "name": "Minced Garlic (jarred, 1½ tsp)",
+        "quantity": 7.5,
         "unit": "g"
       },
       {
@@ -2017,7 +2017,7 @@ export const RECIPES = [
       "Green Onion (dried)"
     ],
     "instructions": [
-      "Mix sriracha + honey + garlic powder. Place salmon on foil-lined sheet.",
+      "Mix sriracha + honey + minced garlic. Place salmon on foil-lined sheet.",
       "Brush sauce over salmon. Bake 425°F for 12–14 min. Microwave broccoli 3 min.",
       "Plate together — extra sauce on side."
     ],
@@ -2067,8 +2067,8 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Garlic Powder (½ tsp)",
-        "quantity": 2,
+        "name": "Minced Garlic (jarred, 1½ tsp)",
+        "quantity": 7.5,
         "unit": "g"
       },
       {
@@ -2083,7 +2083,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Heat sesame oil in large skillet over high heat. Scramble eggs 2 min, remove to plate.",
-      "Add rice to skillet, break up clumps. Stir 2 min. Add peas + soy sauce + garlic powder + white pepper -- the white pepper especially is what makes fried rice taste like fried rice instead of just rice with soy sauce.",
+      "Add minced garlic to the same skillet and stir 20-30 seconds until fragrant, being careful not to let it burn. Add rice to skillet, break up clumps. Stir 2 min. Add peas + soy sauce + white pepper -- the white pepper especially is what makes fried rice taste like fried rice instead of just rice with soy sauce.",
       "Return eggs to skillet, toss everything 1 min. Toppings on side."
     ],
     "totalTime": 8,
@@ -2944,8 +2944,8 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Garlic Powder (½ tsp)",
-        "quantity": 1.5,
+        "name": "Minced Garlic (jarred, 1½ tsp)",
+        "quantity": 7.5,
         "unit": "g"
       },
       {
@@ -2974,7 +2974,7 @@ export const RECIPES = [
       "Hot Sauce"
     ],
     "instructions": [
-      "Mix ground turkey with garlic powder + Worcestershire in bowl.",
+      "Mix ground turkey with minced garlic + Worcestershire in bowl.",
       "Form into patty. Heat skillet medium-high. Cook 4–5 min per side (~165°F internal).",
       "Toast bun. Spread mustard. Build burger with pickles + toppings on side."
     ],
@@ -3550,8 +3550,8 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Garlic Powder (1 tsp)",
-        "quantity": 3,
+        "name": "Minced Garlic (jarred, 3 tsp)",
+        "quantity": 15,
         "unit": "g"
       },
       {
@@ -3711,8 +3711,8 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Garlic Powder (½ tsp)",
-        "quantity": 2,
+        "name": "Minced Garlic (jarred, 1½ tsp)",
+        "quantity": 7.5,
         "unit": "g"
       },
       {
@@ -3727,7 +3727,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Heat sesame oil in large skillet over high. Scramble eggs, remove to plate.",
-      "Add rice, break up clumps, stir 2 min. Add peas + soy sauce + garlic powder + white pepper + shrimp.",
+      "Add minced garlic to the same skillet and stir 20-30 seconds until fragrant, being careful not to let it burn. Add rice, break up clumps, stir 2 min. Add peas + soy sauce + white pepper + shrimp.",
       "Return eggs, toss everything 1 min. Toppings on side."
     ],
     "totalTime": 8,
@@ -3943,8 +3943,8 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
-        "name": "Garlic Powder (½ tsp)",
-        "quantity": 1.5,
+        "name": "Minced Garlic (jarred, 1½ tsp)",
+        "quantity": 7.5,
         "unit": "g"
       },
       {
@@ -3964,7 +3964,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Heat oil in skillet. Brown beef 4–5 min, breaking it up.",
-      "Add gochujang + soy + honey + garlic powder. Simmer 2 min. Microwave rice 90 sec.",
+      "Add gochujang + soy + honey + minced garlic. Simmer 2 min. Microwave rice 90 sec.",
       "Build bowl — toppings separate."
     ],
     "totalTime": 7,
@@ -4353,8 +4353,8 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Garlic Powder (2 tsp)",
-        "quantity": 6,
+        "name": "Minced Garlic (jarred, 6 tsp)",
+        "quantity": 30,
         "unit": "g"
       },
       {
@@ -4368,7 +4368,7 @@ export const RECIPES = [
       "Black Pepper"
     ],
     "instructions": [
-      "Add chicken, sun-dried tomatoes, broth, Italian seasoning, garlic powder, and red pepper flakes to slow cooker -- the red pepper flakes are what push this from a mild cream sauce toward a real Tuscan-style flavor.",
+      "Add chicken, sun-dried tomatoes, broth, Italian seasoning, minced garlic, and red pepper flakes to slow cooker -- the red pepper flakes are what push this from a mild cream sauce toward a real Tuscan-style flavor.",
       "Cook LOW 5–6 hrs or HIGH 2–3 hrs. Stir in heavy cream + parmesan in last 30 min.",
       "Divide chicken and sauce evenly into 4 containers. Refrigerate up to 4 days.",
       "Reheat one portion at a time. Serve over a fresh white rice pouch."
@@ -4612,8 +4612,8 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Garlic Powder (½ tsp)",
-        "quantity": 1.5,
+        "name": "Minced Garlic (jarred, 1½ tsp)",
+        "quantity": 7.5,
         "unit": "g"
       },
       {
@@ -4628,7 +4628,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Heat sesame oil in large skillet over high heat. Scramble egg whites 2 min until just set. Remove to plate.",
-      "Add rice to skillet, break up clumps, stir 2 min. Add peas + soy sauce + garlic powder + white pepper.",
+      "Add minced garlic to the same skillet and stir 20-30 seconds until fragrant, being careful not to let it burn. Add rice to skillet, break up clumps, stir 2 min. Add peas + soy sauce + white pepper.",
       "Return eggs, toss everything 1 min. Toppings on side."
     ],
     "totalTime": 7,
@@ -4732,8 +4732,8 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
-        "name": "Garlic Powder (½ tsp)",
-        "quantity": 1.5,
+        "name": "Minced Garlic (jarred, 1½ tsp)",
+        "quantity": 7.5,
         "unit": "g"
       },
       {
@@ -4757,8 +4757,8 @@ export const RECIPES = [
       "Sesame Seeds"
     ],
     "instructions": [
-      "Place salmon skin-down on foil-lined sheet. Brush generously with hot honey.",
-      "Sprinkle garlic powder. Bake 425°F for 12–14 min. Microwave broccoli 3 min. Squeeze lemon over salmon."
+      "Mix hot honey and minced garlic in a small bowl. Place salmon skin-down on foil-lined sheet and brush generously with the mixture.",
+      "Bake 425°F for 12–14 min. Microwave broccoli 3 min. Squeeze lemon over salmon."
     ],
     "totalTime": 18,
     "pantryTags": [
@@ -4798,8 +4798,8 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
-        "name": "Garlic Powder (1 tsp)",
-        "quantity": 3,
+        "name": "Minced Garlic (jarred, 3 tsp)",
+        "quantity": 15,
         "unit": "g"
       },
       {
@@ -4829,7 +4829,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Heat oil in skillet over high heat. Add shrimp, cook 2–3 min per side.",
-      "Mix sriracha + soy sauce + garlic powder + honey. Toss cooked shrimp in sauce.",
+      "Mix sriracha + soy sauce + honey in a bowl. Add the sauce and minced garlic to the pan with the shrimp; toss and cook 30 seconds more until fragrant and the shrimp is coated.",
       "Microwave rice 90 sec + broccoli 3 min. Build bowl — toppings on side."
     ],
     "totalTime": 7,
@@ -4873,8 +4873,8 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Garlic Powder (½ tsp)",
-        "quantity": 1.5,
+        "name": "Minced Garlic (jarred, 1½ tsp)",
+        "quantity": 7.5,
         "unit": "g"
       },
       {
@@ -4898,7 +4898,7 @@ export const RECIPES = [
       "Black Pepper"
     ],
     "instructions": [
-      "Mix hot sauce + cayenne + garlic powder. Toss chicken strips in mixture.",
+      "Mix hot sauce + cayenne + minced garlic. Toss chicken strips in mixture.",
       "Air fry 400°F for 12–14 min, shaking halfway. Toast bun lightly.",
       "Spread mayo on bun. Stack chicken tenders + pickles."
     ],
@@ -5213,8 +5213,8 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Garlic Powder (½ tsp)",
-        "quantity": 1.5,
+        "name": "Minced Garlic (jarred, 1½ tsp)",
+        "quantity": 7.5,
         "unit": "g"
       }
     ],
@@ -5224,7 +5224,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Heat oil in skillet over medium-high. Brown beef 4–5 min, breaking it up.",
-      "Add stir-fry sauce + frozen broccoli + garlic powder. Simmer 3 min.",
+      "Add stir-fry sauce + frozen broccoli + minced garlic. Simmer 3 min.",
       "Microwave rice 90 sec. Build bowl — toppings on side."
     ],
     "totalTime": 7,
@@ -5347,8 +5347,8 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Garlic Powder (seasoning)",
-        "quantity": 2,
+        "name": "Minced Garlic (jarred, 1½ tsp)",
+        "quantity": 7.5,
         "unit": "g"
       },
       {
@@ -5369,7 +5369,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Heat pan over medium. Add jar onions and cook 2 min until softened and fragrant.",
-      "Pour in the marinara sauce. Stir in garlic powder, onion powder, cumin, and smoked paprika. Simmer 3 min.",
+      "Pour in the marinara sauce. Stir in minced garlic, onion powder, cumin, and smoked paprika. Simmer 3 min.",
       "Create 4 wells in the sauce using a spoon. Crack one egg into each well.",
       "Cover pan with lid. Cook 5-7 min until whites are set but yolks still slightly runny. Crumble feta over top. Serve with sourdough for dipping."
     ],
@@ -5413,8 +5413,8 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Garlic Powder",
-        "quantity": 2,
+        "name": "Minced Garlic (jarred, 1½ tsp)",
+        "quantity": 7.5,
         "unit": "g"
       },
       {
@@ -5440,7 +5440,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Heat olive oil in pan over medium. Add jar onions, cook 3 min until softened.",
-      "Add garlic powder, cumin, smoked paprika, red pepper flakes. Stir 30 seconds to bloom spices.",
+      "Add minced garlic, cumin, smoked paprika, red pepper flakes. Stir 30 seconds to bloom spices.",
       "Pour in crushed tomatoes. Season with salt. Simmer 5 min, stirring occasionally, until sauce thickens slightly.",
       "Create 4 wells in sauce. Crack one egg into each well.",
       "Cover and cook 5-7 min until whites are set, yolks runny. Crumble feta over top. Serve with sourdough."
@@ -5552,8 +5552,8 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
-        "name": "Garlic Powder (½ tsp)",
-        "quantity": 8,
+        "name": "Minced Garlic (jarred, 1½ tsp)",
+        "quantity": 7.5,
         "unit": "g"
       },
       {
@@ -5587,10 +5587,10 @@ export const RECIPES = [
       "Fried Onions (canned)"
     ],
     "instructions": [
-      "Heat a large skillet over medium-high heat. Add ground beef, garlic powder, onion powder, salt, and pepper, breaking the meat apart with a spoon. Cook 10-12 minutes until browned throughout.",
+      "Heat a large skillet over medium-high heat. Add ground beef, minced garlic, onion powder, salt, and pepper, breaking the meat apart with a spoon. Cook 10-12 minutes until browned throughout.",
       "Stir in BBQ sauce generously. Cook 2-3 minutes more.",
       "Divide the beef mixture evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
-      "To serve one portion: microwave a portion of hash browns per package directions (usually 2-3 min), or air fry/bake if you'd rather have them crispy. Steam-bag broccoli 3 min, season with a pinch of garlic powder, onion powder, and chili flakes. Plate hash browns, top with a portion of the beef mixture, broccoli on the side. Toppings on the side."
+      "To serve one portion: microwave a portion of hash browns per package directions (usually 2-3 min), or air fry/bake if you'd rather have them crispy. Steam-bag broccoli 3 min, season with a pinch of onion powder and chili flakes. Plate hash browns, top with a portion of the beef mixture, broccoli on the side. Toppings on the side."
     ],
     "totalTime": 13,
     "pantryTags": [
@@ -5628,8 +5628,8 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Garlic Powder (1 tsp)",
-        "quantity": 12,
+        "name": "Minced Garlic (jarred, 3 tsp)",
+        "quantity": 15,
         "unit": "g"
       },
       {
@@ -5684,7 +5684,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Heat a large skillet or pot over medium-high heat. Add ground beef and break apart. Cook 10-12 minutes until mostly browned throughout.",
-      "Stir in tomato paste, garlic powder, onion powder, cumin, oregano, red pepper flakes, smoked paprika, and salt, cooking 1 minute until fragrant -- this is where the real flavor comes from, not just the tomatoes. Add canned tomatoes (with liquid) and spinach. Simmer 4-5 minutes, stirring until the spinach wilts and the sauce thickens slightly.",
+      "Stir in tomato paste, minced garlic, onion powder, cumin, oregano, red pepper flakes, smoked paprika, and salt, cooking 1 minute until fragrant -- this is where the real flavor comes from, not just the tomatoes. Add canned tomatoes (with liquid) and spinach. Simmer 4-5 minutes, stirring until the spinach wilts and the sauce thickens slightly.",
       "Stir in butter off heat for a glossy, rich sauce. Divide the beef and tomato sauce evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave a rice pouch 90 sec. Build bowl with rice, top with a portion of the beef & tomato sauce."
     ],
@@ -5950,8 +5950,8 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
-        "name": "Garlic Powder (½ tsp)",
-        "quantity": 8,
+        "name": "Minced Garlic (jarred, 1½ tsp)",
+        "quantity": 7.5,
         "unit": "g"
       },
       {
@@ -5970,10 +5970,10 @@ export const RECIPES = [
       "Green Onion"
     ],
     "instructions": [
-      "Heat a large skillet over medium-high heat. Add ground beef and garlic powder, breaking the meat apart. Cook 10-12 minutes until browned throughout.",
+      "Heat a large skillet over medium-high heat. Add ground beef and minced garlic, breaking the meat apart. Cook 10-12 minutes until browned throughout.",
       "Drizzle teriyaki sauce over beef and stir well. Cook 2 minutes more.",
       "Divide the teriyaki beef evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
-      "To serve one portion: microwave rice pouch 90 sec + steam-bag broccoli 3 min, season broccoli with a pinch of garlic powder and sesame seeds. Build bowl with rice, top with a portion of the beef, broccoli on side. Toppings on top."
+      "To serve one portion: microwave rice pouch 90 sec + steam-bag broccoli 3 min, season broccoli with sesame seeds. Build bowl with rice, top with a portion of the beef, broccoli on side. Toppings on top."
     ],
     "totalTime": 12,
     "pantryTags": [
@@ -6084,8 +6084,8 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
-        "name": "Garlic Powder (½ tsp)",
-        "quantity": 8,
+        "name": "Minced Garlic (jarred, 1½ tsp)",
+        "quantity": 7.5,
         "unit": "g"
       },
       {
@@ -6119,10 +6119,10 @@ export const RECIPES = [
       "Fried Onions (canned)"
     ],
     "instructions": [
-      "Heat a large skillet over medium-high heat. Add ground chicken, garlic powder, onion powder, salt, and pepper, breaking the meat apart with a spoon. Cook 10-12 minutes until browned throughout.",
+      "Heat a large skillet over medium-high heat. Add ground chicken, minced garlic, onion powder, salt, and pepper, breaking the meat apart with a spoon. Cook 10-12 minutes until browned throughout.",
       "Stir in BBQ sauce generously. Cook 2-3 minutes more.",
       "Divide the chicken mixture evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
-      "To serve one portion: microwave a portion of hash browns per package directions (usually 2-3 min), or air fry/bake if you'd rather have them crispy. Steam-bag broccoli 3 min, season with a pinch of garlic powder, onion powder, and chili flakes. Plate hash browns, top with a portion of the chicken mixture, broccoli on the side. Toppings on the side."
+      "To serve one portion: microwave a portion of hash browns per package directions (usually 2-3 min), or air fry/bake if you'd rather have them crispy. Steam-bag broccoli 3 min, season with a pinch of onion powder and chili flakes. Plate hash browns, top with a portion of the chicken mixture, broccoli on the side. Toppings on the side."
     ],
     "totalTime": 13,
     "pantryTags": [
@@ -6160,8 +6160,8 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Garlic Powder (1 tsp)",
-        "quantity": 12,
+        "name": "Minced Garlic (jarred, 3 tsp)",
+        "quantity": 15,
         "unit": "g"
       },
       {
@@ -6216,7 +6216,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Heat a large skillet or pot over medium-high heat. Add ground chicken and break apart. Cook 10-12 minutes until mostly browned throughout.",
-      "Stir in tomato paste, garlic powder, onion powder, cumin, oregano, red pepper flakes, smoked paprika, and salt, cooking 1 minute until fragrant -- this is where the real flavor comes from, not just the tomatoes. Add canned tomatoes (with liquid) and spinach. Simmer 4-5 minutes, stirring until the spinach wilts and the sauce thickens slightly.",
+      "Stir in tomato paste, minced garlic, onion powder, cumin, oregano, red pepper flakes, smoked paprika, and salt, cooking 1 minute until fragrant -- this is where the real flavor comes from, not just the tomatoes. Add canned tomatoes (with liquid) and spinach. Simmer 4-5 minutes, stirring until the spinach wilts and the sauce thickens slightly.",
       "Stir in butter off heat for a glossy, rich sauce. Divide the chicken and tomato sauce evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave a rice pouch 90 sec. Build bowl with rice, top with a portion of the chicken & tomato sauce."
     ],
@@ -6482,8 +6482,8 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
-        "name": "Garlic Powder (½ tsp)",
-        "quantity": 8,
+        "name": "Minced Garlic (jarred, 1½ tsp)",
+        "quantity": 7.5,
         "unit": "g"
       },
       {
@@ -6502,10 +6502,10 @@ export const RECIPES = [
       "Green Onion"
     ],
     "instructions": [
-      "Heat a large skillet over medium-high heat. Add ground chicken and garlic powder, breaking the meat apart. Cook 10-12 minutes until browned throughout.",
+      "Heat a large skillet over medium-high heat. Add ground chicken and minced garlic, breaking the meat apart. Cook 10-12 minutes until browned throughout.",
       "Drizzle teriyaki sauce over chicken and stir well. Cook 2 minutes more.",
       "Divide the teriyaki chicken evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
-      "To serve one portion: microwave rice pouch 90 sec + steam-bag broccoli 3 min, season broccoli with a pinch of garlic powder and sesame seeds. Build bowl with rice, top with a portion of the chicken, broccoli on side. Toppings on top."
+      "To serve one portion: microwave rice pouch 90 sec + steam-bag broccoli 3 min, season broccoli with sesame seeds. Build bowl with rice, top with a portion of the chicken, broccoli on side. Toppings on top."
     ],
     "totalTime": 12,
     "pantryTags": [
@@ -6616,8 +6616,8 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
-        "name": "Garlic Powder (½ tsp)",
-        "quantity": 8,
+        "name": "Minced Garlic (jarred, 1½ tsp)",
+        "quantity": 7.5,
         "unit": "g"
       },
       {
@@ -6651,10 +6651,10 @@ export const RECIPES = [
       "Fried Onions (canned)"
     ],
     "instructions": [
-      "Heat a large skillet over medium-high heat. Add ground pork, garlic powder, onion powder, salt, and pepper, breaking the meat apart with a spoon. Cook 10-12 minutes until browned throughout.",
+      "Heat a large skillet over medium-high heat. Add ground pork, minced garlic, onion powder, salt, and pepper, breaking the meat apart with a spoon. Cook 10-12 minutes until browned throughout.",
       "Stir in BBQ sauce generously. Cook 2-3 minutes more.",
       "Divide the pork mixture evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
-      "To serve one portion: microwave a portion of hash browns per package directions (usually 2-3 min), or air fry/bake if you'd rather have them crispy. Steam-bag broccoli 3 min, season with a pinch of garlic powder, onion powder, and chili flakes. Plate hash browns, top with a portion of the pork mixture, broccoli on the side. Toppings on the side."
+      "To serve one portion: microwave a portion of hash browns per package directions (usually 2-3 min), or air fry/bake if you'd rather have them crispy. Steam-bag broccoli 3 min, season with a pinch of onion powder and chili flakes. Plate hash browns, top with a portion of the pork mixture, broccoli on the side. Toppings on the side."
     ],
     "totalTime": 13,
     "pantryTags": [
@@ -6692,8 +6692,8 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Garlic Powder (1 tsp)",
-        "quantity": 12,
+        "name": "Minced Garlic (jarred, 3 tsp)",
+        "quantity": 15,
         "unit": "g"
       },
       {
@@ -6748,7 +6748,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Heat a large skillet or pot over medium-high heat. Add ground pork and break apart. Cook 10-12 minutes until mostly browned throughout.",
-      "Stir in tomato paste, garlic powder, onion powder, cumin, oregano, red pepper flakes, smoked paprika, and salt, cooking 1 minute until fragrant -- this is where the real flavor comes from, not just the tomatoes. Add canned tomatoes (with liquid) and spinach. Simmer 4-5 minutes, stirring until the spinach wilts and the sauce thickens slightly.",
+      "Stir in tomato paste, minced garlic, onion powder, cumin, oregano, red pepper flakes, smoked paprika, and salt, cooking 1 minute until fragrant -- this is where the real flavor comes from, not just the tomatoes. Add canned tomatoes (with liquid) and spinach. Simmer 4-5 minutes, stirring until the spinach wilts and the sauce thickens slightly.",
       "Stir in butter off heat for a glossy, rich sauce. Divide the pork and tomato sauce evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave a rice pouch 90 sec. Build bowl with rice, top with a portion of the pork & tomato sauce."
     ],
@@ -7014,8 +7014,8 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
-        "name": "Garlic Powder (½ tsp)",
-        "quantity": 8,
+        "name": "Minced Garlic (jarred, 1½ tsp)",
+        "quantity": 7.5,
         "unit": "g"
       },
       {
@@ -7034,10 +7034,10 @@ export const RECIPES = [
       "Green Onion"
     ],
     "instructions": [
-      "Heat a large skillet over medium-high heat. Add ground pork and garlic powder, breaking the meat apart. Cook 10-12 minutes until browned throughout.",
+      "Heat a large skillet over medium-high heat. Add ground pork and minced garlic, breaking the meat apart. Cook 10-12 minutes until browned throughout.",
       "Drizzle teriyaki sauce over pork and stir well. Cook 2 minutes more.",
       "Divide the teriyaki pork evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
-      "To serve one portion: microwave rice pouch 90 sec + steam-bag broccoli 3 min, season broccoli with a pinch of garlic powder and sesame seeds. Build bowl with rice, top with a portion of the pork, broccoli on side. Toppings on top."
+      "To serve one portion: microwave rice pouch 90 sec + steam-bag broccoli 3 min, season broccoli with sesame seeds. Build bowl with rice, top with a portion of the pork, broccoli on side. Toppings on top."
     ],
     "totalTime": 12,
     "pantryTags": [
@@ -7148,8 +7148,8 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
-        "name": "Garlic Powder (½ tsp)",
-        "quantity": 8,
+        "name": "Minced Garlic (jarred, 1½ tsp)",
+        "quantity": 7.5,
         "unit": "g"
       },
       {
@@ -7183,10 +7183,10 @@ export const RECIPES = [
       "Fried Onions (canned)"
     ],
     "instructions": [
-      "Heat a large skillet over medium-high heat. Add ground turkey, garlic powder, onion powder, salt, and pepper, breaking the meat apart with a spoon. Cook 10-12 minutes until browned throughout.",
+      "Heat a large skillet over medium-high heat. Add ground turkey, minced garlic, onion powder, salt, and pepper, breaking the meat apart with a spoon. Cook 10-12 minutes until browned throughout.",
       "Stir in BBQ sauce generously. Cook 2-3 minutes more.",
       "Divide the turkey mixture evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
-      "To serve one portion: microwave a portion of hash browns per package directions (usually 2-3 min), or air fry/bake if you'd rather have them crispy. Steam-bag broccoli 3 min, season with a pinch of garlic powder, onion powder, and chili flakes. Plate hash browns, top with a portion of the turkey mixture, broccoli on the side. Toppings on the side."
+      "To serve one portion: microwave a portion of hash browns per package directions (usually 2-3 min), or air fry/bake if you'd rather have them crispy. Steam-bag broccoli 3 min, season with a pinch of onion powder and chili flakes. Plate hash browns, top with a portion of the turkey mixture, broccoli on the side. Toppings on the side."
     ],
     "totalTime": 13,
     "pantryTags": [
@@ -7224,8 +7224,8 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Garlic Powder (1 tsp)",
-        "quantity": 12,
+        "name": "Minced Garlic (jarred, 3 tsp)",
+        "quantity": 15,
         "unit": "g"
       },
       {
@@ -7280,7 +7280,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Heat a large skillet or pot over medium-high heat. Add ground turkey and break apart. Cook 10-12 minutes until mostly browned throughout.",
-      "Stir in tomato paste, garlic powder, onion powder, cumin, oregano, red pepper flakes, smoked paprika, and salt, cooking 1 minute until fragrant -- this is where the real flavor comes from, not just the tomatoes. Add canned tomatoes (with liquid) and spinach. Simmer 4-5 minutes, stirring until the spinach wilts and the sauce thickens slightly.",
+      "Stir in tomato paste, minced garlic, onion powder, cumin, oregano, red pepper flakes, smoked paprika, and salt, cooking 1 minute until fragrant -- this is where the real flavor comes from, not just the tomatoes. Add canned tomatoes (with liquid) and spinach. Simmer 4-5 minutes, stirring until the spinach wilts and the sauce thickens slightly.",
       "Stir in butter off heat for a glossy, rich sauce. Divide the turkey and tomato sauce evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave a rice pouch 90 sec. Build bowl with rice, top with a portion of the turkey & tomato sauce."
     ],
@@ -7546,8 +7546,8 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
-        "name": "Garlic Powder (½ tsp)",
-        "quantity": 8,
+        "name": "Minced Garlic (jarred, 1½ tsp)",
+        "quantity": 7.5,
         "unit": "g"
       },
       {
@@ -7566,10 +7566,10 @@ export const RECIPES = [
       "Green Onion"
     ],
     "instructions": [
-      "Heat a large skillet over medium-high heat. Add ground turkey and garlic powder, breaking the meat apart. Cook 10-12 minutes until browned throughout.",
+      "Heat a large skillet over medium-high heat. Add ground turkey and minced garlic, breaking the meat apart. Cook 10-12 minutes until browned throughout.",
       "Drizzle teriyaki sauce over turkey and stir well. Cook 2 minutes more.",
       "Divide the teriyaki turkey evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
-      "To serve one portion: microwave rice pouch 90 sec + steam-bag broccoli 3 min, season broccoli with a pinch of garlic powder and sesame seeds. Build bowl with rice, top with a portion of the turkey, broccoli on side. Toppings on top."
+      "To serve one portion: microwave rice pouch 90 sec + steam-bag broccoli 3 min, season broccoli with sesame seeds. Build bowl with rice, top with a portion of the turkey, broccoli on side. Toppings on top."
     ],
     "totalTime": 12,
     "pantryTags": [
