@@ -18,10 +18,20 @@ export const ONBOARDING_GOALS = [
 ];
 
 // The "how do you want your meals sized" question, onboarding's second
-// screen -- independent of the goal question above.
+// screen -- independent of the goal question above. This is still worth
+// asking even now that the recipe modal lets you scale any recipe's
+// servings up or down on the fly (see RecipeModal.jsx's batch-size
+// picker): the two jobs don't overlap. This question steers WHICH recipes
+// get recommended first -- and recipes actually written at servings > 1
+// carry real batch-cooking instructions (container/fridge-life guidance,
+// technique adjusted for a bigger pan) that a single-serving recipe
+// merely scaled up doesn't have. The in-modal scaler just handles "a bit
+// more or less of this one, right now." Worded below as a soft steer
+// ("prioritize"), not a hard promise about serving size, since either
+// preference can still open any recipe and resize it there.
 export const SERVING_PREFS = [
-  { id: 'single', label: 'Single Serving', description: "Recipes sized for just you, right now" },
-  { id: 'meal_prep', label: 'Meal Prep', description: 'Batch-cook once, eat all week' },
+  { id: 'single', label: 'Single Serving', description: "We'll prioritize recipes built for a quick, single portion" },
+  { id: 'meal_prep', label: 'Meal Prep', description: "We'll prioritize recipes built for batch-cooking and leftovers" },
 ];
 
 // The "what kind of meal" question -- only asked when onboarding's
