@@ -5462,7 +5462,7 @@ export const RECIPES = [
       "beef"
     ],
     "flavor": "asian",
-    "activeTime": 12,
+    "activeTime": 14,
     "components": [
       {
         "name": "Ground Beef (93% lean)",
@@ -5470,13 +5470,33 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Soy Sauce",
-        "quantity": 32,
+        "name": "Soy Sauce (¼ cup)",
+        "quantity": 60,
         "unit": "ml"
       },
       {
-        "name": "Garlic Powder (shaker)",
-        "quantity": 8,
+        "name": "Minced Garlic (jarred, 4 tsp)",
+        "quantity": 20,
+        "unit": "g"
+      },
+      {
+        "name": "Ground Ginger (1 tsp)",
+        "quantity": 3,
+        "unit": "g"
+      },
+      {
+        "name": "Brown Sugar (3 tbsp, packed)",
+        "quantity": 40,
+        "unit": "g"
+      },
+      {
+        "name": "Sesame Oil (1 tbsp)",
+        "quantity": 14,
+        "unit": "g"
+      },
+      {
+        "name": "Red Pepper Flakes (¼ tsp)",
+        "quantity": 0.5,
         "unit": "g"
       },
       {
@@ -5495,11 +5515,12 @@ export const RECIPES = [
       "Green Onion (fresh)"
     ],
     "instructions": [
-      "Heat a large skillet or pot over medium-high heat. Add ground beef, breaking it apart with a spoon. Cook 10-12 minutes, stirring occasionally, until browned throughout.",
-      "Sprinkle garlic powder over beef and stir in soy sauce. Cook 1-2 minutes more.",
+      "Heat a large skillet or pot over medium-high heat. Add ground beef, breaking it apart with a spoon. Cook 10-12 minutes, stirring occasionally, until browned throughout. Drain excess fat if needed.",
+      "Push the beef to one side, add minced garlic and ground ginger to the cleared space, and cook 30-45 seconds, stirring, until fragrant.",
+      "Stir in soy sauce, brown sugar, sesame oil, and red pepper flakes. Simmer 2-3 minutes, stirring occasionally, until the sauce thickens slightly and coats the beef.",
       "Divide the beef evenly into 4 containers and refrigerate (up to 4 days) or freeze. To serve one portion: microwave rice pouch 90 sec + steam-bag veg 3 min. Build bowl with rice, top with beef. Toppings on the side."
     ],
-    "totalTime": 12,
+    "totalTime": 14,
     "pantryTags": [
       "rice",
       "frozen_veg",
@@ -5973,7 +5994,7 @@ export const RECIPES = [
       "chicken"
     ],
     "flavor": "asian",
-    "activeTime": 12,
+    "activeTime": 14,
     "components": [
       {
         "name": "Ground Chicken (93% lean)",
@@ -5981,13 +6002,33 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Soy Sauce",
-        "quantity": 32,
+        "name": "Soy Sauce (¼ cup)",
+        "quantity": 60,
         "unit": "ml"
       },
       {
-        "name": "Garlic Powder (shaker)",
-        "quantity": 8,
+        "name": "Minced Garlic (jarred, 4 tsp)",
+        "quantity": 20,
+        "unit": "g"
+      },
+      {
+        "name": "Ground Ginger (1 tsp)",
+        "quantity": 3,
+        "unit": "g"
+      },
+      {
+        "name": "Brown Sugar (3 tbsp, packed)",
+        "quantity": 40,
+        "unit": "g"
+      },
+      {
+        "name": "Sesame Oil (1 tbsp)",
+        "quantity": 14,
+        "unit": "g"
+      },
+      {
+        "name": "Red Pepper Flakes (¼ tsp)",
+        "quantity": 0.5,
         "unit": "g"
       },
       {
@@ -6006,11 +6047,12 @@ export const RECIPES = [
       "Green Onion"
     ],
     "instructions": [
-      "Heat a large skillet or pot over medium-high heat. Add ground chicken, breaking it apart with a spoon. Cook 10-12 minutes, stirring occasionally, until browned throughout.",
-      "Sprinkle garlic powder over chicken and stir in soy sauce. Cook 1-2 minutes more.",
+      "Heat a large skillet or pot over medium-high heat. Add ground chicken, breaking it apart with a spoon. Cook 10-12 minutes, stirring occasionally, until browned throughout. Drain excess fat if needed.",
+      "Push the chicken to one side, add minced garlic and ground ginger to the cleared space, and cook 30-45 seconds, stirring, until fragrant.",
+      "Stir in soy sauce, brown sugar, sesame oil, and red pepper flakes. Simmer 2-3 minutes, stirring occasionally, until the sauce thickens slightly and coats the chicken.",
       "Divide the chicken evenly into 4 containers and refrigerate (up to 4 days) or freeze. To serve one portion: microwave rice pouch 90 sec + steam-bag veg 3 min. Build bowl with rice, top with chicken. Toppings on the side."
     ],
-    "totalTime": 12,
+    "totalTime": 14,
     "pantryTags": [
       "frozen_veg",
       "ground_chicken",
@@ -6484,7 +6526,7 @@ export const RECIPES = [
       "pork"
     ],
     "flavor": "asian",
-    "activeTime": 12,
+    "activeTime": 14,
     "components": [
       {
         "name": "Ground Pork (93% lean)",
@@ -6492,13 +6534,33 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Soy Sauce",
-        "quantity": 32,
+        "name": "Soy Sauce (¼ cup)",
+        "quantity": 60,
         "unit": "ml"
       },
       {
-        "name": "Garlic Powder (shaker)",
-        "quantity": 8,
+        "name": "Minced Garlic (jarred, 4 tsp)",
+        "quantity": 20,
+        "unit": "g"
+      },
+      {
+        "name": "Ground Ginger (1 tsp)",
+        "quantity": 3,
+        "unit": "g"
+      },
+      {
+        "name": "Brown Sugar (3 tbsp, packed)",
+        "quantity": 40,
+        "unit": "g"
+      },
+      {
+        "name": "Sesame Oil (1 tbsp)",
+        "quantity": 14,
+        "unit": "g"
+      },
+      {
+        "name": "Red Pepper Flakes (¼ tsp)",
+        "quantity": 0.5,
         "unit": "g"
       },
       {
@@ -6517,11 +6579,12 @@ export const RECIPES = [
       "Green Onion"
     ],
     "instructions": [
-      "Heat a large skillet or pot over medium-high heat. Add ground pork, breaking it apart with a spoon. Cook 10-12 minutes, stirring occasionally, until browned throughout.",
-      "Sprinkle garlic powder over pork and stir in soy sauce. Cook 1-2 minutes more.",
+      "Heat a large skillet or pot over medium-high heat. Add ground pork, breaking it apart with a spoon. Cook 10-12 minutes, stirring occasionally, until browned throughout. Drain excess fat if needed.",
+      "Push the pork to one side, add minced garlic and ground ginger to the cleared space, and cook 30-45 seconds, stirring, until fragrant.",
+      "Stir in soy sauce, brown sugar, sesame oil, and red pepper flakes. Simmer 2-3 minutes, stirring occasionally, until the sauce thickens slightly and coats the pork.",
       "Divide the pork evenly into 4 containers and refrigerate (up to 4 days) or freeze. To serve one portion: microwave rice pouch 90 sec + steam-bag veg 3 min. Build bowl with rice, top with pork. Toppings on the side."
     ],
-    "totalTime": 12,
+    "totalTime": 14,
     "pantryTags": [
       "frozen_veg",
       "ground_pork",
@@ -6995,7 +7058,7 @@ export const RECIPES = [
       "turkey"
     ],
     "flavor": "asian",
-    "activeTime": 12,
+    "activeTime": 14,
     "components": [
       {
         "name": "Ground Turkey (93% lean)",
@@ -7003,13 +7066,33 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Soy Sauce",
-        "quantity": 32,
+        "name": "Soy Sauce (¼ cup)",
+        "quantity": 60,
         "unit": "ml"
       },
       {
-        "name": "Garlic Powder (shaker)",
-        "quantity": 8,
+        "name": "Minced Garlic (jarred, 4 tsp)",
+        "quantity": 20,
+        "unit": "g"
+      },
+      {
+        "name": "Ground Ginger (1 tsp)",
+        "quantity": 3,
+        "unit": "g"
+      },
+      {
+        "name": "Brown Sugar (3 tbsp, packed)",
+        "quantity": 40,
+        "unit": "g"
+      },
+      {
+        "name": "Sesame Oil (1 tbsp)",
+        "quantity": 14,
+        "unit": "g"
+      },
+      {
+        "name": "Red Pepper Flakes (¼ tsp)",
+        "quantity": 0.5,
         "unit": "g"
       },
       {
@@ -7028,11 +7111,12 @@ export const RECIPES = [
       "Green Onion"
     ],
     "instructions": [
-      "Heat a large skillet or pot over medium-high heat. Add ground turkey, breaking it apart with a spoon. Cook 10-12 minutes, stirring occasionally, until browned throughout.",
-      "Sprinkle garlic powder over turkey and stir in soy sauce. Cook 1-2 minutes more.",
+      "Heat a large skillet or pot over medium-high heat. Add ground turkey, breaking it apart with a spoon. Cook 10-12 minutes, stirring occasionally, until browned throughout. Drain excess fat if needed.",
+      "Push the turkey to one side, add minced garlic and ground ginger to the cleared space, and cook 30-45 seconds, stirring, until fragrant.",
+      "Stir in soy sauce, brown sugar, sesame oil, and red pepper flakes. Simmer 2-3 minutes, stirring occasionally, until the sauce thickens slightly and coats the turkey.",
       "Divide the turkey evenly into 4 containers and refrigerate (up to 4 days) or freeze. To serve one portion: microwave rice pouch 90 sec + steam-bag veg 3 min. Build bowl with rice, top with turkey. Toppings on the side."
     ],
-    "totalTime": 12,
+    "totalTime": 14,
     "pantryTags": [
       "frozen_veg",
       "ground_turkey",
