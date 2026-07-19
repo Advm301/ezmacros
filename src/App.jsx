@@ -54,6 +54,27 @@ function loadKitchenState() {
   }
 }
 
+// Persists the full-day onboarding hand-off's highlighted Diary entry ids
+// (see onboardingHighlightedEntryIds below) the same way KITCHEN_STATE_KEY
+// persists Kitchen's -- so the pulsing highlight/banner on those entries
+// survives a page refresh or app relaunch, not just a tab switch, and
+// keeps showing indefinitely until those entries are actually removed
+// (Saved.jsx is what decides "still active" by checking these ids against
+// what's still in the diary; this key just needs to remember the ids
+// themselves across reloads).
+const DIARY_ONBOARDING_HIGHLIGHT_KEY = 'quickprep_diary_onboarding_highlight';
+
+function loadOnboardingHighlightIds() {
+  try {
+    const raw = localStorage.getItem(DIARY_ONBOARDING_HIGHLIGHT_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
 // Minimum time GeneratingScreen stays up after onboarding finishes (see
 // handleOnboardingComplete) -- matched to .generating-bolt-fill's own
 // animation-duration in globals.css so the bolt reads as freshly "full"
@@ -121,18 +142,35 @@ export default function App() {
   // recipe is opened (see handleOpenRecipe) so a stale add from a
   // previous recipe can't leak into this one.
   const [lastAddedDiaryEntry, setLastAddedDiaryEntry] = useState(null); // { date, entryId } | null
-  // Handed to Saved.jsx so it can apply a few-seconds-long highlight to
-  // whichever entry/entries just landed in the Diary, rather than just
-  // landing on a Diary full of entries with no indication which one(s) are
-  // new. An array (not a single id) so the full-day onboarding hand-off --
-  // which adds breakfast, lunch, and dinner all at once -- can highlight
-  // all three together; handleFinishCooking's ordinary single-entry case
-  // just sets a one-element array.
-  const [highlightedDiaryEntryIds, setHighlightedDiaryEntryIds] = useState([]);
-  // Set true only by the full-day onboarding hand-off, driving Saved.jsx's
-  // "Your Day Is Ready!" banner (the Diary-tab equivalent of Kitchen's
-  // justOnboarded banner). Cleared together with the highlight above.
-  const [justPlannedFullDay, setJustPlannedFullDay] = useState(false);
+  // Handed to Saved.jsx so it can apply a few-seconds-long highlight to the
+  // specific entry Finish just confirmed, rather than just landing on a
+  // Diary full of entries with no indication which one is new. Separate
+  // from onboardingHighlightedEntryIds below -- an ordinary "I just cooked
+  // this" add doesn't deserve a permanent glow, only a brief one.
+  const [highlightedDiaryEntryId, setHighlightedDiaryEntryId] = useState(null);
+  // The full-day onboarding hand-off's entries (breakfast/lunch/dinner all
+  // added at once) -- drives the same pulsing highlight, plus a "Your Day
+  // Is Ready!" banner, on Saved.jsx. Unlike highlightedDiaryEntryId above,
+  // this deliberately does NOT auto-clear on a timer: it's meant to keep
+  // glowing for as long as those original onboarding picks are still
+  // sitting in the Diary, mirroring Kitchen's justOnboarded hero-card
+  // treatment (see Kitchen.jsx's own comment on the exact same reasoning).
+  // Seeded from localStorage (see loadOnboardingHighlightIds/
+  // DIARY_ONBOARDING_HIGHLIGHT_KEY above) and re-saved below any time it
+  // changes, so it survives a page refresh or full app relaunch too --
+  // Saved.jsx is what actually lets it "clear" itself, by only treating an
+  // id as still-active if that entry still exists (see its
+  // activeOnboardingHighlightIds).
+  const [onboardingHighlightedEntryIds, setOnboardingHighlightedEntryIds] = useState(() => loadOnboardingHighlightIds());
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(DIARY_ONBOARDING_HIGHLIGHT_KEY, JSON.stringify(onboardingHighlightedEntryIds));
+    } catch {
+      // Storage being unavailable just means this won't survive a refresh
+      // this session -- not worth blocking on.
+    }
+  }, [onboardingHighlightedEntryIds]);
 
   // Every onOpen prop (Kitchen/Browse/Saved) goes through this now instead
   // of calling setOpenRecipe directly, so opening any new recipe always
@@ -195,12 +233,6 @@ export default function App() {
   // or reopening a recipe modal doesn't remount App, so it won't replay
   // mid-session).
   const [splashDone, setSplashDone] = useState(false);
-  // Tells Saved (the Diary tab) to show a short-lived callout pointing at
-  // its Shopping List button, right after onboarding's "plan my day"
-  // option logs a full day of meals there -- see Saved.jsx's
-  // shoppingListHint prop. Consumed once by Saved the same way Kitchen
-  // consumes initialKitchenPicks above.
-  const [shoppingListHint, setShoppingListHint] = useState(false);
   // Whether the post-onboarding GeneratingScreen (see components/
   // GeneratingScreen.jsx) should render instead of the tab it's about to
   // land on. Only relevant for the "picks were actually made" path below
@@ -271,11 +303,10 @@ export default function App() {
         // blue-gold highlight (and a "Your Day Is Ready!" banner) that
         // Kitchen's single-meal onboarding hand-off already uses, so the
         // celebration lives right on the actual Diary entries rather than
-        // in a transient toast. See highlightedDiaryEntryIds/
-        // justPlannedFullDay above, consumed by Saved.jsx.
-        setHighlightedDiaryEntryIds(addedEntryIds);
-        setJustPlannedFullDay(true);
-        setShoppingListHint(true);
+        // in a transient toast. Unlike the ordinary Finish-cooking
+        // highlight, this one persists until those entries are removed --
+        // see onboardingHighlightedEntryIds above, consumed by Saved.jsx.
+        setOnboardingHighlightedEntryIds(addedEntryIds);
       }
     } else {
       // The single-meal path always seeds Kitchen now, even when no
@@ -431,13 +462,13 @@ export default function App() {
   // page (as opposed to the plain "✕ Close" button/backdrop, which just
   // closes -- see RecipeModal's onClose vs onFinish props). Only navigates
   // to Diary (and briefly highlights whatever was added -- see
-  // highlightedDiaryEntryIds, consumed by Saved.jsx) if this particular
+  // highlightedDiaryEntryId, consumed by Saved.jsx) if this particular
   // modal session actually added something; otherwise Finish behaves
   // exactly like closing normally.
   const handleFinishCooking = () => {
     if (lastAddedDiaryEntry) {
       setSavedDate(lastAddedDiaryEntry.date);
-      setHighlightedDiaryEntryIds([lastAddedDiaryEntry.entryId]);
+      setHighlightedDiaryEntryId(lastAddedDiaryEntry.entryId);
       setTab("saved");
       setLastAddedDiaryEntry(null);
     }
@@ -653,14 +684,9 @@ export default function App() {
             diary={diary}
             selectedDate={savedDate}
             onDateChange={setSavedDate}
-            shoppingListHint={shoppingListHint}
-            onConsumeShoppingListHint={() => setShoppingListHint(false)}
-            highlightedEntryIds={highlightedDiaryEntryIds}
-            onConsumeHighlightedEntry={() => {
-              setHighlightedDiaryEntryIds([]);
-              setJustPlannedFullDay(false);
-            }}
-            justPlannedFullDay={justPlannedFullDay}
+            highlightedEntryId={highlightedDiaryEntryId}
+            onConsumeHighlightedEntry={() => setHighlightedDiaryEntryId(null)}
+            onboardingHighlightedEntryIds={onboardingHighlightedEntryIds}
           />
         )}
 

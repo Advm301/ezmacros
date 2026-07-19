@@ -1151,20 +1151,6 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
   100%{opacity:1;transform:translateY(0) scale(1);}
 }
 
-/* SHOPPING LIST CALLOUT: a short-lived speech-bubble that points down at
-   the Shopping List button, shown once right after onboarding's "plan my
-   day" option logs a full day to the Diary (see Saved.jsx's
-   shoppingListHint prop + App.jsx) -- calls out where to find the list
-   for everything that full day just planned, since it's easy to land on
-   a Diary full of meals and not notice that button by itself. Positioned
-   by its parent (a `position:relative` wrapper around just the Shopping
-   List button, same wrapping pattern the Surprise Me button next to it
-   already uses for its sparkle overlay) rather than being fixed/global,
-   so it always points at the right spot regardless of layout changes
-   around it.  */
-.coach-callout{position:absolute;z-index:30;bottom:calc(100% + 12px);left:50%;transform:translateX(-50%);width:200px;background:var(--lime);color:#000;font-size:12px;font-weight:600;line-height:1.45;text-align:center;padding:10px 12px;border-radius:12px;box-shadow:0 8px 22px rgba(0,0,0,.4);animation:fadeUp .25s ease;}
-.coach-callout::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:7px solid transparent;border-top-color:var(--lime);}
-
 /* RECIPE TUTORIAL SPOTLIGHT: the guided walkthrough (see
    components/RecipeTutorial.jsx) highlights one real on-screen element per
    step by drawing a glowing ring around it -- the giant box-shadow is what

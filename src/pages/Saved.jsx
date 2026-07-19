@@ -72,34 +72,28 @@ export default function Saved({
   diary,
   selectedDate,
   onDateChange,
-  shoppingListHint,
-  onConsumeShoppingListHint,
-  // Generalized from a single id to an array so the full-day onboarding
-  // hand-off (breakfast + lunch + dinner all added at once) can highlight
-  // all three entries together, not just one -- see App.jsx's
-  // highlightedDiaryEntryIds. handleFinishCooking's ordinary single-entry
-  // case just passes a one-element array.
-  highlightedEntryIds = [],
+  // Briefly calls out whichever single entry Finish-cooking just navigated
+  // here for -- self-clears after a few seconds (see the effect below).
+  // Unrelated to the persistent onboarding highlight below; an ordinary
+  // "I just cooked this" add doesn't deserve a permanent glow.
+  highlightedEntryId,
   onConsumeHighlightedEntry,
-  // Set true only by the full-day onboarding hand-off (never by an
-  // ordinary Finish-cooking add), driving the "Your Day Is Ready!" banner
-  // below -- reuses Kitchen's exact .kitchen-ready-banner styling (see
-  // Kitchen.jsx's justOnboarded banner) so the two "onboarding just
-  // delivered your first real payoff" moments share one visual language.
-  justPlannedFullDay,
+  // The full-day onboarding hand-off's entries (breakfast/lunch/dinner all
+  // added at once) -- see App.jsx's onboardingHighlightedEntryIds. Unlike
+  // highlightedEntryId above, this does NOT auto-clear on a timer: it's
+  // meant to stay lit up for exactly as long as those original onboarding
+  // picks are still sitting in the Diary, mirroring Kitchen's justOnboarded
+  // hero-card treatment (see Kitchen.jsx's own comment on the same
+  // reasoning). It "clears" implicitly the moment an entry is removed --
+  // once gone, it's no longer in dayEntries below and so can't render
+  // highlighted regardless of whether its id is still in this list.
+  onboardingHighlightedEntryIds = [],
 }) {
   const [dayMessage, setDayMessage] = useState('');
   const [generatingDay, setGeneratingDay] = useState(false);
   const [regeneratingId, setRegeneratingId] = useState(null);
   const [showShoppingList, setShowShoppingList] = useState(false);
   const [showSavedModal, setShowSavedModal] = useState(false);
-  // Short-lived callout pointing at the Shopping List button, shown once
-  // right after onboarding's "plan my day" option lands here with a full
-  // day already logged (see App.jsx's shoppingListHint prop). Captured
-  // once at mount, same consume-once pattern as Kitchen's initialPicks --
-  // Saved fully unmounts on every tab switch, so without consuming the
-  // flag it would silently re-show every time this tab is revisited.
-  const [showShoppingCallout, setShowShoppingCallout] = useState(() => !!shoppingListHint);
   const [shoppingChecked, setShoppingChecked] = useState(() => loadShoppingChecked(selectedDate));
   const tip = useFirstVisitTip('quickprep_seen_diary_tip');
 
@@ -128,36 +122,30 @@ export default function Saved({
     });
   };
 
-  useEffect(() => {
-    if (shoppingListHint && onConsumeShoppingListHint) onConsumeShoppingListHint();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    if (!showShoppingCallout) return;
-    const timer = setTimeout(() => setShowShoppingCallout(false), 4500);
-    return () => clearTimeout(timer);
-  }, [showShoppingCallout]);
-
   // Briefly calls out whichever entry Finish just navigated here for (see
   // App.jsx's highlightedDiaryEntryId) -- self-clears after a few seconds
   // via onConsumeHighlightedEntry so the glow doesn't linger forever, and
   // clears early if the person navigates away/back before the timer fires.
   useEffect(() => {
-    if (highlightedEntryIds.length === 0) return;
-    // Slightly longer than the old single-entry timeout (3000ms) since the
-    // full-day case can be highlighting up to three cards at once -- give
-    // someone a beat longer to actually read all of them.
+    if (!highlightedEntryId) return;
     const timer = setTimeout(() => {
       if (onConsumeHighlightedEntry) onConsumeHighlightedEntry();
-    }, 4000);
+    }, 3000);
     return () => clearTimeout(timer);
-  }, [highlightedEntryIds, onConsumeHighlightedEntry]);
+  }, [highlightedEntryId, onConsumeHighlightedEntry]);
 
   const savedIds = Object.keys(saved);
   const savedRecipes = RECIPES.filter((r) => savedIds.includes(String(r.id)));
 
   const dayEntries = diary ? diary.getEntriesForDate(selectedDate) : [];
+
+  // The onboarding highlight only "counts" for entries that are actually
+  // still on today's list -- see the onboardingHighlightedEntryIds prop
+  // comment above for why this is what makes it self-clear on removal
+  // without any extra plumbing.
+  const activeOnboardingHighlightIds = onboardingHighlightedEntryIds.filter((id) =>
+    dayEntries.some((e) => e.id === id)
+  );
 
   const streak = useMemo(() => computeLoggingStreak(diary?.entries || []), [diary]);
 
@@ -342,11 +330,11 @@ export default function Saved({
             Kitchen.jsx), reusing the exact same .kitchen-ready-banner/
             .kitchen-ready-title/.kitchen-ready-sub classes so both
             "onboarding just delivered your first real payoff" moments look
-            and feel like the same feature. Clears together with the three
-            highlighted entries below (see the highlightedEntryIds effect
-            above) rather than lingering once its cards have stopped
-            glowing. */}
-        {justPlannedFullDay && (
+            and feel like the same feature. Stays up for as long as any of
+            the onboarding-added entries are still on today's list -- see
+            activeOnboardingHighlightIds above -- not on a timer, same
+            persistence model as Kitchen's own banner. */}
+        {activeOnboardingHighlightIds.length > 0 && (
           <div className="kitchen-ready-banner">
             <LightningIcon size={30} id="diary-ready" />
             <div className="kitchen-ready-title">Your Day Is Ready!</div>
@@ -404,7 +392,6 @@ export default function Saved({
               onClick={() => {
                 hapticSelection();
                 setShowShoppingList((v) => !v);
-                setShowShoppingCallout(false);
               }}
               style={{
                 width: '100%',
@@ -421,11 +408,6 @@ export default function Saved({
             >
               {showShoppingList ? 'Hide List' : 'Shopping List'}
             </button>
-            {showShoppingCallout && (
-              <div className="coach-callout">
-                Tap here to view the full shopping list of what you'll need to prep these meals
-              </div>
-            )}
           </div>
         </div>
 
@@ -521,13 +503,23 @@ export default function Saved({
                   {MEAL_SLOT_LABELS[slot]}
                 </div>
                 {slotEntries.length === 0 ? (
-                  <div style={{ fontSize: 12, color: 'var(--muted)', fontStyle: 'italic' }}>Nothing added yet</div>
+                  <div style={{ fontSize: 12, color: 'var(--muted)', fontStyle: 'italic' }}>
+                    {slot === 'snack'
+                      // Surprise Me only fills Breakfast/Lunch/Dinner (see
+                      // FULL_DAY_SLOTS above) -- Snack always needs a manual
+                      // add, so the plain "Nothing added yet" line left no
+                      // hint of how to actually do that. Points at both real
+                      // ways in: browsing the catalog directly, or matching
+                      // against what's on hand in Kitchen.
+                      ? "Nothing added yet -- find one in Browse, or match what you've got in Kitchen."
+                      : 'Nothing added yet'}
+                  </div>
                 ) : (
                   slotEntries.map((entry) => {
                     const r = RECIPES.find((rec) => rec.id === entry.recipe_id);
                     if (!r) return null;
                     const isRegenerating = regeneratingId === entry.id;
-                    const isHighlighted = highlightedEntryIds.includes(entry.id);
+                    const isHighlighted = entry.id === highlightedEntryId || activeOnboardingHighlightIds.includes(entry.id);
                     return (
                       <div
                         key={entry.id}
