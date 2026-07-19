@@ -21,6 +21,31 @@ import useFirstVisitTip from '../hooks/useFirstVisitTip';
 const GRAMS_PER_OZ = 28.3495;
 const ML_PER_FLOZ = 29.5735;
 
+// Fixed presets for "how many servings am I actually making" (see
+// scaleServings state below) rather than a freeform amount -- a handful of
+// clean serving counts keeps every ingredient's scaled quantity a
+// reasonable, easy-to-measure number, and keeps the recipe's own
+// instructions (which reference "divide into 4 containers"-style container
+// counts) close enough to true that a plain contextual note can cover the
+// gap instead of needing every recipe's instruction text rewritten to be
+// dynamic. Every recipe in the catalog currently has a base `servings` of
+// 1, 4, or 6, all of which already appear in this list.
+const SERVING_SCALE_OPTIONS = [1, 2, 3, 4, 6, 8];
+
+// Scales one ingredient's stored quantity by a servings ratio. No rounding
+// here -- getQuantityDisplay/getEditableAmount below already round to
+// whatever precision makes sense per unit (whole eggs, whole "each" items,
+// 1-decimal grams/oz, etc.), so scaling just needs to hand them a plain
+// float. The floor guard only matters when scaling DOWN: without it, a
+// 0.5g pinch of something scaled to e.g. 0.25x would round down to a
+// confusing "0g" in the ingredient list instead of just staying small.
+function scaleQuantity(quantity, factor) {
+  if (!factor || factor === 1) return quantity;
+  const scaled = quantity * factor;
+  const floor = quantity > 0 ? Math.min(quantity, 0.5) : 0;
+  return Math.max(scaled, floor);
+}
+
 // Shown on the finish screen once a recipe is completed -- the point is to
 // make people feel good about having just cooked instead of ordering in,
 // not to overstate any one dish. Two pools rather than one: a meal-prep
@@ -320,6 +345,15 @@ export default function RecipeModal({
   const [diaryError, setDiaryError] = useState('');
   const [addingToDiary, setAddingToDiary] = useState(false);
   const [showAllSteps, setShowAllSteps] = useState(false);
+  // "How many servings am I actually making" -- lets someone match the
+  // recipe to how much protein they actually have/bought (e.g. a 4-serving
+  // recipe scaled down to 3 for a 1lb package, or a single-serving chicken
+  // recipe scaled up to 4 for the whole family) instead of being stuck with
+  // whatever amount the recipe happened to be written at. Defaults to the
+  // recipe's own stored servings -- see SERVING_SCALE_OPTIONS above for why
+  // this is a fixed preset list rather than a freeform amount. Resets
+  // naturally per recipe since this component remounts on key={recipe.id}.
+  const [scaleServings, setScaleServings] = useState(recipe?.servings || 1);
   // Picked once per recipe-modal session (not re-rolled on every render as
   // you page through steps) so the same line stays put through to Finish.
   // The actual pool (single-serving vs. meal-prep) is chosen later once
@@ -425,9 +459,21 @@ export default function RecipeModal({
   const saved = isSaved ? isSaved(r.id) : false;
   const alreadyRated = Boolean(myRatingEntry?.rating);
 
+  // How much bigger/smaller than the recipe's own written amount the
+  // chosen serving count is -- 1 when scaleServings matches r.servings (the
+  // common case), otherwise the ratio every unscaled ingredient quantity
+  // below gets multiplied by.
+  const scaleFactor = scaleServings / (r.servings || 1);
+  const isScaled = scaleFactor !== 1;
+
   const components = (r.components || []).map((c, i) => {
     const override = entry?.ingredientOverrides?.[i];
-    return override ? { ...c, quantity: override.quantity, unit: override.unit ?? c.unit, edited: true } : c;
+    // A manual per-ingredient override is a deliberate, specific amount
+    // someone already dialed in for this ingredient -- it wins outright
+    // and is shown as-is, not further multiplied by the batch-size scale.
+    if (override) return { ...c, quantity: override.quantity, unit: override.unit ?? c.unit, edited: true };
+    if (!isScaled) return c;
+    return { ...c, quantity: scaleQuantity(c.quantity, scaleFactor) };
   });
 
   const instructions = (r.instructions || []).map((step, i) => {
@@ -989,9 +1035,11 @@ export default function RecipeModal({
               once per session (completionMsgSeed) so it doesn't reshuffle
               on every re-render, and pulled from a meal-prep-aware pool so
               a batch-cooked recipe gets credit for the number of meals it
-              actually produced instead of a generic line. */}
+              actually produced instead of a generic line -- using the live
+              scaleServings rather than r.servings so scaling a normally
+              single-serving recipe up still earns the meal-prep message. */}
           <div style={{ fontSize: 14, color: 'var(--cream)', marginBottom: 14, textAlign: 'center', lineHeight: 1.5, fontWeight: 600 }}>
-            {getCompletionMessage(r.servings, completionMsgSeed)}
+            {getCompletionMessage(scaleServings, completionMsgSeed)}
           </div>
           <div style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 14, textAlign: 'center' }}>
             Rate the recipe now that you've made it.
@@ -1057,8 +1105,10 @@ export default function RecipeModal({
                 {formatTime(r.activeTime, r.totalTime)}
                 {/* Always show the serving count, even at the default of 1
                     -- otherwise there's no visible confirmation the field
-                    exists at all until a recipe is actually multi-portion. */}
-                {' · '}Serves {r.servings || 1}
+                    exists at all until a recipe is actually multi-portion.
+                    Reflects the live batch-size selection below, not just
+                    the recipe's own written amount. */}
+                {' · '}Serves {scaleServings}
               </div>
             )}
             {/* Quick Prep gauge -- 1-3 bolts showing effort relative to the
@@ -1069,9 +1119,9 @@ export default function RecipeModal({
             <div id="tour-effort-gauge" style={{ marginTop: 6, display: 'inline-block' }}>
               <EffortGauge recipe={r} size={13} showLabel />
             </div>
-            {r.servings > 1 && (
+            {scaleServings > 1 && (
               <div style={{ marginTop: 6 }}>
-                <span className="ezb pkg">📦 Meal Prep · Makes {r.servings}</span>
+                <span className="ezb pkg">📦 Meal Prep · Makes {scaleServings}</span>
               </div>
             )}
           </div>
@@ -1188,6 +1238,40 @@ export default function RecipeModal({
                         highlighted the description text instead. */}
                     <div style={{ fontSize: 12, color: 'var(--muted)', lineHeight: 1.5, marginBottom: 12 }}>
                       {r.description}
+                    </div>
+                    {/* Batch-size scaler -- lets someone match the recipe to
+                        how much they actually bought/have (a 4-serving
+                        recipe scaled down to 3 for a 1lb package of ground
+                        meat, or a single-serving chicken recipe scaled up
+                        to feed the family) instead of being stuck with
+                        whatever amount the recipe happens to be written at.
+                        Fixed preset counts (see SERVING_SCALE_OPTIONS) so
+                        every scaled quantity below stays a clean, easy-to-
+                        measure number. Scaling only touches the ingredient
+                        list -- the instructions below still describe the
+                        recipe's own written amount, so the note under the
+                        chips calls that out whenever the two no longer
+                        match. */}
+                    <div style={{ marginBottom: 14 }}>
+                      <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--muted)', marginBottom: 6, textTransform: 'uppercase', letterSpacing: 1 }}>
+                        How Many Servings?
+                      </div>
+                      <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                        {SERVING_SCALE_OPTIONS.map((n) => (
+                          <div
+                            key={n}
+                            onClick={() => { hapticSelection(); setScaleServings(n); }}
+                            className={`pill${n === scaleServings ? ' active' : ''}`}
+                          >
+                            {n}
+                          </div>
+                        ))}
+                      </div>
+                      {isScaled && (
+                        <div style={{ fontSize: 11, color: 'var(--muted)', marginTop: 6, lineHeight: 1.4 }}>
+                          Ingredient amounts below are scaled for {scaleServings} servings (written for {r.servings || 1}). The instructions further down still describe the original {r.servings || 1}-serving batch -- adjust container counts and timing by eye.
+                        </div>
+                      )}
                     </div>
                     <div id="tour-ingredients-check" style={{ display: 'flex' }}>
                       <div style={{ flex: 1, paddingRight: seasonings.length > 0 ? 14 : 0 }}>
