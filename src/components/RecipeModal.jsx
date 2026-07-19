@@ -1169,16 +1169,17 @@ export default function RecipeModal({
                         already have...") -- that behavior is now explained
                         by the mandatory first-time tutorial instead (see
                         DECIDE_TUTORIAL_STEPS' "Check What You Have" step
-                        above, which still targets this same #tour-
-                        ingredients-check spot), freeing this space up for
-                        the recipe's own short description. The wrapper
-                        always renders (even on the off chance a recipe has
-                        no description) so the tutorial always has a real
-                        element here to spotlight. */}
-                    <div id="tour-ingredients-check" style={{ fontSize: 12, color: 'var(--muted)', lineHeight: 1.5, marginBottom: 12, minHeight: 1 }}>
+                        above), freeing this space up for the recipe's own
+                        short description. The #tour-ingredients-check
+                        spotlight target moved down onto the actual
+                        ingredients table below (see the flex wrapper right
+                        after this) since that's the real thing the tutorial
+                        step is explaining -- leaving it up here just
+                        highlighted the description text instead. */}
+                    <div style={{ fontSize: 12, color: 'var(--muted)', lineHeight: 1.5, marginBottom: 12 }}>
                       {r.description}
                     </div>
-                    <div style={{ display: 'flex' }}>
+                    <div id="tour-ingredients-check" style={{ display: 'flex' }}>
                       <div style={{ flex: 1, paddingRight: seasonings.length > 0 ? 14 : 0 }}>
                         <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--muted)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: 1 }}>
                           Core Ingredients
