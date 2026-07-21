@@ -4,6 +4,7 @@ import { ONBOARDING_GOALS, SERVING_PREFS, MEAL_TYPES, MEAL_TYPE_SURPRISE } from 
 import { hapticSelection, hapticLight, hapticMedium } from '../utils/haptics';
 import LightningIcon from './LightningIcon';
 import OnboardingFinishSparkles from './OnboardingFinishSparkles';
+import quickPrepLogo from '../assets/quickprep-logo-header.png';
 
 // Per-card entrance stagger for a screen's choice list -- a fixed base
 // delay (long enough for the icon/header/subtext's own fade-in sequence,
@@ -133,10 +134,23 @@ export default function Onboarding({ onComplete }) {
     <div style={{ position: 'fixed', inset: 0, overflow: 'hidden', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 24, boxSizing: 'border-box' }}>
       <div className="app-bg" aria-hidden="true"></div>
       <div style={{ maxWidth: 430, width: '100%', maxHeight: '100%' }}>
+        {/* Brand header -- logo + tagline, sitting above the step dots and
+            outside the key={step} wrapper below so it stays fixed at the
+            top through the whole flow instead of re-animating (or
+            disappearing) as someone moves between screens. See
+            .onboarding-brand/-tagline/-tagline-done in globals.css for the
+            "Done" word's gold lightning-shimmer treatment. */}
+        <div className="onboarding-brand">
+          <img src={quickPrepLogo} alt="QuickPrep" className="onboarding-brand-logo" />
+          <div className="onboarding-tagline">
+            Meal. Prep. <span className="onboarding-tagline-done">Done</span>
+          </div>
+        </div>
+
         {/* Step dots -- just enough progress signal to make a handful of
             quick screens feel like a short flow rather than an open-ended
             form. */}
-        <div style={{ display: 'flex', gap: 6, justifyContent: 'center', marginBottom: 22 }}>
+        <div style={{ display: 'flex', gap: 6, justifyContent: 'center', marginBottom: 16 }}>
           {steps.map((s, i) => (
             <div
               key={s}
