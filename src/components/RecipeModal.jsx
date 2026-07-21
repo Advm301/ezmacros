@@ -1139,7 +1139,7 @@ export default function RecipeModal({
       <div
         style={{
           background: 'linear-gradient(to bottom, #08677B 0%, #08677B 20%, #041A20 65%, #000000 100%)',
-          margin: '20px auto',
+          margin: 'calc(20px + env(safe-area-inset-top)) auto 20px auto',
           maxWidth: 430,
           borderRadius: 20,
           padding: 24,

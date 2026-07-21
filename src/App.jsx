@@ -549,7 +549,7 @@ export default function App() {
       <div className="app">
         {/* Header -- background is the animated blue metallic bar (see
             .app-header-bar in globals.css); layout/spacing stays inline. */}
-        <div className="app-header-bar" style={{padding: "14px 18px 10px", display: "flex", justifyContent: "space-between", alignItems: "flex-start"}}>
+        <div className="app-header-bar" style={{padding: "calc(14px + env(safe-area-inset-top)) 18px 10px", display: "flex", justifyContent: "space-between", alignItems: "flex-start"}}>
           <div style={{display: "flex", alignItems: "center", gap: 10}}>
             <div>
               <div style={{display: "flex", alignItems: "center", gap: 8}}>
