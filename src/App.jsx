@@ -129,6 +129,10 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState("kitchen");
   const [openRecipe, setOpenRecipe] = useState(null);
+  // Whether the currently-open recipe was opened via Kitchen's Surprise Me
+  // (see handleOpenRecipe below) -- passed straight through as
+  // RecipeModal's isSurprise prop.
+  const [openRecipeSurprise, setOpenRecipeSurprise] = useState(false);
   const [toast, setToast] = useState(null);
   const [savedDate, setSavedDate] = useState(todayString());
   // Tracks the most recent diary entry added from inside the currently-open
@@ -175,10 +179,13 @@ export default function App() {
   // Every onOpen prop (Kitchen/Browse/Saved) goes through this now instead
   // of calling setOpenRecipe directly, so opening any new recipe always
   // starts that modal's "was anything added to Diary this session" state
-  // fresh.
-  const handleOpenRecipe = (recipe) => {
+  // fresh. `surprise` (only ever passed true by Kitchen's Surprise Me --
+  // see its handleSurpriseMe) flows into RecipeModal's isSurprise prop,
+  // which drives its one-time purple/pink reveal effects.
+  const handleOpenRecipe = (recipe, { surprise = false } = {}) => {
     setLastAddedDiaryEntry(null);
     setOpenRecipe(recipe);
+    setOpenRecipeSurprise(surprise);
   };
   const [showFeedback, setShowFeedback] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
@@ -371,9 +378,15 @@ export default function App() {
   // -- otherwise it would reshuffle mid-session, which reads as glitchy
   // rather than fresh. A full app reload remounts everything, so it always
   // picks a new random line then regardless.
-  const todayFilledSlotsKey = diary
-    .getEntriesForDate(todayString())
-    .map((e) => e.meal_slot)
+  //
+  // Deduped via Set before joining -- multiple Diary entries can share the
+  // same meal_slot (e.g. tapping Surprise Me on Diary repeatedly adds
+  // several lunch entries), and without the dedupe the raw entry list keeps
+  // growing longer every single add even though the *set* of filled slots
+  // hasn't changed, which kept reshuffling the greeting on every tap.
+  const todayFilledSlotsKey = [
+    ...new Set(diary.getEntriesForDate(todayString()).map((e) => e.meal_slot)),
+  ]
     .sort()
     .join(',');
   const greeting = useMemo(
@@ -511,7 +524,7 @@ export default function App() {
   // a brand-new account about to land on "What are you after?" or a
   // returning user headed straight back into their own Kitchen/Diary.
   if (!splashDone) {
-    return <SplashScreen onFinish={() => setSplashDone(true)} />;
+    return <SplashScreen onFinish={() => setSplashDone(true)} returning={onboarded} />;
   }
 
   // Shown once, right after a brand-new sign-in -- before the very first
@@ -815,6 +828,8 @@ export default function App() {
           getPhotoSignedUrl={getPhotoSignedUrl}
           onAddToDiary={handleAddToDiary}
           onFavoriteAutoSaved={() => showToast('★ Saved to Favorites')}
+          isSurprise={openRecipeSurprise}
+          onSurpriseOpened={() => showToast('✦ Your Surprise Meal is Ready to Prep!')}
         />
       )}
 

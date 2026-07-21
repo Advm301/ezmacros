@@ -9,9 +9,13 @@ import { useState, useEffect } from 'react';
 // gives a small crackle and the last few feel like a proper surge.
 // Self-removing: renders nothing once its longest-lived particle finishes
 // (reported via onDone) so the parent doesn't need its own timers.
-const COLORS = ['#ffd700', '#fff3b0', '#ffb300'];
+// `colors` defaults to the cook-wizard's usual gold, but is overridable --
+// e.g. RecipeModal's Surprise Me reveal passes the same purple/pink
+// gradient as .surprise-btn so the burst reads as "surprise magic" rather
+// than the wizard's own charge-building gold.
+const DEFAULT_COLORS = ['#ffd700', '#fff3b0', '#ffb300'];
 
-export default function SparkBurst({ intensity = 0.3, onDone }) {
+export default function SparkBurst({ intensity = 0.3, onDone, colors = DEFAULT_COLORS }) {
   const clamped = Math.max(0, Math.min(1, intensity));
   const [particles] = useState(() => {
     const count = Math.round(4 + clamped * 6); // 4 at the start, up to 10 near the end
@@ -25,7 +29,7 @@ export default function SparkBurst({ intensity = 0.3, onDone }) {
         size: 5 + Math.random() * 3 + clamped * 3,
         delay: Math.round(Math.random() * 60),
         duration: Math.round(460 + Math.random() * 200),
-        color: COLORS[i % COLORS.length],
+        color: colors[i % colors.length],
       };
     });
   });

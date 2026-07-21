@@ -7,6 +7,7 @@
   --lime:#ffffff;--lime2:rgba(255,255,255,0.11);--lime3:rgba(255,255,255,0.05);
   --cream:#f5f7f6;--muted:rgba(255,255,255,0.62);--muted2:rgba(255,255,255,0.42);
   --orange:#ff8533;--blue:#4db8ff;--pink:#ff6baa;--red:#ff4d4d;
+  --gold:#ffc933;
   --ez1:#c9f13a;--ez2:#ffc13a;--ez3:#ff8533;
   --scale:#a8ff78;--ai:#39ff9a;--magic:#b388ff;
   --r:16px;--rtag:100px;
@@ -236,6 +237,27 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
   100%{background-position:250% 50%;}
 }
 
+/* INGREDIENT HIGHLIGHT: recognized key ingredients within a recipe's short
+   description (see components/DescriptionText.jsx + utils/ingredientWords.js)
+   -- same gold shimmer treatment as .action-word above (reusing its
+   keyframes) so "black beans", "rice", "salsa" etc. pop out of the sentence
+   as the actual food, while the surrounding descriptive prose stays plain.
+   Keeps the description's normal Manrope font (unlike .action-word, which
+   deliberately switches to Baloo 2 for the instruction-step motif) since
+   this is regular body copy, not a headline moment. */
+.ingredient-highlight{
+  font-weight:700;
+  background-image:linear-gradient(90deg, #e6a400 0%, #fff2a8 25%, #ffcc33 50%, #fff2a8 75%, #e6a400 100%);
+  background-size:250% 100%;
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  -webkit-text-fill-color:transparent;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .ingredient-highlight{animation:action-word-shimmer 3s linear infinite;}
+}
+
 /* INSTRUCTION CLAUSES: a step's sentence-like clauses (see
    utils/instructionClauses.js + components/InstructionText.jsx), each on
    its own line instead of one solid paragraph -- stair-stepped with a
@@ -245,6 +267,24 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
    appearing all at once. Suppressed under prefers-reduced-motion the same
    way the rest of the cook wizard's motion is -- clauses just show
    immediately, fully visible, with their stair indent intact. */
+/* RECIPE ROW REVEAL: Browse tab's meal-section rows (see pages/Browse.jsx's
+   RecipeRow), staggered in via --reveal-delay (set inline per-row, capped
+   at REVEAL_CAP rows) instead of the whole open section just appearing at
+   once -- same stair-cascade language as .instruction-clause below, just
+   applied to a list of cards instead of a step's clauses. Paired with a
+   light haptic tick timed to the same delay in JS (see RecipeRow). */
+.recipe-row-reveal{opacity:0;transform:translateY(10px);}
+@media (prefers-reduced-motion: no-preference) {
+  .recipe-row-reveal{animation:recipe-row-in .28s ease-out forwards;animation-delay:var(--reveal-delay, 0s);}
+}
+@media (prefers-reduced-motion: reduce) {
+  .recipe-row-reveal{opacity:1;transform:none;}
+}
+@keyframes recipe-row-in{
+  0%{opacity:0;transform:translateY(10px);}
+  100%{opacity:1;transform:translateY(0);}
+}
+
 .instruction-clauses{display:flex;flex-direction:column;gap:6px;}
 .instruction-clause{opacity:0;transform:translateX(-14px);}
 @media (prefers-reduced-motion: no-preference) {
@@ -424,6 +464,24 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
 /* Small persistent "this was a random pick" marker on diary meal rows --
    the star itself stays solid (so it reads reliably as a badge, not a
    flicker you might miss); only the tiny companion glyph twinkles. */
+/* SURPRISE REVEAL: the recipe modal's one-time entrance when opened via
+   Kitchen's Surprise Me (see RecipeModal's isSurprise prop) -- a few pulses
+   of the same magic/pink glow as .surprise-btn around the card border,
+   fading itself out by the end rather than needing a class removed in JS,
+   paired with a matching-color SparkBurst (see SparkBurst's colors prop)
+   and a one-time toast (see App.jsx's onSurpriseOpened). Reads as "this
+   card is what Surprise Me just conjured up" instead of the recipe just
+   appearing indistinguishably from an ordinary tap-to-open. */
+@media (prefers-reduced-motion: no-preference) {
+  .recipe-surprise-glow{animation:recipe-surprise-glow 1.8s ease-out forwards;}
+}
+@keyframes recipe-surprise-glow{
+  0%{box-shadow:0 0 0 0 rgba(179,136,255,.7);}
+  20%{box-shadow:0 0 0 10px rgba(179,136,255,0);}
+  40%{box-shadow:0 0 0 0 rgba(255,107,170,.55);}
+  60%{box-shadow:0 0 0 10px rgba(255,107,170,0);}
+  100%{box-shadow:0 0 0 0 rgba(255,107,170,0);}
+}
 .surprise-sparkle-inline{display:inline-block;font-size:8px;margin-left:1px;}
 @media (prefers-reduced-motion: no-preference) {
   .surprise-sparkle-inline{animation:surprise-twinkle 2.2s ease-in-out infinite;}
@@ -997,7 +1055,7 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
    flung away -- ties the app's very first moment directly into its own
    lightning-bolt identity (LightningIcon, the header wordmark) rather
    than a generic fade transition. */
-.welcome-screen{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;background:var(--bg);overflow:hidden;}
+.welcome-screen{position:fixed;inset:0;z-index:1000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:var(--bg);overflow:hidden;}
 .welcome-glow{position:absolute;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle, rgba(77,184,255,.32) 0%, rgba(255,193,58,.18) 45%, rgba(255,193,58,0) 72%);}
 @media (prefers-reduced-motion: no-preference) {
   .welcome-glow{animation:welcome-glow-pulse 1.6s ease-in-out infinite;}
@@ -1019,6 +1077,35 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
   0%{opacity:0;transform:scale(.7);}
   62%{opacity:1;transform:scale(1.05);}
   100%{opacity:1;transform:scale(1);}
+}
+/* WELCOME-BACK MESSAGE: a brief line under the logo on this same splash
+   (see SplashScreen.jsx -- it plays on every fresh app open, not just
+   first-ever launch, per the comment there), giving that moment an actual
+   greeting instead of just a logo animation. Fades in a beat after the
+   logo settles (0.35s delay -- welcome-logo-in itself finishes at .6s, so
+   this doesn't compete with it), then fades back out right before the
+   lightning strike so the strike lands on a clean logo-only frame, same
+   as the glow. `returning` (see SplashScreen's `returning` prop, sourced
+   from App.jsx's already-onboarded check) switches the copy between
+   "Welcome back" for a returning user and a plain "Welcome" for someone
+   about to see onboarding for the first time -- so it never tells a
+   brand-new person "back" when they've never been here.*/
+.welcome-message{position:relative;font-family:'Baloo 2',sans-serif;font-weight:600;font-size:15px;color:rgba(255,255,255,.82);text-shadow:0 1px 3px rgba(0,0,0,.4);opacity:0;letter-spacing:.2px;}
+@media (prefers-reduced-motion: no-preference) {
+  .welcome-message{animation:welcome-message-in .5s ease-out .35s forwards;}
+  .welcome-message.welcome-message-struck{animation:welcome-message-out .3s ease-in forwards;}
+}
+@media (prefers-reduced-motion: reduce) {
+  .welcome-message{opacity:1;}
+  .welcome-message.welcome-message-struck{opacity:0;}
+}
+@keyframes welcome-message-in{
+  0%{opacity:0;transform:translateY(6px);}
+  100%{opacity:1;transform:translateY(0);}
+}
+@keyframes welcome-message-out{
+  0%{opacity:1;}
+  100%{opacity:0;}
 }
 @keyframes welcome-logo-struck{
   0%{opacity:1;transform:scale(1) rotate(0deg) translate(0,0);}

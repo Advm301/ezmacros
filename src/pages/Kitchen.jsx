@@ -102,7 +102,7 @@ export default function Kitchen({
       return;
     }
     const pick = pool[Math.floor(Math.random() * pool.length)];
-    if (onOpen) onOpen(pick);
+    if (onOpen) onOpen(pick, { surprise: true });
   };
 
   // One-tap version of picking a single item in the pantry drawer and

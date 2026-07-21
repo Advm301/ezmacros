@@ -22,7 +22,7 @@ import quickPrepLogo from '../assets/quickprep-logo-header.png';
 const HOLD_MS = 1300; // logo fade-in + settled hold, before the strike lands
 const STRUCK_MS = 560; // strike + jolt-away, before handing off to what's next
 
-export default function SplashScreen({ onFinish }) {
+export default function SplashScreen({ onFinish, returning = true }) {
   const [struck, setStruck] = useState(false);
 
   useEffect(() => {
@@ -45,6 +45,9 @@ export default function SplashScreen({ onFinish }) {
         alt="QuickPrep"
         className={`welcome-logo${struck ? ' welcome-logo-struck' : ''}`}
       />
+      <div className={`welcome-message${struck ? ' welcome-message-struck' : ''}`}>
+        {returning ? 'Welcome back' : 'Welcome'}
+      </div>
       {struck && (
         <div className="welcome-strike" aria-hidden="true">
           <div className="welcome-strike-flash" />

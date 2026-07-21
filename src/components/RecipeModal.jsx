@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import StarIcon from './StarIcon';
 import StarRating from './StarRating';
+import DescriptionText from './DescriptionText';
 import { MEAL_SLOTS, MEAL_SLOT_LABELS, todayString } from '../hooks/useDiary';
 import { formatTime } from '../utils/time';
 import { hapticSelection, hapticLight, hapticMedium, hapticHeavy, hapticSuccess } from '../utils/haptics';
@@ -356,11 +357,31 @@ export default function RecipeModal({
   // save a recipe; editing an ingredient/instruction or jotting a note no
   // longer does (see hooks/useSavedRecipes.js).
   onFavoriteAutoSaved,
+  // Set when this recipe was opened via Kitchen's Surprise Me (as opposed
+  // to an ordinary tap on a recipe row) -- drives a one-time "reveal"
+  // moment on open: a pulsing purple/pink glow around the card (same
+  // magic/pink gradient as .surprise-btn, so it visually ties back to the
+  // button that triggered it) plus a matching particle burst (see
+  // SparkBurst's colors prop). onSurpriseOpened fires once, letting the
+  // parent show its own brief confirmation toast alongside the in-modal
+  // effects -- see App.jsx's onSurpriseOpened wiring.
+  isSurprise = false,
+  onSurpriseOpened,
 }) {
   // Rendered with key={recipe.id} by the parent, so this component remounts
   // fresh (and all local state below resets naturally, including `screen`)
   // whenever a different recipe is opened -- no reset effect needed.
   const [screen, setScreen] = useState('decide'); // 'decide' | 'cook'
+  // Surprise-reveal particle burst -- self-removes via onDone, same pattern
+  // as the cook wizard's own burstId/SparkBurst use below. The glow itself
+  // is pure CSS (see .recipe-surprise-glow), so it doesn't need its own
+  // piece of state; only the burst (a mounted component) does.
+  const [showSurpriseBurst, setShowSurpriseBurst] = useState(isSurprise);
+  useEffect(() => {
+    if (!isSurprise) return;
+    onSurpriseOpened?.();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const [cookStep, setCookStep] = useState(0);
   const [direction, setDirection] = useState('forward'); // drives the slide-in animation
   // Bumped on every forward step through the cook wizard to (re)trigger a
@@ -1172,7 +1193,9 @@ export default function RecipeModal({
       onClick={onClose}
     >
       <div
+        className={isSurprise ? 'recipe-surprise-glow' : undefined}
         style={{
+          position: 'relative',
           background: 'linear-gradient(to bottom, #08677B 0%, #08677B 20%, #041A20 65%, #000000 100%)',
           margin: 'calc(20px + env(safe-area-inset-top)) auto 20px auto',
           maxWidth: 430,
@@ -1184,6 +1207,13 @@ export default function RecipeModal({
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
+        {showSurpriseBurst && (
+          <SparkBurst
+            intensity={0.8}
+            colors={['#b388ff', '#ff6baa', '#e8b3ff']}
+            onDone={() => setShowSurpriseBurst(false)}
+          />
+        )}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
           <div style={{ flex: 1 }}>
             <div style={{ fontFamily: "'Manrope',sans-serif", fontSize: 22, fontWeight: 800, marginBottom: 4 }}>
@@ -1338,7 +1368,7 @@ export default function RecipeModal({
                         step is explaining -- leaving it up here just
                         highlighted the description text instead. */}
                     <div style={{ fontSize: 12, color: 'var(--muted)', lineHeight: 1.5, marginBottom: 12 }}>
-                      {r.description}
+                      <DescriptionText text={r.description} />
                     </div>
                     {/* Batch-size scaler -- lets someone match the recipe to
                         how much they actually bought/have (a 4-serving

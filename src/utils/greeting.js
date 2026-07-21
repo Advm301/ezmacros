@@ -16,6 +16,8 @@ const MORNING_EMPTY = [
   "Morning. Something's got to happen about food.",
   "No breakfast plan yet. The day marches on regardless.",
   "Still haven't figured out breakfast? No judgment.",
+  "Breakfast: still theoretical.",
+  "The kitchen's not going to walk itself to you.",
 ];
 
 const MORNING_PLANNED = [
@@ -23,6 +25,8 @@ const MORNING_PLANNED = [
   "Breakfast's handled. Look at you.",
   "Breakfast's done. The rest of the day's still up for grabs.",
   "One meal down before most people are even up.",
+  "Breakfast's locked in. Not bad for this early.",
+  "You beat the day to it. Rare.",
 ];
 
 const MIDDAY_EMPTY = [
@@ -30,6 +34,8 @@ const MIDDAY_EMPTY = [
   "Nothing planned yet. Business as usual.",
   "Lunch remains a mystery. As does most of life.",
   "No lunch plan. The clock's not going to wait.",
+  "Lunch is still a rumor at this point.",
+  "The hunger's real. The plan is not.",
 ];
 
 const MIDDAY_PLANNED = [
@@ -37,6 +43,8 @@ const MIDDAY_PLANNED = [
   "Lunch: taken care of. You're welcome, past you.",
   "One meal down. Two to go, no rush.",
   "Lunch's sorted. Dinner's still anyone's guess.",
+  "Lunch: figured out. Go you.",
+  "That's lunch sorted. Dinner can wait its turn.",
 ];
 
 const EVENING_EMPTY = [
@@ -44,6 +52,8 @@ const EVENING_EMPTY = [
   "Still no dinner plan. Let's fix that.",
   "No dinner plan yet. Hunger is not known for its patience.",
   "Dinner remains unsolved. Ball's in your court.",
+  "Dinner's still a blank page.",
+  "The evening's here. The plan isn't.",
 ];
 
 const EVENING_PLANNED = [
@@ -51,6 +61,8 @@ const EVENING_PLANNED = [
   "Dinner's sorted. You're welcome, past you.",
   "Tonight's handled. Rare, but nice.",
   "Dinner's taken care of. Go do something else.",
+  "Dinner's locked in. Nicely done.",
+  "Tonight's figured out. Everyone else is still guessing.",
 ];
 
 // Only shown when breakfast, lunch, and dinner are ALL logged for today --
@@ -60,6 +72,8 @@ const FULL_DAY_PLANNED = [
   "All three meals logged. Show-off.",
   "Full day planned. Look at you, functioning like an adult.",
   "Breakfast, lunch, dinner -- all handled. Rare, but nice.",
+  "Every meal's spoken for. Impressive, honestly.",
+  "Breakfast, lunch, dinner -- a clean sweep.",
 ];
 
 function pick(list) {

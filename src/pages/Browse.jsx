@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { RECIPES } from '../data/recipes.js';
 import StarIcon from '../components/StarIcon';
 import LightningIcon from '../components/LightningIcon';
@@ -9,6 +9,20 @@ import useFirstVisitTip from '../hooks/useFirstVisitTip';
 import { formatTime } from '../utils/time';
 import { hapticSelection, hapticLight } from '../utils/haptics';
 import { getProteinCardBackground } from '../utils/proteinColors';
+
+// How many rows into a freshly-opened section get the staggered
+// entrance + tick haptic (see RecipeRow below) -- capped rather than
+// applied to every row so a 20+ recipe section doesn't drag the reveal
+// out for seconds or turn into a long buzz of haptic ticks. Rows past the
+// cap just fade in together at the cap's own delay, still quick and
+// clean, just without their own individual stagger/tick.
+const REVEAL_CAP = 8;
+const REVEAL_STEP_MS = 45;
+
+function prefersReducedMotion() {
+  return typeof window !== 'undefined' &&
+    window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+}
 
 const MEAL_SECTIONS = [
   { label: 'Breakfast', value: 'breakfast' },
@@ -45,6 +59,48 @@ const METHODS = [
   { label: 'No Cook', value: 'No Cook' },
   { label: 'Microwave', value: 'Microwave' },
 ];
+
+// Wraps a recipe row so it animates in on mount (see .recipe-row-reveal in
+// globals.css) instead of the whole list just appearing instantly when a
+// meal section opens -- and fires one light haptic tick timed to its own
+// entrance, so opening a section reads/feels like a quick cascade landing
+// rather than a flat dump of rows. `index` drives both the CSS
+// animation-delay and the haptic's setTimeout, capped at REVEAL_CAP so a
+// long section's tail doesn't stretch the reveal out or turn into a buzz
+// of ticks -- rows past the cap still fade in (all at the cap's delay),
+// just without their own individual stagger/tick.
+//
+// A plain function (not a component) can't use useEffect, and this needs
+// one to time its own haptic tick to when its entrance animation actually
+// plays -- so this is a real component, mounted per-row via the `key={r.id}`
+// on the caller's side, which is also what makes this behave correctly
+// under Browse's live search filtering: only recipes newly entering the
+// filtered set actually mount (and get a tick), rows still present from the
+// previous keystroke keep their existing DOM node and don't replay.
+function RecipeRow({ index = 0, children, style, onClick }) {
+  const firedRef = useRef(false);
+  const delayIndex = Math.min(index, REVEAL_CAP);
+  const delayMs = delayIndex * REVEAL_STEP_MS;
+
+  useEffect(() => {
+    if (firedRef.current || prefersReducedMotion()) return;
+    firedRef.current = true;
+    if (index > REVEAL_CAP) return;
+    const t = setTimeout(() => hapticSelection(), delayMs);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <div
+      className="recipe-row-reveal"
+      style={{ ...style, '--reveal-delay': `${delayMs}ms` }}
+      onClick={onClick}
+    >
+      {children}
+    </div>
+  );
+}
 
 // Same native-<select> pattern as Kitchen's FilterSelect -- tapping opens
 // the OS picker instead of requiring a swipe through a pill row. Duplicated
@@ -195,9 +251,10 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
     onOpen(r);
   };
 
-  const renderRecipeRow = (r) => (
-    <div
+  const renderRecipeRow = (r, index) => (
+    <RecipeRow
       key={r.id}
+      index={index}
       style={{
         background: getProteinCardBackground(r.proteins),
         border: '1px solid var(--border)',
@@ -254,7 +311,7 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
           <StarIcon filled={isSaved(r.id)} size={20} />
         </div>
       </div>
-    </div>
+    </RecipeRow>
   );
 
   return (
@@ -417,7 +474,7 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
                 </div>
                 {isOpen && (
                   <div style={{ maxHeight: 420, overflowY: 'auto', paddingTop: 10 }}>
-                    {sectionRecipes.map(renderRecipeRow)}
+                    {sectionRecipes.map((r, i) => renderRecipeRow(r, i))}
                   </div>
                 )}
               </div>
