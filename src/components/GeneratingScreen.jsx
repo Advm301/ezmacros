@@ -20,7 +20,7 @@ import LightningIcon from './LightningIcon';
 // .generating-bolt-fill's animation-duration in globals.css, tuned to
 // roughly match App.jsx's own minimum display duration so the bolt reads
 // as "full" right around when this screen is swapped out.
-export default function GeneratingScreen() {
+export default function GeneratingScreen({ text = "Generating your meals…" }) {
   return (
     <div className="generating-screen">
       <div className="app-bg" aria-hidden="true"></div>
@@ -33,7 +33,7 @@ export default function GeneratingScreen() {
           <LightningIcon size={72} id="generating-fill" />
         </div>
       </div>
-      <div className="generating-text">Generating your meals&hellip;</div>
+      <div className="generating-text">{text}</div>
     </div>
   );
 }

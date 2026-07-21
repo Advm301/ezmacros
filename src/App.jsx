@@ -498,17 +498,7 @@ export default function App() {
   };
 
   if (loading) {
-    return (
-      <div style={{
-        minHeight: "100vh",
-        background: "var(--bg)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}>
-        <div style={{color: "var(--muted)"}}>Loading...</div>
-      </div>
-    );
+    return <GeneratingScreen text="Loading…" />;
   }
 
   if (!session) {

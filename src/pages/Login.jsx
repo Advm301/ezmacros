@@ -123,18 +123,22 @@ export default function Login() {
 
   return (
     <div style={{
-      minHeight: "100vh",
+      position: "fixed",
+      inset: 0,
+      overflow: "hidden",
       background: "transparent",
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
       justifyContent: "center",
       padding: "20px",
+      boxSizing: "border-box",
     }}>
       <div className="app-bg" aria-hidden="true"></div>
       <div style={{
         maxWidth: "430px",
         width: "100%",
+        maxHeight: "100%",
         textAlign: "center",
       }}>
         {/* Logo -- same designed "QuickPrep" wordmark used in the app

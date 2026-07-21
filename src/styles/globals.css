@@ -11,7 +11,7 @@
   --scale:#a8ff78;--ai:#39ff9a;--magic:#b388ff;
   --r:16px;--rtag:100px;
 }
-html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-serif;font-size:15px;}
+html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-serif;font-size:15px;overflow-x:hidden;overscroll-behavior-x:none;}
 .app{max-width:430px;margin:0 auto;min-height:100vh;padding-bottom:80px;position:relative;}
 /* Page backdrop, all tabs -- a slow teal-to-black fade down the whole
    screen rather than the old bright teal band that only really showed in
@@ -1053,7 +1053,7 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
    clip-path, like a battery filling -- ties the wait to the same bolt
    motif used throughout the app (LightningIcon, the header wordmark, the
    cook-complete flourish) rather than a generic bar. */
-.generating-screen{position:fixed;inset:0;z-index:1000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;background:var(--bg);}
+.generating-screen{position:fixed;inset:0;z-index:1000;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;background:var(--bg);}
 .generating-logo{height:52px;width:auto;opacity:.92;}
 .generating-bolt-wrap{position:relative;width:72px;height:88px;}
 .generating-bolt-track,.generating-bolt-fill{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}

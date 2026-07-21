@@ -130,8 +130,9 @@ export default function Onboarding({ onComplete }) {
     : (proteins.length > 0 ? 'Show Me Recipes' : "I'll Add These Later");
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 24, boxSizing: 'border-box' }}>
-      <div style={{ maxWidth: 430, width: '100%' }}>
+    <div style={{ position: 'fixed', inset: 0, overflow: 'hidden', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 24, boxSizing: 'border-box' }}>
+      <div className="app-bg" aria-hidden="true"></div>
+      <div style={{ maxWidth: 430, width: '100%', maxHeight: '100%' }}>
         {/* Step dots -- just enough progress signal to make a handful of
             quick screens feel like a short flow rather than an open-ended
             form. */}
