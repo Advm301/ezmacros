@@ -361,27 +361,24 @@ export default function RecipeModal({
   // to an ordinary tap on a recipe row) -- drives a one-time "reveal"
   // moment on open: a pulsing purple/pink glow around the card (same
   // magic/pink gradient as .surprise-btn, so it visually ties back to the
-  // button that triggered it) plus a matching particle burst (see
-  // SparkBurst's colors prop). onSurpriseOpened fires once, letting the
-  // parent show its own brief confirmation toast alongside the in-modal
-  // effects -- see App.jsx's onSurpriseOpened wiring.
+  // button that triggered it), a matching particle burst (see SparkBurst's
+  // colors prop), and a ribbon-shaped "Surprise Meal Ready!" badge (see
+  // .surprise-ready-badge) -- all self-contained in here now rather than
+  // routing a confirmation up through App.jsx's plain black/white toast,
+  // which read as generic and off-brand for what's meant to be this app's
+  // one flashy "magic" moment.
   isSurprise = false,
-  onSurpriseOpened,
 }) {
   // Rendered with key={recipe.id} by the parent, so this component remounts
   // fresh (and all local state below resets naturally, including `screen`)
   // whenever a different recipe is opened -- no reset effect needed.
   const [screen, setScreen] = useState('decide'); // 'decide' | 'cook'
   // Surprise-reveal particle burst -- self-removes via onDone, same pattern
-  // as the cook wizard's own burstId/SparkBurst use below. The glow itself
-  // is pure CSS (see .recipe-surprise-glow), so it doesn't need its own
-  // piece of state; only the burst (a mounted component) does.
+  // as the cook wizard's own burstId/SparkBurst use below. The glow and
+  // ribbon badge are pure CSS (see .recipe-surprise-glow/.surprise-ready-
+  // badge, both self-fade via animation-fill-mode), so only the burst (an
+  // actual mounted component) needs its own piece of state.
   const [showSurpriseBurst, setShowSurpriseBurst] = useState(isSurprise);
-  useEffect(() => {
-    if (!isSurprise) return;
-    onSurpriseOpened?.();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
   const [cookStep, setCookStep] = useState(0);
   const [direction, setDirection] = useState('forward'); // drives the slide-in animation
   // Bumped on every forward step through the cook wizard to (re)trigger a
@@ -1207,6 +1204,12 @@ export default function RecipeModal({
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
+        {isSurprise && (
+          <div className="surprise-ready-badge" aria-hidden="true">
+            <LightningIcon size={15} id="surprise-ready" />
+            <span>Surprise Meal Ready!</span>
+          </div>
+        )}
         {showSurpriseBurst && (
           <SparkBurst
             intensity={0.8}

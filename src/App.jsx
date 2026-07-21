@@ -829,7 +829,6 @@ export default function App() {
           onAddToDiary={handleAddToDiary}
           onFavoriteAutoSaved={() => showToast('★ Saved to Favorites')}
           isSurprise={openRecipeSurprise}
-          onSurpriseOpened={() => showToast('✦ Your Surprise Meal is Ready to Prep!')}
         />
       )}
 
