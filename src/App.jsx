@@ -52,6 +52,26 @@ function readOnboarded(userId) {
   }
 }
 
+// Every "seen it, don't show again" flag written by useFirstVisitTip.js
+// (Kitchen/Browse/Diary's own info banners, plus the recipe modal's
+// decide/cook/rating tutorial tips) -- these are global device flags, not
+// scoped per account, and each one's owning component only re-reads its
+// flag when it next mounts (see useFirstVisitTip's lazy useState), so
+// clearing them here on delete is enough on its own; no matching in-memory
+// state to reset alongside it, unlike KITCHEN_STATE_KEY/
+// DIARY_ONBOARDING_HIGHLIGHT_KEY above. Cleared on account delete so a
+// fresh account started right after actually sees every intro tip again,
+// instead of them staying silently "seen" from whatever account last
+// dismissed them on this device.
+const FIRST_VISIT_TIP_KEYS = [
+  'quickprep_seen_kitchen_tip',
+  'quickprep_seen_browse_tip',
+  'quickprep_seen_diary_tip',
+  'quickprep_seen_recipe_decide_tutorial',
+  'quickprep_seen_recipe_cook_tutorial',
+  'quickprep_seen_recipe_rating_tutorial',
+];
+
 // Persists Kitchen's pantry selections + search results (see
 // kitchenStaples/kitchenResults/kitchenJustOnboarded below) across a full
 // page reload / app relaunch, not just across tab switches -- lifting that
@@ -356,6 +376,16 @@ export default function App() {
       // itself to seed from on mount; now that Kitchen's staples/results
       // state lives up here (see kitchenStaples/kitchenResults above), the
       // same seeding logic runs right here instead.
+      //
+      // setTab('kitchen') mirrors the full_day branch's own setTab('saved')
+      // above -- without it, this path relied entirely on `tab`'s initial
+      // default ("kitchen") to land in the right place, which only held up
+      // the very first time onboarding ever ran in a given app session.
+      // Sign out (or delete an account) from any *other* tab and go through
+      // onboarding again afterward and `tab` was still whatever it last
+      // was -- e.g. landing on Browse with a freshly generated result
+      // sitting unseen back on Kitchen.
+      setTab('kitchen');
       setKitchenStaples(picks.staples || []);
       let seededResults;
       if (picks.staples?.length) {
@@ -510,6 +540,7 @@ export default function App() {
       localStorage.removeItem(onboardedKeyFor(deletedUserId));
       localStorage.removeItem(KITCHEN_STATE_KEY);
       localStorage.removeItem(DIARY_ONBOARDING_HIGHLIGHT_KEY);
+      FIRST_VISIT_TIP_KEYS.forEach((key) => localStorage.removeItem(key));
     } catch (err) {
       console.error('Error clearing local recipe data:', err);
     }
