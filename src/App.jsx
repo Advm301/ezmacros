@@ -24,11 +24,33 @@ import { now } from './utils/timing';
 import './styles/globals.css';
 
 // Set once onboarding finishes (however it finishes -- picks made, or
-// skipped) so it never shows again on this device/browser. A plain
-// localStorage flag rather than a Supabase profile column -- no backend
-// work needed to ship this, and it doesn't need to survive a device
-// switch to do its job (show the flow exactly once per install).
+// skipped) so it never shows again for that account on this device/
+// browser. A plain localStorage flag rather than a Supabase profile
+// column -- no backend work needed to ship this, and it doesn't need to
+// survive a device switch to do its job (show the flow exactly once per
+// account per install).
+//
+// Suffixed per-user (see onboardedKeyFor/readOnboarded below) rather than
+// one single global flag -- a global flag meant that deleting an account
+// and immediately creating a new one with the same email (a normal thing
+// to do while beta-testing) left the device "remembering" onboarding was
+// already done, so the brand-new account skipped straight past it. Each
+// account now gets its own flag, keyed by its own (freshly-generated,
+// never-reused) user id, so a new account always starts unonboarded
+// regardless of what any previous account on this device did.
 const ONBOARDED_KEY = 'quickprep_onboarded';
+
+function onboardedKeyFor(userId) {
+  return userId ? `${ONBOARDED_KEY}_${userId}` : ONBOARDED_KEY;
+}
+
+function readOnboarded(userId) {
+  try {
+    return localStorage.getItem(onboardedKeyFor(userId)) === '1';
+  } catch {
+    return true; // if storage is unavailable for some reason, don't block the app on it
+  }
+}
 
 // Persists Kitchen's pantry selections + search results (see
 // kitchenStaples/kitchenResults/kitchenJustOnboarded below) across a full
@@ -190,16 +212,17 @@ export default function App() {
   const [showFeedback, setShowFeedback] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   // Whether the one-time first-session onboarding (see components/
-  // Onboarding.jsx) still needs to run. Read from localStorage once at
-  // mount -- a returning user with the flag already set skips straight
-  // past it, same as today.
-  const [onboarded, setOnboarded] = useState(() => {
-    try {
-      return localStorage.getItem(ONBOARDED_KEY) === '1';
-    } catch {
-      return true; // if storage is unavailable for some reason, don't block the app on it
-    }
-  });
+  // Onboarding.jsx) still needs to run for whichever account is signed in.
+  // Starts false (not read from localStorage here) because at this point
+  // in the component's life we don't yet know who's signed in -- the
+  // session/auth effect below sets this to the correct per-account value
+  // (see readOnboarded/onboardedKeyFor above) the moment it resolves a
+  // session, and re-resolves it again any time the signed-in user id
+  // actually changes (a fresh sign-in, or signing into a different
+  // account than whatever this device last had cached). `loading` covers
+  // the screen the whole time this is still unresolved, so there's no
+  // flash of the wrong state in between.
+  const [onboarded, setOnboarded] = useState(false);
   // Kitchen's pantry selections + search results now live up here rather
   // than as Kitchen's own local state -- Kitchen fully unmounts every time
   // you switch tabs away from it (see the tab === "kitchen" conditional
@@ -238,7 +261,13 @@ export default function App() {
   // welcome screen plays again -- on every real app launch/reload, while
   // still only playing once per already-running session (switching tabs
   // or reopening a recipe modal doesn't remount App, so it won't replay
-  // mid-session).
+  // mid-session). Also explicitly reset back to false on every actual
+  // SIGNED_IN auth event (see the session effect below) -- without that,
+  // signing out and back in (or deleting an account and creating a new
+  // one) within the same still-running app session left this stuck at
+  // `true` from the original launch, so the splash silently stopped
+  // showing on every sign-in after the first, even though the intent
+  // above is "every single sign-in, not just the first."
   const [splashDone, setSplashDone] = useState(false);
   // Whether the post-onboarding GeneratingScreen (see components/
   // GeneratingScreen.jsx) should render instead of the tab it's about to
@@ -251,8 +280,9 @@ export default function App() {
   const [generatingMeals, setGeneratingMeals] = useState(false);
 
   // Called with either { staples, goal, servingsPref, mealCountPref } or
-  // null (full skip) from Onboarding. Either way, marks onboarding done so
-  // it never shows again on this device. What happens next branches on
+  // null (full skip) from Onboarding. Either way, marks onboarding done for
+  // this account (see onboardedKeyFor above) so it never shows again for
+  // it on this device. What happens next branches on
   // mealCountPref: "one" hands the picks to Kitchen (same as before this
   // question existed) so it shows a real search result immediately;
   // "full_day" skips Kitchen entirely and logs a whole day -- Breakfast,
@@ -271,7 +301,7 @@ export default function App() {
   // on top of it, so the wait never stacks needlessly.
   const handleOnboardingComplete = async (picks) => {
     try {
-      localStorage.setItem(ONBOARDED_KEY, '1');
+      localStorage.setItem(onboardedKeyFor(session?.user?.id), '1');
     } catch {
       // Storage being unavailable just means onboarding may show again
       // next visit -- not worth blocking on.
@@ -394,12 +424,30 @@ export default function App() {
     [todayFilledSlotsKey]
   );
 
+  // applySession is the one place `session` and its two account-scoped
+  // derivatives (`onboarded`, `splashDone`) get set, so they always land
+  // together in one update rather than `onboarded` lagging a render behind
+  // `session` (which briefly showed the wrong onboarding state -- a flash
+  // of the onboarding flow for an already-onboarded returning user --
+  // before a separate effect could catch up and correct it).
+  //
+  // `resetSplash` is only ever passed true for a genuine SIGNED_IN event
+  // (see below), never for the initial getSession() check or background
+  // events like TOKEN_REFRESHED -- otherwise the welcome splash would
+  // replay at random during ordinary use, not just on an actual sign-in.
+  const applySession = (currentSession, { resetSplash = false } = {}) => {
+    const userId = currentSession?.user?.id ?? null;
+    setSession(currentSession);
+    setOnboarded(readOnboarded(userId));
+    if (resetSplash) setSplashDone(false);
+  };
+
   useEffect(() => {
     // Check for existing session on mount
     const checkSession = async () => {
       try {
         const { data: { session: currentSession } } = await supabase.auth.getSession();
-        setSession(currentSession);
+        applySession(currentSession);
       } catch (err) {
         console.error("Error checking session:", err);
       } finally {
@@ -409,10 +457,16 @@ export default function App() {
 
     checkSession();
 
-    // Listen for auth state changes
+    // Listen for auth state changes. SIGNED_IN covers both an ordinary
+    // sign-in and a fresh sign-up (Supabase fires the same event for
+    // both, since sign-up logs the account straight in) -- resetting the
+    // splash there is what makes it reliably reappear on the very next
+    // account after a sign-out, or after deleting an account and
+    // immediately creating a new one, instead of only on the app's first
+    // ever launch this session.
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (_event, currentSession) => {
-        setSession(currentSession);
+        applySession(currentSession, { resetSplash: _event === 'SIGNED_IN' });
       }
     );
 
@@ -427,14 +481,24 @@ export default function App() {
 
   // Calls the delete-account Edge Function, which removes the user's diary
   // entries, ratings, and uploaded photos server-side before deleting the
-  // auth account itself. Saved recipes/customizations are device-local
-  // (localStorage), so those are cleared here rather than server-side.
+  // auth account itself. Everything else this account touched on THIS
+  // device is local-only (localStorage), so it's cleared here rather than
+  // server-side -- saved recipes/customizations, this account's own
+  // onboarded flag (see onboardedKeyFor above), Kitchen's last search
+  // (KITCHEN_STATE_KEY), and the Diary onboarding-highlight ids. The
+  // latter two aren't actually per-account keys today (a pre-existing gap,
+  // not new here), so wiping them on delete is what stops a fresh account
+  // created right after from inheriting the deleted account's stale
+  // Kitchen results or Diary highlight -- both localStorage AND the
+  // matching in-memory state get reset, since this device's already-
+  // running app session won't otherwise re-read localStorage on its own.
   const handleDeleteAccount = async () => {
     const confirmed = window.confirm(
       "This permanently deletes your account, diary, ratings, and any photos you've uploaded. This can't be undone. Continue?"
     );
     if (!confirmed) return;
     hapticMedium();
+    const deletedUserId = session?.user?.id;
     const { error } = await supabase.functions.invoke('delete-account');
     if (error) {
       showToast("Couldn't delete account -- try again.");
@@ -443,9 +507,16 @@ export default function App() {
     try {
       localStorage.removeItem('quickprep_saved_recipes');
       localStorage.removeItem('quickprep_recipe_customizations');
+      localStorage.removeItem(onboardedKeyFor(deletedUserId));
+      localStorage.removeItem(KITCHEN_STATE_KEY);
+      localStorage.removeItem(DIARY_ONBOARDING_HIGHLIGHT_KEY);
     } catch (err) {
       console.error('Error clearing local recipe data:', err);
     }
+    setKitchenStaples([]);
+    setKitchenResults(null);
+    setKitchenJustOnboarded(false);
+    setOnboardingHighlightedEntryIds([]);
     await supabase.auth.signOut();
   };
 
