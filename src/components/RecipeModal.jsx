@@ -3,7 +3,7 @@ import StarIcon from './StarIcon';
 import StarRating from './StarRating';
 import { MEAL_SLOTS, MEAL_SLOT_LABELS, todayString } from '../hooks/useDiary';
 import { formatTime } from '../utils/time';
-import { hapticSelection, hapticLight, hapticMedium } from '../utils/haptics';
+import { hapticSelection, hapticLight, hapticMedium, hapticHeavy, hapticSuccess } from '../utils/haptics';
 import { summarizeSteps } from '../utils/recipeSummary';
 import { detectPreheatTip, previewNextStep } from '../utils/stepHints';
 import { matchIngredientsForStep } from '../utils/ingredientMatch';
@@ -366,6 +366,15 @@ export default function RecipeModal({
   // Bumped on every forward step through the cook wizard to (re)trigger a
   // spark burst near the Next button; 0 means no burst currently showing.
   const [burstId, setBurstId] = useState(0);
+  // Drives the recipe-complete celebration: a sequence of three full-screen
+  // lightning strikes (see LightningStrike below) fired the moment the last
+  // instruction step advances into the closing rating page, in place of the
+  // ordinary single strike/spark every other Next tap gets. 0 means no
+  // celebration strike is currently showing; 1/2/3 identifies which strike
+  // in the sequence is on screen, which also picks that strike's haptic
+  // (see COMPLETION_HAPTICS) so the sequence visibly and physically
+  // escalates rather than repeating the same tap three times.
+  const [completionStrike, setCompletionStrike] = useState(0);
   // Short encouragement shown next to the Next button each time someone
   // advances through an instruction step -- null means nothing showing.
   // Re-picked (not just re-shown) on every click so it doesn't feel like
@@ -720,13 +729,21 @@ export default function RecipeModal({
       const nextStep = cookStep + 1;
       setDirection('forward');
       setCookStep(nextStep);
-      setBurstId((id) => id + 1);
-      // Only while still stepping between instructions -- the transition
-      // into the closing rating page already gets its own, bigger
-      // completion message, so a second little popup on top would just be
-      // noise.
-      if (cookPages[nextStep].type === 'instruction') {
-        showMotivation(cookStep + 1, instructions.length);
+      if (cookPages[nextStep].type === 'rating') {
+        // Landing on the closing rating page -- the recipe itself is done,
+        // so this gets the bigger three-strike celebration (see
+        // completionStrike above) instead of the ordinary single
+        // burst/strike every other step gets. Starts light and escalates
+        // with each subsequent strike (see handleCompletionStrikeDone).
+        setCompletionStrike(1);
+        hapticLight();
+      } else {
+        setBurstId((id) => id + 1);
+        // Only while still stepping between instructions -- the rating
+        // page's own completion message covers this instead.
+        if (cookPages[nextStep].type === 'instruction') {
+          showMotivation(cookStep + 1, instructions.length);
+        }
       }
     } else {
       // Finish, on the closing rating page -- distinct from the plain
@@ -737,6 +754,24 @@ export default function RecipeModal({
       // caller doesn't pass onFinish, so this never silently does nothing.
       (onFinish || onClose)();
     }
+  };
+
+  // Called by each LightningStrike in the completion celebration when its
+  // own ~450ms animation finishes -- chains into the next, stronger strike
+  // (light -> medium -> heavy) rather than firing all three at once, so the
+  // sequence reads as three distinct hits building in intensity. A final
+  // hapticSuccess caps it off once all three have landed.
+  const handleCompletionStrikeDone = () => {
+    setCompletionStrike((n) => {
+      if (n >= 3) {
+        hapticSuccess();
+        return 0;
+      }
+      const next = n + 1;
+      if (next === 2) hapticMedium();
+      if (next === 3) hapticHeavy();
+      return next;
+    });
   };
 
   const goPrevCookPage = () => {
@@ -1531,6 +1566,9 @@ export default function RecipeModal({
               </div>
               {burstId > 0 && (
                 <LightningStrike key={`strike-${burstId}`} onDone={() => setBurstId(0)} />
+              )}
+              {completionStrike > 0 && (
+                <LightningStrike key={`completion-strike-${completionStrike}`} onDone={handleCompletionStrikeDone} />
               )}
             </>
           )}

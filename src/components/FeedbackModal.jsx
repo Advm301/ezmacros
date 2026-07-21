@@ -22,11 +22,11 @@ export default function FeedbackModal({ onClose, onSubmit }) {
   return (
     <div
       onClick={onClose}
-      style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,.6)', zIndex: 90, display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}
+      style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,.6)', zIndex: 90, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20, boxSizing: 'border-box' }}
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        style={{ background: 'var(--bg)', width: '100%', maxWidth: 430, borderRadius: '20px 20px 0 0', border: '1px solid var(--border)', borderBottom: 'none', padding: '18px 18px 28px', boxSizing: 'border-box' }}
+        style={{ background: 'var(--bg)', width: '100%', maxWidth: 400, maxHeight: '100%', overflowY: 'auto', borderRadius: 20, border: '1px solid var(--border)', padding: '18px 18px 20px', boxSizing: 'border-box' }}
       >
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
           <div className="h1" style={{ marginBottom: 0, fontSize: 18 }}>Send Feedback</div>
@@ -49,7 +49,7 @@ export default function FeedbackModal({ onClose, onSubmit }) {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="What's going on?"
-              style={{ width: '100%', minHeight: 100, background: 'var(--s2)', border: '1px solid var(--border)', borderRadius: 10, padding: 10, color: 'var(--cream)', fontSize: 13, fontFamily: "'Manrope',sans-serif", lineHeight: 1.5, resize: 'vertical', boxSizing: 'border-box', marginBottom: 10 }}
+              style={{ width: '100%', minHeight: 100, background: 'var(--s2)', border: '1px solid var(--border)', borderRadius: 10, padding: 10, color: 'var(--cream)', fontSize: 16, fontFamily: "'Manrope',sans-serif", lineHeight: 1.5, resize: 'vertical', boxSizing: 'border-box', marginBottom: 10 }}
             />
             {error && (
               <div style={{ fontSize: 12, color: '#ff8080', marginBottom: 10 }}>{error}</div>

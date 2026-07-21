@@ -22,6 +22,14 @@ export function hapticMedium() {
   return safeHaptic(() => Haptics.impact({ style: ImpactStyle.Medium }));
 }
 
+// Strongest impact -- reserved for the last of the three lightning strikes
+// on the recipe-complete celebration (see RecipeModal's goNextCookPage),
+// so the sequence visibly/physically escalates rather than repeating the
+// same tap three times.
+export function hapticHeavy() {
+  return safeHaptic(() => Haptics.impact({ style: ImpactStyle.Heavy }));
+}
+
 // iOS's "selection changed" tick -- toggles and picks within a group
 // (pantry staples, star/save).
 export function hapticSelection() {
