@@ -296,6 +296,50 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
   .ingredient-highlight{animation:action-word-shimmer 3s linear infinite;}
 }
 
+/* NEW BADGE: marks recently-added recipes (recipes.js `isNew`) in Browse/
+   Kitchen/Saved rows and on the recipe modal itself -- same gold shimmer
+   gradient + Baloo 2 treatment as .action-word/.ingredient-highlight so it
+   reads as part of the same "gold = QuickPrep accent" visual language
+   rather than a generic UI badge. Small caps-style tracking and a thin
+   gold border give it enough shape to read as a tag even though the fill
+   itself is a transparent text-gradient, not a solid background. */
+.new-badge{
+  display:inline-flex;
+  align-items:center;
+  padding:2px 8px;
+  border-radius:100px;
+  border:1px solid rgba(255,201,51,.45);
+  background:rgba(255,201,51,.08);
+  font-family:'Baloo 2',sans-serif;
+  font-weight:800;
+  font-size:10.5px;
+  letter-spacing:.6px;
+  text-transform:uppercase;
+  background-image:linear-gradient(90deg, #e6a400 0%, #fff2a8 25%, #ffcc33 50%, #fff2a8 75%, #e6a400 100%);
+  background-size:250% 100%;
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  -webkit-text-fill-color:transparent;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .new-badge{animation:action-word-shimmer 3s linear infinite;}
+}
+
+/* "I made this recipe" checkbox label, on the closing rating page -- this
+   is the one control that unlocks rating/photo/finishing, so it needs to
+   stand out from the plain Manrope body copy around it instead of reading
+   as just another line of fine print someone's eye skips past. Solid gold
+   (not the shimmer gradient above -- this is a persistent label someone
+   reads and acts on, not a momentary highlight) in the app's playful
+   Baloo 2, a size step up from the surrounding text. */
+.made-it-label{
+  font-family:'Baloo 2',sans-serif;
+  font-weight:700;
+  font-size:15px;
+  color:var(--gold);
+}
+
 /* INSTRUCTION CLAUSES: a step's sentence-like clauses (see
    utils/instructionClauses.js + components/InstructionText.jsx), each on
    its own line instead of one solid paragraph -- stair-stepped with a

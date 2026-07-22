@@ -330,14 +330,18 @@ export default function Kitchen({
                       onClick={() => openRecipe(r)}
                     >
                       {isHero && <OnboardingFinishSparkles />}
-                      <div style={{ fontWeight: 700, fontSize: isHero ? 18 : 15, color: 'var(--cream)', marginBottom: 4 }}>
+                      <div style={{ fontWeight: 700, fontSize: isHero ? 18 : 15, color: 'var(--cream)', marginBottom: 4, display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
                         {r.name}
+                        {r.isNew && <span className="new-badge">New</span>}
                       </div>
                       <div style={{ fontSize: 11, color: 'var(--muted)', display: 'flex', alignItems: 'center', gap: 5, flexWrap: 'wrap' }}>
                         <span>
                           {r.method}{r.method && r.activeTime ? ' · ' : ''}{formatTime(r.activeTime, r.totalTime)}
-                          {getRatingSummary && getRatingSummary(r.id) && (
-                            <> · ★ {getRatingSummary(r.id).avg.toFixed(1)} ({getRatingSummary(r.id).count})</>
+                          {' · '}
+                          {getRatingSummary && getRatingSummary(r.id) ? (
+                            <><span style={{ color: 'var(--gold)' }}>★</span> {getRatingSummary(r.id).avg.toFixed(1)} ({getRatingSummary(r.id).count})</>
+                          ) : (
+                            'No ratings yet'
                           )}
                         </span>
                         <span>·</span>

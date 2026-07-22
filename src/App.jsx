@@ -968,10 +968,12 @@ export default function App() {
           ratingSummary={getRatingSummary(openRecipe.id)}
           myRatingEntry={getMyRatingEntry(openRecipe.id)}
           onRate={rateRecipe}
+          getRatingSummary={getRatingSummary}
           getPhotoSignedUrl={getPhotoSignedUrl}
           onAddToDiary={handleAddToDiary}
           onFavoriteAutoSaved={() => showToast('★ Saved to Favorites')}
           isSurprise={openRecipeSurprise}
+          onSwitchRecipe={(sibling) => handleOpenRecipe(sibling)}
         />
       )}
 

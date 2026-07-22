@@ -245,13 +245,17 @@ export default function Saved({
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <div style={{ flex: 1 }}>
-            <div style={{ fontWeight: 700, fontSize: 15, color: 'var(--cream)', marginBottom: 2 }}>
+            <div style={{ fontWeight: 700, fontSize: 15, color: 'var(--cream)', marginBottom: 2, display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
               {r.name}
+              {r.isNew && <span className="new-badge">New</span>}
             </div>
             <div style={{ fontSize: 11, color: 'var(--muted)' }}>
               {r.method}{r.method && r.activeTime ? ' · ' : ''}{formatTime(r.activeTime, r.totalTime)}
-              {getRatingSummary && getRatingSummary(r.id) && (
-                <> · ★ {getRatingSummary(r.id).avg.toFixed(1)} ({getRatingSummary(r.id).count})</>
+              {' · '}
+              {getRatingSummary && getRatingSummary(r.id) ? (
+                <><span style={{ color: 'var(--gold)' }}>★</span> {getRatingSummary(r.id).avg.toFixed(1)} ({getRatingSummary(r.id).count})</>
+              ) : (
+                'No ratings yet'
               )}
             </div>
             {(hasNotes || stepNoteEntries.length > 0 || hasOverrides) && (

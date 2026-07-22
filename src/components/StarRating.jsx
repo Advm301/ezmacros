@@ -3,7 +3,11 @@ import { useState } from 'react';
 // A row of 5 tappable stars. In interactive mode (readOnly=false, onRate
 // provided) it reflects hover state and calls onRate(1-5) on click. In
 // read-only mode it just renders `value` filled stars (rounded) for
-// displaying the community average.
+// displaying the community average. Filled stars use the app's gold/
+// metallic accent (--gold) rather than --lime (which, despite the name, is
+// actually white) -- ratings are meant to read as a distinct "gold star"
+// moment, matching the Favorites star and the rest of the gold badge/tag
+// language used across the app.
 export default function StarRating({ value = 0, onRate, size = 20, readOnly = false }) {
   const [hoverValue, setHoverValue] = useState(0);
   const display = readOnly ? Math.round(value) : (hoverValue || value);
@@ -20,7 +24,7 @@ export default function StarRating({ value = 0, onRate, size = 20, readOnly = fa
             fontSize: size,
             lineHeight: 1,
             cursor: readOnly ? 'default' : 'pointer',
-            color: n <= display ? 'var(--lime)' : 'var(--muted)',
+            color: n <= display ? 'var(--gold)' : 'var(--muted)',
             transition: 'color 0.1s ease',
             userSelect: 'none',
           }}

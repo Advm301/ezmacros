@@ -18,6 +18,7 @@ import InstructionText from './InstructionText';
 import InfoIcon from './InfoIcon';
 import RecipeTutorial from './RecipeTutorial';
 import useFirstVisitTip from '../hooks/useFirstVisitTip';
+import { getVariationSiblings, getVariationProteinLabel } from '../utils/recipeVariations';
 
 const GRAMS_PER_OZ = 28.3495;
 const ML_PER_FLOZ = 29.5735;
@@ -348,6 +349,10 @@ export default function RecipeModal({
   ratingSummary,
   myRatingEntry,
   onRate,
+  // Used only by the Variations picker below, to show each sibling
+  // recipe's own rating summary (not just the currently-open recipe's,
+  // which is what the plain `ratingSummary` prop above already covers).
+  getRatingSummary,
   getPhotoSignedUrl,
   onAddToDiary,
   // Fired (with no args) the moment rating this recipe also auto-saves it
@@ -368,6 +373,12 @@ export default function RecipeModal({
   // which read as generic and off-brand for what's meant to be this app's
   // one flashy "magic" moment.
   isSurprise = false,
+  // Lets the decide screen's Variations picker (see showVariations state
+  // below) hand a sibling recipe back up to App.jsx, which reopens the
+  // modal with it -- same path as an ordinary Browse tap (handleOpenRecipe),
+  // so this component just remounts fresh with the new recipe rather than
+  // needing any special "switch in place" logic of its own.
+  onSwitchRecipe,
 }) {
   // Rendered with key={recipe.id} by the parent, so this component remounts
   // fresh (and all local state below resets naturally, including `screen`)
@@ -428,6 +439,17 @@ export default function RecipeModal({
   const [diaryError, setDiaryError] = useState('');
   const [addingToDiary, setAddingToDiary] = useState(false);
   const [showAllSteps, setShowAllSteps] = useState(false);
+  // Variations picker (decide screen only) -- lists sibling recipes that
+  // share this recipe's variationGroup (see utils/recipeVariations.js), so
+  // someone can swap "Saucy Tomato Chicken Bowl" for the beef version
+  // without leaving the modal and re-searching Browse.
+  const [showVariations, setShowVariations] = useState(false);
+  // Soft-block interstitial shown when someone taps Finish on the closing
+  // rating page without having actually rated the recipe -- see
+  // goNextCookPage. Not a hard block: "Finish Without Rating" still works,
+  // this is just a friendly nudge so an unrated Finish is a deliberate
+  // choice rather than an accidental miss.
+  const [showRateNudge, setShowRateNudge] = useState(false);
   // "How many servings am I actually making" -- lets someone match the
   // recipe to how much protein they actually have/bought (e.g. a 4-serving
   // recipe scaled down to 3 for a 1lb package, or a single-serving chicken
@@ -561,6 +583,11 @@ export default function RecipeModal({
   const r = recipe;
   const saved = isSaved ? isSaved(r.id) : false;
   const alreadyRated = Boolean(myRatingEntry?.rating);
+  // Sibling recipes sharing this one's variationGroup (same base dish,
+  // different protein) -- excludes the recipe currently open, so an empty
+  // array here means "no real alternatives" and the Variations button just
+  // doesn't render (see decide screen header below).
+  const variationSiblings = getVariationSiblings(r).filter((s) => s.id !== r.id);
 
   // How much bigger/smaller than the recipe's own written amount the
   // chosen serving count is -- 1 when scaleServings matches r.servings (the
@@ -739,6 +766,21 @@ export default function RecipeModal({
     }
   };
 
+  // The two ways out of the rate-nudge popup (see showRateNudge): either
+  // dismiss it and go rate right there on the same screen (just opens the
+  // star row via madeIt -- someone still has to actually tap a star), or
+  // skip it entirely and finish as originally intended.
+  const rateNowFromNudge = () => {
+    hapticLight();
+    setShowRateNudge(false);
+    setMadeIt(true);
+  };
+  const finishWithoutRating = () => {
+    hapticLight();
+    setShowRateNudge(false);
+    (onFinish || onClose)();
+  };
+
   const handlePhotoChange = (e) => {
     const file = e.target.files && e.target.files[0];
     if (!file || alreadyRated) return;
@@ -808,6 +850,14 @@ export default function RecipeModal({
           showMotivation(cookStep + 1, instructions.length);
         }
       }
+    } else if (onRate && !alreadyRated) {
+      // Tapping Finish having never actually rated this recipe -- rather
+      // than silently closing (easy to do without noticing, especially
+      // since the star row only appears once "I made this recipe" is
+      // checked), show a one-time nudge popup. Still fully skippable via
+      // "Finish Without Rating" in that popup -- see renderRateNudge --
+      // this is a nudge, not a hard requirement.
+      setShowRateNudge(true);
     } else {
       // Finish, on the closing rating page -- distinct from the plain
       // "✕ Close" button/backdrop (which always just calls onClose). If
@@ -966,7 +1016,7 @@ export default function RecipeModal({
               onChange={(e) => setMadeIt(e.target.checked)}
               style={{ width: 18, height: 18, cursor: 'pointer' }}
             />
-            <span style={{ fontSize: 13, color: 'var(--cream)' }}>I made this recipe</span>
+            <span className="made-it-label">I made this recipe</span>
           </label>
 
           {madeIt && (
@@ -1264,8 +1314,9 @@ export default function RecipeModal({
         )}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
           <div style={{ flex: 1 }}>
-            <div style={{ fontFamily: "'Manrope',sans-serif", fontSize: 22, fontWeight: 800, marginBottom: 4 }}>
+            <div style={{ fontFamily: "'Manrope',sans-serif", fontSize: 22, fontWeight: 800, marginBottom: 4, display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
               <span style={{ color: 'var(--cream)' }}>{r.name}</span>
+              {r.isNew && <span className="new-badge">New</span>}
             </div>
             {(r.method || r.activeTime) && (
               <div style={{ fontSize: 12, color: 'var(--muted)' }}>
@@ -1280,6 +1331,19 @@ export default function RecipeModal({
                 {' · '}Serves {scaleServings}
               </div>
             )}
+            {/* Rating summary right up front on the decide screen -- this
+                used to only show on the closing "how'd it go" page, which
+                meant the one bit of social proof most useful BEFORE
+                deciding to cook something ("is this actually good?") was
+                only visible AFTER you'd already committed to making it. */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 6 }}>
+              <StarRating value={ratingSummary?.avg || 0} readOnly size={13} />
+              <span style={{ fontSize: 11, color: 'var(--muted)' }}>
+                {ratingSummary
+                  ? `${ratingSummary.avg.toFixed(1)} (${ratingSummary.count} rating${ratingSummary.count === 1 ? '' : 's'})`
+                  : 'No ratings yet'}
+              </span>
+            </div>
             {/* Quick Prep gauge -- 1-3 bolts showing effort relative to the
                 rest of the app (see EffortGauge/utils/effortLevel.js). Shown
                 with its label here (unlike the compact version on Browse/
@@ -1291,6 +1355,22 @@ export default function RecipeModal({
             {scaleServings > 1 && (
               <div style={{ marginTop: 6 }}>
                 <span className="ezb pkg">📦 Meal Prep · Makes {scaleServings}</span>
+              </div>
+            )}
+            {/* Variations -- only shown for recipes that are part of a
+                reskinned family (see recipes.js variationGroup +
+                utils/recipeVariations.js). Opens a small picker listing the
+                sibling proteins so switching, e.g., "Saucy Tomato Chicken
+                Bowl" to the beef version doesn't mean leaving the modal and
+                re-searching Browse. */}
+            {onSwitchRecipe && variationSiblings.length > 0 && (
+              <div style={{ marginTop: 8 }}>
+                <button
+                  onClick={() => { hapticLight(); setShowVariations(true); }}
+                  style={{ background: 'var(--s2)', border: '1px solid var(--border)', color: 'var(--cream)', borderRadius: 100, padding: '5px 12px', fontSize: 12, fontWeight: 700, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 5 }}
+                >
+                  🔀 {variationSiblings.length + 1} Variations
+                </button>
               </div>
             )}
           </div>
@@ -1766,6 +1846,92 @@ export default function RecipeModal({
                 Close
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {showVariations && (
+        <div
+          onClick={(e) => { e.stopPropagation(); setShowVariations(false); }}
+          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,.75)', zIndex: 110, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20, boxSizing: 'border-box' }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{ background: 'var(--bg)', width: '100%', maxWidth: 400, maxHeight: '80vh', overflowY: 'auto', borderRadius: 20, border: '1px solid var(--border)', padding: '18px 18px 16px', boxSizing: 'border-box' }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
+              <div className="h1" style={{ marginBottom: 0, fontSize: 18 }}>Variations</div>
+              <div onClick={() => setShowVariations(false)} style={{ fontSize: 20, color: 'var(--muted)', cursor: 'pointer', padding: 4 }}>
+                ✕
+              </div>
+            </div>
+            <div style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 14 }}>
+              {r.variationLabel || 'Same dish'}, made with a different protein.
+            </div>
+            {[r, ...variationSiblings].map((v) => {
+              const isCurrent = v.id === r.id;
+              const vRating = getRatingSummary ? getRatingSummary(v.id) : null;
+              return (
+                <div
+                  key={v.id}
+                  onClick={() => {
+                    if (isCurrent) return;
+                    hapticSelection();
+                    setShowVariations(false);
+                    onSwitchRecipe(v);
+                  }}
+                  style={{
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10,
+                    background: isCurrent ? 'var(--s2)' : 'var(--s1)',
+                    border: isCurrent ? '1px solid var(--lime)' : '1px solid var(--border)',
+                    borderRadius: 12, padding: 12, marginBottom: 8,
+                    cursor: isCurrent ? 'default' : 'pointer',
+                  }}
+                >
+                  <div>
+                    <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--cream)' }}>
+                      {getVariationProteinLabel(v)}
+                      {isCurrent && <span style={{ color: 'var(--muted)', fontWeight: 600 }}> · Viewing</span>}
+                    </div>
+                    <div style={{ fontSize: 11, color: 'var(--muted)', marginTop: 2, display: 'flex', alignItems: 'center', gap: 5 }}>
+                      <StarRating value={vRating?.avg || 0} readOnly size={11} />
+                      {vRating ? `${vRating.avg.toFixed(1)} (${vRating.count})` : 'No ratings yet'}
+                    </div>
+                  </div>
+                  {!isCurrent && <span style={{ color: 'var(--muted)', fontSize: 18 }}>›</span>}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {showRateNudge && (
+        <div
+          onClick={(e) => e.stopPropagation()}
+          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,.75)', zIndex: 120, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20, boxSizing: 'border-box' }}
+        >
+          <div style={{ background: 'var(--bg)', width: '100%', maxWidth: 380, borderRadius: 20, border: '1px solid rgba(255,201,51,.4)', padding: '22px 20px', boxSizing: 'border-box', textAlign: 'center' }}>
+            <div style={{ fontSize: 32, marginBottom: 8 }}>⭐</div>
+            <div className="made-it-label" style={{ fontSize: 18, marginBottom: 6 }}>
+              Did you make this recipe?
+            </div>
+            <div style={{ fontSize: 13, color: 'var(--muted)', lineHeight: 1.5, marginBottom: 18 }}>
+              Please rate it so others can see how it went -- it only takes a second.
+            </div>
+            <button
+              className="gen-kitchen-btn"
+              style={{ marginBottom: 8 }}
+              onClick={rateNowFromNudge}
+            >
+              Rate It Now
+            </button>
+            <button
+              onClick={finishWithoutRating}
+              style={{ width: '100%', background: 'transparent', border: 'none', color: 'var(--muted)', fontSize: 13, textDecoration: 'underline', cursor: 'pointer', padding: 8 }}
+            >
+              Finish Without Rating
+            </button>
           </div>
         </div>
       )}
