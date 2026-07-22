@@ -1348,7 +1348,7 @@ export const RECIPES = [
   },
   {
     "name": "Salmon Poke Bowl",
-    "description": "A no-cook, poke-inspired smoked salmon bowl with rice, edamame, and a savory soy-mayo drizzle.",
+    "description": "A no-cook, poke-inspired smoked salmon bowl marinated in a classic soy-sesame-rice vinegar sauce, served over rice with edamame.",
     "id": 25,
     "method": "No Cook",
     "mealType": "lunch_dinner",
@@ -1357,14 +1357,14 @@ export const RECIPES = [
       "fish"
     ],
     "flavor": "neutral",
-    "activeTime": 3,
+    "activeTime": 4,
     "tags": [
       "high_protein",
       "grab_and_go"
     ],
     "components": [
       {
-        "name": "Smoked Salmon Pouch (drained, 6 oz)",
+        "name": "Smoked Salmon Pouch (drained, 6 oz, flaked or cubed)",
         "quantity": 170,
         "unit": "g"
       },
@@ -1374,14 +1374,19 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Mayo (2 tbsp)",
+        "name": "Low-Sodium Soy Sauce (2 tbsp)",
         "quantity": 30,
-        "unit": "g"
+        "unit": "ml"
       },
       {
-        "name": "Low-Sodium Soy Sauce (1 tbsp)",
-        "quantity": 15,
+        "name": "Toasted Sesame Oil (1 tsp)",
+        "quantity": 5,
         "unit": "ml"
+      },
+      {
+        "name": "Rice Vinegar (1 tsp)",
+        "quantity": 5,
+        "unit": "g"
       },
       {
         "name": "Frozen Edamame (steam-bag)",
@@ -1391,13 +1396,16 @@ export const RECIPES = [
     ],
     "toppings": [
       "Sesame Seeds",
-      "Nori Strips"
+      "Nori Strips",
+      "Green Onion (dried)",
+      "Spicy Mayo (mayo + sriracha, if available)"
     ],
     "instructions": [
       "Microwave rice 90 sec. Microwave edamame 3 min. Thaw salmon 1 min if frozen.",
-      "Mix mayo + soy sauce. Build bowl with salmon on rice. Toppings separate."
+      "Whisk soy sauce, sesame oil, and rice vinegar in a bowl. Add flaked salmon and toss to coat -- this is the real poke-style marinade, so let it sit 2-3 min while the rice and edamame finish if you have time.",
+      "Build bowl with marinated salmon on rice and edamame. Toppings separate."
     ],
-    "totalTime": 3,
+    "totalTime": 4,
     "pantryTags": [
       "canned_fish",
       "frozen_veg",
@@ -1786,7 +1794,7 @@ export const RECIPES = [
   },
   {
     "name": "Tuna Pasta Salad",
-    "description": "A no-cook, high-protein chickpea pasta salad with tuna, mayo, and mustard.",
+    "description": "A no-cook, high-protein chickpea pasta salad with tuna in a creamy Greek yogurt-mayo dressing with celery, dill, and lemon.",
     "id": 32,
     "method": "No Cook",
     "mealType": "lunch_dinner",
@@ -1796,7 +1804,7 @@ export const RECIPES = [
       "fish"
     ],
     "flavor": "neutral",
-    "activeTime": 4,
+    "activeTime": 5,
     "tags": [
       "high_protein",
       "grab_and_go"
@@ -1813,30 +1821,47 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Light Mayo (2 tbsp)",
+        "name": "Nonfat Greek Yogurt (2 tbsp)",
         "quantity": 30,
         "unit": "g"
       },
       {
-        "name": "Yellow Mustard (2 tsp)",
-        "quantity": 10,
+        "name": "Light Mayo (1 tbsp)",
+        "quantity": 15,
         "unit": "g"
+      },
+      {
+        "name": "Dijon Mustard (1 tsp)",
+        "quantity": 5,
+        "unit": "g"
+      },
+      {
+        "name": "Pre-Cut Celery (diced, ⅓ cup)",
+        "quantity": 40,
+        "unit": "g"
+      },
+      {
+        "name": "Lemon Juice (1 tsp)",
+        "quantity": 5,
+        "unit": "ml"
       }
     ],
     "toppings": [
-      "Celery Powder",
+      "Fresh Dill (or ¼ tsp dried)",
+      "Red Onion (finely diced, if available)",
       "Black Pepper"
     ],
     "instructions": [
-      "Combine cooked pasta + drained tuna in bowl.",
-      "Mix mayo + mustard. Fold into pasta. Season to taste."
+      "Combine cooked pasta + drained tuna + diced celery in bowl.",
+      "Whisk Greek yogurt, mayo, Dijon, and lemon juice together -- the yogurt keeps this creamy without drowning it in mayo. Fold into the pasta and season to taste."
     ],
-    "totalTime": 4,
+    "totalTime": 5,
     "pantryTags": [
       "canned_fish",
       "mayo",
       "mustard",
-      "pasta"
+      "pasta",
+      "greek_yogurt"
     ]
   },
   {
@@ -4478,7 +4503,7 @@ export const RECIPES = [
   },
   {
     "name": "High Protein Sushi Bake",
-    "description": "A baked, sushi-inspired rice bowl with imitation crab, spicy mayo, and melted mozzarella.",
+    "description": "A baked, sushi-inspired rice casserole with a creamy spicy crab-and-cream-cheese layer and melted mozzarella, scooped up with nori.",
     "id": 77,
     "method": "Bake",
     "mealType": "lunch_dinner",
@@ -4487,7 +4512,7 @@ export const RECIPES = [
       "fish"
     ],
     "flavor": "spicy",
-    "activeTime": 6,
+    "activeTime": 7,
     "components": [
       {
         "name": "White Rice Pouch (cooked)",
@@ -4495,13 +4520,23 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Imitation Crab (package, 6 oz)",
+        "name": "Rice Vinegar (1 tsp)",
+        "quantity": 5,
+        "unit": "g"
+      },
+      {
+        "name": "Imitation Crab (package, 6 oz, shredded)",
         "quantity": 170,
         "unit": "g"
       },
       {
-        "name": "Mayo (3 tbsp)",
-        "quantity": 45,
+        "name": "Cream Cheese (2 tbsp, softened)",
+        "quantity": 30,
+        "unit": "g"
+      },
+      {
+        "name": "Mayo (2 tbsp)",
+        "quantity": 30,
         "unit": "g"
       },
       {
@@ -4521,17 +4556,20 @@ export const RECIPES = [
       }
     ],
     "toppings": [
+      "Nori Sheets (for scooping)",
       "Pre-Cut Cucumber Rounds",
+      "Furikake (if available)",
       "Extra Sriracha"
     ],
     "instructions": [
-      "Mix cooked rice with mayo + soy sauce + sriracha. Spread half in baking dish.",
-      "Layer crab, then remaining rice mixture. Top with mozzarella.",
-      "Bake 375°F for 15 min until cheese melts. Top with cucumber + extra sriracha."
+      "Stir rice vinegar through the cooked rice. Press half into a small baking dish.",
+      "Mix shredded crab with cream cheese, mayo, soy sauce, and sriracha until creamy -- this is the real sushi-bake filling, not just seasoned rice. Layer over the rice, then top with remaining rice and the mozzarella.",
+      "Bake 375°F for 15 min until the cheese melts and the top is bubbling. Top with cucumber + extra sriracha. Scoop onto nori sheets to eat, sushi-hand-roll style, if using."
     ],
-    "totalTime": 21,
+    "totalTime": 22,
     "pantryTags": [
       "cheese",
+      "cream_cheese",
       "hot_sauce",
       "mayo",
       "rice",
