@@ -39,9 +39,19 @@ const FRESH_ALT_HINTS = [
     // explicitly called out alongside frozen veg in the original feedback
     // this feature is based on.
     nameMatch: /rice pouch/i,
-    stepMatch: /rice pouch/i,
+    // Broader than "rice pouch" on purpose -- plenty of recipes' actual
+    // instruction steps just say "Microwave rice 90 sec" or "build bowl
+    // with rice" without ever repeating the word "pouch" (the component
+    // list is what confirms it's the pouch/convenience version; this only
+    // needs to find a step that's *about* rice at all). Safe to be this
+    // broad since nameMatch has already confirmed the recipe actually has
+    // a rice-pouch component before this is ever checked.
+    stepMatch: /\brice\b/i,
     freshName: 'Rice (freshly cooked)',
-    note: 'Using freshly-cooked rice instead? Rice cooker, stovetop, whatever you normally use -- about the same amount as the pouch calls for.',
+    // Real stovetop instructions, not just "use about the same amount" --
+    // most people don't own a rice cooker, so that's the default method
+    // spelled out here rather than assumed.
+    note: 'Using freshly-cooked rice instead of the pouch? Stovetop method: 1 part rice to 1½–2 parts water in a pot, bring to a boil, cover, turn to low, and simmer 15–18 min until the water\'s absorbed. Rest covered off the heat for 5 min, then fluff with a fork. Use about the same amount as the pouch calls for.',
   },
   {
     nameMatch: /sweet potato noodle|spiraliz/i,

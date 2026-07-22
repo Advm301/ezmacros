@@ -620,13 +620,24 @@ export default function RecipeModal({
     components.forEach((c) => {
       const hint = freshAltByComponent.get(c.name);
       if (!hint) return;
+      let attachedTo = -1;
       for (let i = 0; i < instructions.length; i++) {
         if (hint.stepMatch.test(instructions[i].text)) {
-          if (!freshAltByStep.has(i)) freshAltByStep.set(i, []);
-          freshAltByStep.get(i).push(hint.note);
+          attachedTo = i;
           break;
         }
       }
+      // Falls back to the last step rather than dropping the note
+      // entirely if stepMatch doesn't find a hit anywhere -- a recipe
+      // whose instructions never spell out prepping this ingredient (it's
+      // just a component the "build bowl" step assumes) shouldn't mean
+      // someone who explicitly turned Prefer Fresh on never finds out how
+      // to actually make the fresh version. The last step (usually
+      // "build/assemble/serve") is the safest catch-all landing spot.
+      if (attachedTo === -1 && instructions.length > 0) attachedTo = instructions.length - 1;
+      if (attachedTo === -1) return;
+      if (!freshAltByStep.has(attachedTo)) freshAltByStep.set(attachedTo, []);
+      freshAltByStep.get(attachedTo).push(hint.note);
     });
   }
 
