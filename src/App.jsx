@@ -429,6 +429,7 @@ export default function App() {
     updateIngredientOverride,
     updateInstructionOverride,
     updateStepNote,
+    resetAll: resetSavedRecipesState,
   } = useSavedRecipes();
   const { getRatingSummary, getMyRatingEntry, rateRecipe, getPhotoSignedUrl } = useRecipeRatings(session?.user?.id);
   const diary = useDiary(session?.user?.id);
@@ -468,15 +469,24 @@ export default function App() {
   //
   // If this account hasn't completed onboarding, this device has never
   // legitimately dismissed anything AS this account -- any "seen it" tip/
-  // tutorial flag, or any Kitchen search/Diary highlight, still sitting in
-  // localStorage/state at this point must be left over from a *different*
-  // account (whatever this device had before, deleted or not). Wiping them
-  // right here -- the one place every genuine session resolution passes
-  // through -- is the reliable version of the cleanup handleDeleteAccount
-  // also does on its own: that one only fires if delete-account's specific
-  // code path runs uninterrupted, and only covers an account deleted via
-  // this exact device, not e.g. a different person signing up fresh on a
-  // shared device. This covers both, unconditionally, every time.
+  // tutorial flag, saved Favorite/customization, or Kitchen search/Diary
+  // highlight still sitting in localStorage/state at this point must be
+  // left over from a *different* account (whatever this device had
+  // before, deleted or not). Wiping them right here -- the one place
+  // every genuine session resolution passes through -- is the reliable
+  // version of the cleanup handleDeleteAccount also does on its own: that
+  // one only fires if delete-account's specific code path runs
+  // uninterrupted, and only covers an account deleted via this exact
+  // device, not e.g. a different person signing up fresh on a shared
+  // device. This covers both, unconditionally, every time.
+  //
+  // resetSavedRecipesState (see useSavedRecipes' resetAll) is the one
+  // that actually fixed favorites surviving a delete -- useSavedRecipes
+  // seeds its state from a module-level cache read once per page load, so
+  // App.jsx's own localStorage.removeItem calls on delete were clearing
+  // the *storage* but leaving the *already-loaded-into-memory* favorites
+  // list untouched, which then just got written straight back out to
+  // localStorage the next time anything else changed it.
   const resetDeviceLocalAccountState = () => {
     try {
       FIRST_VISIT_TIP_KEYS.forEach((key) => localStorage.removeItem(key));
@@ -489,6 +499,7 @@ export default function App() {
     setKitchenResults(null);
     setKitchenJustOnboarded(false);
     setOnboardingHighlightedEntryIds([]);
+    resetSavedRecipesState();
   };
 
   const applySession = (currentSession, { resetSplash = false } = {}) => {
@@ -546,15 +557,18 @@ export default function App() {
   // Calls the delete-account Edge Function, which removes the user's diary
   // entries, ratings, and uploaded photos server-side before deleting the
   // auth account itself. Everything else this account touched on THIS
-  // device is local-only (localStorage), so it's cleared here rather than
-  // server-side -- saved recipes/customizations and this account's own
-  // onboarded flag (see onboardedKeyFor above) are specific to THIS
-  // deletion, so they're cleared right here; the rest (Kitchen's last
-  // search, Diary's onboarding highlight, every first-visit tip/tutorial
-  // flag) is handled by resetDeviceLocalAccountState above instead of
-  // being duplicated here -- that one is the reliable version anyway,
-  // since it also runs the moment the NEXT sign-in resolves to a not-yet-
-  // onboarded account, regardless of whether this function got to finish.
+  // device is local-only, so it's cleared here rather than server-side --
+  // the localStorage keys for saved recipes/customizations and this
+  // account's own onboarded flag (see onboardedKeyFor above) are cleared
+  // directly below (redundant with, but harmless alongside,
+  // resetDeviceLocalAccountState's own resetSavedRecipesState() call,
+  // which is what actually resets the in-memory favorites/customizations
+  // state -- see useSavedRecipes' resetAll). Everything else (Kitchen's
+  // last search, Diary's onboarding highlight, every first-visit tip/
+  // tutorial flag) is handled entirely by resetDeviceLocalAccountState,
+  // which is also the reliable version regardless: it runs again the
+  // moment the NEXT sign-in resolves to a not-yet-onboarded account, even
+  // if this function itself never got to finish.
   const handleDeleteAccount = async () => {
     const confirmed = window.confirm(
       "This permanently deletes your account, diary, ratings, and any photos you've uploaded. This can't be undone. Continue?"

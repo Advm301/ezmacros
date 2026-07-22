@@ -106,6 +106,22 @@ export default function useSavedRecipes() {
 
   const getEntry = (id) => customizations[id] || null;
 
+  // Wipes both stores back to empty -- both in this hook's own React state
+  // AND (via the two effects above, which fire right after) localStorage.
+  // Needed alongside App.jsx's own localStorage.removeItem(SAVED_KEY)/
+  // (CUSTOM_KEY) calls on account deletion, not instead of them: this hook
+  // is only ever instantiated once for the whole app session (App.jsx
+  // never remounts), and its initial state is seeded from a *module-level*
+  // cache (see cachedInitial/loadInitialState above) that only ever reads
+  // localStorage once per page load -- so clearing localStorage alone,
+  // without this, left a deleted account's favorites/customizations
+  // sitting in memory and got written straight back out to localStorage
+  // again by these same effects the next time either state changed.
+  const resetAll = () => {
+    setSaved({});
+    setCustomizations({});
+  };
+
   // None of the four update* functions below auto-save any more (see the
   // comment above useSavedRecipes) -- they only ever touch `customizations`,
   // never `saved`. Editing an ingredient/instruction, jotting a note, or
@@ -160,5 +176,6 @@ export default function useSavedRecipes() {
     updateIngredientOverride,
     updateInstructionOverride,
     updateStepNote,
+    resetAll,
   };
 }
