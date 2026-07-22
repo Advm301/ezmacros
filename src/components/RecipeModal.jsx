@@ -1855,15 +1855,33 @@ export default function RecipeModal({
                         style={{ flex: 1, background: 'var(--s2)', border: '1px solid var(--border)', borderRadius: 8, padding: 8, color: 'var(--cream)', fontSize: 13, fontFamily: "'Manrope',sans-serif", lineHeight: 1.5, resize: 'vertical', minHeight: 50 }}
                       />
                     ) : (
-                      <div
-                        onClick={() => startEditingStep(i, step.text)}
-                        style={{
-                          fontSize: 14, lineHeight: 1.5, cursor: 'pointer', flex: 1,
-                          color: done ? 'var(--muted)' : (step.edited ? 'var(--lime)' : 'var(--cream)'),
-                          textDecoration: done ? 'line-through' : 'none',
-                        }}
-                      >
-                        {done ? step.text : <InstructionText text={step.text} />}
+                      <div style={{ flex: 1 }}>
+                        <div
+                          onClick={() => startEditingStep(i, step.text)}
+                          style={{
+                            fontSize: 14, lineHeight: 1.5, cursor: 'pointer',
+                            color: done ? 'var(--muted)' : (step.edited ? 'var(--lime)' : 'var(--cream)'),
+                            textDecoration: done ? 'line-through' : 'none',
+                          }}
+                        >
+                          {done ? step.text : <InstructionText text={step.text} />}
+                        </div>
+                        {/* Prefer Fresh substitution notes (see
+                            freshAltByStep above) -- shown here too, not
+                            just in the main cook-wizard step-by-step flow,
+                            so switching to "View All Steps" doesn't lose
+                            the one piece of guidance that explains why an
+                            ingredient in the list no longer matches what
+                            this step still describes. */}
+                        {(freshAltByStep.get(i) || []).map((note, ni) => (
+                          <div
+                            key={ni}
+                            style={{ marginTop: 8, display: 'flex', alignItems: 'flex-start', gap: 7, background: 'rgba(127,163,99,.14)', border: '1px solid rgba(127,163,99,.32)', borderRadius: 10, padding: '8px 10px', fontSize: 12, color: '#9bc47d', lineHeight: 1.5 }}
+                          >
+                            <LeafIcon size={13} />
+                            <span>{note}</span>
+                          </div>
+                        ))}
                       </div>
                     )}
                   </div>

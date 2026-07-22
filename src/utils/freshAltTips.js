@@ -1,9 +1,18 @@
 // Frozen, pre-cut convenience produce (steam-bag broccoli, bagged diced
-// sweet potato, etc.) saves the peeling/dicing/chopping labor that fresh
-// versions of the same ingredient require. Some people prefer to buy fresh
-// and do that prep themselves -- this maps a component name to a short,
-// supportive note on how to substitute fresh for frozen, shown in the cook
-// wizard right where that ingredient comes into play.
+// sweet potato, etc.) saves the peeling/dicing/chopping labor AND comes
+// with its own built-in cook time (the "microwave 3 min" on the bag) that
+// fresh produce doesn't have -- so a real substitution note needs to cover
+// both: how to prep it, and how to actually cook it, not just the prep.
+// Recipe instruction steps themselves stay written for the convenience
+// version (rewriting every recipe that shares a "microwave rice pouch 90
+// sec + steam-bag broccoli 3 min"-style combined step would mean editing
+// dozens of recipes for one shared ingredient), so each note here is
+// written to be a complete, self-contained replacement for whatever the
+// step still says about that item -- explicitly calling out that it's
+// swapping out the step's own microwave/steam-bag line, not just adding a
+// prep tip on top of instructions that still assume the convenience
+// version. Shown in the cook wizard right where that ingredient comes into
+// play.
 //
 // Each hint carries two regexes: `nameMatch` identifies the component itself
 // (checked against the ingredient's name), and `stepMatch` finds which
@@ -57,43 +66,54 @@ const FRESH_ALT_HINTS = [
     nameMatch: /sweet potato noodle|spiraliz/i,
     stepMatch: /sweet potato noodle|zoodle|spiraliz/i,
     freshName: 'Sweet Potato (fresh, spiralized)',
-    note: 'Using a fresh sweet potato instead? Spiralize it into noodles (or julienne thin with a knife) first.',
+    // Every note below follows the same shape the rice one above does --
+    // real method + real time, and calls out that it's meant to replace
+    // whatever the step above says about the microwave pouch/steam-bag,
+    // not just a prep tip layered on top of instructions that still
+    // describe the convenience version. Matches how someone would actually
+    // cook the fresh version quickly at home, using the same appliance the
+    // recipe already reaches for wherever that's still the fastest option.
+    note: "Using a fresh sweet potato instead of the noodle pouch? The step above still says to microwave the pouch -- swap that for: spiralize the sweet potato into noodles (or julienne thin with a knife), then microwave in a covered, microwave-safe dish with a splash of water for 4–5 min until just tender, same as the pouch.",
   },
   {
     nameMatch: /sweet potato/i,
     stepMatch: /sweet potato/i,
     freshName: 'Sweet Potato (fresh)',
-    note: 'Using a fresh sweet potato instead? Peel and dice into ½-inch cubes first.',
+    note: "Using a fresh sweet potato instead of the frozen cubes? The step above still describes microwaving the frozen bag -- swap that for: peel and dice into ½-inch cubes, then microwave in a covered, microwave-safe dish with a splash of water for 6–8 min until fork-tender (a couple minutes longer than the pre-cut frozen version), or air fry at 400°F for 15 min, tossing halfway.",
   },
   {
     nameMatch: /green beans/i,
     stepMatch: /\bbeans?\b/i,
     freshName: 'Green Beans (fresh)',
-    note: 'Using fresh green beans instead? Trim the ends first.',
+    note: "Using fresh green beans instead of the steam bag? The step above still says to microwave the steam bag -- swap that for: trim the ends, then microwave in a covered, microwave-safe dish with a splash of water for 3–4 min until crisp-tender, about the same time as the steam bag. Season the same way the recipe calls for.",
   },
   {
     nameMatch: /broccoli/i,
     stepMatch: /broccoli/i,
     freshName: 'Broccoli (fresh florets)',
-    note: 'Using fresh broccoli instead? Cut into small florets first -- cook time stays about the same.',
+    note: "Using fresh broccoli instead of the steam bag? The step above still says to microwave the steam bag -- swap that for: cut into small florets, then microwave in a covered, microwave-safe dish with a splash of water for 3–4 min until crisp-tender, about the same time as the steam bag. Season the same way the recipe calls for.",
   },
   {
     nameMatch: /holy trinity|seasoning blend/i,
     stepMatch: /seasoning blend/i,
     freshName: 'Onion, Celery & Bell Pepper (fresh, diced)',
-    note: 'No frozen blend on hand? Dice fresh onion, celery, and bell pepper instead.',
+    // This one genuinely doesn't need a cook-time change -- it goes into a
+    // slow cooker raw either way, frozen or fresh -- so the note stays a
+    // prep-only tip on purpose rather than inventing a timing difference
+    // that isn't real.
+    note: 'No frozen blend on hand? Dice fresh onion, celery, and bell pepper into small pieces instead -- it goes into the slow cooker raw just like the frozen blend would, so no other change needed.',
   },
   {
     nameMatch: /hash brown/i,
     stepMatch: /hash brown/i,
     freshName: 'Potatoes (fresh, shredded)',
-    note: 'Using fresh potatoes instead? Shred them and pan-fry until golden before adding.',
+    note: "Using fresh potatoes instead of the frozen shredded bag? The step above still describes microwaving the frozen portion -- swap that for: shred the potatoes, squeeze out excess moisture in a clean towel, then pan-fry in a lightly oiled skillet over medium-high for 5–7 min per side until golden and cooked through -- this takes longer than the frozen microwave shortcut, so start it first if you're timing everything together.",
   },
   {
     nameMatch: /mixed veg|stir fry vegetables/i,
     stepMatch: /\bveg\w*/i,
     freshName: 'Mixed Vegetables (fresh, diced)',
-    note: 'Using fresh vegetables instead? Dice into bite-sized pieces first.',
+    note: "Using fresh vegetables instead of the steam bag? The step above still says to microwave the steam bag -- swap that for: dice into bite-sized pieces, then microwave in a covered, microwave-safe dish with a splash of water for 3–4 min until crisp-tender, about the same time as the steam bag.",
   },
 ];
 
