@@ -5305,6 +5305,11 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
+        "name": "Sriracha (1 tbsp per bowl)",
+        "quantity": 60,
+        "unit": "ml"
+      },
+      {
         "name": "Frozen Broccoli (steam-bag, 1 per meal)",
         "quantity": 4,
         "unit": "each"
@@ -5327,11 +5332,11 @@ export const RECIPES = [
     ],
     "toppings": [
       "Sesame Seeds",
-      "Red Pepper Flakes"
+      "Extra Red Pepper Flakes"
     ],
     "instructions": [
       "Heat oil in a large skillet over medium-high. Add ground beef, breaking it apart with a spoon. Cook 10-12 minutes, stirring occasionally, until browned throughout.",
-      "Add stir-fry sauce and minced garlic. Simmer 3-4 minutes, stirring, until the sauce thickens slightly and coats the beef.",
+      "Add stir-fry sauce, sriracha, and minced garlic -- the sriracha is what actually makes this \"spicy\" beef and broccoli instead of just a mild garlicky one. Simmer 3-4 minutes, stirring, until the sauce thickens slightly and coats the beef.",
       "Divide the beef evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave rice pouch 90 sec + steam-bag broccoli 3 min. Build bowl with rice, top with a portion of beef, broccoli on side. Toppings on side."
     ],
@@ -5340,7 +5345,8 @@ export const RECIPES = [
       "rice",
       "frozen_veg",
       "ground_beef",
-      "onion_garlic"
+      "onion_garlic",
+      "hot_sauce"
     ]
   },
   {
