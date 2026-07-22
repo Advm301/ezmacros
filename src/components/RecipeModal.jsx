@@ -9,7 +9,7 @@ import { summarizeSteps } from '../utils/recipeSummary';
 import { detectPreheatTip, previewNextStep } from '../utils/stepHints';
 import { matchIngredientsForStep } from '../utils/ingredientMatch';
 import { splitIngredients } from '../utils/ingredientClassify';
-import { getFreshAltHint } from '../utils/freshAltTips';
+import { getFreshAltHint, readPreferFresh, savePreferFresh } from '../utils/freshAltTips';
 import LightningIcon from './LightningIcon';
 import SparkBurst from './SparkBurst';
 import LightningStrike from './LightningStrike';
@@ -437,6 +437,26 @@ export default function RecipeModal({
   // this is a fixed preset list rather than a freeform amount. Resets
   // naturally per recipe since this component remounts on key={recipe.id}.
   const [scaleServings, setScaleServings] = useState(recipe?.servings || 1);
+  // "Prefer Fresh" -- swaps convenience-ingredient names (frozen steam-bag
+  // broccoli, bagged hash browns, etc.) for their fresh equivalent in the
+  // ingredient list, and promotes the matching cook-step substitution note
+  // (see utils/freshAltTips.js) from an always-on "did you know" tip to
+  // something that only shows when this is actually on, since it's now
+  // confirming a choice already made rather than a hypothetical. Seeded
+  // from the last value used on ANY recipe (see readPreferFresh) so it
+  // doesn't reset back to off every single time, but still a per-recipe
+  // toggle someone can flip for one meal without changing their usual
+  // preference -- see toggleUseFresh below for how flipping it here
+  // updates that remembered default for the next recipe too.
+  const [useFresh, setUseFresh] = useState(() => readPreferFresh());
+  const toggleUseFresh = () => {
+    hapticSelection();
+    setUseFresh((prev) => {
+      const next = !prev;
+      savePreferFresh(next);
+      return next;
+    });
+  };
   // Picked once per recipe-modal session (not re-rolled on every render as
   // you page through steps) so the same line stays put through to Finish.
   // The actual pool (single-serving vs. meal-prep) is chosen later once
@@ -577,24 +597,38 @@ export default function RecipeModal({
   // buried where the gap actually bites.
   const preheatTip = detectPreheatTip(instructions.map((s) => s.text));
 
-  // For each component that has a fresh-substitute note (frozen steam-bag
-  // broccoli, bagged diced sweet potato, etc.), find the FIRST instruction
-  // step that actually calls for it and attach the note there -- so it
-  // shows exactly once, right when it's relevant, rather than repeating on
-  // every later step that happens to mention the ingredient again (e.g.
-  // "broccoli on the side" during plating).
-  const freshAltByStep = new Map();
+  // Which components have a fresh-substitute available at all (frozen
+  // steam-bag broccoli, bagged diced sweet potato, etc.) -- drives both
+  // whether the Prefer Fresh toggle even shows (no point offering it on a
+  // recipe with nothing to swap) and the ingredient-list name swap below.
+  const freshAltByComponent = new Map();
   components.forEach((c) => {
     const hint = getFreshAltHint(c.name);
-    if (!hint) return;
-    for (let i = 0; i < instructions.length; i++) {
-      if (hint.stepMatch.test(instructions[i].text)) {
-        if (!freshAltByStep.has(i)) freshAltByStep.set(i, []);
-        freshAltByStep.get(i).push(hint.note);
-        break;
-      }
-    }
+    if (hint) freshAltByComponent.set(c.name, hint);
   });
+  const hasFreshAltOptions = freshAltByComponent.size > 0;
+
+  // For each fresh-substitutable component, find the FIRST instruction step
+  // that actually calls for it and attach its note there -- so it shows
+  // exactly once, right when it's relevant, rather than repeating on every
+  // later step that happens to mention the ingredient again (e.g.
+  // "broccoli on the side" during plating). Only populated when Prefer
+  // Fresh is actually on -- with it off, showing "using fresh instead?"
+  // notes for a choice someone explicitly didn't make just reads as noise.
+  const freshAltByStep = new Map();
+  if (useFresh) {
+    components.forEach((c) => {
+      const hint = freshAltByComponent.get(c.name);
+      if (!hint) return;
+      for (let i = 0; i < instructions.length; i++) {
+        if (hint.stepMatch.test(instructions[i].text)) {
+          if (!freshAltByStep.has(i)) freshAltByStep.set(i, []);
+          freshAltByStep.get(i).push(hint.note);
+          break;
+        }
+      }
+    });
+  }
 
   // The cook screen is a sequence of pages: one per instruction, then
   // rating as the closing "how'd it go" wrap-up (which also now carries the
@@ -1289,6 +1323,13 @@ export default function RecipeModal({
                   const isEditing = editingIngredientIndex === origIndex;
                   const display = getQuantityDisplay(c.quantity, c.unit, c.name, unitModes[origIndex]);
                   const have = Boolean(haveIngredient[origIndex]);
+                  // Display-only swap -- c.name itself stays the recipe's
+                  // original frozen/convenience name everywhere else in this
+                  // row (quantity display, bulk-protein/each-item lookups,
+                  // tap-to-edit), since those are keyed off the real
+                  // ingredient, not what's shown on screen.
+                  const freshHint = useFresh ? freshAltByComponent.get(c.name) : null;
+                  const displayName = freshHint?.freshName || c.name;
                   return (
                     <div
                       key={origIndex}
@@ -1314,7 +1355,7 @@ export default function RecipeModal({
                         {have ? '✓' : ''}
                       </div>
                       <div style={{ flex: 1, minWidth: 0, opacity: have ? 0.5 : 1 }}>
-                        <div style={{ fontSize: 12.5, color: 'var(--cream)', marginBottom: 3, lineHeight: 1.3, textDecoration: have ? 'line-through' : 'none' }}>{c.name}</div>
+                        <div style={{ fontSize: 12.5, color: freshHint ? '#9bc47d' : 'var(--cream)', marginBottom: 3, lineHeight: 1.3, textDecoration: have ? 'line-through' : 'none' }}>{displayName}</div>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                           {isEditing ? (
                             <input
@@ -1407,6 +1448,49 @@ export default function RecipeModal({
                         </div>
                       )}
                     </div>
+                    {/* Prefer Fresh -- only shown when this recipe actually
+                        has a frozen/convenience ingredient to swap (see
+                        hasFreshAltOptions above); no point offering it on a
+                        recipe with nothing to change. Remembers the last
+                        value used on any recipe (see readPreferFresh/
+                        toggleUseFresh) so it doesn't reset to off every
+                        time, but stays a genuine per-recipe toggle -- switch
+                        it off here without touching what the next recipe
+                        opens with. */}
+                    {hasFreshAltOptions && (
+                      <div
+                        onClick={toggleUseFresh}
+                        style={{
+                          display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10,
+                          background: useFresh ? 'rgba(127,163,99,.14)' : 'var(--s1)',
+                          border: `1px solid ${useFresh ? 'rgba(127,163,99,.4)' : 'var(--border)'}`,
+                          borderRadius: 10, padding: '10px 12px', marginBottom: 14, cursor: 'pointer',
+                        }}
+                      >
+                        <div>
+                          <div style={{ fontSize: 12.5, fontWeight: 700, color: useFresh ? '#9bc47d' : 'var(--cream)' }}>
+                            🥦 Prefer Fresh Ingredients
+                          </div>
+                          <div style={{ fontSize: 10.5, color: 'var(--muted)', marginTop: 1 }}>
+                            Swap frozen/convenience items for fresh where this recipe allows
+                          </div>
+                        </div>
+                        <div
+                          aria-hidden="true"
+                          style={{
+                            flexShrink: 0, width: 38, height: 22, borderRadius: 100, position: 'relative',
+                            background: useFresh ? '#7fa363' : 'var(--s3)',
+                            transition: 'background .15s',
+                          }}
+                        >
+                          <div style={{
+                            position: 'absolute', top: 2, left: useFresh ? 18 : 2,
+                            width: 18, height: 18, borderRadius: '50%', background: '#fff',
+                            transition: 'left .15s',
+                          }} />
+                        </div>
+                      </div>
+                    )}
                     <div id="tour-ingredients-check" style={{ display: 'flex' }}>
                       <div style={{ flex: 1, paddingRight: seasonings.length > 0 ? 14 : 0 }}>
                         <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--muted)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: 1 }}>

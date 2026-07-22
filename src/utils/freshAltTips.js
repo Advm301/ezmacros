@@ -19,50 +19,110 @@
 // Checked in order, most specific first (e.g. "sweet potato noodle" before
 // the more general "sweet potato"), so a single component only ever matches
 // one hint.
+//
+// `freshName` is what the ingredient list displays in place of the
+// original frozen/convenience name when someone's flipped on "Prefer
+// Fresh" for this recipe (see RecipeModal's useFresh state below) --
+// deliberately just a name swap, not a recalculated quantity: there's no
+// reliable universal fresh-to-frozen conversion ratio across every one of
+// these, so the amount stays what the recipe wrote and the note (already
+// shown on the matching cook step) covers the prep difference instead of
+// pretending to know an exact number.
 const FRESH_ALT_HINTS = [
+  {
+    // Matches "White Rice Pouch (...)" and "Rice Pouch (...)" in all their
+    // parenthetical variants (microwaveable, 1 per meal, day-old cooked,
+    // etc.) without also catching unrelated components that just happen to
+    // contain the word "rice" elsewhere, like "Rice Vinegar" or "Rice
+    // Cakes" (a snack, not a starch swap-in) -- this is the single most
+    // common convenience ingredient across the catalog, and the one
+    // explicitly called out alongside frozen veg in the original feedback
+    // this feature is based on.
+    nameMatch: /rice pouch/i,
+    stepMatch: /rice pouch/i,
+    freshName: 'Rice (freshly cooked)',
+    note: 'Using freshly-cooked rice instead? Rice cooker, stovetop, whatever you normally use -- about the same amount as the pouch calls for.',
+  },
   {
     nameMatch: /sweet potato noodle|spiraliz/i,
     stepMatch: /sweet potato noodle|zoodle|spiraliz/i,
+    freshName: 'Sweet Potato (fresh, spiralized)',
     note: 'Using a fresh sweet potato instead? Spiralize it into noodles (or julienne thin with a knife) first.',
   },
   {
     nameMatch: /sweet potato/i,
     stepMatch: /sweet potato/i,
+    freshName: 'Sweet Potato (fresh)',
     note: 'Using a fresh sweet potato instead? Peel and dice into ½-inch cubes first.',
   },
   {
     nameMatch: /green beans/i,
     stepMatch: /\bbeans?\b/i,
+    freshName: 'Green Beans (fresh)',
     note: 'Using fresh green beans instead? Trim the ends first.',
   },
   {
     nameMatch: /broccoli/i,
     stepMatch: /broccoli/i,
+    freshName: 'Broccoli (fresh florets)',
     note: 'Using fresh broccoli instead? Cut into small florets first -- cook time stays about the same.',
   },
   {
     nameMatch: /holy trinity|seasoning blend/i,
     stepMatch: /seasoning blend/i,
+    freshName: 'Onion, Celery & Bell Pepper (fresh, diced)',
     note: 'No frozen blend on hand? Dice fresh onion, celery, and bell pepper instead.',
   },
   {
     nameMatch: /hash brown/i,
     stepMatch: /hash brown/i,
+    freshName: 'Potatoes (fresh, shredded)',
     note: 'Using fresh potatoes instead? Shred them and pan-fry until golden before adding.',
   },
   {
     nameMatch: /mixed veg|stir fry vegetables/i,
     stepMatch: /\bveg\w*/i,
+    freshName: 'Mixed Vegetables (fresh, diced)',
     note: 'Using fresh vegetables instead? Dice into bite-sized pieces first.',
   },
 ];
 
-// Only components that are actually the frozen/pre-cut convenience version
+// Whether someone prefers fresh ingredients over the recipe's written
+// frozen/convenience default -- a single device-wide "remembered" value
+// (not per-recipe), seeding each newly-opened recipe's own toggle so it
+// doesn't reset back to off every time (see RecipeModal's useFresh state).
+// Deliberately not per-account/Supabase-backed -- this is a kitchen habit,
+// not account data, and doesn't need to survive a device switch to be
+// useful.
+const PREFER_FRESH_KEY = 'quickprep_prefer_fresh';
+
+export function readPreferFresh() {
+  try {
+    return localStorage.getItem(PREFER_FRESH_KEY) === '1';
+  } catch {
+    return false;
+  }
+}
+
+export function savePreferFresh(value) {
+  try {
+    localStorage.setItem(PREFER_FRESH_KEY, value ? '1' : '0');
+  } catch {
+    // Not worth blocking the toggle on -- it just won't be remembered
+    // next time if storage is unavailable.
+  }
+}
+
+// Only components that are actually the frozen/pre-made convenience version
 // get a note -- this guard keeps the hints from misfiring on an unrelated
 // component that happens to share a word (e.g. "Beef & Broccoli Stir-Fry
 // Sauce" isn't a vegetable at all, and a hypothetical fresh-broccoli side
 // ingredient wouldn't need a tip telling people to use fresh broccoli).
-const FROZEN_GUARD_RE = /\b(frozen|steam-bag|microwave bag)\b/i;
+// Covers shelf-stable microwaveable pouches (rice) as well as actually-
+// frozen items -- "convenience format" is the real category here, not
+// "frozen" specifically, and rice pouches say "microwaveable"/"pouch" in
+// their name rather than "frozen".
+const FROZEN_GUARD_RE = /\b(frozen|steam-bag|microwave bag|pouch|microwaveable)\b/i;
 
 // Returns the hint object (not just the note) for a component name, or null.
 // Exported separately from the note text so callers can also use
