@@ -1294,7 +1294,7 @@ export const RECIPES = [
   },
   {
     "name": "Rotisserie Chicken Bowl",
-    "description": "A no-cook rotisserie chicken bowl with rice, broccoli, and a kick of hot sauce.",
+    "description": "A no-cook rotisserie chicken bowl with rice, broccoli, and a buffalo-style kick of Frank's RedHot.",
     "id": 24,
     "method": "No Cook",
     "mealType": "lunch_dinner",
@@ -1325,7 +1325,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Hot Sauce (1 tbsp)",
+        "name": "Frank's RedHot Sauce (1 tbsp)",
         "quantity": 15,
         "unit": "ml"
       }
@@ -1336,7 +1336,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Microwave rice 90 sec. Microwave broccoli 3 min. Season the broccoli with garlic powder, onion powder, and a pinch of chili flakes. Heat rotisserie chicken 60 sec in microwave if cold.",
-      "Mix chicken with hot sauce. Build bowl — toppings separate."
+      "Mix chicken with Frank's RedHot. Build bowl — toppings separate."
     ],
     "totalTime": 3,
     "pantryTags": [
@@ -1912,7 +1912,7 @@ export const RECIPES = [
   },
   {
     "name": "Microwave Salmon Pouch Bowl",
-    "description": "A grab-and-go microwave salmon pouch bowl with rice and a kick of hot sauce.",
+    "description": "A grab-and-go microwave salmon pouch bowl with rice and a dash of Louisiana-style hot sauce.",
     "id": 34,
     "method": "Microwave",
     "mealType": "lunch_dinner",
@@ -1943,7 +1943,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Hot Sauce (1 tbsp)",
+        "name": "Louisiana-Style Hot Sauce (1 tbsp)",
         "quantity": 15,
         "unit": "ml"
       }
@@ -1954,7 +1954,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Microwave rice 90 sec. Warm salmon pouch in microwave 60 sec.",
-      "Build bowl. Season salmon with lemon pepper + hot sauce. Toppings separate."
+      "Build bowl. Season salmon with lemon pepper + Louisiana-style hot sauce. Toppings separate."
     ],
     "totalTime": 2,
     "pantryTags": [
@@ -2473,7 +2473,7 @@ export const RECIPES = [
   },
   {
     "name": "Hard Boiled Eggs with Hot Sauce",
-    "description": "Boiled eggs with a spicy hot sauce kick and everything bagel seasoning.",
+    "description": "Boiled eggs with a Louisiana-style hot sauce kick and everything bagel seasoning.",
     "id": 44,
     "method": "No Cook",
     "mealType": "snack",
@@ -2493,7 +2493,7 @@ export const RECIPES = [
         "unit": "count"
       },
       {
-        "name": "Hot Sauce (2 tbsp)",
+        "name": "Louisiana-Style Hot Sauce (2 tbsp)",
         "quantity": 120,
         "unit": "ml"
       },
@@ -2509,7 +2509,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Boil a batch of 8 eggs at once: place in a pot, cover with about an inch of water, bring to a boil, then cover and remove from heat for 10-12 minutes. Cool in ice water before peeling. Keeps in the fridge (in shell, unpeeled) for up to a week.",
-      "For one serving: peel and halve 2 eggs. Pour hot sauce over. Sprinkle seasoning on top."
+      "For one serving: peel and halve 2 eggs. Pour Louisiana-style hot sauce over. Sprinkle seasoning on top."
     ],
     "totalTime": 2,
     "pantryTags": [
@@ -2775,7 +2775,7 @@ export const RECIPES = [
   },
   {
     "name": "Canned Chicken & Crackers",
-    "description": "A simple grab-and-go snack of canned chicken with crackers, Dijon, and hot sauce.",
+    "description": "A simple grab-and-go snack of canned chicken with crackers, Dijon, and a buffalo-style kick of Frank's RedHot.",
     "id": 50,
     "method": "No Cook",
     "mealType": "snack",
@@ -2805,7 +2805,7 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Hot Sauce (1 tbsp)",
+        "name": "Frank's RedHot Sauce (1 tbsp)",
         "quantity": 15,
         "unit": "ml"
       }
@@ -2815,7 +2815,7 @@ export const RECIPES = [
       "Celery Powder"
     ],
     "instructions": [
-      "Mix canned chicken with mustard + hot sauce.",
+      "Mix canned chicken with mustard + Frank's RedHot.",
       "Spoon onto crackers. Season lightly."
     ],
     "totalTime": 2,
@@ -3059,7 +3059,7 @@ export const RECIPES = [
   },
   {
     "name": "Spicy Chicken Sandwich",
-    "description": "A crispy, garlic-seasoned air-fried spicy chicken sandwich with hot sauce, mayo, and pickles.",
+    "description": "A crispy, cayenne-garlic-seasoned air-fried spicy chicken sandwich tossed in Frank's RedHot, with pickles and an optional swipe of light mayo.",
     "id": 54,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
@@ -3080,18 +3080,13 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Hot Sauce (3 tbsp)",
+        "name": "Frank's RedHot Sauce (3 tbsp)",
         "quantity": 45,
         "unit": "ml"
       },
       {
         "name": "Brioche Bun",
         "quantity": 80,
-        "unit": "g"
-      },
-      {
-        "name": "Light Mayo (2 tbsp)",
-        "quantity": 30,
         "unit": "g"
       },
       {
@@ -3110,6 +3105,11 @@ export const RECIPES = [
         "unit": "g"
       },
       {
+        "name": "Cayenne Pepper (¼ tsp)",
+        "quantity": 1,
+        "unit": "g"
+      },
+      {
         "name": "Salt (pinch)",
         "quantity": 0.5,
         "unit": "g"
@@ -3121,13 +3121,14 @@ export const RECIPES = [
       }
     ],
     "toppings": [
-      "Hot Sauce Extra",
+      "Frank's RedHot, Extra Drizzle",
+      "Light Mayo (2 tbsp)",
       "Celery Powder"
     ],
     "instructions": [
-      "Season chicken breast all over with garlic powder, paprika, salt, and pepper. Air fry 400°F for 16–18 min.",
-      "Toss cooked chicken in hot sauce. Toast bun.",
-      "Spread mayo on bun. Stack chicken + pickles."
+      "Season chicken breast all over with garlic powder, paprika, cayenne, salt, and pepper. Air fry 400°F for 16–18 min.",
+      "Toss the cooked chicken in Frank's RedHot. Toast bun.",
+      "Stack chicken + pickles on the bun. Spread light mayo on top if using."
     ],
     "totalTime": 23,
     "pantryTags": [
@@ -4877,7 +4878,7 @@ export const RECIPES = [
   },
   {
     "name": "Nashville Hot Chicken Tenders",
-    "description": "Crispy air-fried Nashville-style hot chicken tenders with a cayenne-garlic kick, served on a bun with pickles.",
+    "description": "Crispy air-fried Nashville-style hot chicken tenders tossed in Frank's RedHot, cayenne, and a touch of brown sugar, served on a bun with pickles.",
     "id": 83,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
@@ -4897,13 +4898,18 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Hot Sauce (3 tbsp)",
+        "name": "Frank's RedHot Sauce (3 tbsp)",
         "quantity": 45,
         "unit": "ml"
       },
       {
         "name": "Cayenne Powder (½ tsp)",
         "quantity": 1,
+        "unit": "g"
+      },
+      {
+        "name": "Brown Sugar (1 tsp)",
+        "quantity": 4,
         "unit": "g"
       },
       {
@@ -4928,11 +4934,11 @@ export const RECIPES = [
       }
     ],
     "toppings": [
-      "Hot Sauce Extra",
+      "Frank's RedHot, Extra Drizzle",
       "Black Pepper"
     ],
     "instructions": [
-      "Mix hot sauce + cayenne + minced garlic. Toss chicken strips in mixture.",
+      "Mix Frank's RedHot, cayenne, brown sugar, and minced garlic -- the brown sugar balances the heat the way real Nashville hot chicken does. Toss chicken strips in the mixture.",
       "Air fry 400°F for 12–14 min, shaking halfway. Toast bun lightly.",
       "Spread mayo on bun. Stack chicken tenders + pickles."
     ],
