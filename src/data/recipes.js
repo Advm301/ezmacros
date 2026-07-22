@@ -5514,33 +5514,85 @@ export const RECIPES = [
       {
         "id": "beef",
         "label": "Beef",
-        "componentName": "Ground Beef (93% lean)"
+        "components": [
+          {
+            "name": "Ground Beef (93% lean)",
+            "quantity": 568,
+            "unit": "g"
+          },
+          {
+            "name": "Oyster Sauce (1 tbsp)",
+            "quantity": 15,
+            "unit": "ml"
+          }
+        ],
+        "instructions": {
+          "2": "Stir in soy sauce, brown sugar, sesame oil, oyster sauce, and red pepper flakes for extra depth. Simmer 2-3 minutes, stirring occasionally, until the sauce thickens slightly and coats the {{protein}}."
+        }
       },
       {
         "id": "chicken",
         "label": "Chicken",
-        "componentName": "Ground Chicken (93% lean)"
+        "components": [
+          {
+            "name": "Ground Chicken (93% lean)",
+            "quantity": 568,
+            "unit": "g"
+          },
+          {
+            "name": "Rice Vinegar (1 tsp)",
+            "quantity": 5,
+            "unit": "ml"
+          }
+        ],
+        "instructions": {
+          "0": "Heat a large skillet or pot over medium-high heat. Add ground {{protein}}, breaking it apart with a spoon. Cook 8-10 minutes, stirring occasionally, until browned throughout -- ground chicken cooks faster than beef, so keep an eye on it. Drain excess fat if needed.",
+          "2": "Stir in soy sauce, brown sugar, sesame oil, rice vinegar, and red pepper flakes -- the vinegar brightens the glaze against chicken's milder flavor. Simmer 2-3 minutes, stirring occasionally, until the sauce thickens slightly and coats the {{protein}}."
+        }
       },
       {
         "id": "pork",
         "label": "Pork",
-        "componentName": "Ground Pork (93% lean)"
+        "components": [
+          {
+            "name": "Ground Pork (93% lean)",
+            "quantity": 568,
+            "unit": "g"
+          },
+          {
+            "name": "Five-Spice Powder (¼ tsp)",
+            "quantity": 1,
+            "unit": "g"
+          }
+        ],
+        "instructions": {
+          "2": "Stir in soy sauce, brown sugar, sesame oil, five-spice powder, and red pepper flakes -- five-spice is a classic match for pork. Simmer 2-3 minutes, stirring occasionally, until the sauce thickens slightly and coats the {{protein}}."
+        }
       },
       {
         "id": "turkey",
         "label": "Turkey",
-        "componentName": "Ground Turkey (93% lean)"
+        "components": [
+          {
+            "name": "Ground Turkey (93% lean)",
+            "quantity": 568,
+            "unit": "g"
+          },
+          {
+            "name": "Minced Garlic, extra (1 tsp)",
+            "quantity": 5,
+            "unit": "g"
+          }
+        ],
+        "instructions": {
+          "0": "Heat a large skillet or pot over medium-high heat. Add ground {{protein}}, breaking it apart with a spoon. Cook 8-10 minutes, stirring occasionally, until browned throughout -- ground turkey cooks faster than beef, so keep an eye on it. Drain excess fat if needed.",
+          "2": "Stir in soy sauce, brown sugar, sesame oil, the extra garlic, and red pepper flakes -- the extra garlic gives turkey's milder flavor more to hold onto. Simmer 2-3 minutes, stirring occasionally, until the sauce thickens slightly and coats the {{protein}}."
+        }
       }
     ],
     "flavor": "asian",
     "activeTime": 14,
     "components": [
-      {
-        "name": "Ground Beef (93% lean)",
-        "quantity": 568,
-        "unit": "g",
-        "proteinSlot": true
-      },
       {
         "name": "Soy Sauce (¼ cup)",
         "quantity": 60,
@@ -5621,33 +5673,85 @@ export const RECIPES = [
       {
         "id": "beef",
         "label": "Beef",
-        "componentName": "Ground Beef (93% lean)"
+        "components": [
+          {
+            "name": "Ground Beef (93% lean)",
+            "quantity": 568,
+            "unit": "g"
+          },
+          {
+            "name": "Worcestershire Sauce (1 tsp)",
+            "quantity": 5,
+            "unit": "ml"
+          }
+        ],
+        "instructions": {
+          "1": "Stir in BBQ sauce and Worcestershire sauce generously -- the Worcestershire adds a savory backbone that stands up to beef. Cook 2-3 minutes more."
+        }
       },
       {
         "id": "chicken",
         "label": "Chicken",
-        "componentName": "Ground Chicken (93% lean)"
+        "components": [
+          {
+            "name": "Ground Chicken (93% lean)",
+            "quantity": 568,
+            "unit": "g"
+          },
+          {
+            "name": "Smoked Paprika (½ tsp)",
+            "quantity": 2,
+            "unit": "g"
+          }
+        ],
+        "instructions": {
+          "0": "Heat a large skillet over medium-high heat. Add ground {{protein}}, minced garlic, onion powder, salt, and pepper, breaking the meat apart with a spoon. Cook 8-10 minutes until browned throughout -- ground chicken cooks faster than beef.",
+          "1": "Stir in BBQ sauce and smoked paprika generously -- the extra smokiness makes up for chicken's milder flavor. Cook 2-3 minutes more."
+        }
       },
       {
         "id": "pork",
         "label": "Pork",
-        "componentName": "Ground Pork (93% lean)"
+        "components": [
+          {
+            "name": "Ground Pork (93% lean)",
+            "quantity": 568,
+            "unit": "g"
+          },
+          {
+            "name": "Apple Cider Vinegar (1 tsp)",
+            "quantity": 5,
+            "unit": "ml"
+          }
+        ],
+        "instructions": {
+          "1": "Stir in BBQ sauce and apple cider vinegar generously -- classic pulled-pork tang. Cook 2-3 minutes more."
+        }
       },
       {
         "id": "turkey",
         "label": "Turkey",
-        "componentName": "Ground Turkey (93% lean)"
+        "components": [
+          {
+            "name": "Ground Turkey (93% lean)",
+            "quantity": 568,
+            "unit": "g"
+          },
+          {
+            "name": "Brown Sugar (1 tsp)",
+            "quantity": 4,
+            "unit": "g"
+          }
+        ],
+        "instructions": {
+          "0": "Heat a large skillet over medium-high heat. Add ground {{protein}}, minced garlic, onion powder, salt, and pepper, breaking the meat apart with a spoon. Cook 8-10 minutes until browned throughout -- ground turkey cooks faster than beef.",
+          "1": "Stir in BBQ sauce and brown sugar generously -- the extra sweetness rounds out turkey's leaner flavor. Cook 2-3 minutes more."
+        }
       }
     ],
     "flavor": "spicy",
     "activeTime": 13,
     "components": [
-      {
-        "name": "Ground Beef (93% lean)",
-        "quantity": 568,
-        "unit": "g",
-        "proteinSlot": true
-      },
       {
         "name": "BBQ Sauce (bottled)",
         "quantity": 128,
@@ -5722,33 +5826,85 @@ export const RECIPES = [
       {
         "id": "beef",
         "label": "Beef",
-        "componentName": "Ground Beef (93% lean)"
+        "components": [
+          {
+            "name": "Ground Beef (93% lean)",
+            "quantity": 568,
+            "unit": "g"
+          },
+          {
+            "name": "Balsamic Vinegar (1 tbsp)",
+            "quantity": 15,
+            "unit": "ml"
+          }
+        ],
+        "instructions": {
+          "1": "Stir in tomato paste, minced garlic, onion powder, cumin, oregano, red pepper flakes, smoked paprika, salt, and balsamic vinegar, cooking 1 minute until fragrant -- the balsamic adds richness that pairs well with beef. Add canned tomatoes (with liquid) and spinach. Simmer 4-5 minutes, stirring until the spinach wilts and the sauce thickens slightly."
+        }
       },
       {
         "id": "chicken",
         "label": "Chicken",
-        "componentName": "Ground Chicken (93% lean)"
+        "components": [
+          {
+            "name": "Ground Chicken (93% lean)",
+            "quantity": 568,
+            "unit": "g"
+          },
+          {
+            "name": "Fresh Basil, chopped (2 tbsp)",
+            "quantity": 5,
+            "unit": "g"
+          }
+        ],
+        "instructions": {
+          "0": "Heat a large skillet or pot over medium-high heat. Add ground {{protein}} and break apart. Cook 8-10 minutes until mostly browned throughout -- ground chicken cooks faster than beef.",
+          "1": "Stir in tomato paste, minced garlic, onion powder, cumin, oregano, red pepper flakes, smoked paprika, and salt, cooking 1 minute until fragrant. Add canned tomatoes (with liquid) and spinach. Simmer 4-5 minutes, stirring until the spinach wilts. Off heat, stir in fresh basil for a brighter finish that suits chicken."
+        }
       },
       {
         "id": "pork",
         "label": "Pork",
-        "componentName": "Ground Pork (93% lean)"
+        "components": [
+          {
+            "name": "Ground Pork (93% lean)",
+            "quantity": 568,
+            "unit": "g"
+          },
+          {
+            "name": "Fennel Seed (½ tsp)",
+            "quantity": 1,
+            "unit": "g"
+          }
+        ],
+        "instructions": {
+          "1": "Stir in tomato paste, minced garlic, onion powder, cumin, oregano, red pepper flakes, smoked paprika, salt, and fennel seed -- fennel is the classic Italian-sausage pairing with pork and tomato. Cook 1 minute until fragrant. Add canned tomatoes (with liquid) and spinach. Simmer 4-5 minutes, stirring until the spinach wilts and the sauce thickens slightly."
+        }
       },
       {
         "id": "turkey",
         "label": "Turkey",
-        "componentName": "Ground Turkey (93% lean)"
+        "components": [
+          {
+            "name": "Ground Turkey (93% lean)",
+            "quantity": 568,
+            "unit": "g"
+          },
+          {
+            "name": "Red Pepper Flakes, extra (¼ tsp)",
+            "quantity": 1,
+            "unit": "g"
+          }
+        ],
+        "instructions": {
+          "0": "Heat a large skillet or pot over medium-high heat. Add ground {{protein}} and break apart. Cook 8-10 minutes until mostly browned throughout -- ground turkey cooks faster than beef.",
+          "1": "Stir in tomato paste, minced garlic, onion powder, cumin, oregano, red pepper flakes (plus the extra pinch), smoked paprika, and salt -- a little more heat helps turkey's milder flavor stand out. Cook 1 minute until fragrant. Add canned tomatoes (with liquid) and spinach. Simmer 4-5 minutes, stirring until the spinach wilts and the sauce thickens slightly."
+        }
       }
     ],
     "flavor": "saucy",
     "activeTime": 12,
     "components": [
-      {
-        "name": "Ground Beef (93% lean)",
-        "quantity": 568,
-        "unit": "g",
-        "proteinSlot": true
-      },
       {
         "name": "Canned Diced Tomatoes",
         "quantity": 800,
@@ -5848,33 +6004,85 @@ export const RECIPES = [
       {
         "id": "beef",
         "label": "Beef",
-        "componentName": "Ground Beef (93% lean)"
+        "components": [
+          {
+            "name": "Ground Beef (93% lean)",
+            "quantity": 568,
+            "unit": "g"
+          },
+          {
+            "name": "Sesame Oil (1 tsp)",
+            "quantity": 5,
+            "unit": "g"
+          }
+        ],
+        "instructions": {
+          "1": "In a bowl, mix gochujang, soy sauce, honey, and sesame oil for extra richness. Pour over {{protein}} and stir well. Cook 2 minutes more."
+        }
       },
       {
         "id": "chicken",
         "label": "Chicken",
-        "componentName": "Ground Chicken (93% lean)"
+        "components": [
+          {
+            "name": "Ground Chicken (93% lean)",
+            "quantity": 568,
+            "unit": "g"
+          },
+          {
+            "name": "Rice Vinegar (1 tsp)",
+            "quantity": 5,
+            "unit": "ml"
+          }
+        ],
+        "instructions": {
+          "0": "Heat a large skillet over medium-high heat. Add ground {{protein}}, break apart with a spoon. Cook 8-10 minutes until browned throughout -- ground chicken cooks faster than beef.",
+          "1": "In a bowl, mix gochujang, soy sauce, honey, and rice vinegar -- the vinegar brightens the glaze against chicken's milder flavor. Pour over {{protein}} and stir well. Cook 2 minutes more."
+        }
       },
       {
         "id": "pork",
         "label": "Pork",
-        "componentName": "Ground Pork (93% lean)"
+        "components": [
+          {
+            "name": "Ground Pork (93% lean)",
+            "quantity": 568,
+            "unit": "g"
+          },
+          {
+            "name": "Fresh Ginger, grated (½ tsp)",
+            "quantity": 2,
+            "unit": "g"
+          }
+        ],
+        "instructions": {
+          "1": "In a bowl, mix gochujang, soy sauce, honey, and grated ginger -- ginger and gochujang are a classic match for pork. Pour over {{protein}} and stir well. Cook 2 minutes more."
+        }
       },
       {
         "id": "turkey",
         "label": "Turkey",
-        "componentName": "Ground Turkey (93% lean)"
+        "components": [
+          {
+            "name": "Ground Turkey (93% lean)",
+            "quantity": 568,
+            "unit": "g"
+          },
+          {
+            "name": "Honey, extra (1 tsp)",
+            "quantity": 7,
+            "unit": "g"
+          }
+        ],
+        "instructions": {
+          "0": "Heat a large skillet over medium-high heat. Add ground {{protein}}, break apart with a spoon. Cook 8-10 minutes until browned throughout -- ground turkey cooks faster than beef.",
+          "1": "In a bowl, mix gochujang, soy sauce, and honey (plus the extra honey) -- a little more sweetness balances turkey's milder flavor against the heat. Pour over {{protein}} and stir well. Cook 2 minutes more."
+        }
       }
     ],
     "flavor": "spicy",
     "activeTime": 13,
     "components": [
-      {
-        "name": "Ground Beef (93% lean)",
-        "quantity": 568,
-        "unit": "g",
-        "proteinSlot": true
-      },
       {
         "name": "Gochujang Sauce (bottled)",
         "quantity": 120,
@@ -5940,33 +6148,85 @@ export const RECIPES = [
       {
         "id": "beef",
         "label": "Beef",
-        "componentName": "Ground Beef (93% lean)"
+        "components": [
+          {
+            "name": "Ground Beef (93% lean)",
+            "quantity": 568,
+            "unit": "g"
+          },
+          {
+            "name": "Red Wine Vinegar (1 tsp)",
+            "quantity": 5,
+            "unit": "ml"
+          }
+        ],
+        "instructions": {
+          "2": "Add marinara sauce, spinach, and red wine vinegar to the meat -- the vinegar brightens a rich beef ragu. Season the spinach with a pinch of garlic powder and onion powder. Stir and simmer 3-4 minutes until the spinach wilts. Combine with the cooked pasta."
+        }
       },
       {
         "id": "chicken",
         "label": "Chicken",
-        "componentName": "Ground Chicken (93% lean)"
+        "components": [
+          {
+            "name": "Ground Chicken (93% lean)",
+            "quantity": 568,
+            "unit": "g"
+          },
+          {
+            "name": "Fresh Basil, chopped (2 tbsp)",
+            "quantity": 5,
+            "unit": "g"
+          }
+        ],
+        "instructions": {
+          "1": "Meanwhile, heat a large skillet over medium-high. Add ground {{protein}}, break apart. Cook 8-10 minutes until browned throughout -- ground chicken cooks faster than beef.",
+          "2": "Add marinara sauce and spinach to the meat. Season the spinach with a pinch of garlic powder and onion powder. Stir and simmer 3-4 minutes until the spinach wilts. Off heat, stir in fresh basil for a bright, cacciatore-style finish. Combine with the cooked pasta."
+        }
       },
       {
         "id": "pork",
         "label": "Pork",
-        "componentName": "Ground Pork (93% lean)"
+        "components": [
+          {
+            "name": "Ground Pork (93% lean)",
+            "quantity": 568,
+            "unit": "g"
+          },
+          {
+            "name": "Fennel Seed (½ tsp)",
+            "quantity": 1,
+            "unit": "g"
+          }
+        ],
+        "instructions": {
+          "2": "Add marinara sauce, spinach, and fennel seed to the meat -- fennel is the classic Italian-sausage pairing with pork. Season the spinach with a pinch of garlic powder and onion powder. Stir and simmer 3-4 minutes until the spinach wilts. Combine with the cooked pasta."
+        }
       },
       {
         "id": "turkey",
         "label": "Turkey",
-        "componentName": "Ground Turkey (93% lean)"
+        "components": [
+          {
+            "name": "Ground Turkey (93% lean)",
+            "quantity": 568,
+            "unit": "g"
+          },
+          {
+            "name": "Italian Seasoning, extra (1 tsp)",
+            "quantity": 3,
+            "unit": "g"
+          }
+        ],
+        "instructions": {
+          "1": "Meanwhile, heat a large skillet over medium-high. Add ground {{protein}}, break apart. Cook 8-10 minutes until browned throughout -- ground turkey cooks faster than beef.",
+          "2": "Add marinara sauce, spinach, and the extra Italian seasoning to the meat -- it gives turkey's milder flavor more to hold onto. Season the spinach with a pinch of garlic powder and onion powder. Stir and simmer 3-4 minutes until the spinach wilts. Combine with the cooked pasta."
+        }
       }
     ],
     "flavor": "saucy",
     "activeTime": 15,
     "components": [
-      {
-        "name": "Ground Beef (93% lean)",
-        "quantity": 568,
-        "unit": "g",
-        "proteinSlot": true
-      },
       {
         "name": "Marinara Sauce (bottled)",
         "quantity": 400,
@@ -6020,22 +6280,80 @@ export const RECIPES = [
       {
         "id": "beef",
         "label": "Beef",
-        "componentName": "Ground Beef (93% lean)"
+        "components": [
+          {
+            "name": "Ground Beef (93% lean)",
+            "quantity": 568,
+            "unit": "g"
+          },
+          {
+            "name": "Chipotle Powder (¼ tsp)",
+            "quantity": 1,
+            "unit": "g"
+          }
+        ],
+        "instructions": {
+          "1": "Sprinkle taco seasoning and chipotle powder over the meat and stir in the salsa (instead of water) -- it cooks down into a real sauce that coats the meat, not just a dry-seasoned crumble. Simmer 2-3 minutes."
+        }
       },
       {
         "id": "chicken",
         "label": "Chicken",
-        "componentName": "Ground Chicken (93% lean)"
+        "components": [
+          {
+            "name": "Ground Chicken (93% lean)",
+            "quantity": 568,
+            "unit": "g"
+          },
+          {
+            "name": "Fresh Lime Juice (1 tbsp)",
+            "quantity": 15,
+            "unit": "ml"
+          }
+        ],
+        "instructions": {
+          "0": "Heat a large skillet over medium-high. Add ground {{protein}} and break apart. Cook 8-10 minutes until browned throughout -- ground chicken cooks faster than beef.",
+          "1": "Sprinkle taco seasoning over the meat and stir in the salsa and lime juice (instead of water) -- it cooks down into a real sauce that coats the meat, brightened for chicken. Simmer 2-3 minutes."
+        }
       },
       {
         "id": "pork",
         "label": "Pork",
-        "componentName": "Ground Pork (93% lean)"
+        "components": [
+          {
+            "name": "Ground Pork (93% lean)",
+            "quantity": 568,
+            "unit": "g"
+          },
+          {
+            "name": "Ground Cinnamon (⅛ tsp)",
+            "quantity": 0.5,
+            "unit": "g"
+          }
+        ],
+        "instructions": {
+          "1": "Sprinkle taco seasoning and a pinch of cinnamon over the meat (al pastor-inspired) and stir in the salsa (instead of water) -- it cooks down into a real sauce that coats the meat. Simmer 2-3 minutes."
+        }
       },
       {
         "id": "turkey",
         "label": "Turkey",
-        "componentName": "Ground Turkey (93% lean)"
+        "components": [
+          {
+            "name": "Ground Turkey (93% lean)",
+            "quantity": 568,
+            "unit": "g"
+          },
+          {
+            "name": "Smoked Paprika (¼ tsp)",
+            "quantity": 1,
+            "unit": "g"
+          }
+        ],
+        "instructions": {
+          "0": "Heat a large skillet over medium-high. Add ground {{protein}} and break apart. Cook 8-10 minutes until browned throughout -- ground turkey cooks faster than beef.",
+          "1": "Sprinkle taco seasoning and smoked paprika over the meat -- the extra smokiness gives turkey's milder flavor more depth -- and stir in the salsa (instead of water). Simmer 2-3 minutes."
+        }
       }
     ],
     "flavor": "spicy",
@@ -6044,12 +6362,6 @@ export const RECIPES = [
       "grab_and_go"
     ],
     "components": [
-      {
-        "name": "Ground Beef (93% lean)",
-        "quantity": 568,
-        "unit": "g",
-        "proteinSlot": true
-      },
       {
         "name": "Taco Seasoning (packet)",
         "quantity": 48,
@@ -6110,22 +6422,100 @@ export const RECIPES = [
       {
         "id": "beef",
         "label": "Beef",
-        "componentName": "Ground Beef (93% lean)"
+        "components": [
+          {
+            "name": "Ground Beef (93% lean)",
+            "quantity": 568,
+            "unit": "g"
+          },
+          {
+            "name": "Beef Stroganoff Sauce Mix (powder)",
+            "quantity": 80,
+            "unit": "ml"
+          },
+          {
+            "name": "Cracked Black Pepper, extra (¼ tsp)",
+            "quantity": 1,
+            "unit": "g"
+          }
+        ],
+        "instructions": {
+          "1": "Mix the stroganoff sauce powder with 2 cups water per package, then add to the meat along with the extra black pepper -- classic peppery beef stroganoff. Simmer 4-5 minutes. Remove from heat and stir in sour cream."
+        }
       },
       {
         "id": "chicken",
         "label": "Chicken",
-        "componentName": "Ground Chicken (93% lean)"
+        "components": [
+          {
+            "name": "Ground Chicken (93% lean)",
+            "quantity": 568,
+            "unit": "g"
+          },
+          {
+            "name": "Chicken Gravy Mix (powder)",
+            "quantity": 80,
+            "unit": "ml"
+          },
+          {
+            "name": "Fresh Thyme (½ tsp)",
+            "quantity": 1,
+            "unit": "g"
+          }
+        ],
+        "instructions": {
+          "0": "Heat a large skillet over medium-high. Add ground {{protein}} and break apart. Cook 8-10 minutes until browned throughout -- ground chicken cooks faster than beef.",
+          "1": "Mix the chicken gravy mix with 2 cups water per package, then add to the meat along with fresh thyme -- a classic creamy chicken herb pairing. Simmer 4-5 minutes. Remove from heat and stir in sour cream."
+        }
       },
       {
         "id": "pork",
         "label": "Pork",
-        "componentName": "Ground Pork (93% lean)"
+        "components": [
+          {
+            "name": "Ground Pork (93% lean)",
+            "quantity": 568,
+            "unit": "g"
+          },
+          {
+            "name": "Brown Gravy Mix (powder)",
+            "quantity": 80,
+            "unit": "ml"
+          },
+          {
+            "name": "Smoked Paprika (¼ tsp)",
+            "quantity": 1,
+            "unit": "g"
+          }
+        ],
+        "instructions": {
+          "1": "Mix the brown gravy mix with 2 cups water per package, then add to the meat along with smoked paprika for a goulash-style warmth that suits pork. Simmer 4-5 minutes. Remove from heat and stir in sour cream."
+        }
       },
       {
         "id": "turkey",
         "label": "Turkey",
-        "componentName": "Ground Turkey (93% lean)"
+        "components": [
+          {
+            "name": "Ground Turkey (93% lean)",
+            "quantity": 568,
+            "unit": "g"
+          },
+          {
+            "name": "Turkey Gravy Mix (powder)",
+            "quantity": 80,
+            "unit": "ml"
+          },
+          {
+            "name": "Fresh Sage (½ tsp)",
+            "quantity": 1,
+            "unit": "g"
+          }
+        ],
+        "instructions": {
+          "0": "Heat a large skillet over medium-high. Add ground {{protein}} and break apart. Cook 8-10 minutes until browned throughout -- ground turkey cooks faster than beef.",
+          "1": "Mix the turkey gravy mix with 2 cups water per package, then add to the meat along with fresh sage -- a classic turkey herb pairing. Simmer 4-5 minutes. Remove from heat and stir in sour cream."
+        }
       }
     ],
     "flavor": "saucy",
@@ -6134,12 +6524,6 @@ export const RECIPES = [
       "high_protein"
     ],
     "components": [
-      {
-        "name": "Ground Beef (93% lean)",
-        "quantity": 568,
-        "unit": "g",
-        "proteinSlot": true
-      },
       {
         "name": "Beef Stroganoff Sauce Mix (powder)",
         "quantity": 80,
@@ -6199,33 +6583,85 @@ export const RECIPES = [
       {
         "id": "beef",
         "label": "Beef",
-        "componentName": "Ground Beef (93% lean)"
+        "components": [
+          {
+            "name": "Ground Beef (93% lean)",
+            "quantity": 568,
+            "unit": "g"
+          },
+          {
+            "name": "Sesame Oil (1 tsp)",
+            "quantity": 5,
+            "unit": "g"
+          }
+        ],
+        "instructions": {
+          "1": "Drizzle teriyaki sauce and sesame oil over {{protein}} and stir well -- the sesame oil adds richness that suits beef. Cook 2 minutes more."
+        }
       },
       {
         "id": "chicken",
         "label": "Chicken",
-        "componentName": "Ground Chicken (93% lean)"
+        "components": [
+          {
+            "name": "Ground Chicken (93% lean)",
+            "quantity": 568,
+            "unit": "g"
+          },
+          {
+            "name": "Rice Vinegar (1 tsp)",
+            "quantity": 5,
+            "unit": "ml"
+          }
+        ],
+        "instructions": {
+          "0": "Heat a large skillet over medium-high heat. Add ground {{protein}} and minced garlic, breaking the meat apart. Cook 8-10 minutes until browned throughout -- ground chicken cooks faster than beef.",
+          "1": "Drizzle teriyaki sauce and rice vinegar over {{protein}} and stir well -- the vinegar brightens the glaze against chicken's milder flavor. Cook 2 minutes more."
+        }
       },
       {
         "id": "pork",
         "label": "Pork",
-        "componentName": "Ground Pork (93% lean)"
+        "components": [
+          {
+            "name": "Ground Pork (93% lean)",
+            "quantity": 568,
+            "unit": "g"
+          },
+          {
+            "name": "Fresh Ginger, grated (½ tsp)",
+            "quantity": 2,
+            "unit": "g"
+          }
+        ],
+        "instructions": {
+          "1": "Drizzle teriyaki sauce over {{protein}} and stir in the grated ginger -- ginger and teriyaki are a classic match for pork. Cook 2 minutes more."
+        }
       },
       {
         "id": "turkey",
         "label": "Turkey",
-        "componentName": "Ground Turkey (93% lean)"
+        "components": [
+          {
+            "name": "Ground Turkey (93% lean)",
+            "quantity": 568,
+            "unit": "g"
+          },
+          {
+            "name": "Cracked Black Pepper (¼ tsp)",
+            "quantity": 1,
+            "unit": "g"
+          }
+        ],
+        "instructions": {
+          "0": "Heat a large skillet over medium-high heat. Add ground {{protein}} and minced garlic, breaking the meat apart. Cook 8-10 minutes until browned throughout -- ground turkey cooks faster than beef.",
+          "1": "Drizzle teriyaki sauce over {{protein}} and stir in the cracked black pepper for a little extra punch against turkey's milder flavor. Cook 2 minutes more."
+        }
       }
     ],
     "flavor": "asian",
     "activeTime": 12,
     "components": [
-      {
-        "name": "Ground Beef (93% lean)",
-        "quantity": 568,
-        "unit": "g",
-        "proteinSlot": true
-      },
       {
         "name": "Teriyaki Sauce (bottled)",
         "quantity": 120,

@@ -18,7 +18,7 @@ import InstructionText from './InstructionText';
 import InfoIcon from './InfoIcon';
 import RecipeTutorial from './RecipeTutorial';
 import useFirstVisitTip from '../hooks/useFirstVisitTip';
-import { readProteinChoice, saveProteinChoice, resolveProteinText, resolveProteinComponents } from '../utils/proteinChoice';
+import { readProteinChoice, saveProteinChoice, resolveProteinText, resolveProteinComponents, resolveProteinInstructions } from '../utils/proteinChoice';
 import MealPrepIcon from './MealPrepIcon';
 import FlameIcon from './FlameIcon';
 import LeafIcon from './LeafIcon';
@@ -614,8 +614,13 @@ export default function RecipeModal({
     return { ...c, quantity: scaleQuantity(c.quantity, scaleFactor) };
   });
 
-  const instructions = (r.instructions || []).map((step, i) => {
-    const resolvedStep = resolveProteinText(step, selectedProteinOption);
+  // Resolves each step against the chosen protein FIRST -- swapping in
+  // that protein's own flavor-accent step text where it has one (see
+  // recipes.js's proteinOptions), falling back to the shared tokenized
+  // step otherwise -- then a user's own manual instructionOverride (if
+  // they've edited this exact step) wins outright over either.
+  const proteinResolvedInstructions = resolveProteinInstructions(r.instructions || [], selectedProteinOption);
+  const instructions = proteinResolvedInstructions.map((resolvedStep, i) => {
     const override = entry?.instructionOverrides?.[i];
     return { text: override !== undefined ? override : resolvedStep, edited: override !== undefined };
   });
