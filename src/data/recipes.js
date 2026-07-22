@@ -8937,5 +8937,2281 @@ export const RECIPES = [
       "hot_sauce",
       "mayo"
     ]
+  },
+  {
+    "name": "Marry Me Chicken",
+    "description": "A viral, creamy garlic-parmesan chicken skillet with sun-dried tomatoes and basil in a sauce so good it earned its name.",
+    "id": 200,
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "servings": 1,
+    "proteins": [
+      "chicken"
+    ],
+    "flavor": "italian",
+    "activeTime": 15,
+    "tags": [
+      "high_protein"
+    ],
+    "components": [
+      {
+        "name": "Chicken Breast (1 breast, pounded thin)",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Sun-Dried Tomatoes (jarred, oil-packed, chopped, ¼ cup)",
+        "quantity": 40,
+        "unit": "g"
+      },
+      {
+        "name": "Heavy Cream (½ cup)",
+        "quantity": 120,
+        "unit": "ml"
+      },
+      {
+        "name": "Low-Sodium Chicken Broth (½ cup)",
+        "quantity": 120,
+        "unit": "g"
+      },
+      {
+        "name": "Parmesan (grated, ¼ cup)",
+        "quantity": 25,
+        "unit": "g"
+      },
+      {
+        "name": "Garlic (minced, 2 cloves)",
+        "quantity": 6,
+        "unit": "g"
+      },
+      {
+        "name": "Italian Seasoning (1 tsp)",
+        "quantity": 3,
+        "unit": "g"
+      },
+      {
+        "name": "Olive Oil Spray",
+        "quantity": 3,
+        "unit": "spray"
+      }
+    ],
+    "toppings": [
+      "Fresh Basil, torn",
+      "Extra Parmesan"
+    ],
+    "instructions": [
+      "Season the chicken with salt, pepper, and half the Italian seasoning. Spray a skillet with oil and sear over medium-high 4–5 minutes per side until golden and cooked through. Remove and set aside.",
+      "In the same skillet, add garlic and sun-dried tomatoes. Cook 1 minute until fragrant.",
+      "Stir in broth, cream, parmesan, and remaining Italian seasoning. Simmer 3–4 minutes until slightly thickened.",
+      "Return the chicken to the skillet, spoon sauce over the top, and simmer 2 more minutes. Top with basil and extra parmesan."
+    ],
+    "totalTime": 15,
+    "pantryTags": [
+      "chicken_breast",
+      "cheese",
+      "canned_tomatoes"
+    ]
+  },
+  {
+    "name": "Marry Me Salmon",
+    "description": "The viral Marry Me sauce — creamy sun-dried tomato and parmesan — poured over a pan-seared salmon fillet.",
+    "id": 201,
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "servings": 1,
+    "proteins": [
+      "fish"
+    ],
+    "flavor": "italian",
+    "activeTime": 14,
+    "tags": [
+      "high_protein"
+    ],
+    "components": [
+      {
+        "name": "Salmon Fillet (1 fillet)",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Sun-Dried Tomatoes (jarred, oil-packed, chopped, ¼ cup)",
+        "quantity": 40,
+        "unit": "g"
+      },
+      {
+        "name": "Heavy Cream (½ cup)",
+        "quantity": 120,
+        "unit": "ml"
+      },
+      {
+        "name": "Low-Sodium Chicken Broth (¼ cup)",
+        "quantity": 60,
+        "unit": "g"
+      },
+      {
+        "name": "Parmesan (grated, ¼ cup)",
+        "quantity": 25,
+        "unit": "g"
+      },
+      {
+        "name": "Garlic (minced, 2 cloves)",
+        "quantity": 6,
+        "unit": "g"
+      },
+      {
+        "name": "Italian Seasoning (1 tsp)",
+        "quantity": 3,
+        "unit": "g"
+      },
+      {
+        "name": "Olive Oil Spray",
+        "quantity": 3,
+        "unit": "spray"
+      }
+    ],
+    "toppings": [
+      "Fresh Basil, torn"
+    ],
+    "instructions": [
+      "Pat the salmon dry and season with salt, pepper, and half the Italian seasoning. Spray a skillet with oil and sear skin-side down over medium-high 4 minutes, flip, and cook 3 more minutes. Remove and set aside.",
+      "In the same skillet, add garlic and sun-dried tomatoes. Cook 1 minute until fragrant.",
+      "Stir in broth, cream, parmesan, and remaining Italian seasoning. Simmer 2–3 minutes until slightly thickened.",
+      "Return the salmon to the skillet, spoon sauce over the top, and simmer 1 more minute. Top with basil."
+    ],
+    "totalTime": 14,
+    "pantryTags": [
+      "salmon",
+      "cheese",
+      "canned_tomatoes"
+    ]
+  },
+  {
+    "name": "Marry Me Chicken Tacos",
+    "description": "A viral mashup — creamy sun-dried tomato Marry Me chicken folded into warm tortillas for a fusion taco night.",
+    "id": 202,
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "servings": 1,
+    "proteins": [
+      "chicken"
+    ],
+    "flavor": "mexican",
+    "activeTime": 15,
+    "tags": [
+      "high_protein"
+    ],
+    "components": [
+      {
+        "name": "Chicken Breast (1 breast, diced)",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Sun-Dried Tomatoes (jarred, oil-packed, chopped, ¼ cup)",
+        "quantity": 40,
+        "unit": "g"
+      },
+      {
+        "name": "Heavy Cream (⅓ cup)",
+        "quantity": 80,
+        "unit": "ml"
+      },
+      {
+        "name": "Parmesan (grated, 2 tbsp)",
+        "quantity": 15,
+        "unit": "g"
+      },
+      {
+        "name": "Garlic (minced, 2 cloves)",
+        "quantity": 6,
+        "unit": "g"
+      },
+      {
+        "name": "Taco Seasoning (1 tbsp)",
+        "quantity": 8,
+        "unit": "g"
+      },
+      {
+        "name": "Corn Tortillas (3 small)",
+        "quantity": 78,
+        "unit": "g"
+      },
+      {
+        "name": "Olive Oil Spray",
+        "quantity": 3,
+        "unit": "spray"
+      }
+    ],
+    "toppings": [
+      "Fresh Cilantro, chopped",
+      "Lime Wedge"
+    ],
+    "instructions": [
+      "Season diced chicken with taco seasoning. Spray a skillet with oil and cook over medium-high 6–7 minutes until browned and cooked through. Remove and set aside.",
+      "In the same skillet, add garlic and sun-dried tomatoes. Cook 1 minute until fragrant.",
+      "Stir in cream and parmesan. Simmer 2 minutes until slightly thickened, then return the chicken to the skillet and toss to coat.",
+      "Warm the tortillas, fill with the creamy chicken, and top with cilantro and a squeeze of lime."
+    ],
+    "totalTime": 15,
+    "pantryTags": [
+      "chicken_breast",
+      "cheese",
+      "tortillas",
+      "canned_tomatoes"
+    ]
+  },
+  {
+    "name": "Smash Burger Tacos",
+    "description": "The viral smash burger taco — a thin, crispy-edged smashed beef patty melted with cheese and folded right into a warm tortilla.",
+    "id": 203,
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "servings": 1,
+    "proteins": [
+      "beef"
+    ],
+    "flavor": "american",
+    "activeTime": 12,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
+    "components": [
+      {
+        "name": "Lean Ground Beef (93/7, ¼ lb)",
+        "quantity": 113,
+        "unit": "g"
+      },
+      {
+        "name": "Corn Tortillas (2 small)",
+        "quantity": 52,
+        "unit": "g"
+      },
+      {
+        "name": "Cheddar Slices (2)",
+        "quantity": 42,
+        "unit": "g"
+      },
+      {
+        "name": "Yellow Onion (finely diced, 2 tbsp)",
+        "quantity": 20,
+        "unit": "g"
+      },
+      {
+        "name": "Burger Seasoning (½ tsp)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "Special Sauce: Mayo + Ketchup + Pickle Relish (2 tbsp)",
+        "quantity": 30,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Shredded Lettuce",
+      "Diced Pickles"
+    ],
+    "instructions": [
+      "Divide beef into 2 balls. Place a tortilla in a hot dry skillet, top with a beef ball, and smash flat with a spatula right onto the tortilla. Sprinkle with onion and seasoning.",
+      "Cook 2–3 minutes until the edges are crispy and browned, then flip the whole tortilla-patty stack.",
+      "Add cheese on top of the meat, cover, and cook 1 more minute until melted. Repeat with the second taco.",
+      "Spread special sauce on the cheese side, fold the tortilla over the meat, and top with lettuce and pickles."
+    ],
+    "totalTime": 12,
+    "pantryTags": [
+      "ground_beef",
+      "tortillas",
+      "cheese",
+      "onion_garlic",
+      "mayo"
+    ]
+  },
+  {
+    "name": "Chicken Banh Mi Rice Bowl",
+    "description": "A Vietnamese-inspired banh mi bowl with garlicky chicken, quick-pickled carrots and cucumber, and a sriracha mayo drizzle.",
+    "id": 204,
+    "method": "Stovetop",
+    "mealType": "lunch_dinner",
+    "servings": 1,
+    "proteins": [
+      "chicken"
+    ],
+    "flavor": "asian",
+    "activeTime": 14,
+    "tags": [
+      "high_protein"
+    ],
+    "components": [
+      {
+        "name": "Chicken Thigh (boneless, skinless, 1 thigh, diced)",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "White Rice Pouch (microwaveable)",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Carrot (shredded, ½ cup)",
+        "quantity": 55,
+        "unit": "g"
+      },
+      {
+        "name": "Cucumber (thinly sliced, ½ cup)",
+        "quantity": 60,
+        "unit": "g"
+      },
+      {
+        "name": "Rice Vinegar (2 tbsp)",
+        "quantity": 30,
+        "unit": "ml"
+      },
+      {
+        "name": "Soy Sauce (1 tbsp)",
+        "quantity": 15,
+        "unit": "ml"
+      },
+      {
+        "name": "Garlic (minced, 1 clove)",
+        "quantity": 3,
+        "unit": "g"
+      },
+      {
+        "name": "Mayo + Sriracha (2 tbsp)",
+        "quantity": 30,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Fresh Cilantro",
+      "Sliced Jalapeño"
+    ],
+    "instructions": [
+      "Toss carrot and cucumber with rice vinegar and a pinch of salt. Set aside to quick-pickle while you cook the chicken.",
+      "Season diced chicken with garlic, salt, and pepper. Cook in a skillet over medium-high 6–7 minutes until browned and cooked through.",
+      "Stir soy sauce into the chicken and cook 1 more minute to glaze.",
+      "Microwave the rice per package instructions. Build the bowl with rice, chicken, and drained pickled veg. Drizzle with sriracha mayo and top with cilantro and jalapeño."
+    ],
+    "totalTime": 14,
+    "pantryTags": [
+      "chicken_thighs",
+      "rice",
+      "soy_sauce",
+      "mayo"
+    ]
+  },
+  {
+    "name": "Crispy Rice Spicy Salmon Bites",
+    "description": "The viral sushi-restaurant favorite at home — crispy air-fried rice squares topped with spicy salmon and a drizzle of spicy mayo.",
+    "id": 205,
+    "method": "Air Fryer",
+    "mealType": "lunch_dinner",
+    "servings": 1,
+    "proteins": [
+      "fish"
+    ],
+    "flavor": "asian",
+    "activeTime": 15,
+    "tags": [
+      "high_protein"
+    ],
+    "components": [
+      {
+        "name": "White Rice Pouch (cooked, pressed and chilled)",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Raw Sushi-Grade Salmon (diced, ½ cup)",
+        "quantity": 100,
+        "unit": "g"
+      },
+      {
+        "name": "Mayo (2 tbsp)",
+        "quantity": 30,
+        "unit": "g"
+      },
+      {
+        "name": "Sriracha (1 tbsp)",
+        "quantity": 15,
+        "unit": "ml"
+      },
+      {
+        "name": "Soy Sauce (1 tsp)",
+        "quantity": 5,
+        "unit": "ml"
+      },
+      {
+        "name": "Sesame Oil (½ tsp)",
+        "quantity": 2.5,
+        "unit": "g"
+      },
+      {
+        "name": "Olive Oil Spray",
+        "quantity": 3,
+        "unit": "spray"
+      }
+    ],
+    "toppings": [
+      "Sliced Scallions",
+      "Sesame Seeds"
+    ],
+    "instructions": [
+      "Press the cooked rice firmly into a small dish lined with plastic wrap, chill 10 minutes (or freeze 5), then cut into bite-sized squares.",
+      "Spray rice squares with oil on both sides and air fry at 400°F for 8–10 minutes, flipping halfway, until golden and crispy.",
+      "Meanwhile, mix diced salmon with soy sauce and sesame oil. Mix mayo and sriracha for the spicy mayo.",
+      "Top each crispy rice square with spicy salmon, a drizzle of spicy mayo, scallions, and sesame seeds."
+    ],
+    "totalTime": 15,
+    "pantryTags": [
+      "rice",
+      "salmon",
+      "mayo",
+      "soy_sauce",
+      "hot_sauce"
+    ]
+  },
+  {
+    "name": "Gochujang Butter Chicken Noodles",
+    "description": "The viral gochujang butter noodles, leveled up with seared chicken — sweet, spicy, and glossy in a butter-soy sauce.",
+    "id": 206,
+    "method": "Stovetop",
+    "mealType": "lunch_dinner",
+    "servings": 1,
+    "proteins": [
+      "chicken"
+    ],
+    "flavor": "asian",
+    "activeTime": 15,
+    "tags": [
+      "high_protein"
+    ],
+    "components": [
+      {
+        "name": "Chicken Breast (1 breast, sliced thin)",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Pasta & Noodles (spaghetti or ramen, dry)",
+        "quantity": 85,
+        "unit": "g"
+      },
+      {
+        "name": "Gochujang Sauce (bottled, 2 tbsp)",
+        "quantity": 30,
+        "unit": "ml"
+      },
+      {
+        "name": "Butter (1 tbsp)",
+        "quantity": 14,
+        "unit": "g"
+      },
+      {
+        "name": "Soy Sauce (1 tbsp)",
+        "quantity": 15,
+        "unit": "ml"
+      },
+      {
+        "name": "Garlic (minced, 2 cloves)",
+        "quantity": 6,
+        "unit": "g"
+      },
+      {
+        "name": "Honey (1 tsp)",
+        "quantity": 7,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Sliced Scallions",
+      "Sesame Seeds"
+    ],
+    "instructions": [
+      "Boil the noodles per package directions, reserving ¼ cup pasta water before draining.",
+      "Meanwhile, season chicken with salt and pepper and sear in a skillet over medium-high 5–6 minutes until cooked through. Remove and set aside.",
+      "In the same skillet, melt butter, add garlic, gochujang, soy sauce, and honey. Stir in a splash of reserved pasta water to loosen into a glossy sauce.",
+      "Add the noodles and chicken back to the skillet and toss to coat. Top with scallions and sesame seeds."
+    ],
+    "totalTime": 15,
+    "pantryTags": [
+      "chicken_breast",
+      "pasta",
+      "soy_sauce"
+    ]
+  },
+  {
+    "name": "Mediterranean Salmon Bowl",
+    "description": "A high-protein salmon bowl dressed Mediterranean-style with a creamy tahini-lemon sauce, cucumber, and feta.",
+    "id": 207,
+    "method": "Stovetop",
+    "mealType": "lunch_dinner",
+    "servings": 1,
+    "proteins": [
+      "fish"
+    ],
+    "flavor": "mediterranean",
+    "activeTime": 12,
+    "tags": [
+      "high_protein"
+    ],
+    "components": [
+      {
+        "name": "Salmon Fillet (1 fillet)",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "White Rice Pouch (microwaveable)",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Cucumber (diced, ½ cup)",
+        "quantity": 60,
+        "unit": "g"
+      },
+      {
+        "name": "Feta Cheese (crumbled, ¼ cup)",
+        "quantity": 38,
+        "unit": "g"
+      },
+      {
+        "name": "Tahini (1 tbsp)",
+        "quantity": 15,
+        "unit": "g"
+      },
+      {
+        "name": "Lemon Juice (1 tbsp)",
+        "quantity": 15,
+        "unit": "ml"
+      },
+      {
+        "name": "Olive Oil Spray",
+        "quantity": 3,
+        "unit": "spray"
+      }
+    ],
+    "toppings": [
+      "Fresh Parsley, chopped",
+      "Kalamata Olives"
+    ],
+    "instructions": [
+      "Season salmon with salt, pepper, and a squeeze of lemon. Spray a skillet with oil and sear 4 minutes per side until cooked through.",
+      "Whisk tahini and remaining lemon juice with a splash of water until smooth and pourable.",
+      "Microwave the rice per package instructions. Build the bowl with rice, salmon, cucumber, and feta.",
+      "Drizzle with tahini-lemon sauce and top with parsley and olives."
+    ],
+    "totalTime": 12,
+    "pantryTags": [
+      "salmon",
+      "rice",
+      "cucumber",
+      "cheese"
+    ]
+  },
+  {
+    "name": "Southwest Chipotle Salmon Bowl",
+    "description": "A smoky chipotle-lime salmon bowl with black beans, corn, and avocado — a high-protein twist on a Southwest burrito bowl.",
+    "id": 208,
+    "method": "Stovetop",
+    "mealType": "lunch_dinner",
+    "servings": 1,
+    "proteins": [
+      "fish"
+    ],
+    "flavor": "mexican",
+    "activeTime": 12,
+    "tags": [
+      "high_protein"
+    ],
+    "components": [
+      {
+        "name": "Salmon Fillet (1 fillet)",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "White Rice Pouch (microwaveable)",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Black Beans (canned, drained, ½ cup)",
+        "quantity": 120,
+        "unit": "g"
+      },
+      {
+        "name": "Corn (frozen or canned, ¼ cup)",
+        "quantity": 40,
+        "unit": "g"
+      },
+      {
+        "name": "Chipotle Peppers in Adobo (minced, 1 tsp)",
+        "quantity": 5,
+        "unit": "g"
+      },
+      {
+        "name": "Lime Juice (1 tbsp)",
+        "quantity": 15,
+        "unit": "ml"
+      },
+      {
+        "name": "Olive Oil Spray",
+        "quantity": 3,
+        "unit": "spray"
+      }
+    ],
+    "toppings": [
+      "Diced Avocado",
+      "Fresh Cilantro"
+    ],
+    "instructions": [
+      "Rub salmon with chipotle, lime juice, salt, and pepper. Spray a skillet with oil and sear 4 minutes per side until cooked through.",
+      "Warm the black beans and corn together in a small pan 2–3 minutes.",
+      "Microwave the rice per package instructions. Build the bowl with rice, beans and corn, and salmon.",
+      "Top with avocado and cilantro."
+    ],
+    "totalTime": 12,
+    "pantryTags": [
+      "salmon",
+      "rice",
+      "canned_beans"
+    ]
+  },
+  {
+    "name": "High Protein Chicken Burrito Bowl",
+    "description": "A loaded chicken burrito bowl with seasoned rice, black beans, corn, and salsa — a quick, high-protein Chipotle copycat.",
+    "id": 209,
+    "method": "Stovetop",
+    "mealType": "lunch_dinner",
+    "servings": 1,
+    "proteins": [
+      "chicken"
+    ],
+    "flavor": "mexican",
+    "activeTime": 14,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
+    "components": [
+      {
+        "name": "Chicken Breast (1 breast, diced)",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "White Rice Pouch (microwaveable)",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Black Beans (canned, drained, ½ cup)",
+        "quantity": 120,
+        "unit": "g"
+      },
+      {
+        "name": "Corn (frozen or canned, ¼ cup)",
+        "quantity": 40,
+        "unit": "g"
+      },
+      {
+        "name": "Taco Seasoning (1 tbsp)",
+        "quantity": 8,
+        "unit": "g"
+      },
+      {
+        "name": "Salsa (¼ cup)",
+        "quantity": 60,
+        "unit": "g"
+      },
+      {
+        "name": "Shredded Cheese (¼ cup)",
+        "quantity": 28,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Diced Avocado",
+      "Fresh Cilantro",
+      "Sour Cream"
+    ],
+    "instructions": [
+      "Season diced chicken with taco seasoning and cook in a skillet over medium-high 6–7 minutes until browned and cooked through.",
+      "Warm the black beans and corn together in a small pan 2–3 minutes.",
+      "Microwave the rice per package instructions. Build the bowl with rice, beans and corn, chicken, and salsa.",
+      "Top with cheese, avocado, cilantro, and a dollop of sour cream."
+    ],
+    "totalTime": 14,
+    "pantryTags": [
+      "chicken_breast",
+      "rice",
+      "canned_beans",
+      "salsa",
+      "cheese"
+    ]
+  },
+  {
+    "name": "Mexican Street Corn Chicken Skillet",
+    "description": "Charred elote-style corn folded into a creamy, chili-lime chicken skillet — all the flavor of Mexican street corn in one pan.",
+    "id": 210,
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "servings": 1,
+    "proteins": [
+      "chicken"
+    ],
+    "flavor": "mexican",
+    "activeTime": 15,
+    "tags": [
+      "high_protein"
+    ],
+    "components": [
+      {
+        "name": "Chicken Breast (1 breast, diced)",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Corn (frozen or canned, ¾ cup)",
+        "quantity": 120,
+        "unit": "g"
+      },
+      {
+        "name": "Mayo (2 tbsp)",
+        "quantity": 30,
+        "unit": "g"
+      },
+      {
+        "name": "Cotija or Feta Cheese (crumbled, ¼ cup)",
+        "quantity": 30,
+        "unit": "g"
+      },
+      {
+        "name": "Chili Powder (1 tsp)",
+        "quantity": 3,
+        "unit": "g"
+      },
+      {
+        "name": "Lime Juice (1 tbsp)",
+        "quantity": 15,
+        "unit": "ml"
+      },
+      {
+        "name": "Olive Oil Spray",
+        "quantity": 3,
+        "unit": "spray"
+      }
+    ],
+    "toppings": [
+      "Fresh Cilantro",
+      "Extra Chili Powder"
+    ],
+    "instructions": [
+      "Season chicken with chili powder, salt, and pepper. Spray a skillet with oil and cook over medium-high 6–7 minutes until browned and cooked through. Remove and set aside.",
+      "In the same skillet, char the corn over medium-high 3–4 minutes until lightly browned.",
+      "Stir mayo, lime juice, and half the cheese into the corn. Return chicken to the skillet and toss to coat.",
+      "Top with remaining cheese and cilantro."
+    ],
+    "totalTime": 15,
+    "pantryTags": [
+      "chicken_breast",
+      "cheese",
+      "mayo"
+    ]
+  },
+  {
+    "name": "Bang Bang Chicken Bake",
+    "description": "Crispy baked chicken bites tossed in the viral sweet-and-spicy bang bang sauce — a baked, high-protein spin on the wing-bar favorite.",
+    "id": 211,
+    "method": "Bake",
+    "mealType": "lunch_dinner",
+    "servings": 1,
+    "proteins": [
+      "chicken"
+    ],
+    "flavor": "spicy",
+    "activeTime": 10,
+    "tags": [
+      "high_protein"
+    ],
+    "components": [
+      {
+        "name": "Chicken Breast (1 breast, cubed)",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Panko Breadcrumbs (½ cup)",
+        "quantity": 30,
+        "unit": "g"
+      },
+      {
+        "name": "Egg White (2 tbsp)",
+        "quantity": 30,
+        "unit": "ml"
+      },
+      {
+        "name": "Mayo (2 tbsp)",
+        "quantity": 30,
+        "unit": "g"
+      },
+      {
+        "name": "Sweet Chili Sauce (2 tbsp)",
+        "quantity": 30,
+        "unit": "ml"
+      },
+      {
+        "name": "Sriracha (1 tsp)",
+        "quantity": 5,
+        "unit": "ml"
+      },
+      {
+        "name": "Olive Oil Spray",
+        "quantity": 3,
+        "unit": "spray"
+      }
+    ],
+    "toppings": [
+      "Sliced Scallions"
+    ],
+    "instructions": [
+      "Preheat oven to 425°F. Dip chicken cubes in egg white, then coat in panko.",
+      "Arrange on a lined sheet pan, spray with oil, and bake 15–18 minutes until golden and cooked through.",
+      "Whisk mayo, sweet chili sauce, and sriracha together for the bang bang sauce.",
+      "Toss the baked chicken in the sauce and top with scallions."
+    ],
+    "totalTime": 20,
+    "pantryTags": [
+      "chicken_breast",
+      "mayo",
+      "hot_sauce"
+    ]
+  },
+  {
+    "name": "Dumpling Skillet Bake",
+    "description": "The viral 'dumpling lasagna' — layers of potstickers, marinara, and melted cheese baked into one cozy, fusion skillet.",
+    "id": 212,
+    "method": "Bake",
+    "mealType": "lunch_dinner",
+    "servings": 1,
+    "proteins": [
+      "pork"
+    ],
+    "flavor": "asian",
+    "activeTime": 10,
+    "tags": [
+      "high_protein"
+    ],
+    "components": [
+      {
+        "name": "Frozen Pork Potstickers (8 count)",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Marinara Sauce (¾ cup)",
+        "quantity": 180,
+        "unit": "g"
+      },
+      {
+        "name": "Shredded Mozzarella (¾ cup)",
+        "quantity": 85,
+        "unit": "g"
+      },
+      {
+        "name": "Garlic (minced, 1 clove)",
+        "quantity": 3,
+        "unit": "g"
+      },
+      {
+        "name": "Italian Seasoning (½ tsp)",
+        "quantity": 1.5,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Fresh Basil, torn",
+      "Red Pepper Flakes"
+    ],
+    "instructions": [
+      "Preheat oven to 400°F. Stir garlic and Italian seasoning into the marinara.",
+      "Spread a thin layer of marinara in a small oven-safe skillet or dish. Arrange the frozen potstickers in a single layer on top.",
+      "Cover with the remaining marinara, then top with mozzarella.",
+      "Bake 20–22 minutes until the cheese is bubbly and golden and the potstickers are cooked through. Top with basil and red pepper flakes."
+    ],
+    "totalTime": 22,
+    "pantryTags": [
+      "marinara",
+      "cheese"
+    ]
+  },
+  {
+    "name": "Protein Gochujang Ramen",
+    "description": "Instant ramen leveled way up — gochujang broth, a soft egg, and seared chicken turn a dorm-room staple into a real meal.",
+    "id": 213,
+    "method": "Stovetop",
+    "mealType": "lunch_dinner",
+    "servings": 1,
+    "proteins": [
+      "chicken",
+      "eggs"
+    ],
+    "flavor": "asian",
+    "activeTime": 12,
+    "tags": [
+      "high_protein"
+    ],
+    "components": [
+      {
+        "name": "Chicken Breast (1 breast, sliced thin)",
+        "quantity": 113,
+        "unit": "g"
+      },
+      {
+        "name": "Instant Ramen Noodles (1 block, seasoning packet discarded)",
+        "quantity": 85,
+        "unit": "g"
+      },
+      {
+        "name": "Gochujang Sauce (bottled, 1 tbsp)",
+        "quantity": 15,
+        "unit": "ml"
+      },
+      {
+        "name": "Soy Sauce (1 tbsp)",
+        "quantity": 15,
+        "unit": "ml"
+      },
+      {
+        "name": "Whole Egg (1 large, soft-boiled)",
+        "quantity": 50,
+        "unit": "count"
+      },
+      {
+        "name": "Frozen Vegetables (stir-fry blend, ½ cup)",
+        "quantity": 75,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Sliced Scallions",
+      "Sesame Seeds"
+    ],
+    "instructions": [
+      "Soft-boil the egg 6–7 minutes, cool in cold water, then peel and halve.",
+      "Season chicken with salt and pepper and sear in a pot over medium-high 5 minutes until cooked through. Remove and set aside.",
+      "In the same pot, add 2 cups water, gochujang, and soy sauce. Bring to a boil, add frozen vegetables and noodles, and cook 3 minutes until the noodles are tender.",
+      "Ladle into a bowl, top with chicken, the soft-boiled egg, scallions, and sesame seeds."
+    ],
+    "totalTime": 12,
+    "pantryTags": [
+      "chicken_breast",
+      "eggs",
+      "soy_sauce",
+      "frozen_veg"
+    ]
+  },
+  {
+    "name": "Chili Crisp Fried Rice",
+    "description": "Day-old rice fried with egg and crunchy, spicy chili crisp — a viral pantry-staple dish that's ready faster than delivery.",
+    "id": 214,
+    "method": "Stovetop",
+    "mealType": "lunch_dinner",
+    "servings": 1,
+    "proteins": [
+      "eggs"
+    ],
+    "flavor": "spicy",
+    "activeTime": 8,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
+    "components": [
+      {
+        "name": "White Rice Pouch (day-old cooked or microwaved and cooled)",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Whole Egg (2 large)",
+        "quantity": 100,
+        "unit": "count"
+      },
+      {
+        "name": "Chili Crisp (bottled, 2 tbsp)",
+        "quantity": 30,
+        "unit": "g"
+      },
+      {
+        "name": "Soy Sauce (1 tbsp)",
+        "quantity": 15,
+        "unit": "ml"
+      },
+      {
+        "name": "Frozen Peas & Carrots (½ cup)",
+        "quantity": 75,
+        "unit": "g"
+      },
+      {
+        "name": "Sesame Oil (½ tsp)",
+        "quantity": 2.5,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Sliced Scallions"
+    ],
+    "instructions": [
+      "Heat sesame oil in a skillet over medium-high. Add peas and carrots and cook 2 minutes.",
+      "Push vegetables to one side, crack in the eggs, and scramble until just set.",
+      "Add rice and soy sauce, breaking up clumps, and stir-fry 3–4 minutes until heated through.",
+      "Remove from heat and stir in chili crisp to taste. Top with scallions."
+    ],
+    "totalTime": 8,
+    "pantryTags": [
+      "rice",
+      "eggs",
+      "soy_sauce",
+      "frozen_veg"
+    ]
+  },
+  {
+    "name": "Air Fryer Smashed Potato Breakfast Bowl",
+    "description": "Crispy air-fried smashed potatoes topped with fried eggs and melty cheese — a viral breakfast side turned into the whole meal.",
+    "id": 215,
+    "method": "Air Fryer",
+    "mealType": "breakfast",
+    "servings": 1,
+    "proteins": [
+      "eggs"
+    ],
+    "flavor": "american",
+    "activeTime": 12,
+    "tags": [
+      "high_protein"
+    ],
+    "components": [
+      {
+        "name": "Baby Potatoes (boiled until fork-tender, 8 oz)",
+        "quantity": 225,
+        "unit": "g"
+      },
+      {
+        "name": "Whole Egg (2 large, fried)",
+        "quantity": 100,
+        "unit": "count"
+      },
+      {
+        "name": "Shredded Cheddar (¼ cup)",
+        "quantity": 28,
+        "unit": "g"
+      },
+      {
+        "name": "Garlic Powder (½ tsp)",
+        "quantity": 1.5,
+        "unit": "g"
+      },
+      {
+        "name": "Olive Oil Spray",
+        "quantity": 4,
+        "unit": "spray"
+      }
+    ],
+    "toppings": [
+      "Sliced Scallions",
+      "Hot Sauce"
+    ],
+    "instructions": [
+      "Boil potatoes until fork-tender, about 12 minutes, then drain and let cool slightly.",
+      "Spread potatoes on the air fryer tray and smash each one flat with a fork or cup. Spray with oil and season with garlic powder, salt, and pepper.",
+      "Air fry at 400°F for 12–14 minutes, flipping halfway, until crispy and golden. Sprinkle cheese on top for the last minute to melt.",
+      "Fry the eggs while the potatoes finish. Plate the smashed potatoes topped with fried eggs, scallions, and hot sauce."
+    ],
+    "totalTime": 15,
+    "pantryTags": [
+      "potatoes",
+      "eggs",
+      "cheese"
+    ]
+  },
+  {
+    "name": "Air Fryer Orange Chicken Bites",
+    "description": "Crispy air-fried chicken bites glazed in a sticky-sweet orange sauce — a lighter, viral take on the takeout classic.",
+    "id": 216,
+    "method": "Air Fryer",
+    "mealType": "lunch_dinner",
+    "servings": 1,
+    "proteins": [
+      "chicken"
+    ],
+    "flavor": "asian",
+    "activeTime": 12,
+    "tags": [
+      "high_protein"
+    ],
+    "components": [
+      {
+        "name": "Chicken Breast (1 breast, cubed)",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Cornstarch (2 tbsp)",
+        "quantity": 16,
+        "unit": "g"
+      },
+      {
+        "name": "Orange Juice (¼ cup)",
+        "quantity": 60,
+        "unit": "ml"
+      },
+      {
+        "name": "Soy Sauce (1 tbsp)",
+        "quantity": 15,
+        "unit": "ml"
+      },
+      {
+        "name": "Honey (1 tbsp)",
+        "quantity": 21,
+        "unit": "g"
+      },
+      {
+        "name": "Garlic (minced, 1 clove)",
+        "quantity": 3,
+        "unit": "g"
+      },
+      {
+        "name": "Olive Oil Spray",
+        "quantity": 4,
+        "unit": "spray"
+      }
+    ],
+    "toppings": [
+      "Sliced Scallions",
+      "Sesame Seeds"
+    ],
+    "instructions": [
+      "Toss chicken cubes in cornstarch to coat. Arrange in the air fryer basket, spray with oil, and air fry at 400°F for 10–12 minutes, shaking halfway, until crispy and cooked through.",
+      "Meanwhile, whisk orange juice, soy sauce, honey, and garlic in a small saucepan. Simmer over medium 3–4 minutes until thickened into a glaze.",
+      "Toss the crispy chicken in the orange glaze until coated.",
+      "Top with scallions and sesame seeds."
+    ],
+    "totalTime": 14,
+    "pantryTags": [
+      "chicken_breast",
+      "soy_sauce"
+    ]
+  },
+  {
+    "name": "Korean Corn Cheese Chicken Skillet",
+    "description": "Bar-food favorite Korean corn cheese folded into a garlicky chicken skillet — sweet, savory, and stretchy with melted cheese.",
+    "id": 217,
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "servings": 1,
+    "proteins": [
+      "chicken"
+    ],
+    "flavor": "asian",
+    "activeTime": 14,
+    "tags": [
+      "high_protein"
+    ],
+    "components": [
+      {
+        "name": "Chicken Thigh (boneless, skinless, 1 thigh, diced)",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Corn (frozen or canned, ¾ cup)",
+        "quantity": 120,
+        "unit": "g"
+      },
+      {
+        "name": "Mayo (1 tbsp)",
+        "quantity": 15,
+        "unit": "g"
+      },
+      {
+        "name": "Shredded Mozzarella (½ cup)",
+        "quantity": 56,
+        "unit": "g"
+      },
+      {
+        "name": "Butter (1 tsp)",
+        "quantity": 5,
+        "unit": "g"
+      },
+      {
+        "name": "Garlic (minced, 1 clove)",
+        "quantity": 3,
+        "unit": "g"
+      },
+      {
+        "name": "Sugar (½ tsp)",
+        "quantity": 2,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Sliced Scallions"
+    ],
+    "instructions": [
+      "Season chicken with salt and pepper and cook in a skillet over medium-high 6–7 minutes until browned and cooked through. Remove and set aside.",
+      "In the same skillet, melt butter and add garlic and corn. Cook 3 minutes, then stir in mayo and sugar.",
+      "Return chicken to the skillet, top everything with mozzarella, cover, and cook 2–3 minutes until the cheese is melted.",
+      "Top with scallions."
+    ],
+    "totalTime": 14,
+    "pantryTags": [
+      "chicken_thighs",
+      "cheese",
+      "mayo"
+    ]
+  },
+  {
+    "name": "Chicken Shawarma Bowl",
+    "description": "Warmly spiced shawarma-style chicken over rice with a cool, tangy garlic yogurt sauce — a fast take on the food-cart favorite.",
+    "id": 218,
+    "method": "Stovetop",
+    "mealType": "lunch_dinner",
+    "servings": 1,
+    "proteins": [
+      "chicken"
+    ],
+    "flavor": "mediterranean",
+    "activeTime": 15,
+    "tags": [
+      "high_protein"
+    ],
+    "components": [
+      {
+        "name": "Chicken Thigh (boneless, skinless, 1 thigh, sliced)",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "White Rice Pouch (microwaveable)",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Shawarma Seasoning: Cumin, Paprika, Turmeric, Cinnamon (1 tbsp)",
+        "quantity": 8,
+        "unit": "g"
+      },
+      {
+        "name": "Nonfat Greek Yogurt (¼ cup)",
+        "quantity": 60,
+        "unit": "ml"
+      },
+      {
+        "name": "Garlic (minced, 1 clove)",
+        "quantity": 3,
+        "unit": "g"
+      },
+      {
+        "name": "Lemon Juice (1 tbsp)",
+        "quantity": 15,
+        "unit": "ml"
+      },
+      {
+        "name": "Olive Oil Spray",
+        "quantity": 3,
+        "unit": "spray"
+      }
+    ],
+    "toppings": [
+      "Diced Cucumber",
+      "Diced Tomato",
+      "Fresh Parsley"
+    ],
+    "instructions": [
+      "Toss chicken with shawarma seasoning, salt, and pepper. Spray a skillet with oil and cook over medium-high 7–8 minutes until browned and cooked through.",
+      "Whisk yogurt, garlic, lemon juice, and a pinch of salt for the garlic sauce.",
+      "Microwave the rice per package instructions. Build the bowl with rice and chicken.",
+      "Drizzle with garlic yogurt sauce and top with cucumber, tomato, and parsley."
+    ],
+    "totalTime": 15,
+    "pantryTags": [
+      "chicken_thighs",
+      "rice",
+      "greek_yogurt"
+    ]
+  },
+  {
+    "name": "Spicy Tuna Crispy Rice Bites",
+    "description": "The other viral crispy rice — spicy tuna piled onto crunchy air-fried rice squares, sushi-restaurant style at home.",
+    "id": 219,
+    "method": "Air Fryer",
+    "mealType": "snack",
+    "servings": 1,
+    "proteins": [
+      "fish"
+    ],
+    "flavor": "asian",
+    "activeTime": 15,
+    "tags": [
+      "high_protein"
+    ],
+    "components": [
+      {
+        "name": "White Rice Pouch (cooked, pressed and chilled)",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Canned Tuna (drained, ½ cup)",
+        "quantity": 85,
+        "unit": "g"
+      },
+      {
+        "name": "Mayo (2 tbsp)",
+        "quantity": 30,
+        "unit": "g"
+      },
+      {
+        "name": "Sriracha (1 tbsp)",
+        "quantity": 15,
+        "unit": "ml"
+      },
+      {
+        "name": "Soy Sauce (1 tsp)",
+        "quantity": 5,
+        "unit": "ml"
+      },
+      {
+        "name": "Olive Oil Spray",
+        "quantity": 3,
+        "unit": "spray"
+      }
+    ],
+    "toppings": [
+      "Sliced Scallions",
+      "Sesame Seeds"
+    ],
+    "instructions": [
+      "Press the cooked rice firmly into a small dish lined with plastic wrap, chill 10 minutes (or freeze 5), then cut into bite-sized squares.",
+      "Spray rice squares with oil on both sides and air fry at 400°F for 8–10 minutes, flipping halfway, until golden and crispy.",
+      "Mix tuna, mayo, sriracha, and soy sauce in a bowl until well combined.",
+      "Top each crispy rice square with spicy tuna, scallions, and sesame seeds."
+    ],
+    "totalTime": 15,
+    "pantryTags": [
+      "rice",
+      "canned_fish",
+      "mayo",
+      "soy_sauce"
+    ]
+  },
+  {
+    "name": "Protein Baked Oats",
+    "description": "The viral single-serve baked oats — cakey, protein-packed, and ready in one bowl and a microwave or oven.",
+    "id": 220,
+    "method": "Bake",
+    "mealType": "breakfast",
+    "servings": 1,
+    "proteins": [
+      "protein_powder",
+      "eggs"
+    ],
+    "flavor": "neutral",
+    "activeTime": 5,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
+    "components": [
+      {
+        "name": "Rolled Oats (½ cup)",
+        "quantity": 45,
+        "unit": "g"
+      },
+      {
+        "name": "Vanilla Protein Powder (1 scoop)",
+        "quantity": 30,
+        "unit": "g"
+      },
+      {
+        "name": "Whole Egg (1 large)",
+        "quantity": 50,
+        "unit": "count"
+      },
+      {
+        "name": "Banana (½, mashed)",
+        "quantity": 60,
+        "unit": "g"
+      },
+      {
+        "name": "Milk (¼ cup)",
+        "quantity": 60,
+        "unit": "ml"
+      },
+      {
+        "name": "Baking Powder (¼ tsp)",
+        "quantity": 1,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Sliced Banana",
+      "Peanut Butter Drizzle"
+    ],
+    "instructions": [
+      "Preheat oven to 350°F (or have a microwave ready).",
+      "Mash the banana in a small oven-safe ramekin or bowl. Whisk in the egg, milk, protein powder, oats, and baking powder until smooth.",
+      "Bake 20–22 minutes until set and golden on top (or microwave 2–2.5 minutes until just set).",
+      "Top with sliced banana and a peanut butter drizzle."
+    ],
+    "totalTime": 22,
+    "pantryTags": [
+      "oats",
+      "eggs",
+      "milk"
+    ]
+  },
+  {
+    "name": "Blueberry Protein Smoothie",
+    "description": "A thick, no-cook blueberry protein smoothie with Greek yogurt — a fast, viral grab-and-go breakfast.",
+    "id": 221,
+    "method": "No Cook",
+    "mealType": "breakfast",
+    "servings": 1,
+    "proteins": [
+      "protein_powder",
+      "dairy"
+    ],
+    "flavor": "neutral",
+    "activeTime": 3,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
+    "components": [
+      {
+        "name": "Frozen Blueberries (1 cup)",
+        "quantity": 150,
+        "unit": "g"
+      },
+      {
+        "name": "Nonfat Greek Yogurt (½ cup)",
+        "quantity": 120,
+        "unit": "ml"
+      },
+      {
+        "name": "Vanilla Protein Powder (1 scoop)",
+        "quantity": 30,
+        "unit": "g"
+      },
+      {
+        "name": "Milk (¾ cup)",
+        "quantity": 180,
+        "unit": "ml"
+      },
+      {
+        "name": "Honey (1 tsp)",
+        "quantity": 7,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Granola",
+      "Extra Blueberries"
+    ],
+    "instructions": [
+      "Add blueberries, yogurt, protein powder, milk, and honey to a blender.",
+      "Blend on high 30–45 seconds until thick and smooth, adding a splash more milk if needed.",
+      "Pour into a glass or bowl and top with granola and extra blueberries."
+    ],
+    "totalTime": 3,
+    "pantryTags": [
+      "fruit",
+      "greek_yogurt",
+      "milk"
+    ]
+  },
+  {
+    "name": "Cottage Cheese Alfredo Pasta",
+    "description": "The viral blended-cottage-cheese pasta sauce — silky, high-protein, and just as creamy as a classic Alfredo.",
+    "id": 222,
+    "method": "Stovetop",
+    "mealType": "lunch_dinner",
+    "servings": 1,
+    "proteins": [
+      "dairy"
+    ],
+    "flavor": "italian",
+    "activeTime": 12,
+    "tags": [
+      "high_protein"
+    ],
+    "components": [
+      {
+        "name": "Pasta & Noodles (dry)",
+        "quantity": 85,
+        "unit": "g"
+      },
+      {
+        "name": "Cottage Cheese (¾ cup)",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Parmesan (grated, ¼ cup)",
+        "quantity": 25,
+        "unit": "g"
+      },
+      {
+        "name": "Garlic (minced, 1 clove)",
+        "quantity": 3,
+        "unit": "g"
+      },
+      {
+        "name": "Butter (1 tsp)",
+        "quantity": 5,
+        "unit": "g"
+      },
+      {
+        "name": "Black Pepper (¼ tsp)",
+        "quantity": 1,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Fresh Parsley",
+      "Extra Parmesan"
+    ],
+    "instructions": [
+      "Boil the pasta per package directions, reserving ¼ cup pasta water before draining.",
+      "Blend cottage cheese, parmesan, garlic, and black pepper until completely smooth, about 1 minute.",
+      "Melt butter in the empty pasta pot over low heat, pour in the blended sauce, and warm gently 2–3 minutes (don't boil). Thin with reserved pasta water as needed.",
+      "Toss the pasta in the sauce and top with parsley and extra parmesan."
+    ],
+    "totalTime": 12,
+    "pantryTags": [
+      "pasta",
+      "cottage_cheese",
+      "cheese"
+    ]
+  },
+  {
+    "name": "Cottage Cheese Breakfast Bake Rounds",
+    "description": "Viral blended cottage cheese and egg 'rounds' baked into a savory, portable, high-protein breakfast puck.",
+    "id": 223,
+    "method": "Bake",
+    "mealType": "breakfast",
+    "servings": 1,
+    "proteins": [
+      "dairy",
+      "eggs"
+    ],
+    "flavor": "neutral",
+    "activeTime": 5,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
+    "components": [
+      {
+        "name": "Cottage Cheese (½ cup)",
+        "quantity": 113,
+        "unit": "g"
+      },
+      {
+        "name": "Whole Egg (2 large)",
+        "quantity": 100,
+        "unit": "count"
+      },
+      {
+        "name": "Everything Bagel Seasoning (1 tsp)",
+        "quantity": 3,
+        "unit": "g"
+      },
+      {
+        "name": "Shredded Cheddar (2 tbsp)",
+        "quantity": 14,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Extra Everything Bagel Seasoning"
+    ],
+    "instructions": [
+      "Preheat oven to 350°F and line a small pan with parchment.",
+      "Blend cottage cheese and eggs together until completely smooth.",
+      "Pour onto the lined pan, sprinkle with cheese and seasoning, and bake 20–22 minutes until set and lightly golden.",
+      "Let cool slightly, then slice into rounds."
+    ],
+    "totalTime": 22,
+    "pantryTags": [
+      "cottage_cheese",
+      "eggs",
+      "cheese"
+    ]
+  },
+  {
+    "name": "High Protein Cottage Cheese Ice Cream",
+    "description": "The viral blended cottage cheese 'ice cream' — frozen, creamy, and surprisingly close to soft-serve, with way more protein.",
+    "id": 224,
+    "method": "No Cook",
+    "mealType": "snack",
+    "servings": 1,
+    "proteins": [
+      "dairy"
+    ],
+    "flavor": "neutral",
+    "activeTime": 5,
+    "tags": [
+      "high_protein"
+    ],
+    "components": [
+      {
+        "name": "Cottage Cheese (1 cup)",
+        "quantity": 225,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Berries (½ cup)",
+        "quantity": 75,
+        "unit": "g"
+      },
+      {
+        "name": "Honey (1 tbsp)",
+        "quantity": 21,
+        "unit": "g"
+      },
+      {
+        "name": "Vanilla Extract (½ tsp)",
+        "quantity": 2,
+        "unit": "ml"
+      }
+    ],
+    "toppings": [
+      "Extra Berries",
+      "Granola"
+    ],
+    "instructions": [
+      "Add cottage cheese, frozen berries, honey, and vanilla to a blender or food processor.",
+      "Blend on high 1–2 minutes, scraping down the sides, until completely smooth and creamy.",
+      "Freeze 20–30 minutes for a soft-serve texture (or eat right away for a thick shake-like texture).",
+      "Top with extra berries and granola."
+    ],
+    "totalTime": 25,
+    "pantryTags": [
+      "cottage_cheese",
+      "fruit"
+    ]
+  },
+  {
+    "name": "Baked Cottage Cheese Chips",
+    "description": "The viral baked cottage cheese chips — crispy, savory, high-protein crisps made from just cottage cheese and seasoning.",
+    "id": 225,
+    "method": "Bake",
+    "mealType": "snack",
+    "servings": 1,
+    "proteins": [
+      "dairy"
+    ],
+    "flavor": "neutral",
+    "activeTime": 5,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
+    "components": [
+      {
+        "name": "Cottage Cheese (small curd, ¾ cup)",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Everything Bagel Seasoning (1 tsp)",
+        "quantity": 3,
+        "unit": "g"
+      }
+    ],
+    "toppings": [],
+    "instructions": [
+      "Preheat oven to 375°F and line a sheet pan with parchment.",
+      "Spoon small, thin mounds of cottage cheese onto the parchment, spacing well apart, and spread each into a thin round.",
+      "Sprinkle with seasoning and bake 25–30 minutes until deep golden and fully dried out and crisp.",
+      "Let cool completely on the pan — they crisp up further as they cool."
+    ],
+    "totalTime": 30,
+    "pantryTags": [
+      "cottage_cheese"
+    ]
+  },
+  {
+    "name": "Ground Beef Crunchwrap Bowl",
+    "description": "Everything you love about the drive-thru crunchwrap — seasoned beef, crispy tostada, cheese, and sour cream — deconstructed into a bowl.",
+    "id": 226,
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "servings": 1,
+    "proteins": [
+      "beef"
+    ],
+    "flavor": "mexican",
+    "activeTime": 12,
+    "tags": [
+      "high_protein"
+    ],
+    "components": [
+      {
+        "name": "Lean Ground Beef (93/7, ¼ lb)",
+        "quantity": 113,
+        "unit": "g"
+      },
+      {
+        "name": "Taco Seasoning (1 tbsp)",
+        "quantity": 8,
+        "unit": "g"
+      },
+      {
+        "name": "Corn Tortilla (1, torn and crisped)",
+        "quantity": 26,
+        "unit": "g"
+      },
+      {
+        "name": "Shredded Cheese (¼ cup)",
+        "quantity": 28,
+        "unit": "g"
+      },
+      {
+        "name": "Nonfat Greek Yogurt (2 tbsp, sour cream sub)",
+        "quantity": 30,
+        "unit": "ml"
+      },
+      {
+        "name": "Salsa (¼ cup)",
+        "quantity": 60,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Shredded Lettuce",
+      "Diced Tomato"
+    ],
+    "instructions": [
+      "Brown the beef in a skillet over medium-high 5–6 minutes, breaking it up, then stir in taco seasoning with a splash of water.",
+      "In a dry pan, crisp the torn tortilla pieces 2–3 minutes until golden, like tostada chips.",
+      "Build the bowl with beef, cheese, and salsa. Top with the crispy tortilla pieces, a dollop of Greek yogurt, lettuce, and tomato."
+    ],
+    "totalTime": 12,
+    "pantryTags": [
+      "ground_beef",
+      "tortillas",
+      "cheese",
+      "salsa",
+      "greek_yogurt"
+    ]
+  },
+  {
+    "name": "Chicken Al Pastor Tacos",
+    "description": "Pineapple and smoky chili-spiced chicken standing in for the classic street-taco spit — sweet, tangy, and fast.",
+    "id": 227,
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "servings": 1,
+    "proteins": [
+      "chicken"
+    ],
+    "flavor": "mexican",
+    "activeTime": 13,
+    "tags": [
+      "high_protein"
+    ],
+    "components": [
+      {
+        "name": "Chicken Thigh (boneless, skinless, 1 thigh, diced)",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Pineapple (diced, ¼ cup)",
+        "quantity": 55,
+        "unit": "g"
+      },
+      {
+        "name": "Chili Powder (1 tsp)",
+        "quantity": 3,
+        "unit": "g"
+      },
+      {
+        "name": "Paprika (½ tsp)",
+        "quantity": 1.5,
+        "unit": "g"
+      },
+      {
+        "name": "Corn Tortillas (3 small)",
+        "quantity": 78,
+        "unit": "g"
+      },
+      {
+        "name": "Olive Oil Spray",
+        "quantity": 3,
+        "unit": "spray"
+      }
+    ],
+    "toppings": [
+      "Diced Onion",
+      "Fresh Cilantro",
+      "Lime Wedge"
+    ],
+    "instructions": [
+      "Season chicken with chili powder, paprika, salt, and pepper. Spray a skillet with oil and cook over medium-high 6–7 minutes until browned.",
+      "Add pineapple and cook 2 more minutes, letting it caramelize slightly.",
+      "Warm the tortillas and fill with the chicken and pineapple.",
+      "Top with onion, cilantro, and a squeeze of lime."
+    ],
+    "totalTime": 13,
+    "pantryTags": [
+      "chicken_thighs",
+      "tortillas"
+    ]
+  },
+  {
+    "name": "Honey Pepper Chicken Bites",
+    "description": "The viral 'boom boom' honey pepper chicken — crispy air-fried bites tossed in a sticky, peppery hot honey glaze.",
+    "id": 228,
+    "method": "Air Fryer",
+    "mealType": "lunch_dinner",
+    "servings": 1,
+    "proteins": [
+      "chicken"
+    ],
+    "flavor": "spicy",
+    "activeTime": 13,
+    "tags": [
+      "high_protein"
+    ],
+    "components": [
+      {
+        "name": "Chicken Breast (1 breast, cubed)",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Cornstarch (2 tbsp)",
+        "quantity": 16,
+        "unit": "g"
+      },
+      {
+        "name": "Hot Honey (2 tbsp)",
+        "quantity": 42,
+        "unit": "g"
+      },
+      {
+        "name": "Soy Sauce (1 tbsp)",
+        "quantity": 15,
+        "unit": "ml"
+      },
+      {
+        "name": "Black Pepper (½ tsp, coarse)",
+        "quantity": 1.5,
+        "unit": "g"
+      },
+      {
+        "name": "Olive Oil Spray",
+        "quantity": 4,
+        "unit": "spray"
+      }
+    ],
+    "toppings": [
+      "Sliced Scallions"
+    ],
+    "instructions": [
+      "Toss chicken cubes in cornstarch to coat. Arrange in the air fryer basket, spray with oil, and air fry at 400°F for 10–12 minutes, shaking halfway, until crispy and cooked through.",
+      "Whisk hot honey, soy sauce, and black pepper in a small saucepan and warm over low 1–2 minutes.",
+      "Toss the crispy chicken in the honey pepper glaze until coated.",
+      "Top with scallions."
+    ],
+    "totalTime": 13,
+    "pantryTags": [
+      "chicken_breast",
+      "soy_sauce"
+    ]
+  },
+  {
+    "name": "Green Goddess Chicken Salad Wrap",
+    "description": "Shredded chicken tossed in the viral herby, tangy green goddess dressing and wrapped up for a fast, high-protein lunch.",
+    "id": 229,
+    "method": "No Cook",
+    "mealType": "lunch_dinner",
+    "servings": 1,
+    "proteins": [
+      "chicken"
+    ],
+    "flavor": "mediterranean",
+    "activeTime": 8,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
+    "components": [
+      {
+        "name": "Rotisserie Chicken (shredded, 1 cup)",
+        "quantity": 140,
+        "unit": "g"
+      },
+      {
+        "name": "Nonfat Greek Yogurt (¼ cup)",
+        "quantity": 60,
+        "unit": "ml"
+      },
+      {
+        "name": "Fresh Herbs: Parsley, Chives, Basil (¼ cup, chopped)",
+        "quantity": 10,
+        "unit": "g"
+      },
+      {
+        "name": "Lemon Juice (1 tbsp)",
+        "quantity": 15,
+        "unit": "ml"
+      },
+      {
+        "name": "Garlic (minced, ½ clove)",
+        "quantity": 1.5,
+        "unit": "g"
+      },
+      {
+        "name": "Tortillas (1 large)",
+        "quantity": 45,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Salad Greens",
+      "Sliced Cucumber"
+    ],
+    "instructions": [
+      "Blend or finely mince the herbs, yogurt, lemon juice, and garlic into a smooth green goddess dressing.",
+      "Toss the shredded chicken with the dressing until well coated.",
+      "Lay the tortilla flat, add greens and cucumber, then top with the chicken salad.",
+      "Roll tightly into a wrap and slice in half."
+    ],
+    "totalTime": 8,
+    "pantryTags": [
+      "rotisserie_chicken",
+      "greek_yogurt",
+      "tortillas"
+    ]
+  },
+  {
+    "name": "Protein Chia Pudding",
+    "description": "The viral overnight protein chia pudding — set it before bed and wake up to a thick, creamy, high-protein breakfast.",
+    "id": 230,
+    "method": "No Cook",
+    "mealType": "breakfast",
+    "servings": 1,
+    "proteins": [
+      "protein_powder",
+      "dairy"
+    ],
+    "flavor": "neutral",
+    "activeTime": 4,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
+    "components": [
+      {
+        "name": "Chia Seeds (3 tbsp)",
+        "quantity": 36,
+        "unit": "g"
+      },
+      {
+        "name": "Milk (1 cup)",
+        "quantity": 240,
+        "unit": "ml"
+      },
+      {
+        "name": "Vanilla Protein Powder (1 scoop)",
+        "quantity": 30,
+        "unit": "g"
+      },
+      {
+        "name": "Honey (1 tsp)",
+        "quantity": 7,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Fresh Berries",
+      "Granola"
+    ],
+    "instructions": [
+      "Whisk chia seeds, milk, protein powder, and honey together in a jar until the powder is fully dissolved.",
+      "Cover and refrigerate at least 4 hours, or overnight, stirring once after the first 10 minutes to prevent clumping.",
+      "Stir before eating and top with berries and granola."
+    ],
+    "totalTime": 4,
+    "pantryTags": [
+      "milk"
+    ]
+  },
+  {
+    "name": "Turkish Menemen Eggs",
+    "description": "The viral Turkish breakfast eggs — soft-scrambled with blistered tomatoes, peppers, and feta for a saucy, high-protein skillet.",
+    "id": 231,
+    "method": "Skillet",
+    "mealType": "breakfast",
+    "servings": 1,
+    "proteins": [
+      "eggs"
+    ],
+    "flavor": "mediterranean",
+    "activeTime": 12,
+    "tags": [
+      "high_protein"
+    ],
+    "components": [
+      {
+        "name": "Whole Egg (2 large)",
+        "quantity": 100,
+        "unit": "count"
+      },
+      {
+        "name": "Canned Diced Tomatoes (½ cup)",
+        "quantity": 120,
+        "unit": "g"
+      },
+      {
+        "name": "Bell Pepper (diced, ½ cup)",
+        "quantity": 75,
+        "unit": "g"
+      },
+      {
+        "name": "Feta Cheese (crumbled, 2 tbsp)",
+        "quantity": 19,
+        "unit": "g"
+      },
+      {
+        "name": "Garlic (minced, 1 clove)",
+        "quantity": 3,
+        "unit": "g"
+      },
+      {
+        "name": "Olive Oil Spray",
+        "quantity": 3,
+        "unit": "spray"
+      }
+    ],
+    "toppings": [
+      "Fresh Parsley",
+      "Crusty Bread"
+    ],
+    "instructions": [
+      "Spray a skillet with oil and cook bell pepper over medium-high 4 minutes until softened. Add garlic and cook 30 seconds.",
+      "Stir in the diced tomatoes and simmer 4–5 minutes until slightly reduced.",
+      "Crack the eggs directly into the skillet, season with salt and pepper, and gently stir into soft, saucy curds, 2–3 minutes.",
+      "Top with feta and parsley."
+    ],
+    "totalTime": 12,
+    "pantryTags": [
+      "eggs",
+      "canned_tomatoes",
+      "bell_peppers",
+      "cheese"
+    ]
+  },
+  {
+    "name": "Whipped Cottage Cheese Dip",
+    "description": "The viral whipped cottage cheese dip — blended silky-smooth and topped everything-bagel style for a high-protein snack.",
+    "id": 232,
+    "method": "No Cook",
+    "mealType": "snack",
+    "servings": 1,
+    "proteins": [
+      "dairy"
+    ],
+    "flavor": "neutral",
+    "activeTime": 4,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
+    "components": [
+      {
+        "name": "Cottage Cheese (1 cup)",
+        "quantity": 225,
+        "unit": "g"
+      },
+      {
+        "name": "Lemon Juice (1 tsp)",
+        "quantity": 5,
+        "unit": "ml"
+      },
+      {
+        "name": "Everything Bagel Seasoning (1 tsp)",
+        "quantity": 3,
+        "unit": "g"
+      },
+      {
+        "name": "Cucumber, Carrots & Bell Pepper Sticks (for dipping, 1 cup)",
+        "quantity": 120,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Extra Everything Bagel Seasoning",
+      "Drizzle of Olive Oil"
+    ],
+    "instructions": [
+      "Add cottage cheese and lemon juice to a blender or food processor.",
+      "Blend 1–2 minutes, scraping down the sides, until completely smooth and whipped.",
+      "Spread onto a plate, top with seasoning and a drizzle of olive oil.",
+      "Serve with cucumber, carrot, and bell pepper sticks for dipping."
+    ],
+    "totalTime": 4,
+    "pantryTags": [
+      "cottage_cheese",
+      "cucumber",
+      "bell_peppers"
+    ]
+  },
+  {
+    "name": "Ground Turkey Gochujang Bowl",
+    "description": "Sweet, spicy gochujang ground turkey over rice — a fast, trending Korean-inspired bowl with minimal cleanup.",
+    "id": 233,
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "servings": 1,
+    "proteins": [
+      "turkey"
+    ],
+    "flavor": "asian",
+    "activeTime": 12,
+    "tags": [
+      "high_protein"
+    ],
+    "components": [
+      {
+        "name": "Ground Turkey (93/7, ¼ lb)",
+        "quantity": 113,
+        "unit": "g"
+      },
+      {
+        "name": "White Rice Pouch (microwaveable)",
+        "quantity": 200,
+        "unit": "g"
+      },
+      {
+        "name": "Gochujang Sauce (bottled, 1 tbsp)",
+        "quantity": 15,
+        "unit": "ml"
+      },
+      {
+        "name": "Soy Sauce (1 tbsp)",
+        "quantity": 15,
+        "unit": "ml"
+      },
+      {
+        "name": "Honey (1 tsp)",
+        "quantity": 7,
+        "unit": "g"
+      },
+      {
+        "name": "Garlic (minced, 1 clove)",
+        "quantity": 3,
+        "unit": "g"
+      },
+      {
+        "name": "Frozen Vegetables (stir-fry blend, ½ cup)",
+        "quantity": 75,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Sliced Scallions",
+      "Sesame Seeds"
+    ],
+    "instructions": [
+      "Brown the turkey in a skillet over medium-high 5–6 minutes, breaking it up as it cooks.",
+      "Add garlic and frozen vegetables, cook 3 minutes until the vegetables are heated through.",
+      "Stir in gochujang, soy sauce, and honey. Simmer 2 minutes until glossy and well coated.",
+      "Microwave the rice per package instructions and serve the turkey over rice, topped with scallions and sesame seeds."
+    ],
+    "totalTime": 12,
+    "pantryTags": [
+      "ground_turkey",
+      "rice",
+      "soy_sauce",
+      "frozen_veg"
+    ]
+  },
+  {
+    "name": "High Protein Chicken Caesar Pasta Salad",
+    "description": "The viral high-protein pasta salad trend — chicken, pasta, and a lightened-up Caesar dressing, perfect for meal prep.",
+    "id": 234,
+    "method": "No Cook",
+    "mealType": "lunch_dinner",
+    "servings": 1,
+    "proteins": [
+      "chicken"
+    ],
+    "flavor": "italian",
+    "activeTime": 12,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
+    "components": [
+      {
+        "name": "Pasta & Noodles (dry, small shape)",
+        "quantity": 85,
+        "unit": "g"
+      },
+      {
+        "name": "Rotisserie Chicken (shredded, 1 cup)",
+        "quantity": 140,
+        "unit": "g"
+      },
+      {
+        "name": "Nonfat Greek Yogurt (3 tbsp)",
+        "quantity": 45,
+        "unit": "ml"
+      },
+      {
+        "name": "Caesar Dressing (1 tbsp)",
+        "quantity": 15,
+        "unit": "ml"
+      },
+      {
+        "name": "Parmesan (grated, 2 tbsp)",
+        "quantity": 10,
+        "unit": "g"
+      },
+      {
+        "name": "Salad Greens (romaine, chopped, 1 cup)",
+        "quantity": 47,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Extra Parmesan",
+      "Black Pepper"
+    ],
+    "instructions": [
+      "Boil the pasta per package directions, then drain and rinse under cold water to cool.",
+      "Whisk Greek yogurt, Caesar dressing, and parmesan together in a large bowl.",
+      "Add the cooled pasta, chicken, and romaine, and toss until everything is well coated.",
+      "Chill 10 minutes before serving, or pack straight into a container for meal prep."
+    ],
+    "totalTime": 12,
+    "pantryTags": [
+      "pasta",
+      "rotisserie_chicken",
+      "greek_yogurt",
+      "salad_greens",
+      "cheese"
+    ]
   }
 ];
