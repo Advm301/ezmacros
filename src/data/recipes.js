@@ -1674,7 +1674,7 @@ export const RECIPES = [
   },
   {
     "name": "Greek Chicken Bowl",
-    "description": "A Mediterranean-style air-fried Greek chicken bowl with rice and cooling tzatziki.",
+    "description": "A Mediterranean-style air-fried Greek chicken bowl with rice, a quick cucumber-tomato salad, and cooling tzatziki.",
     "id": 30,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
@@ -1683,7 +1683,7 @@ export const RECIPES = [
       "chicken"
     ],
     "flavor": "mediterranean",
-    "activeTime": 6,
+    "activeTime": 7,
     "tags": [
       "high_protein"
     ],
@@ -1709,6 +1709,16 @@ export const RECIPES = [
         "unit": "g"
       },
       {
+        "name": "Mini Cucumber (diced, ¼ cup)",
+        "quantity": 35,
+        "unit": "g"
+      },
+      {
+        "name": "Cherry Tomatoes (halved, ¼ cup)",
+        "quantity": 35,
+        "unit": "g"
+      },
+      {
         "name": "Store-Bought Tzatziki (3 tbsp)",
         "quantity": 45,
         "unit": "ml"
@@ -1721,7 +1731,8 @@ export const RECIPES = [
     "instructions": [
       "Spray chicken with oil. Dust evenly with Greek seasoning.",
       "Air fry 400°F for 18–20 min, shaking at 10 min. Microwave rice 90 sec.",
-      "Build bowl with tzatziki drizzled on chicken. Toppings on side."
+      "Toss diced cucumber and halved cherry tomatoes with a pinch of salt while the chicken cooks -- this quick salad is what makes a Greek bowl taste like one, not just seasoned chicken and rice.",
+      "Build bowl with rice, chicken, and the cucumber-tomato salad. Drizzle tzatziki over the chicken. Toppings on side."
     ],
     "totalTime": 26,
     "pantryTags": [
@@ -3738,8 +3749,13 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Garlic Powder (½ tsp)",
-        "quantity": 2,
+        "name": "Garlic (minced, 1 clove)",
+        "quantity": 3,
+        "unit": "g"
+      },
+      {
+        "name": "Fresh Ginger (minced, 1 tsp)",
+        "quantity": 3,
         "unit": "g"
       },
       {
@@ -3759,8 +3775,9 @@ export const RECIPES = [
     ],
     "instructions": [
       "Boil water in pot. Add noodles, cook per package directions (usually 2–4 min). Add frozen veg, cook 2 min more. Drain.",
-      "Season chicken with garlic powder, salt, and pepper. Heat skillet. Cook chicken 5 min per side. Add teriyaki sauce and simmer 1 min, turning chicken to coat.",
-      "Plate noodles + veg, top with chicken. Toppings on side."
+      "Season chicken with salt and pepper. Heat skillet. Cook chicken 5 min per side.",
+      "Push chicken to one side, add garlic and ginger to the skillet, and stir 20-30 seconds until fragrant -- this is what actually builds real teriyaki flavor, not just the bottled sauce. Add teriyaki sauce and simmer 1 min, turning chicken to coat.",
+      "Add the drained noodles and veg to the skillet and toss everything together in the glaze. Plate. Toppings on side."
     ],
     "totalTime": 8,
     "pantryTags": [
