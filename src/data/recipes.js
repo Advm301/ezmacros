@@ -3360,7 +3360,7 @@ export const RECIPES = [
   },
   {
     "name": "BLT Protein Wrap",
-    "description": "A no-cook turkey bacon lettuce wrap with a light mayo spread -- a protein-forward take on a BLT.",
+    "description": "A no-cook turkey bacon lettuce tomato wrap with a light mayo spread -- a protein-forward take on a real BLT.",
     "id": 58,
     "method": "No Cook",
     "mealType": "lunch_dinner",
@@ -3369,7 +3369,7 @@ export const RECIPES = [
       "turkey"
     ],
     "flavor": "neutral",
-    "activeTime": 3,
+    "activeTime": 4,
     "tags": [
       "grab_and_go"
     ],
@@ -3390,6 +3390,11 @@ export const RECIPES = [
         "unit": "g"
       },
       {
+        "name": "Tomato (sliced, 3 slices)",
+        "quantity": 45,
+        "unit": "g"
+      },
+      {
         "name": "Large Flour Tortilla",
         "quantity": 60,
         "unit": "g"
@@ -3406,9 +3411,9 @@ export const RECIPES = [
     ],
     "instructions": [
       "Microwave bacon 2 min. Warm tortilla 30 sec in microwave.",
-      "Spread mayo on tortilla. Layer turkey + bacon + lettuce. Roll tightly."
+      "Spread mayo on tortilla. Layer turkey + bacon + lettuce + tomato slices -- a real BLT needs the tomato. Roll tightly."
     ],
-    "totalTime": 3,
+    "totalTime": 4,
     "pantryTags": [
       "bacon",
       "deli_meat",
