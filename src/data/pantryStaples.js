@@ -50,6 +50,7 @@ export const PANTRY_CATEGORIES = [
       { id: 'deli_meat', label: 'Deli Meat' },
       { id: 'canned_fish', label: 'Canned & Pouched Fish' },
       { id: 'canned_beans', label: 'Canned Beans' },
+      { id: 'protein_powder', label: 'Protein Powder' },
     ],
   },
   {
@@ -73,6 +74,7 @@ export const PANTRY_CATEGORIES = [
       { id: 'avocado', label: 'Avocado & Guacamole' },
       { id: 'cucumber', label: 'Cucumber' },
       { id: 'frozen_veg', label: 'Frozen Vegetables' },
+      { id: 'mushroom', label: 'Mushrooms' },
       { id: 'fruit', label: 'Fresh & Frozen Fruit' },
     ],
   },

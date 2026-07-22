@@ -3871,7 +3871,7 @@ export const RECIPES = [
   },
   {
     "name": "Loaded Baked Potato",
-    "description": "A hearty microwave loaded baked potato topped with chili, cheddar, and a dollop of Greek yogurt.",
+    "description": "A hearty microwave loaded baked potato topped with chili, cheddar, crumbled center-cut bacon, and a dollop of Greek yogurt.",
     "id": 66,
     "method": "Microwave",
     "mealType": "lunch_dinner",
@@ -3880,7 +3880,7 @@ export const RECIPES = [
       "dairy"
     ],
     "flavor": "spicy",
-    "activeTime": 5,
+    "activeTime": 6,
     "tags": [
       "grab_and_go"
     ],
@@ -3901,6 +3901,11 @@ export const RECIPES = [
         "unit": "g"
       },
       {
+        "name": "Center-Cut Bacon (cooked and crumbled, 2 slices)",
+        "quantity": 18,
+        "unit": "g"
+      },
+      {
         "name": "Nonfat Greek Yogurt (2 tbsp, sour cream sub)",
         "quantity": 30,
         "unit": "ml"
@@ -3912,14 +3917,15 @@ export const RECIPES = [
     ],
     "instructions": [
       "Poke potato with fork. Microwave on HIGH 8–10 min until tender.",
-      "Microwave chili 2 min in separate bowl. Split potato open. Top with chili, cheese, yogurt."
+      "Microwave chili 2 min in separate bowl. Split potato open. Top with chili, cheese, crumbled bacon, and yogurt -- the bacon is what makes a baked potato actually \"loaded.\""
     ],
-    "totalTime": 5,
+    "totalTime": 6,
     "pantryTags": [
       "cheese",
       "greek_yogurt",
       "potatoes",
-      "sour_cream"
+      "sour_cream",
+      "bacon"
     ]
   },
   {
@@ -6488,7 +6494,7 @@ export const RECIPES = [
   },
   {
     "name": "Creamy Mushroom Skillet",
-    "description": "A creamy, high-protein {{protein}} stroganoff-style skillet with sour cream over egg noodles.",
+    "description": "A creamy, high-protein {{protein}} stroganoff-style skillet with real sautéed mushrooms and sour cream over egg noodles.",
     "id": 98,
     "method": "Skillet",
     "mealType": "lunch_dinner",
@@ -6497,8 +6503,7 @@ export const RECIPES = [
       "beef",
       "chicken",
       "pork",
-      "turkey",
-      "eggs"
+      "turkey"
     ],
     "proteinOptions": [
       {
@@ -6546,7 +6551,7 @@ export const RECIPES = [
           }
         ],
         "instructions": {
-          "0": "Heat a large skillet over medium-high. Add ground {{protein}} and break apart. Cook 8-10 minutes until browned throughout -- ground chicken cooks faster than beef.",
+          "0": "Heat a large skillet over medium-high. Add ground {{protein}} and break apart. Cook 8-10 minutes until browned throughout -- ground chicken cooks faster than beef. Add the sliced mushrooms in the last 3-4 minutes and cook until softened and lightly browned.",
           "1": "Mix the chicken gravy mix with 2 cups water per package, then add to the meat along with fresh thyme -- a classic creamy chicken herb pairing. Simmer 4-5 minutes. Remove from heat and stir in sour cream."
         }
       },
@@ -6595,7 +6600,7 @@ export const RECIPES = [
           }
         ],
         "instructions": {
-          "0": "Heat a large skillet over medium-high. Add ground {{protein}} and break apart. Cook 8-10 minutes until browned throughout -- ground turkey cooks faster than beef.",
+          "0": "Heat a large skillet over medium-high. Add ground {{protein}} and break apart. Cook 8-10 minutes until browned throughout -- ground turkey cooks faster than beef. Add the sliced mushrooms in the last 3-4 minutes and cook until softened and lightly browned.",
           "1": "Mix the turkey gravy mix with 2 cups water per package, then add to the meat along with fresh sage -- a classic turkey herb pairing. Simmer 4-5 minutes. Remove from heat and stir in sour cream."
         }
       }
@@ -6607,9 +6612,9 @@ export const RECIPES = [
     ],
     "components": [
       {
-        "name": "Beef Stroganoff Sauce Mix (powder)",
-        "quantity": 80,
-        "unit": "ml"
+        "name": "Cremini Mushrooms (sliced, 3 cups)",
+        "quantity": 270,
+        "unit": "g"
       },
       {
         "name": "Sour Cream",
@@ -6632,7 +6637,7 @@ export const RECIPES = [
       "Fresh Dill (if available)"
     ],
     "instructions": [
-      "Heat a large skillet over medium-high. Add ground {{protein}} and break apart. Cook 10-12 minutes until browned throughout.",
+      "Heat a large skillet over medium-high. Add ground {{protein}} and break apart. Cook 10-12 minutes until browned throughout. Add the sliced mushrooms in the last 3-4 minutes and cook until softened and lightly browned -- real stroganoff is built on browned mushrooms, not just gravy.",
       "Mix stroganoff sauce powder with 2 cups water per package, then add to the meat. Simmer 4-5 minutes. Remove from heat and stir in sour cream.",
       "Divide the {{protein}} stroganoff evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave egg noodles per package + microwave broccoli 3 min, season broccoli with a pinch of garlic powder and onion powder. Combine noodles with a portion of the stroganoff. Broccoli on side."
@@ -6645,7 +6650,8 @@ export const RECIPES = [
       "ground_pork",
       "ground_turkey",
       "pasta",
-      "sour_cream"
+      "sour_cream",
+      "mushroom"
     ]
   },
   {
@@ -10982,6 +10988,289 @@ export const RECIPES = [
       "cheese",
       "butter",
       "frozen_veg"
+    ]
+  },
+  {
+    "name": "Kielbasa & Peppers Skillet",
+    "description": "Smoky, seared turkey kielbasa with sweet bell peppers and onions in a garlicky paprika skillet -- a lean take on the classic diner-cart favorite, over rice.",
+    "id": 310,
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "servings": 1,
+    "proteins": [
+      "turkey"
+    ],
+    "flavor": "savory",
+    "activeTime": 14,
+    "tags": [
+      "high_protein"
+    ],
+    "components": [
+      {
+        "name": "Turkey Kielbasa (sliced into rounds, 4 oz)",
+        "quantity": 113,
+        "unit": "g"
+      },
+      {
+        "name": "Bell Pepper (sliced, 1 cup)",
+        "quantity": 150,
+        "unit": "g"
+      },
+      {
+        "name": "Onion (sliced, ½ cup)",
+        "quantity": 75,
+        "unit": "g"
+      },
+      {
+        "name": "Olive Oil (1 tsp)",
+        "quantity": 5,
+        "unit": "g"
+      },
+      {
+        "name": "Garlic (minced, 1 clove)",
+        "quantity": 3,
+        "unit": "g"
+      },
+      {
+        "name": "Smoked Paprika (½ tsp)",
+        "quantity": 1.5,
+        "unit": "g"
+      },
+      {
+        "name": "White Rice Pouch (microwaveable)",
+        "quantity": 200,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Fresh Parsley",
+      "Extra Paprika"
+    ],
+    "instructions": [
+      "Heat oil in a skillet over medium-high. Add the sliced kielbasa in a single layer and cook 3-4 minutes per side until browned and slightly crisp at the edges. Remove and set aside.",
+      "In the same skillet, add the peppers and onion. Sauté 5-7 minutes until softened and starting to caramelize. Add garlic and smoked paprika, cook 1 minute more until fragrant.",
+      "Return the kielbasa to the skillet and toss with the peppers for 2-3 minutes to heat through. Season with salt and pepper to taste.",
+      "Microwave the rice 90 sec. Serve the kielbasa and peppers over rice. Toppings on side."
+    ],
+    "totalTime": 14,
+    "pantryTags": [
+      "sausage",
+      "rice",
+      "onion_garlic",
+      "bell_peppers"
+    ]
+  },
+  {
+    "name": "Chicken Sausage & Mushroom Skillet",
+    "description": "Italian-style chicken sausage seared with garlicky mushrooms and wilted spinach, tossed with pasta and parmesan -- a lighter spin on sausage and mushroom pasta.",
+    "id": 311,
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "servings": 1,
+    "proteins": [
+      "chicken"
+    ],
+    "flavor": "savory",
+    "activeTime": 15,
+    "tags": [
+      "high_protein"
+    ],
+    "components": [
+      {
+        "name": "Chicken Sausage (Italian-style link, sliced, 3 oz)",
+        "quantity": 85,
+        "unit": "g"
+      },
+      {
+        "name": "Cremini Mushrooms (sliced, 1 cup)",
+        "quantity": 70,
+        "unit": "g"
+      },
+      {
+        "name": "Fresh Baby Spinach (1 cup)",
+        "quantity": 30,
+        "unit": "g"
+      },
+      {
+        "name": "Garlic (minced, 1 clove)",
+        "quantity": 3,
+        "unit": "g"
+      },
+      {
+        "name": "Olive Oil (1 tsp)",
+        "quantity": 5,
+        "unit": "g"
+      },
+      {
+        "name": "Red Pepper Flakes (pinch)",
+        "quantity": 0.5,
+        "unit": "g"
+      },
+      {
+        "name": "Pasta & Noodles (dry)",
+        "quantity": 85,
+        "unit": "g"
+      },
+      {
+        "name": "Parmesan (grated, 2 tbsp)",
+        "quantity": 10,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Extra Parmesan",
+      "Black Pepper"
+    ],
+    "instructions": [
+      "Boil the pasta per package directions, reserving ¼ cup pasta water before draining.",
+      "Meanwhile, heat oil in a skillet over medium-high. Add sliced chicken sausage and cook 4-5 minutes until browned.",
+      "Add mushrooms and cook 4 minutes until softened and browned -- letting them sit undisturbed for the first minute or two helps them brown instead of steam. Add garlic and red pepper flakes, stir 30 seconds until fragrant.",
+      "Add spinach and toss until just wilted, about 1 minute. Add the pasta and parmesan, tossing with a splash of the reserved pasta water until glossy and coated."
+    ],
+    "totalTime": 15,
+    "pantryTags": [
+      "sausage",
+      "mushroom",
+      "pasta",
+      "cheese"
+    ]
+  },
+  {
+    "name": "Bratwurst & Sauerkraut Skillet",
+    "description": "Seared chicken bratwurst simmered with tangy sauerkraut, sweet apple, and Dijon mustard -- a lean, one-skillet take on the classic German pairing.",
+    "id": 312,
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "servings": 1,
+    "proteins": [
+      "chicken"
+    ],
+    "flavor": "savory",
+    "activeTime": 15,
+    "tags": [
+      "high_protein"
+    ],
+    "components": [
+      {
+        "name": "Chicken Bratwurst (1 link, sliced)",
+        "quantity": 84,
+        "unit": "g"
+      },
+      {
+        "name": "Sauerkraut (jarred, drained, ¾ cup)",
+        "quantity": 113,
+        "unit": "g"
+      },
+      {
+        "name": "Apple (sliced, ½ cup)",
+        "quantity": 75,
+        "unit": "g"
+      },
+      {
+        "name": "Onion (sliced, ¼ cup)",
+        "quantity": 40,
+        "unit": "g"
+      },
+      {
+        "name": "Dijon Mustard (1 tbsp)",
+        "quantity": 15,
+        "unit": "g"
+      },
+      {
+        "name": "Caraway Seeds (¼ tsp)",
+        "quantity": 0.5,
+        "unit": "g"
+      },
+      {
+        "name": "Olive Oil (1 tsp)",
+        "quantity": 5,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Extra Dijon Mustard",
+      "Fresh Parsley"
+    ],
+    "instructions": [
+      "Heat oil in a skillet over medium-high. Add the sliced bratwurst and cook 4-5 minutes until browned. Remove and set aside.",
+      "In the same skillet, add onion and apple and cook 4-5 minutes until softened -- the apple's sweetness is what balances the sauerkraut's tang in a real bratwurst-and-kraut skillet.",
+      "Stir in the sauerkraut, caraway seeds, and Dijon mustard. Return the bratwurst to the skillet, cover, and simmer 3-4 minutes until heated through and the flavors meld.",
+      "Serve with extra Dijon on the side."
+    ],
+    "totalTime": 15,
+    "pantryTags": [
+      "sausage",
+      "onion_garlic"
+    ]
+  },
+  {
+    "name": "Sheet Pan Turkey Sausage & Veggies",
+    "description": "Smoked turkey sausage roasted with sweet potato, broccoli, and bell pepper on one pan -- a hands-off, high-protein dinner with minimal cleanup.",
+    "id": 313,
+    "method": "Bake",
+    "mealType": "lunch_dinner",
+    "servings": 1,
+    "proteins": [
+      "turkey"
+    ],
+    "flavor": "savory",
+    "activeTime": 8,
+    "tags": [
+      "high_protein",
+      "meal_prep"
+    ],
+    "components": [
+      {
+        "name": "Turkey Smoked Sausage (sliced into rounds, 4 oz)",
+        "quantity": 113,
+        "unit": "g"
+      },
+      {
+        "name": "Sweet Potato (diced, ½ cup)",
+        "quantity": 75,
+        "unit": "g"
+      },
+      {
+        "name": "Broccoli Florets (fresh or frozen, 1 cup)",
+        "quantity": 100,
+        "unit": "g"
+      },
+      {
+        "name": "Bell Pepper (sliced, ½ cup)",
+        "quantity": 75,
+        "unit": "g"
+      },
+      {
+        "name": "Olive Oil Spray",
+        "quantity": 4,
+        "unit": "spray"
+      },
+      {
+        "name": "Garlic Powder (½ tsp)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "Italian Seasoning (½ tsp)",
+        "quantity": 1.5,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Red Pepper Flakes",
+      "Fresh Parsley"
+    ],
+    "instructions": [
+      "Preheat oven to 425°F. Toss the sweet potato with olive oil spray, garlic powder, and Italian seasoning on a sheet pan. Roast 10 minutes to give it a head start -- it takes longer to cook through than the other vegetables.",
+      "Add the sliced sausage, broccoli, and bell pepper to the pan. Toss everything together with a bit more oil spray and seasoning.",
+      "Roast 15-18 minutes more until the vegetables are tender and the sausage is browned at the edges."
+    ],
+    "totalTime": 26,
+    "pantryTags": [
+      "sausage",
+      "frozen_veg",
+      "potatoes",
+      "bell_peppers"
     ]
   }
 ];
