@@ -10,6 +10,8 @@ import LightningIcon from '../components/LightningIcon';
 import SurpriseSparkles from '../components/SurpriseSparkles';
 import FirstVisitTip from '../components/FirstVisitTip';
 import InfoIcon from '../components/InfoIcon';
+import CalendarIcon from '../components/CalendarIcon';
+import DiaryCalendarModal from '../components/DiaryCalendarModal';
 import useFirstVisitTip from '../hooks/useFirstVisitTip';
 
 // Maps a diary meal slot to the recipe mealType pool it should draw random
@@ -94,6 +96,7 @@ export default function Saved({
   const [regeneratingId, setRegeneratingId] = useState(null);
   const [showShoppingList, setShowShoppingList] = useState(false);
   const [showSavedModal, setShowSavedModal] = useState(false);
+  const [showCalendar, setShowCalendar] = useState(false);
   const [shoppingChecked, setShoppingChecked] = useState(() => loadShoppingChecked(selectedDate));
   const tip = useFirstVisitTip('quickprep_seen_diary_tip');
 
@@ -138,6 +141,15 @@ export default function Saved({
   const savedRecipes = RECIPES.filter((r) => savedIds.includes(String(r.id)));
 
   const dayEntries = diary ? diary.getEntriesForDate(selectedDate) : [];
+
+  // Every distinct date with at least one entry, for the calendar modal's
+  // "days with something logged" dots -- diary.entries already holds the
+  // signed-in user's whole history in memory (see useDiary.js), so this is
+  // just a client-side reduction, no extra query per month viewed.
+  const entryDates = useMemo(
+    () => new Set((diary?.entries || []).map((e) => e.entry_date)),
+    [diary?.entries]
+  );
 
   // The onboarding highlight only "counts" for entries that are actually
   // still on today's list -- see the onboardingHighlightedEntryIds prop
@@ -353,14 +365,15 @@ export default function Saved({
           >
             ‹
           </div>
-          <div style={{ flex: 1, textAlign: 'center' }}>
+          <div
+            onClick={() => { hapticLight(); setShowCalendar(true); }}
+            style={{ flex: 1, textAlign: 'center', cursor: 'pointer' }}
+          >
             <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--cream)' }}>{displayDate(selectedDate)}</div>
-            <input
-              type="date"
-              value={selectedDate}
-              onChange={(e) => e.target.value && onDateChange(e.target.value)}
-              style={{ marginTop: 4, background: 'var(--s2)', border: '1px solid var(--border)', borderRadius: 8, color: 'var(--muted)', fontSize: 11, padding: '2px 6px' }}
-            />
+            <div style={{ marginTop: 4, display: 'inline-flex', alignItems: 'center', gap: 4, background: 'var(--s2)', border: '1px solid var(--border)', borderRadius: 8, color: 'var(--muted)', fontSize: 11, padding: '2px 8px' }}>
+              <CalendarIcon size={12} />
+              Calendar
+            </div>
           </div>
           <div
             onClick={() => shiftDate(1)}
@@ -569,6 +582,15 @@ export default function Saved({
           })
         )}
       </div>
+
+      {showCalendar && (
+        <DiaryCalendarModal
+          selectedDate={selectedDate}
+          entryDates={entryDates}
+          onSelectDate={onDateChange}
+          onClose={() => setShowCalendar(false)}
+        />
+      )}
 
       {showSavedModal && (
         <div

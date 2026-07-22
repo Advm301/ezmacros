@@ -31,22 +31,47 @@ const MEAL_SECTIONS = [
   { label: 'Snacks', value: 'snack' },
 ];
 
+const MEAL_TYPE_SHORT_LABELS = {
+  breakfast: 'Breakfast',
+  lunch_dinner: 'Lunch/Dinner',
+  snack: 'Snack',
+};
+
+// Kept in sync with every distinct `proteins` value actually used in
+// recipes.js (audited when the meal-type accordion was replaced with a flat
+// list below) -- Dairy/Plant-Based/Protein Powder were previously missing
+// here entirely, which meant the ~40 recipes built around cottage cheese,
+// Greek yogurt, black beans, protein shakes, etc. had no way to be found
+// through this filter at all, even though they're a real, sizeable slice of
+// the catalog (breakfast bowls and snacks especially).
 const PROTEINS = [
   { label: 'Chicken', value: 'chicken' },
   { label: 'Beef', value: 'beef' },
   { label: 'Turkey', value: 'turkey' },
+  { label: 'Pork', value: 'pork' },
   { label: 'Fish', value: 'fish' },
   { label: 'Eggs', value: 'eggs' },
-  { label: 'Pork', value: 'pork' },
+  { label: 'Dairy', value: 'dairy' },
+  { label: 'Plant-Based', value: 'plant' },
+  { label: 'Protein Powder', value: 'protein_powder' },
 ];
 
+// Same sync audit as PROTEINS above -- American, Caribbean, and Savory were
+// real flavor values already in use (Jamaican Jerk Chicken, Nashville Hot
+// Chicken Tenders, and the new bratwurst/kielbasa/sausage recipes among
+// them) with no matching filter option, so those recipes were unreachable
+// by Flavor even though the field was populated correctly on the recipe
+// itself.
 const FLAVORS = [
   { label: 'Spicy', value: 'spicy' },
   { label: 'Saucy', value: 'saucy' },
+  { label: 'Savory', value: 'savory' },
   { label: 'Neutral', value: 'neutral' },
   { label: 'Asian', value: 'asian' },
   { label: 'Italian', value: 'italian' },
   { label: 'Mediterranean', value: 'mediterranean' },
+  { label: 'American', value: 'american' },
+  { label: 'Caribbean', value: 'caribbean' },
   { label: 'BBQ', value: 'bbq' },
   { label: 'Mexican', value: 'mexican' },
 ];
@@ -166,11 +191,6 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
   // rather than removing any, so it's left out of anyFilterActive /
   // clearAllFilters on purpose.
   const [sortByRating, setSortByRating] = useState(false);
-  // Each meal section (Breakfast / Lunch & Dinner / Snacks) starts closed --
-  // all three expanded by default was the exact "everything dumped on one
-  // screen" clutter this redesign is meant to fix. Opening one reveals its
-  // list inside a fixed-height scroll area rather than growing the page.
-  const [openSections, setOpenSections] = useState({});
 
   const moreFiltersCount = (proteinFilter ? 1 : 0) + (flavorFilter ? 1 : 0);
   // Drives whether the "Clear All Filters" link shows at all -- no point
@@ -190,16 +210,6 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
     setHighProteinOnly(false);
     setGrabAndGoOnly(false);
     setMealPrepOnly(false);
-  };
-  // A search or a picked meal type is an explicit signal the person wants to
-  // see matches right now -- forcing sections open in that case avoids the
-  // frustrating "I searched but the results are hidden behind a collapsed
-  // section" trap.
-  const isFiltering = search.trim().length > 0;
-
-  const toggleSection = (value) => {
-    hapticSelection();
-    setOpenSections((prev) => ({ ...prev, [value]: !prev[value] }));
   };
 
   let filtered = RECIPES.filter((r) => {
@@ -240,13 +250,17 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
     filtered = [...filtered].sort((a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0));
   }
 
-  const sections = MEAL_SECTIONS.filter((s) => !mealFilter || s.value === mealFilter);
-
   const select = (setter) => (value) => {
     hapticSelection();
     setter(value);
   };
-  const selectMeal = select(setMealFilter);
+  // Meal Type is a single-select pill row rather than a dropdown -- tapping
+  // the already-active pill clears back to "All" instead of needing a
+  // separate "All Meals" option to tap.
+  const selectMeal = (value) => {
+    hapticSelection();
+    setMealFilter((prev) => (prev === value ? null : value));
+  };
   const selectProtein = select(setProteinFilter);
   const selectFlavor = select(setFlavorFilter);
   const selectMethod = select(setMethodFilter);
@@ -283,6 +297,14 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
           </div>
           <div style={{ fontSize: 11, color: 'var(--muted)', display: 'flex', alignItems: 'center', gap: 5, flexWrap: 'wrap' }}>
             <span>
+              {/* Meal type only shown when browsing "All Meals" -- with a
+                  specific meal picked via the pill row above, every row in
+                  the list is already that meal type, so repeating it on
+                  every card would just be noise. This is what replaces the
+                  old Breakfast/Lunch & Dinner/Snacks section headers'
+                  context now that results render as one flat list instead
+                  of three separate accordions. */}
+              {!mealFilter && <>{MEAL_TYPE_SHORT_LABELS[r.mealType] || r.mealType} · </>}
               {r.method}{r.method && r.activeTime ? ' · ' : ''}{formatTime(r.activeTime, r.totalTime)}
               {' · '}
               {getRatingSummary && getRatingSummary(r.id) ? (
@@ -359,13 +381,26 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
           style={{ width: '100%', background: 'var(--s2)', border: '1px solid var(--border)', borderRadius: 12, padding: '10px 14px', color: 'var(--cream)', fontSize: 14, marginBottom: 14, boxSizing: 'border-box' }}
         />
 
-        <FilterSelect
-          label="Meal Type"
-          placeholder="All Meals"
-          value={mealFilter}
-          onChange={selectMeal}
-          options={MEAL_SECTIONS}
-        />
+        {/* Meal Type as a pill row narrows the same flat list below rather
+            than switching between three separate collapsible sections --
+            replaces the old accordion (Breakfast/Lunch & Dinner/Snacks each
+            needing its own tap-to-expand) that made this page feel
+            cluttered. Tapping the active pill again clears back to all
+            meals (see selectMeal above). */}
+        <div className="filter-sec">
+          <div className="filter-label">Meal Type</div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+            {MEAL_SECTIONS.map((s) => (
+              <div
+                key={s.value}
+                className={`pill ${mealFilter === s.value ? 'active' : ''}`}
+                onClick={() => selectMeal(s.value)}
+              >
+                {s.label}
+              </div>
+            ))}
+          </div>
+        </div>
 
         <FilterSelect
           label="Method"
@@ -454,46 +489,19 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
         </div>
       </div>
 
+      {/* One flat, page-scrolled list instead of three separate collapsible
+          Breakfast/Lunch & Dinner/Snacks sections -- narrowing via the Meal
+          Type pill row above (or any other filter) shrinks this same list
+          rather than requiring a tap-to-expand per section. This is the
+          whole point of the redesign: less clutter, no click-to-reveal
+          needed just to see results that are already filtered down. */}
       <div className="px">
         {filtered.length === 0 ? (
           <div style={{ textAlign: 'center', color: 'var(--muted)', padding: 40 }}>
             No recipes found. Try adjusting your filters.
           </div>
         ) : (
-          sections.map((section) => {
-            const sectionRecipes = filtered.filter((r) => r.mealType === section.value);
-            if (sectionRecipes.length === 0) return null;
-            const isOpen = isFiltering || Boolean(openSections[section.value]);
-            return (
-              <div key={section.value} style={{ marginBottom: 12 }}>
-                <div
-                  onClick={() => toggleSection(section.value)}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    cursor: 'pointer',
-                    padding: '10px 12px',
-                    background: 'var(--s1)',
-                    border: '1px solid var(--border)',
-                    borderRadius: 12,
-                  }}
-                >
-                  <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--cream)', textTransform: 'uppercase', letterSpacing: 1 }}>
-                    {section.label} ({sectionRecipes.length})
-                  </span>
-                  <span style={{ fontSize: 11, color: 'var(--muted)', transform: isOpen ? 'rotate(180deg)' : 'none', transition: 'transform .15s', display: 'inline-block' }}>
-                    ▾
-                  </span>
-                </div>
-                {isOpen && (
-                  <div style={{ maxHeight: 420, overflowY: 'auto', paddingTop: 10 }}>
-                    {sectionRecipes.map((r, i) => renderRecipeRow(r, i))}
-                  </div>
-                )}
-              </div>
-            );
-          })
+          filtered.map((r, i) => renderRecipeRow(r, i))
         )}
       </div>
     </div>
