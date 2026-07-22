@@ -151,14 +151,18 @@ export default function Login() {
           style={{ height: 56, width: "auto", display: "block", margin: "0 auto 16px" }}
         />
 
-        {/* Tagline */}
+        {/* Tagline -- a one-line "what is this app" for anyone landing here
+            cold (a new tester, or someone who forgot), not just a vibe
+            slogan. Swapped out the old generic "Real meals. Real
+            ingredients. Actually easy." for something that actually says
+            what QuickPrep does. */}
         <div style={{
           fontSize: 15,
           color: "var(--muted)",
           marginBottom: 40,
           lineHeight: 1.6,
         }}>
-          Real meals. Real ingredients. Actually easy.
+          Quick, no-brainer meal prep recipes, tailored to your kitchen and your preferences.
         </div>
 
         {/* Sign In */}

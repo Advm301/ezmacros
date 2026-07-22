@@ -465,11 +465,39 @@ export default function App() {
   // (see below), never for the initial getSession() check or background
   // events like TOKEN_REFRESHED -- otherwise the welcome splash would
   // replay at random during ordinary use, not just on an actual sign-in.
+  //
+  // If this account hasn't completed onboarding, this device has never
+  // legitimately dismissed anything AS this account -- any "seen it" tip/
+  // tutorial flag, or any Kitchen search/Diary highlight, still sitting in
+  // localStorage/state at this point must be left over from a *different*
+  // account (whatever this device had before, deleted or not). Wiping them
+  // right here -- the one place every genuine session resolution passes
+  // through -- is the reliable version of the cleanup handleDeleteAccount
+  // also does on its own: that one only fires if delete-account's specific
+  // code path runs uninterrupted, and only covers an account deleted via
+  // this exact device, not e.g. a different person signing up fresh on a
+  // shared device. This covers both, unconditionally, every time.
+  const resetDeviceLocalAccountState = () => {
+    try {
+      FIRST_VISIT_TIP_KEYS.forEach((key) => localStorage.removeItem(key));
+      localStorage.removeItem(KITCHEN_STATE_KEY);
+      localStorage.removeItem(DIARY_ONBOARDING_HIGHLIGHT_KEY);
+    } catch {
+      // Not worth blocking sign-in on.
+    }
+    setKitchenStaples([]);
+    setKitchenResults(null);
+    setKitchenJustOnboarded(false);
+    setOnboardingHighlightedEntryIds([]);
+  };
+
   const applySession = (currentSession, { resetSplash = false } = {}) => {
     const userId = currentSession?.user?.id ?? null;
+    const isOnboarded = readOnboarded(userId);
     setSession(currentSession);
-    setOnboarded(readOnboarded(userId));
+    setOnboarded(isOnboarded);
     if (resetSplash) setSplashDone(false);
+    if (userId && !isOnboarded) resetDeviceLocalAccountState();
   };
 
   useEffect(() => {
@@ -503,6 +531,12 @@ export default function App() {
     return () => {
       subscription?.unsubscribe();
     };
+    // Intentional one-time mount effect (subscribes once for the app's
+    // whole lifetime) -- applySession/resetDeviceLocalAccountState are
+    // recreated every render but only ever invoked from this effect's own
+    // callbacks in response to a real auth event, never read stale, so
+    // leaving them out of the dependency array is safe here.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSignOut = async () => {
@@ -513,15 +547,14 @@ export default function App() {
   // entries, ratings, and uploaded photos server-side before deleting the
   // auth account itself. Everything else this account touched on THIS
   // device is local-only (localStorage), so it's cleared here rather than
-  // server-side -- saved recipes/customizations, this account's own
-  // onboarded flag (see onboardedKeyFor above), Kitchen's last search
-  // (KITCHEN_STATE_KEY), and the Diary onboarding-highlight ids. The
-  // latter two aren't actually per-account keys today (a pre-existing gap,
-  // not new here), so wiping them on delete is what stops a fresh account
-  // created right after from inheriting the deleted account's stale
-  // Kitchen results or Diary highlight -- both localStorage AND the
-  // matching in-memory state get reset, since this device's already-
-  // running app session won't otherwise re-read localStorage on its own.
+  // server-side -- saved recipes/customizations and this account's own
+  // onboarded flag (see onboardedKeyFor above) are specific to THIS
+  // deletion, so they're cleared right here; the rest (Kitchen's last
+  // search, Diary's onboarding highlight, every first-visit tip/tutorial
+  // flag) is handled by resetDeviceLocalAccountState above instead of
+  // being duplicated here -- that one is the reliable version anyway,
+  // since it also runs the moment the NEXT sign-in resolves to a not-yet-
+  // onboarded account, regardless of whether this function got to finish.
   const handleDeleteAccount = async () => {
     const confirmed = window.confirm(
       "This permanently deletes your account, diary, ratings, and any photos you've uploaded. This can't be undone. Continue?"
@@ -538,16 +571,10 @@ export default function App() {
       localStorage.removeItem('quickprep_saved_recipes');
       localStorage.removeItem('quickprep_recipe_customizations');
       localStorage.removeItem(onboardedKeyFor(deletedUserId));
-      localStorage.removeItem(KITCHEN_STATE_KEY);
-      localStorage.removeItem(DIARY_ONBOARDING_HIGHLIGHT_KEY);
-      FIRST_VISIT_TIP_KEYS.forEach((key) => localStorage.removeItem(key));
     } catch (err) {
       console.error('Error clearing local recipe data:', err);
     }
-    setKitchenStaples([]);
-    setKitchenResults(null);
-    setKitchenJustOnboarded(false);
-    setOnboardingHighlightedEntryIds([]);
+    resetDeviceLocalAccountState();
     await supabase.auth.signOut();
   };
 
