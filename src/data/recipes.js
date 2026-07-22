@@ -10314,5 +10314,593 @@ export const RECIPES = [
       "salad_greens",
       "cheese"
     ]
+  },
+  {
+    "name": "Lemon Garlic Butter Baked Tilapia",
+    "description": "Tender baked tilapia in a rich lemon-garlic butter sauce -- adapted from one of the most popular baked-fish formulas online, ready in under 20 minutes.",
+    "id": 300,
+    "method": "Bake",
+    "mealType": "lunch_dinner",
+    "servings": 1,
+    "proteins": [
+      "fish"
+    ],
+    "flavor": "mediterranean",
+    "activeTime": 5,
+    "tags": [
+      "high_protein"
+    ],
+    "components": [
+      {
+        "name": "Tilapia Fillet (1 fillet, ~6 oz)",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Butter (2 tbsp)",
+        "quantity": 28,
+        "unit": "g"
+      },
+      {
+        "name": "Garlic (minced, 3 cloves)",
+        "quantity": 9,
+        "unit": "g"
+      },
+      {
+        "name": "Lemon Juice (1 tbsp)",
+        "quantity": 15,
+        "unit": "ml"
+      },
+      {
+        "name": "Lemon Zest (1 tsp)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "Italian Seasoning (½ tsp)",
+        "quantity": 1.5,
+        "unit": "g"
+      },
+      {
+        "name": "Paprika (¼ tsp)",
+        "quantity": 1,
+        "unit": "g"
+      },
+      {
+        "name": "Salt (¼ tsp)",
+        "quantity": 1.5,
+        "unit": "g"
+      },
+      {
+        "name": "Black Pepper (pinch)",
+        "quantity": 0.5,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Fresh Parsley, chopped",
+      "Lemon Wedge"
+    ],
+    "instructions": [
+      "Preheat oven to 400°F. Pat the tilapia dry and place in a small baking dish.",
+      "Melt the butter and mix with garlic, lemon juice, lemon zest, Italian seasoning, paprika, salt, and pepper. Pour evenly over the fillet.",
+      "Bake 12–15 min until the fish flakes easily with a fork. Spoon the pan sauce back over the top before serving."
+    ],
+    "totalTime": 17,
+    "pantryTags": [
+      "white_fish",
+      "butter",
+      "onion_garlic"
+    ]
+  },
+  {
+    "name": "Broiled Parmesan Tilapia",
+    "description": "A crispy, golden parmesan-mayo crust broiled onto tilapia -- adapted from one of Allrecipes' highest-rated fish recipes, ready in about 10 minutes.",
+    "id": 301,
+    "method": "Bake",
+    "mealType": "lunch_dinner",
+    "servings": 1,
+    "proteins": [
+      "fish"
+    ],
+    "flavor": "italian",
+    "activeTime": 4,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
+    "components": [
+      {
+        "name": "Tilapia Fillet (1 fillet, ~6 oz)",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Parmesan (grated, 3 tbsp)",
+        "quantity": 24,
+        "unit": "g"
+      },
+      {
+        "name": "Mayo, Light (2 tbsp)",
+        "quantity": 30,
+        "unit": "g"
+      },
+      {
+        "name": "Butter (1 tbsp, melted)",
+        "quantity": 14,
+        "unit": "g"
+      },
+      {
+        "name": "Lemon Juice (1 tsp)",
+        "quantity": 5,
+        "unit": "ml"
+      },
+      {
+        "name": "Garlic Powder (¼ tsp)",
+        "quantity": 1,
+        "unit": "g"
+      },
+      {
+        "name": "Paprika (¼ tsp)",
+        "quantity": 1,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Fresh Parsley, chopped",
+      "Lemon Wedge"
+    ],
+    "instructions": [
+      "Preheat the broiler on high. Pat tilapia dry and place on a foil-lined baking sheet.",
+      "Mix parmesan, mayo, melted butter, lemon juice, garlic powder, and paprika into a thick paste. Spread evenly over the fillet.",
+      "Broil 6–8 min (watching closely) until the topping is golden and the fish flakes easily with a fork."
+    ],
+    "totalTime": 12,
+    "pantryTags": [
+      "white_fish",
+      "cheese",
+      "mayo"
+    ]
+  },
+  {
+    "name": "Blackened Tilapia",
+    "description": "Cajun-spiced blackened tilapia seared in a screaming-hot skillet for a crackly, smoky crust -- the classic technique, done in under 10 minutes.",
+    "id": 302,
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "servings": 1,
+    "proteins": [
+      "fish"
+    ],
+    "flavor": "spicy",
+    "activeTime": 8,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
+    "components": [
+      {
+        "name": "Tilapia Fillet (1 fillet, ~6 oz)",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Paprika (1 tsp)",
+        "quantity": 3,
+        "unit": "g"
+      },
+      {
+        "name": "Cayenne Pepper (¼ tsp)",
+        "quantity": 1,
+        "unit": "g"
+      },
+      {
+        "name": "Garlic Powder (½ tsp)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "Onion Powder (½ tsp)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "Dried Thyme (¼ tsp)",
+        "quantity": 1,
+        "unit": "g"
+      },
+      {
+        "name": "Dried Oregano (¼ tsp)",
+        "quantity": 1,
+        "unit": "g"
+      },
+      {
+        "name": "Salt (¼ tsp)",
+        "quantity": 1.5,
+        "unit": "g"
+      },
+      {
+        "name": "Black Pepper (¼ tsp)",
+        "quantity": 1,
+        "unit": "g"
+      },
+      {
+        "name": "Butter (1 tbsp)",
+        "quantity": 14,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Lemon Wedge"
+    ],
+    "instructions": [
+      "Mix paprika, cayenne, garlic powder, onion powder, thyme, oregano, salt, and pepper. Coat the tilapia fillet evenly on both sides.",
+      "Heat a skillet over high heat with the butter until just smoking. Sear the fillet 2–3 min per side until a dark, blackened crust forms and the fish flakes easily."
+    ],
+    "totalTime": 8,
+    "pantryTags": [
+      "white_fish",
+      "butter"
+    ]
+  },
+  {
+    "name": "Blackened Tilapia Tacos",
+    "description": "Blackened tilapia piled into warm tortillas with crunchy slaw and a quick lime crema -- a popular fish taco format, ready fast.",
+    "id": 303,
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "servings": 1,
+    "proteins": [
+      "fish"
+    ],
+    "flavor": "mexican",
+    "activeTime": 10,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
+    "components": [
+      {
+        "name": "Tilapia Fillet (1 fillet, ~6 oz)",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Blackening Seasoning: Paprika, Cayenne, Garlic & Onion Powder (1 tbsp)",
+        "quantity": 8,
+        "unit": "g"
+      },
+      {
+        "name": "Corn Tortillas (3 small)",
+        "quantity": 78,
+        "unit": "g"
+      },
+      {
+        "name": "Coleslaw Mix (bagged)",
+        "quantity": 85,
+        "unit": "g"
+      },
+      {
+        "name": "Mayo, Light (2 tbsp)",
+        "quantity": 30,
+        "unit": "g"
+      },
+      {
+        "name": "Lime Juice (1 tbsp)",
+        "quantity": 15,
+        "unit": "ml"
+      },
+      {
+        "name": "Butter (1 tsp)",
+        "quantity": 5,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Fresh Cilantro",
+      "Extra Lime Wedge",
+      "Hot Sauce"
+    ],
+    "instructions": [
+      "Coat the tilapia in blackening seasoning. Heat butter in a skillet over high heat and sear the fillet 2–3 min per side until blackened and flaky. Flake into large chunks.",
+      "Mix mayo and lime juice for a quick crema. Toss the coleslaw mix with half the crema.",
+      "Warm the tortillas. Fill with the slaw and blackened tilapia. Drizzle with the remaining crema and top with cilantro."
+    ],
+    "totalTime": 10,
+    "pantryTags": [
+      "white_fish",
+      "tortillas",
+      "mayo"
+    ]
+  },
+  {
+    "name": "Lemon Pepper Tilapia",
+    "description": "Zesty lemon pepper tilapia, air-fried until flaky -- a popular ready-in-under-30-minutes weeknight staple.",
+    "id": 304,
+    "method": "Air Fryer",
+    "mealType": "lunch_dinner",
+    "servings": 1,
+    "proteins": [
+      "fish"
+    ],
+    "flavor": "neutral",
+    "activeTime": 3,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
+    "components": [
+      {
+        "name": "Tilapia Fillet (1 fillet, ~6 oz)",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Lemon Pepper Seasoning (1 tsp)",
+        "quantity": 3,
+        "unit": "g"
+      },
+      {
+        "name": "Olive Oil Spray",
+        "quantity": 3,
+        "unit": "spray"
+      },
+      {
+        "name": "Lemon Juice (1 tsp)",
+        "quantity": 5,
+        "unit": "ml"
+      }
+    ],
+    "toppings": [
+      "Lemon Wedge",
+      "Fresh Parsley"
+    ],
+    "instructions": [
+      "Pat the tilapia dry, spray with oil, and season both sides with lemon pepper seasoning.",
+      "Air fry at 400°F for 8–10 min until the fish flakes easily with a fork. Squeeze fresh lemon juice over the top before serving."
+    ],
+    "totalTime": 10,
+    "pantryTags": [
+      "white_fish"
+    ]
+  },
+  {
+    "name": "Garlic Butter Pan-Seared Tilapia",
+    "description": "Golden pan-seared tilapia basted in garlic butter -- a fast, simple stovetop method that's become a go-to weeknight favorite.",
+    "id": 305,
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "servings": 1,
+    "proteins": [
+      "fish"
+    ],
+    "flavor": "neutral",
+    "activeTime": 8,
+    "tags": [
+      "high_protein",
+      "grab_and_go"
+    ],
+    "components": [
+      {
+        "name": "Tilapia Fillet (1 fillet, ~6 oz)",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Butter (2 tbsp)",
+        "quantity": 28,
+        "unit": "g"
+      },
+      {
+        "name": "Garlic (minced, 2 cloves)",
+        "quantity": 6,
+        "unit": "g"
+      },
+      {
+        "name": "Olive Oil (1 tsp)",
+        "quantity": 5,
+        "unit": "g"
+      },
+      {
+        "name": "Lemon Juice (1 tsp)",
+        "quantity": 5,
+        "unit": "ml"
+      },
+      {
+        "name": "Salt (pinch)",
+        "quantity": 0.5,
+        "unit": "g"
+      },
+      {
+        "name": "Black Pepper (pinch)",
+        "quantity": 0.5,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Fresh Parsley, chopped"
+    ],
+    "instructions": [
+      "Pat the tilapia dry and season with salt and pepper. Heat olive oil in a skillet over medium-high.",
+      "Sear the tilapia 3 min per side until golden. Add butter and garlic to the pan, then tilt and spoon the melted garlic butter over the fish for 1 minute.",
+      "Finish with a squeeze of lemon juice."
+    ],
+    "totalTime": 8,
+    "pantryTags": [
+      "white_fish",
+      "butter",
+      "onion_garlic"
+    ]
+  },
+  {
+    "name": "Tilapia a la Mexicana",
+    "description": "A viral TikTok favorite -- tilapia seasoned with cayenne and smoked paprika, simmered in a quick tomato, onion, and serrano salsa.",
+    "id": 306,
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "servings": 1,
+    "proteins": [
+      "fish"
+    ],
+    "flavor": "mexican",
+    "activeTime": 12,
+    "tags": [
+      "high_protein"
+    ],
+    "components": [
+      {
+        "name": "Tilapia Fillet (1 fillet, ~6 oz)",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Cayenne Pepper (¼ tsp)",
+        "quantity": 1,
+        "unit": "g"
+      },
+      {
+        "name": "Smoked Paprika (½ tsp)",
+        "quantity": 2,
+        "unit": "g"
+      },
+      {
+        "name": "Onion Powder (¼ tsp)",
+        "quantity": 1,
+        "unit": "g"
+      },
+      {
+        "name": "Garlic Powder (¼ tsp)",
+        "quantity": 1,
+        "unit": "g"
+      },
+      {
+        "name": "Butter (1 tbsp)",
+        "quantity": 14,
+        "unit": "g"
+      },
+      {
+        "name": "Canned Diced Tomatoes (½ cup)",
+        "quantity": 120,
+        "unit": "g"
+      },
+      {
+        "name": "White Onion (diced, ¼ cup)",
+        "quantity": 40,
+        "unit": "g"
+      },
+      {
+        "name": "Garlic (minced, 1 clove)",
+        "quantity": 3,
+        "unit": "g"
+      },
+      {
+        "name": "Serrano or Jalapeño Pepper (sliced, 1)",
+        "quantity": 10,
+        "unit": "g"
+      },
+      {
+        "name": "White Rice Pouch (microwaveable)",
+        "quantity": 200,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Fresh Cilantro",
+      "Lime Wedge"
+    ],
+    "instructions": [
+      "Season the tilapia with cayenne, smoked paprika, onion powder, and garlic powder.",
+      "Melt butter in a skillet over medium-high. Sauté the diced onion, minced garlic, and sliced serrano 2 min until fragrant.",
+      "Add the seasoned tilapia to the skillet along with the diced tomatoes. Simmer 6–8 min, spooning sauce over the fish, until it flakes easily.",
+      "Microwave the rice 90 sec. Serve the tilapia and sauce over rice, topped with cilantro and a squeeze of lime."
+    ],
+    "totalTime": 12,
+    "pantryTags": [
+      "white_fish",
+      "canned_tomatoes",
+      "onion_garlic",
+      "butter",
+      "rice"
+    ]
+  },
+  {
+    "name": "Creamy Garlic Parmesan Tilapia with Green Beans",
+    "description": "Flaky tilapia in a quick creamy garlic-parmesan sauce with green beans -- inspired by the viral creamy skillet-fish trend, done in one pan.",
+    "id": 307,
+    "method": "Skillet",
+    "mealType": "lunch_dinner",
+    "servings": 1,
+    "proteins": [
+      "fish"
+    ],
+    "flavor": "saucy",
+    "activeTime": 12,
+    "tags": [
+      "high_protein"
+    ],
+    "components": [
+      {
+        "name": "Tilapia Fillet (1 fillet, ~6 oz)",
+        "quantity": 170,
+        "unit": "g"
+      },
+      {
+        "name": "Salt (pinch)",
+        "quantity": 0.5,
+        "unit": "g"
+      },
+      {
+        "name": "Black Pepper (pinch)",
+        "quantity": 0.5,
+        "unit": "g"
+      },
+      {
+        "name": "Butter (1 tbsp)",
+        "quantity": 14,
+        "unit": "g"
+      },
+      {
+        "name": "Garlic (minced, 2 cloves)",
+        "quantity": 6,
+        "unit": "g"
+      },
+      {
+        "name": "Heavy Cream (⅓ cup)",
+        "quantity": 80,
+        "unit": "ml"
+      },
+      {
+        "name": "Parmesan (grated, 3 tbsp)",
+        "quantity": 24,
+        "unit": "g"
+      },
+      {
+        "name": "Italian Seasoning (½ tsp)",
+        "quantity": 1.5,
+        "unit": "g"
+      },
+      {
+        "name": "Green Beans (steam-bag)",
+        "quantity": 100,
+        "unit": "g"
+      }
+    ],
+    "toppings": [
+      "Fresh Parsley",
+      "Extra Parmesan"
+    ],
+    "instructions": [
+      "Season the tilapia with salt and pepper. Melt butter in a skillet over medium-high and sear the fillet 3 min per side until golden. Remove and set aside.",
+      "In the same skillet, add garlic and cook 30 sec. Stir in heavy cream, parmesan, and Italian seasoning. Simmer 2–3 min until slightly thickened.",
+      "Return the tilapia to the skillet, spoon sauce over the top, and simmer 1 more minute.",
+      "Meanwhile, microwave the green beans steam-bag 3 min. Season with a pinch of garlic powder. Serve alongside."
+    ],
+    "totalTime": 12,
+    "pantryTags": [
+      "white_fish",
+      "cheese",
+      "butter",
+      "frozen_veg"
+    ]
   }
 ];
