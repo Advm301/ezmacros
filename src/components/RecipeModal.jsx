@@ -18,7 +18,10 @@ import InstructionText from './InstructionText';
 import InfoIcon from './InfoIcon';
 import RecipeTutorial from './RecipeTutorial';
 import useFirstVisitTip from '../hooks/useFirstVisitTip';
-import { getVariationSiblings, getVariationProteinLabel } from '../utils/recipeVariations';
+import { readProteinChoice, saveProteinChoice, resolveProteinText, resolveProteinComponents } from '../utils/proteinChoice';
+import MealPrepIcon from './MealPrepIcon';
+import FlameIcon from './FlameIcon';
+import LeafIcon from './LeafIcon';
 
 const GRAMS_PER_OZ = 28.3495;
 const ML_PER_FLOZ = 29.5735;
@@ -349,10 +352,6 @@ export default function RecipeModal({
   ratingSummary,
   myRatingEntry,
   onRate,
-  // Used only by the Variations picker below, to show each sibling
-  // recipe's own rating summary (not just the currently-open recipe's,
-  // which is what the plain `ratingSummary` prop above already covers).
-  getRatingSummary,
   getPhotoSignedUrl,
   onAddToDiary,
   // Fired (with no args) the moment rating this recipe also auto-saves it
@@ -373,12 +372,6 @@ export default function RecipeModal({
   // which read as generic and off-brand for what's meant to be this app's
   // one flashy "magic" moment.
   isSurprise = false,
-  // Lets the decide screen's Variations picker (see showVariations state
-  // below) hand a sibling recipe back up to App.jsx, which reopens the
-  // modal with it -- same path as an ordinary Browse tap (handleOpenRecipe),
-  // so this component just remounts fresh with the new recipe rather than
-  // needing any special "switch in place" logic of its own.
-  onSwitchRecipe,
 }) {
   // Rendered with key={recipe.id} by the parent, so this component remounts
   // fresh (and all local state below resets naturally, including `screen`)
@@ -439,11 +432,14 @@ export default function RecipeModal({
   const [diaryError, setDiaryError] = useState('');
   const [addingToDiary, setAddingToDiary] = useState(false);
   const [showAllSteps, setShowAllSteps] = useState(false);
-  // Variations picker (decide screen only) -- lists sibling recipes that
-  // share this recipe's variationGroup (see utils/recipeVariations.js), so
-  // someone can swap "Saucy Tomato Chicken Bowl" for the beef version
-  // without leaving the modal and re-searching Browse.
-  const [showVariations, setShowVariations] = useState(false);
+  // Which protein is currently selected, for recipes that offer more than
+  // one (recipes.js `proteinOptions` -- e.g. Saucy Tomato Bowl in beef/
+  // chicken/pork/turkey) -- remembered per-recipe on this device (see
+  // utils/proteinChoice.js), same pattern as the Prefer Fresh toggle.
+  // Lazy-initialized since recipe.proteinOptions is only sometimes present.
+  const [selectedProteinId, setSelectedProteinId] = useState(() => (
+    recipe.proteinOptions ? readProteinChoice(recipe.id, recipe.proteinOptions[0].id) : null
+  ));
   // Soft-block interstitial shown when someone taps Finish on the closing
   // rating page without having actually rated the recipe -- see
   // goNextCookPage. Not a hard block: "Finish Without Rating" still works,
@@ -583,11 +579,16 @@ export default function RecipeModal({
   const r = recipe;
   const saved = isSaved ? isSaved(r.id) : false;
   const alreadyRated = Boolean(myRatingEntry?.rating);
-  // Sibling recipes sharing this one's variationGroup (same base dish,
-  // different protein) -- excludes the recipe currently open, so an empty
-  // array here means "no real alternatives" and the Variations button just
-  // doesn't render (see decide screen header below).
-  const variationSiblings = getVariationSiblings(r).filter((s) => s.id !== r.id);
+  // The chosen protein option object (not just its id) -- null for recipes
+  // without proteinOptions, in which case resolveProteinText/Components
+  // below are no-ops and r's own description/instructions/components pass
+  // through untouched (they won't contain any {{protein}} tokens).
+  const selectedProteinOption = r.proteinOptions?.find((p) => p.id === selectedProteinId) || r.proteinOptions?.[0] || null;
+  const selectProtein = (id) => {
+    hapticSelection();
+    setSelectedProteinId(id);
+    saveProteinChoice(r.id, id);
+  };
 
   // How much bigger/smaller than the recipe's own written amount the
   // chosen serving count is -- 1 when scaleServings matches r.servings (the
@@ -596,7 +597,14 @@ export default function RecipeModal({
   const scaleFactor = scaleServings / (r.servings || 1);
   const isScaled = scaleFactor !== 1;
 
-  const components = (r.components || []).map((c, i) => {
+  // Resolve the chosen protein's real ingredient name + {{protein}}/
+  // {{Protein}} text tokens (see recipes.js's proteinOptions doc comment)
+  // BEFORE scaling/overrides -- for recipes without proteinOptions these
+  // are both no-ops (nothing to swap, no tokens present).
+  const proteinResolvedComponents = resolveProteinComponents(r.components || [], selectedProteinOption);
+  const proteinResolvedDescription = resolveProteinText(r.description, selectedProteinOption);
+
+  const components = proteinResolvedComponents.map((c, i) => {
     const override = entry?.ingredientOverrides?.[i];
     // A manual per-ingredient override is a deliberate, specific amount
     // someone already dialed in for this ingredient -- it wins outright
@@ -607,8 +615,9 @@ export default function RecipeModal({
   });
 
   const instructions = (r.instructions || []).map((step, i) => {
+    const resolvedStep = resolveProteinText(step, selectedProteinOption);
     const override = entry?.instructionOverrides?.[i];
-    return { text: override !== undefined ? override : step, edited: override !== undefined };
+    return { text: override !== undefined ? override : resolvedStep, edited: override !== undefined };
   });
 
   const hasToppings = Boolean(r.toppings && r.toppings.length > 0);
@@ -1079,8 +1088,9 @@ export default function RecipeModal({
           </div>
 
           {i === 0 && preheatTip && (
-            <div style={{ background: 'rgba(255,193,58,.14)', border: '1px solid rgba(255,193,58,.32)', borderRadius: 10, padding: '10px 12px', marginBottom: 16, fontSize: 12.5, color: 'var(--ez2)', lineHeight: 1.5 }}>
-              🔥 {preheatTip}
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 7, background: 'rgba(255,193,58,.14)', border: '1px solid rgba(255,193,58,.32)', borderRadius: 10, padding: '10px 12px', marginBottom: 16, fontSize: 12.5, color: 'var(--ez2)', lineHeight: 1.5 }}>
+              <FlameIcon size={14} />
+              <span>{preheatTip}</span>
             </div>
           )}
 
@@ -1145,9 +1155,10 @@ export default function RecipeModal({
           {(freshAltByStep.get(i) || []).map((note, ni) => (
             <div
               key={ni}
-              style={{ marginTop: ni === 0 ? 18 : 8, background: 'rgba(127,163,99,.14)', border: '1px solid rgba(127,163,99,.32)', borderRadius: 10, padding: '10px 12px', fontSize: 12.5, color: '#9bc47d', lineHeight: 1.5 }}
+              style={{ marginTop: ni === 0 ? 18 : 8, display: 'flex', alignItems: 'flex-start', gap: 7, background: 'rgba(127,163,99,.14)', border: '1px solid rgba(127,163,99,.32)', borderRadius: 10, padding: '10px 12px', fontSize: 12.5, color: '#9bc47d', lineHeight: 1.5 }}
             >
-              🌱 {note}
+              <LeafIcon size={14} />
+              <span>{note}</span>
             </div>
           ))}
 
@@ -1354,23 +1365,7 @@ export default function RecipeModal({
             </div>
             {scaleServings > 1 && (
               <div style={{ marginTop: 6 }}>
-                <span className="ezb pkg">📦 Meal Prep · Makes {scaleServings}</span>
-              </div>
-            )}
-            {/* Variations -- only shown for recipes that are part of a
-                reskinned family (see recipes.js variationGroup +
-                utils/recipeVariations.js). Opens a small picker listing the
-                sibling proteins so switching, e.g., "Saucy Tomato Chicken
-                Bowl" to the beef version doesn't mean leaving the modal and
-                re-searching Browse. */}
-            {onSwitchRecipe && variationSiblings.length > 0 && (
-              <div style={{ marginTop: 8 }}>
-                <button
-                  onClick={() => { hapticLight(); setShowVariations(true); }}
-                  style={{ background: 'var(--s2)', border: '1px solid var(--border)', color: 'var(--cream)', borderRadius: 100, padding: '5px 12px', fontSize: 12, fontWeight: 700, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 5 }}
-                >
-                  🔀 {variationSiblings.length + 1} Variations
-                </button>
+                <span className="ezb pkg"><MealPrepIcon size={12} /> Meal Prep · Makes {scaleServings}</span>
               </div>
             )}
           </div>
@@ -1392,6 +1387,35 @@ export default function RecipeModal({
         <div key={`${screen}-${cookStep}`} className={animClass}>
           {screen === 'decide' ? (
             <>
+              {/* Protein picker -- only present on recipes that offer more
+                  than one protein for the same dish (recipes.js
+                  proteinOptions, e.g. Saucy Tomato Bowl in beef/chicken/
+                  pork/turkey). Shown first, above everything else, since it
+                  changes the ingredient list, instructions, and shopping
+                  list below it -- picking it before reading any of that
+                  avoids someone reading the beef version then realizing
+                  partway through they meant to pick chicken. */}
+              {r.proteinOptions && (
+                <div style={{ marginBottom: 16 }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--muted)', marginBottom: 6, textTransform: 'uppercase', letterSpacing: 1 }}>
+                    Protein
+                  </div>
+                  <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                    {r.proteinOptions.map((p) => {
+                      const active = p.id === selectedProteinId;
+                      return (
+                        <div
+                          key={p.id}
+                          className={`pill${active ? ' active' : ''}`}
+                          onClick={() => selectProtein(p.id)}
+                        >
+                          {p.label}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
               {/* Diary -- available regardless of whether you've cooked yet,
                   so you can plan a meal ahead of actually making it. */}
               {renderAddToDiaryBlock()}
@@ -1503,7 +1527,7 @@ export default function RecipeModal({
                         step is explaining -- leaving it up here just
                         highlighted the description text instead. */}
                     <div style={{ fontSize: 12, color: 'var(--muted)', lineHeight: 1.5, marginBottom: 12 }}>
-                      <DescriptionText text={r.description} />
+                      <DescriptionText text={proteinResolvedDescription} />
                     </div>
                     {/* Batch-size scaler -- lets someone match the recipe to
                         how much they actually bought/have (a 4-serving
@@ -1559,8 +1583,9 @@ export default function RecipeModal({
                         }}
                       >
                         <div>
-                          <div style={{ fontSize: 12.5, fontWeight: 700, color: useFresh ? '#9bc47d' : 'var(--cream)' }}>
-                            🥦 Prefer Fresh Ingredients
+                          <div style={{ fontSize: 12.5, fontWeight: 700, color: useFresh ? '#9bc47d' : 'var(--cream)', display: 'flex', alignItems: 'center', gap: 6 }}>
+                            <LeafIcon size={13} />
+                            Prefer Fresh Ingredients
                           </div>
                           <div style={{ fontSize: 10.5, color: 'var(--muted)', marginTop: 1 }}>
                             Swap frozen/convenience items for fresh where this recipe allows
@@ -1850,69 +1875,15 @@ export default function RecipeModal({
         </div>
       )}
 
-      {showVariations && (
-        <div
-          onClick={(e) => { e.stopPropagation(); setShowVariations(false); }}
-          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,.75)', zIndex: 110, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20, boxSizing: 'border-box' }}
-        >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            style={{ background: 'var(--bg)', width: '100%', maxWidth: 400, maxHeight: '80vh', overflowY: 'auto', borderRadius: 20, border: '1px solid var(--border)', padding: '18px 18px 16px', boxSizing: 'border-box' }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
-              <div className="h1" style={{ marginBottom: 0, fontSize: 18 }}>Variations</div>
-              <div onClick={() => setShowVariations(false)} style={{ fontSize: 20, color: 'var(--muted)', cursor: 'pointer', padding: 4 }}>
-                ✕
-              </div>
-            </div>
-            <div style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 14 }}>
-              {r.variationLabel || 'Same dish'}, made with a different protein.
-            </div>
-            {[r, ...variationSiblings].map((v) => {
-              const isCurrent = v.id === r.id;
-              const vRating = getRatingSummary ? getRatingSummary(v.id) : null;
-              return (
-                <div
-                  key={v.id}
-                  onClick={() => {
-                    if (isCurrent) return;
-                    hapticSelection();
-                    setShowVariations(false);
-                    onSwitchRecipe(v);
-                  }}
-                  style={{
-                    display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10,
-                    background: isCurrent ? 'var(--s2)' : 'var(--s1)',
-                    border: isCurrent ? '1px solid var(--lime)' : '1px solid var(--border)',
-                    borderRadius: 12, padding: 12, marginBottom: 8,
-                    cursor: isCurrent ? 'default' : 'pointer',
-                  }}
-                >
-                  <div>
-                    <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--cream)' }}>
-                      {getVariationProteinLabel(v)}
-                      {isCurrent && <span style={{ color: 'var(--muted)', fontWeight: 600 }}> · Viewing</span>}
-                    </div>
-                    <div style={{ fontSize: 11, color: 'var(--muted)', marginTop: 2, display: 'flex', alignItems: 'center', gap: 5 }}>
-                      <StarRating value={vRating?.avg || 0} readOnly size={11} />
-                      {vRating ? `${vRating.avg.toFixed(1)} (${vRating.count})` : 'No ratings yet'}
-                    </div>
-                  </div>
-                  {!isCurrent && <span style={{ color: 'var(--muted)', fontSize: 18 }}>›</span>}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
-
       {showRateNudge && (
         <div
           onClick={(e) => e.stopPropagation()}
           style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,.75)', zIndex: 120, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20, boxSizing: 'border-box' }}
         >
           <div style={{ background: 'var(--bg)', width: '100%', maxWidth: 380, borderRadius: 20, border: '1px solid rgba(255,201,51,.4)', padding: '22px 20px', boxSizing: 'border-box', textAlign: 'center' }}>
-            <div style={{ fontSize: 32, marginBottom: 8 }}>⭐</div>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 8 }}>
+              <StarRating value={5} readOnly size={32} />
+            </div>
             <div className="made-it-label" style={{ fontSize: 18, marginBottom: 6 }}>
               Did you make this recipe?
             </div>

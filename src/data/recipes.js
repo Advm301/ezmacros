@@ -15,13 +15,15 @@
 // isNew (optional, true on recently-added trending recipes -- drives the gold
 // "NEW" badge in Browse/Kitchen/Saved and the recipe modal; not meant to be
 // permanent, just a launch-window highlight for a given batch of additions).
-// variationGroup + variationLabel (optional, present on recipes that are
-// deliberate reskins of the same base dish across different proteins -- e.g.
-// "Saucy Tomato Chicken Bowl" / "Saucy Tomato Beef Bowl" share
-// variationGroup: 'saucy-tomato-bowl'. variationLabel is the shared,
-// protein-agnostic display name for the family. Used by RecipeModal's
-// Variations picker to find and list sibling recipes -- see
-// utils/recipeVariations.js.
+// proteinOptions (optional, present on recipes that are the same dish across
+// multiple proteins -- e.g. Saucy Tomato Bowl -- instead of separate near-
+// duplicate recipes per protein. Each entry is { id, label, componentName };
+// componentName replaces whichever components[] entry is flagged
+// `proteinSlot: true`. description and instructions carry {{protein}} /
+// {{Protein}} placeholder tokens, resolved to the chosen proteinOption's id
+// (lowercase) / label (capitalized) at render time. See
+// utils/proteinChoice.js for the picker's remembered-per-recipe device
+// preference, and RecipeModal's resolveProteinText/resolveComponents.
 
 export const MEAL_TYPES = ['breakfast', 'lunch_dinner', 'snack'];
 
@@ -5496,1692 +5498,48 @@ export const RECIPES = [
     ]
   },
   {
-    "name": "Skillet Beef Soy Garlic Rice",
-    "description": "An Asian-inspired ground beef and rice skillet in a garlic-ginger soy glaze with a touch of brown sugar and sesame oil.",
+    "name": "Soy Garlic Rice Skillet",
+    "description": "An Asian-inspired ground {{protein}} and rice skillet in a garlic-ginger soy glaze with a touch of brown sugar and sesame oil.",
     "id": 92,
-    "variationGroup": "soy-garlic-rice",
-    "variationLabel": "Soy Garlic Rice Skillet",
-    "method": "Skillet",
-    "mealType": "lunch_dinner",
-    "servings": 4,
-    "proteins": [
-      "beef"
-    ],
-    "flavor": "asian",
-    "activeTime": 14,
-    "components": [
-      {
-        "name": "Ground Beef (93% lean)",
-        "quantity": 568,
-        "unit": "g"
-      },
-      {
-        "name": "Soy Sauce (¼ cup)",
-        "quantity": 60,
-        "unit": "ml"
-      },
-      {
-        "name": "Minced Garlic (jarred, 4 tsp)",
-        "quantity": 20,
-        "unit": "g"
-      },
-      {
-        "name": "Ground Ginger (1 tsp)",
-        "quantity": 3,
-        "unit": "g"
-      },
-      {
-        "name": "Brown Sugar (3 tbsp, packed)",
-        "quantity": 40,
-        "unit": "g"
-      },
-      {
-        "name": "Sesame Oil (1 tbsp)",
-        "quantity": 14,
-        "unit": "g"
-      },
-      {
-        "name": "Red Pepper Flakes (¼ tsp)",
-        "quantity": 0.5,
-        "unit": "g"
-      },
-      {
-        "name": "White Rice Pouch (microwaveable, 1 per meal)",
-        "quantity": 4,
-        "unit": "each"
-      },
-      {
-        "name": "Frozen Mixed Veg (steam-bag, 1 per meal)",
-        "quantity": 4,
-        "unit": "each"
-      }
-    ],
-    "toppings": [
-      "Sesame Seeds",
-      "Green Onion (fresh)"
-    ],
-    "instructions": [
-      "Heat a large skillet or pot over medium-high heat. Add ground beef, breaking it apart with a spoon. Cook 10-12 minutes, stirring occasionally, until browned throughout. Drain excess fat if needed.",
-      "Push the beef to one side, add minced garlic and ground ginger to the cleared space, and cook 30-45 seconds, stirring, until fragrant.",
-      "Stir in soy sauce, brown sugar, sesame oil, and red pepper flakes. Simmer 2-3 minutes, stirring occasionally, until the sauce thickens slightly and coats the beef.",
-      "Divide the beef evenly into 4 containers and refrigerate (up to 4 days) or freeze. To serve one portion: microwave rice pouch 90 sec + steam-bag veg 3 min. Build bowl with rice, top with beef. Toppings on the side."
-    ],
-    "totalTime": 14,
-    "pantryTags": [
-      "rice",
-      "frozen_veg",
-      "ground_beef",
-      "onion_garlic",
-      "soy_sauce"
-    ]
-  },
-  {
-    "name": "BBQ Skillet Beef Hash Browns",
-    "description": "A smoky BBQ ground beef and hash brown skillet with garlic and a side of seasoned broccoli.",
-    "id": 93,
-    "variationGroup": "bbq-hash-browns",
-    "variationLabel": "BBQ Skillet Hash Browns",
-    "method": "Skillet",
-    "mealType": "lunch_dinner",
-    "servings": 4,
-    "proteins": [
-      "beef"
-    ],
-    "flavor": "spicy",
-    "activeTime": 13,
-    "components": [
-      {
-        "name": "Ground Beef (93% lean)",
-        "quantity": 568,
-        "unit": "g"
-      },
-      {
-        "name": "BBQ Sauce (bottled)",
-        "quantity": 128,
-        "unit": "ml"
-      },
-      {
-        "name": "Minced Garlic (jarred, 1½ tsp)",
-        "quantity": 7.5,
-        "unit": "g"
-      },
-      {
-        "name": "Onion Powder (½ tsp)",
-        "quantity": 8,
-        "unit": "g"
-      },
-      {
-        "name": "Salt (pinch)",
-        "quantity": 2,
-        "unit": "g"
-      },
-      {
-        "name": "Black Pepper (pinch)",
-        "quantity": 2,
-        "unit": "g"
-      },
-      {
-        "name": "Frozen Hash Browns (shredded, bagged, 1 portion per meal)",
-        "quantity": 4,
-        "unit": "each"
-      },
-      {
-        "name": "Frozen Broccoli (steam-bag, 1 per meal)",
-        "quantity": 4,
-        "unit": "each"
-      }
-    ],
-    "toppings": [
-      "Cheddar Cheese",
-      "Fried Onions (canned)"
-    ],
-    "instructions": [
-      "Heat a large skillet over medium-high heat. Add ground beef, minced garlic, onion powder, salt, and pepper, breaking the meat apart with a spoon. Cook 10-12 minutes until browned throughout.",
-      "Stir in BBQ sauce generously. Cook 2-3 minutes more.",
-      "Divide the beef mixture evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
-      "To serve one portion: microwave a portion of hash browns per package directions (usually 2-3 min), or air fry/bake if you'd rather have them crispy. Steam-bag broccoli 3 min, season with a pinch of onion powder and chili flakes. Plate hash browns, top with a portion of the beef mixture, broccoli on the side. Toppings on the side."
-    ],
-    "totalTime": 13,
-    "pantryTags": [
-      "bbq_sauce",
-      "frozen_veg",
-      "ground_beef",
-      "potatoes"
-    ]
-  },
-  {
-    "name": "Saucy Tomato Beef Bowl",
-    "description": "A saucy, well-spiced ground beef and tomato skillet with cumin, oregano, and smoked paprika, finished with butter and spinach over rice.",
-    "id": 94,
-    "variationGroup": "saucy-tomato-bowl",
-    "variationLabel": "Saucy Tomato Bowl",
-    "method": "Skillet",
-    "mealType": "lunch_dinner",
-    "servings": 4,
-    "proteins": [
-      "beef"
-    ],
-    "flavor": "saucy",
-    "activeTime": 12,
-    "components": [
-      {
-        "name": "Ground Beef (93% lean)",
-        "quantity": 568,
-        "unit": "g"
-      },
-      {
-        "name": "Canned Diced Tomatoes",
-        "quantity": 800,
-        "unit": "ml"
-      },
-      {
-        "name": "Tomato Paste (1 tbsp)",
-        "quantity": 64,
-        "unit": "g"
-      },
-      {
-        "name": "Minced Garlic (jarred, 3 tsp)",
-        "quantity": 15,
-        "unit": "g"
-      },
-      {
-        "name": "Onion Powder (1 tsp)",
-        "quantity": 12,
-        "unit": "g"
-      },
-      {
-        "name": "Ground Cumin (1 tsp)",
-        "quantity": 8,
-        "unit": "g"
-      },
-      {
-        "name": "Dried Oregano (1 tsp)",
-        "quantity": 4,
-        "unit": "g"
-      },
-      {
-        "name": "Red Pepper Flakes (½ tsp)",
-        "quantity": 4,
-        "unit": "g"
-      },
-      {
-        "name": "Smoked Paprika (½ tsp)",
-        "quantity": 4,
-        "unit": "g"
-      },
-      {
-        "name": "Salt (¼ tsp)",
-        "quantity": 6,
-        "unit": "g"
-      },
-      {
-        "name": "Butter (1 tbsp)",
-        "quantity": 60,
-        "unit": "g"
-      },
-      {
-        "name": "White Rice Pouch (microwaveable, 1 per meal)",
-        "quantity": 4,
-        "unit": "each"
-      },
-      {
-        "name": "Fresh Baby Spinach (pre-washed bag)",
-        "quantity": 340,
-        "unit": "g"
-      }
-    ],
-    "toppings": [
-      "Parmesan Cheese",
-      "Fresh Basil (if available)"
-    ],
-    "instructions": [
-      "Heat a large skillet or pot over medium-high heat. Add ground beef and break apart. Cook 10-12 minutes until mostly browned throughout.",
-      "Stir in tomato paste, minced garlic, onion powder, cumin, oregano, red pepper flakes, smoked paprika, and salt, cooking 1 minute until fragrant -- this is where the real flavor comes from, not just the tomatoes. Add canned tomatoes (with liquid) and spinach. Simmer 4-5 minutes, stirring until the spinach wilts and the sauce thickens slightly.",
-      "Stir in butter off heat for a glossy, rich sauce. Divide the beef and tomato sauce evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
-      "To serve one portion: microwave a rice pouch 90 sec. Build bowl with rice, top with a portion of the beef & tomato sauce."
-    ],
-    "totalTime": 12,
-    "pantryTags": [
-      "rice",
-      "canned_tomatoes",
-      "ground_beef",
-      "butter"
-    ]
-  },
-  {
-    "name": "Spicy Korean Gochujang Beef Rice",
-    "description": "A spicy Korean-style gochujang beef and rice skillet with a touch of honey.",
-    "id": 95,
-    "variationGroup": "spicy-gochujang-rice",
-    "variationLabel": "Spicy Gochujang Rice",
-    "method": "Skillet",
-    "mealType": "lunch_dinner",
-    "servings": 4,
-    "proteins": [
-      "beef"
-    ],
-    "flavor": "spicy",
-    "activeTime": 13,
-    "components": [
-      {
-        "name": "Ground Beef (93% lean)",
-        "quantity": 568,
-        "unit": "g"
-      },
-      {
-        "name": "Gochujang Sauce (bottled)",
-        "quantity": 120,
-        "unit": "ml"
-      },
-      {
-        "name": "Soy Sauce",
-        "quantity": 32,
-        "unit": "ml"
-      },
-      {
-        "name": "Honey (squeeze bottle)",
-        "quantity": 40,
-        "unit": "ml"
-      },
-      {
-        "name": "White Rice Pouch (microwaveable, 1 per meal)",
-        "quantity": 4,
-        "unit": "each"
-      },
-      {
-        "name": "Frozen Broccoli (steam-bag, 1 per meal)",
-        "quantity": 4,
-        "unit": "each"
-      }
-    ],
-    "toppings": [
-      "Sesame Seeds",
-      "Green Onion"
-    ],
-    "instructions": [
-      "Heat a large skillet over medium-high heat. Add ground beef, break apart with a spoon. Cook 10-12 minutes until browned throughout.",
-      "In a bowl, mix gochujang, soy sauce, and honey. Pour over beef and stir well. Cook 2 minutes more.",
-      "Divide the spicy beef evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
-      "To serve one portion: microwave rice pouch 90 sec + steam-bag broccoli 3 min, season broccoli with a pinch of garlic powder and chili flakes. Build bowl with rice, top with a portion of the beef, broccoli on side. Sesame & onion on top."
-    ],
-    "totalTime": 13,
-    "pantryTags": [
-      "frozen_veg",
-      "ground_beef",
-      "hot_sauce",
-      "rice",
-      "soy_sauce"
-    ]
-  },
-  {
-    "name": "Beef Pasta Marinara Skillet",
-    "description": "A quick Italian-style ground beef and marinara pasta skillet with wilted spinach.",
-    "id": 96,
-    "variationGroup": "pasta-marinara-skillet",
-    "variationLabel": "Pasta Marinara Skillet",
-    "method": "Skillet",
-    "mealType": "lunch_dinner",
-    "servings": 4,
-    "proteins": [
-      "beef"
-    ],
-    "flavor": "saucy",
-    "activeTime": 15,
-    "components": [
-      {
-        "name": "Ground Beef (93% lean)",
-        "quantity": 568,
-        "unit": "g"
-      },
-      {
-        "name": "Marinara Sauce (bottled)",
-        "quantity": 400,
-        "unit": "ml"
-      },
-      {
-        "name": "Pasta (dry, protein pasta recommended)",
-        "quantity": 340,
-        "unit": "g"
-      },
-      {
-        "name": "Fresh Baby Spinach (pre-washed bag)",
-        "quantity": 340,
-        "unit": "g"
-      }
-    ],
-    "toppings": [
-      "Mozzarella Cheese",
-      "Parmesan"
-    ],
-    "instructions": [
-      "Bring a large pot of water to a boil. Add pasta and cook per package directions (usually 8-10 min) until al dente, then drain.",
-      "Meanwhile, heat a large skillet over medium-high. Add ground beef, break apart. Cook 10-12 minutes until browned throughout.",
-      "Add marinara sauce and spinach to the meat. Season the spinach with a pinch of garlic powder and onion powder. Stir and simmer 3-4 minutes until the spinach wilts. Combine with the cooked pasta.",
-      "Divide the pasta and sauce evenly into 4 containers and refrigerate (up to 4 days) or freeze. To serve one portion: reheat in the microwave until hot throughout. Cheese on top."
-    ],
-    "totalTime": 15,
-    "pantryTags": [
-      "ground_beef",
-      "marinara",
-      "pasta"
-    ]
-  },
-  {
-    "name": "Taco Beef Tortilla Skillet",
-    "description": "A Mexican-style taco beef and tortilla skillet with salsa and mixed veg.",
-    "id": 97,
-    "variationGroup": "taco-tortilla-skillet",
-    "variationLabel": "Taco Tortilla Skillet",
-    "method": "Skillet",
-    "mealType": "lunch_dinner",
-    "servings": 4,
-    "proteins": [
-      "beef"
-    ],
-    "flavor": "spicy",
-    "activeTime": 12,
-    "tags": [
-      "grab_and_go"
-    ],
-    "components": [
-      {
-        "name": "Ground Beef (93% lean)",
-        "quantity": 568,
-        "unit": "g"
-      },
-      {
-        "name": "Taco Seasoning (packet)",
-        "quantity": 48,
-        "unit": "g"
-      },
-      {
-        "name": "Salsa (bottled, 3 tbsp)",
-        "quantity": 192,
-        "unit": "ml"
-      },
-      {
-        "name": "Corn Tortillas (2 per meal, warmed)",
-        "quantity": 8,
-        "unit": "each"
-      },
-      {
-        "name": "Frozen Mixed Veg (steam-bag, 1 per meal)",
-        "quantity": 4,
-        "unit": "each"
-      }
-    ],
-    "toppings": [
-      "Shredded Cheddar",
-      "Sour Cream"
-    ],
-    "instructions": [
-      "Heat a large skillet over medium-high. Add ground beef and break apart. Cook 10-12 minutes until browned throughout.",
-      "Sprinkle taco seasoning over the meat and stir in the salsa (instead of water) -- it cooks down into a real sauce that coats the meat, not just a dry-seasoned crumble. Simmer 2-3 minutes.",
-      "Divide the taco beef evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
-      "To serve one portion: heat 2 tortillas in a dry pan 30 sec per side. Microwave veg 3 min. Build tacos with a portion of the beef. Toppings on the side."
-    ],
-    "totalTime": 12,
-    "pantryTags": [
-      "tortillas",
-      "frozen_veg",
-      "ground_beef",
-      "salsa"
-    ]
-  },
-  {
-    "name": "Creamy Beef Mushroom Skillet",
-    "description": "A creamy, high-protein beef stroganoff-style skillet with sour cream over egg noodles.",
-    "id": 98,
-    "variationGroup": "creamy-mushroom-skillet",
-    "variationLabel": "Creamy Mushroom Skillet",
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "servings": 4,
     "proteins": [
       "beef",
-      "eggs"
-    ],
-    "flavor": "saucy",
-    "activeTime": 14,
-    "tags": [
-      "high_protein"
-    ],
-    "components": [
-      {
-        "name": "Ground Beef (93% lean)",
-        "quantity": 568,
-        "unit": "g"
-      },
-      {
-        "name": "Beef Stroganoff Sauce Mix (powder)",
-        "quantity": 80,
-        "unit": "ml"
-      },
-      {
-        "name": "Sour Cream",
-        "quantity": 240,
-        "unit": "ml"
-      },
-      {
-        "name": "Egg Noodles (microwave cup, 1 per meal)",
-        "quantity": 4,
-        "unit": "each"
-      },
-      {
-        "name": "Frozen Broccoli (steam-bag, 1 per meal)",
-        "quantity": 4,
-        "unit": "each"
-      }
-    ],
-    "toppings": [
-      "Parmesan",
-      "Fresh Dill (if available)"
-    ],
-    "instructions": [
-      "Heat a large skillet over medium-high. Add ground beef and break apart. Cook 10-12 minutes until browned throughout.",
-      "Mix stroganoff sauce powder with 2 cups water per package, then add to the meat. Simmer 4-5 minutes. Remove from heat and stir in sour cream.",
-      "Divide the beef stroganoff evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
-      "To serve one portion: microwave egg noodles per package + microwave broccoli 3 min, season broccoli with a pinch of garlic powder and onion powder. Combine noodles with a portion of the stroganoff. Broccoli on side."
-    ],
-    "totalTime": 14,
-    "pantryTags": [
-      "frozen_veg",
-      "ground_beef",
-      "pasta",
-      "sour_cream"
-    ]
-  },
-  {
-    "name": "Teriyaki Beef Broccoli Bowl",
-    "description": "An Asian-inspired teriyaki ground beef and broccoli bowl over rice.",
-    "id": 99,
-    "variationGroup": "teriyaki-broccoli-bowl",
-    "variationLabel": "Teriyaki Broccoli Bowl",
-    "method": "Skillet",
-    "mealType": "lunch_dinner",
-    "servings": 4,
-    "proteins": [
-      "beef"
-    ],
-    "flavor": "asian",
-    "activeTime": 12,
-    "components": [
-      {
-        "name": "Ground Beef (93% lean)",
-        "quantity": 568,
-        "unit": "g"
-      },
-      {
-        "name": "Teriyaki Sauce (bottled)",
-        "quantity": 120,
-        "unit": "ml"
-      },
-      {
-        "name": "Minced Garlic (jarred, 1½ tsp)",
-        "quantity": 7.5,
-        "unit": "g"
-      },
-      {
-        "name": "White Rice Pouch (microwaveable, 1 per meal)",
-        "quantity": 4,
-        "unit": "each"
-      },
-      {
-        "name": "Frozen Broccoli (steam-bag, 1 per meal)",
-        "quantity": 4,
-        "unit": "each"
-      }
-    ],
-    "toppings": [
-      "Sesame Seeds",
-      "Green Onion"
-    ],
-    "instructions": [
-      "Heat a large skillet over medium-high heat. Add ground beef and minced garlic, breaking the meat apart. Cook 10-12 minutes until browned throughout.",
-      "Drizzle teriyaki sauce over beef and stir well. Cook 2 minutes more.",
-      "Divide the teriyaki beef evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
-      "To serve one portion: microwave rice pouch 90 sec + steam-bag broccoli 3 min, season broccoli with sesame seeds. Build bowl with rice, top with a portion of the beef, broccoli on side. Toppings on top."
-    ],
-    "totalTime": 12,
-    "pantryTags": [
-      "frozen_veg",
-      "ground_beef",
-      "rice",
-      "soy_sauce",
-      "teriyaki_sauce"
-    ]
-  },
-  {
-    "name": "Skillet Chicken Soy Garlic Rice",
-    "description": "An Asian-inspired ground chicken and rice skillet in a garlic-ginger soy glaze with brown sugar and sesame oil.",
-    "id": 100,
-    "variationGroup": "soy-garlic-rice",
-    "variationLabel": "Soy Garlic Rice Skillet",
-    "method": "Skillet",
-    "mealType": "lunch_dinner",
-    "servings": 4,
-    "proteins": [
-      "chicken"
-    ],
-    "flavor": "asian",
-    "activeTime": 14,
-    "components": [
-      {
-        "name": "Ground Chicken (93% lean)",
-        "quantity": 568,
-        "unit": "g"
-      },
-      {
-        "name": "Soy Sauce (¼ cup)",
-        "quantity": 60,
-        "unit": "ml"
-      },
-      {
-        "name": "Minced Garlic (jarred, 4 tsp)",
-        "quantity": 20,
-        "unit": "g"
-      },
-      {
-        "name": "Ground Ginger (1 tsp)",
-        "quantity": 3,
-        "unit": "g"
-      },
-      {
-        "name": "Brown Sugar (3 tbsp, packed)",
-        "quantity": 40,
-        "unit": "g"
-      },
-      {
-        "name": "Sesame Oil (1 tbsp)",
-        "quantity": 14,
-        "unit": "g"
-      },
-      {
-        "name": "Red Pepper Flakes (¼ tsp)",
-        "quantity": 0.5,
-        "unit": "g"
-      },
-      {
-        "name": "White Rice Pouch (microwaveable, 1 per meal)",
-        "quantity": 4,
-        "unit": "each"
-      },
-      {
-        "name": "Frozen Mixed Veg (steam-bag, 1 per meal)",
-        "quantity": 4,
-        "unit": "each"
-      }
-    ],
-    "toppings": [
-      "Sesame Seeds",
-      "Green Onion"
-    ],
-    "instructions": [
-      "Heat a large skillet or pot over medium-high heat. Add ground chicken, breaking it apart with a spoon. Cook 10-12 minutes, stirring occasionally, until browned throughout. Drain excess fat if needed.",
-      "Push the chicken to one side, add minced garlic and ground ginger to the cleared space, and cook 30-45 seconds, stirring, until fragrant.",
-      "Stir in soy sauce, brown sugar, sesame oil, and red pepper flakes. Simmer 2-3 minutes, stirring occasionally, until the sauce thickens slightly and coats the chicken.",
-      "Divide the chicken evenly into 4 containers and refrigerate (up to 4 days) or freeze. To serve one portion: microwave rice pouch 90 sec + steam-bag veg 3 min. Build bowl with rice, top with chicken. Toppings on the side."
-    ],
-    "totalTime": 14,
-    "pantryTags": [
-      "frozen_veg",
-      "ground_chicken",
-      "onion_garlic",
-      "rice",
-      "soy_sauce"
-    ]
-  },
-  {
-    "name": "BBQ Skillet Chicken Hash Browns",
-    "description": "A smoky BBQ ground chicken and hash brown skillet with garlic and seasoned broccoli.",
-    "id": 101,
-    "variationGroup": "bbq-hash-browns",
-    "variationLabel": "BBQ Skillet Hash Browns",
-    "method": "Skillet",
-    "mealType": "lunch_dinner",
-    "servings": 4,
-    "proteins": [
-      "chicken"
-    ],
-    "flavor": "spicy",
-    "activeTime": 13,
-    "components": [
-      {
-        "name": "Ground Chicken (93% lean)",
-        "quantity": 568,
-        "unit": "g"
-      },
-      {
-        "name": "BBQ Sauce (bottled)",
-        "quantity": 128,
-        "unit": "ml"
-      },
-      {
-        "name": "Minced Garlic (jarred, 1½ tsp)",
-        "quantity": 7.5,
-        "unit": "g"
-      },
-      {
-        "name": "Onion Powder (½ tsp)",
-        "quantity": 8,
-        "unit": "g"
-      },
-      {
-        "name": "Salt (pinch)",
-        "quantity": 2,
-        "unit": "g"
-      },
-      {
-        "name": "Black Pepper (pinch)",
-        "quantity": 2,
-        "unit": "g"
-      },
-      {
-        "name": "Frozen Hash Browns (shredded, bagged, 1 portion per meal)",
-        "quantity": 4,
-        "unit": "each"
-      },
-      {
-        "name": "Frozen Broccoli (steam-bag, 1 per meal)",
-        "quantity": 4,
-        "unit": "each"
-      }
-    ],
-    "toppings": [
-      "Cheddar Cheese",
-      "Fried Onions (canned)"
-    ],
-    "instructions": [
-      "Heat a large skillet over medium-high heat. Add ground chicken, minced garlic, onion powder, salt, and pepper, breaking the meat apart with a spoon. Cook 10-12 minutes until browned throughout.",
-      "Stir in BBQ sauce generously. Cook 2-3 minutes more.",
-      "Divide the chicken mixture evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
-      "To serve one portion: microwave a portion of hash browns per package directions (usually 2-3 min), or air fry/bake if you'd rather have them crispy. Steam-bag broccoli 3 min, season with a pinch of onion powder and chili flakes. Plate hash browns, top with a portion of the chicken mixture, broccoli on the side. Toppings on the side."
-    ],
-    "totalTime": 13,
-    "pantryTags": [
-      "bbq_sauce",
-      "frozen_veg",
-      "ground_chicken",
-      "potatoes"
-    ]
-  },
-  {
-    "name": "Saucy Tomato Chicken Bowl",
-    "description": "A saucy, well-spiced ground chicken and tomato skillet with cumin, oregano, and smoked paprika, finished with butter and spinach over rice.",
-    "id": 102,
-    "variationGroup": "saucy-tomato-bowl",
-    "variationLabel": "Saucy Tomato Bowl",
-    "method": "Skillet",
-    "mealType": "lunch_dinner",
-    "servings": 4,
-    "proteins": [
-      "chicken"
-    ],
-    "flavor": "saucy",
-    "activeTime": 12,
-    "components": [
-      {
-        "name": "Ground Chicken (93% lean)",
-        "quantity": 568,
-        "unit": "g"
-      },
-      {
-        "name": "Canned Diced Tomatoes",
-        "quantity": 800,
-        "unit": "ml"
-      },
-      {
-        "name": "Tomato Paste (1 tbsp)",
-        "quantity": 64,
-        "unit": "g"
-      },
-      {
-        "name": "Minced Garlic (jarred, 3 tsp)",
-        "quantity": 15,
-        "unit": "g"
-      },
-      {
-        "name": "Onion Powder (1 tsp)",
-        "quantity": 12,
-        "unit": "g"
-      },
-      {
-        "name": "Ground Cumin (1 tsp)",
-        "quantity": 8,
-        "unit": "g"
-      },
-      {
-        "name": "Dried Oregano (1 tsp)",
-        "quantity": 4,
-        "unit": "g"
-      },
-      {
-        "name": "Red Pepper Flakes (½ tsp)",
-        "quantity": 4,
-        "unit": "g"
-      },
-      {
-        "name": "Smoked Paprika (½ tsp)",
-        "quantity": 4,
-        "unit": "g"
-      },
-      {
-        "name": "Salt (¼ tsp)",
-        "quantity": 6,
-        "unit": "g"
-      },
-      {
-        "name": "Butter (1 tbsp)",
-        "quantity": 60,
-        "unit": "g"
-      },
-      {
-        "name": "White Rice Pouch (microwaveable, 1 per meal)",
-        "quantity": 4,
-        "unit": "each"
-      },
-      {
-        "name": "Fresh Baby Spinach (pre-washed bag)",
-        "quantity": 340,
-        "unit": "g"
-      }
-    ],
-    "toppings": [
-      "Parmesan Cheese",
-      "Fresh Basil (if available)"
-    ],
-    "instructions": [
-      "Heat a large skillet or pot over medium-high heat. Add ground chicken and break apart. Cook 10-12 minutes until mostly browned throughout.",
-      "Stir in tomato paste, minced garlic, onion powder, cumin, oregano, red pepper flakes, smoked paprika, and salt, cooking 1 minute until fragrant -- this is where the real flavor comes from, not just the tomatoes. Add canned tomatoes (with liquid) and spinach. Simmer 4-5 minutes, stirring until the spinach wilts and the sauce thickens slightly.",
-      "Stir in butter off heat for a glossy, rich sauce. Divide the chicken and tomato sauce evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
-      "To serve one portion: microwave a rice pouch 90 sec. Build bowl with rice, top with a portion of the chicken & tomato sauce."
-    ],
-    "totalTime": 12,
-    "pantryTags": [
-      "butter",
-      "canned_tomatoes",
-      "ground_chicken",
-      "rice"
-    ]
-  },
-  {
-    "name": "Spicy Gochujang Chicken Rice",
-    "description": "A spicy Korean-style gochujang chicken and rice skillet with a touch of honey.",
-    "id": 103,
-    "variationGroup": "spicy-gochujang-rice",
-    "variationLabel": "Spicy Gochujang Rice",
-    "method": "Skillet",
-    "mealType": "lunch_dinner",
-    "servings": 4,
-    "proteins": [
-      "chicken"
-    ],
-    "flavor": "spicy",
-    "activeTime": 13,
-    "components": [
-      {
-        "name": "Ground Chicken (93% lean)",
-        "quantity": 568,
-        "unit": "g"
-      },
-      {
-        "name": "Gochujang Sauce (bottled)",
-        "quantity": 120,
-        "unit": "ml"
-      },
-      {
-        "name": "Soy Sauce",
-        "quantity": 32,
-        "unit": "ml"
-      },
-      {
-        "name": "Honey (squeeze bottle)",
-        "quantity": 40,
-        "unit": "ml"
-      },
-      {
-        "name": "White Rice Pouch (microwaveable, 1 per meal)",
-        "quantity": 4,
-        "unit": "each"
-      },
-      {
-        "name": "Frozen Broccoli (steam-bag, 1 per meal)",
-        "quantity": 4,
-        "unit": "each"
-      }
-    ],
-    "toppings": [
-      "Sesame Seeds",
-      "Green Onion"
-    ],
-    "instructions": [
-      "Heat a large skillet over medium-high heat. Add ground chicken, break apart with a spoon. Cook 10-12 minutes until browned throughout.",
-      "In a bowl, mix gochujang, soy sauce, and honey. Pour over chicken and stir well. Cook 2 minutes more.",
-      "Divide the spicy chicken evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
-      "To serve one portion: microwave rice pouch 90 sec + steam-bag broccoli 3 min, season broccoli with a pinch of garlic powder and chili flakes. Build bowl with rice, top with a portion of the chicken, broccoli on side. Sesame & onion on top."
-    ],
-    "totalTime": 13,
-    "pantryTags": [
-      "frozen_veg",
-      "ground_chicken",
-      "hot_sauce",
-      "rice",
-      "soy_sauce"
-    ]
-  },
-  {
-    "name": "Chicken Pasta Marinara Skillet",
-    "description": "A quick Italian-style ground chicken and marinara pasta skillet with wilted spinach.",
-    "id": 104,
-    "variationGroup": "pasta-marinara-skillet",
-    "variationLabel": "Pasta Marinara Skillet",
-    "method": "Skillet",
-    "mealType": "lunch_dinner",
-    "servings": 4,
-    "proteins": [
-      "chicken"
-    ],
-    "flavor": "saucy",
-    "activeTime": 15,
-    "components": [
-      {
-        "name": "Ground Chicken (93% lean)",
-        "quantity": 568,
-        "unit": "g"
-      },
-      {
-        "name": "Marinara Sauce (bottled)",
-        "quantity": 400,
-        "unit": "ml"
-      },
-      {
-        "name": "Pasta (dry, protein pasta recommended)",
-        "quantity": 340,
-        "unit": "g"
-      },
-      {
-        "name": "Fresh Baby Spinach (pre-washed bag)",
-        "quantity": 340,
-        "unit": "g"
-      }
-    ],
-    "toppings": [
-      "Mozzarella Cheese",
-      "Parmesan"
-    ],
-    "instructions": [
-      "Bring a large pot of water to a boil. Add pasta and cook per package directions (usually 8-10 min) until al dente, then drain.",
-      "Meanwhile, heat a large skillet over medium-high. Add ground chicken, break apart. Cook 10-12 minutes until browned throughout.",
-      "Add marinara sauce and spinach to the meat. Season the spinach with a pinch of garlic powder and onion powder. Stir and simmer 3-4 minutes until the spinach wilts. Combine with the cooked pasta.",
-      "Divide the pasta and sauce evenly into 4 containers and refrigerate (up to 4 days) or freeze. To serve one portion: reheat in the microwave until hot throughout. Cheese on top."
-    ],
-    "totalTime": 15,
-    "pantryTags": [
-      "ground_chicken",
-      "marinara",
-      "pasta"
-    ]
-  },
-  {
-    "name": "Chicken Taco Tortilla Skillet",
-    "description": "A Mexican-style taco chicken and tortilla skillet with salsa and mixed veg.",
-    "id": 105,
-    "variationGroup": "taco-tortilla-skillet",
-    "variationLabel": "Taco Tortilla Skillet",
-    "method": "Skillet",
-    "mealType": "lunch_dinner",
-    "servings": 4,
-    "proteins": [
-      "chicken"
-    ],
-    "flavor": "spicy",
-    "activeTime": 12,
-    "tags": [
-      "grab_and_go"
-    ],
-    "components": [
-      {
-        "name": "Ground Chicken (93% lean)",
-        "quantity": 568,
-        "unit": "g"
-      },
-      {
-        "name": "Taco Seasoning (packet)",
-        "quantity": 48,
-        "unit": "g"
-      },
-      {
-        "name": "Salsa (bottled, 3 tbsp)",
-        "quantity": 192,
-        "unit": "ml"
-      },
-      {
-        "name": "Corn Tortillas (2 per meal, warmed)",
-        "quantity": 8,
-        "unit": "each"
-      },
-      {
-        "name": "Frozen Mixed Veg (steam-bag, 1 per meal)",
-        "quantity": 4,
-        "unit": "each"
-      }
-    ],
-    "toppings": [
-      "Shredded Cheddar",
-      "Sour Cream"
-    ],
-    "instructions": [
-      "Heat a large skillet over medium-high. Add ground chicken and break apart. Cook 10-12 minutes until browned throughout.",
-      "Sprinkle taco seasoning over the meat and stir in the salsa (instead of water) -- it cooks down into a real sauce that coats the meat, not just a dry-seasoned crumble. Simmer 2-3 minutes.",
-      "Divide the taco chicken evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
-      "To serve one portion: heat 2 tortillas in a dry pan 30 sec per side. Microwave veg 3 min. Build tacos with a portion of the chicken. Toppings on the side."
-    ],
-    "totalTime": 12,
-    "pantryTags": [
-      "frozen_veg",
-      "ground_chicken",
-      "salsa",
-      "tortillas"
-    ]
-  },
-  {
-    "name": "Creamy Chicken Mushroom Skillet",
-    "description": "A creamy, high-protein chicken stroganoff-style skillet with sour cream over egg noodles.",
-    "id": 106,
-    "variationGroup": "creamy-mushroom-skillet",
-    "variationLabel": "Creamy Mushroom Skillet",
-    "method": "Skillet",
-    "mealType": "lunch_dinner",
-    "servings": 4,
-    "proteins": [
       "chicken",
-      "eggs"
-    ],
-    "flavor": "saucy",
-    "activeTime": 14,
-    "tags": [
-      "high_protein"
-    ],
-    "components": [
-      {
-        "name": "Ground Chicken (93% lean)",
-        "quantity": 568,
-        "unit": "g"
-      },
-      {
-        "name": "Beef Stroganoff Sauce Mix (powder)",
-        "quantity": 80,
-        "unit": "ml"
-      },
-      {
-        "name": "Sour Cream",
-        "quantity": 240,
-        "unit": "ml"
-      },
-      {
-        "name": "Egg Noodles (microwave cup, 1 per meal)",
-        "quantity": 4,
-        "unit": "each"
-      },
-      {
-        "name": "Frozen Broccoli (steam-bag, 1 per meal)",
-        "quantity": 4,
-        "unit": "each"
-      }
-    ],
-    "toppings": [
-      "Parmesan",
-      "Fresh Dill (if available)"
-    ],
-    "instructions": [
-      "Heat a large skillet over medium-high. Add ground chicken and break apart. Cook 10-12 minutes until browned throughout.",
-      "Mix stroganoff sauce powder with 2 cups water per package, then add to the meat. Simmer 4-5 minutes. Remove from heat and stir in sour cream.",
-      "Divide the chicken stroganoff evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
-      "To serve one portion: microwave egg noodles per package + microwave broccoli 3 min, season broccoli with a pinch of garlic powder and onion powder. Combine noodles with a portion of the stroganoff. Broccoli on side."
-    ],
-    "totalTime": 14,
-    "pantryTags": [
-      "frozen_veg",
-      "ground_chicken",
-      "pasta",
-      "sour_cream"
-    ]
-  },
-  {
-    "name": "Teriyaki Chicken Broccoli Bowl",
-    "description": "An Asian-inspired teriyaki ground chicken and broccoli bowl over rice.",
-    "id": 107,
-    "variationGroup": "teriyaki-broccoli-bowl",
-    "variationLabel": "Teriyaki Broccoli Bowl",
-    "method": "Skillet",
-    "mealType": "lunch_dinner",
-    "servings": 4,
-    "proteins": [
-      "chicken"
-    ],
-    "flavor": "asian",
-    "activeTime": 12,
-    "components": [
-      {
-        "name": "Ground Chicken (93% lean)",
-        "quantity": 568,
-        "unit": "g"
-      },
-      {
-        "name": "Teriyaki Sauce (bottled)",
-        "quantity": 120,
-        "unit": "ml"
-      },
-      {
-        "name": "Minced Garlic (jarred, 1½ tsp)",
-        "quantity": 7.5,
-        "unit": "g"
-      },
-      {
-        "name": "White Rice Pouch (microwaveable, 1 per meal)",
-        "quantity": 4,
-        "unit": "each"
-      },
-      {
-        "name": "Frozen Broccoli (steam-bag, 1 per meal)",
-        "quantity": 4,
-        "unit": "each"
-      }
-    ],
-    "toppings": [
-      "Sesame Seeds",
-      "Green Onion"
-    ],
-    "instructions": [
-      "Heat a large skillet over medium-high heat. Add ground chicken and minced garlic, breaking the meat apart. Cook 10-12 minutes until browned throughout.",
-      "Drizzle teriyaki sauce over chicken and stir well. Cook 2 minutes more.",
-      "Divide the teriyaki chicken evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
-      "To serve one portion: microwave rice pouch 90 sec + steam-bag broccoli 3 min, season broccoli with sesame seeds. Build bowl with rice, top with a portion of the chicken, broccoli on side. Toppings on top."
-    ],
-    "totalTime": 12,
-    "pantryTags": [
-      "frozen_veg",
-      "ground_chicken",
-      "rice",
-      "soy_sauce",
-      "teriyaki_sauce"
-    ]
-  },
-  {
-    "name": "Skillet Pork Soy Garlic Rice",
-    "description": "An Asian-inspired ground pork and rice skillet in a garlic-ginger soy glaze with brown sugar and sesame oil.",
-    "id": 108,
-    "variationGroup": "soy-garlic-rice",
-    "variationLabel": "Soy Garlic Rice Skillet",
-    "method": "Skillet",
-    "mealType": "lunch_dinner",
-    "servings": 4,
-    "proteins": [
-      "pork"
-    ],
-    "flavor": "asian",
-    "activeTime": 14,
-    "components": [
-      {
-        "name": "Ground Pork (93% lean)",
-        "quantity": 568,
-        "unit": "g"
-      },
-      {
-        "name": "Soy Sauce (¼ cup)",
-        "quantity": 60,
-        "unit": "ml"
-      },
-      {
-        "name": "Minced Garlic (jarred, 4 tsp)",
-        "quantity": 20,
-        "unit": "g"
-      },
-      {
-        "name": "Ground Ginger (1 tsp)",
-        "quantity": 3,
-        "unit": "g"
-      },
-      {
-        "name": "Brown Sugar (3 tbsp, packed)",
-        "quantity": 40,
-        "unit": "g"
-      },
-      {
-        "name": "Sesame Oil (1 tbsp)",
-        "quantity": 14,
-        "unit": "g"
-      },
-      {
-        "name": "Red Pepper Flakes (¼ tsp)",
-        "quantity": 0.5,
-        "unit": "g"
-      },
-      {
-        "name": "White Rice Pouch (microwaveable, 1 per meal)",
-        "quantity": 4,
-        "unit": "each"
-      },
-      {
-        "name": "Frozen Mixed Veg (steam-bag, 1 per meal)",
-        "quantity": 4,
-        "unit": "each"
-      }
-    ],
-    "toppings": [
-      "Sesame Seeds",
-      "Green Onion"
-    ],
-    "instructions": [
-      "Heat a large skillet or pot over medium-high heat. Add ground pork, breaking it apart with a spoon. Cook 10-12 minutes, stirring occasionally, until browned throughout. Drain excess fat if needed.",
-      "Push the pork to one side, add minced garlic and ground ginger to the cleared space, and cook 30-45 seconds, stirring, until fragrant.",
-      "Stir in soy sauce, brown sugar, sesame oil, and red pepper flakes. Simmer 2-3 minutes, stirring occasionally, until the sauce thickens slightly and coats the pork.",
-      "Divide the pork evenly into 4 containers and refrigerate (up to 4 days) or freeze. To serve one portion: microwave rice pouch 90 sec + steam-bag veg 3 min. Build bowl with rice, top with pork. Toppings on the side."
-    ],
-    "totalTime": 14,
-    "pantryTags": [
-      "frozen_veg",
-      "ground_pork",
-      "onion_garlic",
-      "rice",
-      "soy_sauce"
-    ]
-  },
-  {
-    "name": "BBQ Skillet Pork Hash Browns",
-    "description": "A smoky BBQ ground pork and hash brown skillet with garlic and seasoned broccoli.",
-    "id": 109,
-    "variationGroup": "bbq-hash-browns",
-    "variationLabel": "BBQ Skillet Hash Browns",
-    "method": "Skillet",
-    "mealType": "lunch_dinner",
-    "servings": 4,
-    "proteins": [
-      "pork"
-    ],
-    "flavor": "spicy",
-    "activeTime": 13,
-    "components": [
-      {
-        "name": "Ground Pork (93% lean)",
-        "quantity": 568,
-        "unit": "g"
-      },
-      {
-        "name": "BBQ Sauce (bottled)",
-        "quantity": 128,
-        "unit": "ml"
-      },
-      {
-        "name": "Minced Garlic (jarred, 1½ tsp)",
-        "quantity": 7.5,
-        "unit": "g"
-      },
-      {
-        "name": "Onion Powder (½ tsp)",
-        "quantity": 8,
-        "unit": "g"
-      },
-      {
-        "name": "Salt (pinch)",
-        "quantity": 2,
-        "unit": "g"
-      },
-      {
-        "name": "Black Pepper (pinch)",
-        "quantity": 2,
-        "unit": "g"
-      },
-      {
-        "name": "Frozen Hash Browns (shredded, bagged, 1 portion per meal)",
-        "quantity": 4,
-        "unit": "each"
-      },
-      {
-        "name": "Frozen Broccoli (steam-bag, 1 per meal)",
-        "quantity": 4,
-        "unit": "each"
-      }
-    ],
-    "toppings": [
-      "Cheddar Cheese",
-      "Fried Onions (canned)"
-    ],
-    "instructions": [
-      "Heat a large skillet over medium-high heat. Add ground pork, minced garlic, onion powder, salt, and pepper, breaking the meat apart with a spoon. Cook 10-12 minutes until browned throughout.",
-      "Stir in BBQ sauce generously. Cook 2-3 minutes more.",
-      "Divide the pork mixture evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
-      "To serve one portion: microwave a portion of hash browns per package directions (usually 2-3 min), or air fry/bake if you'd rather have them crispy. Steam-bag broccoli 3 min, season with a pinch of onion powder and chili flakes. Plate hash browns, top with a portion of the pork mixture, broccoli on the side. Toppings on the side."
-    ],
-    "totalTime": 13,
-    "pantryTags": [
-      "bbq_sauce",
-      "frozen_veg",
-      "ground_pork",
-      "potatoes"
-    ]
-  },
-  {
-    "name": "Saucy Tomato Pork Bowl",
-    "description": "A saucy, well-spiced ground pork and tomato skillet with cumin, oregano, and smoked paprika, finished with butter and spinach over rice.",
-    "id": 110,
-    "variationGroup": "saucy-tomato-bowl",
-    "variationLabel": "Saucy Tomato Bowl",
-    "method": "Skillet",
-    "mealType": "lunch_dinner",
-    "servings": 4,
-    "proteins": [
-      "pork"
-    ],
-    "flavor": "saucy",
-    "activeTime": 12,
-    "components": [
-      {
-        "name": "Ground Pork (93% lean)",
-        "quantity": 568,
-        "unit": "g"
-      },
-      {
-        "name": "Canned Diced Tomatoes",
-        "quantity": 800,
-        "unit": "ml"
-      },
-      {
-        "name": "Tomato Paste (1 tbsp)",
-        "quantity": 64,
-        "unit": "g"
-      },
-      {
-        "name": "Minced Garlic (jarred, 3 tsp)",
-        "quantity": 15,
-        "unit": "g"
-      },
-      {
-        "name": "Onion Powder (1 tsp)",
-        "quantity": 12,
-        "unit": "g"
-      },
-      {
-        "name": "Ground Cumin (1 tsp)",
-        "quantity": 8,
-        "unit": "g"
-      },
-      {
-        "name": "Dried Oregano (1 tsp)",
-        "quantity": 4,
-        "unit": "g"
-      },
-      {
-        "name": "Red Pepper Flakes (½ tsp)",
-        "quantity": 4,
-        "unit": "g"
-      },
-      {
-        "name": "Smoked Paprika (½ tsp)",
-        "quantity": 4,
-        "unit": "g"
-      },
-      {
-        "name": "Salt (¼ tsp)",
-        "quantity": 6,
-        "unit": "g"
-      },
-      {
-        "name": "Butter (1 tbsp)",
-        "quantity": 60,
-        "unit": "g"
-      },
-      {
-        "name": "White Rice Pouch (microwaveable, 1 per meal)",
-        "quantity": 4,
-        "unit": "each"
-      },
-      {
-        "name": "Fresh Baby Spinach (pre-washed bag)",
-        "quantity": 340,
-        "unit": "g"
-      }
-    ],
-    "toppings": [
-      "Parmesan Cheese",
-      "Fresh Basil (if available)"
-    ],
-    "instructions": [
-      "Heat a large skillet or pot over medium-high heat. Add ground pork and break apart. Cook 10-12 minutes until mostly browned throughout.",
-      "Stir in tomato paste, minced garlic, onion powder, cumin, oregano, red pepper flakes, smoked paprika, and salt, cooking 1 minute until fragrant -- this is where the real flavor comes from, not just the tomatoes. Add canned tomatoes (with liquid) and spinach. Simmer 4-5 minutes, stirring until the spinach wilts and the sauce thickens slightly.",
-      "Stir in butter off heat for a glossy, rich sauce. Divide the pork and tomato sauce evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
-      "To serve one portion: microwave a rice pouch 90 sec. Build bowl with rice, top with a portion of the pork & tomato sauce."
-    ],
-    "totalTime": 12,
-    "pantryTags": [
-      "butter",
-      "canned_tomatoes",
-      "ground_pork",
-      "rice"
-    ]
-  },
-  {
-    "name": "Spicy Gochujang Pork Rice",
-    "description": "A spicy Korean-style gochujang pork and rice skillet with a touch of honey.",
-    "id": 111,
-    "variationGroup": "spicy-gochujang-rice",
-    "variationLabel": "Spicy Gochujang Rice",
-    "method": "Skillet",
-    "mealType": "lunch_dinner",
-    "servings": 4,
-    "proteins": [
-      "pork"
-    ],
-    "flavor": "spicy",
-    "activeTime": 13,
-    "components": [
-      {
-        "name": "Ground Pork (93% lean)",
-        "quantity": 568,
-        "unit": "g"
-      },
-      {
-        "name": "Gochujang Sauce (bottled)",
-        "quantity": 120,
-        "unit": "ml"
-      },
-      {
-        "name": "Soy Sauce",
-        "quantity": 32,
-        "unit": "ml"
-      },
-      {
-        "name": "Honey (squeeze bottle)",
-        "quantity": 40,
-        "unit": "ml"
-      },
-      {
-        "name": "White Rice Pouch (microwaveable, 1 per meal)",
-        "quantity": 4,
-        "unit": "each"
-      },
-      {
-        "name": "Frozen Broccoli (steam-bag, 1 per meal)",
-        "quantity": 4,
-        "unit": "each"
-      }
-    ],
-    "toppings": [
-      "Sesame Seeds",
-      "Green Onion"
-    ],
-    "instructions": [
-      "Heat a large skillet over medium-high heat. Add ground pork, break apart with a spoon. Cook 10-12 minutes until browned throughout.",
-      "In a bowl, mix gochujang, soy sauce, and honey. Pour over pork and stir well. Cook 2 minutes more.",
-      "Divide the spicy pork evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
-      "To serve one portion: microwave rice pouch 90 sec + steam-bag broccoli 3 min, season broccoli with a pinch of garlic powder and chili flakes. Build bowl with rice, top with a portion of the pork, broccoli on side. Sesame & onion on top."
-    ],
-    "totalTime": 13,
-    "pantryTags": [
-      "frozen_veg",
-      "ground_pork",
-      "hot_sauce",
-      "rice",
-      "soy_sauce"
-    ]
-  },
-  {
-    "name": "Pork Pasta Marinara Skillet",
-    "description": "A quick Italian-style ground pork and marinara pasta skillet with wilted spinach.",
-    "id": 112,
-    "variationGroup": "pasta-marinara-skillet",
-    "variationLabel": "Pasta Marinara Skillet",
-    "method": "Skillet",
-    "mealType": "lunch_dinner",
-    "servings": 4,
-    "proteins": [
-      "pork"
-    ],
-    "flavor": "saucy",
-    "activeTime": 15,
-    "components": [
-      {
-        "name": "Ground Pork (93% lean)",
-        "quantity": 568,
-        "unit": "g"
-      },
-      {
-        "name": "Marinara Sauce (bottled)",
-        "quantity": 400,
-        "unit": "ml"
-      },
-      {
-        "name": "Pasta (dry, protein pasta recommended)",
-        "quantity": 340,
-        "unit": "g"
-      },
-      {
-        "name": "Fresh Baby Spinach (pre-washed bag)",
-        "quantity": 340,
-        "unit": "g"
-      }
-    ],
-    "toppings": [
-      "Mozzarella Cheese",
-      "Parmesan"
-    ],
-    "instructions": [
-      "Bring a large pot of water to a boil. Add pasta and cook per package directions (usually 8-10 min) until al dente, then drain.",
-      "Meanwhile, heat a large skillet over medium-high. Add ground pork, break apart. Cook 10-12 minutes until browned throughout.",
-      "Add marinara sauce and spinach to the meat. Season the spinach with a pinch of garlic powder and onion powder. Stir and simmer 3-4 minutes until the spinach wilts. Combine with the cooked pasta.",
-      "Divide the pasta and sauce evenly into 4 containers and refrigerate (up to 4 days) or freeze. To serve one portion: reheat in the microwave until hot throughout. Cheese on top."
-    ],
-    "totalTime": 15,
-    "pantryTags": [
-      "ground_pork",
-      "marinara",
-      "pasta"
-    ]
-  },
-  {
-    "name": "Pork Taco Tortilla Skillet",
-    "description": "A Mexican-style taco pork and tortilla skillet with salsa and mixed veg.",
-    "id": 113,
-    "variationGroup": "taco-tortilla-skillet",
-    "variationLabel": "Taco Tortilla Skillet",
-    "method": "Skillet",
-    "mealType": "lunch_dinner",
-    "servings": 4,
-    "proteins": [
-      "pork"
-    ],
-    "flavor": "spicy",
-    "activeTime": 12,
-    "tags": [
-      "grab_and_go"
-    ],
-    "components": [
-      {
-        "name": "Ground Pork (93% lean)",
-        "quantity": 568,
-        "unit": "g"
-      },
-      {
-        "name": "Taco Seasoning (packet)",
-        "quantity": 48,
-        "unit": "g"
-      },
-      {
-        "name": "Salsa (bottled, 3 tbsp)",
-        "quantity": 192,
-        "unit": "ml"
-      },
-      {
-        "name": "Corn Tortillas (2 per meal, warmed)",
-        "quantity": 8,
-        "unit": "each"
-      },
-      {
-        "name": "Frozen Mixed Veg (steam-bag, 1 per meal)",
-        "quantity": 4,
-        "unit": "each"
-      }
-    ],
-    "toppings": [
-      "Shredded Cheddar",
-      "Sour Cream"
-    ],
-    "instructions": [
-      "Heat a large skillet over medium-high. Add ground pork and break apart. Cook 10-12 minutes until browned throughout.",
-      "Sprinkle taco seasoning over the meat and stir in the salsa (instead of water) -- it cooks down into a real sauce that coats the meat, not just a dry-seasoned crumble. Simmer 2-3 minutes.",
-      "Divide the taco pork evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
-      "To serve one portion: heat 2 tortillas in a dry pan 30 sec per side. Microwave veg 3 min. Build tacos with a portion of the pork. Toppings on the side."
-    ],
-    "totalTime": 12,
-    "pantryTags": [
-      "frozen_veg",
-      "ground_pork",
-      "salsa",
-      "tortillas"
-    ]
-  },
-  {
-    "name": "Creamy Pork Mushroom Skillet",
-    "description": "A creamy, high-protein pork stroganoff-style skillet with sour cream over egg noodles.",
-    "id": 114,
-    "variationGroup": "creamy-mushroom-skillet",
-    "variationLabel": "Creamy Mushroom Skillet",
-    "method": "Skillet",
-    "mealType": "lunch_dinner",
-    "servings": 4,
-    "proteins": [
       "pork",
-      "eggs"
-    ],
-    "flavor": "saucy",
-    "activeTime": 14,
-    "tags": [
-      "high_protein"
-    ],
-    "components": [
-      {
-        "name": "Ground Pork (93% lean)",
-        "quantity": 568,
-        "unit": "g"
-      },
-      {
-        "name": "Beef Stroganoff Sauce Mix (powder)",
-        "quantity": 80,
-        "unit": "ml"
-      },
-      {
-        "name": "Sour Cream",
-        "quantity": 240,
-        "unit": "ml"
-      },
-      {
-        "name": "Egg Noodles (microwave cup, 1 per meal)",
-        "quantity": 4,
-        "unit": "each"
-      },
-      {
-        "name": "Frozen Broccoli (steam-bag, 1 per meal)",
-        "quantity": 4,
-        "unit": "each"
-      }
-    ],
-    "toppings": [
-      "Parmesan",
-      "Fresh Dill (if available)"
-    ],
-    "instructions": [
-      "Heat a large skillet over medium-high. Add ground pork and break apart. Cook 10-12 minutes until browned throughout.",
-      "Mix stroganoff sauce powder with 2 cups water per package, then add to the meat. Simmer 4-5 minutes. Remove from heat and stir in sour cream.",
-      "Divide the pork stroganoff evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
-      "To serve one portion: microwave egg noodles per package + microwave broccoli 3 min, season broccoli with a pinch of garlic powder and onion powder. Combine noodles with a portion of the stroganoff. Broccoli on side."
-    ],
-    "totalTime": 14,
-    "pantryTags": [
-      "frozen_veg",
-      "ground_pork",
-      "pasta",
-      "sour_cream"
-    ]
-  },
-  {
-    "name": "Teriyaki Pork Broccoli Bowl",
-    "description": "An Asian-inspired teriyaki ground pork and broccoli bowl over rice.",
-    "id": 115,
-    "variationGroup": "teriyaki-broccoli-bowl",
-    "variationLabel": "Teriyaki Broccoli Bowl",
-    "method": "Skillet",
-    "mealType": "lunch_dinner",
-    "servings": 4,
-    "proteins": [
-      "pork"
-    ],
-    "flavor": "asian",
-    "activeTime": 12,
-    "components": [
-      {
-        "name": "Ground Pork (93% lean)",
-        "quantity": 568,
-        "unit": "g"
-      },
-      {
-        "name": "Teriyaki Sauce (bottled)",
-        "quantity": 120,
-        "unit": "ml"
-      },
-      {
-        "name": "Minced Garlic (jarred, 1½ tsp)",
-        "quantity": 7.5,
-        "unit": "g"
-      },
-      {
-        "name": "White Rice Pouch (microwaveable, 1 per meal)",
-        "quantity": 4,
-        "unit": "each"
-      },
-      {
-        "name": "Frozen Broccoli (steam-bag, 1 per meal)",
-        "quantity": 4,
-        "unit": "each"
-      }
-    ],
-    "toppings": [
-      "Sesame Seeds",
-      "Green Onion"
-    ],
-    "instructions": [
-      "Heat a large skillet over medium-high heat. Add ground pork and minced garlic, breaking the meat apart. Cook 10-12 minutes until browned throughout.",
-      "Drizzle teriyaki sauce over pork and stir well. Cook 2 minutes more.",
-      "Divide the teriyaki pork evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
-      "To serve one portion: microwave rice pouch 90 sec + steam-bag broccoli 3 min, season broccoli with sesame seeds. Build bowl with rice, top with a portion of the pork, broccoli on side. Toppings on top."
-    ],
-    "totalTime": 12,
-    "pantryTags": [
-      "frozen_veg",
-      "ground_pork",
-      "rice",
-      "soy_sauce",
-      "teriyaki_sauce"
-    ]
-  },
-  {
-    "name": "Skillet Turkey Soy Garlic Rice",
-    "description": "An Asian-inspired ground turkey and rice skillet in a garlic-ginger soy glaze with brown sugar and sesame oil.",
-    "id": 116,
-    "variationGroup": "soy-garlic-rice",
-    "variationLabel": "Soy Garlic Rice Skillet",
-    "method": "Skillet",
-    "mealType": "lunch_dinner",
-    "servings": 4,
-    "proteins": [
       "turkey"
     ],
+    "proteinOptions": [
+      {
+        "id": "beef",
+        "label": "Beef",
+        "componentName": "Ground Beef (93% lean)"
+      },
+      {
+        "id": "chicken",
+        "label": "Chicken",
+        "componentName": "Ground Chicken (93% lean)"
+      },
+      {
+        "id": "pork",
+        "label": "Pork",
+        "componentName": "Ground Pork (93% lean)"
+      },
+      {
+        "id": "turkey",
+        "label": "Turkey",
+        "componentName": "Ground Turkey (93% lean)"
+      }
+    ],
     "flavor": "asian",
     "activeTime": 14,
     "components": [
       {
-        "name": "Ground Turkey (93% lean)",
+        "name": "Ground Beef (93% lean)",
         "quantity": 568,
-        "unit": "g"
+        "unit": "g",
+        "proteinSlot": true
       },
       {
         "name": "Soy Sauce (¼ cup)",
@@ -7229,14 +5587,17 @@ export const RECIPES = [
       "Green Onion"
     ],
     "instructions": [
-      "Heat a large skillet or pot over medium-high heat. Add ground turkey, breaking it apart with a spoon. Cook 10-12 minutes, stirring occasionally, until browned throughout. Drain excess fat if needed.",
-      "Push the turkey to one side, add minced garlic and ground ginger to the cleared space, and cook 30-45 seconds, stirring, until fragrant.",
-      "Stir in soy sauce, brown sugar, sesame oil, and red pepper flakes. Simmer 2-3 minutes, stirring occasionally, until the sauce thickens slightly and coats the turkey.",
-      "Divide the turkey evenly into 4 containers and refrigerate (up to 4 days) or freeze. To serve one portion: microwave rice pouch 90 sec + steam-bag veg 3 min. Build bowl with rice, top with turkey. Toppings on the side."
+      "Heat a large skillet or pot over medium-high heat. Add ground {{protein}}, breaking it apart with a spoon. Cook 10-12 minutes, stirring occasionally, until browned throughout. Drain excess fat if needed.",
+      "Push the {{protein}} to one side, add minced garlic and ground ginger to the cleared space, and cook 30-45 seconds, stirring, until fragrant.",
+      "Stir in soy sauce, brown sugar, sesame oil, and red pepper flakes. Simmer 2-3 minutes, stirring occasionally, until the sauce thickens slightly and coats the {{protein}}.",
+      "Divide the {{protein}} evenly into 4 containers and refrigerate (up to 4 days) or freeze. To serve one portion: microwave rice pouch 90 sec + steam-bag veg 3 min. Build bowl with rice, top with {{protein}}. Toppings on the side."
     ],
     "totalTime": 14,
     "pantryTags": [
       "frozen_veg",
+      "ground_beef",
+      "ground_chicken",
+      "ground_pork",
       "ground_turkey",
       "onion_garlic",
       "rice",
@@ -7244,24 +5605,48 @@ export const RECIPES = [
     ]
   },
   {
-    "name": "BBQ Skillet Turkey Hash Browns",
-    "description": "A smoky BBQ ground turkey and hash brown skillet with garlic and seasoned broccoli.",
-    "id": 117,
-    "variationGroup": "bbq-hash-browns",
-    "variationLabel": "BBQ Skillet Hash Browns",
+    "name": "BBQ Skillet Hash Browns",
+    "description": "A smoky BBQ ground {{protein}} and hash brown skillet with garlic and a side of seasoned broccoli.",
+    "id": 93,
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "servings": 4,
     "proteins": [
+      "beef",
+      "chicken",
+      "pork",
       "turkey"
+    ],
+    "proteinOptions": [
+      {
+        "id": "beef",
+        "label": "Beef",
+        "componentName": "Ground Beef (93% lean)"
+      },
+      {
+        "id": "chicken",
+        "label": "Chicken",
+        "componentName": "Ground Chicken (93% lean)"
+      },
+      {
+        "id": "pork",
+        "label": "Pork",
+        "componentName": "Ground Pork (93% lean)"
+      },
+      {
+        "id": "turkey",
+        "label": "Turkey",
+        "componentName": "Ground Turkey (93% lean)"
+      }
     ],
     "flavor": "spicy",
     "activeTime": 13,
     "components": [
       {
-        "name": "Ground Turkey (93% lean)",
+        "name": "Ground Beef (93% lean)",
         "quantity": 568,
-        "unit": "g"
+        "unit": "g",
+        "proteinSlot": true
       },
       {
         "name": "BBQ Sauce (bottled)",
@@ -7304,38 +5689,65 @@ export const RECIPES = [
       "Fried Onions (canned)"
     ],
     "instructions": [
-      "Heat a large skillet over medium-high heat. Add ground turkey, minced garlic, onion powder, salt, and pepper, breaking the meat apart with a spoon. Cook 10-12 minutes until browned throughout.",
+      "Heat a large skillet over medium-high heat. Add ground {{protein}}, minced garlic, onion powder, salt, and pepper, breaking the meat apart with a spoon. Cook 10-12 minutes until browned throughout.",
       "Stir in BBQ sauce generously. Cook 2-3 minutes more.",
-      "Divide the turkey mixture evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
-      "To serve one portion: microwave a portion of hash browns per package directions (usually 2-3 min), or air fry/bake if you'd rather have them crispy. Steam-bag broccoli 3 min, season with a pinch of onion powder and chili flakes. Plate hash browns, top with a portion of the turkey mixture, broccoli on the side. Toppings on the side."
+      "Divide the {{protein}} mixture evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
+      "To serve one portion: microwave a portion of hash browns per package directions (usually 2-3 min), or air fry/bake if you'd rather have them crispy. Steam-bag broccoli 3 min, season with a pinch of onion powder and chili flakes. Plate hash browns, top with a portion of the {{protein}} mixture, broccoli on the side. Toppings on the side."
     ],
     "totalTime": 13,
     "pantryTags": [
       "bbq_sauce",
       "frozen_veg",
+      "ground_beef",
+      "ground_chicken",
+      "ground_pork",
       "ground_turkey",
       "potatoes"
     ]
   },
   {
-    "name": "Saucy Tomato Turkey Bowl",
-    "description": "A saucy, well-spiced ground turkey and tomato skillet with cumin, oregano, and smoked paprika, finished with butter and spinach over rice.",
-    "id": 118,
-    "variationGroup": "saucy-tomato-bowl",
-    "variationLabel": "Saucy Tomato Bowl",
+    "name": "Saucy Tomato Bowl",
+    "description": "A saucy, well-spiced ground {{protein}} and tomato skillet with cumin, oregano, and smoked paprika, finished with butter and spinach over rice.",
+    "id": 94,
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "servings": 4,
     "proteins": [
+      "beef",
+      "chicken",
+      "pork",
       "turkey"
+    ],
+    "proteinOptions": [
+      {
+        "id": "beef",
+        "label": "Beef",
+        "componentName": "Ground Beef (93% lean)"
+      },
+      {
+        "id": "chicken",
+        "label": "Chicken",
+        "componentName": "Ground Chicken (93% lean)"
+      },
+      {
+        "id": "pork",
+        "label": "Pork",
+        "componentName": "Ground Pork (93% lean)"
+      },
+      {
+        "id": "turkey",
+        "label": "Turkey",
+        "componentName": "Ground Turkey (93% lean)"
+      }
     ],
     "flavor": "saucy",
     "activeTime": 12,
     "components": [
       {
-        "name": "Ground Turkey (93% lean)",
+        "name": "Ground Beef (93% lean)",
         "quantity": 568,
-        "unit": "g"
+        "unit": "g",
+        "proteinSlot": true
       },
       {
         "name": "Canned Diced Tomatoes",
@@ -7403,38 +5815,65 @@ export const RECIPES = [
       "Fresh Basil (if available)"
     ],
     "instructions": [
-      "Heat a large skillet or pot over medium-high heat. Add ground turkey and break apart. Cook 10-12 minutes until mostly browned throughout.",
+      "Heat a large skillet or pot over medium-high heat. Add ground {{protein}} and break apart. Cook 10-12 minutes until mostly browned throughout.",
       "Stir in tomato paste, minced garlic, onion powder, cumin, oregano, red pepper flakes, smoked paprika, and salt, cooking 1 minute until fragrant -- this is where the real flavor comes from, not just the tomatoes. Add canned tomatoes (with liquid) and spinach. Simmer 4-5 minutes, stirring until the spinach wilts and the sauce thickens slightly.",
-      "Stir in butter off heat for a glossy, rich sauce. Divide the turkey and tomato sauce evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
-      "To serve one portion: microwave a rice pouch 90 sec. Build bowl with rice, top with a portion of the turkey & tomato sauce."
+      "Stir in butter off heat for a glossy, rich sauce. Divide the {{protein}} and tomato sauce evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
+      "To serve one portion: microwave a rice pouch 90 sec. Build bowl with rice, top with a portion of the {{protein}} & tomato sauce."
     ],
     "totalTime": 12,
     "pantryTags": [
       "butter",
       "canned_tomatoes",
+      "ground_beef",
+      "ground_chicken",
+      "ground_pork",
       "ground_turkey",
       "rice"
     ]
   },
   {
-    "name": "Spicy Gochujang Turkey Rice",
-    "description": "A spicy Korean-style gochujang turkey and rice skillet with a touch of honey.",
-    "id": 119,
-    "variationGroup": "spicy-gochujang-rice",
-    "variationLabel": "Spicy Gochujang Rice",
+    "name": "Spicy Gochujang Rice",
+    "description": "A spicy Korean-style gochujang {{protein}} and rice skillet with a touch of honey.",
+    "id": 95,
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "servings": 4,
     "proteins": [
+      "beef",
+      "chicken",
+      "pork",
       "turkey"
+    ],
+    "proteinOptions": [
+      {
+        "id": "beef",
+        "label": "Beef",
+        "componentName": "Ground Beef (93% lean)"
+      },
+      {
+        "id": "chicken",
+        "label": "Chicken",
+        "componentName": "Ground Chicken (93% lean)"
+      },
+      {
+        "id": "pork",
+        "label": "Pork",
+        "componentName": "Ground Pork (93% lean)"
+      },
+      {
+        "id": "turkey",
+        "label": "Turkey",
+        "componentName": "Ground Turkey (93% lean)"
+      }
     ],
     "flavor": "spicy",
     "activeTime": 13,
     "components": [
       {
-        "name": "Ground Turkey (93% lean)",
+        "name": "Ground Beef (93% lean)",
         "quantity": 568,
-        "unit": "g"
+        "unit": "g",
+        "proteinSlot": true
       },
       {
         "name": "Gochujang Sauce (bottled)",
@@ -7467,14 +5906,17 @@ export const RECIPES = [
       "Green Onion"
     ],
     "instructions": [
-      "Heat a large skillet over medium-high heat. Add ground turkey, break apart with a spoon. Cook 10-12 minutes until browned throughout.",
-      "In a bowl, mix gochujang, soy sauce, and honey. Pour over turkey and stir well. Cook 2 minutes more.",
-      "Divide the spicy turkey evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
-      "To serve one portion: microwave rice pouch 90 sec + steam-bag broccoli 3 min, season broccoli with a pinch of garlic powder and chili flakes. Build bowl with rice, top with a portion of the turkey, broccoli on side. Sesame & onion on top."
+      "Heat a large skillet over medium-high heat. Add ground {{protein}}, break apart with a spoon. Cook 10-12 minutes until browned throughout.",
+      "In a bowl, mix gochujang, soy sauce, and honey. Pour over {{protein}} and stir well. Cook 2 minutes more.",
+      "Divide the spicy {{protein}} evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
+      "To serve one portion: microwave rice pouch 90 sec + steam-bag broccoli 3 min, season broccoli with a pinch of garlic powder and chili flakes. Build bowl with rice, top with a portion of the {{protein}}, broccoli on side. Sesame & onion on top."
     ],
     "totalTime": 13,
     "pantryTags": [
       "frozen_veg",
+      "ground_beef",
+      "ground_chicken",
+      "ground_pork",
       "ground_turkey",
       "hot_sauce",
       "rice",
@@ -7482,24 +5924,48 @@ export const RECIPES = [
     ]
   },
   {
-    "name": "Turkey Pasta Marinara Skillet",
-    "description": "A quick Italian-style ground turkey and marinara pasta skillet with wilted spinach.",
-    "id": 120,
-    "variationGroup": "pasta-marinara-skillet",
-    "variationLabel": "Pasta Marinara Skillet",
+    "name": "Pasta Marinara Skillet",
+    "description": "A quick Italian-style ground {{protein}} and marinara pasta skillet with wilted spinach.",
+    "id": 96,
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "servings": 4,
     "proteins": [
+      "beef",
+      "chicken",
+      "pork",
       "turkey"
+    ],
+    "proteinOptions": [
+      {
+        "id": "beef",
+        "label": "Beef",
+        "componentName": "Ground Beef (93% lean)"
+      },
+      {
+        "id": "chicken",
+        "label": "Chicken",
+        "componentName": "Ground Chicken (93% lean)"
+      },
+      {
+        "id": "pork",
+        "label": "Pork",
+        "componentName": "Ground Pork (93% lean)"
+      },
+      {
+        "id": "turkey",
+        "label": "Turkey",
+        "componentName": "Ground Turkey (93% lean)"
+      }
     ],
     "flavor": "saucy",
     "activeTime": 15,
     "components": [
       {
-        "name": "Ground Turkey (93% lean)",
+        "name": "Ground Beef (93% lean)",
         "quantity": 568,
-        "unit": "g"
+        "unit": "g",
+        "proteinSlot": true
       },
       {
         "name": "Marinara Sauce (bottled)",
@@ -7523,28 +5989,54 @@ export const RECIPES = [
     ],
     "instructions": [
       "Bring a large pot of water to a boil. Add pasta and cook per package directions (usually 8-10 min) until al dente, then drain.",
-      "Meanwhile, heat a large skillet over medium-high. Add ground turkey, break apart. Cook 10-12 minutes until browned throughout.",
+      "Meanwhile, heat a large skillet over medium-high. Add ground {{protein}}, break apart. Cook 10-12 minutes until browned throughout.",
       "Add marinara sauce and spinach to the meat. Season the spinach with a pinch of garlic powder and onion powder. Stir and simmer 3-4 minutes until the spinach wilts. Combine with the cooked pasta.",
       "Divide the pasta and sauce evenly into 4 containers and refrigerate (up to 4 days) or freeze. To serve one portion: reheat in the microwave until hot throughout. Cheese on top."
     ],
     "totalTime": 15,
     "pantryTags": [
+      "ground_beef",
+      "ground_chicken",
+      "ground_pork",
       "ground_turkey",
       "marinara",
       "pasta"
     ]
   },
   {
-    "name": "Turkey Taco Tortilla Skillet",
-    "description": "A Mexican-style taco turkey and tortilla skillet with salsa and mixed veg.",
-    "id": 121,
-    "variationGroup": "taco-tortilla-skillet",
-    "variationLabel": "Taco Tortilla Skillet",
+    "name": "Taco Tortilla Skillet",
+    "description": "A Mexican-style taco {{protein}} and tortilla skillet with salsa and mixed veg.",
+    "id": 97,
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "servings": 4,
     "proteins": [
+      "beef",
+      "chicken",
+      "pork",
       "turkey"
+    ],
+    "proteinOptions": [
+      {
+        "id": "beef",
+        "label": "Beef",
+        "componentName": "Ground Beef (93% lean)"
+      },
+      {
+        "id": "chicken",
+        "label": "Chicken",
+        "componentName": "Ground Chicken (93% lean)"
+      },
+      {
+        "id": "pork",
+        "label": "Pork",
+        "componentName": "Ground Pork (93% lean)"
+      },
+      {
+        "id": "turkey",
+        "label": "Turkey",
+        "componentName": "Ground Turkey (93% lean)"
+      }
     ],
     "flavor": "spicy",
     "activeTime": 12,
@@ -7553,9 +6045,10 @@ export const RECIPES = [
     ],
     "components": [
       {
-        "name": "Ground Turkey (93% lean)",
+        "name": "Ground Beef (93% lean)",
         "quantity": 568,
-        "unit": "g"
+        "unit": "g",
+        "proteinSlot": true
       },
       {
         "name": "Taco Seasoning (packet)",
@@ -7583,32 +6076,58 @@ export const RECIPES = [
       "Sour Cream"
     ],
     "instructions": [
-      "Heat a large skillet over medium-high. Add ground turkey and break apart. Cook 10-12 minutes until browned throughout.",
+      "Heat a large skillet over medium-high. Add ground {{protein}} and break apart. Cook 10-12 minutes until browned throughout.",
       "Sprinkle taco seasoning over the meat and stir in the salsa (instead of water) -- it cooks down into a real sauce that coats the meat, not just a dry-seasoned crumble. Simmer 2-3 minutes.",
-      "Divide the taco turkey evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
-      "To serve one portion: heat 2 tortillas in a dry pan 30 sec per side. Microwave veg 3 min. Build tacos with a portion of the turkey. Toppings on the side."
+      "Divide the taco {{protein}} evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
+      "To serve one portion: heat 2 tortillas in a dry pan 30 sec per side. Microwave veg 3 min. Build tacos with a portion of the {{protein}}. Toppings on the side."
     ],
     "totalTime": 12,
     "pantryTags": [
       "frozen_veg",
+      "ground_beef",
+      "ground_chicken",
+      "ground_pork",
       "ground_turkey",
       "salsa",
       "tortillas"
     ]
   },
   {
-    "name": "Creamy Turkey Mushroom Skillet",
-    "description": "A creamy, high-protein turkey stroganoff-style skillet with sour cream over egg noodles.",
-    "id": 122,
-    "variationGroup": "creamy-mushroom-skillet",
-    "variationLabel": "Creamy Mushroom Skillet",
+    "name": "Creamy Mushroom Skillet",
+    "description": "A creamy, high-protein {{protein}} stroganoff-style skillet with sour cream over egg noodles.",
+    "id": 98,
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "servings": 4,
     "proteins": [
+      "beef",
+      "chicken",
+      "pork",
       "turkey",
       "eggs"
     ],
+    "proteinOptions": [
+      {
+        "id": "beef",
+        "label": "Beef",
+        "componentName": "Ground Beef (93% lean)"
+      },
+      {
+        "id": "chicken",
+        "label": "Chicken",
+        "componentName": "Ground Chicken (93% lean)"
+      },
+      {
+        "id": "pork",
+        "label": "Pork",
+        "componentName": "Ground Pork (93% lean)"
+      },
+      {
+        "id": "turkey",
+        "label": "Turkey",
+        "componentName": "Ground Turkey (93% lean)"
+      }
+    ],
     "flavor": "saucy",
     "activeTime": 14,
     "tags": [
@@ -7616,9 +6135,10 @@ export const RECIPES = [
     ],
     "components": [
       {
-        "name": "Ground Turkey (93% lean)",
+        "name": "Ground Beef (93% lean)",
         "quantity": 568,
-        "unit": "g"
+        "unit": "g",
+        "proteinSlot": true
       },
       {
         "name": "Beef Stroganoff Sauce Mix (powder)",
@@ -7646,38 +6166,65 @@ export const RECIPES = [
       "Fresh Dill (if available)"
     ],
     "instructions": [
-      "Heat a large skillet over medium-high. Add ground turkey and break apart. Cook 10-12 minutes until browned throughout.",
+      "Heat a large skillet over medium-high. Add ground {{protein}} and break apart. Cook 10-12 minutes until browned throughout.",
       "Mix stroganoff sauce powder with 2 cups water per package, then add to the meat. Simmer 4-5 minutes. Remove from heat and stir in sour cream.",
-      "Divide the turkey stroganoff evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
+      "Divide the {{protein}} stroganoff evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave egg noodles per package + microwave broccoli 3 min, season broccoli with a pinch of garlic powder and onion powder. Combine noodles with a portion of the stroganoff. Broccoli on side."
     ],
     "totalTime": 14,
     "pantryTags": [
       "frozen_veg",
+      "ground_beef",
+      "ground_chicken",
+      "ground_pork",
       "ground_turkey",
       "pasta",
       "sour_cream"
     ]
   },
   {
-    "name": "Teriyaki Turkey Broccoli Bowl",
-    "description": "An Asian-inspired teriyaki ground turkey and broccoli bowl over rice.",
-    "id": 123,
-    "variationGroup": "teriyaki-broccoli-bowl",
-    "variationLabel": "Teriyaki Broccoli Bowl",
+    "name": "Teriyaki Broccoli Bowl",
+    "description": "An Asian-inspired teriyaki ground {{protein}} and broccoli bowl over rice.",
+    "id": 99,
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "servings": 4,
     "proteins": [
+      "beef",
+      "chicken",
+      "pork",
       "turkey"
+    ],
+    "proteinOptions": [
+      {
+        "id": "beef",
+        "label": "Beef",
+        "componentName": "Ground Beef (93% lean)"
+      },
+      {
+        "id": "chicken",
+        "label": "Chicken",
+        "componentName": "Ground Chicken (93% lean)"
+      },
+      {
+        "id": "pork",
+        "label": "Pork",
+        "componentName": "Ground Pork (93% lean)"
+      },
+      {
+        "id": "turkey",
+        "label": "Turkey",
+        "componentName": "Ground Turkey (93% lean)"
+      }
     ],
     "flavor": "asian",
     "activeTime": 12,
     "components": [
       {
-        "name": "Ground Turkey (93% lean)",
+        "name": "Ground Beef (93% lean)",
         "quantity": 568,
-        "unit": "g"
+        "unit": "g",
+        "proteinSlot": true
       },
       {
         "name": "Teriyaki Sauce (bottled)",
@@ -7705,14 +6252,17 @@ export const RECIPES = [
       "Green Onion"
     ],
     "instructions": [
-      "Heat a large skillet over medium-high heat. Add ground turkey and minced garlic, breaking the meat apart. Cook 10-12 minutes until browned throughout.",
-      "Drizzle teriyaki sauce over turkey and stir well. Cook 2 minutes more.",
-      "Divide the teriyaki turkey evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
-      "To serve one portion: microwave rice pouch 90 sec + steam-bag broccoli 3 min, season broccoli with sesame seeds. Build bowl with rice, top with a portion of the turkey, broccoli on side. Toppings on top."
+      "Heat a large skillet over medium-high heat. Add ground {{protein}} and minced garlic, breaking the meat apart. Cook 10-12 minutes until browned throughout.",
+      "Drizzle teriyaki sauce over {{protein}} and stir well. Cook 2 minutes more.",
+      "Divide the teriyaki {{protein}} evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
+      "To serve one portion: microwave rice pouch 90 sec + steam-bag broccoli 3 min, season broccoli with sesame seeds. Build bowl with rice, top with a portion of the {{protein}}, broccoli on side. Toppings on top."
     ],
     "totalTime": 12,
     "pantryTags": [
       "frozen_veg",
+      "ground_beef",
+      "ground_chicken",
+      "ground_pork",
       "ground_turkey",
       "rice",
       "soy_sauce",

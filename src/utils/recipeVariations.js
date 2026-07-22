@@ -1,34 +1,14 @@
-import { RECIPES } from '../data/recipes.js';
-
-// A handful of recipe "families" are deliberate reskins of the same base
-// dish across different proteins (e.g. Saucy Tomato Chicken/Beef/Pork/
-// Turkey Bowl) -- tagged in recipes.js via variationGroup/variationLabel.
-// This lets someone who opens one variant quickly hop to a sibling made
-// with whatever protein they actually have, instead of re-searching Browse
-// for the same dish under a different name.
-
-// All recipes sharing a variationGroup, sorted by primary protein so the
-// picker lists them in a stable, predictable order (chicken, beef, pork,
-// turkey, fish, eggs -- whichever proteins that family actually uses).
-const PROTEIN_SORT_ORDER = ['chicken', 'beef', 'pork', 'turkey', 'fish', 'eggs'];
-
-export function getVariationSiblings(recipe) {
-  if (!recipe?.variationGroup) return [];
-  return RECIPES
-    .filter((r) => r.variationGroup === recipe.variationGroup)
-    .sort((a, b) => {
-      const ai = PROTEIN_SORT_ORDER.indexOf(a.proteins?.[0]);
-      const bi = PROTEIN_SORT_ORDER.indexOf(b.proteins?.[0]);
-      return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi);
-    });
-}
-
-// A short label for a sibling's distinguishing protein, shown in the
-// picker next to its full name (e.g. "Chicken", "Ground Beef") --
-// capitalizes the recipe's primary protein tag rather than needing a
-// separate hand-maintained label per recipe.
-export function getVariationProteinLabel(recipe) {
-  const p = recipe.proteins?.[0];
-  if (!p) return '';
-  return p.charAt(0).toUpperCase() + p.slice(1);
-}
+// UNUSED -- safe to delete this file.
+//
+// This used to back a "Variations" picker that let someone switch between
+// recipes that were the same dish reskinned per protein (e.g. "Saucy
+// Tomato Chicken Bowl" vs "Saucy Tomato Beef Bowl"). Those recipes have
+// since been consolidated into single recipes with a `proteinOptions`
+// field and an in-recipe protein picker instead (see recipes.js's doc
+// comment and utils/proteinChoice.js) -- there are no more separate
+// sibling recipes for this file's getVariationSiblings to find, so nothing
+// imports it any more.
+//
+// Left in place (rather than deleted) only because the sandbox this was
+// authored in couldn't unlink the file on disk -- delete it manually
+// whenever convenient.

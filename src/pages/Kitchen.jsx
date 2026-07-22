@@ -10,6 +10,7 @@ import EffortGauge from '../components/EffortGauge';
 import LightningIcon from '../components/LightningIcon';
 import FirstVisitTip from '../components/FirstVisitTip';
 import InfoIcon from '../components/InfoIcon';
+import MealPrepIcon from '../components/MealPrepIcon';
 import useFirstVisitTip from '../hooks/useFirstVisitTip';
 import { getProteinCardBackground } from '../utils/proteinColors';
 import { filterRecipes } from '../utils/pantryMatch';
@@ -349,7 +350,7 @@ export default function Kitchen({
                       </div>
                       {r.servings > 1 && (
                         <div style={{ marginTop: 4 }}>
-                          <span className="ezb pkg">📦 Meal Prep · Makes {r.servings}</span>
+                          <span className="ezb pkg"><MealPrepIcon size={12} /> Meal Prep · Makes {r.servings}</span>
                         </div>
                       )}
                       {selectedStaples.length > 0 && (

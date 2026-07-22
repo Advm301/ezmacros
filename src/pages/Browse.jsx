@@ -5,6 +5,7 @@ import LightningIcon from '../components/LightningIcon';
 import EffortGauge from '../components/EffortGauge';
 import FirstVisitTip from '../components/FirstVisitTip';
 import InfoIcon from '../components/InfoIcon';
+import MealPrepIcon from '../components/MealPrepIcon';
 import useFirstVisitTip from '../hooks/useFirstVisitTip';
 import { formatTime } from '../utils/time';
 import { hapticSelection, hapticLight } from '../utils/haptics';
@@ -228,6 +229,15 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
       if (!ra && rb) return 1;
       return 0;
     });
+  } else {
+    // Default order (no explicit sort chosen): newest recipes float to the
+    // top of each section, so a freshly-added batch is the first thing
+    // someone sees when they open a section instead of being buried below
+    // 140+ existing recipes at the bottom of the catalog's id order.
+    // Array.prototype.sort is stable, so this only reorders new-vs-not --
+    // everything else keeps its original relative order. Explicitly
+    // choosing "Top Rated" above overrides this entirely, on purpose.
+    filtered = [...filtered].sort((a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0));
   }
 
   const sections = MEAL_SECTIONS.filter((s) => !mealFilter || s.value === mealFilter);
@@ -307,7 +317,7 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
           )}
           {r.servings > 1 && (
             <div style={{ marginTop: 4 }}>
-              <span className="ezb pkg">📦 Meal Prep · Makes {r.servings}</span>
+              <span className="ezb pkg"><MealPrepIcon size={12} /> Meal Prep · Makes {r.servings}</span>
             </div>
           )}
         </div>
@@ -382,8 +392,8 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
             <div className={`pill ${grabAndGoOnly ? 'active' : ''}`} onClick={toggleGrabAndGo}>
               Grab & Go
             </div>
-            <div className={`pill ${mealPrepOnly ? 'active' : ''}`} onClick={toggleMealPrep}>
-              📦 Meal Prep
+            <div className={`pill ${mealPrepOnly ? 'active' : ''}`} onClick={toggleMealPrep} style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+              <MealPrepIcon size={12} /> Meal Prep
             </div>
           </div>
         </div>

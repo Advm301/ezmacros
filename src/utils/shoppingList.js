@@ -1,5 +1,6 @@
 import { RECIPES } from '../data/recipes.js';
 import { getFreshAltHint, readPreferFresh } from './freshAltTips';
+import { readProteinChoice, resolveProteinComponents } from './proteinChoice';
 
 // Strips a trailing parenthetical descriptor (e.g. "Garlic Powder (1 tsp)"
 // -> "Garlic Powder") so quantities of the same base ingredient across
@@ -29,13 +30,26 @@ function baseIngredientName(name) {
 // mix. Good enough for "I generally cook fresh, shop accordingly"; a
 // precise per-entry version would need the fresh/frozen choice stored on
 // the diary entry itself.
+//
+// Also resolves recipe.proteinOptions the same way -- a recipe like Saucy
+// Tomato Bowl only stores one generic "protein slot" component, and this
+// reads the device's remembered protein choice for that recipe (see
+// utils/proteinChoice.js) to turn it into the real ingredient ("Ground
+// Chicken (93% lean)") before it hits the list. Same single-remembered-
+// value caveat as Prefer Fresh above: this shows whichever protein is
+// CURRENTLY picked for that recipe, not necessarily whatever was picked
+// the day a past diary entry was actually added.
 export function buildShoppingList(dayEntries) {
   const preferFresh = readPreferFresh();
   const map = {};
   for (const entry of dayEntries) {
     const recipe = RECIPES.find((r) => r.id === entry.recipe_id);
     if (!recipe) continue;
-    for (const c of recipe.components || []) {
+    const proteinOption = recipe.proteinOptions
+      ? recipe.proteinOptions.find((p) => p.id === readProteinChoice(recipe.id, recipe.proteinOptions[0].id))
+      : null;
+    const components = resolveProteinComponents(recipe.components || [], proteinOption);
+    for (const c of components) {
       const hint = preferFresh ? getFreshAltHint(c.name) : null;
       const base = baseIngredientName(hint ? hint.freshName : c.name);
       const key = `${base}__${c.unit}`;
