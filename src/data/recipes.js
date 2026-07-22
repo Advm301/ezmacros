@@ -5431,7 +5431,7 @@ export const RECIPES = [
   },
   {
     "name": "Easy Shakshuka",
-    "description": "A quick, spiced shakshuka of eggs poached in a garlicky marinara sauce with cumin and smoked paprika.",
+    "description": "A quick, spiced shakshuka of eggs poached in a garlicky bell pepper marinara sauce with cumin and smoked paprika.",
     "id": 90,
     "method": "Stovetop",
     "mealType": "breakfast",
@@ -5440,7 +5440,7 @@ export const RECIPES = [
       "eggs"
     ],
     "flavor": "spicy",
-    "activeTime": 12,
+    "activeTime": 14,
     "components": [
       {
         "name": "Marinara Sauce (jar)",
@@ -5455,6 +5455,11 @@ export const RECIPES = [
       {
         "name": "Diced Onions (jar, drained)",
         "quantity": 60,
+        "unit": "g"
+      },
+      {
+        "name": "Bell Pepper (diced, ½ cup)",
+        "quantity": 75,
         "unit": "g"
       },
       {
@@ -5484,12 +5489,12 @@ export const RECIPES = [
       "Sourdough bread for dipping"
     ],
     "instructions": [
-      "Heat pan over medium. Add jar onions and cook 2 min until softened and fragrant.",
+      "Heat pan over medium. Add jar onions and diced bell pepper, cook 4-5 min until softened -- the bell pepper is what makes this taste like real shakshuka, not just eggs in marinara.",
       "Pour in the marinara sauce. Stir in minced garlic, onion powder, cumin, and smoked paprika. Simmer 3 min.",
       "Create 4 wells in the sauce using a spoon. Crack one egg into each well.",
       "Cover pan with lid. Cook 5-7 min until whites are set but yolks still slightly runny. Crumble feta over top. Serve with sourdough for dipping."
     ],
-    "totalTime": 12,
+    "totalTime": 14,
     "pantryTags": [
       "eggs",
       "marinara",
@@ -5498,7 +5503,7 @@ export const RECIPES = [
   },
   {
     "name": "Shakshuka from Scratch",
-    "description": "A from-scratch spiced shakshuka -- eggs poached in a garlicky, cumin-and-paprika crushed tomato sauce with a touch of heat.",
+    "description": "A from-scratch spiced shakshuka -- eggs poached in a garlicky, cumin-and-paprika crushed tomato and bell pepper sauce with a touch of heat.",
     "id": 91,
     "method": "Stovetop",
     "mealType": "breakfast",
@@ -5507,7 +5512,7 @@ export const RECIPES = [
       "eggs"
     ],
     "flavor": "spicy",
-    "activeTime": 15,
+    "activeTime": 17,
     "components": [
       {
         "name": "Canned Crushed Tomatoes",
@@ -5522,6 +5527,11 @@ export const RECIPES = [
       {
         "name": "Diced Onions (jar, drained)",
         "quantity": 80,
+        "unit": "g"
+      },
+      {
+        "name": "Bell Pepper (diced, ½ cup)",
+        "quantity": 75,
         "unit": "g"
       },
       {
@@ -5556,13 +5566,13 @@ export const RECIPES = [
       "Extra red pepper flakes"
     ],
     "instructions": [
-      "Heat olive oil in pan over medium. Add jar onions, cook 3 min until softened.",
+      "Heat olive oil in pan over medium. Add jar onions and diced bell pepper, cook 5 min until softened -- real shakshuka builds its base on bell pepper and onion together, not onion alone.",
       "Add minced garlic, cumin, smoked paprika, red pepper flakes. Stir 30 seconds to bloom spices.",
       "Pour in crushed tomatoes. Season with salt. Simmer 5 min, stirring occasionally, until sauce thickens slightly.",
       "Create 4 wells in sauce. Crack one egg into each well.",
       "Cover and cook 5-7 min until whites are set, yolks runny. Crumble feta over top. Serve with sourdough."
     ],
-    "totalTime": 15,
+    "totalTime": 17,
     "pantryTags": [
       "eggs",
       "canned_tomatoes",
@@ -7384,7 +7394,7 @@ export const RECIPES = [
   },
   {
     "name": "Greek Yogurt Protein Parfait",
-    "description": "A Mediterranean-style Greek yogurt parfait layered with granola, berries, and honey.",
+    "description": "The classic Greek breakfast of yiaourti me meli -- thick Greek yogurt swirled with vanilla protein powder, honey, cinnamon, and crushed pistachios or walnuts.",
     "id": 134,
     "method": "No Cook",
     "mealType": "breakfast",
@@ -7393,41 +7403,46 @@ export const RECIPES = [
       "dairy"
     ],
     "flavor": "mediterranean",
-    "activeTime": 2,
+    "activeTime": 3,
     "tags": [
       "grab_and_go"
     ],
     "components": [
       {
-        "name": "Greek Yogurt (plain or vanilla, tub)",
+        "name": "Greek Yogurt (plain, tub)",
         "quantity": 225,
         "unit": "g"
       },
       {
-        "name": "Granola (bagged)",
-        "quantity": 30,
-        "unit": "g"
-      },
-      {
-        "name": "Frozen Berries (thawed)",
-        "quantity": 75,
+        "name": "Vanilla Protein Powder (½ scoop)",
+        "quantity": 15,
         "unit": "g"
       },
       {
         "name": "Honey (drizzle)",
-        "quantity": 10,
+        "quantity": 15,
         "unit": "ml"
+      },
+      {
+        "name": "Cinnamon (pinch)",
+        "quantity": 0.5,
+        "unit": "g"
+      },
+      {
+        "name": "Pistachios or Walnuts (crushed, 2 tbsp)",
+        "quantity": 15,
+        "unit": "g"
       }
     ],
     "toppings": [],
     "instructions": [
-      "Layer yogurt, berries, and granola in a cup or jar.",
-      "Drizzle with honey. Cover and grab it on the way out."
+      "Stir the protein powder into the yogurt until smooth -- this is the classic Greek yiaourti me meli, built on yogurt and honey rather than granola and fruit.",
+      "Spoon into a cup or jar. Drizzle with honey, dust with cinnamon, and top with crushed pistachios or walnuts. Cover and grab it on the way out."
     ],
-    "totalTime": 2,
+    "totalTime": 3,
     "pantryTags": [
-      "fruit",
-      "greek_yogurt"
+      "greek_yogurt",
+      "protein_powder"
     ]
   },
   {
