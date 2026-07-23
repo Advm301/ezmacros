@@ -15,3 +15,14 @@ export const APP_VERSION = typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSIO
 // into this app's TestFlight page when an update is available (see
 // useAppVersion.js / the update banner in App.jsx).
 export const APP_STORE_APPLE_ID = '6791809412';
+
+// Shopping-list "Shop This List" handoff button (Saved.jsx) -- built
+// against Instacart's Developer Platform API (see
+// utils/instacartShoppingList.js + the instacart-shopping-list Supabase
+// Edge Function), but Instacart isn't currently accepting new developer
+// applications (checked July 2026, no waitlist offered). The edge
+// function and client code are left in place and ready to go -- flip this
+// to true once a working key/backend actually exists (Instacart reopening,
+// Kroger's API, or whatever else pans out) rather than shipping a button
+// that always errors with no ETA in the meantime.
+export const SHOPPING_LINK_ENABLED = false;

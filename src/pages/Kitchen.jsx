@@ -14,6 +14,8 @@ import MealPrepIcon from '../components/MealPrepIcon';
 import useFirstVisitTip from '../hooks/useFirstVisitTip';
 import { getProteinCardBackground } from '../utils/proteinColors';
 import { filterRecipes } from '../utils/pantryMatch';
+import { estimateRecipeCost, formatUsd } from '../utils/ingredientPricing';
+import FlameIcon from '../components/FlameIcon';
 
 const PANTRY_LABELS = Object.fromEntries(PANTRY_STAPLES.map((s) => [s.id, s.label]));
 
@@ -334,7 +336,7 @@ export default function Kitchen({
                       <div style={{ fontWeight: 700, fontSize: isHero ? 18 : 15, color: 'var(--cream)', marginBottom: 4, display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
                         {r.name}
                         {r.isNew && <span className="new-badge">New</span>}
-                        {r.isTrending && <span className="trending-badge">🔥 Trending</span>}
+                        {r.isTrending && <span className="trending-badge"><FlameIcon size={10.5} /> Trending</span>}
                       </div>
                       <div style={{ fontSize: 11, color: 'var(--muted)', display: 'flex', alignItems: 'center', gap: 5, flexWrap: 'wrap' }}>
                         <span>
@@ -348,6 +350,8 @@ export default function Kitchen({
                         </span>
                         <span>·</span>
                         <EffortGauge recipe={r} size={11} />
+                        <span>·</span>
+                        <span>~{formatUsd(estimateRecipeCost(r).perServing)}/serving</span>
                       </div>
                       {r.servings > 1 && (
                         <div style={{ marginTop: 4 }}>

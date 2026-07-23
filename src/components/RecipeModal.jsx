@@ -24,6 +24,7 @@ import FlameIcon from './FlameIcon';
 import LeafIcon from './LeafIcon';
 import ShareIcon from './ShareIcon';
 import { Share } from '@capacitor/share';
+import { estimateRecipeCost, formatUsd } from '../utils/ingredientPricing';
 
 const GRAMS_PER_OZ = 28.3495;
 const ML_PER_FLOZ = 29.5735;
@@ -1364,7 +1365,7 @@ export default function RecipeModal({
             <div style={{ fontFamily: "'Manrope',sans-serif", fontSize: 22, fontWeight: 800, marginBottom: 4, display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
               <span style={{ color: 'var(--cream)' }}>{r.name}</span>
               {r.isNew && <span className="new-badge">New</span>}
-              {r.isTrending && <span className="trending-badge">🔥 Trending</span>}
+              {r.isTrending && <span className="trending-badge"><FlameIcon size={11} /> Trending</span>}
             </div>
             {(r.method || r.activeTime) && (
               <div style={{ fontSize: 12, color: 'var(--muted)' }}>
@@ -1377,6 +1378,7 @@ export default function RecipeModal({
                     Reflects the live batch-size selection below, not just
                     the recipe's own written amount. */}
                 {' · '}Serves {scaleServings}
+                {' · '}~{formatUsd(estimateRecipeCost(r).perServing)}/serving
               </div>
             )}
             {/* Rating summary right up front on the decide screen -- this

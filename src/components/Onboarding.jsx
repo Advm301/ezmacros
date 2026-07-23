@@ -2,7 +2,9 @@ import { useState } from 'react';
 import { QUICK_PICKS } from '../data/pantryStaples.js';
 import { ONBOARDING_GOALS, SERVING_PREFS, MEAL_TYPES, MEAL_TYPE_SURPRISE } from '../utils/onboardingGoals';
 import { hapticSelection, hapticLight, hapticMedium } from '../utils/haptics';
+import useTrendingNotifications from '../hooks/useTrendingNotifications';
 import LightningIcon from './LightningIcon';
+import BellIcon from './BellIcon';
 import OnboardingFinishSparkles from './OnboardingFinishSparkles';
 import quickPrepLogo from '../assets/quickprep-logo-header.png';
 
@@ -22,8 +24,13 @@ function cardDelay(i) {
 // which one it is would be a pointless extra tap on that path. This is
 // why STEPS is computed from mealCountPref below rather than being a
 // fixed list.
-const STEPS_ONE = ['goal', 'servings', 'mealCount', 'mealType', 'proteins'];
-const STEPS_FULL_DAY = ['goal', 'servings', 'mealCount', 'proteins'];
+// 'notifications' sits after proteins on both paths -- see the
+// 'notifications' step below and useTrendingNotifications.js. It's the
+// only point in onboarding that can trigger a real iOS permission dialog,
+// so it comes last, after someone's already gotten a few quick wins out of
+// the flow, rather than being the very first thing they're asked for.
+const STEPS_ONE = ['goal', 'servings', 'mealCount', 'mealType', 'proteins', 'notifications'];
+const STEPS_FULL_DAY = ['goal', 'servings', 'mealCount', 'proteins', 'notifications'];
 
 // The "how many meals do you want lined up" question -- its own screen
 // since it's not a recipe-ranking preference like goal/servingsPref (see
@@ -64,6 +71,8 @@ export default function Onboarding({ onComplete }) {
   // matters here in the UI, not to any ranking logic.
   const [mealType, setMealType] = useState(undefined);
   const [proteins, setProteins] = useState([]);
+  const trendingNotif = useTrendingNotifications();
+  const [notifChoiceMade, setNotifChoiceMade] = useState(false);
 
   // Defaults to the longer, 5-step list before mealCount is answered --
   // once someone picks "full_day" the mealType dot simply drops out,
@@ -124,6 +133,35 @@ export default function Onboarding({ onComplete }) {
   const skipAll = () => {
     hapticLight();
     onComplete(null);
+  };
+
+  // Proteins' own button used to call finish() directly -- now it just
+  // advances to the new 'notifications' screen, which is the one that
+  // actually calls finish() (either branch below). Kept as its own step
+  // rather than folded into the proteins screen since triggering a real
+  // iOS permission dialog from the same tap as a card selection would be
+  // an unexpected system interruption right when someone's mid-choice.
+  const goToNotifications = () => {
+    hapticSelection();
+    setStep('notifications');
+  };
+
+  // "Enable" awaits the real permission result before finishing, so
+  // notifChoiceMade briefly shows a pending state rather than the button
+  // looking like a no-op while the system dialog is up. Denying the
+  // system prompt still finishes onboarding normally -- see
+  // useTrendingNotifications.js, which already handles a decline by
+  // leaving the schedule off rather than erroring.
+  const enableNotifications = async () => {
+    hapticSelection();
+    setNotifChoiceMade(true);
+    await trendingNotif.setEnabled(true);
+    finish();
+  };
+
+  const skipNotifications = () => {
+    hapticLight();
+    finish();
   };
 
   const finishLabel = mealCountPref === 'full_day'
@@ -293,10 +331,39 @@ export default function Onboarding({ onComplete }) {
                 ))}
               </div>
               <div style={{ position: 'relative' }}>
-                <button className="gen-kitchen-btn onboarding-finish-btn" style={{ marginBottom: 12 }} onClick={finish}>
+                <button className="gen-kitchen-btn onboarding-finish-btn" style={{ marginBottom: 12 }} onClick={goToNotifications}>
                   {finishLabel}
                 </button>
                 <OnboardingFinishSparkles />
+              </div>
+            </>
+          )}
+
+          {step === 'notifications' && (
+            <>
+              <div className="onboarding-fade-1" style={{ textAlign: 'center', marginBottom: 6 }}>
+                <BellIcon size={40} color="var(--gold)" />
+              </div>
+              <div className="onboarding-h1 onboarding-fade-2" style={{ textAlign: 'center' }}>Want a nudge?</div>
+              <div className="onboarding-sub onboarding-fade-3" style={{ textAlign: 'center', marginBottom: 22 }}>
+                Turn on Trending Alerts for a weekly heads-up when new Trending recipes land -- you can turn this off anytime from the account menu.
+              </div>
+              <div style={{ position: 'relative' }}>
+                <button
+                  className="gen-kitchen-btn onboarding-finish-btn"
+                  style={{ marginBottom: 12 }}
+                  onClick={enableNotifications}
+                  disabled={notifChoiceMade}
+                >
+                  {notifChoiceMade ? 'One sec…' : 'Enable Notifications'}
+                </button>
+                <OnboardingFinishSparkles />
+              </div>
+              <div
+                onClick={skipNotifications}
+                style={{ textAlign: 'center', fontSize: 12, color: 'var(--muted)', textDecoration: 'underline', cursor: notifChoiceMade ? 'default' : 'pointer', opacity: notifChoiceMade ? 0.5 : 1 }}
+              >
+                Maybe later
               </div>
             </>
           )}

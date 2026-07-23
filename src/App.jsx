@@ -8,6 +8,7 @@ import { hapticSelection, hapticLight, hapticMedium, hapticSuccess } from './uti
 import { BETA_MODE, APP_VERSION, APP_STORE_APPLE_ID } from './config';
 import useAppVersion from './hooks/useAppVersion';
 import useTrendingNotifications from './hooks/useTrendingNotifications';
+import FlameIcon from './components/FlameIcon';
 // Aliased -- this component is itself named App, so the bare plugin name
 // would collide.
 import { App as CapacitorApp } from '@capacitor/app';
@@ -814,6 +815,14 @@ export default function App() {
                   </span>
                 )}
               </div>
+              {/* Same tagline + "Done" shimmer treatment as onboarding's
+                  brand header (.onboarding-tagline/-tagline-done in
+                  globals.css) -- carries that first-impression moment
+                  through into the logged-in app instead of only ever being
+                  seen once, pre-signup. */}
+              <div className="onboarding-tagline" style={{textAlign: "left", marginTop: 2}}>
+                Meal. Prep. <span className="onboarding-tagline-done">Done</span>
+              </div>
               {/* Daily message set in the same playful Baloo 2 used for the
                   three page headers (see .page-h1), rather than the app's
                   usual Manrope -- a small consistent touch of personality
@@ -896,7 +905,7 @@ export default function App() {
                       onClick={() => trendingNotif.setEnabled(!trendingNotif.enabled)}
                       style={{ padding: "10px 14px", fontSize: 12.5, fontWeight: 600, color: "var(--cream)", cursor: "pointer", whiteSpace: "nowrap", borderBottom: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 14 }}
                     >
-                      <span>🔥 Trending Alerts</span>
+                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}><FlameIcon size={13} /> Trending Alerts</span>
                       <span style={{ fontSize: 11, fontWeight: 700, color: trendingNotif.enabled ? 'var(--lime)' : 'var(--muted)' }}>
                         {trendingNotif.loading ? '…' : trendingNotif.enabled ? 'On' : 'Off'}
                       </span>

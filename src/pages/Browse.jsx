@@ -10,6 +10,8 @@ import useFirstVisitTip from '../hooks/useFirstVisitTip';
 import { formatTime } from '../utils/time';
 import { hapticSelection, hapticLight } from '../utils/haptics';
 import { getProteinCardBackground } from '../utils/proteinColors';
+import { estimateRecipeCost, formatUsd } from '../utils/ingredientPricing';
+import FlameIcon from '../components/FlameIcon';
 
 // How many rows into a freshly-opened section get the staggered
 // entrance + tick haptic (see RecipeRow below) -- capped rather than
@@ -304,7 +306,7 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
           <div style={{ fontWeight: 700, fontSize: 15, color: 'var(--cream)', marginBottom: 2, display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
             {r.name}
             {r.isNew && <span className="new-badge">New</span>}
-            {r.isTrending && <span className="trending-badge">🔥 Trending</span>}
+            {r.isTrending && <span className="trending-badge"><FlameIcon size={10.5} /> Trending</span>}
           </div>
           <div style={{ fontSize: 11, color: 'var(--muted)', display: 'flex', alignItems: 'center', gap: 5, flexWrap: 'wrap' }}>
             <span>
@@ -330,6 +332,11 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
                 quickest vs. a touch more involved. */}
             <span>·</span>
             <EffortGauge recipe={r} size={11} />
+            {/* Estimated grocery cost per serving -- see
+                utils/ingredientPricing.js for why this is a category-price
+                estimate rather than a live retailer price. */}
+            <span>·</span>
+            <span>~{formatUsd(estimateRecipeCost(r).perServing)}/serving</span>
           </div>
           {(r.tags || []).length > 0 && (
             <div style={{ display: 'flex', gap: 6, marginTop: 4 }}>
@@ -429,8 +436,8 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
         <div className="filter-sec">
           <div className="filter-label">Quick Toggles</div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-            <div className={`pill ${trendingOnly ? 'active' : ''}`} onClick={toggleTrending}>
-              🔥 Trending
+            <div className={`pill ${trendingOnly ? 'active' : ''}`} onClick={toggleTrending} style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+              <FlameIcon size={12} /> Trending
             </div>
             <div className={`pill ${showSavedOnly ? 'active' : ''}`} onClick={toggleSavedOnly}>
               {showSavedOnly ? '★ Saved' : '☆ Saved'}

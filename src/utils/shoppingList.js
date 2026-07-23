@@ -10,8 +10,30 @@ import { readProteinChoice, resolveProteinComponents } from './proteinChoice';
 // "Rice (freshly cooked)") that's useful on the recipe's own ingredient
 // list but irrelevant on a grocery list (you buy "rice," not "freshly-
 // cooked rice"), so it gets stripped the same way.
-function baseIngredientName(name) {
+export function baseIngredientName(name) {
   return name.replace(/\s*\([^)]*\)\s*$/, '').trim();
+}
+
+// Resolves a single recipe down to its real, current { name, unit,
+// quantity } components -- same proteinOption + Prefer Fresh resolution
+// buildShoppingList does per diary entry below, pulled out so
+// utils/ingredientPricing.js can price a standalone recipe (for the
+// "~$X.XX/serving" shown on recipe cards) without needing a diary entry
+// to drive it.
+export function resolveRecipeComponents(recipe) {
+  const preferFresh = readPreferFresh();
+  const proteinOption = recipe.proteinOptions
+    ? recipe.proteinOptions.find((p) => p.id === readProteinChoice(recipe.id, recipe.proteinOptions[0].id))
+    : null;
+  const components = resolveProteinComponents(recipe.components || [], proteinOption);
+  return components.map((c) => {
+    const hint = preferFresh ? getFreshAltHint(c.name) : null;
+    return {
+      name: baseIngredientName(hint ? hint.freshName : c.name),
+      unit: c.unit,
+      quantity: c.quantity,
+    };
+  });
 }
 
 // Builds an aggregated shopping list from a day's diary entries. Only
@@ -40,20 +62,13 @@ function baseIngredientName(name) {
 // CURRENTLY picked for that recipe, not necessarily whatever was picked
 // the day a past diary entry was actually added.
 export function buildShoppingList(dayEntries) {
-  const preferFresh = readPreferFresh();
   const map = {};
   for (const entry of dayEntries) {
     const recipe = RECIPES.find((r) => r.id === entry.recipe_id);
     if (!recipe) continue;
-    const proteinOption = recipe.proteinOptions
-      ? recipe.proteinOptions.find((p) => p.id === readProteinChoice(recipe.id, recipe.proteinOptions[0].id))
-      : null;
-    const components = resolveProteinComponents(recipe.components || [], proteinOption);
-    for (const c of components) {
-      const hint = preferFresh ? getFreshAltHint(c.name) : null;
-      const base = baseIngredientName(hint ? hint.freshName : c.name);
-      const key = `${base}__${c.unit}`;
-      if (!map[key]) map[key] = { name: base, unit: c.unit, quantity: 0 };
+    for (const c of resolveRecipeComponents(recipe)) {
+      const key = `${c.name}__${c.unit}`;
+      if (!map[key]) map[key] = { name: c.name, unit: c.unit, quantity: 0 };
       map[key].quantity += c.quantity;
     }
   }

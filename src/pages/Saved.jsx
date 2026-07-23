@@ -4,6 +4,9 @@ import StarIcon from '../components/StarIcon';
 import { MEAL_SLOTS, MEAL_SLOT_LABELS, todayString, formatDateString } from '../hooks/useDiary';
 import { formatTime } from '../utils/time';
 import { buildShoppingList, formatShoppingQuantity } from '../utils/shoppingList';
+import { estimateShoppingListCost, formatUsd } from '../utils/ingredientPricing';
+import { getInstacartShoppingLink, openInBrowser } from '../utils/instacartShoppingList';
+import FlameIcon from '../components/FlameIcon';
 import { computeLoggingStreak } from '../utils/streak';
 import { hapticSelection, hapticLight, hapticMedium } from '../utils/haptics';
 import LightningIcon from '../components/LightningIcon';
@@ -13,6 +16,7 @@ import InfoIcon from '../components/InfoIcon';
 import CalendarIcon from '../components/CalendarIcon';
 import DiaryCalendarModal from '../components/DiaryCalendarModal';
 import useFirstVisitTip from '../hooks/useFirstVisitTip';
+import { SHOPPING_LINK_ENABLED } from '../config';
 
 // Maps a diary meal slot to the recipe mealType pool it should draw random
 // picks from. Lunch and Dinner share the same 'lunch_dinner' pool.
@@ -95,6 +99,8 @@ export default function Saved({
   const [generatingDay, setGeneratingDay] = useState(false);
   const [regeneratingId, setRegeneratingId] = useState(null);
   const [showShoppingList, setShowShoppingList] = useState(false);
+  const [shopLinkLoading, setShopLinkLoading] = useState(false);
+  const [shopLinkError, setShopLinkError] = useState(null);
   const [showSavedModal, setShowSavedModal] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
   const [shoppingChecked, setShoppingChecked] = useState(() => loadShoppingChecked(selectedDate));
@@ -123,6 +129,28 @@ export default function Saved({
       }
       return next;
     });
+  };
+
+  // "Shop This List" -- hands the day's aggregated list to Instacart's
+  // Developer Platform API (see utils/instacartShoppingList.js) and opens
+  // the real, store-matched checkout page it returns. This is what
+  // actually answers "which store carries these and can I get it all in
+  // one place": Instacart's own hosted page has the shopper pick ONE
+  // nearby store and matches every item against that store's real
+  // inventory, rather than this app guessing at store-by-store
+  // availability with no real data source for it.
+  const shopThisList = async () => {
+    hapticSelection();
+    setShopLinkError(null);
+    setShopLinkLoading(true);
+    try {
+      const url = await getInstacartShoppingLink(`QuickPrep — ${displayDate(selectedDate)}`, shoppingList);
+      await openInBrowser(url);
+    } catch (err) {
+      setShopLinkError(err.message || 'Could not create a shopping link right now.');
+    } finally {
+      setShopLinkLoading(false);
+    }
   };
 
   // Briefly calls out whichever entry Finish just navigated here for (see
@@ -260,7 +288,7 @@ export default function Saved({
             <div style={{ fontWeight: 700, fontSize: 15, color: 'var(--cream)', marginBottom: 2, display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
               {r.name}
               {r.isNew && <span className="new-badge">New</span>}
-              {r.isTrending && <span className="trending-badge">🔥 Trending</span>}
+              {r.isTrending && <span className="trending-badge"><FlameIcon size={10.5} /> Trending</span>}
             </div>
             <div style={{ fontSize: 11, color: 'var(--muted)' }}>
               {r.method}{r.method && r.activeTime ? ' · ' : ''}{formatTime(r.activeTime, r.totalTime)}
@@ -305,6 +333,9 @@ export default function Saved({
   };
 
   const shoppingList = showShoppingList ? buildShoppingList(dayEntries) : [];
+  // Estimated, not live -- see utils/ingredientPricing.js for why (no
+  // open Walmart/retailer price API exists to pull real numbers from).
+  const shoppingListCost = showShoppingList ? estimateShoppingListCost(shoppingList) : 0;
 
   return (
     <div style={{ paddingBottom: 20 }}>
@@ -444,8 +475,17 @@ export default function Saved({
 
         {showShoppingList && (
           <div style={{ background: 'var(--s1)', border: '1px solid var(--border)', borderRadius: 14, padding: 14, marginBottom: 16 }}>
-            <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 10 }}>
-              Shopping List — {displayDate(selectedDate)}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, marginBottom: 10 }}>
+              <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: 1 }}>
+                Shopping List — {displayDate(selectedDate)}
+              </div>
+              {shoppingList.length > 0 && (
+                // Estimated, not a live retailer price -- see
+                // utils/ingredientPricing.js.
+                <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--lime)', whiteSpace: 'nowrap' }} title="Estimated using average US grocery prices, not live pricing from any one store">
+                  Est. {formatUsd(shoppingListCost)}
+                </div>
+              )}
             </div>
             {shoppingList.length === 0 ? (
               <div style={{ fontSize: 13, color: 'var(--muted)', fontStyle: 'italic' }}>
@@ -493,6 +533,39 @@ export default function Saved({
                   </div>
                 );
               })
+            )}
+            {/* Hidden behind SHOPPING_LINK_ENABLED until a real backend
+                exists -- Instacart's Developer Platform isn't currently
+                accepting new applications (see config.js). Everything
+                else here (the edge function, getInstacartShoppingLink)
+                stays in place, just not surfaced. */}
+            {SHOPPING_LINK_ENABLED && shoppingList.length > 0 && (
+              <>
+                <button
+                  onClick={shopThisList}
+                  disabled={shopLinkLoading}
+                  style={{
+                    width: '100%',
+                    marginTop: 12,
+                    padding: '11px 14px',
+                    borderRadius: 10,
+                    border: '1px solid var(--border)',
+                    background: 'var(--lime)',
+                    color: '#000',
+                    fontWeight: 700,
+                    fontSize: 13,
+                    cursor: shopLinkLoading ? 'default' : 'pointer',
+                    opacity: shopLinkLoading ? 0.7 : 1,
+                  }}
+                >
+                  {shopLinkLoading ? 'Finding a store…' : 'Shop This List'}
+                </button>
+                {shopLinkError && (
+                  <div style={{ fontSize: 11.5, color: 'var(--muted)', marginTop: 6, textAlign: 'center' }}>
+                    {shopLinkError}
+                  </div>
+                )}
+              </>
             )}
           </div>
         )}
