@@ -29,7 +29,7 @@ export default function StreakStartOverlay({ streak, onDone }) {
 
   useEffect(() => {
     hapticSuccess();
-    const t = setTimeout(() => setClosing(true), 3200);
+    const t = setTimeout(() => setClosing(true), 5200);
     return () => clearTimeout(t);
   }, []);
 
