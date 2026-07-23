@@ -356,7 +356,7 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
               {isHighProtein(r) && (
                 <span className="ezb ez3"><LightningIcon id={`browse-hp-${r.id}`} size={12} /> High Protein</span>
               )}
-              {r.tags.includes('grab_and_go') && (
+              {(r.tags || []).includes('grab_and_go') && (
                 <span className="ezb ez1">Grab & Go</span>
               )}
             </div>
