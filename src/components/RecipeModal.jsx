@@ -25,6 +25,7 @@ import LeafIcon from './LeafIcon';
 import ShareIcon from './ShareIcon';
 import { Share } from '@capacitor/share';
 import { estimateRecipeCost, formatUsd } from '../utils/ingredientPricing';
+import { estimateRecipeProtein, formatProtein } from '../utils/ingredientNutrition';
 
 const GRAMS_PER_OZ = 28.3495;
 const ML_PER_FLOZ = 29.5735;
@@ -1379,6 +1380,7 @@ export default function RecipeModal({
                     the recipe's own written amount. */}
                 {' · '}Serves {scaleServings}
                 {' · '}~{formatUsd(estimateRecipeCost(r).perServing)}/serving
+                {' · '}{formatProtein(estimateRecipeProtein(r).perServing)}
               </div>
             )}
             {/* Rating summary right up front on the decide screen -- this

@@ -15,6 +15,7 @@ import useFirstVisitTip from '../hooks/useFirstVisitTip';
 import { getProteinCardBackground } from '../utils/proteinColors';
 import { filterRecipes } from '../utils/pantryMatch';
 import { estimateRecipeCost, formatUsd } from '../utils/ingredientPricing';
+import { estimateRecipeProtein, formatProtein } from '../utils/ingredientNutrition';
 import FlameIcon from '../components/FlameIcon';
 
 const PANTRY_LABELS = Object.fromEntries(PANTRY_STAPLES.map((s) => [s.id, s.label]));
@@ -352,6 +353,8 @@ export default function Kitchen({
                         <EffortGauge recipe={r} size={11} />
                         <span>·</span>
                         <span>~{formatUsd(estimateRecipeCost(r).perServing)}/serving</span>
+                        <span>·</span>
+                        <span>{formatProtein(estimateRecipeProtein(r).perServing)}</span>
                       </div>
                       {r.servings > 1 && (
                         <div style={{ marginTop: 4 }}>

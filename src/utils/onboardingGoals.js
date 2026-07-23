@@ -1,4 +1,5 @@
 import { getEffortTier } from './effortLevel';
+import { isHighProtein } from './ingredientNutrition';
 
 // The "what are you optimizing for" question asked on onboarding's first
 // screen (see components/Onboarding.jsx) -- deliberately just two options,
@@ -61,7 +62,10 @@ export const MEAL_TYPE_SURPRISE = { id: null, label: 'Surprise Me', description:
 export function matchesGoal(recipe, goal) {
   if (!goal) return true;
   if (goal === 'quick') return getEffortTier(recipe) === 1;
-  if (goal === 'high_protein') return (recipe.tags || []).includes('high_protein');
+  // Computed from real ingredient quantities (utils/ingredientNutrition.js)
+  // rather than the old hand-applied `high_protein` tag -- see Browse.jsx
+  // for the same replacement.
+  if (goal === 'high_protein') return isHighProtein(recipe);
   return true;
 }
 

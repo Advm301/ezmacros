@@ -11,6 +11,7 @@ import { formatTime } from '../utils/time';
 import { hapticSelection, hapticLight } from '../utils/haptics';
 import { getProteinCardBackground } from '../utils/proteinColors';
 import { estimateRecipeCost, formatUsd } from '../utils/ingredientPricing';
+import { estimateRecipeProtein, isHighProtein, HIGH_PROTEIN_THRESHOLD_G, formatProtein } from '../utils/ingredientNutrition';
 import FlameIcon from '../components/FlameIcon';
 
 // How many rows into a freshly-opened section get the staggered
@@ -224,7 +225,10 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
     const matchFlavor = !flavorFilter || r.flavor === flavorFilter;
     const matchMethod = !methodFilter || r.method === methodFilter;
     const matchSaved = !showSavedOnly || isSaved(r.id);
-    const matchHighProtein = !highProteinOnly || tags.includes('high_protein');
+    // Computed from real ingredient quantities (utils/ingredientNutrition.js)
+    // rather than the old hand-applied `high_protein` tag, which had no
+    // gram threshold backing it at all.
+    const matchHighProtein = !highProteinOnly || isHighProtein(r);
     const matchGrabAndGo = !grabAndGoOnly || tags.includes('grab_and_go');
     const matchMealPrep = !mealPrepOnly || r.servings > 1;
     const matchTrending = !trendingOnly || r.isTrending;
@@ -337,8 +341,10 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
                 estimate rather than a live retailer price. */}
             <span>·</span>
             <span>~{formatUsd(estimateRecipeCost(r).perServing)}/serving</span>
+            <span>·</span>
+            <span>{formatProtein(estimateRecipeProtein(r).perServing)}</span>
           </div>
-          {(r.tags || []).length > 0 && (
+          {(isHighProtein(r) || (r.tags || []).length > 0) && (
             <div style={{ display: 'flex', gap: 6, marginTop: 4 }}>
               {/* .ezb.ez1/.ez3 are existing soft-tinted badge classes already
                   defined in globals.css (same accent colors used elsewhere
@@ -347,7 +353,7 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
                   High Protein reads as "powered up"/energy; lime-green for
                   Grab & Go reads as "fresh/fast" -- distinct hues so the two
                   are easy to tell apart at a glance. */}
-              {r.tags.includes('high_protein') && (
+              {isHighProtein(r) && (
                 <span className="ezb ez3"><LightningIcon id={`browse-hp-${r.id}`} size={12} /> High Protein</span>
               )}
               {r.tags.includes('grab_and_go') && (
@@ -443,7 +449,7 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
               {showSavedOnly ? '★ Saved' : '☆ Saved'}
             </div>
             <div className={`pill ${highProteinOnly ? 'active' : ''}`} onClick={toggleHighProtein}>
-              High Protein (35g+)
+              High Protein ({HIGH_PROTEIN_THRESHOLD_G}g+)
             </div>
             <div className={`pill ${grabAndGoOnly ? 'active' : ''}`} onClick={toggleGrabAndGo}>
               Grab & Go
