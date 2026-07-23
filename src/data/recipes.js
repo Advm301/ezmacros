@@ -1811,7 +1811,6 @@ export const RECIPES = [
     "mealType": "lunch_dinner",
     "servings": 1,
     "proteins": [
-      "plant",
       "fish"
     ],
     "flavor": "neutral",
@@ -2008,8 +2007,7 @@ export const RECIPES = [
     "mealType": "lunch_dinner",
     "servings": 4,
     "proteins": [
-      "turkey",
-      "plant"
+      "turkey"
     ],
     "flavor": "spicy",
     "activeTime": 8,
@@ -2190,8 +2188,7 @@ export const RECIPES = [
     "mealType": "lunch_dinner",
     "servings": 1,
     "proteins": [
-      "chicken",
-      "plant"
+      "chicken"
     ],
     "flavor": "spicy",
     "activeTime": 6,
@@ -5159,8 +5156,7 @@ export const RECIPES = [
     "mealType": "lunch_dinner",
     "servings": 4,
     "proteins": [
-      "turkey",
-      "plant"
+      "turkey"
     ],
     "flavor": "spicy",
     "activeTime": 7,

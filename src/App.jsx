@@ -5,7 +5,11 @@ import useRecipeRatings from './hooks/useRecipeRatings';
 import useDiary, { todayString } from './hooks/useDiary';
 import { getGreeting } from './utils/greeting';
 import { hapticSelection, hapticLight, hapticMedium, hapticSuccess } from './utils/haptics';
-import { BETA_MODE, APP_VERSION } from './config';
+import { BETA_MODE, APP_VERSION, APP_STORE_APPLE_ID } from './config';
+import useAppVersion from './hooks/useAppVersion';
+// Aliased -- this component is itself named App, so the bare plugin name
+// would collide.
+import { App as CapacitorApp } from '@capacitor/app';
 import quickPrepLogo from './assets/quickprep-logo-header.png';
 import Login from './pages/Login';
 import Kitchen from './pages/Kitchen';
@@ -229,8 +233,39 @@ export default function App() {
     setOpenRecipe(recipe);
     setOpenRecipeSurprise(surprise);
   };
+
+  // Deep-link handler for shared recipes -- see the Share button in
+  // RecipeModal, which builds a `quickprep://recipe/<id>` link (registered
+  // as a URL scheme in ios/App/App/Info.plist) via @capacitor/share.
+  // Tapping that link on a device that already has QuickPrep installed
+  // fires this appUrlOpen event with the full URL, and this opens straight
+  // into that recipe the same way tapping it in Browse would. Manual
+  // string parsing rather than `new URL()` -- custom (non-http) scheme
+  // URLs parse inconsistently across engines for the host/path split, but
+  // splitting on the known "quickprep://recipe/" prefix is unambiguous.
+  // Registered once on mount; handleOpenRecipe above only ever calls
+  // stable setState setters, so capturing this render's copy of it is
+  // safe even though the listener itself is never re-registered.
+  useEffect(() => {
+    const listenerPromise = CapacitorApp.addListener('appUrlOpen', ({ url }) => {
+      const match = /^quickprep:\/\/recipe\/(\d+)/.exec(url || '');
+      if (!match) return;
+      const recipeId = Number(match[1]);
+      const recipe = RECIPES.find((r) => r.id === recipeId);
+      if (recipe) handleOpenRecipe(recipe);
+    });
+    return () => { listenerPromise.then((listener) => listener.remove()); };
+  }, []);
   const [showFeedback, setShowFeedback] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+  // Update-available top banner -- dismissing it is per-session only (plain
+  // component state, not persisted) so someone who dismisses it on a given
+  // app launch isn't nagged again before closing the app, but it comes back
+  // next launch for as long as they're actually still behind the latest
+  // published build. See useAppVersion.js for how updateAvailable itself
+  // is determined.
+  const [dismissedUpdateBanner, setDismissedUpdateBanner] = useState(false);
+  const appVersion = useAppVersion();
   // Whether the one-time first-session onboarding (see components/
   // Onboarding.jsx) still needs to run for whichever account is signed in.
   // Starts false (not read from localStorage here) because at this point
@@ -703,6 +738,54 @@ export default function App() {
     <>
       <div className="app-bg" aria-hidden="true"></div>
       <div className="app">
+        {/* Update-available banner -- only ever shown on native builds once
+            useAppVersion has actually confirmed this device's installed
+            build is behind app_config.latest_build_number in Supabase (see
+            that hook for how "behind" is determined and why it can't be
+            known from the JS bundle alone). Sits above the header rather
+            than inside it so it reads as a system-level notice, not app
+            chrome. "Update" deep-links straight into this app's TestFlight
+            page via the itms-beta:// scheme -- worth a quick on-device
+            check the first time this ships, since Apple doesn't document
+            that scheme officially and behavior has been known to vary by
+            iOS version; tapping it doing nothing on some devices would just
+            leave someone needing to open TestFlight manually instead. */}
+        {appVersion.updateAvailable && !dismissedUpdateBanner && (
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: 10,
+              padding: 'calc(8px + env(safe-area-inset-top)) 16px 8px',
+              background: 'var(--gold)',
+              color: '#000',
+            }}
+          >
+            <div style={{ fontSize: 12.5, fontWeight: 700, lineHeight: 1.3 }}>
+              A new version of QuickPrep is available{appVersion.latestVersion ? ` (v${appVersion.latestVersion})` : ''}.
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
+              <div
+                onClick={() => {
+                  hapticSelection();
+                  window.location.href = `itms-beta://beta.itunes.apple.com/v1/app/${APP_STORE_APPLE_ID}`;
+                }}
+                style={{ fontSize: 12, fontWeight: 800, color: '#000', background: 'rgba(0,0,0,.12)', borderRadius: 100, padding: '5px 12px', cursor: 'pointer', whiteSpace: 'nowrap' }}
+              >
+                Update
+              </div>
+              <div
+                onClick={() => { hapticLight(); setDismissedUpdateBanner(true); }}
+                style={{ fontSize: 16, cursor: 'pointer', padding: 4, lineHeight: 1 }}
+                aria-label="Dismiss"
+              >
+                ✕
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Header -- background is the animated blue metallic bar (see
             .app-header-bar in globals.css); layout/spacing stays inline. */}
         <div className="app-header-bar" style={{padding: "calc(14px + env(safe-area-inset-top)) 18px 10px", display: "flex", justifyContent: "space-between", alignItems: "flex-start"}}>
@@ -795,9 +878,19 @@ export default function App() {
                   </div>
                   <div
                     onClick={() => { setShowMenu(false); handleDeleteAccount(); }}
-                    style={{ padding: "10px 14px", fontSize: 12, color: "#ff8080", cursor: "pointer", whiteSpace: "nowrap" }}
+                    style={{ padding: "10px 14px", fontSize: 12, color: "#ff8080", cursor: "pointer", whiteSpace: "nowrap", borderBottom: "1px solid var(--border)" }}
                   >
                     Delete Account
+                  </div>
+                  {/* Native builds show the real installed version + build
+                      number (read at runtime via @capacitor/app -- see
+                      useAppVersion.js for why this can't just be the JS-
+                      baked APP_VERSION git SHA). Web/dev falls back to that
+                      git SHA since there's no native build info to read. */}
+                  <div style={{ padding: "8px 14px", fontSize: 10.5, color: "var(--muted)", whiteSpace: "nowrap" }}>
+                    {appVersion.isNative && appVersion.version
+                      ? `Version ${appVersion.version} (${appVersion.build})`
+                      : `Build ${APP_VERSION}`}
                   </div>
                 </div>
               </>

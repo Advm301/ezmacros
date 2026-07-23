@@ -26,10 +26,31 @@ workflows:
       - name: Increment build number
         script: |
           cd ios/App
-          agvtool new-version -all $(($(app-store-connect get-latest-testflight-build-number "$APP_STORE_APPLE_ID") + 1))
+          NEW_BUILD_NUMBER=$(($(app-store-connect get-latest-testflight-build-number "$APP_STORE_APPLE_ID") + 1))
+          agvtool new-version -all $NEW_BUILD_NUMBER
+          # Stashed for the "Publish new build number" step below -- keeps
+          # that step from having to call the App Store Connect API a
+          # second time (and risking a different answer if a build landed
+          # in between) just to recover the same number.
+          echo $NEW_BUILD_NUMBER > /tmp/new_build_number.txt
       - name: Build ipa for distribution
         script: |
           xcode-project build-ipa --project "$XCODE_PROJECT" --scheme "$XCODE_SCHEME"
+      - name: Publish new build number to app_config
+        script: |
+          NEW_BUILD_NUMBER=$(cat /tmp/new_build_number.txt)
+          MARKETING_VERSION=$(cd ios/App && agvtool what-marketing-version -terse1)
+          # Only reachable once the ipa above actually built successfully
+          # (Codemagic stops the workflow on a failed script), so this never
+          # advertises a build that didn't make it this far. bump_app_version
+          # is monotonic-increase-only server-side (see the app_config
+          # migration), so a retried/out-of-order run can't regress the
+          # stored value even if this step somehow ran twice.
+          curl -s -X POST "$VITE_SUPABASE_URL/rest/v1/rpc/bump_app_version" \
+            -H "apikey: $VITE_SUPABASE_KEY" \
+            -H "Authorization: Bearer $VITE_SUPABASE_KEY" \
+            -H "Content-Type: application/json" \
+            -d "{\"p_build\": $NEW_BUILD_NUMBER, \"p_version\": \"$MARKETING_VERSION\"}"
     artifacts:
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log

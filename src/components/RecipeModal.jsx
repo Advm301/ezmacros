@@ -22,6 +22,8 @@ import { readProteinChoice, saveProteinChoice, resolveProteinText, resolveProtei
 import MealPrepIcon from './MealPrepIcon';
 import FlameIcon from './FlameIcon';
 import LeafIcon from './LeafIcon';
+import ShareIcon from './ShareIcon';
+import { Share } from '@capacitor/share';
 
 const GRAMS_PER_OZ = 28.3495;
 const ML_PER_FLOZ = 29.5735;
@@ -763,6 +765,35 @@ export default function RecipeModal({
     setEditingStepNoteIndex(null);
   };
 
+  // Opens the native share sheet (Messages/Mail/etc.) with a link back to
+  // this exact recipe. The quickprep://recipe/<id> scheme is registered in
+  // ios/App/App/Info.plist and handled by App.jsx's appUrlOpen listener --
+  // tapping the link on a device that already has QuickPrep installed opens
+  // straight into this recipe, the same as tapping it in Browse would. Only
+  // works if the recipient already has the app (custom URL schemes, unlike
+  // universal links, don't fall back to a web page or App Store listing
+  // when the app isn't installed) -- fine for now since sharing is
+  // realistically happening between people who already have it during
+  // beta, but worth revisiting with a real universal-link setup once
+  // there's a hosted domain to back it.
+  const handleShareRecipe = async () => {
+    hapticLight();
+    const shareUrl = `quickprep://recipe/${r.id}`;
+    try {
+      await Share.share({
+        title: r.name,
+        text: `Check out ${r.name} on QuickPrep!`,
+        url: shareUrl,
+        dialogTitle: 'Share Recipe',
+      });
+    } catch {
+      // User cancelled the share sheet, or Share isn't available (e.g.
+      // running in a browser tab during development) -- nothing to recover
+      // from either way, so this just quietly no-ops rather than showing an
+      // error for what's usually a deliberate cancel.
+    }
+  };
+
   const handleRate = (n) => {
     // Ratings are one-shot: once a rating exists, this control isn't shown
     // any more (see the read-only branch below), but guard here too in case
@@ -1375,11 +1406,16 @@ export default function RecipeModal({
             )}
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 8 }}>
-            {toggleSaved && (
-              <div id="tour-favorite-star" onClick={(e) => { e.stopPropagation(); toggleSaved(r.id); }} style={{ cursor: 'pointer' }} title={saved ? 'Tap to unsave' : 'Tap to save'}>
-                <StarIcon filled={saved} size={24} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              <div onClick={(e) => { e.stopPropagation(); handleShareRecipe(); }} style={{ cursor: 'pointer', color: 'var(--muted)' }} title="Share this recipe">
+                <ShareIcon size={20} />
               </div>
-            )}
+              {toggleSaved && (
+                <div id="tour-favorite-star" onClick={(e) => { e.stopPropagation(); toggleSaved(r.id); }} style={{ cursor: 'pointer' }} title={saved ? 'Tap to unsave' : 'Tap to save'}>
+                  <StarIcon filled={saved} size={24} />
+                </div>
+              )}
+            </div>
             <button
               onClick={() => { hapticLight(); onClose(); }}
               style={{ background: 'var(--s3)', border: '1px solid var(--border)', color: 'var(--muted)', borderRadius: 8, padding: '6px 12px', cursor: 'pointer', fontSize: 13 }}
