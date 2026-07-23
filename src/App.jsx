@@ -1,9 +1,9 @@
-import { useState, useEffect, useMemo, useRef } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { supabase } from './lib/supabase';
 import useSavedRecipes from './hooks/useSavedRecipes';
 import useRecipeRatings from './hooks/useRecipeRatings';
 import useDiary, { todayString } from './hooks/useDiary';
-import { computeLoggingStreak } from './utils/streak';
+import { computeLoggingStreak, wouldStartNewStreak } from './utils/streak';
 import { getGreeting } from './utils/greeting';
 import { hapticSelection, hapticLight, hapticMedium, hapticSuccess } from './utils/haptics';
 import { BETA_MODE, APP_VERSION, APP_STORE_APPLE_ID } from './config';
@@ -384,6 +384,12 @@ export default function App() {
       const plan = buildFullDayPlan(preferredPool, picks);
       const date = todayString();
       const addedEntryIds = [];
+      // Deliberately NOT checked for a streak-start here (unlike
+      // handleAddToDiary/Saved.jsx's Surprise Day) -- this moment already
+      // has its own dedicated celebration just below (the pulsing
+      // highlight + "Your Day Is Ready!" banner), and stacking the
+      // full-screen streak overlay right on top of someone's very first
+      // look at onboarding's payoff would bury it instead of adding to it.
       for (const slot of ['breakfast', 'lunch', 'dinner']) {
         const recipe = plan[slot];
         if (!recipe) continue;
@@ -477,26 +483,22 @@ export default function App() {
   // Logging streak -- same definition as the small pill shown in Saved.jsx
   // (computeLoggingStreak: consecutive days with a diary entry created the
   // same calendar day as its date; a backfilled past date or planning a
-  // future one doesn't count). Computed here too, at the top level, so the
-  // celebration below can fire regardless of which tab is open when the
-  // triggering diary entry gets added -- Saved.jsx's own copy of this
-  // computation stays as-is for the pill, this one is purely for detecting
-  // the moment the streak starts.
+  // future one doesn't count). Computed here too, at the top level, purely
+  // as a display value for the celebration overlay ("Day N") -- Saved.jsx
+  // keeps its own separate copy for the pill.
   const streak = useMemo(() => computeLoggingStreak(diary.entries), [diary.entries]);
   const [showStreakStart, setShowStreakStart] = useState(false);
-  // null until the first real measurement -- distinguishes "haven't
-  // established a baseline yet" from "baseline was 0," so a cold app open
-  // landing on an already-1-day streak (started earlier today, or just
-  // however things loaded) never fires the celebration on its own. Only a
-  // live 0->1 transition that happens while the app is open in this
-  // session counts as "the streak just started."
-  const prevStreakRef = useRef(null);
-  useEffect(() => {
-    if (prevStreakRef.current === 0 && streak >= 1) {
-      setShowStreakStart(true);
-    }
-    prevStreakRef.current = streak;
-  }, [streak]);
+  // Deciding WHEN to fire the celebration is handled by
+  // utils/streak.js's wouldStartNewStreak, called right before each real
+  // diary.addEntry (see handleAddToDiary below, the onboarding full-day
+  // fill, and Saved.jsx's Surprise Day) rather than by watching this
+  // `streak` value for 0->1 changes. That passive-watching approach was
+  // tried first and had to be reverted: entries reloads to [] then back to
+  // real data on a cold app relaunch (and on a sign-out/sign-in cycle),
+  // both of which make the *number* dip to 0 and jump back up for reasons
+  // that have nothing to do with an actual new streak -- so it kept
+  // refiring on every app reopen. Checking at the moment of the add itself
+  // sidesteps that entirely.
 
   // Only re-picks a greeting line when today's set of filled meal slots
   // actually changes (a stable string key), not on every unrelated render
@@ -669,11 +671,17 @@ export default function App() {
   // handleFinishCooking below), and only because something was actually
   // added this session.
   const handleAddToDiary = async (recipeId, date, slot) => {
+    // Checked against the entries already in hand, before the add --
+    // see wouldStartNewStreak's own comment for why this has to happen
+    // here rather than by watching the computed streak number react to
+    // diary.entries changing.
+    const willStartStreak = wouldStartNewStreak(diary.entries, date);
     const entryRow = await diary.addEntry(date, slot, recipeId);
     if (entryRow) {
       hapticSuccess();
       showToast("Added to Diary!");
       setLastAddedDiaryEntry({ date, entryId: entryRow.id });
+      if (willStartStreak) setShowStreakStart(true);
     }
     return !!entryRow;
   };
@@ -981,6 +989,7 @@ export default function App() {
             highlightedEntryId={highlightedDiaryEntryId}
             onConsumeHighlightedEntry={() => setHighlightedDiaryEntryId(null)}
             onboardingHighlightedEntryIds={onboardingHighlightedEntryIds}
+            onStreakStart={() => setShowStreakStart(true)}
           />
         )}
 

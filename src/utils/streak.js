@@ -40,3 +40,27 @@ export function computeLoggingStreak(entries) {
 
   return streak;
 }
+
+// Event-driven check for "is the streak-start celebration about to fire":
+// given the entries already known BEFORE a proposed add, and the date that
+// new entry would be logged under, simulates the add (a synthetic entry
+// created right now, dated entryDate) and reports whether THAT specific
+// addition is what would take the streak from 0 to 1.
+//
+// This is deliberately NOT a passive "watch the computed streak number and
+// react when it changes" effect -- that approach fires on any reason the
+// number changes, including ones that have nothing to do with a real new
+// streak: diary_entries reloading after a cold app relaunch (entries
+// starts empty while the fetch is in flight, so the streak briefly reads
+// 0 before jumping to its real value the instant real data arrives) or a
+// sign-out/sign-in cycle (entries clears to [] on sign-out, then repopulates
+// on the next sign-in) both look identical to "a fresh streak just
+// started" if you're only diffing the streak number. Tying the check
+// directly to the moment of an actual, known-fresh add sidesteps all of
+// that -- call this right before diary.addEntry, using whatever `entries`
+// snapshot is already in hand, and it can't be fooled by a reload.
+export function wouldStartNewStreak(entries, entryDate) {
+  if (computeLoggingStreak(entries) > 0) return false;
+  const simulated = [...(entries || []), { entry_date: entryDate, created_at: new Date().toISOString() }];
+  return computeLoggingStreak(simulated) === 1;
+}
