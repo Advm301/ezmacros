@@ -7,6 +7,7 @@ import { getGreeting } from './utils/greeting';
 import { hapticSelection, hapticLight, hapticMedium, hapticSuccess } from './utils/haptics';
 import { BETA_MODE, APP_VERSION, APP_STORE_APPLE_ID } from './config';
 import useAppVersion from './hooks/useAppVersion';
+import useTrendingNotifications from './hooks/useTrendingNotifications';
 // Aliased -- this component is itself named App, so the bare plugin name
 // would collide.
 import { App as CapacitorApp } from '@capacitor/app';
@@ -266,6 +267,7 @@ export default function App() {
   // is determined.
   const [dismissedUpdateBanner, setDismissedUpdateBanner] = useState(false);
   const appVersion = useAppVersion();
+  const trendingNotif = useTrendingNotifications();
   // Whether the one-time first-session onboarding (see components/
   // Onboarding.jsx) still needs to run for whichever account is signed in.
   // Starts false (not read from localStorage here) because at this point
@@ -882,6 +884,24 @@ export default function App() {
                   >
                     Delete Account
                   </div>
+                  {/* Opt-in only -- iOS only lets an app show the real
+                      permission dialog once per install (a decline can only
+                      be reversed from Settings), so this is a toggle someone
+                      actively taps rather than a permission prompt fired
+                      automatically on launch. Web/dev has nothing to
+                      schedule, so the row just doesn't render there (see
+                      useTrendingNotifications.js). */}
+                  {trendingNotif.isNative && (
+                    <div
+                      onClick={() => trendingNotif.setEnabled(!trendingNotif.enabled)}
+                      style={{ padding: "10px 14px", fontSize: 12.5, fontWeight: 600, color: "var(--cream)", cursor: "pointer", whiteSpace: "nowrap", borderBottom: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 14 }}
+                    >
+                      <span>🔥 Trending Alerts</span>
+                      <span style={{ fontSize: 11, fontWeight: 700, color: trendingNotif.enabled ? 'var(--lime)' : 'var(--muted)' }}>
+                        {trendingNotif.loading ? '…' : trendingNotif.enabled ? 'On' : 'Off'}
+                      </span>
+                    </div>
+                  )}
                   {/* Native builds show the real installed version + build
                       number (read at runtime via @capacitor/app -- see
                       useAppVersion.js for why this can't just be the JS-

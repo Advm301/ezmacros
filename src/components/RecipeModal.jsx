@@ -1364,6 +1364,7 @@ export default function RecipeModal({
             <div style={{ fontFamily: "'Manrope',sans-serif", fontSize: 22, fontWeight: 800, marginBottom: 4, display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
               <span style={{ color: 'var(--cream)' }}>{r.name}</span>
               {r.isNew && <span className="new-badge">New</span>}
+              {r.isTrending && <span className="trending-badge">🔥 Trending</span>}
             </div>
             {(r.method || r.activeTime) && (
               <div style={{ fontSize: 12, color: 'var(--muted)' }}>

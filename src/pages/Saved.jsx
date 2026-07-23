@@ -260,6 +260,7 @@ export default function Saved({
             <div style={{ fontWeight: 700, fontSize: 15, color: 'var(--cream)', marginBottom: 2, display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
               {r.name}
               {r.isNew && <span className="new-badge">New</span>}
+              {r.isTrending && <span className="trending-badge">🔥 Trending</span>}
             </div>
             <div style={{ fontSize: 11, color: 'var(--muted)' }}>
               {r.method}{r.method && r.activeTime ? ' · ' : ''}{formatTime(r.activeTime, r.totalTime)}

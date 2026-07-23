@@ -15,6 +15,14 @@
 // isNew (optional, true on recently-added trending recipes -- drives the gold
 // "NEW" badge in Browse/Kitchen/Saved and the recipe modal; not meant to be
 // permanent, just a launch-window highlight for a given batch of additions).
+// isTrending (optional, true on recipes currently pulled into the weekly
+// "Trending" rotation -- drives the flame badge in Browse/Kitchen/Saved and
+// the recipe modal, plus the Trending filter chip and the Monday local
+// notification, see useTrendingNotifications.js). Meant to be hand-curated
+// and rotated weekly (swap which recipes carry the flag), not permanent --
+// pick recipes that map to what's actually trending online right now
+// (TikTok/Reddit etc.) but write/shoot them originally rather than copying
+// someone else's text or photos.
 // proteinOptions (optional, present on recipes that are the same dish across
 // multiple proteins -- e.g. Saucy Tomato Bowl -- instead of separate near-
 // duplicate recipes per protein. Each entry is { id, label, componentName };
@@ -4111,6 +4119,7 @@ export const RECIPES = [
     "name": "Sweet Potato Cottage Cheese Power Bowl",
     "description": "A spicy, high-protein bowl of taco-seasoned ground beef, sweet potato, and cottage cheese finished with guacamole and hot honey.",
     "id": 71,
+    "isTrending": true,
     "method": "Stovetop",
     "mealType": "breakfast",
     "servings": 4,
@@ -4248,6 +4257,7 @@ export const RECIPES = [
     "name": "Cottage Cheese Flatbread",
     "description": "A savory baked flatbread of cottage cheese and eggs topped with deli turkey and spinach.",
     "id": 73,
+    "isTrending": true,
     "method": "Bake",
     "mealType": "breakfast",
     "servings": 1,
@@ -4808,6 +4818,7 @@ export const RECIPES = [
     "name": "Hot Honey Salmon",
     "description": "Baked salmon glazed in sweet-spicy hot honey and garlic, brightened with a squeeze of lemon.",
     "id": 81,
+    "isTrending": true,
     "method": "Bake",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -8818,6 +8829,7 @@ export const RECIPES = [
     "description": "Charred elote-style corn folded into a creamy, chili-lime chicken skillet — all the flavor of Mexican street corn in one pan.",
     "id": 210,
     "isNew": true,
+    "isTrending": true,
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -9278,6 +9290,7 @@ export const RECIPES = [
     "description": "Bar-food favorite Korean corn cheese folded into a garlicky chicken skillet — sweet, savory, and stretchy with melted cheese.",
     "id": 217,
     "isNew": true,
+    "isTrending": true,
     "method": "Skillet",
     "mealType": "lunch_dinner",
     "servings": 1,
@@ -9733,6 +9746,7 @@ export const RECIPES = [
     "description": "The viral blended cottage cheese 'ice cream' — frozen, creamy, and surprisingly close to soft-serve, with way more protein.",
     "id": 224,
     "isNew": true,
+    "isTrending": true,
     "method": "No Cook",
     "mealType": "snack",
     "servings": 1,

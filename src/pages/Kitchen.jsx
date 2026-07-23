@@ -334,6 +334,7 @@ export default function Kitchen({
                       <div style={{ fontWeight: 700, fontSize: isHero ? 18 : 15, color: 'var(--cream)', marginBottom: 4, display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
                         {r.name}
                         {r.isNew && <span className="new-badge">New</span>}
+                        {r.isTrending && <span className="trending-badge">🔥 Trending</span>}
                       </div>
                       <div style={{ fontSize: 11, color: 'var(--muted)', display: 'flex', alignItems: 'center', gap: 5, flexWrap: 'wrap' }}>
                         <span>

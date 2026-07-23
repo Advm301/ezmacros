@@ -186,6 +186,7 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
   const [highProteinOnly, setHighProteinOnly] = useState(false);
   const [grabAndGoOnly, setGrabAndGoOnly] = useState(false);
   const [mealPrepOnly, setMealPrepOnly] = useState(false);
+  const [trendingOnly, setTrendingOnly] = useState(false);
   const [showMoreFilters, setShowMoreFilters] = useState(false);
   // Sorting is separate from the filters above -- it reorders results
   // rather than removing any, so it's left out of anyFilterActive /
@@ -197,7 +198,7 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
   // offering to clear filters that are already at their defaults.
   const anyFilterActive = Boolean(
     search || mealFilter || proteinFilter || flavorFilter || methodFilter ||
-    showSavedOnly || highProteinOnly || grabAndGoOnly || mealPrepOnly
+    showSavedOnly || highProteinOnly || grabAndGoOnly || mealPrepOnly || trendingOnly
   );
   const clearAllFilters = () => {
     hapticLight();
@@ -210,6 +211,7 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
     setHighProteinOnly(false);
     setGrabAndGoOnly(false);
     setMealPrepOnly(false);
+    setTrendingOnly(false);
   };
 
   let filtered = RECIPES.filter((r) => {
@@ -223,7 +225,8 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
     const matchHighProtein = !highProteinOnly || tags.includes('high_protein');
     const matchGrabAndGo = !grabAndGoOnly || tags.includes('grab_and_go');
     const matchMealPrep = !mealPrepOnly || r.servings > 1;
-    return matchSearch && matchMeal && matchProtein && matchFlavor && matchMethod && matchSaved && matchHighProtein && matchGrabAndGo && matchMealPrep;
+    const matchTrending = !trendingOnly || r.isTrending;
+    return matchSearch && matchMeal && matchProtein && matchFlavor && matchMethod && matchSaved && matchHighProtein && matchGrabAndGo && matchMealPrep && matchTrending;
   });
 
   // Top-rated first: recipes with at least one rating sort by average
@@ -240,14 +243,20 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
       return 0;
     });
   } else {
-    // Default order (no explicit sort chosen): newest recipes float to the
-    // top of each section, so a freshly-added batch is the first thing
-    // someone sees when they open a section instead of being buried below
-    // 140+ existing recipes at the bottom of the catalog's id order.
-    // Array.prototype.sort is stable, so this only reorders new-vs-not --
-    // everything else keeps its original relative order. Explicitly
-    // choosing "Top Rated" above overrides this entirely, on purpose.
-    filtered = [...filtered].sort((a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0));
+    // Default order (no explicit sort chosen): trending recipes float
+    // highest, then newest, then everything else -- so this week's curated
+    // Trending picks are the very first thing someone sees, ahead of a
+    // freshly-added batch, which is itself ahead of the other 190+ existing
+    // recipes at the bottom of the catalog's id order. Array.prototype.sort
+    // is stable, so this only reorders trending/new-vs-not -- everything
+    // else keeps its original relative order. Explicitly choosing "Top
+    // Rated" above overrides this entirely, on purpose.
+    filtered = [...filtered].sort((a, b) => {
+      const trendA = a.isTrending ? 1 : 0;
+      const trendB = b.isTrending ? 1 : 0;
+      if (trendA !== trendB) return trendB - trendA;
+      return (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0);
+    });
   }
 
   const select = (setter) => (value) => {
@@ -269,6 +278,7 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
   const toggleHighProtein = () => { hapticSelection(); setHighProteinOnly((v) => !v); };
   const toggleGrabAndGo = () => { hapticSelection(); setGrabAndGoOnly((v) => !v); };
   const toggleMealPrep = () => { hapticSelection(); setMealPrepOnly((v) => !v); };
+  const toggleTrending = () => { hapticSelection(); setTrendingOnly((v) => !v); };
 
   const openRecipe = (r) => {
     hapticLight();
@@ -294,6 +304,7 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
           <div style={{ fontWeight: 700, fontSize: 15, color: 'var(--cream)', marginBottom: 2, display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
             {r.name}
             {r.isNew && <span className="new-badge">New</span>}
+            {r.isTrending && <span className="trending-badge">🔥 Trending</span>}
           </div>
           <div style={{ fontSize: 11, color: 'var(--muted)', display: 'flex', alignItems: 'center', gap: 5, flexWrap: 'wrap' }}>
             <span>
@@ -418,6 +429,9 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
         <div className="filter-sec">
           <div className="filter-label">Quick Toggles</div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+            <div className={`pill ${trendingOnly ? 'active' : ''}`} onClick={toggleTrending}>
+              🔥 Trending
+            </div>
             <div className={`pill ${showSavedOnly ? 'active' : ''}`} onClick={toggleSavedOnly}>
               {showSavedOnly ? '★ Saved' : '☆ Saved'}
             </div>

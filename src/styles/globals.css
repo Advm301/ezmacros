@@ -326,6 +326,37 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
   .new-badge{animation:action-word-shimmer 3s linear infinite;}
 }
 
+/* TRENDING BADGE: marks recipes.js `isTrending` recipes -- same pill shape
+   and Baloo 2 treatment as .new-badge, but an orange/red "flame" gradient
+   (var(--orange)/var(--red)) instead of gold, so it reads as visually
+   distinct from "New" even when a recipe carries both badges at once
+   (isTrending is meant to be hand-rotated weekly onto whichever recipes map
+   to what's trending online right now -- see the isTrending doc comment in
+   recipes.js). */
+.trending-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:3px;
+  padding:2px 8px;
+  border-radius:100px;
+  border:1px solid rgba(255,77,77,.45);
+  background:rgba(255,77,77,.08);
+  font-family:'Baloo 2',sans-serif;
+  font-weight:800;
+  font-size:10.5px;
+  letter-spacing:.6px;
+  text-transform:uppercase;
+  background-image:linear-gradient(90deg, #ff4d4d 0%, #ffb366 25%, #ff8533 50%, #ffb366 75%, #ff4d4d 100%);
+  background-size:250% 100%;
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  -webkit-text-fill-color:transparent;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .trending-badge{animation:action-word-shimmer 3s linear infinite;}
+}
+
 /* "I made this recipe" checkbox label, on the closing rating page -- this
    is the one control that unlocks rating/photo/finishing, so it needs to
    stand out from the plain Manrope body copy around it instead of reading
