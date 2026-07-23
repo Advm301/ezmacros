@@ -1,8 +1,9 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { supabase } from './lib/supabase';
 import useSavedRecipes from './hooks/useSavedRecipes';
 import useRecipeRatings from './hooks/useRecipeRatings';
 import useDiary, { todayString } from './hooks/useDiary';
+import { computeLoggingStreak } from './utils/streak';
 import { getGreeting } from './utils/greeting';
 import { hapticSelection, hapticLight, hapticMedium, hapticSuccess } from './utils/haptics';
 import { BETA_MODE, APP_VERSION, APP_STORE_APPLE_ID } from './config';
@@ -22,6 +23,7 @@ import FeedbackModal from './components/FeedbackModal';
 import Onboarding from './components/Onboarding';
 import SplashScreen from './components/SplashScreen';
 import GeneratingScreen from './components/GeneratingScreen';
+import StreakStartOverlay from './components/StreakStartOverlay';
 import { RECIPES } from './data/recipes.js';
 import { filterRecipes } from './utils/pantryMatch';
 import { rankForPreferences, pickBestMatch } from './utils/onboardingGoals';
@@ -471,6 +473,30 @@ export default function App() {
   } = useSavedRecipes();
   const { getRatingSummary, getMyRatingEntry, rateRecipe, getPhotoSignedUrl } = useRecipeRatings(session?.user?.id);
   const diary = useDiary(session?.user?.id);
+
+  // Logging streak -- same definition as the small pill shown in Saved.jsx
+  // (computeLoggingStreak: consecutive days with a diary entry created the
+  // same calendar day as its date; a backfilled past date or planning a
+  // future one doesn't count). Computed here too, at the top level, so the
+  // celebration below can fire regardless of which tab is open when the
+  // triggering diary entry gets added -- Saved.jsx's own copy of this
+  // computation stays as-is for the pill, this one is purely for detecting
+  // the moment the streak starts.
+  const streak = useMemo(() => computeLoggingStreak(diary.entries), [diary.entries]);
+  const [showStreakStart, setShowStreakStart] = useState(false);
+  // null until the first real measurement -- distinguishes "haven't
+  // established a baseline yet" from "baseline was 0," so a cold app open
+  // landing on an already-1-day streak (started earlier today, or just
+  // however things loaded) never fires the celebration on its own. Only a
+  // live 0->1 transition that happens while the app is open in this
+  // session counts as "the streak just started."
+  const prevStreakRef = useRef(null);
+  useEffect(() => {
+    if (prevStreakRef.current === 0 && streak >= 1) {
+      setShowStreakStart(true);
+    }
+    prevStreakRef.current = streak;
+  }, [streak]);
 
   // Only re-picks a greeting line when today's set of filled meal slots
   // actually changes (a stable string key), not on every unrelated render
@@ -1102,6 +1128,14 @@ export default function App() {
           onClose={() => setShowFeedback(false)}
           onSubmit={handleSendFeedback}
         />
+      )}
+
+      {/* z-index 1100 (see .streak-start-overlay) -- sits above the recipe
+          modal on purpose, since finishing a recipe (which can still have
+          RecipeModal open behind it for a beat) is one of the ways a
+          diary entry, and so a streak, gets started. */}
+      {showStreakStart && (
+        <StreakStartOverlay streak={streak} onDone={() => setShowStreakStart(false)} />
       )}
     </>
   );

@@ -1469,3 +1469,90 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
   0%,100%{box-shadow:0 6px 20px rgba(255,180,40,.2), inset 0 1px 0 rgba(255,255,255,.06);}
   50%{box-shadow:0 6px 26px rgba(255,180,40,.38), inset 0 1px 0 rgba(255,255,255,.06);}
 }
+
+/* STREAK START OVERLAY: one-time, full-screen celebration the moment a
+   logging streak actually begins (see StreakStartOverlay.jsx + App.jsx's
+   0->1 transition check). z-index 1100 -- above even the recipe modal
+   (.overlay at 50) and the welcome/generating screens (1000), since this
+   can fire while a recipe modal is still open (finishing a recipe is one
+   of the ways a diary entry -- and so a streak -- gets started). Solid-ish
+   dark scrim rather than a hard cut to var(--bg): this is landing on top
+   of whatever screen was already active, not replacing it outright. */
+.streak-start-overlay{
+  position:fixed;inset:0;z-index:1100;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:10px;padding:32px;box-sizing:border-box;text-align:center;
+  background:rgba(2,10,13,.94);
+  max-width:430px;left:50%;transform:translateX(-50%);
+  cursor:pointer;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .streak-start-overlay{animation:streak-overlay-in .35s ease-out both;}
+  .streak-start-overlay-out{animation:streak-overlay-out .32s ease-in both;}
+}
+@media (prefers-reduced-motion: reduce) {
+  .streak-start-overlay-out{opacity:0;}
+}
+@keyframes streak-overlay-in{0%{opacity:0;}100%{opacity:1;}}
+@keyframes streak-overlay-out{0%{opacity:1;}100%{opacity:0;}}
+
+.streak-start-glow{
+  position:absolute;width:260px;height:260px;border-radius:50%;
+  background:radial-gradient(circle, rgba(255,133,51,.34) 0%, rgba(255,77,77,.18) 45%, rgba(255,77,77,0) 72%);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .streak-start-glow{animation:streak-glow-pulse 1.8s ease-in-out infinite;}
+}
+@keyframes streak-glow-pulse{
+  0%,100%{transform:scale(.9);opacity:.7;}
+  50%{transform:scale(1.1);opacity:1;}
+}
+
+.streak-start-flame-wrap{position:relative;margin-bottom:6px;width:112px;height:112px;display:flex;align-items:center;justify-content:center;}
+.streak-start-flame{filter:drop-shadow(0 0 22px rgba(255,133,51,.65));opacity:0;transform:scale(.4) translateY(14px);}
+@media (prefers-reduced-motion: no-preference) {
+  /* Ignite: rises up from small/dim, overshoots slightly, settles --
+     then a slow ongoing flicker so it reads as a living flame the whole
+     time the overlay's up, not a static icon. */
+  .streak-start-flame{animation:streak-flame-ignite .5s cubic-bezier(.34,1.56,.64,1) forwards, streak-flame-flicker 1.4s ease-in-out .5s infinite;}
+}
+@media (prefers-reduced-motion: reduce) {
+  .streak-start-flame{opacity:1;transform:none;}
+}
+@keyframes streak-flame-ignite{
+  0%{opacity:0;transform:scale(.4) translateY(14px);}
+  70%{opacity:1;transform:scale(1.12) translateY(-2px);}
+  100%{opacity:1;transform:scale(1) translateY(0);}
+}
+@keyframes streak-flame-flicker{
+  0%,100%{transform:scale(1) rotate(0deg);}
+  25%{transform:scale(1.03) rotate(-1.5deg);}
+  50%{transform:scale(.98) rotate(0deg);}
+  75%{transform:scale(1.02) rotate(1.5deg);}
+}
+
+.streak-start-title{
+  position:relative;font-family:'Baloo 2',sans-serif;font-weight:800;font-size:22px;
+  color:var(--cream);opacity:0;
+}
+.streak-start-count{
+  position:relative;font-family:'Baloo 2',sans-serif;font-weight:800;font-size:15px;letter-spacing:.6px;
+  text-transform:uppercase;opacity:0;
+  background-image:linear-gradient(90deg, #ff4d4d 0%, #ffb366 25%, #ff8533 50%, #ffb366 75%, #ff4d4d 100%);
+  background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;
+}
+.streak-start-sub{position:relative;font-size:13.5px;line-height:1.5;color:rgba(255,255,255,.75);max-width:300px;opacity:0;margin-top:4px;}
+.streak-start-tap{position:relative;font-size:11px;color:var(--muted);margin-top:18px;opacity:0;}
+@media (prefers-reduced-motion: no-preference) {
+  .streak-start-title{animation:streak-text-in .45s ease-out .25s forwards;}
+  .streak-start-count{animation:streak-text-in .45s ease-out .38s forwards, action-word-shimmer 3s linear .38s infinite;}
+  .streak-start-sub{animation:streak-text-in .45s ease-out .5s forwards;}
+  .streak-start-tap{animation:streak-text-in .45s ease-out .9s forwards;}
+}
+@media (prefers-reduced-motion: reduce) {
+  .streak-start-title,.streak-start-count,.streak-start-sub,.streak-start-tap{opacity:1;}
+}
+@keyframes streak-text-in{
+  0%{opacity:0;transform:translateY(8px);}
+  100%{opacity:1;transform:translateY(0);}
+}
