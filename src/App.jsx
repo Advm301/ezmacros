@@ -20,6 +20,7 @@ import Browse from './pages/Browse';
 import Saved from './pages/Saved';
 import RecipeModal from './components/RecipeModal';
 import FeedbackModal from './components/FeedbackModal';
+import AboutModal from './components/AboutModal';
 import Onboarding from './components/Onboarding';
 import SplashScreen from './components/SplashScreen';
 import GeneratingScreen from './components/GeneratingScreen';
@@ -261,6 +262,7 @@ export default function App() {
     return () => { listenerPromise.then((listener) => listener.remove()); };
   }, []);
   const [showFeedback, setShowFeedback] = useState(false);
+  const [showAbout, setShowAbout] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   // Update-available top banner -- dismissing it is per-session only (plain
   // component state, not persisted) so someone who dismisses it on a given
@@ -916,6 +918,12 @@ export default function App() {
                   boxShadow: "0 4px 14px rgba(0,0,0,.35)",
                 }}>
                   <div
+                    onClick={() => { setShowMenu(false); setShowAbout(true); }}
+                    style={{ padding: "10px 14px", fontSize: 13, fontWeight: 600, color: "var(--cream)", cursor: "pointer", borderBottom: "1px solid var(--border)", whiteSpace: "nowrap" }}
+                  >
+                    About
+                  </div>
+                  <div
                     onClick={() => { setShowMenu(false); handleSignOut(); }}
                     style={{ padding: "10px 14px", fontSize: 13, fontWeight: 600, color: "var(--cream)", cursor: "pointer", borderBottom: "1px solid var(--border)", whiteSpace: "nowrap" }}
                   >
@@ -1138,6 +1146,8 @@ export default function App() {
           onSubmit={handleSendFeedback}
         />
       )}
+
+      {showAbout && <AboutModal onClose={() => setShowAbout(false)} />}
 
       {/* z-index 1100 (see .streak-start-overlay) -- sits above the recipe
           modal on purpose, since finishing a recipe (which can still have
