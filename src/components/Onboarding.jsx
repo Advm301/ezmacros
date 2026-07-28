@@ -73,6 +73,14 @@ export default function Onboarding({ onComplete }) {
   const [proteins, setProteins] = useState([]);
   const trendingNotif = useTrendingNotifications();
   const [notifChoiceMade, setNotifChoiceMade] = useState(false);
+  // Set when "Skip for now" is used from any screen before the last one --
+  // see skipAll below. The notifications screen is the only place that can
+  // trigger a real iOS permission dialog, so skipping the personalization
+  // questions shouldn't also skip that ask; this just remembers that
+  // there's nothing real to hand back once that screen's own choice is
+  // made, so finish() below still reports a full skip (onComplete(null))
+  // rather than a picks object full of nulls.
+  const [skippedRest, setSkippedRest] = useState(false);
 
   // Defaults to the longer, 5-step list before mealCount is answered --
   // once someone picks "full_day" the mealType dot simply drops out,
@@ -113,11 +121,17 @@ export default function Onboarding({ onComplete }) {
   // without this the flow would be entirely one-way. Steps back within
   // whichever list is currently active (see `steps` above), which is
   // exactly right even on the "full day" path where `mealType` isn't
-  // part of the sequence at all.
+  // part of the sequence at all. Also the only way back into the real
+  // questions after a Skip jump (see skipAll) landed on 'notifications'
+  // directly -- clears skippedRest so actually answering something after
+  // backing up doesn't still get thrown away as a full skip.
   const goBack = () => {
     hapticLight();
     const idx = steps.indexOf(step);
-    if (idx > 0) setStep(steps[idx - 1]);
+    if (idx > 0) {
+      setSkippedRest(false);
+      setStep(steps[idx - 1]);
+    }
   };
 
   const toggleProtein = (id) => {
@@ -127,12 +141,25 @@ export default function Onboarding({ onComplete }) {
 
   const finish = () => {
     hapticMedium();
-    onComplete({ staples: proteins, goal, servingsPref, mealCountPref, mealType });
+    onComplete(skippedRest ? null : { staples: proteins, goal, servingsPref, mealCountPref, mealType });
   };
 
+  // "Skip for now" used to end onboarding immediately from any screen,
+  // which meant the notifications screen -- the only point in this flow
+  // that can trigger a real permission dialog -- never showed at all for
+  // anyone who skipped. Now it routes through that screen first: skipping
+  // means "I don't want to answer the personalization questions," not "I
+  // don't want to be asked about notifications." Hitting it a second time,
+  // already on the notifications screen, is the real full skip (declining
+  // that too), so it still ends onboarding immediately from there.
   const skipAll = () => {
     hapticLight();
-    onComplete(null);
+    if (step === 'notifications') {
+      onComplete(null);
+      return;
+    }
+    setSkippedRest(true);
+    setStep('notifications');
   };
 
   // Proteins' own button used to call finish() directly -- now it just
