@@ -656,6 +656,18 @@ export default function App() {
     } catch (err) {
       console.error('Error clearing local recipe data:', err);
     }
+    // The weekly "Trending Alerts" notification (see useTrendingNotifications
+    // .js) is scheduled entirely on-device via Capacitor's LocalNotifications
+    // -- there's no server-side push token anywhere to clean up, but that
+    // also means deleting the Supabase account does nothing on its own to
+    // stop it: a local notification keeps firing every Monday regardless of
+    // whether the account behind it still exists, until something explicitly
+    // cancels it on this device. Only the toggle-off path used to do that,
+    // so deleting the account while the toggle was on left the schedule
+    // running forever. setEnabled(false) is a no-op on web and safe to call
+    // even if the toggle was already off (cancelling an unscheduled id is a
+    // harmless no-op), so it's called here unconditionally.
+    await trendingNotif.setEnabled(false);
     resetDeviceLocalAccountState();
     await supabase.auth.signOut();
   };
