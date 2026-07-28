@@ -27,7 +27,10 @@ import {
   saveSundayPrepMealCount,
   hasSeenSundayPrepSettings,
   markSeenSundayPrepSettings,
+  estimateBatchWeight,
 } from '../utils/sundayPrep';
+import { resolveProteinComponents } from '../utils/proteinChoice';
+import { getRecipeGradient } from '../utils/recipeArt';
 
 // Maps a diary meal slot to the recipe mealType pool it should draw random
 // picks from. Lunch and Dinner share the same 'lunch_dinner' pool.
@@ -416,6 +419,22 @@ export default function Saved({
   // open Walmart/retailer price API exists to pull real numbers from).
   const shoppingListCost = showShoppingList ? estimateShoppingListCost(shoppingList) : 0;
 
+  // Sunday Prep hero stat -- same estimateBatchWeight math RecipeModal
+  // uses on its own Packaging & Reheating section, just run here against
+  // the recipe's own written (unscaled) servings rather than a batch-size
+  // scaler state this card doesn't have. Resolved against the first
+  // proteinOption for recipes that offer a choice (beef/chicken/pork/
+  // turkey), same "show something reasonable by default" convention
+  // RecipeModal itself uses before anyone's actually picked one.
+  const sundayPickComponents = sundayPick
+    ? resolveProteinComponents(sundayPick.components || [], sundayPick.proteinOptions?.[0] || null)
+    : [];
+  const sundayPickBatchWeight = sundayPick ? estimateBatchWeight(sundayPickComponents) : 0;
+  const sundayPickPerContainer =
+    sundayPickBatchWeight > 0 && sundayPick?.servings
+      ? Math.round(sundayPickBatchWeight / sundayPick.servings / 5) * 5
+      : 0;
+
   return (
     <div style={{ paddingBottom: 20 }}>
       <div className="px pt">
@@ -428,10 +447,10 @@ export default function Saved({
             {streak > 0 && (
               <div
                 title="Consecutive days with something logged"
-                style={{ display: 'inline-flex', alignItems: 'center', gap: 5, background: 'var(--s2)', border: '1px solid var(--border)', borderRadius: 100, padding: '4px 10px', color: 'var(--lime)' }}
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 5, background: 'var(--s2)', border: '1px solid var(--border)', borderRadius: 'var(--rtag)', padding: '4px 11px', color: 'var(--lime)' }}
               >
                 <LightningIcon id="streak" />
-                <span style={{ fontSize: 12, fontWeight: 700 }}>{streak} day{streak === 1 ? '' : 's'}</span>
+                <span style={{ fontSize: 'var(--type-caption)', fontWeight: 700 }}>{streak} day{streak === 1 ? '' : 's'}</span>
               </div>
             )}
           </div>
@@ -474,58 +493,106 @@ export default function Saved({
             lives up here rather than inside the day-by-day view. Only
             renders once the curated pool actually has something in it (see
             data/recipes.js's 'sunday_prep' tag) -- getThisWeeksPick returns
-            null if the pool is ever empty. */}
+            null if the pool is ever empty.
+
+            Redesigned as a hero card (visual-system prototype, see
+            globals.css's "VISUAL SYSTEM v2" block) rather than a plain
+            bordered panel: this is the one moment on this page meant to be
+            a moment, not a row of information. getRecipeGradient stands in
+            for a real food photo (this app has no photo assets yet -- see
+            that util's own comment) behind a bottom-anchored dark overlay
+            so text stays legible regardless of which gradient a given
+            recipe lands on. key={sundayPick.id} forces a remount -- and so
+            replays .hero-swap-pop -- on every swap, not just first load. */}
         {sundayPick && (
-          <div style={{ background: 'var(--s1)', border: '1px solid rgba(255,201,51,.3)', borderRadius: 16, padding: 14, marginBottom: 16 }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-              {/* Gold, same "featured" treatment as Trending's flame badge
-                  elsewhere in the app -- the previous var(--muted) label
-                  read as just another faint section eyebrow and got missed
-                  entirely against the dark card background. */}
-              <div style={{ fontSize: 12.5, fontWeight: 800, color: 'var(--gold)', textTransform: 'uppercase', letterSpacing: 1, display: 'flex', alignItems: 'center', gap: 6 }}>
-                <HandIcon size={13} /> Sunday Prep
+          <div
+            key={sundayPick.id}
+            className="hero-pop"
+            style={{
+              position: 'relative',
+              borderRadius: 'var(--r-lg)',
+              overflow: 'hidden',
+              marginBottom: 'var(--space-5)',
+              background: getRecipeGradient(sundayPick),
+            }}
+          >
+            <div
+              aria-hidden="true"
+              // Flat, even scrim rather than a top-to-bottom fade -- the
+              // brand gradient (see recipeArt.js) runs diagonally and gets
+              // bright toward one corner, so a directional overlay assuming
+              // "always darkest at the bottom" would leave whichever text
+              // happens to land over the bright corner unreadable. A single
+              // uniform darken keeps every line legible regardless of where
+              // it falls on the gradient.
+              style={{ position: 'absolute', inset: 0, background: 'rgba(4,20,26,.42)' }}
+            />
+            <div style={{ position: 'relative', padding: 'var(--space-5) var(--space-4) var(--space-4)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--space-4)' }}>
+                <div style={{ fontSize: 'var(--type-label)', fontWeight: 800, color: 'var(--gold)', textTransform: 'uppercase', letterSpacing: 1.2, display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <HandIcon size={13} /> Sunday Prep
+                </div>
+                {/* Container-count badge doubles as the settings entry
+                    point -- same information the old "N days" text link
+                    carried, just legible against a photo/gradient surface
+                    instead of assuming a flat card background. */}
+                <div
+                  onClick={() => { hapticLight(); setShowSundayPrepSettings(true); }}
+                  style={{ display: 'flex', alignItems: 'baseline', gap: 4, background: 'rgba(255,255,255,.16)', backdropFilter: 'blur(6px)', border: '1px solid rgba(255,255,255,.28)', borderRadius: 'var(--rtag)', padding: '4px 11px 4px 9px', cursor: 'pointer' }}
+                >
+                  <span style={{ fontFamily: "'Baloo 2',sans-serif", fontWeight: 800, fontSize: 14, color: '#fff' }}>×{sundayMealCount}</span>
+                  <span style={{ fontSize: 10, color: 'rgba(255,255,255,.8)' }}>days</span>
+                </div>
               </div>
-              <div
-                onClick={() => { hapticLight(); setShowSundayPrepSettings(true); }}
-                style={{ fontSize: 11, color: 'var(--muted)', cursor: 'pointer', textDecoration: 'underline' }}
-              >
-                {sundayMealCount} days
+
+              <div onClick={() => openRecipe(sundayPick)} style={{ cursor: 'pointer' }}>
+                <div style={{ fontFamily: "'Baloo 2',sans-serif", fontWeight: 800, fontSize: 'var(--type-display)', lineHeight: 'var(--type-display-lh)', color: '#fff', marginBottom: 'var(--space-2)', textShadow: '0 2px 14px rgba(0,0,0,.4)' }}>
+                  {sundayPick.name}
+                </div>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'rgba(0,0,0,.34)', backdropFilter: 'blur(4px)', borderRadius: 'var(--rtag)', padding: '4px 11px', fontSize: 'var(--type-caption)', color: 'rgba(255,255,255,.92)', marginBottom: 'var(--space-4)' }}>
+                  {sundayPick.method}{sundayPick.method && sundayPick.activeTime ? ' · ' : ''}{formatTime(sundayPick.activeTime, sundayPick.totalTime)}
+                  {' · '}{formatProtein(estimateRecipeProtein(sundayPick).perServing)}
+                </div>
               </div>
-            </div>
-            <div onClick={() => openRecipe(sundayPick)} style={{ cursor: 'pointer', marginBottom: 10 }}>
-              <div style={{ fontWeight: 700, fontSize: 15, color: 'var(--cream)', marginBottom: 2 }}>{sundayPick.name}</div>
-              <div style={{ fontSize: 11, color: 'var(--muted)' }}>
-                {sundayPick.method}{sundayPick.method && sundayPick.activeTime ? ' · ' : ''}{formatTime(sundayPick.activeTime, sundayPick.totalTime)}
-                {' · '}{formatProtein(estimateRecipeProtein(sundayPick).perServing)}
+
+              {sundayPickBatchWeight > 0 && (
+                <div style={{ fontSize: 'var(--type-caption)', color: 'rgba(255,255,255,.85)', lineHeight: 1.45, marginBottom: 'var(--space-4)' }}>
+                  About {sundayPickBatchWeight}g total -- {sundayPick.servings} container{sundayPick.servings === 1 ? '' : 's'}{sundayPickPerContainer > 0 ? `, ~${sundayPickPerContainer}g each` : ''}. Open the recipe for exact reheating steps.
+                </div>
+              )}
+
+              {sundayPrepMessage && (
+                <div style={{ fontSize: 12, fontWeight: 700, color: '#fff', marginBottom: 'var(--space-3)' }}>{sundayPrepMessage}</div>
+              )}
+
+              <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
+                <button
+                  onClick={handleSwapSundayPick}
+                  title="Swap"
+                  style={{ flexShrink: 0, width: 44, height: 44, borderRadius: '50%', background: 'rgba(255,255,255,.14)', border: '1px solid rgba(255,255,255,.32)', color: '#fff', fontSize: 17, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                >
+                  ↻
+                </button>
+                <button
+                  onClick={handleAddSundayPrepToDiary}
+                  style={{ flex: 1, background: '#fff', border: 'none', color: '#000', borderRadius: 14, fontWeight: 800, fontSize: 14, fontFamily: "'Manrope',sans-serif", cursor: 'pointer' }}
+                >
+                  Add to Diary
+                </button>
               </div>
-            </div>
-            <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--cream)', lineHeight: 1.5, marginBottom: 10 }}>
-              Batch it once, then reheat for lunch the rest of the week. Open the recipe to adjust the batch size.
-            </div>
-            {sundayPrepMessage && (
-              <div style={{ fontSize: 11.5, color: 'var(--lime)', marginBottom: 8 }}>{sundayPrepMessage}</div>
-            )}
-            <div style={{ display: 'flex', gap: 8 }}>
-              <button
-                onClick={handleSwapSundayPick}
-                style={{ flex: 1, background: 'var(--s2)', border: '1px solid var(--border)', color: 'var(--cream)', borderRadius: 11, padding: 10, fontSize: 12.5, fontWeight: 700, fontFamily: "'Manrope',sans-serif", cursor: 'pointer' }}
-              >
-                ↻ Swap
-              </button>
-              <button
-                onClick={handleAddSundayPrepToDiary}
-                style={{ flex: 1, background: 'var(--lime)', border: '1px solid var(--border)', color: '#000', borderRadius: 11, padding: 10, fontSize: 12.5, fontWeight: 700, fontFamily: "'Manrope',sans-serif", cursor: 'pointer' }}
-              >
-                Add to Diary
-              </button>
             </div>
           </div>
         )}
 
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginBottom: 16 }}>
+        {/* Date navigator -- bumped from the old 14px label to
+            --type-h2 and given the arrow buttons a touch more presence
+            (40px, fully round, --ease-out on press) so this reads as a
+            confident control rather than a compact utility row. Purely a
+            visual pass -- shiftDate/setShowCalendar behavior is unchanged. */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 'var(--space-3)', marginBottom: 'var(--space-5)' }}>
           <div
             onClick={() => shiftDate(-1)}
-            style={{ width: 36, height: 36, borderRadius: 10, background: 'var(--s2)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'var(--cream)', fontSize: 16, flexShrink: 0 }}
+            style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--s2)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'var(--cream)', fontSize: 17, flexShrink: 0, transition: `transform var(--dur-fast) var(--ease-out)` }}
           >
             ‹
           </div>
@@ -533,15 +600,15 @@ export default function Saved({
             onClick={() => { hapticLight(); setShowCalendar(true); }}
             style={{ flex: 1, textAlign: 'center', cursor: 'pointer' }}
           >
-            <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--cream)' }}>{displayDate(selectedDate)}</div>
-            <div style={{ marginTop: 4, display: 'inline-flex', alignItems: 'center', gap: 4, background: 'var(--s2)', border: '1px solid var(--border)', borderRadius: 8, color: 'var(--muted)', fontSize: 11, padding: '2px 8px' }}>
+            <div style={{ fontSize: 'var(--type-h2)', fontWeight: 800, color: 'var(--cream)' }}>{displayDate(selectedDate)}</div>
+            <div style={{ marginTop: 5, display: 'inline-flex', alignItems: 'center', gap: 4, background: 'var(--s2)', border: '1px solid var(--border)', borderRadius: 8, color: 'var(--muted)', fontSize: 'var(--type-caption)', padding: '2px 9px' }}>
               <CalendarIcon size={12} />
               Calendar
             </div>
           </div>
           <div
             onClick={() => shiftDate(1)}
-            style={{ width: 36, height: 36, borderRadius: 10, background: 'var(--s2)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'var(--cream)', fontSize: 16, flexShrink: 0 }}
+            style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--s2)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'var(--cream)', fontSize: 17, flexShrink: 0, transition: `transform var(--dur-fast) var(--ease-out)` }}
           >
             ›
           </div>

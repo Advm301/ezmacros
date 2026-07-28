@@ -13,6 +13,7 @@ import InfoIcon from '../components/InfoIcon';
 import MealPrepIcon from '../components/MealPrepIcon';
 import useFirstVisitTip from '../hooks/useFirstVisitTip';
 import { getProteinCardBackground } from '../utils/proteinColors';
+import { getRecipeGradient } from '../utils/recipeArt';
 import { filterRecipes } from '../utils/pantryMatch';
 import { estimateRecipeCost, formatUsd } from '../utils/ingredientPricing';
 import { estimateRecipeProtein, formatProtein } from '../utils/ingredientNutrition';
@@ -311,67 +312,125 @@ export default function Kitchen({
                   ? (r.pantryTags || []).filter((t) => !selectedStaples.includes(t))
                   : [];
                 const isHero = results.length === 1;
-                return (
-                  <div key={r.id} style={isHero ? { position: 'relative' } : undefined}>
-                    {isHero && (
-                      <div className="kitchen-hero-label">
-                        <LightningIcon size={16} id="kitchen-hero" />
-                        <span>Your Match</span>
-                      </div>
-                    )}
+
+                // A single match (the post-onboarding single-meal handoff,
+                // or a Quick Pick narrowed all the way down) gets the same
+                // full-bleed hero treatment as Sunday Prep's card in
+                // Saved.jsx -- same brand gradient (recipeArt.js), same
+                // type scale/spacing tokens, same flat legibility scrim --
+                // rather than the old pulsing-border variant of the
+                // ordinary list row. This is meant to be the other half of
+                // the "answer, revealed" moment (Sunday Prep is the other):
+                // one confident card, not a list item that happens to glow.
+                if (isHero) {
+                  return (
                     <div
-                      className={`kitchen-result-card${isHero ? ' kitchen-hero-card' : ''}`}
-                      style={{
-                        position: 'relative',
-                        background: getProteinCardBackground(r.proteins),
-                        border: '1px solid var(--border)',
-                        borderRadius: 14,
-                        padding: isHero ? 18 : 14,
-                        marginBottom: 10,
-                        cursor: 'pointer',
-                        '--card-i': Math.min(i, 8),
-                      }}
+                      key={r.id}
+                      className="hero-pop"
+                      style={{ position: 'relative', borderRadius: 'var(--r-lg)', overflow: 'hidden', marginBottom: 10, cursor: 'pointer', background: getRecipeGradient() }}
                       onClick={() => openRecipe(r)}
                     >
-                      {isHero && <OnboardingFinishSparkles />}
-                      <div style={{ fontWeight: 700, fontSize: isHero ? 18 : 15, color: 'var(--cream)', marginBottom: 4, display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
-                        {r.name}
-                        {r.isNew && <span className="new-badge">New</span>}
-                        {r.isTrending && <span className="trending-badge"><FlameIcon size={10.5} /> Trending</span>}
-                      </div>
-                      <div style={{ fontSize: 11, color: 'var(--muted)', display: 'flex', alignItems: 'center', gap: 5, flexWrap: 'wrap' }}>
-                        <span>
-                          {r.method}{r.method && r.activeTime ? ' · ' : ''}{formatTime(r.activeTime, r.totalTime)}
-                          {' · '}
-                          {getRatingSummary && getRatingSummary(r.id) ? (
-                            <><span style={{ color: 'var(--gold)' }}>★</span> {getRatingSummary(r.id).avg.toFixed(1)} ({getRatingSummary(r.id).count})</>
-                          ) : (
-                            'No ratings yet'
-                          )}
-                        </span>
-                        <span>·</span>
-                        <EffortGauge recipe={r} size={11} />
-                        <span>·</span>
-                        <span>~{formatUsd(estimateRecipeCost(r).perServing)}/serving</span>
-                        <span>·</span>
-                        <span>{formatProtein(estimateRecipeProtein(r).perServing)}</span>
-                      </div>
-                      {r.servings > 1 && (
-                        <div style={{ marginTop: 4 }}>
-                          <span className="ezb pkg"><MealPrepIcon size={12} /> Meal Prep · Makes {r.servings}</span>
+                      <OnboardingFinishSparkles />
+                      <div aria-hidden="true" style={{ position: 'absolute', inset: 0, background: 'rgba(4,20,26,.42)' }} />
+                      <div style={{ position: 'relative', padding: 'var(--space-5) var(--space-4) var(--space-4)' }}>
+                        <div style={{ fontSize: 'var(--type-label)', fontWeight: 800, color: 'var(--gold)', textTransform: 'uppercase', letterSpacing: 1.2, display: 'flex', alignItems: 'center', gap: 6, marginBottom: 'var(--space-3)' }}>
+                          <LightningIcon size={14} id="kitchen-hero" /> Your Match
                         </div>
-                      )}
-                      {selectedStaples.length > 0 && (
-                        <div style={{ fontSize: 11, color: 'var(--lime)', marginTop: 4 }}>
-                          Uses {r._matchCount} of your {selectedStaples.length} pick{selectedStaples.length === 1 ? '' : 's'}
-                          {missingStaples.length > 0 && (
-                            <span style={{ color: 'var(--muted)' }}>
-                              {' '}· also needs: {missingStaples.map((t) => PANTRY_LABELS[t] || t).join(', ')}
-                            </span>
-                          )}
+                        <div style={{ fontFamily: "'Baloo 2',sans-serif", fontWeight: 800, fontSize: 'var(--type-display)', lineHeight: 'var(--type-display-lh)', color: '#fff', marginBottom: 'var(--space-2)', textShadow: '0 2px 14px rgba(0,0,0,.4)', display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+                          {r.name}
+                          {r.isNew && <span className="new-badge">New</span>}
+                          {r.isTrending && <span className="trending-badge"><FlameIcon size={10.5} /> Trending</span>}
                         </div>
-                      )}
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap', background: 'rgba(0,0,0,.34)', backdropFilter: 'blur(4px)', borderRadius: 'var(--r)', padding: '6px 11px', fontSize: 'var(--type-caption)', color: 'rgba(255,255,255,.92)', marginBottom: 'var(--space-3)' }}>
+                          <span>
+                            {r.method}{r.method && r.activeTime ? ' · ' : ''}{formatTime(r.activeTime, r.totalTime)}
+                            {' · '}
+                            {getRatingSummary && getRatingSummary(r.id) ? (
+                              <><span style={{ color: 'var(--gold)' }}>★</span> {getRatingSummary(r.id).avg.toFixed(1)} ({getRatingSummary(r.id).count})</>
+                            ) : (
+                              'No ratings yet'
+                            )}
+                          </span>
+                          <span>·</span>
+                          <EffortGauge recipe={r} size={11} />
+                          <span>·</span>
+                          <span>~{formatUsd(estimateRecipeCost(r).perServing)}/serving</span>
+                          <span>·</span>
+                          <span>{formatProtein(estimateRecipeProtein(r).perServing)}</span>
+                        </div>
+                        {r.servings > 1 && (
+                          <div style={{ marginBottom: 'var(--space-2)' }}>
+                            <span className="ezb pkg"><MealPrepIcon size={12} /> Meal Prep · Makes {r.servings}</span>
+                          </div>
+                        )}
+                        {selectedStaples.length > 0 && (
+                          <div style={{ fontSize: 'var(--type-caption)', color: '#fff', fontWeight: 600 }}>
+                            Uses {r._matchCount} of your {selectedStaples.length} pick{selectedStaples.length === 1 ? '' : 's'}
+                            {missingStaples.length > 0 && (
+                              <span style={{ color: 'rgba(255,255,255,.75)', fontWeight: 500 }}>
+                                {' '}· also needs: {missingStaples.map((t) => PANTRY_LABELS[t] || t).join(', ')}
+                              </span>
+                            )}
+                          </div>
+                        )}
+                      </div>
                     </div>
+                  );
+                }
+
+                return (
+                  <div
+                    key={r.id}
+                    className="kitchen-result-card"
+                    style={{
+                      position: 'relative',
+                      background: getProteinCardBackground(r.proteins),
+                      border: '1px solid var(--border)',
+                      borderRadius: 14,
+                      padding: 14,
+                      marginBottom: 10,
+                      cursor: 'pointer',
+                      '--card-i': Math.min(i, 8),
+                    }}
+                    onClick={() => openRecipe(r)}
+                  >
+                    <div style={{ fontWeight: 700, fontSize: 15, color: 'var(--cream)', marginBottom: 4, display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+                      {r.name}
+                      {r.isNew && <span className="new-badge">New</span>}
+                      {r.isTrending && <span className="trending-badge"><FlameIcon size={10.5} /> Trending</span>}
+                    </div>
+                    <div style={{ fontSize: 11, color: 'var(--muted)', display: 'flex', alignItems: 'center', gap: 5, flexWrap: 'wrap' }}>
+                      <span>
+                        {r.method}{r.method && r.activeTime ? ' · ' : ''}{formatTime(r.activeTime, r.totalTime)}
+                        {' · '}
+                        {getRatingSummary && getRatingSummary(r.id) ? (
+                          <><span style={{ color: 'var(--gold)' }}>★</span> {getRatingSummary(r.id).avg.toFixed(1)} ({getRatingSummary(r.id).count})</>
+                        ) : (
+                          'No ratings yet'
+                        )}
+                      </span>
+                      <span>·</span>
+                      <EffortGauge recipe={r} size={11} />
+                      <span>·</span>
+                      <span>~{formatUsd(estimateRecipeCost(r).perServing)}/serving</span>
+                      <span>·</span>
+                      <span>{formatProtein(estimateRecipeProtein(r).perServing)}</span>
+                    </div>
+                    {r.servings > 1 && (
+                      <div style={{ marginTop: 4 }}>
+                        <span className="ezb pkg"><MealPrepIcon size={12} /> Meal Prep · Makes {r.servings}</span>
+                      </div>
+                    )}
+                    {selectedStaples.length > 0 && (
+                      <div style={{ fontSize: 11, color: 'var(--lime)', marginTop: 4 }}>
+                        Uses {r._matchCount} of your {selectedStaples.length} pick{selectedStaples.length === 1 ? '' : 's'}
+                        {missingStaples.length > 0 && (
+                          <span style={{ color: 'var(--muted)' }}>
+                            {' '}· also needs: {missingStaples.map((t) => PANTRY_LABELS[t] || t).join(', ')}
+                          </span>
+                        )}
+                      </div>
+                    )}
                   </div>
                 );
               })}

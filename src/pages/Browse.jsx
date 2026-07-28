@@ -318,8 +318,11 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
         background: getProteinCardBackground(r.proteins),
         border: '1px solid var(--border)',
         borderRadius: 14,
-        padding: 12,
-        marginBottom: 10,
+        padding: 'var(--space-3)',
+        // Snapped from 10px to var(--space-2) (8px) to match Diary's own
+        // entry rhythm (see .entry in Saved.jsx) -- same list-row spacing
+        // language across both scanning surfaces now.
+        marginBottom: 'var(--space-2)',
         cursor: 'pointer',
       }}
       onClick={() => openRecipe(r)}
@@ -364,7 +367,7 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
             <span>{formatProtein(estimateRecipeProtein(r).perServing)}</span>
           </div>
           {(isHighProtein(r) || (r.tags || []).length > 0) && (
-            <div style={{ display: 'flex', gap: 6, marginTop: 4 }}>
+            <div style={{ display: 'flex', gap: 6, marginTop: 'var(--space-1)' }}>
               {/* .ezb.ez1/.ez3 are existing soft-tinted badge classes already
                   defined in globals.css (same accent colors used elsewhere
                   in the app) -- reusing them instead of one-off colors keeps
@@ -381,7 +384,7 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
             </div>
           )}
           {r.servings > 1 && (
-            <div style={{ marginTop: 4 }}>
+            <div style={{ marginTop: 'var(--space-1)' }}>
               <span className="ezb pkg"><MealPrepIcon size={12} /> Meal Prep · Makes {r.servings}</span>
             </div>
           )}
@@ -396,8 +399,8 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
   return (
     <div style={{ paddingBottom: 20 }}>
       <div className="px pt">
-        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 10, marginBottom: 12 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 10, marginBottom: 'var(--space-3)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
             <div className="page-h1" style={{ marginBottom: 0 }}>Browse Recipes</div>
             <div className="info-btn" onClick={tip.reopen} title="Show info">
               <InfoIcon />
@@ -432,7 +435,7 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
             meals (see selectMeal above). */}
         <div className="filter-sec">
           <div className="filter-label">Meal Type</div>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2)' }}>
             {MEAL_SECTIONS.map((s) => (
               <div
                 key={s.value}
@@ -455,7 +458,7 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
             is. */}
         <div className="filter-sec">
           <div className="filter-label">Cuisine</div>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2)' }}>
             {CUISINES.map((c) => (
               <div
                 key={c.value}
@@ -483,7 +486,7 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
             isn't a mystery. */}
         <div className="filter-sec">
           <div className="filter-label">Quick Toggles</div>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2)' }}>
             <div className={`pill ${trendingOnly ? 'active' : ''}`} onClick={toggleTrending} style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
               <FlameIcon size={12} /> Trending
             </div>
@@ -519,7 +522,7 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
                 </span>
               )}
             </div>
-            <span style={{ fontSize: 11, color: 'var(--muted)', transform: showMoreFilters ? 'rotate(180deg)' : 'none', transition: 'transform .15s', display: 'inline-block' }}>
+            <span style={{ fontSize: 11, color: 'var(--muted)', transform: showMoreFilters ? 'rotate(180deg)' : 'none', transition: 'transform var(--dur-fast) var(--ease-out)', display: 'inline-block' }}>
               ▾
             </span>
           </div>

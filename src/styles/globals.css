@@ -11,7 +11,65 @@
   --ez1:#c9f13a;--ez2:#ffc13a;--ez3:#ff8533;
   --scale:#a8ff78;--ai:#39ff9a;--magic:#b388ff;
   --r:16px;--rtag:100px;
+
+  /* ---- VISUAL SYSTEM v2 (prototype) ----------------------------------
+     A small, additive set of tokens for the handful of screens getting a
+     more "moment"-driven treatment (see Saved.jsx's Sunday Prep hero) --
+     nothing above this line changes, so every existing screen keeps
+     rendering exactly as before. The intent: fewer, bigger, more
+     confident typographic moments per screen instead of many same-sized
+     rows of muted 11-13px text, more generous spacing so a hero card has
+     room to breathe, and eased/springy motion instead of linear
+     transitions -- the three things that read as "considered" rather
+     than "functional" on screen (and on video).
+
+     Type scale -- a real hierarchy instead of ad hoc fontSize values
+     scattered from 10px to 22px. --type-display is deliberately reserved
+     for AT MOST one thing per screen (a recipe name on a hero card, a
+     single hero number) -- using it more than once per screen defeats
+     the point, it stops reading as "the important thing" the moment
+     there are two of them. */
+  --type-display:32px;--type-display-lh:1.08;
+  --type-h1:22px;--type-h1-lh:1.15;
+  --type-h2:17px;--type-h2-lh:1.25;
+  --type-body:14px;--type-body-lh:1.5;
+  --type-label:11.5px;--type-label-lh:1.3;
+  --type-caption:12px;--type-caption-lh:1.4;
+
+  /* Spacing scale -- 4px base grid. Existing inline styles keep using
+     whatever pixel values they already use; this is for new work only,
+     so a hero card's internal rhythm reads as deliberate rather than
+     "however much padding felt fine at the time." */
+  --space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:24px;--space-6:32px;--space-7:48px;
+
+  /* A softer, larger radius for hero-scale cards -- the existing --r
+     (16px) still covers ordinary list rows/cards; --r-lg is for the one
+     or two big surfaces per screen that should read as a single soft
+     object rather than a boxy panel. */
+  --r-lg:26px;
+
+  /* Motion -- eased-decelerate for anything appearing/settling (the
+     "arrived with intent" feel), a slight-overshoot spring for anything
+     that should feel physically tapped/toggled (a swap, a toggle flip).
+     Both replace plain `ease`/`linear`, which read as mechanical next to
+     these. */
+  --ease-out:cubic-bezier(.16,1,.3,1);
+  --ease-spring:cubic-bezier(.34,1.56,.64,1);
+  --dur-fast:150ms;--dur-med:320ms;--dur-slow:520ms;
 }
+/* Hero-card reveal -- a quick scale+fade "pop" for the app's full-bleed
+   gradient hero cards (Saved.jsx's Sunday Prep card, Kitchen.jsx's single-
+   match reveal) so the content arriving/changing reads as a physical
+   event rather than silently appearing. On Sunday Prep this replays on
+   every Swap via a remounting key (key={sundayPick.id}, same pattern as
+   Onboarding.jsx's key={step}); on Kitchen it plays once when the single-
+   match result itself mounts. */
+@keyframes hero-pop{
+  0%{opacity:0;transform:scale(.97) translateY(3px);}
+  100%{opacity:1;transform:scale(1) translateY(0);}
+}
+.hero-pop{animation:hero-pop var(--dur-med) var(--ease-spring);}
+
 html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-serif;font-size:15px;overflow-x:hidden;overscroll-behavior-x:none;}
 .app{max-width:430px;margin:0 auto;min-height:100vh;padding-bottom:80px;position:relative;}
 /* Page backdrop, all tabs -- a slow teal-to-black fade down the whole
@@ -1360,26 +1418,12 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
   100%{opacity:1;transform:translateY(0);}
 }
 
-/* KITCHEN HERO CARD: when Kitchen has exactly one matched recipe -- the
-   post-onboarding single-meal handoff (see App.jsx's kitchenJustOnboarded)
-   or a Quick Pick narrowed all the way down to one match -- that card
-   needs to visually win the screen instead of reading like the top row
-   of an ordinary list (see the "I selected single meal... but no meal
-   generated"-adjacent feedback: once one *is* generated, it should be
-   unmissable). A pulsing blue-to-gold glow ring around the card (same
-   color pairing as .onboarding-finish-btn's pulse, tying this "payoff"
-   moment back to that one) plus a small label above it and a couple of
-   twinkling bolt sparkles overlaid on the card itself (reusing
-   OnboardingFinishSparkles rather than a fourth sparkle animation). */
-.kitchen-hero-label{display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:8px;}
-.kitchen-hero-label span{font-family:'Baloo 2',sans-serif;font-size:13px;font-weight:800;color:var(--cream);text-transform:uppercase;letter-spacing:1.2px;}
-.kitchen-hero-card{border:2px solid rgba(255,193,58,.55) !important;}
-@media (prefers-reduced-motion: no-preference) {
-  .kitchen-hero-card{animation:kitchen-card-in .38s ease-out both, kitchen-hero-pulse 2.2s ease-in-out .4s infinite;}
-}
-@media (prefers-reduced-motion: reduce) {
-  .kitchen-hero-card{box-shadow:0 0 14px 2px rgba(255,193,58,.35);}
-}
+/* Formerly KITCHEN HERO CARD -- the pulsing-border treatment for Kitchen's
+   single-match result. Superseded by the full-bleed gradient hero card
+   (see Kitchen.jsx's isHero branch, same .hero-pop/getRecipeGradient
+   treatment as Sunday Prep's card in Saved.jsx), which already wins the
+   screen on its own without an added glow ring. kitchen-hero-pulse itself
+   stays -- .diary-entry-highlight (below) still uses it. */
 @keyframes kitchen-hero-pulse{
   0%,100%{box-shadow:0 0 0 0 rgba(77,184,255,.35);}
   50%{box-shadow:0 0 16px 4px rgba(255,193,58,.5);}
@@ -1414,9 +1458,9 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
    Saved.jsx) -- since Add to Diary no longer auto-jumps to this tab by
    itself, landing on a list of entries after tapping Finish needs some way
    to say "this one" without the person having to guess which row just
-   changed. Reuses the same blue-to-gold pulse language as
-   .kitchen-hero-card/.recipe-tutorial-spotlight rather than inventing a
-   fourth glow animation. */
+   changed. Reuses the same blue-to-gold kitchen-hero-pulse animation as
+   .recipe-tutorial-spotlight rather than inventing a fourth glow
+   animation. */
 .diary-entry-highlight{border-color:rgba(255,193,58,.7) !important;}
 @media (prefers-reduced-motion: no-preference) {
   .diary-entry-highlight{animation:kitchen-hero-pulse 1.1s ease-in-out 3;}
