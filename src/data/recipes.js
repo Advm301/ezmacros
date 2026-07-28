@@ -5938,9 +5938,6 @@ export const RECIPES = [
     "flavor": "spicy",
     "cuisine": "bbq",
     "activeTime": 13,
-    "tags": [
-      "sunday_prep"
-    ],
     "components": [
       {
         "name": "BBQ Sauce (bottled)",

@@ -476,10 +476,14 @@ export default function Saved({
             data/recipes.js's 'sunday_prep' tag) -- getThisWeeksPick returns
             null if the pool is ever empty. */}
         {sundayPick && (
-          <div style={{ background: 'var(--s1)', border: '1px solid var(--border)', borderRadius: 16, padding: 14, marginBottom: 16 }}>
+          <div style={{ background: 'var(--s1)', border: '1px solid rgba(255,201,51,.3)', borderRadius: 16, padding: 14, marginBottom: 16 }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-              <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: 1, display: 'flex', alignItems: 'center', gap: 6 }}>
-                <HandIcon size={12} /> Sunday Prep
+              {/* Gold, same "featured" treatment as Trending's flame badge
+                  elsewhere in the app -- the previous var(--muted) label
+                  read as just another faint section eyebrow and got missed
+                  entirely against the dark card background. */}
+              <div style={{ fontSize: 12.5, fontWeight: 800, color: 'var(--gold)', textTransform: 'uppercase', letterSpacing: 1, display: 'flex', alignItems: 'center', gap: 6 }}>
+                <HandIcon size={13} /> Sunday Prep
               </div>
               <div
                 onClick={() => { hapticLight(); setShowSundayPrepSettings(true); }}
@@ -495,7 +499,7 @@ export default function Saved({
                 {' · '}{formatProtein(estimateRecipeProtein(sundayPick).perServing)}
               </div>
             </div>
-            <div style={{ fontSize: 11.5, color: 'var(--muted)', lineHeight: 1.5, marginBottom: 10 }}>
+            <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--cream)', lineHeight: 1.5, marginBottom: 10 }}>
               Batch it once, then reheat for lunch the rest of the week. Open the recipe to adjust the batch size.
             </div>
             {sundayPrepMessage && (
