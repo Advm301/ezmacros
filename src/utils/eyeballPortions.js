@@ -173,10 +173,22 @@ function describeHandPortion(quantity, baseG, singular, plural) {
 // gram-recorded ones (butter, sour cream) -- close enough at the level of
 // precision this feature is aiming for.
 function describeVolume(amount) {
-  if (amount <= 5) return 'a drizzle';
-  if (amount <= 15) return 'a splash (about a tablespoon)';
-  if (amount <= 30) return 'a couple tablespoons';
-  if (amount <= 60) return 'about ¼ cup';
+  // Real tsp/tbsp math for the small end instead of one wide named bucket
+  // -- the old "5-15ml -> a splash (about a tablespoon)" range mislabeled
+  // anything as small as 1 tsp (5ml) as "about a tablespoon" (3x over),
+  // which is what made Skyr & Berries' Honey (1 tsp) read as "about a
+  // tablespoon" in Easy Mode even once the stored 5ml amount itself was
+  // correct. tsp/tbsp are used as unit abbreviations here, not full nouns,
+  // so unlike "cup(s)" they don't need separate singular/plural handling.
+  if (amount <= 3) return 'a drizzle';
+  if (amount <= 12) {
+    const tsp = Math.max(0.5, Math.round((amount / 5) * 2) / 2);
+    return `about ${formatHalves(tsp)} tsp`;
+  }
+  if (amount <= 55) {
+    const tbsp = Math.max(1, Math.round((amount / 15) * 2) / 2);
+    return `about ${formatHalves(tbsp)} tbsp`;
+  }
   if (amount <= 125) return 'about ½ cup';
   if (amount <= 200) return 'about ¾ cup';
   if (amount <= 300) return 'about 1 cup';
@@ -185,15 +197,20 @@ function describeVolume(amount) {
 }
 
 // A separate ladder for small dry seasoning amounts -- "a pinch" doesn't
-// scale as "2 pinches, 3 pinches"; it graduates into sprinkle, then
-// spoon-based measures as the quantity grows (e.g. a chili recipe's whole
-// tablespoon of chili powder vs. a pinch of salt).
+// scale as "2 pinches, 3 pinches"; it graduates into sprinkle, then real
+// tsp/tbsp math as the quantity grows (e.g. a chili recipe's whole
+// tablespoon of chili powder vs. a pinch of salt). ~4.2g/tsp and 12.5g/tbsp
+// are rough averages across ground seasonings/spices -- not exact for any
+// one of them, but consistent with the rest of this file rounding to
+// clean, nameable amounts rather than a precise-but-unreadable decimal.
 function describePinch(grams) {
   if (grams <= 1.5) return 'a pinch';
   if (grams <= 3) return 'a small sprinkle';
-  if (grams <= 6) return 'a generous sprinkle';
-  if (grams <= 9) return 'about 1 tsp';
-  if (grams <= 18) return 'about 1 tbsp';
+  if (grams <= 5) return 'a generous sprinkle';
+  if (grams <= 8) {
+    const tsp = Math.max(0.5, Math.round((grams / 4.2) * 2) / 2);
+    return `about ${formatHalves(tsp)} tsp`;
+  }
   const tbsp = Math.max(1, Math.round((grams / 12.5) * 2) / 2);
   return `about ${formatHalves(tbsp)} tbsp`;
 }

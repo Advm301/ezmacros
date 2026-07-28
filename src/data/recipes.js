@@ -831,7 +831,7 @@ export const RECIPES = [
       },
       {
         "name": "Honey (1 tsp)",
-        "quantity": 28,
+        "quantity": 5,
         "unit": "ml"
       },
       {
@@ -944,7 +944,7 @@ export const RECIPES = [
       },
       {
         "name": "Nonfat Greek Yogurt (1 tbsp)",
-        "quantity": 20,
+        "quantity": 15,
         "unit": "ml"
       },
       {
@@ -1058,7 +1058,7 @@ export const RECIPES = [
       },
       {
         "name": "Honey (1 tsp)",
-        "quantity": 7,
+        "quantity": 5,
         "unit": "ml"
       }
     ],
@@ -1218,7 +1218,7 @@ export const RECIPES = [
       },
       {
         "name": "BBQ Sauce (3 tbsp)",
-        "quantity": 51,
+        "quantity": 45,
         "unit": "ml"
       },
       {
@@ -1467,7 +1467,7 @@ export const RECIPES = [
       },
       {
         "name": "Honey (1 tbsp)",
-        "quantity": 20,
+        "quantity": 15,
         "unit": "ml"
       },
       {
@@ -1607,7 +1607,7 @@ export const RECIPES = [
       },
       {
         "name": "Honey (1 tbsp)",
-        "quantity": 20,
+        "quantity": 15,
         "unit": "ml"
       },
       {
@@ -2118,7 +2118,7 @@ export const RECIPES = [
       },
       {
         "name": "Honey (1 tbsp)",
-        "quantity": 20,
+        "quantity": 15,
         "unit": "ml"
       },
       {
@@ -2526,7 +2526,7 @@ export const RECIPES = [
       },
       {
         "name": "Honey (1 tsp)",
-        "quantity": 7,
+        "quantity": 5,
         "unit": "ml"
       }
     ],
@@ -2566,7 +2566,7 @@ export const RECIPES = [
       },
       {
         "name": "Louisiana-Style Hot Sauce (2 tbsp)",
-        "quantity": 120,
+        "quantity": 30,
         "unit": "ml"
       },
       {
@@ -2671,7 +2671,7 @@ export const RECIPES = [
       },
       {
         "name": "Honey (1 tsp)",
-        "quantity": 7,
+        "quantity": 5,
         "unit": "ml"
       }
     ],
@@ -3608,7 +3608,7 @@ export const RECIPES = [
       },
       {
         "name": "BBQ Sauce (3 tbsp)",
-        "quantity": 51,
+        "quantity": 45,
         "unit": "ml"
       },
       {
@@ -4894,7 +4894,7 @@ export const RECIPES = [
       },
       {
         "name": "Hot Honey (3 tbsp)",
-        "quantity": 51,
+        "quantity": 45,
         "unit": "ml"
       },
       {
@@ -4972,7 +4972,7 @@ export const RECIPES = [
       },
       {
         "name": "Honey (1 tsp)",
-        "quantity": 7,
+        "quantity": 5,
         "unit": "ml"
       },
       {
@@ -9888,7 +9888,7 @@ export const RECIPES = [
       },
       {
         "name": "Vanilla Extract (½ tsp)",
-        "quantity": 2,
+        "quantity": 3,
         "unit": "ml"
       }
     ],
