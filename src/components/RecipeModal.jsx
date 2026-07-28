@@ -22,10 +22,12 @@ import { readProteinChoice, saveProteinChoice, resolveProteinText, resolveProtei
 import MealPrepIcon from './MealPrepIcon';
 import FlameIcon from './FlameIcon';
 import LeafIcon from './LeafIcon';
+import HandIcon from './HandIcon';
 import ShareIcon from './ShareIcon';
 import { Share } from '@capacitor/share';
 import { estimateRecipeCost, formatUsd } from '../utils/ingredientPricing';
 import { estimateRecipeProtein, formatProtein } from '../utils/ingredientNutrition';
+import { estimateEyeballPhrase, readEasyMode, saveEasyMode } from '../utils/eyeballPortions';
 
 const GRAMS_PER_OZ = 28.3495;
 const ML_PER_FLOZ = 29.5735;
@@ -476,6 +478,20 @@ export default function RecipeModal({
     setUseFresh((prev) => {
       const next = !prev;
       savePreferFresh(next);
+      return next;
+    });
+  };
+  // Easy Mode -- shows a hand-portion phrase ("about a palm-sized piece")
+  // next to each ingredient's precise gram/ml amount, for cooking without
+  // a scale or measuring spoons (see utils/eyeballPortions.js). Same
+  // device-remembered-toggle shape as Prefer Fresh above: off by default,
+  // remembers the last value used on any recipe.
+  const [easyMode, setEasyMode] = useState(() => readEasyMode());
+  const toggleEasyMode = () => {
+    hapticSelection();
+    setEasyMode((prev) => {
+      const next = !prev;
+      saveEasyMode(next);
       return next;
     });
   };
@@ -1483,6 +1499,12 @@ export default function RecipeModal({
                 const renderRow = (c, origIndex, isLast) => {
                   const isEditing = editingIngredientIndex === origIndex;
                   const display = getQuantityDisplay(c.quantity, c.unit, c.name, unitModes[origIndex]);
+                  // Keyed off c directly (already reflects the chosen batch
+                  // size/protein/manual override), same as `display` above
+                  // -- so "about 1 palm-sized piece" naturally becomes
+                  // "about 2" when the serving scaler doubles the batch,
+                  // with no extra scaling logic needed here.
+                  const eyeballPhrase = easyMode ? estimateEyeballPhrase(c) : null;
                   const have = Boolean(haveIngredient[origIndex]);
                   // Display-only swap -- c.name itself stays the recipe's
                   // original frozen/convenience name everywhere else in this
@@ -1555,6 +1577,11 @@ export default function RecipeModal({
                             </span>
                           )}
                         </div>
+                        {eyeballPhrase && (
+                          <div style={{ fontSize: 10.5, color: '#9bc4c4', marginTop: 2, lineHeight: 1.3 }}>
+                            <HandIcon size={9} /> {eyeballPhrase}
+                          </div>
+                        )}
                       </div>
                     </div>
                   );
@@ -1653,6 +1680,47 @@ export default function RecipeModal({
                         </div>
                       </div>
                     )}
+                    {/* Easy Mode -- shows a hand-portion phrase next to each
+                        precise amount below (see utils/eyeballPortions.js),
+                        for cooking without a scale or measuring spoons.
+                        Unlike Prefer Fresh, this isn't gated behind a
+                        per-recipe capability check -- every recipe has
+                        ingredients to eyeball, so it's always offered here.
+                        Same remembered-toggle shape as Prefer Fresh
+                        (toggleEasyMode/readEasyMode/saveEasyMode). */}
+                    <div
+                      onClick={toggleEasyMode}
+                      style={{
+                        display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10,
+                        background: easyMode ? 'rgba(155,196,196,.14)' : 'var(--s1)',
+                        border: `1px solid ${easyMode ? 'rgba(155,196,196,.4)' : 'var(--border)'}`,
+                        borderRadius: 10, padding: '10px 12px', marginBottom: 14, cursor: 'pointer',
+                      }}
+                    >
+                      <div>
+                        <div style={{ fontSize: 12.5, fontWeight: 700, color: easyMode ? '#9bc4c4' : 'var(--cream)', display: 'flex', alignItems: 'center', gap: 6 }}>
+                          <HandIcon size={13} />
+                          Easy Mode
+                        </div>
+                        <div style={{ fontSize: 10.5, color: 'var(--muted)', marginTop: 1 }}>
+                          Show amounts you can eyeball, no scale or spoons needed
+                        </div>
+                      </div>
+                      <div
+                        aria-hidden="true"
+                        style={{
+                          flexShrink: 0, width: 38, height: 22, borderRadius: 100, position: 'relative',
+                          background: easyMode ? '#6ea3a3' : 'var(--s3)',
+                          transition: 'background .15s',
+                        }}
+                      >
+                        <div style={{
+                          position: 'absolute', top: 2, left: easyMode ? 18 : 2,
+                          width: 18, height: 18, borderRadius: '50%', background: '#fff',
+                          transition: 'left .15s',
+                        }} />
+                      </div>
+                    </div>
                     <div id="tour-ingredients-check" style={{ display: 'flex' }}>
                       <div style={{ flex: 1, paddingRight: seasonings.length > 0 ? 14 : 0 }}>
                         <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--muted)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: 1 }}>
