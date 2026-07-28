@@ -199,6 +199,11 @@ const DECIDE_TUTORIAL_STEPS = [
     text: 'These bolts show how much effort a recipe takes relative to the rest of the app -- 1 lit bolt is the easiest, 3 is more involved.',
   },
   {
+    selector: '#tour-easy-mode',
+    title: 'Easy Mode',
+    text: "No scale or measuring spoons? Flip this on to see a relatable amount next to every ingredient -- a palm-sized piece of chicken, a pinch of salt, a splash of oil -- right alongside the precise number.",
+  },
+  {
     selector: '#tour-ingredients-check',
     title: 'Check What You Have',
     text: "Tap the checkbox next to any ingredient or seasoning to mark it off as something you've already got. Tap a quantity to edit it, or the unit badge to switch between g/oz or ml/fl oz.",
@@ -1687,8 +1692,11 @@ export default function RecipeModal({
                         per-recipe capability check -- every recipe has
                         ingredients to eyeball, so it's always offered here.
                         Same remembered-toggle shape as Prefer Fresh
-                        (toggleEasyMode/readEasyMode/saveEasyMode). */}
+                        (toggleEasyMode/readEasyMode/saveEasyMode). id
+                        matches DECIDE_TUTORIAL_STEPS' '#tour-easy-mode'
+                        selector above. */}
                     <div
+                      id="tour-easy-mode"
                       onClick={toggleEasyMode}
                       style={{
                         display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10,
