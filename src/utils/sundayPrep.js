@@ -95,6 +95,25 @@ export function getThisWeeksPick() {
   return pick;
 }
 
+// Rough "how full will my containers be" total for a Sunday Prep recipe --
+// sums every genuinely batched ingredient (protein, sauce, aromatics,
+// spices -- anything that gets cooked into the one shared mixture) and
+// skips pre-portioned per-meal items (unit 'each': rice/pasta pouches,
+// steam-bag veg, tortilla counts) that are never part of what actually gets
+// divided into containers, since those get cooked fresh each day instead.
+// Treats 1ml as roughly 1g -- the standard home-kitchen approximation for
+// water-based sauces/broths/dairy -- since this is a packaging-size
+// estimate, not a nutrition figure. Pass in the recipe's already scaled,
+// protein-resolved component list (RecipeModal's own `components`, not
+// r.components directly) so this stays correct at whatever batch size
+// someone's picked.
+export function estimateBatchWeight(components) {
+  const total = (components || [])
+    .filter((c) => c.unit === 'g' || c.unit === 'ml')
+    .reduce((sum, c) => sum + (c.quantity || 0), 0);
+  return Math.round(total / 10) * 10;
+}
+
 // Re-picks within the pool for the current week, replacing (not adding to)
 // this week's stored pick.
 export function swapThisWeeksPick() {

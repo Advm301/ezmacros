@@ -28,6 +28,7 @@ import { Share } from '@capacitor/share';
 import { estimateRecipeCost, formatUsd } from '../utils/ingredientPricing';
 import { estimateRecipeProtein, formatProtein } from '../utils/ingredientNutrition';
 import { estimateEyeballPhrase, readEasyMode, saveEasyMode } from '../utils/eyeballPortions';
+import { estimateBatchWeight } from '../utils/sundayPrep';
 
 const GRAMS_PER_OZ = 28.3495;
 const ML_PER_FLOZ = 29.5735;
@@ -638,6 +639,16 @@ export default function RecipeModal({
     if (!isScaled) return c;
     return { ...c, quantity: scaleQuantity(c.quantity, scaleFactor) };
   });
+
+  // Sunday Prep packaging + reheating -- see the render block below for why
+  // the weight math is computed live but the reheat method is hand-written
+  // per recipe. Computed here (not inline in JSX) since both batchWeight
+  // and perContainer are used together to decide whether to show the "~Xg
+  // each" clause at all.
+  const isSundayPrepRecipe = (r.tags || []).includes('sunday_prep');
+  const batchWeight = isSundayPrepRecipe ? estimateBatchWeight(components) : 0;
+  const perContainer = batchWeight > 0 && scaleServings > 0 ? Math.round(batchWeight / scaleServings / 5) * 5 : 0;
+  const reheatNote = isSundayPrepRecipe ? resolveProteinText(r.sundayPrepReheat, selectedProteinOption) : null;
 
   // Resolves each step against the chosen protein FIRST -- swapping in
   // that protein's own flavor-accent step text where it has one (see
@@ -1641,6 +1652,37 @@ export default function RecipeModal({
                         </div>
                       )}
                     </div>
+                    {/* Sunday Prep packaging + reheating -- only on recipes
+                        curated into that pool (see data/recipes.js's
+                        'sunday_prep' tag). The container math is live
+                        (estimateBatchWeight sums this recipe's own already-
+                        scaled, protein-resolved `components`, so it tracks
+                        the batch-size scaler above automatically), but HOW
+                        to reheat genuinely differs by dish -- a cream sauce
+                        needs gentle heat, birria needs its broth kept
+                        separate for dipping, a casserole gets cut not
+                        ladled -- so that half is r.sundayPrepReheat, a
+                        short hand-written note per pool recipe rather than
+                        something a generic rule could get right for all of
+                        them. Static/informational, not a toggle, so it
+                        skips the switch UI the blocks below use. */}
+                    {isSundayPrepRecipe && (
+                      <div style={{ background: 'rgba(255,201,51,.08)', border: '1px solid rgba(255,201,51,.3)', borderRadius: 10, padding: '10px 12px', marginBottom: 14 }}>
+                        <div style={{ fontSize: 12.5, fontWeight: 800, color: 'var(--gold)', display: 'flex', alignItems: 'center', gap: 6, marginBottom: 5 }}>
+                          <HandIcon size={13} /> Sunday Prep: Packaging &amp; Reheating
+                        </div>
+                        {batchWeight > 0 && (
+                          <div style={{ fontSize: 11.5, color: 'var(--cream)', lineHeight: 1.5, marginBottom: perContainer > 0 ? 3 : 0 }}>
+                            About {batchWeight}g total once cooked -- split evenly across {scaleServings} container{scaleServings === 1 ? '' : 's'}{perContainer > 0 ? ` (~${perContainer}g each)` : ''}.
+                          </div>
+                        )}
+                        {reheatNote && (
+                          <div style={{ fontSize: 11.5, color: 'var(--cream)', lineHeight: 1.5 }}>
+                            {reheatNote}
+                          </div>
+                        )}
+                      </div>
+                    )}
                     {/* Prefer Fresh -- only shown when this recipe actually
                         has a frozen/convenience ingredient to swap (see
                         hasFreshAltOptions above); no point offering it on a

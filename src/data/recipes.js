@@ -292,6 +292,7 @@ export const RECIPES = [
     "tags": [
       "sunday_prep"
     ],
+    "sundayPrepReheat": "Reheat the beef mixture in the microwave 2-3 min, stirring halfway, or warm it in a pan over medium heat. Cook the rice pouch and veg fresh each day rather than reheating them with the beef.",
     "components": [
       {
         "name": "Ground Beef (93% lean)",
@@ -378,6 +379,7 @@ export const RECIPES = [
       "sunday_prep",
       "high_protein"
     ],
+    "sundayPrepReheat": "Reheat the meatballs and marinara together in the microwave 2-3 min until hot throughout. They hold their texture well since they're already sauced.",
     "components": [
       {
         "name": "Ground Turkey (93% lean)",
@@ -1531,6 +1533,7 @@ export const RECIPES = [
       "high_protein",
       "grab_and_go"
     ],
+    "sundayPrepReheat": "Reheat the beef mixture in the microwave 2 min, stirring halfway. Build the bowl fresh each day with a hot rice pouch and cold toppings so the salsa doesn't go soggy sitting on warm beef.",
     "components": [
       {
         "name": "Ground Beef (93% lean)",
@@ -1791,6 +1794,7 @@ export const RECIPES = [
     "tags": [
       "sunday_prep"
     ],
+    "sundayPrepReheat": "Reheat one thigh at a time with a spoonful of its own broth so it doesn't dry out. Microwave covered, 2-3 min, or warm gently in a pan.",
     "components": [
       {
         "name": "Chicken Thighs (boneless, skinless, 4 thighs)",
@@ -2057,6 +2061,7 @@ export const RECIPES = [
       "sunday_prep",
       "high_protein"
     ],
+    "sundayPrepReheat": "Chili reheats beautifully on the stovetop over medium-low heat, or in the microwave 2-3 min, stirring halfway. It tends to taste even better after a day or two.",
     "components": [
       {
         "name": "Ground Turkey (93% lean)",
@@ -3722,6 +3727,7 @@ export const RECIPES = [
     "tags": [
       "sunday_prep"
     ],
+    "sundayPrepReheat": "Reheat the glazed beef in the microwave 2 min, stirring halfway. Cook the rice and broccoli fresh each day rather than reheating them with the beef.",
     "components": [
       {
         "name": "Ground Beef (93% lean)",
@@ -4475,6 +4481,7 @@ export const RECIPES = [
       "sunday_prep",
       "high_protein"
     ],
+    "sundayPrepReheat": "Cream sauces can break if reheated too hard. Microwave at 50% power in 1-minute bursts, stirring between each, or warm gently on the stovetop over low heat.",
     "components": [
       {
         "name": "Chicken Thighs (boneless, skinless, 4 thighs)",
@@ -4831,6 +4838,7 @@ export const RECIPES = [
       "sunday_prep",
       "grab_and_go"
     ],
+    "sundayPrepReheat": "Reheat the beef and broth together, microwave or stovetop, until hot. Dip tortillas in the hot broth fresh each time you eat, rather than assembling and reheating whole tacos, which turn soggy.",
     "components": [
       {
         "name": "Ground Beef (93% lean)",
@@ -5254,6 +5262,7 @@ export const RECIPES = [
       "high_protein",
       "grab_and_go"
     ],
+    "sundayPrepReheat": "Reheat the turkey mixture in the microwave 2 min, stirring halfway. Build the bowl fresh each day so the rice stays fluffy and the salsa verde stays bright.",
     "components": [
       {
         "name": "Ground Turkey (93% lean)",
@@ -5390,6 +5399,7 @@ export const RECIPES = [
     "tags": [
       "sunday_prep"
     ],
+    "sundayPrepReheat": "Reheat the beef and sauce in the microwave 2 min, stirring halfway. Cook the rice and broccoli fresh each day rather than reheating them with the beef.",
     "components": [
       {
         "name": "Ground Beef (93% lean)",
@@ -5778,6 +5788,7 @@ export const RECIPES = [
     "tags": [
       "sunday_prep"
     ],
+    "sundayPrepReheat": "Reheat the glazed {{protein}} in the microwave 2 min, stirring halfway. Cook the rice and veg fresh each day so they don't turn mushy sitting in the sauce.",
     "components": [
       {
         "name": "Soy Sauce (¼ cup)",
@@ -6094,6 +6105,7 @@ export const RECIPES = [
     "tags": [
       "sunday_prep"
     ],
+    "sundayPrepReheat": "Reheat the tomato sauce mixture in the microwave 2-3 min, stirring halfway. It thickens as it sits, so add a splash of water if it looks too thick. Cook the rice fresh each day.",
     "components": [
       {
         "name": "Canned Diced Tomatoes",
@@ -6276,6 +6288,7 @@ export const RECIPES = [
     "tags": [
       "sunday_prep"
     ],
+    "sundayPrepReheat": "Reheat the glazed {{protein}} in the microwave 2 min, stirring halfway. Cook the rice and broccoli fresh each day rather than reheating them with the sauce.",
     "components": [
       {
         "name": "Gochujang Sauce (bottled)",
@@ -6424,6 +6437,7 @@ export const RECIPES = [
     "tags": [
       "sunday_prep"
     ],
+    "sundayPrepReheat": "Reheat the pasta and sauce together in the microwave 2-3 min, stirring halfway, adding a splash of water if it's dried out. Pasta soaks up sauce as it sits in the fridge.",
     "components": [
       {
         "name": "Marinara Sauce (bottled)",
@@ -6722,6 +6736,7 @@ export const RECIPES = [
       "high_protein",
       "sunday_prep"
     ],
+    "sundayPrepReheat": "Sour cream sauces can break if reheated too hard. Microwave at 50% power in 1-minute bursts, stirring between each. Cook the egg noodles fresh each day.",
     "components": [
       {
         "name": "Cremini Mushrooms (sliced, 3 cups)",
@@ -6865,6 +6880,7 @@ export const RECIPES = [
     "tags": [
       "sunday_prep"
     ],
+    "sundayPrepReheat": "Reheat the glazed {{protein}} in the microwave 2 min, stirring halfway. Cook the rice and broccoli fresh each day rather than reheating them with the sauce.",
     "components": [
       {
         "name": "Teriyaki Sauce (bottled)",
@@ -6925,6 +6941,7 @@ export const RECIPES = [
     "tags": [
       "sunday_prep"
     ],
+    "sundayPrepReheat": "Cut into portions after baking, then reheat one at a time in the microwave 2-3 min, or in a 350°F oven for about 10 min if you want the edges crisp again.",
     "components": [
       {
         "name": "Canned Black Beans (1 can, drained & rinsed)",
@@ -7197,6 +7214,7 @@ export const RECIPES = [
       "sunday_prep",
       "high_protein"
     ],
+    "sundayPrepReheat": "Gumbo reheats great and often tastes even better the next day. Warm it on the stovetop over medium-low heat, or microwave 2-3 min, stirring well since the roux settles at the bottom.",
     "components": [
       {
         "name": "Frozen Seasoning Blend \"Holy Trinity\" (onion, celery, bell pepper, pre-chopped)",
@@ -7273,6 +7291,7 @@ export const RECIPES = [
       "sunday_prep",
       "high_protein"
     ],
+    "sundayPrepReheat": "Reheat the meatballs and marinara together in the microwave 2-3 min until hot throughout, then combine with a fresh spaghetti pouch each day.",
     "components": [
       {
         "name": "Frozen Turkey Meatballs (pre-formed)",
