@@ -289,6 +289,9 @@ export const RECIPES = [
     ],
     "flavor": "neutral",
     "activeTime": 5,
+    "tags": [
+      "sunday_prep"
+    ],
     "components": [
       {
         "name": "Ground Beef (93% lean)",
@@ -372,6 +375,7 @@ export const RECIPES = [
     "cuisine": "italian",
     "activeTime": 10,
     "tags": [
+      "sunday_prep",
       "high_protein"
     ],
     "components": [
@@ -1523,6 +1527,7 @@ export const RECIPES = [
     "cuisine": "mexican",
     "activeTime": 12,
     "tags": [
+      "sunday_prep",
       "high_protein",
       "grab_and_go"
     ],
@@ -1783,6 +1788,9 @@ export const RECIPES = [
     ],
     "flavor": "neutral",
     "activeTime": 5,
+    "tags": [
+      "sunday_prep"
+    ],
     "components": [
       {
         "name": "Chicken Thighs (boneless, skinless, 4 thighs)",
@@ -2046,6 +2054,7 @@ export const RECIPES = [
     "cuisine": "american",
     "activeTime": 8,
     "tags": [
+      "sunday_prep",
       "high_protein"
     ],
     "components": [
@@ -3710,6 +3719,9 @@ export const RECIPES = [
     "flavor": "saucy",
     "cuisine": "asian",
     "activeTime": 7,
+    "tags": [
+      "sunday_prep"
+    ],
     "components": [
       {
         "name": "Ground Beef (93% lean)",
@@ -4460,6 +4472,7 @@ export const RECIPES = [
     "cuisine": "italian",
     "activeTime": 5,
     "tags": [
+      "sunday_prep",
       "high_protein"
     ],
     "components": [
@@ -4815,6 +4828,7 @@ export const RECIPES = [
     "cuisine": "mexican",
     "activeTime": 10,
     "tags": [
+      "sunday_prep",
       "grab_and_go"
     ],
     "components": [
@@ -5236,6 +5250,7 @@ export const RECIPES = [
     "cuisine": "mexican",
     "activeTime": 7,
     "tags": [
+      "sunday_prep",
       "high_protein",
       "grab_and_go"
     ],
@@ -5372,6 +5387,9 @@ export const RECIPES = [
     "flavor": "spicy",
     "cuisine": "asian",
     "activeTime": 7,
+    "tags": [
+      "sunday_prep"
+    ],
     "components": [
       {
         "name": "Ground Beef (93% lean)",
@@ -5757,6 +5775,9 @@ export const RECIPES = [
     "flavor": "saucy",
     "cuisine": "asian",
     "activeTime": 14,
+    "tags": [
+      "sunday_prep"
+    ],
     "components": [
       {
         "name": "Soy Sauce (¼ cup)",
@@ -5917,6 +5938,9 @@ export const RECIPES = [
     "flavor": "spicy",
     "cuisine": "bbq",
     "activeTime": 13,
+    "tags": [
+      "sunday_prep"
+    ],
     "components": [
       {
         "name": "BBQ Sauce (bottled)",
@@ -6070,6 +6094,9 @@ export const RECIPES = [
     ],
     "flavor": "saucy",
     "activeTime": 12,
+    "tags": [
+      "sunday_prep"
+    ],
     "components": [
       {
         "name": "Canned Diced Tomatoes",
@@ -6249,6 +6276,9 @@ export const RECIPES = [
     "flavor": "spicy",
     "cuisine": "asian",
     "activeTime": 13,
+    "tags": [
+      "sunday_prep"
+    ],
     "components": [
       {
         "name": "Gochujang Sauce (bottled)",
@@ -6394,6 +6424,9 @@ export const RECIPES = [
     "flavor": "saucy",
     "cuisine": "italian",
     "activeTime": 15,
+    "tags": [
+      "sunday_prep"
+    ],
     "components": [
       {
         "name": "Marinara Sauce (bottled)",
@@ -6689,7 +6722,8 @@ export const RECIPES = [
     "flavor": "saucy",
     "activeTime": 14,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "sunday_prep"
     ],
     "components": [
       {
@@ -6831,6 +6865,9 @@ export const RECIPES = [
     "flavor": "saucy",
     "cuisine": "asian",
     "activeTime": 12,
+    "tags": [
+      "sunday_prep"
+    ],
     "components": [
       {
         "name": "Teriyaki Sauce (bottled)",
@@ -6888,6 +6925,9 @@ export const RECIPES = [
     "flavor": "saucy",
     "cuisine": "mexican",
     "activeTime": 10,
+    "tags": [
+      "sunday_prep"
+    ],
     "components": [
       {
         "name": "Canned Black Beans (1 can, drained & rinsed)",
@@ -7157,6 +7197,7 @@ export const RECIPES = [
     "cuisine": "american",
     "activeTime": 8,
     "tags": [
+      "sunday_prep",
       "high_protein"
     ],
     "components": [
@@ -7232,6 +7273,7 @@ export const RECIPES = [
     "cuisine": "italian",
     "activeTime": 6,
     "tags": [
+      "sunday_prep",
       "high_protein"
     ],
     "components": [

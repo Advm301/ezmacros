@@ -15,8 +15,19 @@ import FirstVisitTip from '../components/FirstVisitTip';
 import InfoIcon from '../components/InfoIcon';
 import CalendarIcon from '../components/CalendarIcon';
 import DiaryCalendarModal from '../components/DiaryCalendarModal';
+import HandIcon from '../components/HandIcon';
+import SundayPrepSettingsModal from '../components/SundayPrepSettingsModal';
 import useFirstVisitTip from '../hooks/useFirstVisitTip';
 import { SHOPPING_LINK_ENABLED } from '../config';
+import { estimateRecipeProtein, formatProtein } from '../utils/ingredientNutrition';
+import {
+  getThisWeeksPick,
+  swapThisWeeksPick,
+  readSundayPrepMealCount,
+  saveSundayPrepMealCount,
+  hasSeenSundayPrepSettings,
+  markSeenSundayPrepSettings,
+} from '../utils/sundayPrep';
 
 // Maps a diary meal slot to the recipe mealType pool it should draw random
 // picks from. Lunch and Dinner share the same 'lunch_dinner' pool.
@@ -110,6 +121,19 @@ export default function Saved({
   const [showCalendar, setShowCalendar] = useState(false);
   const [shoppingChecked, setShoppingChecked] = useState(() => loadShoppingChecked(selectedDate));
   const tip = useFirstVisitTip('quickprep_seen_diary_tip');
+
+  // This week's Sunday Prep pick -- generated once per calendar week (see
+  // utils/sundayPrep.js's currentWeekKey) and stable across re-renders/app
+  // reopens until either Swap or the next Sunday rolls it over. mealCount
+  // and the one-time settings prompt mirror the exact same
+  // localStorage-as-source-of-truth pattern as easyMode/preferFresh
+  // elsewhere in the app -- read directly here rather than threaded down
+  // as a prop, since App.jsx's account menu edits the same keys
+  // independently (see App.jsx's own Sunday Prep row).
+  const [sundayPick, setSundayPick] = useState(() => getThisWeeksPick());
+  const [sundayMealCount, setSundayMealCount] = useState(() => readSundayPrepMealCount());
+  const [showSundayPrepSettings, setShowSundayPrepSettings] = useState(() => !hasSeenSundayPrepSettings());
+  const [sundayPrepMessage, setSundayPrepMessage] = useState('');
 
   // Re-derive the checked-off map whenever the viewed date changes -- this
   // is the "adjust state when a prop changes" pattern React recommends
@@ -274,6 +298,47 @@ export default function Saved({
     toggleSaved(id);
   };
 
+  const handleSwapSundayPick = () => {
+    hapticSelection();
+    setSundayPick(swapThisWeeksPick());
+  };
+
+  const handleSaveSundayMealCount = (n) => {
+    hapticSelection();
+    saveSundayPrepMealCount(n);
+    markSeenSundayPrepSettings();
+    setSundayMealCount(n);
+    setShowSundayPrepSettings(false);
+  };
+
+  // Fills the Lunch slot for the next `sundayMealCount` days starting today
+  // -- the classic "batch it Sunday, reheat for lunch all week" pattern.
+  // Skips any day that already has something in Lunch rather than
+  // overwriting it, and reports how many it actually added vs. skipped so
+  // "nothing happened" doesn't look like a silent failure.
+  const handleAddSundayPrepToDiary = async () => {
+    if (!diary || !sundayPick) return;
+    hapticMedium();
+    let added = 0;
+    let skipped = 0;
+    for (let i = 0; i < sundayMealCount; i++) {
+      const dateStr = shiftDateString(todayString(), i);
+      const alreadyHasLunch = diary.getEntriesForDate(dateStr).some((e) => e.meal_slot === 'lunch');
+      if (alreadyHasLunch) {
+        skipped++;
+        continue;
+      }
+      const ok = await diary.addEntry(dateStr, 'lunch', sundayPick.id, false);
+      if (ok) added++;
+    }
+    setSundayPrepMessage(
+      added === 0
+        ? 'Lunch is already filled for every day this week -- clear a day first to add it there.'
+        : `Added to Lunch for ${added} day${added === 1 ? '' : 's'}${skipped > 0 ? ` (${skipped} already had lunch)` : ''}.`
+    );
+    setTimeout(() => setSundayPrepMessage(''), 4000);
+  };
+
   const renderSavedRow = (r) => {
     const entry = getEntry ? getEntry(r.id) : null;
     const hasNotes = entry && entry.notes && entry.notes.trim().length > 0;
@@ -401,6 +466,55 @@ export default function Saved({
             <LightningIcon size={30} id="diary-ready" />
             <div className="kitchen-ready-title">Your Day Is Ready!</div>
             <div className="kitchen-ready-sub">Breakfast, lunch, and dinner are all set below -- tap any meal to dive in.</div>
+          </div>
+        )}
+
+        {/* This week's Sunday Prep pick -- not date-scoped like everything
+            below (it covers the whole week, not just selectedDate), so it
+            lives up here rather than inside the day-by-day view. Only
+            renders once the curated pool actually has something in it (see
+            data/recipes.js's 'sunday_prep' tag) -- getThisWeeksPick returns
+            null if the pool is ever empty. */}
+        {sundayPick && (
+          <div style={{ background: 'var(--s1)', border: '1px solid var(--border)', borderRadius: 16, padding: 14, marginBottom: 16 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+              <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: 1, display: 'flex', alignItems: 'center', gap: 6 }}>
+                <HandIcon size={12} /> Sunday Prep
+              </div>
+              <div
+                onClick={() => { hapticLight(); setShowSundayPrepSettings(true); }}
+                style={{ fontSize: 11, color: 'var(--muted)', cursor: 'pointer', textDecoration: 'underline' }}
+              >
+                {sundayMealCount} days
+              </div>
+            </div>
+            <div onClick={() => openRecipe(sundayPick)} style={{ cursor: 'pointer', marginBottom: 10 }}>
+              <div style={{ fontWeight: 700, fontSize: 15, color: 'var(--cream)', marginBottom: 2 }}>{sundayPick.name}</div>
+              <div style={{ fontSize: 11, color: 'var(--muted)' }}>
+                {sundayPick.method}{sundayPick.method && sundayPick.activeTime ? ' · ' : ''}{formatTime(sundayPick.activeTime, sundayPick.totalTime)}
+                {' · '}{formatProtein(estimateRecipeProtein(sundayPick).perServing)}
+              </div>
+            </div>
+            <div style={{ fontSize: 11.5, color: 'var(--muted)', lineHeight: 1.5, marginBottom: 10 }}>
+              Batch it once, then reheat for lunch the rest of the week. Open the recipe to adjust the batch size.
+            </div>
+            {sundayPrepMessage && (
+              <div style={{ fontSize: 11.5, color: 'var(--lime)', marginBottom: 8 }}>{sundayPrepMessage}</div>
+            )}
+            <div style={{ display: 'flex', gap: 8 }}>
+              <button
+                onClick={handleSwapSundayPick}
+                style={{ flex: 1, background: 'var(--s2)', border: '1px solid var(--border)', color: 'var(--cream)', borderRadius: 11, padding: 10, fontSize: 12.5, fontWeight: 700, fontFamily: "'Manrope',sans-serif", cursor: 'pointer' }}
+              >
+                ↻ Swap
+              </button>
+              <button
+                onClick={handleAddSundayPrepToDiary}
+                style={{ flex: 1, background: 'var(--lime)', border: '1px solid var(--border)', color: '#000', borderRadius: 11, padding: 10, fontSize: 12.5, fontWeight: 700, fontFamily: "'Manrope',sans-serif", cursor: 'pointer' }}
+              >
+                Add to Diary
+              </button>
+            </div>
           </div>
         )}
 
@@ -670,6 +784,14 @@ export default function Saved({
           })
         )}
       </div>
+
+      {showSundayPrepSettings && (
+        <SundayPrepSettingsModal
+          current={sundayMealCount}
+          onSave={handleSaveSundayMealCount}
+          onClose={() => { markSeenSundayPrepSettings(); setShowSundayPrepSettings(false); }}
+        />
+      )}
 
       {showCalendar && (
         <DiaryCalendarModal

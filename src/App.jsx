@@ -9,7 +9,11 @@ import { hapticSelection, hapticLight, hapticMedium, hapticSuccess } from './uti
 import { BETA_MODE, APP_VERSION, APP_STORE_APPLE_ID } from './config';
 import useAppVersion from './hooks/useAppVersion';
 import useTrendingNotifications from './hooks/useTrendingNotifications';
+import useSundayPrepNotifications from './hooks/useSundayPrepNotifications';
 import FlameIcon from './components/FlameIcon';
+import HandIcon from './components/HandIcon';
+import SundayPrepSettingsModal from './components/SundayPrepSettingsModal';
+import { readSundayPrepMealCount, saveSundayPrepMealCount, markSeenSundayPrepSettings } from './utils/sundayPrep';
 // Aliased -- this component is itself named App, so the bare plugin name
 // would collide.
 import { App as CapacitorApp } from '@capacitor/app';
@@ -273,6 +277,8 @@ export default function App() {
   const [dismissedUpdateBanner, setDismissedUpdateBanner] = useState(false);
   const appVersion = useAppVersion();
   const trendingNotif = useTrendingNotifications();
+  const sundayPrepNotif = useSundayPrepNotifications();
+  const [showSundayPrepSettings, setShowSundayPrepSettings] = useState(false);
   // Whether the one-time first-session onboarding (see components/
   // Onboarding.jsx) still needs to run for whichever account is signed in.
   // Starts false (not read from localStorage here) because at this point
@@ -668,6 +674,10 @@ export default function App() {
     // even if the toggle was already off (cancelling an unscheduled id is a
     // harmless no-op), so it's called here unconditionally.
     await trendingNotif.setEnabled(false);
+    // Same reasoning as Trending Alerts just above -- Sunday Prep's
+    // reminder is also scheduled entirely on-device, so it needs its own
+    // explicit cancel here too (see useSundayPrepNotifications.js).
+    await sundayPrepNotif.setEnabled(false);
     resetDeviceLocalAccountState();
     await supabase.auth.signOut();
   };
@@ -965,6 +975,30 @@ export default function App() {
                       </span>
                     </div>
                   )}
+                  {/* Editable any time -- the same modal that prompts once
+                      on first seeing the Diary tab's Sunday Prep card (see
+                      Saved.jsx), reopened here to change the day count
+                      later. Not native-gated (unlike the two notification
+                      toggles) since it's a plain preference, not a
+                      permission-backed schedule. */}
+                  <div
+                    onClick={() => { setShowMenu(false); setShowSundayPrepSettings(true); }}
+                    style={{ padding: "10px 14px", fontSize: 12.5, fontWeight: 600, color: "var(--cream)", cursor: "pointer", whiteSpace: "nowrap", borderBottom: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 14 }}
+                  >
+                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}><HandIcon size={13} /> Sunday Prep</span>
+                    <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--muted)' }}>{readSundayPrepMealCount()} days</span>
+                  </div>
+                  {sundayPrepNotif.isNative && (
+                    <div
+                      onClick={() => sundayPrepNotif.setEnabled(!sundayPrepNotif.enabled)}
+                      style={{ padding: "10px 14px", fontSize: 12.5, fontWeight: 600, color: "var(--cream)", cursor: "pointer", whiteSpace: "nowrap", borderBottom: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 14 }}
+                    >
+                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}><HandIcon size={13} /> Sunday Prep Reminders</span>
+                      <span style={{ fontSize: 11, fontWeight: 700, color: sundayPrepNotif.enabled ? 'var(--lime)' : 'var(--muted)' }}>
+                        {sundayPrepNotif.loading ? '…' : sundayPrepNotif.enabled ? 'On' : 'Off'}
+                      </span>
+                    </div>
+                  )}
                   {/* Native builds show the real installed version + build
                       number (read at runtime via @capacitor/app -- see
                       useAppVersion.js for why this can't just be the JS-
@@ -1160,6 +1194,13 @@ export default function App() {
       )}
 
       {showAbout && <AboutModal onClose={() => setShowAbout(false)} />}
+      {showSundayPrepSettings && (
+        <SundayPrepSettingsModal
+          current={readSundayPrepMealCount()}
+          onSave={(n) => { saveSundayPrepMealCount(n); markSeenSundayPrepSettings(); setShowSundayPrepSettings(false); }}
+          onClose={() => setShowSundayPrepSettings(false)}
+        />
+      )}
 
       {/* z-index 1100 (see .streak-start-overlay) -- sits above the recipe
           modal on purpose, since finishing a recipe (which can still have
