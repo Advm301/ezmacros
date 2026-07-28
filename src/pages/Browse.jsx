@@ -59,24 +59,34 @@ const PROTEINS = [
   { label: 'Protein Powder', value: 'protein_powder' },
 ];
 
-// Same sync audit as PROTEINS above -- American, Caribbean, and Savory were
-// real flavor values already in use (Jamaican Jerk Chicken, Nashville Hot
-// Chicken Tenders, and the new bratwurst/kielbasa/sausage recipes among
-// them) with no matching filter option, so those recipes were unreachable
-// by Flavor even though the field was populated correctly on the recipe
-// itself.
+// Taste/heat profile only -- see data/recipes.js's schema comment for why
+// this used to also carry cuisine values (Asian, Italian, etc.) crammed
+// into the same field. A tester flagged that they couldn't find a cuisine
+// filter at all; turned out it was hiding under this "Flavor" label,
+// buried in More Filters, AND only covering ~1/3 of the catalog since a
+// recipe could carry a cuisine value OR a taste value, never both --
+// "Ground Beef Taco Bowl" was tagged 'spicy' with nowhere to also say
+// Mexican. See CUISINES below for its own real, visible filter now that
+// recipes.js tracks both independently.
 const FLAVORS = [
   { label: 'Spicy', value: 'spicy' },
   { label: 'Saucy', value: 'saucy' },
   { label: 'Savory', value: 'savory' },
   { label: 'Neutral', value: 'neutral' },
+];
+
+// Its own visible pill row (see the Cuisine filter-sec below) rather than
+// tucked into collapsed More Filters like Flavor/Protein -- this is
+// specifically the filter the About-menu feedback asked for, so it needs
+// to actually be found.
+const CUISINES = [
   { label: 'Asian', value: 'asian' },
   { label: 'Italian', value: 'italian' },
+  { label: 'Mexican', value: 'mexican' },
   { label: 'Mediterranean', value: 'mediterranean' },
   { label: 'American', value: 'american' },
-  { label: 'Caribbean', value: 'caribbean' },
   { label: 'BBQ', value: 'bbq' },
-  { label: 'Mexican', value: 'mexican' },
+  { label: 'Caribbean', value: 'caribbean' },
 ];
 
 const METHODS = [
@@ -184,6 +194,7 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
   const [mealFilter, setMealFilter] = useState(null);
   const [proteinFilter, setProteinFilter] = useState(null);
   const [flavorFilter, setFlavorFilter] = useState(null);
+  const [cuisineFilter, setCuisineFilter] = useState(null);
   const [methodFilter, setMethodFilter] = useState(null);
   const [showSavedOnly, setShowSavedOnly] = useState(false);
   const [highProteinOnly, setHighProteinOnly] = useState(false);
@@ -200,7 +211,7 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
   // Drives whether the "Clear All Filters" link shows at all -- no point
   // offering to clear filters that are already at their defaults.
   const anyFilterActive = Boolean(
-    search || mealFilter || proteinFilter || flavorFilter || methodFilter ||
+    search || mealFilter || proteinFilter || flavorFilter || cuisineFilter || methodFilter ||
     showSavedOnly || highProteinOnly || grabAndGoOnly || mealPrepOnly || trendingOnly
   );
   const clearAllFilters = () => {
@@ -209,6 +220,7 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
     setMealFilter(null);
     setProteinFilter(null);
     setFlavorFilter(null);
+    setCuisineFilter(null);
     setMethodFilter(null);
     setShowSavedOnly(false);
     setHighProteinOnly(false);
@@ -223,6 +235,7 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
     const matchMeal = !mealFilter || r.mealType === mealFilter;
     const matchProtein = !proteinFilter || r.proteins.includes(proteinFilter);
     const matchFlavor = !flavorFilter || r.flavor === flavorFilter;
+    const matchCuisine = !cuisineFilter || r.cuisine === cuisineFilter;
     const matchMethod = !methodFilter || r.method === methodFilter;
     const matchSaved = !showSavedOnly || isSaved(r.id);
     // Computed from real ingredient quantities (utils/ingredientNutrition.js)
@@ -232,7 +245,7 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
     const matchGrabAndGo = !grabAndGoOnly || tags.includes('grab_and_go');
     const matchMealPrep = !mealPrepOnly || r.servings > 1;
     const matchTrending = !trendingOnly || r.isTrending;
-    return matchSearch && matchMeal && matchProtein && matchFlavor && matchMethod && matchSaved && matchHighProtein && matchGrabAndGo && matchMealPrep && matchTrending;
+    return matchSearch && matchMeal && matchProtein && matchFlavor && matchCuisine && matchMethod && matchSaved && matchHighProtein && matchGrabAndGo && matchMealPrep && matchTrending;
   });
 
   // Top-rated first: recipes with at least one rating sort by average
@@ -279,6 +292,12 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
   const selectProtein = select(setProteinFilter);
   const selectFlavor = select(setFlavorFilter);
   const selectMethod = select(setMethodFilter);
+  // Same toggle-to-clear pattern as Meal Type above, not the dropdown
+  // `select()` helper -- Cuisine is a visible pill row, not a <select>.
+  const selectCuisine = (value) => {
+    hapticSelection();
+    setCuisineFilter((prev) => (prev === value ? null : value));
+  };
 
   const toggleSavedOnly = () => { hapticSelection(); setShowSavedOnly((v) => !v); };
   const toggleHighProtein = () => { hapticSelection(); setHighProteinOnly((v) => !v); };
@@ -395,7 +414,7 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
         </div>
 
         <FirstVisitTip show={tip.show} onDismiss={tip.dismiss}>
-          This is the full QuickPrep catalog -- search by name or use the filters below to narrow it down by meal type, method, protein, or effort level.
+          This is the full QuickPrep catalog -- search by name or use the filters below to narrow it down by meal type, cuisine, method, protein, or effort level.
         </FirstVisitTip>
 
         <input
@@ -421,6 +440,29 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
                 onClick={() => selectMeal(s.value)}
               >
                 {s.label}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Cuisine as its own visible pill row -- this used to be folded
+            into the "Flavor" dropdown behind collapsed More Filters (see
+            the FLAVORS/CUISINES split above), which made it both hard to
+            find and, since a recipe could only carry one shared value,
+            missing for roughly 2/3 of the catalog. Now every recipe with a
+            real cuisine identity carries it independently of its taste
+            profile, and the filter itself is right up top where Meal Type
+            is. */}
+        <div className="filter-sec">
+          <div className="filter-label">Cuisine</div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+            {CUISINES.map((c) => (
+              <div
+                key={c.value}
+                className={`pill ${cuisineFilter === c.value ? 'active' : ''}`}
+                onClick={() => selectCuisine(c.value)}
+              >
+                {c.label}
               </div>
             ))}
           </div>

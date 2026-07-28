@@ -3,8 +3,17 @@
 // shown on the recipe modal's decide screen in place of the ingredients-table
 // how-to text, which moved into the mandatory decide-screen tutorial instead;
 // see components/RecipeModal.jsx), method, mealType (breakfast | lunch_dinner |
-// snack), proteins (array of protein categories present), flavor (single
-// flavor/cuisine tag), activeTime (minutes -- hands-on prep/cook time only),
+// snack), proteins (array of protein categories present), flavor (taste/heat
+// profile -- spicy | saucy | savory | neutral, every recipe has exactly one),
+// cuisine (optional -- asian | italian | mexican | mediterranean | american |
+// caribbean | bbq; omitted on recipes with no strong single cuisine identity,
+// e.g. a plain egg scramble or protein shake). These used to be crammed into
+// one shared `flavor` field ("single flavor/cuisine tag"), which meant a
+// recipe could only ever be tagged as one or the other -- "Ground Beef Taco
+// Bowl" was tagged `flavor: 'spicy'` with no way to also say it's Mexican,
+// so it was invisible to a Mexican cuisine filter despite obviously being a
+// taco. Split into two independent fields so a recipe can be both spicy AND
+// Mexican at once. activeTime (minutes -- hands-on prep/cook time only),
 // totalTime (minutes -- activeTime plus any passive time like baking, air
 // frying, or slow cooking; equals activeTime for methods with no passive gap),
 // components (ingredients: name/quantity/unit), toppings (optional garnish
@@ -37,7 +46,11 @@ export const MEAL_TYPES = ['breakfast', 'lunch_dinner', 'snack'];
 
 export const PROTEINS = ['chicken', 'beef', 'turkey', 'fish', 'eggs', 'pork'];
 
-export const FLAVORS = ['spicy', 'saucy', 'neutral', 'asian', 'italian', 'mediterranean', 'caribbean', 'bbq', 'american', 'mexican'];
+// Taste/heat profile only now -- see the schema comment above for why
+// cuisine moved out to its own field/export below.
+export const FLAVORS = ['spicy', 'saucy', 'savory', 'neutral'];
+
+export const CUISINES = ['asian', 'italian', 'mexican', 'mediterranean', 'american', 'caribbean', 'bbq'];
 
 export const RECIPES = [
   {
@@ -50,7 +63,8 @@ export const RECIPES = [
     "proteins": [
       "fish"
     ],
-    "flavor": "asian",
+    "flavor": "saucy",
+    "cuisine": "asian",
     "activeTime": 3,
     "tags": [
       "high_protein"
@@ -354,7 +368,8 @@ export const RECIPES = [
       "turkey",
       "eggs"
     ],
-    "flavor": "italian",
+    "flavor": "saucy",
+    "cuisine": "italian",
     "activeTime": 10,
     "tags": [
       "high_protein"
@@ -1124,6 +1139,7 @@ export const RECIPES = [
       "chicken"
     ],
     "flavor": "spicy",
+    "cuisine": "american",
     "activeTime": 4,
     "tags": [
       "high_protein"
@@ -1189,6 +1205,7 @@ export const RECIPES = [
       "chicken"
     ],
     "flavor": "neutral",
+    "cuisine": "bbq",
     "activeTime": 4,
     "tags": [
       "high_protein"
@@ -1251,6 +1268,7 @@ export const RECIPES = [
       "chicken"
     ],
     "flavor": "neutral",
+    "cuisine": "asian",
     "activeTime": 2,
     "tags": [
       "high_protein",
@@ -1311,6 +1329,7 @@ export const RECIPES = [
       "chicken"
     ],
     "flavor": "spicy",
+    "cuisine": "american",
     "activeTime": 3,
     "tags": [
       "high_protein",
@@ -1365,6 +1384,7 @@ export const RECIPES = [
       "fish"
     ],
     "flavor": "neutral",
+    "cuisine": "asian",
     "activeTime": 4,
     "tags": [
       "high_protein",
@@ -1434,6 +1454,7 @@ export const RECIPES = [
       "fish"
     ],
     "flavor": "neutral",
+    "cuisine": "asian",
     "activeTime": 4,
     "tags": [
       "high_protein"
@@ -1499,6 +1520,7 @@ export const RECIPES = [
       "beef"
     ],
     "flavor": "spicy",
+    "cuisine": "mexican",
     "activeTime": 12,
     "tags": [
       "high_protein",
@@ -1690,7 +1712,8 @@ export const RECIPES = [
     "proteins": [
       "chicken"
     ],
-    "flavor": "mediterranean",
+    "flavor": "savory",
+    "cuisine": "mediterranean",
     "activeTime": 7,
     "tags": [
       "high_protein"
@@ -1892,7 +1915,8 @@ export const RECIPES = [
     "proteins": [
       "plant"
     ],
-    "flavor": "mexican",
+    "flavor": "savory",
+    "cuisine": "mexican",
     "activeTime": 8,
     "components": [
       {
@@ -1964,6 +1988,7 @@ export const RECIPES = [
       "fish"
     ],
     "flavor": "neutral",
+    "cuisine": "american",
     "activeTime": 2,
     "tags": [
       "high_protein",
@@ -2018,6 +2043,7 @@ export const RECIPES = [
       "turkey"
     ],
     "flavor": "spicy",
+    "cuisine": "american",
     "activeTime": 8,
     "tags": [
       "high_protein"
@@ -2077,6 +2103,7 @@ export const RECIPES = [
       "fish"
     ],
     "flavor": "spicy",
+    "cuisine": "asian",
     "activeTime": 5,
     "components": [
       {
@@ -2132,7 +2159,8 @@ export const RECIPES = [
     "proteins": [
       "eggs"
     ],
-    "flavor": "asian",
+    "flavor": "savory",
+    "cuisine": "asian",
     "activeTime": 8,
     "components": [
       {
@@ -2199,6 +2227,7 @@ export const RECIPES = [
       "chicken"
     ],
     "flavor": "spicy",
+    "cuisine": "mexican",
     "activeTime": 6,
     "tags": [
       "high_protein"
@@ -2321,7 +2350,8 @@ export const RECIPES = [
     "proteins": [
       "fish"
     ],
-    "flavor": "asian",
+    "flavor": "saucy",
+    "cuisine": "asian",
     "activeTime": 4,
     "tags": [
       "high_protein"
@@ -2523,6 +2553,7 @@ export const RECIPES = [
       "eggs"
     ],
     "flavor": "spicy",
+    "cuisine": "american",
     "activeTime": 2,
     "tags": [
       "grab_and_go"
@@ -2570,6 +2601,7 @@ export const RECIPES = [
       "fish"
     ],
     "flavor": "neutral",
+    "cuisine": "mediterranean",
     "activeTime": 3,
     "tags": [
       "grab_and_go"
@@ -2667,6 +2699,7 @@ export const RECIPES = [
       "chicken"
     ],
     "flavor": "spicy",
+    "cuisine": "mexican",
     "activeTime": 3,
     "tags": [
       "high_protein",
@@ -2774,6 +2807,7 @@ export const RECIPES = [
       "plant"
     ],
     "flavor": "spicy",
+    "cuisine": "asian",
     "activeTime": 3,
     "tags": [
       "grab_and_go"
@@ -2825,6 +2859,7 @@ export const RECIPES = [
       "chicken"
     ],
     "flavor": "neutral",
+    "cuisine": "american",
     "activeTime": 2,
     "tags": [
       "grab_and_go"
@@ -2877,6 +2912,7 @@ export const RECIPES = [
       "beef"
     ],
     "flavor": "neutral",
+    "cuisine": "american",
     "activeTime": 6,
     "tags": [
       "high_protein",
@@ -2958,7 +2994,8 @@ export const RECIPES = [
     "proteins": [
       "beef"
     ],
-    "flavor": "bbq",
+    "flavor": "saucy",
+    "cuisine": "bbq",
     "activeTime": 8,
     "tags": [
       "high_protein",
@@ -3041,6 +3078,7 @@ export const RECIPES = [
       "turkey"
     ],
     "flavor": "neutral",
+    "cuisine": "american",
     "activeTime": 7,
     "tags": [
       "high_protein",
@@ -3109,6 +3147,7 @@ export const RECIPES = [
       "chicken"
     ],
     "flavor": "spicy",
+    "cuisine": "american",
     "activeTime": 5,
     "tags": [
       "high_protein",
@@ -3191,6 +3230,7 @@ export const RECIPES = [
       "fish"
     ],
     "flavor": "neutral",
+    "cuisine": "american",
     "activeTime": 6,
     "tags": [
       "high_protein"
@@ -3374,6 +3414,7 @@ export const RECIPES = [
       "turkey"
     ],
     "flavor": "neutral",
+    "cuisine": "american",
     "activeTime": 4,
     "tags": [
       "grab_and_go"
@@ -3438,6 +3479,7 @@ export const RECIPES = [
       "turkey"
     ],
     "flavor": "spicy",
+    "cuisine": "italian",
     "activeTime": 5,
     "components": [
       {
@@ -3499,6 +3541,7 @@ export const RECIPES = [
       "turkey"
     ],
     "flavor": "neutral",
+    "cuisine": "italian",
     "activeTime": 3,
     "tags": [
       "grab_and_go"
@@ -3550,7 +3593,8 @@ export const RECIPES = [
     "proteins": [
       "chicken"
     ],
-    "flavor": "bbq",
+    "flavor": "saucy",
+    "cuisine": "bbq",
     "activeTime": 5,
     "tags": [
       "high_protein",
@@ -3604,7 +3648,8 @@ export const RECIPES = [
     "proteins": [
       "chicken"
     ],
-    "flavor": "mediterranean",
+    "flavor": "savory",
+    "cuisine": "mediterranean",
     "activeTime": 5,
     "tags": [
       "high_protein",
@@ -3662,7 +3707,8 @@ export const RECIPES = [
     "proteins": [
       "beef"
     ],
-    "flavor": "asian",
+    "flavor": "saucy",
+    "cuisine": "asian",
     "activeTime": 7,
     "components": [
       {
@@ -3730,7 +3776,8 @@ export const RECIPES = [
     "proteins": [
       "chicken"
     ],
-    "flavor": "asian",
+    "flavor": "saucy",
+    "cuisine": "asian",
     "activeTime": 8,
     "components": [
       {
@@ -3809,7 +3856,8 @@ export const RECIPES = [
       "fish",
       "eggs"
     ],
-    "flavor": "asian",
+    "flavor": "savory",
+    "cuisine": "asian",
     "activeTime": 8,
     "tags": [
       "high_protein"
@@ -3885,6 +3933,7 @@ export const RECIPES = [
       "dairy"
     ],
     "flavor": "spicy",
+    "cuisine": "american",
     "activeTime": 6,
     "tags": [
       "grab_and_go"
@@ -4008,7 +4057,8 @@ export const RECIPES = [
     "proteins": [
       "turkey"
     ],
-    "flavor": "italian",
+    "flavor": "saucy",
+    "cuisine": "italian",
     "activeTime": 5,
     "tags": [
       "high_protein",
@@ -4065,6 +4115,7 @@ export const RECIPES = [
       "fish"
     ],
     "flavor": "neutral",
+    "cuisine": "italian",
     "activeTime": 3,
     "tags": [
       "high_protein",
@@ -4128,6 +4179,7 @@ export const RECIPES = [
       "dairy"
     ],
     "flavor": "spicy",
+    "cuisine": "mexican",
     "activeTime": 8,
     "tags": [
       "high_protein"
@@ -4192,7 +4244,8 @@ export const RECIPES = [
     "proteins": [
       "plant"
     ],
-    "flavor": "italian",
+    "flavor": "saucy",
+    "cuisine": "italian",
     "activeTime": 8,
     "components": [
       {
@@ -4328,6 +4381,7 @@ export const RECIPES = [
       "fish"
     ],
     "flavor": "spicy",
+    "cuisine": "asian",
     "activeTime": 5,
     "tags": [
       "high_protein"
@@ -4402,7 +4456,8 @@ export const RECIPES = [
     "proteins": [
       "chicken"
     ],
-    "flavor": "italian",
+    "flavor": "saucy",
+    "cuisine": "italian",
     "activeTime": 5,
     "tags": [
       "high_protein"
@@ -4478,6 +4533,7 @@ export const RECIPES = [
       "fish"
     ],
     "flavor": "spicy",
+    "cuisine": "asian",
     "activeTime": 4,
     "tags": [
       "high_protein",
@@ -4547,6 +4603,7 @@ export const RECIPES = [
       "fish"
     ],
     "flavor": "spicy",
+    "cuisine": "asian",
     "activeTime": 7,
     "components": [
       {
@@ -4686,7 +4743,8 @@ export const RECIPES = [
     "proteins": [
       "eggs"
     ],
-    "flavor": "asian",
+    "flavor": "savory",
+    "cuisine": "asian",
     "activeTime": 7,
     "components": [
       {
@@ -4754,6 +4812,7 @@ export const RECIPES = [
       "beef"
     ],
     "flavor": "spicy",
+    "cuisine": "mexican",
     "activeTime": 10,
     "tags": [
       "grab_and_go"
@@ -4885,6 +4944,7 @@ export const RECIPES = [
       "fish"
     ],
     "flavor": "spicy",
+    "cuisine": "asian",
     "activeTime": 7,
     "tags": [
       "high_protein"
@@ -4961,6 +5021,7 @@ export const RECIPES = [
       "chicken"
     ],
     "flavor": "spicy",
+    "cuisine": "american",
     "activeTime": 6,
     "tags": [
       "high_protein"
@@ -5037,6 +5098,7 @@ export const RECIPES = [
       "fish"
     ],
     "flavor": "spicy",
+    "cuisine": "asian",
     "activeTime": 5,
     "tags": [
       "high_protein"
@@ -5104,6 +5166,7 @@ export const RECIPES = [
       "dairy"
     ],
     "flavor": "spicy",
+    "cuisine": "mexican",
     "activeTime": 6,
     "tags": [
       "high_protein",
@@ -5170,6 +5233,7 @@ export const RECIPES = [
       "turkey"
     ],
     "flavor": "spicy",
+    "cuisine": "mexican",
     "activeTime": 7,
     "tags": [
       "high_protein",
@@ -5236,6 +5300,7 @@ export const RECIPES = [
       "turkey"
     ],
     "flavor": "spicy",
+    "cuisine": "asian",
     "activeTime": 8,
     "components": [
       {
@@ -5305,6 +5370,7 @@ export const RECIPES = [
       "beef"
     ],
     "flavor": "spicy",
+    "cuisine": "asian",
     "activeTime": 7,
     "components": [
       {
@@ -5373,6 +5439,7 @@ export const RECIPES = [
       "fish"
     ],
     "flavor": "spicy",
+    "cuisine": "american",
     "activeTime": 5,
     "tags": [
       "high_protein"
@@ -5453,6 +5520,7 @@ export const RECIPES = [
       "eggs"
     ],
     "flavor": "spicy",
+    "cuisine": "mediterranean",
     "activeTime": 14,
     "components": [
       {
@@ -5525,6 +5593,7 @@ export const RECIPES = [
       "eggs"
     ],
     "flavor": "spicy",
+    "cuisine": "mediterranean",
     "activeTime": 17,
     "components": [
       {
@@ -5685,7 +5754,8 @@ export const RECIPES = [
         }
       }
     ],
-    "flavor": "asian",
+    "flavor": "saucy",
+    "cuisine": "asian",
     "activeTime": 14,
     "components": [
       {
@@ -5845,6 +5915,7 @@ export const RECIPES = [
       }
     ],
     "flavor": "spicy",
+    "cuisine": "bbq",
     "activeTime": 13,
     "components": [
       {
@@ -6176,6 +6247,7 @@ export const RECIPES = [
       }
     ],
     "flavor": "spicy",
+    "cuisine": "asian",
     "activeTime": 13,
     "components": [
       {
@@ -6320,6 +6392,7 @@ export const RECIPES = [
       }
     ],
     "flavor": "saucy",
+    "cuisine": "italian",
     "activeTime": 15,
     "components": [
       {
@@ -6452,6 +6525,7 @@ export const RECIPES = [
       }
     ],
     "flavor": "spicy",
+    "cuisine": "mexican",
     "activeTime": 12,
     "tags": [
       "grab_and_go"
@@ -6754,7 +6828,8 @@ export const RECIPES = [
         }
       }
     ],
-    "flavor": "asian",
+    "flavor": "saucy",
+    "cuisine": "asian",
     "activeTime": 12,
     "components": [
       {
@@ -6810,7 +6885,8 @@ export const RECIPES = [
     "proteins": [
       "plant"
     ],
-    "flavor": "mexican",
+    "flavor": "saucy",
+    "cuisine": "mexican",
     "activeTime": 10,
     "components": [
       {
@@ -6884,7 +6960,8 @@ export const RECIPES = [
     "proteins": [
       "fish"
     ],
-    "flavor": "mediterranean",
+    "flavor": "neutral",
+    "cuisine": "mediterranean",
     "activeTime": 5,
     "tags": [
       "high_protein"
@@ -7017,7 +7094,8 @@ export const RECIPES = [
     "proteins": [
       "chicken"
     ],
-    "flavor": "caribbean",
+    "flavor": "spicy",
+    "cuisine": "caribbean",
     "activeTime": 5,
     "components": [
       {
@@ -7076,6 +7154,7 @@ export const RECIPES = [
       "pork"
     ],
     "flavor": "spicy",
+    "cuisine": "american",
     "activeTime": 8,
     "tags": [
       "high_protein"
@@ -7149,7 +7228,8 @@ export const RECIPES = [
     "proteins": [
       "turkey"
     ],
-    "flavor": "italian",
+    "flavor": "saucy",
+    "cuisine": "italian",
     "activeTime": 6,
     "tags": [
       "high_protein"
@@ -7204,7 +7284,8 @@ export const RECIPES = [
     "proteins": [
       "pork"
     ],
-    "flavor": "bbq",
+    "flavor": "savory",
+    "cuisine": "bbq",
     "activeTime": 5,
     "tags": [
       "high_protein"
@@ -7277,6 +7358,7 @@ export const RECIPES = [
       "chicken"
     ],
     "flavor": "spicy",
+    "cuisine": "american",
     "activeTime": 2,
     "components": [
       {
@@ -7415,7 +7497,8 @@ export const RECIPES = [
     "proteins": [
       "dairy"
     ],
-    "flavor": "mediterranean",
+    "flavor": "neutral",
+    "cuisine": "mediterranean",
     "activeTime": 3,
     "tags": [
       "grab_and_go"
@@ -7468,7 +7551,8 @@ export const RECIPES = [
     "proteins": [
       "chicken"
     ],
-    "flavor": "italian",
+    "flavor": "neutral",
+    "cuisine": "italian",
     "activeTime": 3,
     "tags": [
       "high_protein",
@@ -7629,6 +7713,7 @@ export const RECIPES = [
       "chicken"
     ],
     "flavor": "spicy",
+    "cuisine": "american",
     "activeTime": 4,
     "tags": [
       "grab_and_go"
@@ -7684,6 +7769,7 @@ export const RECIPES = [
       "turkey"
     ],
     "flavor": "spicy",
+    "cuisine": "italian",
     "activeTime": 5,
     "components": [
       {
@@ -7746,6 +7832,7 @@ export const RECIPES = [
       "eggs"
     ],
     "flavor": "spicy",
+    "cuisine": "mexican",
     "activeTime": 8,
     "tags": [
       "high_protein"
@@ -7796,6 +7883,7 @@ export const RECIPES = [
       "eggs"
     ],
     "flavor": "spicy",
+    "cuisine": "mexican",
     "activeTime": 10,
     "tags": [
       "high_protein",
@@ -7859,6 +7947,7 @@ export const RECIPES = [
       "pork"
     ],
     "flavor": "spicy",
+    "cuisine": "american",
     "activeTime": 8,
     "tags": [
       "high_protein",
@@ -7920,6 +8009,7 @@ export const RECIPES = [
       "eggs"
     ],
     "flavor": "spicy",
+    "cuisine": "asian",
     "activeTime": 8,
     "components": [
       {
@@ -7976,6 +8066,7 @@ export const RECIPES = [
       "eggs"
     ],
     "flavor": "spicy",
+    "cuisine": "mexican",
     "activeTime": 8,
     "components": [
       {
@@ -8109,7 +8200,8 @@ export const RECIPES = [
     "proteins": [
       "chicken"
     ],
-    "flavor": "italian",
+    "flavor": "saucy",
+    "cuisine": "italian",
     "activeTime": 15,
     "tags": [
       "high_protein"
@@ -8184,7 +8276,8 @@ export const RECIPES = [
     "proteins": [
       "fish"
     ],
-    "flavor": "italian",
+    "flavor": "saucy",
+    "cuisine": "italian",
     "activeTime": 14,
     "tags": [
       "high_protein"
@@ -8258,7 +8351,8 @@ export const RECIPES = [
     "proteins": [
       "chicken"
     ],
-    "flavor": "mexican",
+    "flavor": "saucy",
+    "cuisine": "mexican",
     "activeTime": 15,
     "tags": [
       "high_protein"
@@ -8334,7 +8428,8 @@ export const RECIPES = [
     "proteins": [
       "beef"
     ],
-    "flavor": "american",
+    "flavor": "savory",
+    "cuisine": "american",
     "activeTime": 12,
     "tags": [
       "high_protein",
@@ -8402,7 +8497,8 @@ export const RECIPES = [
     "proteins": [
       "chicken"
     ],
-    "flavor": "asian",
+    "flavor": "savory",
+    "cuisine": "asian",
     "activeTime": 14,
     "tags": [
       "high_protein"
@@ -8478,7 +8574,8 @@ export const RECIPES = [
     "proteins": [
       "fish"
     ],
-    "flavor": "asian",
+    "flavor": "spicy",
+    "cuisine": "asian",
     "activeTime": 15,
     "tags": [
       "high_protein"
@@ -8550,7 +8647,8 @@ export const RECIPES = [
     "proteins": [
       "chicken"
     ],
-    "flavor": "asian",
+    "flavor": "spicy",
+    "cuisine": "asian",
     "activeTime": 15,
     "tags": [
       "high_protein"
@@ -8620,7 +8718,8 @@ export const RECIPES = [
     "proteins": [
       "fish"
     ],
-    "flavor": "mediterranean",
+    "flavor": "saucy",
+    "cuisine": "mediterranean",
     "activeTime": 12,
     "tags": [
       "high_protein"
@@ -8691,7 +8790,8 @@ export const RECIPES = [
     "proteins": [
       "fish"
     ],
-    "flavor": "mexican",
+    "flavor": "spicy",
+    "cuisine": "mexican",
     "activeTime": 12,
     "tags": [
       "high_protein"
@@ -8761,7 +8861,8 @@ export const RECIPES = [
     "proteins": [
       "chicken"
     ],
-    "flavor": "mexican",
+    "flavor": "savory",
+    "cuisine": "mexican",
     "activeTime": 14,
     "tags": [
       "high_protein",
@@ -8836,7 +8937,8 @@ export const RECIPES = [
     "proteins": [
       "chicken"
     ],
-    "flavor": "mexican",
+    "flavor": "spicy",
+    "cuisine": "mexican",
     "activeTime": 15,
     "tags": [
       "high_protein"
@@ -8907,6 +9009,7 @@ export const RECIPES = [
       "chicken"
     ],
     "flavor": "spicy",
+    "cuisine": "asian",
     "activeTime": 10,
     "tags": [
       "high_protein"
@@ -8975,7 +9078,8 @@ export const RECIPES = [
     "proteins": [
       "pork"
     ],
-    "flavor": "asian",
+    "flavor": "saucy",
+    "cuisine": "asian",
     "activeTime": 10,
     "tags": [
       "high_protein"
@@ -9035,7 +9139,8 @@ export const RECIPES = [
       "chicken",
       "eggs"
     ],
-    "flavor": "asian",
+    "flavor": "spicy",
+    "cuisine": "asian",
     "activeTime": 12,
     "tags": [
       "high_protein"
@@ -9102,6 +9207,7 @@ export const RECIPES = [
       "eggs"
     ],
     "flavor": "spicy",
+    "cuisine": "asian",
     "activeTime": 8,
     "tags": [
       "high_protein",
@@ -9167,7 +9273,8 @@ export const RECIPES = [
     "proteins": [
       "eggs"
     ],
-    "flavor": "american",
+    "flavor": "neutral",
+    "cuisine": "american",
     "activeTime": 12,
     "tags": [
       "high_protein"
@@ -9227,7 +9334,8 @@ export const RECIPES = [
     "proteins": [
       "chicken"
     ],
-    "flavor": "asian",
+    "flavor": "saucy",
+    "cuisine": "asian",
     "activeTime": 12,
     "tags": [
       "high_protein"
@@ -9297,7 +9405,8 @@ export const RECIPES = [
     "proteins": [
       "chicken"
     ],
-    "flavor": "asian",
+    "flavor": "savory",
+    "cuisine": "asian",
     "activeTime": 14,
     "tags": [
       "high_protein"
@@ -9366,7 +9475,8 @@ export const RECIPES = [
     "proteins": [
       "chicken"
     ],
-    "flavor": "mediterranean",
+    "flavor": "savory",
+    "cuisine": "mediterranean",
     "activeTime": 15,
     "tags": [
       "high_protein"
@@ -9437,7 +9547,8 @@ export const RECIPES = [
     "proteins": [
       "fish"
     ],
-    "flavor": "asian",
+    "flavor": "spicy",
+    "cuisine": "asian",
     "activeTime": 15,
     "tags": [
       "high_protein"
@@ -9631,7 +9742,8 @@ export const RECIPES = [
     "proteins": [
       "dairy"
     ],
-    "flavor": "italian",
+    "flavor": "saucy",
+    "cuisine": "italian",
     "activeTime": 12,
     "tags": [
       "high_protein"
@@ -9848,7 +9960,8 @@ export const RECIPES = [
     "proteins": [
       "beef"
     ],
-    "flavor": "mexican",
+    "flavor": "savory",
+    "cuisine": "mexican",
     "activeTime": 12,
     "tags": [
       "high_protein"
@@ -9914,7 +10027,8 @@ export const RECIPES = [
     "proteins": [
       "chicken"
     ],
-    "flavor": "mexican",
+    "flavor": "spicy",
+    "cuisine": "mexican",
     "activeTime": 13,
     "tags": [
       "high_protein"
@@ -9980,6 +10094,7 @@ export const RECIPES = [
       "chicken"
     ],
     "flavor": "spicy",
+    "cuisine": "asian",
     "activeTime": 13,
     "tags": [
       "high_protein"
@@ -10042,7 +10157,8 @@ export const RECIPES = [
     "proteins": [
       "chicken"
     ],
-    "flavor": "mediterranean",
+    "flavor": "savory",
+    "cuisine": "american",
     "activeTime": 8,
     "tags": [
       "high_protein",
@@ -10162,7 +10278,8 @@ export const RECIPES = [
     "proteins": [
       "eggs"
     ],
-    "flavor": "mediterranean",
+    "flavor": "savory",
+    "cuisine": "mediterranean",
     "activeTime": 12,
     "tags": [
       "high_protein"
@@ -10284,7 +10401,8 @@ export const RECIPES = [
     "proteins": [
       "turkey"
     ],
-    "flavor": "asian",
+    "flavor": "spicy",
+    "cuisine": "asian",
     "activeTime": 12,
     "tags": [
       "high_protein"
@@ -10355,7 +10473,8 @@ export const RECIPES = [
     "proteins": [
       "chicken"
     ],
-    "flavor": "italian",
+    "flavor": "neutral",
+    "cuisine": "italian",
     "activeTime": 12,
     "tags": [
       "high_protein",
@@ -10422,7 +10541,8 @@ export const RECIPES = [
     "proteins": [
       "fish"
     ],
-    "flavor": "mediterranean",
+    "flavor": "savory",
+    "cuisine": "mediterranean",
     "activeTime": 5,
     "tags": [
       "high_protein"
@@ -10500,7 +10620,8 @@ export const RECIPES = [
     "proteins": [
       "fish"
     ],
-    "flavor": "italian",
+    "flavor": "savory",
+    "cuisine": "italian",
     "activeTime": 4,
     "tags": [
       "high_protein",
@@ -10570,6 +10691,7 @@ export const RECIPES = [
       "fish"
     ],
     "flavor": "spicy",
+    "cuisine": "american",
     "activeTime": 8,
     "tags": [
       "high_protein",
@@ -10650,7 +10772,8 @@ export const RECIPES = [
     "proteins": [
       "fish"
     ],
-    "flavor": "mexican",
+    "flavor": "spicy",
+    "cuisine": "mexican",
     "activeTime": 10,
     "tags": [
       "high_protein",
@@ -10839,7 +10962,8 @@ export const RECIPES = [
     "proteins": [
       "fish"
     ],
-    "flavor": "mexican",
+    "flavor": "spicy",
+    "cuisine": "mexican",
     "activeTime": 12,
     "tags": [
       "high_protein"
@@ -10931,6 +11055,7 @@ export const RECIPES = [
       "fish"
     ],
     "flavor": "saucy",
+    "cuisine": "italian",
     "activeTime": 12,
     "tags": [
       "high_protein"
@@ -11011,6 +11136,7 @@ export const RECIPES = [
       "turkey"
     ],
     "flavor": "savory",
+    "cuisine": "american",
     "activeTime": 14,
     "tags": [
       "high_protein"
@@ -11081,6 +11207,7 @@ export const RECIPES = [
       "chicken"
     ],
     "flavor": "savory",
+    "cuisine": "italian",
     "activeTime": 15,
     "tags": [
       "high_protein"
@@ -11156,6 +11283,7 @@ export const RECIPES = [
       "chicken"
     ],
     "flavor": "savory",
+    "cuisine": "american",
     "activeTime": 15,
     "tags": [
       "high_protein"
