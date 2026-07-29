@@ -11755,5 +11755,103 @@ export const RECIPES = [
       "cottage_cheese",
       "broth"
     ]
+  },
+  {
+    "name": "Big Breakfast Power Bowl",
+    "description": "A hearty, high-protein breakfast meal prep -- seasoned ground beef, crispy chopped beef bacon, and fluffy scrambled eggs tossed with oven-roasted south-style potatoes. Great plain or drizzled with your favorite protein sauce.",
+    "id": 315,
+    "isNew": true,
+    "method": "Bake",
+    "mealType": "breakfast",
+    "servings": 10,
+    "proteins": [
+      "beef",
+      "eggs"
+    ],
+    "flavor": "savory",
+    "cuisine": "american",
+    "activeTime": 30,
+    "tags": [
+      "high_protein",
+      "meal_prep"
+    ],
+    "sundayPrepReheat": "Microwave a portion 2-3 min, stirring halfway, until heated through.",
+    "components": [
+      {
+        "name": "Lean Ground Beef (96/4)",
+        "quantity": 1360,
+        "unit": "g"
+      },
+      {
+        "name": "Beef Bacon (45 calorie, chopped, 20 slices)",
+        "quantity": 300,
+        "unit": "g"
+      },
+      {
+        "name": "Whole Eggs (20 large)",
+        "quantity": 1000,
+        "unit": "count"
+      },
+      {
+        "name": "Frozen South-Style Diced Potatoes",
+        "quantity": 1814,
+        "unit": "g"
+      },
+      {
+        "name": "Paprika",
+        "quantity": 8,
+        "unit": "g"
+      },
+      {
+        "name": "Garlic Powder",
+        "quantity": 8,
+        "unit": "g"
+      },
+      {
+        "name": "Onion Powder",
+        "quantity": 6,
+        "unit": "g"
+      },
+      {
+        "name": "Black Pepper",
+        "quantity": 6,
+        "unit": "g"
+      },
+      {
+        "name": "Salt",
+        "quantity": 4,
+        "unit": "g"
+      },
+      {
+        "name": "All-Purpose Seasoning (for eggs)",
+        "quantity": 4,
+        "unit": "g"
+      },
+      {
+        "name": "Olive Oil Spray",
+        "quantity": 15,
+        "unit": "spray"
+      }
+    ],
+    "toppings": [
+      "Buffalo Ranch Protein Sauce (optional)",
+      "Chipotle Southwest Protein Sauce (optional)",
+      "Honey Mustard Protein Sauce (optional)"
+    ],
+    "instructions": [
+      "Preheat the oven to 400°F. Spread the frozen potatoes on a large lined baking sheet and spray lightly with oil. Bake 20 minutes, then switch the oven to broil and broil 8-10 minutes, watching closely, until deeply golden and crisp.",
+      "Meanwhile, season the ground beef with the paprika, garlic powder, onion powder, black pepper, and salt. Brown in a large skillet or pot over medium-high heat, breaking it apart, 10-12 minutes until fully cooked.",
+      "In a separate pan, cook the chopped beef bacon over medium heat until crisp, 6-8 minutes.",
+      "Whisk the eggs with the all-purpose seasoning and scramble in a large skillet until just set, 5-6 minutes (work in batches if needed).",
+      "Combine the beef, bacon, eggs, and roasted potatoes in one large bowl or pot and toss to distribute evenly.",
+      "Divide evenly into 10 containers and refrigerate (up to 4 days) or freeze. Sauce is optional and not included in the meal -- drizzle on right before eating if you'd like."
+    ],
+    "totalTime": 45,
+    "pantryTags": [
+      "ground_beef",
+      "bacon",
+      "eggs",
+      "potatoes"
+    ]
   }
 ];
