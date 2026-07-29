@@ -9,6 +9,7 @@ import OnboardingFinishSparkles from '../components/OnboardingFinishSparkles';
 import EffortGauge from '../components/EffortGauge';
 import LightningIcon from '../components/LightningIcon';
 import StarIcon from '../components/StarIcon';
+import IngredientIcon from '../components/IngredientIcon';
 import FirstVisitTip from '../components/FirstVisitTip';
 import InfoIcon from '../components/InfoIcon';
 import MealPrepIcon from '../components/MealPrepIcon';
@@ -464,7 +465,7 @@ export default function Kitchen({
                         transition: 'transform var(--dur-fast) var(--ease-spring), background var(--dur-fast) var(--ease-out)',
                       }}
                     >
-                      {active ? '✓' : (BUBBLE_SHORT_LABELS[s.id] || s.label).charAt(0)}
+                      {active ? '✓' : <IngredientIcon type={s.id} size={23} />}
                     </div>
                     <span style={{ fontSize: 11, fontWeight: active ? 800 : 600, color: active ? 'var(--cream)' : 'var(--muted)', textAlign: 'center', lineHeight: 1.2 }}>
                       {BUBBLE_SHORT_LABELS[s.id] || s.label}
