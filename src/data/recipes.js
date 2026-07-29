@@ -183,29 +183,30 @@ export const RECIPES = [
     "id": 5,
     "method": "No Cook",
     "mealType": "snack",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "eggs"
     ],
     "flavor": "neutral",
     "activeTime": 5,
     "tags": [
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Pre-Boiled Eggs",
-        "quantity": 150,
+        "quantity": 750,
         "unit": "count"
       },
       {
         "name": "Light Mayo",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "g"
       },
       {
         "name": "Yellow Mustard (squeeze bottle)",
-        "quantity": 5,
+        "quantity": 25,
         "unit": "g"
       }
     ],
@@ -215,9 +216,9 @@ export const RECIPES = [
     ],
     "instructions": [
       "If your eggs aren't already boiled: place them in a pot, cover with about an inch of water, bring to a boil, then cover and remove from heat for 10-12 minutes. Cool in ice water before peeling.",
-      "Halve pre-boiled eggs lengthwise. Pop yolks into bowl.",
-      "Mash yolks with mayo + mustard until smooth.",
-      "Fill whites. Shake paprika on top."
+      "Halve all the pre-boiled eggs lengthwise. Pop yolks into a bowl.",
+      "Mash the yolks with mayo + mustard until smooth. Fill the whites.",
+      "Divide evenly into 5 containers, shake paprika on top, and refrigerate."
     ],
     "totalTime": 5,
     "pantryTags": [
@@ -450,34 +451,35 @@ export const RECIPES = [
     "id": 9,
     "method": "No Cook",
     "mealType": "breakfast",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "dairy"
     ],
     "flavor": "neutral",
     "activeTime": 2,
     "tags": [
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Nonfat Greek Yogurt",
-        "quantity": 200,
+        "quantity": 1000,
         "unit": "ml"
       },
       {
         "name": "Honey (squeeze bottle)",
-        "quantity": 20,
+        "quantity": 100,
         "unit": "ml"
       },
       {
         "name": "Frozen Blueberries (thawed)",
-        "quantity": 75,
+        "quantity": 375,
         "unit": "g"
       },
       {
         "name": "Vanilla Whey Protein (1 scoop)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "g"
       }
     ],
@@ -486,8 +488,8 @@ export const RECIPES = [
       "Chia Seeds (1 tsp)"
     ],
     "instructions": [
-      "Mix protein powder into yogurt with a spoon until smooth.",
-      "Spoon blueberries over top. Drizzle honey. Add toppings to taste."
+      "Whisk the protein powder into all the yogurt until smooth, then divide into 5 jars or containers and refrigerate.",
+      "To serve one portion: spoon blueberries over the yogurt, drizzle with honey, and add toppings to taste."
     ],
     "totalTime": 2,
     "pantryTags": [
@@ -650,34 +652,35 @@ export const RECIPES = [
     "id": 13,
     "method": "No Cook",
     "mealType": "breakfast",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "fish"
     ],
     "flavor": "neutral",
     "activeTime": 3,
     "tags": [
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Bagel Thin",
-        "quantity": 45,
+        "quantity": 225,
         "unit": "g"
       },
       {
         "name": "Light Cream Cheese (2 tbsp)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "ml"
       },
       {
         "name": "Smoked Salmon (sliced)",
-        "quantity": 100,
+        "quantity": 500,
         "unit": "g"
       },
       {
         "name": "Capers (drained)",
-        "quantity": 10,
+        "quantity": 50,
         "unit": "g"
       }
     ],
@@ -686,8 +689,8 @@ export const RECIPES = [
       "Dill (fresh or dried)"
     ],
     "instructions": [
-      "Toast bagel thin. Spread cream cheese evenly.",
-      "Layer smoked salmon + capers. Squeeze lemon over top."
+      "Divide the cream cheese, smoked salmon, and capers evenly into 5 containers and refrigerate.",
+      "To serve one portion: toast a bagel thin, spread with a portion of cream cheese, layer with salmon and capers, and squeeze lemon over top."
     ],
     "totalTime": 3,
     "pantryTags": [
@@ -705,34 +708,35 @@ export const RECIPES = [
     "id": 14,
     "method": "No Cook",
     "mealType": "breakfast",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "dairy"
     ],
     "flavor": "neutral",
     "activeTime": 3,
     "tags": [
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Whole Grain Toast (2 slices)",
-        "quantity": 60,
+        "quantity": 300,
         "unit": "g"
       },
       {
         "name": "Cottage Cheese",
-        "quantity": 112,
+        "quantity": 560,
         "unit": "g"
       },
       {
         "name": "Everything Bagel Seasoning",
-        "quantity": 2,
+        "quantity": 10,
         "unit": "g"
       },
       {
         "name": "Honey (squeeze bottle)",
-        "quantity": 12,
+        "quantity": 60,
         "unit": "ml"
       }
     ],
@@ -741,8 +745,8 @@ export const RECIPES = [
       "Red Pepper Flakes"
     ],
     "instructions": [
-      "Toast bread until golden. Spread cottage cheese on each slice.",
-      "Sprinkle everything seasoning, drizzle honey, season with pepper."
+      "Divide the cottage cheese evenly into 5 containers and refrigerate.",
+      "To serve one portion: toast bread until golden, spread with a portion of cottage cheese, sprinkle everything seasoning, drizzle honey, and season with pepper."
     ],
     "totalTime": 3,
     "pantryTags": [
@@ -875,7 +879,7 @@ export const RECIPES = [
     "id": 17,
     "method": "No Cook",
     "mealType": "breakfast",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "turkey",
       "dairy"
@@ -883,32 +887,33 @@ export const RECIPES = [
     "flavor": "neutral",
     "activeTime": 3,
     "tags": [
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Everything Bagel Thin",
-        "quantity": 45,
+        "quantity": 225,
         "unit": "g"
       },
       {
         "name": "Deli Turkey (4 slices)",
-        "quantity": 112,
+        "quantity": 560,
         "unit": "g"
       },
       {
         "name": "Light Cream Cheese (2 tbsp)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "ml"
       },
       {
         "name": "Nonfat Greek Yogurt (1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "ml"
       },
       {
         "name": "Whole Grain Mustard (1 tsp)",
-        "quantity": 5,
+        "quantity": 25,
         "unit": "g"
       }
     ],
@@ -917,8 +922,8 @@ export const RECIPES = [
       "Cucumber Slices"
     ],
     "instructions": [
-      "Toast bagel thin. Mix cream cheese + Greek yogurt spread on both halves.",
-      "Layer turkey + mustard. Squeeze lemon pepper, add cucumber."
+      "Mix the cream cheese and Greek yogurt together, then divide it and the turkey evenly into 5 containers and refrigerate.",
+      "To serve one portion: toast a bagel thin, spread with a portion of the cream cheese mixture on both halves, layer with a portion of turkey and mustard, squeeze lemon pepper, and add cucumber."
     ],
     "totalTime": 3,
     "pantryTags": [
@@ -937,34 +942,35 @@ export const RECIPES = [
     "id": 18,
     "method": "No Cook",
     "mealType": "breakfast",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "eggs"
     ],
     "flavor": "neutral",
     "activeTime": 3,
     "tags": [
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Whole Grain Toast (2 slices)",
-        "quantity": 60,
+        "quantity": 300,
         "unit": "g"
       },
       {
         "name": "Guacamole (2 tbsp)",
-        "quantity": 56,
+        "quantity": 280,
         "unit": "g"
       },
       {
         "name": "Pre-Boiled Eggs (2 large, sliced)",
-        "quantity": 100,
+        "quantity": 500,
         "unit": "count"
       },
       {
         "name": "Everything Bagel Seasoning",
-        "quantity": 2,
+        "quantity": 10,
         "unit": "g"
       }
     ],
@@ -974,8 +980,8 @@ export const RECIPES = [
     ],
     "instructions": [
       "If your eggs aren't already boiled: place them in a pot, cover with about an inch of water, bring to a boil, then cover and remove from heat for 10-12 minutes. Cool in ice water before peeling.",
-      "Toast bread. Squeeze guac evenly on both slices.",
-      "Top with sliced eggs. Season with everything bagel seasoning + pepper flakes."
+      "Divide the guacamole and sliced eggs evenly into 5 containers and refrigerate.",
+      "To serve one portion: toast bread, spread with a portion of guac on both slices, top with a portion of sliced egg, and season with everything bagel seasoning and pepper flakes."
     ],
     "totalTime": 3,
     "pantryTags": [
@@ -990,34 +996,35 @@ export const RECIPES = [
     "id": 19,
     "method": "No Cook",
     "mealType": "breakfast",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "dairy"
     ],
     "flavor": "neutral",
     "activeTime": 2,
     "tags": [
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Nonfat Greek Yogurt",
-        "quantity": 200,
+        "quantity": 1000,
         "unit": "ml"
       },
       {
         "name": "Frozen Mixed Berries (thawed)",
-        "quantity": 100,
+        "quantity": 500,
         "unit": "g"
       },
       {
         "name": "Granola (low-sugar 2 tbsp)",
-        "quantity": 20,
+        "quantity": 100,
         "unit": "g"
       },
       {
         "name": "Honey (1 tsp)",
-        "quantity": 5,
+        "quantity": 25,
         "unit": "ml"
       }
     ],
@@ -1026,8 +1033,8 @@ export const RECIPES = [
       "Flax Seeds"
     ],
     "instructions": [
-      "Thaw berries 2 min if needed. Spoon yogurt into bowl.",
-      "Layer berries, granola, honey. Top with seeds."
+      "Divide the yogurt evenly among 5 jars or containers and refrigerate.",
+      "To serve one portion: thaw a portion of berries 2 min if needed. Layer over the yogurt with granola and honey. Top with seeds."
     ],
     "totalTime": 2,
     "pantryTags": [
@@ -1226,7 +1233,7 @@ export const RECIPES = [
     "id": 23,
     "method": "No Cook",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "chicken"
     ],
@@ -1235,33 +1242,34 @@ export const RECIPES = [
     "activeTime": 2,
     "tags": [
       "high_protein",
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Canned Chicken (drained, 5 oz)",
-        "quantity": 142,
+        "quantity": 710,
         "unit": "g"
       },
       {
         "name": "Low-Sodium Soy Sauce (1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "ml"
       },
       {
         "name": "Garlic Powder (1 tsp)",
-        "quantity": 3,
+        "quantity": 15,
         "unit": "g"
       },
       {
-        "name": "White Rice Pouch",
-        "quantity": 200,
-        "unit": "g"
+        "name": "White Rice Pouch (1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       },
       {
-        "name": "Frozen Mixed Veg (microwave bag)",
-        "quantity": 85,
-        "unit": "g"
+        "name": "Frozen Mixed Veg (microwave bag, 1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       }
     ],
     "toppings": [
@@ -1269,8 +1277,9 @@ export const RECIPES = [
       "Sriracha"
     ],
     "instructions": [
-      "Microwave rice 90 sec. Microwave frozen veg 3 min.",
-      "Mix canned chicken with soy sauce + garlic powder. Build bowl — toppings on side."
+      "Mix all the canned chicken with soy sauce + garlic powder in a bowl.",
+      "Divide the chicken mixture evenly into 5 containers and refrigerate.",
+      "To serve one portion: microwave a rice pouch 90 sec + a frozen veg bag 3 min. Build bowl with a portion of the chicken mixture — toppings on side."
     ],
     "totalTime": 2,
     "pantryTags": [
@@ -1287,7 +1296,7 @@ export const RECIPES = [
     "id": 24,
     "method": "No Cook",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "chicken"
     ],
@@ -1296,27 +1305,28 @@ export const RECIPES = [
     "activeTime": 3,
     "tags": [
       "high_protein",
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Rotisserie Chicken (pre-shredded, 6 oz)",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
-        "name": "White Rice Pouch",
-        "quantity": 200,
-        "unit": "g"
+        "name": "White Rice Pouch (1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       },
       {
-        "name": "Frozen Broccoli (steam-bag)",
-        "quantity": 100,
-        "unit": "g"
+        "name": "Frozen Broccoli (steam-bag, 1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       },
       {
         "name": "Frank's RedHot Sauce (1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "ml"
       }
     ],
@@ -1325,8 +1335,9 @@ export const RECIPES = [
       "Cilantro (fresh or dried)"
     ],
     "instructions": [
-      "Microwave rice 90 sec. Microwave broccoli 3 min. Season the broccoli with garlic powder, onion powder, and a pinch of chili flakes. Heat rotisserie chicken 60 sec in microwave if cold.",
-      "Mix chicken with Frank's RedHot. Build bowl — toppings separate."
+      "Mix all the rotisserie chicken with Frank's RedHot in a bowl.",
+      "Divide the chicken evenly into 5 containers and refrigerate.",
+      "To serve one portion: microwave a rice pouch 90 sec and a broccoli steam-bag 3 min. Season the broccoli with garlic powder, onion powder, and a pinch of chili flakes. Build bowl with a portion of chicken (heat 60 sec in the microwave first if cold) — toppings separate."
     ],
     "totalTime": 3,
     "pantryTags": [
@@ -1342,7 +1353,7 @@ export const RECIPES = [
     "id": 25,
     "method": "No Cook",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "fish"
     ],
@@ -1351,38 +1362,39 @@ export const RECIPES = [
     "activeTime": 4,
     "tags": [
       "high_protein",
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Smoked Salmon Pouch (drained, 6 oz, flaked or cubed)",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
-        "name": "White Rice Pouch",
-        "quantity": 200,
-        "unit": "g"
+        "name": "White Rice Pouch (1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       },
       {
         "name": "Low-Sodium Soy Sauce (2 tbsp)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "ml"
       },
       {
         "name": "Toasted Sesame Oil (1 tsp)",
-        "quantity": 5,
+        "quantity": 25,
         "unit": "ml"
       },
       {
         "name": "Rice Vinegar (1 tsp)",
-        "quantity": 5,
+        "quantity": 25,
         "unit": "g"
       },
       {
-        "name": "Frozen Edamame (steam-bag)",
-        "quantity": 113,
-        "unit": "g"
+        "name": "Frozen Edamame (steam-bag, 1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       }
     ],
     "toppings": [
@@ -1392,9 +1404,9 @@ export const RECIPES = [
       "Spicy Mayo (mayo + sriracha, if available)"
     ],
     "instructions": [
-      "Microwave rice 90 sec. Microwave edamame 3 min. Thaw salmon 1 min if frozen.",
-      "Whisk soy sauce, sesame oil, and rice vinegar in a bowl. Add flaked salmon and toss to coat -- this is the real poke-style marinade, so let it sit 2-3 min while the rice and edamame finish if you have time.",
-      "Build bowl with marinated salmon on rice and edamame. Toppings separate."
+      "Whisk all the soy sauce, sesame oil, and rice vinegar together in a bowl. Add the flaked salmon and toss to coat -- this is the real poke-style marinade, so let it sit 2-3 min if you have time.",
+      "Divide the marinated salmon evenly into 5 containers and refrigerate.",
+      "To serve one portion: microwave a rice pouch 90 sec and an edamame steam-bag 3 min. Build bowl with a portion of salmon on rice and edamame. Toppings separate."
     ],
     "totalTime": 4,
     "pantryTags": [
@@ -1815,7 +1827,7 @@ export const RECIPES = [
     "id": 32,
     "method": "No Cook",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "fish"
     ],
@@ -1823,42 +1835,43 @@ export const RECIPES = [
     "activeTime": 5,
     "tags": [
       "high_protein",
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Banza Chickpea Pasta (cooked, 1.5 cups)",
-        "quantity": 210,
+        "quantity": 1050,
         "unit": "g"
       },
       {
         "name": "Canned Tuna in Water (drained, 5 oz)",
-        "quantity": 142,
+        "quantity": 710,
         "unit": "g"
       },
       {
         "name": "Nonfat Greek Yogurt (2 tbsp)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "g"
       },
       {
         "name": "Light Mayo (1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "g"
       },
       {
         "name": "Dijon Mustard (1 tsp)",
-        "quantity": 5,
+        "quantity": 25,
         "unit": "g"
       },
       {
         "name": "Pre-Cut Celery (diced, ⅓ cup)",
-        "quantity": 40,
+        "quantity": 200,
         "unit": "g"
       },
       {
         "name": "Lemon Juice (1 tsp)",
-        "quantity": 5,
+        "quantity": 25,
         "unit": "ml"
       }
     ],
@@ -1868,8 +1881,9 @@ export const RECIPES = [
       "Black Pepper"
     ],
     "instructions": [
-      "Combine cooked pasta + drained tuna + diced celery in bowl.",
-      "Whisk Greek yogurt, mayo, Dijon, and lemon juice together -- the yogurt keeps this creamy without drowning it in mayo. Fold into the pasta and season to taste."
+      "Combine all the cooked pasta, drained tuna, and diced celery in a large bowl.",
+      "Whisk all the Greek yogurt, mayo, Dijon, and lemon juice together -- the yogurt keeps this creamy without drowning it in mayo. Fold into the pasta and season to taste.",
+      "Divide evenly into 5 containers and refrigerate."
     ],
     "totalTime": 5,
     "pantryTags": [
@@ -2276,34 +2290,35 @@ export const RECIPES = [
     "id": 39,
     "method": "No Cook",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "turkey"
     ],
     "flavor": "neutral",
     "activeTime": 3,
     "tags": [
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Deli Turkey (6 slices)",
-        "quantity": 112,
+        "quantity": 560,
         "unit": "g"
       },
       {
         "name": "Romaine Lettuce Leaves (4 large)",
-        "quantity": 100,
+        "quantity": 500,
         "unit": "g"
       },
       {
         "name": "Guacamole (2 tbsp)",
-        "quantity": 56,
+        "quantity": 280,
         "unit": "g"
       },
       {
         "name": "Dijon Mustard (1 tbsp)",
-        "quantity": 10,
+        "quantity": 50,
         "unit": "g"
       }
     ],
@@ -2312,8 +2327,8 @@ export const RECIPES = [
       "Red Onion (powder)"
     ],
     "instructions": [
-      "Lay lettuce leaves flat. Spread 1 tsp dijon on each.",
-      "Layer turkey on lettuce. Add small squeeze of guac. Roll tightly."
+      "Divide the turkey and guacamole evenly into 5 containers and refrigerate.",
+      "To serve one portion: lay out fresh lettuce leaves, spread with dijon, layer with a portion of turkey, add a small squeeze of guac, and roll tightly."
     ],
     "totalTime": 3,
     "pantryTags": [
@@ -2397,29 +2412,30 @@ export const RECIPES = [
     "id": 41,
     "method": "No Cook",
     "mealType": "snack",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "beef"
     ],
     "flavor": "neutral",
     "activeTime": 1,
     "tags": [
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Teriyaki Beef Jerky (1 oz)",
-        "quantity": 28,
+        "quantity": 140,
         "unit": "g"
       },
       {
         "name": "Plain Rice Cakes (2 large)",
-        "quantity": 14,
+        "quantity": 70,
         "unit": "g"
       },
       {
         "name": "Almond Butter Squeeze Pack (1 tbsp)",
-        "quantity": 16,
+        "quantity": 80,
         "unit": "g"
       }
     ],
@@ -2428,7 +2444,8 @@ export const RECIPES = [
       "Sea Salt"
     ],
     "instructions": [
-      "Spread almond butter on rice cakes. Top with beef jerky. Drizzle honey."
+      "Divide the beef jerky, rice cakes, and almond butter evenly into 5 resealable bags or containers.",
+      "To serve one portion: spread almond butter on the rice cakes, top with jerky, and drizzle with honey."
     ],
     "totalTime": 1,
     "pantryTags": [
@@ -2443,29 +2460,30 @@ export const RECIPES = [
     "id": 42,
     "method": "No Cook",
     "mealType": "snack",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "turkey"
     ],
     "flavor": "neutral",
     "activeTime": 2,
     "tags": [
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Deli Turkey (4 slices)",
-        "quantity": 75,
+        "quantity": 375,
         "unit": "g"
       },
       {
         "name": "Part-Skim String Cheese (1 stick)",
-        "quantity": 28,
+        "quantity": 140,
         "unit": "g"
       },
       {
         "name": "Dijon Mustard (2 tsp)",
-        "quantity": 10,
+        "quantity": 50,
         "unit": "g"
       }
     ],
@@ -2474,7 +2492,8 @@ export const RECIPES = [
       "Hot Sauce"
     ],
     "instructions": [
-      "Spread mustard on turkey slice. Place string cheese stick at edge and roll tightly."
+      "Divide the turkey, string cheese, and mustard evenly into 5 containers.",
+      "To serve one portion: spread mustard on a turkey slice, place a string cheese stick at the edge, and roll tightly."
     ],
     "totalTime": 2,
     "pantryTags": [
@@ -2489,29 +2508,30 @@ export const RECIPES = [
     "id": 43,
     "method": "No Cook",
     "mealType": "snack",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "dairy"
     ],
     "flavor": "neutral",
     "activeTime": 2,
     "tags": [
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Cottage Cheese",
-        "quantity": 112,
+        "quantity": 560,
         "unit": "g"
       },
       {
         "name": "Canned Pineapple Chunks in Juice (drained, ½ cup)",
-        "quantity": 90,
+        "quantity": 450,
         "unit": "ml"
       },
       {
         "name": "Honey (1 tsp)",
-        "quantity": 5,
+        "quantity": 25,
         "unit": "ml"
       }
     ],
@@ -2520,7 +2540,8 @@ export const RECIPES = [
       "Chia Seeds"
     ],
     "instructions": [
-      "Spoon cottage cheese into bowl. Top with drained pineapple and honey. Add toppings to taste."
+      "Divide the cottage cheese evenly among 5 containers and refrigerate.",
+      "To serve one portion: top with drained pineapple and honey. Add toppings to taste."
     ],
     "totalTime": 2,
     "pantryTags": [
@@ -2581,7 +2602,7 @@ export const RECIPES = [
     "id": 45,
     "method": "No Cook",
     "mealType": "snack",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "fish"
     ],
@@ -2589,27 +2610,28 @@ export const RECIPES = [
     "cuisine": "mediterranean",
     "activeTime": 3,
     "tags": [
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Sardines in Olive Oil (1 tin, drained)",
-        "quantity": 85,
+        "quantity": 425,
         "unit": "g"
       },
       {
         "name": "Whole Grain Toast (2 slices)",
-        "quantity": 60,
+        "quantity": 300,
         "unit": "g"
       },
       {
         "name": "Dijon Mustard (2 tsp)",
-        "quantity": 10,
+        "quantity": 50,
         "unit": "g"
       },
       {
         "name": "Lemon Juice (1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "ml"
       }
     ],
@@ -2618,8 +2640,8 @@ export const RECIPES = [
       "Black Pepper"
     ],
     "instructions": [
-      "Toast bread. Spread mustard on both slices.",
-      "Lay sardines on toast. Squeeze lemon + add capers."
+      "Divide the sardines evenly into 5 containers and refrigerate.",
+      "To serve one portion: toast bread, spread with mustard on both slices, lay a portion of sardines on top, squeeze lemon, and add capers."
     ],
     "totalTime": 3,
     "pantryTags": [
@@ -2634,29 +2656,30 @@ export const RECIPES = [
     "id": 46,
     "method": "No Cook",
     "mealType": "snack",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "dairy"
     ],
     "flavor": "neutral",
     "activeTime": 2,
     "tags": [
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Plain Skyr (5.3 oz)",
-        "quantity": 150,
+        "quantity": 750,
         "unit": "g"
       },
       {
         "name": "Frozen Mixed Berries (thawed, ½ cup)",
-        "quantity": 70,
+        "quantity": 350,
         "unit": "g"
       },
       {
         "name": "Honey (1 tsp)",
-        "quantity": 5,
+        "quantity": 25,
         "unit": "ml"
       }
     ],
@@ -2665,7 +2688,8 @@ export const RECIPES = [
       "Granola Cluster"
     ],
     "instructions": [
-      "Thaw berries 1 min if frozen. Spoon skyr into bowl. Top with berries and honey."
+      "Divide the skyr evenly among 5 containers and refrigerate.",
+      "To serve one portion: thaw a portion of berries 1 min if frozen. Top the skyr with berries and honey."
     ],
     "totalTime": 2,
     "pantryTags": [
@@ -2679,7 +2703,7 @@ export const RECIPES = [
     "id": 47,
     "method": "No Cook",
     "mealType": "snack",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "chicken"
     ],
@@ -2688,27 +2712,28 @@ export const RECIPES = [
     "activeTime": 3,
     "tags": [
       "high_protein",
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Rotisserie Chicken (pre-shredded, 4 oz)",
-        "quantity": 113,
+        "quantity": 565,
         "unit": "g"
       },
       {
         "name": "Flour Tortilla (1 large)",
-        "quantity": 60,
+        "quantity": 300,
         "unit": "g"
       },
       {
         "name": "Salsa (fresh, 3 tbsp)",
-        "quantity": 48,
+        "quantity": 240,
         "unit": "ml"
       },
       {
         "name": "Shredded Cheddar (¼ cup)",
-        "quantity": 28,
+        "quantity": 140,
         "unit": "g"
       }
     ],
@@ -2717,8 +2742,8 @@ export const RECIPES = [
       "Cilantro (dried)"
     ],
     "instructions": [
-      "Warm tortilla 30 sec in microwave. Spread salsa down center.",
-      "Layer chicken + cheese. Roll tightly. Squeeze lime on top."
+      "Divide the chicken, salsa, and cheese evenly into 5 containers and refrigerate.",
+      "To serve one portion: warm a tortilla 30 sec in the microwave, spread salsa down the center, layer with a portion of chicken and cheese, roll tightly, and squeeze lime on top."
     ],
     "totalTime": 3,
     "pantryTags": [
@@ -2734,7 +2759,7 @@ export const RECIPES = [
     "id": 48,
     "method": "No Cook",
     "mealType": "snack",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "dairy",
       "protein_powder"
@@ -2743,27 +2768,28 @@ export const RECIPES = [
     "activeTime": 2,
     "tags": [
       "high_protein",
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Nonfat Greek Yogurt",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "ml"
       },
       {
         "name": "Chocolate Protein Powder (1 scoop)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "g"
       },
       {
         "name": "Cocoa Powder (unsweetened, 1 tbsp)",
-        "quantity": 5,
+        "quantity": 25,
         "unit": "g"
       },
       {
         "name": "Almond Milk (unsweetened, ¼ cup)",
-        "quantity": 60,
+        "quantity": 300,
         "unit": "g"
       }
     ],
@@ -2772,8 +2798,9 @@ export const RECIPES = [
       "Cocoa Nibs"
     ],
     "instructions": [
-      "Combine yogurt, protein powder, cocoa powder, and almond milk in bowl.",
-      "Whisk until smooth and pudding-like. Top with syrup + cocoa nibs."
+      "Whisk all the yogurt, protein powder, cocoa powder, and almond milk together in a large bowl until smooth and pudding-like.",
+      "Divide evenly into 5 containers and refrigerate.",
+      "To serve one portion: top with syrup and cocoa nibs."
     ],
     "totalTime": 2,
     "pantryTags": [
@@ -2839,7 +2866,7 @@ export const RECIPES = [
     "id": 50,
     "method": "No Cook",
     "mealType": "snack",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "chicken"
     ],
@@ -2847,27 +2874,28 @@ export const RECIPES = [
     "cuisine": "american",
     "activeTime": 2,
     "tags": [
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Canned Chicken (drained, 5 oz)",
-        "quantity": 142,
+        "quantity": 710,
         "unit": "g"
       },
       {
         "name": "Whole Grain Crackers (6 crackers)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "g"
       },
       {
         "name": "Dijon Mustard (1 tbsp)",
-        "quantity": 10,
+        "quantity": 50,
         "unit": "g"
       },
       {
         "name": "Frank's RedHot Sauce (1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "ml"
       }
     ],
@@ -2876,8 +2904,9 @@ export const RECIPES = [
       "Celery Powder"
     ],
     "instructions": [
-      "Mix canned chicken with mustard + Frank's RedHot.",
-      "Spoon onto crackers. Season lightly."
+      "Mix all the canned chicken with mustard and Frank's RedHot in a bowl.",
+      "Divide the chicken mixture evenly into 5 containers and refrigerate. Keep the crackers in their own container so they stay crisp.",
+      "To serve one portion: spoon a portion of the chicken mixture onto crackers and season lightly."
     ],
     "totalTime": 2,
     "pantryTags": [
@@ -3333,7 +3362,7 @@ export const RECIPES = [
     "id": 57,
     "method": "No Cook",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "chicken",
       "dairy"
@@ -3342,32 +3371,33 @@ export const RECIPES = [
     "activeTime": 3,
     "tags": [
       "high_protein",
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Rotisserie Chicken (pre-shredded, 5 oz)",
-        "quantity": 142,
+        "quantity": 710,
         "unit": "g"
       },
       {
         "name": "Large Flour Tortilla",
-        "quantity": 60,
+        "quantity": 300,
         "unit": "g"
       },
       {
         "name": "Shredded Cheddar (¼ cup)",
-        "quantity": 28,
+        "quantity": 140,
         "unit": "g"
       },
       {
         "name": "Salsa (fresh, 3 tbsp)",
-        "quantity": 48,
+        "quantity": 240,
         "unit": "ml"
       },
       {
         "name": "Nonfat Greek Yogurt (2 tbsp)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "ml"
       }
     ],
@@ -3376,8 +3406,8 @@ export const RECIPES = [
       "Cilantro (dried)"
     ],
     "instructions": [
-      "Warm tortilla 30 sec in microwave. Spread yogurt down center.",
-      "Layer chicken + cheese + salsa. Roll tightly. Squeeze lime on top."
+      "Divide the chicken, cheese, salsa, and yogurt evenly into 5 containers and refrigerate.",
+      "To serve one portion: warm a tortilla 30 sec in the microwave, spread with a portion of the yogurt down the center, layer with a portion of chicken, cheese, and salsa, roll tightly, and squeeze lime on top."
     ],
     "totalTime": 3,
     "pantryTags": [
@@ -3394,7 +3424,7 @@ export const RECIPES = [
     "id": 58,
     "method": "No Cook",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "turkey"
     ],
@@ -3402,37 +3432,38 @@ export const RECIPES = [
     "cuisine": "american",
     "activeTime": 4,
     "tags": [
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Deli Turkey (5 slices)",
-        "quantity": 94,
+        "quantity": 470,
         "unit": "g"
       },
       {
         "name": "Pre-Cooked Bacon (microwave, 3 strips)",
-        "quantity": 42,
+        "quantity": 210,
         "unit": "g"
       },
       {
         "name": "Romaine Lettuce (pre-washed, 4 leaves)",
-        "quantity": 80,
+        "quantity": 400,
         "unit": "g"
       },
       {
         "name": "Tomato (sliced, 3 slices)",
-        "quantity": 45,
+        "quantity": 225,
         "unit": "g"
       },
       {
         "name": "Large Flour Tortilla",
-        "quantity": 60,
+        "quantity": 300,
         "unit": "g"
       },
       {
         "name": "Light Mayo (2 tbsp)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "g"
       }
     ],
@@ -3441,8 +3472,9 @@ export const RECIPES = [
       "Dijon Mustard"
     ],
     "instructions": [
-      "Microwave bacon 2 min. Warm tortilla 30 sec in microwave.",
-      "Spread mayo on tortilla. Layer turkey + bacon + lettuce + tomato slices -- a real BLT needs the tomato. Roll tightly."
+      "Microwave all the bacon 2 min (or per package directions).",
+      "Divide the turkey, bacon, and mayo evenly into 5 containers and refrigerate. Keep the lettuce and tomato fresh, sliced just before serving.",
+      "To serve one portion: warm a tortilla 30 sec in the microwave, spread with a portion of mayo, layer with a portion of turkey and bacon plus fresh lettuce and tomato slices, and roll tightly."
     ],
     "totalTime": 4,
     "pantryTags": [
@@ -4099,7 +4131,7 @@ export const RECIPES = [
     "id": 70,
     "method": "No Cook",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "fish"
     ],
@@ -4108,32 +4140,33 @@ export const RECIPES = [
     "activeTime": 3,
     "tags": [
       "high_protein",
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Canned Salmon (drained, 5 oz)",
-        "quantity": 142,
+        "quantity": 710,
         "unit": "g"
       },
       {
         "name": "Romaine Lettuce (pre-washed bag, 2 cups)",
-        "quantity": 150,
+        "quantity": 750,
         "unit": "g"
       },
       {
         "name": "Caesar Dressing (bottled, 3 tbsp)",
-        "quantity": 45,
+        "quantity": 225,
         "unit": "ml"
       },
       {
         "name": "Parmesan (shredded, 2 tbsp)",
-        "quantity": 14,
+        "quantity": 70,
         "unit": "g"
       },
       {
         "name": "Large Flour Tortilla",
-        "quantity": 60,
+        "quantity": 300,
         "unit": "g"
       }
     ],
@@ -4142,8 +4175,9 @@ export const RECIPES = [
       "Black Pepper"
     ],
     "instructions": [
-      "Mix canned salmon with 2 tbsp Caesar dressing in bowl.",
-      "Lay tortilla flat. Place romaine on top. Add salmon mixture + remaining dressing + parmesan. Roll tightly."
+      "Mix all the canned salmon with 2 tbsp of the Caesar dressing per portion (reserving the rest) in a bowl.",
+      "Divide the salmon mixture and remaining dressing evenly into 5 containers and refrigerate. Keep the romaine fresh, portioned separately.",
+      "To serve one portion: lay a tortilla flat, place a portion of romaine on top, add a portion of the salmon mixture plus remaining dressing and parmesan, and roll tightly."
     ],
     "totalTime": 3,
     "pantryTags": [
@@ -4519,7 +4553,7 @@ export const RECIPES = [
     "id": 76,
     "method": "No Cook",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "fish"
     ],
@@ -4528,42 +4562,43 @@ export const RECIPES = [
     "activeTime": 4,
     "tags": [
       "high_protein",
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Canned Tuna in Water (drained, 5 oz)",
-        "quantity": 142,
+        "quantity": 710,
         "unit": "g"
       },
       {
         "name": "Mini Cucumber Slices (pre-cut bag, 1 cup)",
-        "quantity": 150,
+        "quantity": 750,
         "unit": "g"
       },
       {
         "name": "Low-Sodium Soy Sauce (1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "ml"
       },
       {
         "name": "Rice Vinegar (1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "g"
       },
       {
         "name": "Sesame Oil (1 tsp)",
-        "quantity": 5,
+        "quantity": 25,
         "unit": "g"
       },
       {
         "name": "Sesame Seeds (1 tbsp)",
-        "quantity": 9,
+        "quantity": 45,
         "unit": "g"
       },
       {
         "name": "Chili Crisp (1 tsp)",
-        "quantity": 5,
+        "quantity": 25,
         "unit": "g"
       }
     ],
@@ -4572,8 +4607,9 @@ export const RECIPES = [
       "Extra Sesame Seeds"
     ],
     "instructions": [
-      "Mix drained tuna with soy sauce + rice vinegar + sesame oil in bowl.",
-      "Add cucumber slices + chili crisp + sesame seeds. Toss gently. Serve cold."
+      "Mix all the drained tuna with soy sauce + rice vinegar + sesame oil in a large bowl.",
+      "Add the cucumber slices + chili crisp + sesame seeds. Toss gently.",
+      "Divide evenly into 5 containers and refrigerate. Serve cold."
     ],
     "totalTime": 4,
     "pantryTags": [
@@ -4666,7 +4702,7 @@ export const RECIPES = [
     "id": 78,
     "method": "No Cook",
     "mealType": "snack",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "dairy",
       "fish"
@@ -4674,37 +4710,38 @@ export const RECIPES = [
     "flavor": "neutral",
     "activeTime": 3,
     "tags": [
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Pre-Cut Cucumber Rounds (bag, 12 rounds)",
-        "quantity": 180,
+        "quantity": 900,
         "unit": "g"
       },
       {
         "name": "Cottage Cheese (¼ cup)",
-        "quantity": 56,
+        "quantity": 280,
         "unit": "g"
       },
       {
         "name": "Smoked Salmon (sliced, 3 oz)",
-        "quantity": 85,
+        "quantity": 425,
         "unit": "g"
       },
       {
         "name": "Everything Bagel Seasoning (½ tsp per bite)",
-        "quantity": 1,
+        "quantity": 5,
         "unit": "g"
       },
       {
         "name": "Dill (dried, ½ tsp)",
-        "quantity": 0.5,
+        "quantity": 2.5,
         "unit": "g"
       },
       {
         "name": "Lemon Juice (squeeze)",
-        "quantity": 5,
+        "quantity": 25,
         "unit": "g"
       }
     ],
@@ -4713,7 +4750,9 @@ export const RECIPES = [
       "Black Pepper"
     ],
     "instructions": [
-      "Top each cucumber round with 1 tsp cottage cheese. Layer salmon piece on top. Sprinkle everything seasoning + dill. Drizzle lemon."
+      "Mix the cottage cheese, salmon, everything seasoning, dill, and lemon juice together in a bowl.",
+      "Divide evenly into 5 containers and refrigerate. Keep the cucumber rounds fresh, sliced just before serving.",
+      "To serve one portion: top fresh cucumber rounds with a portion of the salmon-cottage cheese mixture."
     ],
     "totalTime": 3,
     "pantryTags": [
@@ -7430,41 +7469,42 @@ export const RECIPES = [
     "id": 132,
     "method": "No Cook",
     "mealType": "breakfast",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "dairy"
     ],
     "flavor": "neutral",
     "activeTime": 2,
     "tags": [
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Cottage Cheese (tub)",
-        "quantity": 225,
+        "quantity": 1125,
         "unit": "g"
       },
       {
         "name": "Mixed Berries (fresh, pre-washed)",
-        "quantity": 75,
+        "quantity": 375,
         "unit": "g"
       },
       {
         "name": "Granola (bagged)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "g"
       },
       {
         "name": "Honey (drizzle)",
-        "quantity": 10,
+        "quantity": 50,
         "unit": "ml"
       }
     ],
     "toppings": [],
     "instructions": [
-      "Scoop cottage cheese into a bowl.",
-      "Top with berries, granola, and a drizzle of honey."
+      "Divide the cottage cheese evenly among 5 containers and refrigerate.",
+      "To serve one portion: top with berries, granola, and a drizzle of honey."
     ],
     "totalTime": 2,
     "pantryTags": [
@@ -7532,7 +7572,7 @@ export const RECIPES = [
     "id": 134,
     "method": "No Cook",
     "mealType": "breakfast",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "dairy"
     ],
@@ -7540,39 +7580,41 @@ export const RECIPES = [
     "cuisine": "mediterranean",
     "activeTime": 3,
     "tags": [
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Greek Yogurt (plain, tub)",
-        "quantity": 225,
+        "quantity": 1125,
         "unit": "g"
       },
       {
         "name": "Vanilla Protein Powder (½ scoop)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "g"
       },
       {
         "name": "Honey (drizzle)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "ml"
       },
       {
         "name": "Cinnamon (pinch)",
-        "quantity": 0.5,
+        "quantity": 2.5,
         "unit": "g"
       },
       {
         "name": "Pistachios or Walnuts (crushed, 2 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "g"
       }
     ],
     "toppings": [],
     "instructions": [
-      "Stir the protein powder into the yogurt until smooth -- this is the classic Greek yiaourti me meli, built on yogurt and honey rather than granola and fruit.",
-      "Spoon into a cup or jar. Drizzle with honey, dust with cinnamon, and top with crushed pistachios or walnuts. Cover and grab it on the way out."
+      "Stir the protein powder into all the yogurt until smooth.",
+      "Divide evenly into 5 jars or containers, cover, and refrigerate.",
+      "To serve one portion: drizzle with honey, dust with cinnamon, and top with crushed pistachios or walnuts."
     ],
     "totalTime": 3,
     "pantryTags": [
@@ -7586,7 +7628,7 @@ export const RECIPES = [
     "id": 135,
     "method": "No Cook",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "chicken"
     ],
@@ -7595,17 +7637,18 @@ export const RECIPES = [
     "activeTime": 3,
     "tags": [
       "high_protein",
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Rotisserie Chicken (shredded, pre-cooked)",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "Caesar Salad Kit (bagged, with dressing & croutons)",
-        "quantity": 140,
+        "quantity": 700,
         "unit": "g"
       }
     ],
@@ -7613,8 +7656,8 @@ export const RECIPES = [
       "Extra Parmesan"
     ],
     "instructions": [
-      "Empty the salad kit into a bowl and toss with its dressing and croutons.",
-      "Top with shredded rotisserie chicken."
+      "Divide the shredded rotisserie chicken evenly into 5 containers and refrigerate.",
+      "To serve one portion: empty a fresh salad kit into a bowl and toss with its dressing and croutons. Top with a portion of chicken."
     ],
     "totalTime": 3,
     "pantryTags": [
@@ -7684,7 +7727,7 @@ export const RECIPES = [
     "id": 137,
     "method": "No Cook",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "fish"
     ],
@@ -7692,37 +7735,38 @@ export const RECIPES = [
     "activeTime": 4,
     "tags": [
       "high_protein",
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Tuna Pouch (no drain)",
-        "quantity": 140,
+        "quantity": 700,
         "unit": "g"
       },
       {
         "name": "Mayo Packet (or light mayo)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "g"
       },
       {
         "name": "Butter Lettuce Leaves (bagged, pre-washed)",
-        "quantity": 60,
+        "quantity": 300,
         "unit": "g"
       },
       {
         "name": "Dijon Mustard (1 tsp)",
-        "quantity": 5,
+        "quantity": 25,
         "unit": "g"
       },
       {
         "name": "Dill (dried, pinch)",
-        "quantity": 0.5,
+        "quantity": 2.5,
         "unit": "g"
       },
       {
         "name": "Black Pepper (pinch)",
-        "quantity": 0.5,
+        "quantity": 2.5,
         "unit": "g"
       }
     ],
@@ -7730,8 +7774,9 @@ export const RECIPES = [
       "Black Pepper"
     ],
     "instructions": [
-      "Mix tuna with mayo, dijon mustard, dill, and pepper in a bowl.",
-      "Spoon into lettuce leaves and fold like a taco."
+      "Mix all the tuna with mayo, dijon mustard, dill, and pepper in a bowl.",
+      "Divide evenly into 5 containers and refrigerate.",
+      "To serve one portion: spoon a portion of the tuna salad into fresh lettuce leaves and fold like a taco."
     ],
     "totalTime": 4,
     "pantryTags": [
@@ -9903,34 +9948,35 @@ export const RECIPES = [
     "isTrending": true,
     "method": "No Cook",
     "mealType": "snack",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "dairy"
     ],
     "flavor": "neutral",
     "activeTime": 5,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Cottage Cheese (1 cup)",
-        "quantity": 225,
+        "quantity": 1125,
         "unit": "g"
       },
       {
         "name": "Frozen Berries (½ cup)",
-        "quantity": 75,
+        "quantity": 375,
         "unit": "g"
       },
       {
         "name": "Honey (1 tbsp)",
-        "quantity": 21,
+        "quantity": 105,
         "unit": "g"
       },
       {
         "name": "Vanilla Extract (½ tsp)",
-        "quantity": 3,
+        "quantity": 15,
         "unit": "ml"
       }
     ],
@@ -9939,10 +9985,10 @@ export const RECIPES = [
       "Granola"
     ],
     "instructions": [
-      "Add cottage cheese, frozen berries, honey, and vanilla to a blender or food processor.",
-      "Blend on high 1–2 minutes, scraping down the sides, until completely smooth and creamy.",
-      "Freeze 20–30 minutes for a soft-serve texture (or eat right away for a thick shake-like texture).",
-      "Top with extra berries and granola."
+      "Add all the cottage cheese, frozen berries, honey, and vanilla to a blender or food processor.",
+      "Blend on high 1-2 minutes, scraping down the sides, until completely smooth and creamy.",
+      "Divide evenly into 5 freezer-safe containers.",
+      "To serve one portion: freeze 20-30 minutes for a soft-serve texture (or eat right away for a thick shake-like texture). Top with extra berries and granola."
     ],
     "totalTime": 25,
     "pantryTags": [
@@ -10195,7 +10241,7 @@ export const RECIPES = [
     "isNew": true,
     "method": "No Cook",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "chicken"
     ],
@@ -10204,37 +10250,38 @@ export const RECIPES = [
     "activeTime": 8,
     "tags": [
       "high_protein",
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Rotisserie Chicken (shredded, 1 cup)",
-        "quantity": 140,
+        "quantity": 700,
         "unit": "g"
       },
       {
         "name": "Nonfat Greek Yogurt (¼ cup)",
-        "quantity": 60,
+        "quantity": 300,
         "unit": "ml"
       },
       {
         "name": "Fresh Herbs: Parsley, Chives, Basil (¼ cup, chopped)",
-        "quantity": 10,
+        "quantity": 50,
         "unit": "g"
       },
       {
         "name": "Lemon Juice (1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "ml"
       },
       {
         "name": "Garlic (minced, ½ clove)",
-        "quantity": 1.5,
+        "quantity": 7.5,
         "unit": "g"
       },
       {
         "name": "Tortillas (1 large)",
-        "quantity": 45,
+        "quantity": 225,
         "unit": "g"
       }
     ],
@@ -10243,10 +10290,9 @@ export const RECIPES = [
       "Sliced Cucumber"
     ],
     "instructions": [
-      "Blend or finely mince the herbs, yogurt, lemon juice, and garlic into a smooth green goddess dressing.",
-      "Toss the shredded chicken with the dressing until well coated.",
-      "Lay the tortilla flat, add greens and cucumber, then top with the chicken salad.",
-      "Roll tightly into a wrap and slice in half."
+      "Blend or finely mince all the herbs, yogurt, lemon juice, and garlic into a smooth green goddess dressing.",
+      "Toss the shredded chicken with the dressing until well coated, then divide evenly into 5 containers and refrigerate.",
+      "To serve one portion: lay a tortilla flat, add fresh greens and cucumber, then top with a portion of the chicken salad. Roll tightly into a wrap and slice in half."
     ],
     "totalTime": 8,
     "pantryTags": [
@@ -10262,7 +10308,7 @@ export const RECIPES = [
     "isNew": true,
     "method": "No Cook",
     "mealType": "breakfast",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "protein_powder",
       "dairy"
@@ -10271,27 +10317,28 @@ export const RECIPES = [
     "activeTime": 4,
     "tags": [
       "high_protein",
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Chia Seeds (3 tbsp)",
-        "quantity": 36,
+        "quantity": 180,
         "unit": "g"
       },
       {
         "name": "Milk (1 cup)",
-        "quantity": 240,
+        "quantity": 1200,
         "unit": "ml"
       },
       {
         "name": "Vanilla Protein Powder (1 scoop)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "g"
       },
       {
         "name": "Honey (1 tsp)",
-        "quantity": 7,
+        "quantity": 35,
         "unit": "g"
       }
     ],
@@ -10300,9 +10347,9 @@ export const RECIPES = [
       "Granola"
     ],
     "instructions": [
-      "Whisk chia seeds, milk, protein powder, and honey together in a jar until the powder is fully dissolved.",
-      "Cover and refrigerate at least 4 hours, or overnight, stirring once after the first 10 minutes to prevent clumping.",
-      "Stir before eating and top with berries and granola."
+      "Whisk the chia seeds, milk, protein powder, and honey together in a large jar or container until the powder is fully dissolved.",
+      "Divide evenly into 5 jars, cover, and refrigerate at least 4 hours or overnight, stirring each once after the first 10 minutes to prevent clumping.",
+      "To serve one portion: stir and top with berries and granola."
     ],
     "totalTime": 4,
     "pantryTags": [
@@ -10383,7 +10430,7 @@ export const RECIPES = [
     "isNew": true,
     "method": "No Cook",
     "mealType": "snack",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "dairy"
     ],
@@ -10391,27 +10438,28 @@ export const RECIPES = [
     "activeTime": 4,
     "tags": [
       "high_protein",
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Cottage Cheese (1 cup)",
-        "quantity": 225,
+        "quantity": 1125,
         "unit": "g"
       },
       {
         "name": "Lemon Juice (1 tsp)",
-        "quantity": 5,
+        "quantity": 25,
         "unit": "ml"
       },
       {
         "name": "Everything Bagel Seasoning (1 tsp)",
-        "quantity": 3,
+        "quantity": 15,
         "unit": "g"
       },
       {
         "name": "Cucumber, Carrots & Bell Pepper Sticks (for dipping, 1 cup)",
-        "quantity": 120,
+        "quantity": 600,
         "unit": "g"
       }
     ],
@@ -10420,10 +10468,10 @@ export const RECIPES = [
       "Drizzle of Olive Oil"
     ],
     "instructions": [
-      "Add cottage cheese and lemon juice to a blender or food processor.",
-      "Blend 1–2 minutes, scraping down the sides, until completely smooth and whipped.",
-      "Spread onto a plate, top with seasoning and a drizzle of olive oil.",
-      "Serve with cucumber, carrot, and bell pepper sticks for dipping."
+      "Add all the cottage cheese and lemon juice to a blender or food processor.",
+      "Blend 1-2 minutes, scraping down the sides, until completely smooth and whipped.",
+      "Divide evenly into 5 containers and refrigerate.",
+      "To serve one portion: spread onto a plate, top with seasoning and a drizzle of olive oil. Serve with fresh cucumber, carrot, and bell pepper sticks for dipping."
     ],
     "totalTime": 4,
     "pantryTags": [
@@ -10513,7 +10561,7 @@ export const RECIPES = [
     "isNew": true,
     "method": "No Cook",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "chicken"
     ],
@@ -10522,37 +10570,38 @@ export const RECIPES = [
     "activeTime": 12,
     "tags": [
       "high_protein",
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Pasta & Noodles (dry, small shape)",
-        "quantity": 85,
+        "quantity": 425,
         "unit": "g"
       },
       {
         "name": "Rotisserie Chicken (shredded, 1 cup)",
-        "quantity": 140,
+        "quantity": 700,
         "unit": "g"
       },
       {
         "name": "Nonfat Greek Yogurt (3 tbsp)",
-        "quantity": 45,
+        "quantity": 225,
         "unit": "ml"
       },
       {
         "name": "Caesar Dressing (1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "ml"
       },
       {
         "name": "Parmesan (grated, 2 tbsp)",
-        "quantity": 10,
+        "quantity": 50,
         "unit": "g"
       },
       {
         "name": "Salad Greens (romaine, chopped, 1 cup)",
-        "quantity": 47,
+        "quantity": 235,
         "unit": "g"
       }
     ],
@@ -10561,10 +10610,10 @@ export const RECIPES = [
       "Black Pepper"
     ],
     "instructions": [
-      "Boil the pasta per package directions, then drain and rinse under cold water to cool.",
-      "Whisk Greek yogurt, Caesar dressing, and parmesan together in a large bowl.",
+      "Boil all the pasta per package directions, then drain and rinse under cold water to cool.",
+      "Whisk all the Greek yogurt, Caesar dressing, and parmesan together in a large bowl.",
       "Add the cooled pasta, chicken, and romaine, and toss until everything is well coated.",
-      "Chill 10 minutes before serving, or pack straight into a container for meal prep."
+      "Divide evenly into 5 containers and refrigerate. Chill at least 10 minutes before the first serving."
     ],
     "totalTime": 12,
     "pantryTags": [
