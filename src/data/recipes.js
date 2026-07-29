@@ -237,7 +237,7 @@ export const RECIPES = [
     "id": 6,
     "method": "Slow Cooker",
     "mealType": "lunch_dinner",
-    "servings": 4,
+    "servings": 5,
     "proteins": [
       "beef"
     ],
@@ -250,47 +250,47 @@ export const RECIPES = [
     "components": [
       {
         "name": "Ground Beef (93% lean)",
-        "quantity": 568,
+        "quantity": 710,
         "unit": "g"
       },
       {
         "name": "Canned Diced Tomatoes",
-        "quantity": 480,
+        "quantity": 600,
         "unit": "ml"
       },
       {
         "name": "Rice Pouch (microwaveable, 1 per meal)",
-        "quantity": 4,
+        "quantity": 5,
         "unit": "each"
       },
       {
         "name": "Frozen Mixed Veg (steam-bag, 1 per meal)",
-        "quantity": 4,
+        "quantity": 5,
         "unit": "each"
       },
       {
         "name": "Minced Garlic (jarred, 6 tsp)",
-        "quantity": 30,
+        "quantity": 37.5,
         "unit": "g"
       },
       {
         "name": "Italian Seasoning (4 tsp)",
-        "quantity": 8,
+        "quantity": 10,
         "unit": "g"
       },
       {
         "name": "Salt (¼ tsp)",
-        "quantity": 2,
+        "quantity": 2.5,
         "unit": "g"
       },
       {
         "name": "Tomato Paste (2 tbsp)",
-        "quantity": 32,
+        "quantity": 40,
         "unit": "g"
       },
       {
         "name": "Worcestershire Sauce (1 tbsp)",
-        "quantity": 15,
+        "quantity": 19,
         "unit": "ml"
       }
     ],
@@ -302,7 +302,7 @@ export const RECIPES = [
     "instructions": [
       "Add beef, canned tomatoes, tomato paste, Worcestershire, minced garlic, Italian seasoning, and salt to the slow cooker. Break up beef roughly and stir to combine.",
       "Cook HIGH 2 hrs or LOW 4 hrs.",
-      "Divide the beef mixture evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
+      "Divide the beef mixture evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave a rice pouch 90 sec + a steam-bag veg 3 min. Build bowl with beef mixture. Toppings on the side."
     ],
     "totalTime": 245,
@@ -321,7 +321,7 @@ export const RECIPES = [
     "id": 7,
     "method": "Bake",
     "mealType": "lunch_dinner",
-    "servings": 4,
+    "servings": 5,
     "proteins": [
       "turkey",
       "eggs"
@@ -337,42 +337,42 @@ export const RECIPES = [
     "components": [
       {
         "name": "Ground Turkey (93% lean)",
-        "quantity": 568,
+        "quantity": 710,
         "unit": "g"
       },
       {
         "name": "Panko Breadcrumbs",
-        "quantity": 80,
+        "quantity": 100,
         "unit": "g"
       },
       {
         "name": "Egg White (carton pour)",
-        "quantity": 120,
+        "quantity": 150,
         "unit": "ml"
       },
       {
         "name": "Italian Seasoning (1 tbsp)",
-        "quantity": 12,
+        "quantity": 15,
         "unit": "g"
       },
       {
         "name": "Minced Garlic (jarred, 1½ tsp)",
-        "quantity": 7.5,
+        "quantity": 9.5,
         "unit": "g"
       },
       {
         "name": "Grated Parmesan (2 tbsp)",
-        "quantity": 40,
+        "quantity": 50,
         "unit": "g"
       },
       {
         "name": "Salt (pinch)",
-        "quantity": 2,
+        "quantity": 2.5,
         "unit": "g"
       },
       {
         "name": "Marinara Sauce (jarred, ⅓ cup)",
-        "quantity": 320,
+        "quantity": 400,
         "unit": "ml"
       }
     ],
@@ -381,9 +381,9 @@ export const RECIPES = [
     ],
     "instructions": [
       "Mix turkey, breadcrumbs, egg white, Italian seasoning, minced garlic, parmesan, and salt in a bowl until just combined.",
-      "Roll into ~1.5-inch balls (about 20-24 total) onto foil-lined baking sheet(s).",
+      "Roll into ~1.5-inch balls (about 25-30 total) onto foil-lined baking sheet(s).",
       "Bake 400°F for 18–20 min.",
-      "Warm the marinara (microwave 2-3 min) and toss the meatballs in it. Top with mozzarella. Divide evenly into 4 containers and refrigerate (up to 4 days) or freeze. To serve one portion: reheat in the microwave until hot throughout."
+      "Warm the marinara (microwave 2-3 min) and toss the meatballs in it. Top with mozzarella. Divide evenly into 5 containers and refrigerate (up to 4 days) or freeze. To serve one portion: reheat in the microwave until hot throughout."
     ],
     "totalTime": 30,
     "pantryTags": [
@@ -772,7 +772,7 @@ export const RECIPES = [
     "id": 15,
     "method": "No Cook",
     "mealType": "breakfast",
-    "servings": 4,
+    "servings": 5,
     "proteins": [
       "dairy",
       "protein_powder"
@@ -786,32 +786,32 @@ export const RECIPES = [
     "components": [
       {
         "name": "Rolled Oats (dry ½ cup)",
-        "quantity": 180,
+        "quantity": 225,
         "unit": "g"
       },
       {
         "name": "Nonfat Greek Yogurt",
-        "quantity": 680,
+        "quantity": 850,
         "unit": "ml"
       },
       {
         "name": "Chocolate Protein Powder (1 scoop)",
-        "quantity": 120,
+        "quantity": 150,
         "unit": "g"
       },
       {
         "name": "Almond Milk (unsweetened)",
-        "quantity": 480,
+        "quantity": 600,
         "unit": "ml"
       },
       {
         "name": "Honey (1 tsp)",
-        "quantity": 5,
+        "quantity": 6,
         "unit": "ml"
       },
       {
         "name": "16 oz Mason Jars or Lidded Containers (1 per serving)",
-        "quantity": 4,
+        "quantity": 5,
         "unit": "count"
       }
     ],
@@ -820,7 +820,7 @@ export const RECIPES = [
       "Chia Seeds"
     ],
     "instructions": [
-      "Divide oats, yogurt, protein powder, almond milk, and honey evenly among 4 jars or containers and stir each to combine.",
+      "Divide oats, yogurt, protein powder, almond milk, and honey evenly among 5 jars or containers and stir each to combine.",
       "Refrigerate overnight (keeps up to 4-5 days). Stir before eating. Top with berries and seeds."
     ],
     "totalTime": 3,
@@ -1506,7 +1506,7 @@ export const RECIPES = [
     "id": 27,
     "method": "Stovetop",
     "mealType": "lunch_dinner",
-    "servings": 4,
+    "servings": 5,
     "proteins": [
       "beef"
     ],
@@ -1522,37 +1522,37 @@ export const RECIPES = [
     "components": [
       {
         "name": "Ground Beef (93% lean)",
-        "quantity": 568,
+        "quantity": 710,
         "unit": "g"
       },
       {
         "name": "Taco Seasoning (about 3 packets)",
-        "quantity": 100,
+        "quantity": 125,
         "unit": "g"
       },
       {
         "name": "Water (¼ cup)",
-        "quantity": 240,
+        "quantity": 300,
         "unit": "g"
       },
       {
         "name": "White Rice Pouch (1 per meal)",
-        "quantity": 4,
+        "quantity": 5,
         "unit": "each"
       },
       {
         "name": "Canned Black Beans (½ can, drained)",
-        "quantity": 540,
+        "quantity": 675,
         "unit": "g"
       },
       {
         "name": "Olive Oil (½ tbsp)",
-        "quantity": 30,
+        "quantity": 38,
         "unit": "g"
       },
       {
         "name": "Salsa (fresh, ¼ cup)",
-        "quantity": 256,
+        "quantity": 320,
         "unit": "ml"
       }
     ],
@@ -1561,7 +1561,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Heat oil in a large skillet over medium-high. Brown beef 10-12 min, breaking it up as it cooks.",
-      "Add taco seasoning + water. Simmer 3-4 min, then stir in the salsa and black beans. Divide the beef mixture evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
+      "Add taco seasoning + water. Simmer 3-4 min, then stir in the salsa and black beans. Divide the beef mixture evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave rice pouch 90 sec + reheat a portion of the beef mixture. Build bowl -- toppings on side."
     ],
     "totalTime": 12,
@@ -1775,7 +1775,7 @@ export const RECIPES = [
     "id": 31,
     "method": "Slow Cooker",
     "mealType": "lunch_dinner",
-    "servings": 4,
+    "servings": 5,
     "proteins": [
       "chicken"
     ],
@@ -1787,33 +1787,33 @@ export const RECIPES = [
     "sundayPrepReheat": "Reheat one thigh at a time with a spoonful of its own broth so it doesn't dry out. Microwave covered, 2-3 min, or warm gently in a pan.",
     "components": [
       {
-        "name": "Chicken Thighs (boneless, skinless, 4 thighs)",
-        "quantity": 680,
+        "name": "Chicken Thighs (boneless, skinless, 5 thighs)",
+        "quantity": 850,
         "unit": "g"
       },
       {
-        "name": "Low-Sodium Chicken Broth (4 cups)",
-        "quantity": 960,
+        "name": "Low-Sodium Chicken Broth (5 cups)",
+        "quantity": 1200,
         "unit": "g"
       },
       {
-        "name": "Italian Herb Seasoning (4 tbsp)",
-        "quantity": 12,
+        "name": "Italian Herb Seasoning (5 tbsp)",
+        "quantity": 15,
         "unit": "g"
       },
       {
         "name": "Minced Garlic (jarred, 6 tsp)",
-        "quantity": 30,
+        "quantity": 38,
         "unit": "g"
       },
       {
         "name": "Butter (2 tbsp)",
-        "quantity": 30,
+        "quantity": 38,
         "unit": "g"
       },
       {
         "name": "Lemon Juice (2 tbsp)",
-        "quantity": 30,
+        "quantity": 38,
         "unit": "ml"
       }
     ],
@@ -1825,7 +1825,7 @@ export const RECIPES = [
       "Add chicken, broth, and seasonings to slow cooker.",
       "Cook LOW 6–7 hrs or HIGH 3–4 hrs. Shred all the chicken.",
       "Stir in butter and lemon juice until the butter melts into the broth for a richer, brighter sauce.",
-      "Divide shredded chicken evenly into 4 containers with a bit of the sauce spooned over each to keep it moist. Refrigerate up to 4 days, or freeze.",
+      "Divide shredded chicken evenly into 5 containers with a bit of the sauce spooned over each to keep it moist. Refrigerate up to 4 days, or freeze.",
       "Reheat one portion at a time. Serve with toppings on the side."
     ],
     "totalTime": 425,
@@ -2045,7 +2045,7 @@ export const RECIPES = [
     "id": 35,
     "method": "Slow Cooker",
     "mealType": "lunch_dinner",
-    "servings": 4,
+    "servings": 5,
     "proteins": [
       "turkey"
     ],
@@ -2060,27 +2060,27 @@ export const RECIPES = [
     "components": [
       {
         "name": "Ground Turkey (93% lean)",
-        "quantity": 568,
+        "quantity": 710,
         "unit": "g"
       },
       {
-        "name": "Canned Red Kidney Beans (4 cans, drained)",
-        "quantity": 1080,
+        "name": "Canned Red Kidney Beans (5 cans, drained)",
+        "quantity": 1350,
         "unit": "g"
       },
       {
-        "name": "Canned Diced Tomatoes (4 cans, undrained)",
-        "quantity": 960,
+        "name": "Canned Diced Tomatoes (5 cans, undrained)",
+        "quantity": 1200,
         "unit": "ml"
       },
       {
-        "name": "Chili Seasoning Packet (4 packets)",
-        "quantity": 100,
+        "name": "Chili Seasoning Packet (5 packets)",
+        "quantity": 125,
         "unit": "g"
       },
       {
-        "name": "Olive Oil (4 tsp)",
-        "quantity": 20,
+        "name": "Olive Oil (5 tsp)",
+        "quantity": 25,
         "unit": "g"
       }
     ],
@@ -2092,7 +2092,7 @@ export const RECIPES = [
       "Heat oil in skillet. Brown turkey in batches if needed, breaking it up, 6–8 min. Transfer to slow cooker.",
       "Add beans, tomatoes, and chili seasoning. Stir well.",
       "Cook LOW 5–6 hrs or HIGH 2–3 hrs. Stir occasionally.",
-      "Divide into 4 containers and refrigerate up to 4 days, or freeze. Reheat one portion at a time, topped with cheese + sour cream."
+      "Divide into 5 containers and refrigerate up to 4 days, or freeze. Reheat one portion at a time, topped with cheese + sour cream."
     ],
     "totalTime": 368,
     "pantryTags": [
@@ -2577,7 +2577,7 @@ export const RECIPES = [
     "id": 44,
     "method": "No Cook",
     "mealType": "snack",
-    "servings": 4,
+    "servings": 5,
     "proteins": [
       "eggs"
     ],
@@ -2590,17 +2590,17 @@ export const RECIPES = [
     "components": [
       {
         "name": "Pre-Boiled Eggs (2 large)",
-        "quantity": 400,
+        "quantity": 500,
         "unit": "count"
       },
       {
         "name": "Louisiana-Style Hot Sauce (2 tbsp)",
-        "quantity": 30,
+        "quantity": 38,
         "unit": "ml"
       },
       {
         "name": "Everything Bagel Seasoning (½ tsp)",
-        "quantity": 4,
+        "quantity": 5,
         "unit": "g"
       }
     ],
@@ -2609,7 +2609,7 @@ export const RECIPES = [
       "Sea Salt"
     ],
     "instructions": [
-      "Boil a batch of 8 eggs at once: place in a pot, cover with about an inch of water, bring to a boil, then cover and remove from heat for 10-12 minutes. Cool in ice water before peeling. Keeps in the fridge (in shell, unpeeled) for up to a week.",
+      "Boil a batch of 10 eggs at once: place in a pot, cover with about an inch of water, bring to a boil, then cover and remove from heat for 10-12 minutes. Cool in ice water before peeling. Keeps in the fridge (in shell, unpeeled) for up to a week.",
       "For one serving: peel and halve 2 eggs. Pour Louisiana-style hot sauce over. Sprinkle seasoning on top."
     ],
     "totalTime": 2,
@@ -2945,7 +2945,7 @@ export const RECIPES = [
     "id": 51,
     "method": "Stovetop",
     "mealType": "lunch_dinner",
-    "servings": 4,
+    "servings": 5,
     "proteins": [
       "beef"
     ],
@@ -2959,47 +2959,47 @@ export const RECIPES = [
     "components": [
       {
         "name": "Ground Beef (80/20)",
-        "quantity": 568,
+        "quantity": 710,
         "unit": "g"
       },
       {
         "name": "American Cheese Slices (1 per burger)",
-        "quantity": 4,
+        "quantity": 5,
         "unit": "each"
       },
       {
         "name": "Brioche Buns (1 per burger)",
-        "quantity": 4,
+        "quantity": 5,
         "unit": "each"
       },
       {
         "name": "Ketchup (2 tbsp per burger)",
-        "quantity": 128,
+        "quantity": 160,
         "unit": "ml"
       },
       {
         "name": "Yellow Mustard (1 tbsp per burger)",
-        "quantity": 20,
+        "quantity": 25,
         "unit": "ml"
       },
       {
         "name": "Pickle Slices (jar, 2 tbsp per burger)",
-        "quantity": 120,
+        "quantity": 150,
         "unit": "g"
       },
       {
         "name": "Salt (pinch per burger)",
-        "quantity": 2,
+        "quantity": 2.5,
         "unit": "g"
       },
       {
         "name": "Black Pepper (pinch per burger)",
-        "quantity": 2,
+        "quantity": 2.5,
         "unit": "g"
       },
       {
         "name": "Onion Powder (pinch per burger)",
-        "quantity": 2,
+        "quantity": 2.5,
         "unit": "g"
       }
     ],
@@ -3007,7 +3007,7 @@ export const RECIPES = [
       "Mayonnaise"
     ],
     "instructions": [
-      "Roll beef into 4 balls (about 142g/5oz each) and season all over with salt, pepper, and onion powder.",
+      "Roll beef into 5 balls (about 142g/5oz each) and season all over with salt, pepper, and onion powder.",
       "Heat cast iron skillet screaming hot (~400°F). Working in batches, smash each ball flat with a spatula. Cook 2 min without moving, then flip and cook 1 min more.",
       "Refrigerate the cooked patties (up to 4 days) or freeze -- they reheat great.",
       "To serve one: reheat a patty in a hot skillet about 1 min per side, melting a cheese slice on top in the last minute. Toast a bun, build with ketchup, mustard, and pickles."
@@ -3028,7 +3028,7 @@ export const RECIPES = [
     "id": 52,
     "method": "Stovetop",
     "mealType": "lunch_dinner",
-    "servings": 4,
+    "servings": 5,
     "proteins": [
       "beef"
     ],
@@ -3042,47 +3042,47 @@ export const RECIPES = [
     "components": [
       {
         "name": "Ground Beef (93% lean)",
-        "quantity": 568,
+        "quantity": 710,
         "unit": "g"
       },
       {
         "name": "Pre-Cooked Bacon (microwave, 3 strips per burger)",
-        "quantity": 168,
+        "quantity": 210,
         "unit": "g"
       },
       {
         "name": "BBQ Sauce (2 tbsp per burger)",
-        "quantity": 136,
+        "quantity": 170,
         "unit": "ml"
       },
       {
         "name": "Cheddar Slices (1 per burger)",
-        "quantity": 4,
+        "quantity": 5,
         "unit": "each"
       },
       {
         "name": "Brioche Buns (1 per burger)",
-        "quantity": 4,
+        "quantity": 5,
         "unit": "each"
       },
       {
         "name": "Salt (pinch per burger)",
-        "quantity": 2,
+        "quantity": 2.5,
         "unit": "g"
       },
       {
         "name": "Black Pepper (pinch per burger)",
-        "quantity": 2,
+        "quantity": 2.5,
         "unit": "g"
       },
       {
         "name": "Onion Powder (pinch per burger)",
-        "quantity": 2,
+        "quantity": 2.5,
         "unit": "g"
       },
       {
         "name": "Garlic Powder (pinch per burger)",
-        "quantity": 2,
+        "quantity": 2.5,
         "unit": "g"
       }
     ],
@@ -3090,7 +3090,7 @@ export const RECIPES = [
       "Lettuce Leaf"
     ],
     "instructions": [
-      "Season beef all over with salt, pepper, onion powder, and garlic powder, then divide and form into 4 patties (~142g/5oz each).",
+      "Season beef all over with salt, pepper, onion powder, and garlic powder, then divide and form into 5 patties (~142g/5oz each).",
       "Heat skillet medium-high. Cook patties in batches, 3–4 min per side (~160°F internal). Microwave bacon strips 2 min.",
       "Refrigerate the cooked patties and bacon (up to 4 days) or freeze.",
       "To serve one: reheat a patty in a hot pan, melting cheese on top in the last minute. Toast a bun, brush BBQ sauce on the inside, stack burger + bacon."
@@ -3111,7 +3111,7 @@ export const RECIPES = [
     "id": 53,
     "method": "Stovetop",
     "mealType": "lunch_dinner",
-    "servings": 4,
+    "servings": 5,
     "proteins": [
       "turkey"
     ],
@@ -3125,32 +3125,32 @@ export const RECIPES = [
     "components": [
       {
         "name": "Ground Turkey (93% lean)",
-        "quantity": 568,
+        "quantity": 710,
         "unit": "g"
       },
       {
         "name": "Minced Garlic (jarred, 1½ tsp per patty)",
-        "quantity": 30,
+        "quantity": 38,
         "unit": "g"
       },
       {
         "name": "Worcestershire Sauce (1 tbsp per patty)",
-        "quantity": 60,
+        "quantity": 75,
         "unit": "ml"
       },
       {
         "name": "Brioche Buns (1 per burger)",
-        "quantity": 4,
+        "quantity": 5,
         "unit": "each"
       },
       {
         "name": "Yellow Mustard (2 tbsp per burger)",
-        "quantity": 40,
+        "quantity": 50,
         "unit": "ml"
       },
       {
         "name": "Dill Pickle Slices (jar, 2 tbsp per burger)",
-        "quantity": 120,
+        "quantity": 150,
         "unit": "g"
       }
     ],
@@ -3159,7 +3159,7 @@ export const RECIPES = [
       "Hot Sauce"
     ],
     "instructions": [
-      "Mix ground turkey with minced garlic + Worcestershire in a bowl. Divide and form into 4 patties.",
+      "Mix ground turkey with minced garlic + Worcestershire in a bowl. Divide and form into 5 patties.",
       "Heat skillet medium-high. Cook patties in batches, 4–5 min per side (~165°F internal).",
       "Refrigerate the cooked patties (up to 4 days) or freeze.",
       "To serve one: reheat a patty in a hot pan. Toast a bun, spread mustard, build burger with pickles + toppings on side."
@@ -3752,7 +3752,7 @@ export const RECIPES = [
     "id": 63,
     "method": "Stovetop",
     "mealType": "lunch_dinner",
-    "servings": 4,
+    "servings": 5,
     "proteins": [
       "beef"
     ],
@@ -3766,37 +3766,37 @@ export const RECIPES = [
     "components": [
       {
         "name": "Ground Beef (93% lean)",
-        "quantity": 568,
+        "quantity": 710,
         "unit": "g"
       },
       {
         "name": "Low-Sodium Soy Sauce (1.5 tbsp per bowl)",
-        "quantity": 90,
+        "quantity": 113,
         "unit": "g"
       },
       {
         "name": "Minced Garlic (jarred, 3 tsp per bowl)",
-        "quantity": 60,
+        "quantity": 75,
         "unit": "g"
       },
       {
         "name": "Honey (1 tbsp per bowl)",
-        "quantity": 80,
+        "quantity": 100,
         "unit": "ml"
       },
       {
         "name": "White Rice Pouch (microwaveable, 1 per meal)",
-        "quantity": 4,
+        "quantity": 5,
         "unit": "each"
       },
       {
         "name": "Frozen Broccoli (steam-bag, 1 per meal)",
-        "quantity": 4,
+        "quantity": 5,
         "unit": "each"
       },
       {
         "name": "Olive Oil (1 tsp per bowl)",
-        "quantity": 20,
+        "quantity": 25,
         "unit": "g"
       }
     ],
@@ -3807,7 +3807,7 @@ export const RECIPES = [
     "instructions": [
       "Heat oil in a large skillet over medium-high. Add ground beef, breaking it apart with a spoon. Cook 10-12 minutes, stirring occasionally, until browned throughout.",
       "Add soy sauce, garlic, and honey. Simmer 2-3 minutes, stirring, until the glaze coats the beef.",
-      "Divide the beef evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
+      "Divide the beef evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave rice pouch 90 sec + steam-bag broccoli 3 min. Build bowl with rice, top with a portion of beef, broccoli on side. Toppings on side."
     ],
     "totalTime": 7,
@@ -4240,7 +4240,7 @@ export const RECIPES = [
     "isTrending": true,
     "method": "Stovetop",
     "mealType": "breakfast",
-    "servings": 4,
+    "servings": 5,
     "proteins": [
       "beef",
       "dairy"
@@ -4254,32 +4254,32 @@ export const RECIPES = [
     "components": [
       {
         "name": "Frozen Sweet Potato Cubes (pre-cut)",
-        "quantity": 900,
+        "quantity": 1125,
         "unit": "g"
       },
       {
         "name": "Ground Beef (93% lean)",
-        "quantity": 568,
+        "quantity": 710,
         "unit": "g"
       },
       {
         "name": "Cottage Cheese",
-        "quantity": 448,
+        "quantity": 560,
         "unit": "g"
       },
       {
         "name": "Guacamole (2 tbsp per bowl)",
-        "quantity": 224,
+        "quantity": 280,
         "unit": "g"
       },
       {
         "name": "Hot Honey (2 tbsp per bowl)",
-        "quantity": 136,
+        "quantity": 170,
         "unit": "ml"
       },
       {
         "name": "Taco Seasoning (1 tbsp per bowl)",
-        "quantity": 32,
+        "quantity": 40,
         "unit": "g"
       }
     ],
@@ -4290,7 +4290,7 @@ export const RECIPES = [
     "instructions": [
       "Microwave the frozen sweet potato cubes in batches, about 5 min per batch (or air fry 12 min at 400°F), until tender.",
       "Heat a large skillet over medium-high. Brown ground beef 10-12 min, breaking it apart. Stir in taco seasoning + ¼ cup water, simmer 2 minutes.",
-      "Divide the sweet potato and seasoned beef evenly into 4 containers, each with a dollop of cottage cheese, and refrigerate (up to 4 days) or freeze.",
+      "Divide the sweet potato and seasoned beef evenly into 5 containers, each with a dollop of cottage cheese, and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: reheat, then squeeze fresh guacamole and drizzle hot honey on top -- adding these fresh at serving time keeps them from browning or separating in storage. Toppings on side."
     ],
     "totalTime": 8,
@@ -4528,7 +4528,7 @@ export const RECIPES = [
     "id": 75,
     "method": "Slow Cooker",
     "mealType": "lunch_dinner",
-    "servings": 4,
+    "servings": 5,
     "proteins": [
       "chicken"
     ],
@@ -4542,43 +4542,43 @@ export const RECIPES = [
     "sundayPrepReheat": "Cream sauces can break if reheated too hard. Microwave at 50% power in 1-minute bursts, stirring between each, or warm gently on the stovetop over low heat.",
     "components": [
       {
-        "name": "Chicken Thighs (boneless, skinless, 4 thighs)",
-        "quantity": 680,
+        "name": "Chicken Thighs (boneless, skinless, 5 thighs)",
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "Sun-Dried Tomatoes (jarred, oil-packed, ¾ cup)",
-        "quantity": 120,
+        "quantity": 150,
         "unit": "ml"
       },
       {
-        "name": "Low-Sodium Chicken Broth (4 cups)",
-        "quantity": 960,
+        "name": "Low-Sodium Chicken Broth (5 cups)",
+        "quantity": 1200,
         "unit": "g"
       },
       {
         "name": "Heavy Cream (1 cup)",
-        "quantity": 240,
+        "quantity": 300,
         "unit": "ml"
       },
       {
-        "name": "Italian Seasoning (4 tbsp)",
-        "quantity": 12,
+        "name": "Italian Seasoning (5 tbsp)",
+        "quantity": 15,
         "unit": "g"
       },
       {
         "name": "Parmesan (½ cup shaker)",
-        "quantity": 56,
+        "quantity": 70,
         "unit": "g"
       },
       {
         "name": "Minced Garlic (jarred, 6 tsp)",
-        "quantity": 30,
+        "quantity": 38,
         "unit": "g"
       },
       {
         "name": "Red Pepper Flakes (½ tsp)",
-        "quantity": 1,
+        "quantity": 1.5,
         "unit": "g"
       }
     ],
@@ -4589,7 +4589,7 @@ export const RECIPES = [
     "instructions": [
       "Add chicken, sun-dried tomatoes, broth, Italian seasoning, minced garlic, and red pepper flakes to slow cooker -- the red pepper flakes are what push this from a mild cream sauce toward a real Tuscan-style flavor.",
       "Cook LOW 5–6 hrs or HIGH 2–3 hrs. Stir in heavy cream + parmesan in last 30 min.",
-      "Divide chicken and sauce evenly into 4 containers. Refrigerate up to 4 days.",
+      "Divide chicken and sauce evenly into 5 containers. Refrigerate up to 4 days.",
       "Reheat one portion at a time. Serve over a fresh white rice pouch."
     ],
     "totalTime": 365,
@@ -4900,7 +4900,7 @@ export const RECIPES = [
     "id": 80,
     "method": "Stovetop",
     "mealType": "lunch_dinner",
-    "servings": 4,
+    "servings": 5,
     "proteins": [
       "beef"
     ],
@@ -4915,37 +4915,37 @@ export const RECIPES = [
     "components": [
       {
         "name": "Ground Beef (93% lean)",
-        "quantity": 568,
+        "quantity": 710,
         "unit": "g"
       },
       {
         "name": "Taco Seasoning (1 packet per serving)",
-        "quantity": 100,
+        "quantity": 125,
         "unit": "g"
       },
       {
         "name": "Red Enchilada Sauce (canned, ¼ cup per serving)",
-        "quantity": 240,
+        "quantity": 300,
         "unit": "ml"
       },
       {
         "name": "Beef Broth (1 large carton, ~6 cups)",
-        "quantity": 1440,
+        "quantity": 1800,
         "unit": "g"
       },
       {
         "name": "Corn Tortillas (2 medium per serving)",
-        "quantity": 208,
+        "quantity": 260,
         "unit": "g"
       },
       {
         "name": "Shredded Mexican Cheese (½ cup per serving)",
-        "quantity": 224,
+        "quantity": 280,
         "unit": "g"
       },
       {
         "name": "Olive Oil (1 tsp per serving)",
-        "quantity": 20,
+        "quantity": 25,
         "unit": "g"
       }
     ],
@@ -4955,7 +4955,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Heat oil in a large pot. Brown beef 10-12 min, breaking it apart. Add taco seasoning, beef broth, and enchilada sauce. Simmer 10-12 minutes -- the enchilada sauce gives the broth real birria-style depth instead of relying on the seasoning packet alone.",
-      "Divide the beef and about ½ cup of broth per portion into 4 containers, and refrigerate (up to 4 days) or freeze. Save the rest of the broth separately for dipping.",
+      "Divide the beef and about ½ cup of broth per portion into 5 containers, and refrigerate (up to 4 days) or freeze. Save the rest of the broth separately for dipping.",
       "To serve one portion: reheat that portion's broth in a small pot. Dip 2 corn tortillas in the hot broth until crispy (~20 sec per side).",
       "Fill the dipped tortillas with cheese + shredded beef from that portion + lime + cilantro. Serve with extra broth for dipping."
     ],
@@ -5335,7 +5335,7 @@ export const RECIPES = [
     "id": 86,
     "method": "Stovetop",
     "mealType": "lunch_dinner",
-    "servings": 4,
+    "servings": 5,
     "proteins": [
       "turkey"
     ],
@@ -5351,32 +5351,32 @@ export const RECIPES = [
     "components": [
       {
         "name": "Ground Turkey (93% lean)",
-        "quantity": 568,
+        "quantity": 710,
         "unit": "g"
       },
       {
         "name": "Chipotle Seasoning Powder (1 tbsp per bowl)",
-        "quantity": 40,
+        "quantity": 50,
         "unit": "g"
       },
       {
         "name": "Canned Black Beans (2 cans, drained)",
-        "quantity": 540,
+        "quantity": 675,
         "unit": "g"
       },
       {
         "name": "White Rice Pouch (microwaveable, 1 per meal)",
-        "quantity": 4,
+        "quantity": 5,
         "unit": "each"
       },
       {
         "name": "Salsa Verde (jarred, 3 tbsp per bowl)",
-        "quantity": 192,
+        "quantity": 240,
         "unit": "ml"
       },
       {
         "name": "Olive Oil (1 tsp per bowl)",
-        "quantity": 20,
+        "quantity": 25,
         "unit": "g"
       }
     ],
@@ -5387,7 +5387,7 @@ export const RECIPES = [
     "instructions": [
       "Heat oil in a large skillet. Brown turkey 10-12 min, breaking it apart.",
       "Add chipotle seasoning, black beans, and salsa verde. Simmer 3-4 minutes.",
-      "Divide the turkey mixture evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
+      "Divide the turkey mixture evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave rice pouch 90 sec. Build bowl with rice, top with a portion of the turkey mixture. Toppings on side."
     ],
     "totalTime": 7,
@@ -5404,7 +5404,7 @@ export const RECIPES = [
     "id": 87,
     "method": "Stovetop",
     "mealType": "lunch_dinner",
-    "servings": 4,
+    "servings": 5,
     "proteins": [
       "turkey"
     ],
@@ -5419,27 +5419,27 @@ export const RECIPES = [
       },
       {
         "name": "Ground Pork or Turkey (93% lean)",
-        "quantity": 568,
+        "quantity": 710,
         "unit": "g"
       },
       {
         "name": "Chili Crisp (2 tbsp per serving)",
-        "quantity": 120,
+        "quantity": 150,
         "unit": "g"
       },
       {
         "name": "Low-Sodium Soy Sauce (1.5 tbsp per serving)",
-        "quantity": 90,
+        "quantity": 113,
         "unit": "g"
       },
       {
         "name": "PB2 Peanut Butter Powder (2 tbsp per serving)",
-        "quantity": 64,
+        "quantity": 80,
         "unit": "g"
       },
       {
         "name": "Sesame Oil (½ tsp per serving)",
-        "quantity": 10,
+        "quantity": 13,
         "unit": "g"
       },
       {
@@ -5454,7 +5454,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "In a large skillet, brown the ground meat 10-12 min, breaking it apart. Add soy sauce, PB2, chili crisp, and sesame oil. Stir to combine and simmer 2 minutes.",
-      "Divide the meat sauce evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
+      "Divide the meat sauce evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: boil water and cook one serving of noodles (about 56g) per package directions, usually 2-4 min. Drain.",
       "Toss the noodles with a reheated portion of meat sauce. Toppings on side."
     ],
@@ -5474,7 +5474,7 @@ export const RECIPES = [
     "id": 88,
     "method": "Stovetop",
     "mealType": "lunch_dinner",
-    "servings": 4,
+    "servings": 5,
     "proteins": [
       "beef"
     ],
@@ -5488,37 +5488,37 @@ export const RECIPES = [
     "components": [
       {
         "name": "Ground Beef (93% lean)",
-        "quantity": 568,
+        "quantity": 710,
         "unit": "g"
       },
       {
         "name": "Beef & Broccoli Stir-Fry Sauce (bottled, 3 tbsp per bowl)",
-        "quantity": 180,
+        "quantity": 225,
         "unit": "ml"
       },
       {
         "name": "Sriracha (1 tbsp per bowl)",
-        "quantity": 60,
+        "quantity": 75,
         "unit": "ml"
       },
       {
         "name": "Frozen Broccoli (steam-bag, 1 per meal)",
-        "quantity": 4,
+        "quantity": 5,
         "unit": "each"
       },
       {
         "name": "White Rice Pouch (microwaveable, 1 per meal)",
-        "quantity": 4,
+        "quantity": 5,
         "unit": "each"
       },
       {
         "name": "Olive Oil (1 tsp per bowl)",
-        "quantity": 20,
+        "quantity": 25,
         "unit": "g"
       },
       {
         "name": "Minced Garlic (jarred, 1½ tsp per bowl)",
-        "quantity": 30,
+        "quantity": 38,
         "unit": "g"
       }
     ],
@@ -5529,7 +5529,7 @@ export const RECIPES = [
     "instructions": [
       "Heat oil in a large skillet over medium-high. Add ground beef, breaking it apart with a spoon. Cook 10-12 minutes, stirring occasionally, until browned throughout.",
       "Add stir-fry sauce, sriracha, and minced garlic -- the sriracha is what actually makes this \"spicy\" beef and broccoli instead of just a mild garlicky one. Simmer 3-4 minutes, stirring, until the sauce thickens slightly and coats the beef.",
-      "Divide the beef evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
+      "Divide the beef evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave rice pouch 90 sec + steam-bag broccoli 3 min. Build bowl with rice, top with a portion of beef, broccoli on side. Toppings on side."
     ],
     "totalTime": 7,
@@ -5787,7 +5787,7 @@ export const RECIPES = [
     "id": 92,
     "method": "Skillet",
     "mealType": "lunch_dinner",
-    "servings": 4,
+    "servings": 5,
     "proteins": [
       "beef",
       "chicken",
@@ -5801,12 +5801,12 @@ export const RECIPES = [
         "components": [
           {
             "name": "Ground Beef (93% lean)",
-            "quantity": 568,
+            "quantity": 710,
             "unit": "g"
           },
           {
             "name": "Oyster Sauce (1 tbsp)",
-            "quantity": 15,
+            "quantity": 19,
             "unit": "ml"
           }
         ],
@@ -5820,12 +5820,12 @@ export const RECIPES = [
         "components": [
           {
             "name": "Ground Chicken (93% lean)",
-            "quantity": 568,
+            "quantity": 710,
             "unit": "g"
           },
           {
             "name": "Rice Vinegar (1 tsp)",
-            "quantity": 5,
+            "quantity": 6.5,
             "unit": "ml"
           }
         ],
@@ -5840,12 +5840,12 @@ export const RECIPES = [
         "components": [
           {
             "name": "Ground Pork (93% lean)",
-            "quantity": 568,
+            "quantity": 710,
             "unit": "g"
           },
           {
             "name": "Five-Spice Powder (¼ tsp)",
-            "quantity": 1,
+            "quantity": 1.5,
             "unit": "g"
           }
         ],
@@ -5859,12 +5859,12 @@ export const RECIPES = [
         "components": [
           {
             "name": "Ground Turkey (93% lean)",
-            "quantity": 568,
+            "quantity": 710,
             "unit": "g"
           },
           {
             "name": "Minced Garlic, extra (1 tsp)",
-            "quantity": 5,
+            "quantity": 6.5,
             "unit": "g"
           }
         ],
@@ -5884,27 +5884,27 @@ export const RECIPES = [
     "components": [
       {
         "name": "Soy Sauce (¼ cup)",
-        "quantity": 60,
+        "quantity": 75,
         "unit": "ml"
       },
       {
         "name": "Minced Garlic (jarred, 4 tsp)",
-        "quantity": 20,
+        "quantity": 25,
         "unit": "g"
       },
       {
         "name": "Ground Ginger (1 tsp)",
-        "quantity": 3,
+        "quantity": 4,
         "unit": "g"
       },
       {
         "name": "Brown Sugar (3 tbsp, packed)",
-        "quantity": 40,
+        "quantity": 50,
         "unit": "g"
       },
       {
         "name": "Sesame Oil (1 tbsp)",
-        "quantity": 14,
+        "quantity": 17.5,
         "unit": "g"
       },
       {
@@ -5914,12 +5914,12 @@ export const RECIPES = [
       },
       {
         "name": "White Rice Pouch (microwaveable, 1 per meal)",
-        "quantity": 4,
+        "quantity": 5,
         "unit": "each"
       },
       {
         "name": "Frozen Mixed Veg (steam-bag, 1 per meal)",
-        "quantity": 4,
+        "quantity": 5,
         "unit": "each"
       }
     ],
@@ -5931,7 +5931,7 @@ export const RECIPES = [
       "Heat a large skillet or pot over medium-high heat. Add ground {{protein}}, breaking it apart with a spoon. Cook 10-12 minutes, stirring occasionally, until browned throughout. Drain excess fat if needed.",
       "Push the {{protein}} to one side, add minced garlic and ground ginger to the cleared space, and cook 30-45 seconds, stirring, until fragrant.",
       "Stir in soy sauce, brown sugar, sesame oil, and red pepper flakes. Simmer 2-3 minutes, stirring occasionally, until the sauce thickens slightly and coats the {{protein}}.",
-      "Divide the {{protein}} evenly into 4 containers and refrigerate (up to 4 days) or freeze. To serve one portion: microwave rice pouch 90 sec + steam-bag veg 3 min. Build bowl with rice, top with {{protein}}. Toppings on the side."
+      "Divide the {{protein}} evenly into 5 containers and refrigerate (up to 4 days) or freeze. To serve one portion: microwave rice pouch 90 sec + steam-bag veg 3 min. Build bowl with rice, top with {{protein}}. Toppings on the side."
     ],
     "totalTime": 14,
     "pantryTags": [
@@ -5951,7 +5951,7 @@ export const RECIPES = [
     "id": 93,
     "method": "Skillet",
     "mealType": "lunch_dinner",
-    "servings": 4,
+    "servings": 5,
     "proteins": [
       "beef",
       "chicken",
@@ -5965,12 +5965,12 @@ export const RECIPES = [
         "components": [
           {
             "name": "Ground Beef (93% lean)",
-            "quantity": 568,
+            "quantity": 710,
             "unit": "g"
           },
           {
             "name": "Worcestershire Sauce (1 tsp)",
-            "quantity": 5,
+            "quantity": 6.5,
             "unit": "ml"
           }
         ],
@@ -5984,12 +5984,12 @@ export const RECIPES = [
         "components": [
           {
             "name": "Ground Chicken (93% lean)",
-            "quantity": 568,
+            "quantity": 710,
             "unit": "g"
           },
           {
             "name": "Smoked Paprika (½ tsp)",
-            "quantity": 2,
+            "quantity": 2.5,
             "unit": "g"
           }
         ],
@@ -6004,12 +6004,12 @@ export const RECIPES = [
         "components": [
           {
             "name": "Ground Pork (93% lean)",
-            "quantity": 568,
+            "quantity": 710,
             "unit": "g"
           },
           {
             "name": "Apple Cider Vinegar (1 tsp)",
-            "quantity": 5,
+            "quantity": 6.5,
             "unit": "ml"
           }
         ],
@@ -6023,12 +6023,12 @@ export const RECIPES = [
         "components": [
           {
             "name": "Ground Turkey (93% lean)",
-            "quantity": 568,
+            "quantity": 710,
             "unit": "g"
           },
           {
             "name": "Brown Sugar (1 tsp)",
-            "quantity": 4,
+            "quantity": 5,
             "unit": "g"
           }
         ],
@@ -6044,37 +6044,37 @@ export const RECIPES = [
     "components": [
       {
         "name": "BBQ Sauce (bottled)",
-        "quantity": 128,
+        "quantity": 160,
         "unit": "ml"
       },
       {
         "name": "Minced Garlic (jarred, 1½ tsp)",
-        "quantity": 7.5,
+        "quantity": 9.5,
         "unit": "g"
       },
       {
         "name": "Onion Powder (½ tsp)",
-        "quantity": 8,
+        "quantity": 10,
         "unit": "g"
       },
       {
         "name": "Salt (pinch)",
-        "quantity": 2,
+        "quantity": 2.5,
         "unit": "g"
       },
       {
         "name": "Black Pepper (pinch)",
-        "quantity": 2,
+        "quantity": 2.5,
         "unit": "g"
       },
       {
         "name": "Frozen Hash Browns (shredded, bagged, 1 portion per meal)",
-        "quantity": 4,
+        "quantity": 5,
         "unit": "each"
       },
       {
         "name": "Frozen Broccoli (steam-bag, 1 per meal)",
-        "quantity": 4,
+        "quantity": 5,
         "unit": "each"
       }
     ],
@@ -6085,7 +6085,7 @@ export const RECIPES = [
     "instructions": [
       "Heat a large skillet over medium-high heat. Add ground {{protein}}, minced garlic, onion powder, salt, and pepper, breaking the meat apart with a spoon. Cook 10-12 minutes until browned throughout.",
       "Stir in BBQ sauce generously. Cook 2-3 minutes more.",
-      "Divide the {{protein}} mixture evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
+      "Divide the {{protein}} mixture evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave a portion of hash browns per package directions (usually 2-3 min), or air fry/bake if you'd rather have them crispy. Steam-bag broccoli 3 min, season with a pinch of onion powder and chili flakes. Plate hash browns, top with a portion of the {{protein}} mixture, broccoli on the side. Toppings on the side."
     ],
     "totalTime": 13,
@@ -6105,7 +6105,7 @@ export const RECIPES = [
     "id": 94,
     "method": "Skillet",
     "mealType": "lunch_dinner",
-    "servings": 4,
+    "servings": 5,
     "proteins": [
       "beef",
       "chicken",
@@ -6119,12 +6119,12 @@ export const RECIPES = [
         "components": [
           {
             "name": "Ground Beef (93% lean)",
-            "quantity": 568,
+            "quantity": 710,
             "unit": "g"
           },
           {
             "name": "Balsamic Vinegar (1 tbsp)",
-            "quantity": 15,
+            "quantity": 19,
             "unit": "ml"
           }
         ],
@@ -6138,12 +6138,12 @@ export const RECIPES = [
         "components": [
           {
             "name": "Ground Chicken (93% lean)",
-            "quantity": 568,
+            "quantity": 710,
             "unit": "g"
           },
           {
             "name": "Fresh Basil, chopped (2 tbsp)",
-            "quantity": 5,
+            "quantity": 6.5,
             "unit": "g"
           }
         ],
@@ -6158,12 +6158,12 @@ export const RECIPES = [
         "components": [
           {
             "name": "Ground Pork (93% lean)",
-            "quantity": 568,
+            "quantity": 710,
             "unit": "g"
           },
           {
             "name": "Fennel Seed (½ tsp)",
-            "quantity": 1,
+            "quantity": 1.5,
             "unit": "g"
           }
         ],
@@ -6177,12 +6177,12 @@ export const RECIPES = [
         "components": [
           {
             "name": "Ground Turkey (93% lean)",
-            "quantity": 568,
+            "quantity": 710,
             "unit": "g"
           },
           {
             "name": "Red Pepper Flakes, extra (¼ tsp)",
-            "quantity": 1,
+            "quantity": 1.5,
             "unit": "g"
           }
         ],
@@ -6201,62 +6201,62 @@ export const RECIPES = [
     "components": [
       {
         "name": "Canned Diced Tomatoes",
-        "quantity": 800,
+        "quantity": 1000,
         "unit": "ml"
       },
       {
         "name": "Tomato Paste (1 tbsp)",
-        "quantity": 64,
+        "quantity": 80,
         "unit": "g"
       },
       {
         "name": "Minced Garlic (jarred, 3 tsp)",
-        "quantity": 15,
+        "quantity": 19,
         "unit": "g"
       },
       {
         "name": "Onion Powder (1 tsp)",
-        "quantity": 12,
+        "quantity": 15,
         "unit": "g"
       },
       {
         "name": "Ground Cumin (1 tsp)",
-        "quantity": 8,
+        "quantity": 10,
         "unit": "g"
       },
       {
         "name": "Dried Oregano (1 tsp)",
-        "quantity": 4,
+        "quantity": 5,
         "unit": "g"
       },
       {
         "name": "Red Pepper Flakes (½ tsp)",
-        "quantity": 4,
+        "quantity": 5,
         "unit": "g"
       },
       {
         "name": "Smoked Paprika (½ tsp)",
-        "quantity": 4,
+        "quantity": 5,
         "unit": "g"
       },
       {
         "name": "Salt (¼ tsp)",
-        "quantity": 6,
+        "quantity": 7.5,
         "unit": "g"
       },
       {
         "name": "Butter (1 tbsp)",
-        "quantity": 60,
+        "quantity": 75,
         "unit": "g"
       },
       {
         "name": "White Rice Pouch (microwaveable, 1 per meal)",
-        "quantity": 4,
+        "quantity": 5,
         "unit": "each"
       },
       {
         "name": "Fresh Baby Spinach (pre-washed bag)",
-        "quantity": 340,
+        "quantity": 425,
         "unit": "g"
       }
     ],
@@ -6267,7 +6267,7 @@ export const RECIPES = [
     "instructions": [
       "Heat a large skillet or pot over medium-high heat. Add ground {{protein}} and break apart. Cook 10-12 minutes until mostly browned throughout.",
       "Stir in tomato paste, minced garlic, onion powder, cumin, oregano, red pepper flakes, smoked paprika, and salt, cooking 1 minute until fragrant -- this is where the real flavor comes from, not just the tomatoes. Add canned tomatoes (with liquid) and spinach. Simmer 4-5 minutes, stirring until the spinach wilts and the sauce thickens slightly.",
-      "Stir in butter off heat for a glossy, rich sauce. Divide the {{protein}} and tomato sauce evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
+      "Stir in butter off heat for a glossy, rich sauce. Divide the {{protein}} and tomato sauce evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave a rice pouch 90 sec. Build bowl with rice, top with a portion of the {{protein}} & tomato sauce."
     ],
     "totalTime": 12,
@@ -6287,7 +6287,7 @@ export const RECIPES = [
     "id": 95,
     "method": "Skillet",
     "mealType": "lunch_dinner",
-    "servings": 4,
+    "servings": 5,
     "proteins": [
       "beef",
       "chicken",
@@ -6301,12 +6301,12 @@ export const RECIPES = [
         "components": [
           {
             "name": "Ground Beef (93% lean)",
-            "quantity": 568,
+            "quantity": 710,
             "unit": "g"
           },
           {
             "name": "Sesame Oil (1 tsp)",
-            "quantity": 5,
+            "quantity": 6.5,
             "unit": "g"
           }
         ],
@@ -6320,12 +6320,12 @@ export const RECIPES = [
         "components": [
           {
             "name": "Ground Chicken (93% lean)",
-            "quantity": 568,
+            "quantity": 710,
             "unit": "g"
           },
           {
             "name": "Rice Vinegar (1 tsp)",
-            "quantity": 5,
+            "quantity": 6.5,
             "unit": "ml"
           }
         ],
@@ -6340,12 +6340,12 @@ export const RECIPES = [
         "components": [
           {
             "name": "Ground Pork (93% lean)",
-            "quantity": 568,
+            "quantity": 710,
             "unit": "g"
           },
           {
             "name": "Fresh Ginger, grated (½ tsp)",
-            "quantity": 2,
+            "quantity": 2.5,
             "unit": "g"
           }
         ],
@@ -6359,12 +6359,12 @@ export const RECIPES = [
         "components": [
           {
             "name": "Ground Turkey (93% lean)",
-            "quantity": 568,
+            "quantity": 710,
             "unit": "g"
           },
           {
             "name": "Honey, extra (1 tsp)",
-            "quantity": 7,
+            "quantity": 9,
             "unit": "g"
           }
         ],
@@ -6384,27 +6384,27 @@ export const RECIPES = [
     "components": [
       {
         "name": "Gochujang Sauce (bottled)",
-        "quantity": 120,
+        "quantity": 150,
         "unit": "ml"
       },
       {
         "name": "Soy Sauce",
-        "quantity": 32,
-        "unit": "ml"
-      },
-      {
-        "name": "Honey (squeeze bottle)",
         "quantity": 40,
         "unit": "ml"
       },
       {
+        "name": "Honey (squeeze bottle)",
+        "quantity": 50,
+        "unit": "ml"
+      },
+      {
         "name": "White Rice Pouch (microwaveable, 1 per meal)",
-        "quantity": 4,
+        "quantity": 5,
         "unit": "each"
       },
       {
         "name": "Frozen Broccoli (steam-bag, 1 per meal)",
-        "quantity": 4,
+        "quantity": 5,
         "unit": "each"
       }
     ],
@@ -6415,7 +6415,7 @@ export const RECIPES = [
     "instructions": [
       "Heat a large skillet over medium-high heat. Add ground {{protein}}, break apart with a spoon. Cook 10-12 minutes until browned throughout.",
       "In a bowl, mix gochujang, soy sauce, and honey. Pour over {{protein}} and stir well. Cook 2 minutes more.",
-      "Divide the spicy {{protein}} evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
+      "Divide the spicy {{protein}} evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave rice pouch 90 sec + steam-bag broccoli 3 min, season broccoli with a pinch of garlic powder and chili flakes. Build bowl with rice, top with a portion of the {{protein}}, broccoli on side. Sesame & onion on top."
     ],
     "totalTime": 13,
@@ -6436,7 +6436,7 @@ export const RECIPES = [
     "id": 96,
     "method": "Skillet",
     "mealType": "lunch_dinner",
-    "servings": 4,
+    "servings": 5,
     "proteins": [
       "beef",
       "chicken",
@@ -6450,12 +6450,12 @@ export const RECIPES = [
         "components": [
           {
             "name": "Ground Beef (93% lean)",
-            "quantity": 568,
+            "quantity": 710,
             "unit": "g"
           },
           {
             "name": "Red Wine Vinegar (1 tsp)",
-            "quantity": 5,
+            "quantity": 6.5,
             "unit": "ml"
           }
         ],
@@ -6469,12 +6469,12 @@ export const RECIPES = [
         "components": [
           {
             "name": "Ground Chicken (93% lean)",
-            "quantity": 568,
+            "quantity": 710,
             "unit": "g"
           },
           {
             "name": "Fresh Basil, chopped (2 tbsp)",
-            "quantity": 5,
+            "quantity": 6.5,
             "unit": "g"
           }
         ],
@@ -6489,12 +6489,12 @@ export const RECIPES = [
         "components": [
           {
             "name": "Ground Pork (93% lean)",
-            "quantity": 568,
+            "quantity": 710,
             "unit": "g"
           },
           {
             "name": "Fennel Seed (½ tsp)",
-            "quantity": 1,
+            "quantity": 1.5,
             "unit": "g"
           }
         ],
@@ -6508,12 +6508,12 @@ export const RECIPES = [
         "components": [
           {
             "name": "Ground Turkey (93% lean)",
-            "quantity": 568,
+            "quantity": 710,
             "unit": "g"
           },
           {
             "name": "Italian Seasoning, extra (1 tsp)",
-            "quantity": 3,
+            "quantity": 4,
             "unit": "g"
           }
         ],
@@ -6533,17 +6533,17 @@ export const RECIPES = [
     "components": [
       {
         "name": "Marinara Sauce (bottled)",
-        "quantity": 400,
+        "quantity": 500,
         "unit": "ml"
       },
       {
         "name": "Pasta (dry, protein pasta recommended)",
-        "quantity": 340,
+        "quantity": 425,
         "unit": "g"
       },
       {
         "name": "Fresh Baby Spinach (pre-washed bag)",
-        "quantity": 340,
+        "quantity": 425,
         "unit": "g"
       }
     ],
@@ -6555,7 +6555,7 @@ export const RECIPES = [
       "Bring a large pot of water to a boil. Add pasta and cook per package directions (usually 8-10 min) until al dente, then drain.",
       "Meanwhile, heat a large skillet over medium-high. Add ground {{protein}}, break apart. Cook 10-12 minutes until browned throughout.",
       "Add marinara sauce and spinach to the meat. Season the spinach with a pinch of garlic powder and onion powder. Stir and simmer 3-4 minutes until the spinach wilts. Combine with the cooked pasta.",
-      "Divide the pasta and sauce evenly into 4 containers and refrigerate (up to 4 days) or freeze. To serve one portion: reheat in the microwave until hot throughout. Cheese on top."
+      "Divide the pasta and sauce evenly into 5 containers and refrigerate (up to 4 days) or freeze. To serve one portion: reheat in the microwave until hot throughout. Cheese on top."
     ],
     "totalTime": 15,
     "pantryTags": [
@@ -6573,7 +6573,7 @@ export const RECIPES = [
     "id": 97,
     "method": "Skillet",
     "mealType": "lunch_dinner",
-    "servings": 4,
+    "servings": 5,
     "proteins": [
       "beef",
       "chicken",
@@ -6587,12 +6587,12 @@ export const RECIPES = [
         "components": [
           {
             "name": "Ground Beef (93% lean)",
-            "quantity": 568,
+            "quantity": 710,
             "unit": "g"
           },
           {
             "name": "Chipotle Powder (¼ tsp)",
-            "quantity": 1,
+            "quantity": 1.5,
             "unit": "g"
           }
         ],
@@ -6606,12 +6606,12 @@ export const RECIPES = [
         "components": [
           {
             "name": "Ground Chicken (93% lean)",
-            "quantity": 568,
+            "quantity": 710,
             "unit": "g"
           },
           {
             "name": "Fresh Lime Juice (1 tbsp)",
-            "quantity": 15,
+            "quantity": 19,
             "unit": "ml"
           }
         ],
@@ -6626,7 +6626,7 @@ export const RECIPES = [
         "components": [
           {
             "name": "Ground Pork (93% lean)",
-            "quantity": 568,
+            "quantity": 710,
             "unit": "g"
           },
           {
@@ -6645,12 +6645,12 @@ export const RECIPES = [
         "components": [
           {
             "name": "Ground Turkey (93% lean)",
-            "quantity": 568,
+            "quantity": 710,
             "unit": "g"
           },
           {
             "name": "Smoked Paprika (¼ tsp)",
-            "quantity": 1,
+            "quantity": 1.5,
             "unit": "g"
           }
         ],
@@ -6669,22 +6669,22 @@ export const RECIPES = [
     "components": [
       {
         "name": "Taco Seasoning (packet)",
-        "quantity": 48,
+        "quantity": 60,
         "unit": "g"
       },
       {
         "name": "Salsa (bottled, 3 tbsp)",
-        "quantity": 192,
+        "quantity": 240,
         "unit": "ml"
       },
       {
         "name": "Corn Tortillas (2 per meal, warmed)",
-        "quantity": 8,
+        "quantity": 10,
         "unit": "each"
       },
       {
         "name": "Frozen Mixed Veg (steam-bag, 1 per meal)",
-        "quantity": 4,
+        "quantity": 5,
         "unit": "each"
       }
     ],
@@ -6695,7 +6695,7 @@ export const RECIPES = [
     "instructions": [
       "Heat a large skillet over medium-high. Add ground {{protein}} and break apart. Cook 10-12 minutes until browned throughout.",
       "Sprinkle taco seasoning over the meat and stir in the salsa (instead of water) -- it cooks down into a real sauce that coats the meat, not just a dry-seasoned crumble. Simmer 2-3 minutes.",
-      "Divide the taco {{protein}} evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
+      "Divide the taco {{protein}} evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: heat 2 tortillas in a dry pan 30 sec per side. Microwave veg 3 min. Build tacos with a portion of the {{protein}}. Toppings on the side."
     ],
     "totalTime": 12,
@@ -6715,7 +6715,7 @@ export const RECIPES = [
     "id": 98,
     "method": "Skillet",
     "mealType": "lunch_dinner",
-    "servings": 4,
+    "servings": 5,
     "proteins": [
       "beef",
       "chicken",
@@ -6729,17 +6729,17 @@ export const RECIPES = [
         "components": [
           {
             "name": "Ground Beef (93% lean)",
-            "quantity": 568,
+            "quantity": 710,
             "unit": "g"
           },
           {
             "name": "Beef Stroganoff Sauce Mix (powder)",
-            "quantity": 80,
+            "quantity": 100,
             "unit": "ml"
           },
           {
             "name": "Cracked Black Pepper, extra (¼ tsp)",
-            "quantity": 1,
+            "quantity": 1.5,
             "unit": "g"
           }
         ],
@@ -6753,17 +6753,17 @@ export const RECIPES = [
         "components": [
           {
             "name": "Ground Chicken (93% lean)",
-            "quantity": 568,
+            "quantity": 710,
             "unit": "g"
           },
           {
             "name": "Chicken Gravy Mix (powder)",
-            "quantity": 80,
+            "quantity": 100,
             "unit": "ml"
           },
           {
             "name": "Fresh Thyme (½ tsp)",
-            "quantity": 1,
+            "quantity": 1.5,
             "unit": "g"
           }
         ],
@@ -6778,17 +6778,17 @@ export const RECIPES = [
         "components": [
           {
             "name": "Ground Pork (93% lean)",
-            "quantity": 568,
+            "quantity": 710,
             "unit": "g"
           },
           {
             "name": "Brown Gravy Mix (powder)",
-            "quantity": 80,
+            "quantity": 100,
             "unit": "ml"
           },
           {
             "name": "Smoked Paprika (¼ tsp)",
-            "quantity": 1,
+            "quantity": 1.5,
             "unit": "g"
           }
         ],
@@ -6802,17 +6802,17 @@ export const RECIPES = [
         "components": [
           {
             "name": "Ground Turkey (93% lean)",
-            "quantity": 568,
+            "quantity": 710,
             "unit": "g"
           },
           {
             "name": "Turkey Gravy Mix (powder)",
-            "quantity": 80,
+            "quantity": 100,
             "unit": "ml"
           },
           {
             "name": "Fresh Sage (½ tsp)",
-            "quantity": 1,
+            "quantity": 1.5,
             "unit": "g"
           }
         ],
@@ -6832,22 +6832,22 @@ export const RECIPES = [
     "components": [
       {
         "name": "Cremini Mushrooms (sliced, 3 cups)",
-        "quantity": 270,
+        "quantity": 337.5,
         "unit": "g"
       },
       {
         "name": "Sour Cream",
-        "quantity": 240,
+        "quantity": 300,
         "unit": "ml"
       },
       {
         "name": "Egg Noodles (microwave cup, 1 per meal)",
-        "quantity": 4,
+        "quantity": 5,
         "unit": "each"
       },
       {
         "name": "Frozen Broccoli (steam-bag, 1 per meal)",
-        "quantity": 4,
+        "quantity": 5,
         "unit": "each"
       }
     ],
@@ -6858,7 +6858,7 @@ export const RECIPES = [
     "instructions": [
       "Heat a large skillet over medium-high. Add ground {{protein}} and break apart. Cook 10-12 minutes until browned throughout. Add the sliced mushrooms in the last 3-4 minutes and cook until softened and lightly browned -- real stroganoff is built on browned mushrooms, not just gravy.",
       "Mix stroganoff sauce powder with 2 cups water per package, then add to the meat. Simmer 4-5 minutes. Remove from heat and stir in sour cream.",
-      "Divide the {{protein}} stroganoff evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
+      "Divide the {{protein}} stroganoff evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave egg noodles per package + microwave broccoli 3 min, season broccoli with a pinch of garlic powder and onion powder. Combine noodles with a portion of the stroganoff. Broccoli on side."
     ],
     "totalTime": 14,
@@ -6879,7 +6879,7 @@ export const RECIPES = [
     "id": 99,
     "method": "Skillet",
     "mealType": "lunch_dinner",
-    "servings": 4,
+    "servings": 5,
     "proteins": [
       "beef",
       "chicken",
@@ -6893,12 +6893,12 @@ export const RECIPES = [
         "components": [
           {
             "name": "Ground Beef (93% lean)",
-            "quantity": 568,
+            "quantity": 710,
             "unit": "g"
           },
           {
             "name": "Sesame Oil (1 tsp)",
-            "quantity": 5,
+            "quantity": 6.5,
             "unit": "g"
           }
         ],
@@ -6912,12 +6912,12 @@ export const RECIPES = [
         "components": [
           {
             "name": "Ground Chicken (93% lean)",
-            "quantity": 568,
+            "quantity": 710,
             "unit": "g"
           },
           {
             "name": "Rice Vinegar (1 tsp)",
-            "quantity": 5,
+            "quantity": 6.5,
             "unit": "ml"
           }
         ],
@@ -6932,12 +6932,12 @@ export const RECIPES = [
         "components": [
           {
             "name": "Ground Pork (93% lean)",
-            "quantity": 568,
+            "quantity": 710,
             "unit": "g"
           },
           {
             "name": "Fresh Ginger, grated (½ tsp)",
-            "quantity": 2,
+            "quantity": 2.5,
             "unit": "g"
           }
         ],
@@ -6951,12 +6951,12 @@ export const RECIPES = [
         "components": [
           {
             "name": "Ground Turkey (93% lean)",
-            "quantity": 568,
+            "quantity": 710,
             "unit": "g"
           },
           {
             "name": "Cracked Black Pepper (¼ tsp)",
-            "quantity": 1,
+            "quantity": 1.5,
             "unit": "g"
           }
         ],
@@ -6976,22 +6976,22 @@ export const RECIPES = [
     "components": [
       {
         "name": "Teriyaki Sauce (bottled)",
-        "quantity": 120,
+        "quantity": 150,
         "unit": "ml"
       },
       {
         "name": "Minced Garlic (jarred, 1½ tsp)",
-        "quantity": 7.5,
+        "quantity": 9.5,
         "unit": "g"
       },
       {
         "name": "White Rice Pouch (microwaveable, 1 per meal)",
-        "quantity": 4,
+        "quantity": 5,
         "unit": "each"
       },
       {
         "name": "Frozen Broccoli (steam-bag, 1 per meal)",
-        "quantity": 4,
+        "quantity": 5,
         "unit": "each"
       }
     ],
@@ -7002,7 +7002,7 @@ export const RECIPES = [
     "instructions": [
       "Heat a large skillet over medium-high heat. Add ground {{protein}} and minced garlic, breaking the meat apart. Cook 10-12 minutes until browned throughout.",
       "Drizzle teriyaki sauce over {{protein}} and stir well. Cook 2 minutes more.",
-      "Divide the teriyaki {{protein}} evenly into 4 containers and refrigerate (up to 4 days) or freeze.",
+      "Divide the teriyaki {{protein}} evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave rice pouch 90 sec + steam-bag broccoli 3 min, season broccoli with sesame seeds. Build bowl with rice, top with a portion of the {{protein}}, broccoli on side. Toppings on top."
     ],
     "totalTime": 12,
@@ -7023,7 +7023,7 @@ export const RECIPES = [
     "id": 124,
     "method": "Bake",
     "mealType": "lunch_dinner",
-    "servings": 4,
+    "servings": 5,
     "proteins": [
       "plant"
     ],
@@ -7033,46 +7033,46 @@ export const RECIPES = [
     "tags": [
       "sunday_prep"
     ],
-    "sundayPrepReheat": "Cut into portions after baking, then reheat one at a time in the microwave 2-3 min, or in a 350°F oven for about 10 min if you want the edges crisp again.",
+    "sundayPrepReheat": "Cut into 5 equal portions after baking, then reheat one at a time in the microwave 2-3 min, or in a 350°F oven for about 10 min if you want the edges crisp again.",
     "components": [
       {
-        "name": "Canned Black Beans (1 can, drained & rinsed)",
-        "quantity": 425,
+        "name": "Canned Black Beans (drained & rinsed)",
+        "quantity": 531,
         "unit": "g"
       },
       {
         "name": "Frozen Diced Sweet Potato (steam-bag, pre-cut)",
-        "quantity": 300,
+        "quantity": 375,
         "unit": "g"
       },
       {
         "name": "Red Enchilada Sauce (canned)",
-        "quantity": 280,
+        "quantity": 350,
         "unit": "ml"
       },
       {
         "name": "Corn Tortillas (6-inch)",
-        "quantity": 6,
+        "quantity": 8,
         "unit": "each"
       },
       {
         "name": "Shredded Mexican Cheese Blend (bagged)",
-        "quantity": 120,
+        "quantity": 150,
         "unit": "g"
       },
       {
         "name": "Ground Cumin (1 tsp)",
-        "quantity": 2,
+        "quantity": 2.5,
         "unit": "g"
       },
       {
         "name": "Chili Powder (1 tsp)",
-        "quantity": 2,
+        "quantity": 2.5,
         "unit": "g"
       },
       {
         "name": "Garlic Powder (½ tsp)",
-        "quantity": 2,
+        "quantity": 2.5,
         "unit": "g"
       }
     ],
@@ -7085,7 +7085,7 @@ export const RECIPES = [
       "Preheat oven to 375°F. Microwave the steam-bag sweet potato 5 minutes until fork-tender.",
       "In a bowl, mix black beans, sweet potato, cumin, chili powder, garlic powder, and ¼ cup of the enchilada sauce -- seasoning the filling directly keeps it from tasting like plain beans under sauce.",
       "Spoon filling onto tortillas, roll, and place seam-down in a baking dish. Pour remaining sauce over the top, then sprinkle with cheese.",
-      "Bake 20 minutes until the cheese is melted and the edges are bubbling."
+      "Bake 20 minutes until the cheese is melted and the edges are bubbling. Cut into 5 equal portions."
     ],
     "totalTime": 30,
     "pantryTags": [
@@ -7174,7 +7174,7 @@ export const RECIPES = [
     "id": 126,
     "method": "Bake",
     "mealType": "breakfast",
-    "servings": 6,
+    "servings": 5,
     "proteins": [
       "eggs",
       "pork"
@@ -7187,27 +7187,27 @@ export const RECIPES = [
     "components": [
       {
         "name": "Liquid Egg Substitute (carton)",
-        "quantity": 500,
+        "quantity": 417,
         "unit": "ml"
       },
       {
         "name": "Fully Cooked Breakfast Sausage Crumbles (refrigerated)",
-        "quantity": 340,
+        "quantity": 283,
         "unit": "g"
       },
       {
         "name": "Frozen Diced Hash Browns",
-        "quantity": 300,
+        "quantity": 250,
         "unit": "g"
       },
       {
         "name": "Shredded Cheddar (bagged)",
-        "quantity": 120,
+        "quantity": 100,
         "unit": "g"
       },
       {
         "name": "Milk (splash)",
-        "quantity": 60,
+        "quantity": 50,
         "unit": "ml"
       }
     ],
@@ -7220,7 +7220,7 @@ export const RECIPES = [
       "Pour liquid eggs and milk into the dish and whisk with a fork.",
       "Scatter the hash browns, sausage crumbles, and half the cheese evenly over the eggs.",
       "Bake 35–40 minutes until the eggs are set and the center no longer jiggles. Top with remaining cheese for the last 5 minutes.",
-      "Slice into portions."
+      "Slice into 5 equal portions."
     ],
     "totalTime": 48,
     "pantryTags": [
@@ -7298,7 +7298,7 @@ export const RECIPES = [
     "id": 128,
     "method": "Slow Cooker",
     "mealType": "lunch_dinner",
-    "servings": 4,
+    "servings": 5,
     "proteins": [
       "chicken",
       "pork"
@@ -7314,37 +7314,37 @@ export const RECIPES = [
     "components": [
       {
         "name": "Frozen Seasoning Blend \"Holy Trinity\" (onion, celery, bell pepper, pre-chopped)",
-        "quantity": 1200,
+        "quantity": 1500,
         "unit": "g"
       },
       {
         "name": "Andouille Sausage (pre-cooked, sliced)",
-        "quantity": 800,
+        "quantity": 1000,
         "unit": "g"
       },
       {
         "name": "Rotisserie Chicken (shredded, pre-cooked)",
-        "quantity": 800,
+        "quantity": 1000,
         "unit": "g"
       },
       {
         "name": "Instant Dark Roux (jarred)",
-        "quantity": 240,
+        "quantity": 300,
         "unit": "g"
       },
       {
         "name": "Chicken Broth (carton)",
-        "quantity": 2000,
+        "quantity": 2500,
         "unit": "ml"
       },
       {
         "name": "Cajun Seasoning (shaker)",
-        "quantity": 40,
+        "quantity": 50,
         "unit": "g"
       },
       {
         "name": "White Rice Pouch (1 per meal)",
-        "quantity": 4,
+        "quantity": 5,
         "unit": "each"
       }
     ],
@@ -7356,7 +7356,7 @@ export const RECIPES = [
       "Add the seasoning blend, sausage, roux, broth, and cajun seasoning to the slow cooker. Stir until the roux dissolves.",
       "Cook on LOW 6 hours or HIGH 3 hours.",
       "Stir in the shredded rotisserie chicken for the last 30 minutes to warm through.",
-      "Divide the gumbo evenly into 4 containers and refrigerate up to 4 days, or freeze.",
+      "Divide the gumbo evenly into 5 containers and refrigerate up to 4 days, or freeze.",
       "To serve one portion: microwave a rice pouch 90 seconds. Serve the gumbo over rice."
     ],
     "totalTime": 368,
@@ -7376,7 +7376,7 @@ export const RECIPES = [
     "id": 129,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
-    "servings": 4,
+    "servings": 5,
     "proteins": [
       "turkey"
     ],
@@ -7391,22 +7391,22 @@ export const RECIPES = [
     "components": [
       {
         "name": "Frozen Turkey Meatballs (pre-formed)",
-        "quantity": 1120,
+        "quantity": 1400,
         "unit": "g"
       },
       {
         "name": "Marinara Sauce (jarred)",
-        "quantity": 800,
+        "quantity": 1000,
         "unit": "ml"
       },
       {
         "name": "Shredded Mozzarella (bagged)",
-        "quantity": 240,
+        "quantity": 300,
         "unit": "g"
       },
       {
         "name": "Spaghetti Pouch (microwaveable, pre-cooked, 1 per meal)",
-        "quantity": 4,
+        "quantity": 5,
         "unit": "each"
       }
     ],
@@ -7417,7 +7417,7 @@ export const RECIPES = [
     "instructions": [
       "Air fry frozen turkey meatballs in batches at 400°F for 10–12 minutes each, shaking the basket halfway.",
       "Microwave the meatballs with the marinara sauce to warm through, about 3-4 minutes total.",
-      "Divide the meatballs and sauce evenly into 4 containers, top with mozzarella, and refrigerate (up to 4 days) or freeze.",
+      "Divide the meatballs and sauce evenly into 5 containers, top with mozzarella, and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave a spaghetti pouch 90 sec. Reheat a portion of meatballs and sauce until hot and the cheese melts. Combine with the pasta."
     ],
     "totalTime": 20,
@@ -7755,7 +7755,7 @@ export const RECIPES = [
     "id": 136,
     "method": "No Cook",
     "mealType": "breakfast",
-    "servings": 4,
+    "servings": 5,
     "proteins": [
       "dairy"
     ],
@@ -7768,27 +7768,27 @@ export const RECIPES = [
     "components": [
       {
         "name": "Rolled Oats",
-        "quantity": 240,
+        "quantity": 300,
         "unit": "g"
       },
       {
         "name": "Milk (or milk of choice)",
-        "quantity": 720,
+        "quantity": 900,
         "unit": "ml"
       },
       {
         "name": "Vanilla Protein Powder (scoop)",
-        "quantity": 120,
+        "quantity": 150,
         "unit": "g"
       },
       {
         "name": "Chia Seeds",
-        "quantity": 40,
+        "quantity": 50,
         "unit": "g"
       },
       {
         "name": "16 oz Mason Jars or Lidded Containers (1 per serving)",
-        "quantity": 4,
+        "quantity": 5,
         "unit": "count"
       }
     ],
@@ -7796,7 +7796,7 @@ export const RECIPES = [
       "Fresh Berries"
     ],
     "instructions": [
-      "Divide oats, milk, protein powder, and chia seeds evenly among 4 jars and stir each together.",
+      "Divide oats, milk, protein powder, and chia seeds evenly among 5 jars and stir each together.",
       "Cover and refrigerate overnight (keeps up to 4-5 days). Grab one from the fridge each morning -- eat cold or warm 60 seconds in the microwave."
     ],
     "totalTime": 3,
@@ -7998,7 +7998,7 @@ export const RECIPES = [
     "id": 140,
     "method": "Stovetop",
     "mealType": "breakfast",
-    "servings": 4,
+    "servings": 5,
     "proteins": [
       "pork",
       "eggs"
@@ -8012,17 +8012,17 @@ export const RECIPES = [
     "components": [
       {
         "name": "Ground Mexican Chorizo (raw, casing removed)",
-        "quantity": 452,
+        "quantity": 565,
         "unit": "g"
       },
       {
-        "name": "Whole Eggs (16 large)",
-        "quantity": 800,
+        "name": "Whole Eggs (20 large)",
+        "quantity": 1000,
         "unit": "count"
       },
       {
         "name": "Shredded Pepper Jack (bagged)",
-        "quantity": 224,
+        "quantity": 280,
         "unit": "g"
       }
     ],
@@ -8033,7 +8033,7 @@ export const RECIPES = [
     "instructions": [
       "Heat a large skillet over medium-high. Add chorizo and break apart. Cook 8-10 minutes until browned and cooked through.",
       "Whisk all the eggs together in a large bowl. Pour into the skillet with the chorizo and scramble until just set.",
-      "Top with pepper jack and let it melt. Divide evenly into 4 portions.",
+      "Top with pepper jack and let it melt. Divide evenly into 5 portions.",
       "Refrigerate (up to 3 days) or freeze; reheat gently in the microwave. Serve with salsa and cilantro."
     ],
     "totalTime": 8,
@@ -8049,7 +8049,7 @@ export const RECIPES = [
     "id": 141,
     "method": "Stovetop",
     "mealType": "breakfast",
-    "servings": 4,
+    "servings": 5,
     "proteins": [
       "pork",
       "eggs"
@@ -8064,27 +8064,27 @@ export const RECIPES = [
     "components": [
       {
         "name": "Ground Mexican Chorizo (raw, casing removed)",
-        "quantity": 452,
+        "quantity": 565,
         "unit": "g"
       },
       {
         "name": "Whole Eggs (3 large)",
-        "quantity": 600,
+        "quantity": 750,
         "unit": "count"
       },
       {
         "name": "Shredded Pepper Jack (bagged)",
-        "quantity": 168,
+        "quantity": 210,
         "unit": "g"
       },
       {
         "name": "Flour Tortilla (burrito-size)",
-        "quantity": 4,
+        "quantity": 5,
         "unit": "each"
       },
       {
         "name": "Salsa (jarred)",
-        "quantity": 120,
+        "quantity": 150,
         "unit": "g"
       }
     ],
@@ -8095,7 +8095,7 @@ export const RECIPES = [
     "instructions": [
       "Heat a large skillet over medium-high. Add chorizo and break apart. Cook 8-10 minutes until browned throughout.",
       "Whisk eggs and pour into the skillet. Scramble together with the chorizo until just set.",
-      "Sprinkle in pepper jack and let it melt. Divide the chorizo-egg mixture evenly among 4 tortillas with salsa, roll each into a burrito.",
+      "Sprinkle in pepper jack and let it melt. Divide the chorizo-egg mixture evenly among 5 tortillas with salsa, roll each into a burrito.",
       "Wrap each burrito individually in foil or plastic wrap and refrigerate (up to 4 days) or freeze -- a classic grab-and-go freezer burrito. To reheat: microwave 1-2 minutes (longer from frozen), flipping halfway."
     ],
     "totalTime": 10,
@@ -8113,7 +8113,7 @@ export const RECIPES = [
     "id": 142,
     "method": "Bake",
     "mealType": "breakfast",
-    "servings": 6,
+    "servings": 5,
     "proteins": [
       "eggs",
       "pork"
@@ -8127,28 +8127,28 @@ export const RECIPES = [
     ],
     "components": [
       {
-        "name": "Whole Eggs (6 large)",
-        "quantity": 300,
+        "name": "Whole Eggs (5 large)",
+        "quantity": 250,
         "unit": "count"
       },
       {
         "name": "Light Cream Cheese (softened)",
-        "quantity": 56,
+        "quantity": 47,
         "unit": "g"
       },
       {
         "name": "Jarred Jalapeño Slices (chopped, drained)",
-        "quantity": 30,
+        "quantity": 25,
         "unit": "g"
       },
       {
         "name": "Pre-Cooked Bacon Crumbles (microwave)",
-        "quantity": 40,
+        "quantity": 33,
         "unit": "g"
       },
       {
         "name": "Shredded Cheddar (bagged)",
-        "quantity": 40,
+        "quantity": 33,
         "unit": "g"
       }
     ],
@@ -8157,7 +8157,7 @@ export const RECIPES = [
       "Extra Jalapeño Slices"
     ],
     "instructions": [
-      "Preheat oven to 350°F. Grease a 6-cup muffin tin (or use silicone liners).",
+      "Preheat oven to 350°F. Grease 5 cups of a standard muffin tin (or use silicone liners).",
       "Whisk eggs and cream cheese together until mostly smooth (small lumps are fine). Stir in jalapeños, bacon, and half the cheddar.",
       "Divide the mixture evenly among the muffin cups. Top with the remaining cheddar.",
       "Bake 18–20 minutes until puffed and set in the center. Cool 2 minutes before removing. Keeps in the fridge for grab-and-go mornings -- 1 muffin per serving."
