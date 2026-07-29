@@ -369,7 +369,7 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
           <div style={{ fontFamily: "'Baloo 2',sans-serif", fontWeight: 800, fontSize: 'var(--type-h1)', lineHeight: 1.2, color: '#fff', textShadow: '0 2px 12px rgba(0,0,0,.4)', display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
             {r.name}
             {r.isNew && <span className="new-badge">New</span>}
-            {r.isTrending && <span className="trending-badge"><FlameIcon size={10.5} /> Trending</span>}
+            {r.isTrending && <span className="trending-badge"><FlameIcon size={10.5} color="var(--orange)" /> Trending</span>}
           </div>
           <div onClick={(e) => { e.stopPropagation(); toggleSaved(r.id); }} style={{ flexShrink: 0, marginLeft: 8 }}>
             <StarIcon filled={isSaved(r.id)} size={20} />
@@ -417,7 +417,7 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
       <div style={{ height: 42, background: getProteinCardBackground(r.proteins), display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', padding: '6px 7px' }}>
         <div style={{ display: 'flex', gap: 4 }}>
           {r.isNew && <span className="new-badge" style={{ fontSize: 9, padding: '2px 6px' }}>New</span>}
-          {r.isTrending && <span className="trending-badge" style={{ fontSize: 9, padding: '2px 6px' }}><FlameIcon size={9} /></span>}
+          {r.isTrending && <span className="trending-badge" style={{ fontSize: 9, padding: '2px 6px' }}><FlameIcon size={9} color="var(--orange)" /></span>}
         </div>
         <div onClick={(e) => { e.stopPropagation(); toggleSaved(r.id); }} style={{ flexShrink: 0 }}>
           <StarIcon filled={isSaved(r.id)} size={16} />

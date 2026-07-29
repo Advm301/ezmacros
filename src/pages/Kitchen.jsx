@@ -343,7 +343,7 @@ export default function Kitchen({
         <div style={{ fontFamily: "'Baloo 2',sans-serif", fontWeight: 800, fontSize: 'var(--type-display)', lineHeight: 'var(--type-display-lh)', color: '#fff', marginBottom: 'var(--space-2)', textShadow: '0 2px 14px rgba(0,0,0,.4)', display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
           {r.name}
           {r.isNew && <span className="new-badge">New</span>}
-          {r.isTrending && <span className="trending-badge"><FlameIcon size={10.5} /> Trending</span>}
+          {r.isTrending && <span className="trending-badge"><FlameIcon size={10.5} color="var(--orange)" /> Trending</span>}
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap', background: 'rgba(0,0,0,.34)', backdropFilter: 'blur(4px)', borderRadius: 'var(--r)', padding: '6px 11px', fontSize: 'var(--type-caption)', color: 'rgba(255,255,255,.92)', marginBottom: 'var(--space-3)' }}>
           <span>
