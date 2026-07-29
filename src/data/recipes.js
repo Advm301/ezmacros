@@ -9810,7 +9810,7 @@ export const RECIPES = [
   },
   {
     "name": "Protein Baked Oats",
-    "description": "The viral single-serve baked oats — cakey, protein-packed, and ready in one bowl and a microwave or oven.",
+    "description": "The viral baked oats trend, batch-baked into 5 meal-prep portions — cakey, protein-packed, and ready with a quick reheat.",
     "id": 220,
     "isNew": true,
     "method": "Bake",
