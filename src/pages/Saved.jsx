@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { RECIPES } from '../data/recipes.js';
 import StarIcon from '../components/StarIcon';
 import { MEAL_SLOTS, MEAL_SLOT_LABELS, todayString, formatDateString } from '../hooks/useDiary';
@@ -11,6 +11,7 @@ import { computeLoggingStreak, wouldStartNewStreak } from '../utils/streak';
 import { hapticSelection, hapticLight, hapticMedium } from '../utils/haptics';
 import LightningIcon from '../components/LightningIcon';
 import SurpriseSparkles from '../components/SurpriseSparkles';
+import SurpriseDayOverlay from '../components/SurpriseDayOverlay';
 import FirstVisitTip from '../components/FirstVisitTip';
 import InfoIcon from '../components/InfoIcon';
 import CalendarIcon from '../components/CalendarIcon';
@@ -31,6 +32,14 @@ import {
 } from '../utils/sundayPrep';
 import { resolveProteinComponents } from '../utils/proteinChoice';
 import { getRecipeGradient } from '../utils/recipeArt';
+
+// Small local delay helper -- purely presentational pacing for
+// SurpriseDayOverlay's one-meal-at-a-time reveal (see handleSurpriseDay
+// below), not a data/network concern, so it doesn't belong in a shared
+// utils module.
+function wait(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 // Maps a diary meal slot to the recipe mealType pool it should draw random
 // picks from. Lunch and Dinner share the same 'lunch_dinner' pool.
@@ -116,6 +125,14 @@ export default function Saved({
 }) {
   const [dayMessage, setDayMessage] = useState('');
   const [generatingDay, setGeneratingDay] = useState(false);
+  // Drives SurpriseDayOverlay -- null while it's not showing, otherwise
+  // { phase: 'generating' | 'revealing' | 'done', meals: [{slot, recipe,
+  // entryId}] } for whichever meals have actually landed so far. Kept as
+  // one object (not separate phase/meals state) so a single setState call
+  // always updates both together, with no risk of a render seeing one
+  // updated and not the other.
+  const [surpriseReveal, setSurpriseReveal] = useState(null);
+  const surpriseDismissTimerRef = useRef(null);
   const [regeneratingId, setRegeneratingId] = useState(null);
   const [showShoppingList, setShowShoppingList] = useState(false);
   const [shopLinkLoading, setShopLinkLoading] = useState(false);
@@ -204,6 +221,16 @@ export default function Saved({
     return () => clearTimeout(timer);
   }, [highlightedEntryId, onConsumeHighlightedEntry]);
 
+  // Clears SurpriseDayOverlay's auto-dismiss timer if this component
+  // unmounts mid-generation (switching tabs away from Diary) -- otherwise
+  // that timeout would still fire later and call setState on an unmounted
+  // component.
+  useEffect(() => {
+    return () => {
+      if (surpriseDismissTimerRef.current) clearTimeout(surpriseDismissTimerRef.current);
+    };
+  }, []);
+
   const savedIds = Object.keys(saved);
   const savedRecipes = RECIPES.filter((r) => savedIds.includes(String(r.id)));
 
@@ -233,10 +260,39 @@ export default function Saved({
     setTimeout(() => setDayMessage(''), 3000);
   };
 
+  // Scrolls so the newly-revealed meals are actually visible regardless of
+  // where the page happened to be scrolled when Surprise Me was tapped --
+  // centers on the middle revealed entry (lunch, when all three landed),
+  // which in practice brings breakfast and dinner into view either side
+  // of it too since the three rows sit right next to each other.
+  const scrollToRevealedEntries = (revealed) => {
+    if (revealed.length === 0) return;
+    const middle = revealed[Math.floor((revealed.length - 1) / 2)];
+    const el = document.getElementById(`diary-entry-${middle.entryId}`);
+    el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  };
+
+  // Closes SurpriseDayOverlay and scrolls to the result -- shared between
+  // the caller's own auto-dismiss timer and a manual tap-to-continue, so
+  // both end up in exactly the same place rather than two slightly
+  // different close paths.
+  const finishSurpriseReveal = (revealed) => {
+    if (surpriseDismissTimerRef.current) {
+      clearTimeout(surpriseDismissTimerRef.current);
+      surpriseDismissTimerRef.current = null;
+    }
+    setSurpriseReveal(null);
+    // Wait a tick for the just-added entries to actually be in the DOM
+    // (dayEntries/diary.entries updates from the addEntry calls below,
+    // then this component re-renders) before trying to scroll to them.
+    requestAnimationFrame(() => scrollToRevealedEntries(revealed));
+  };
+
   const handleSurpriseDay = async () => {
     if (!diary) return;
     hapticMedium();
     setGeneratingDay(true);
+    setSurpriseReveal({ phase: 'generating', meals: [] });
     // Checked once against the entries already in hand, before any of
     // this loop's inserts land -- same reasoning as App.jsx's
     // handleAddToDiary (see wouldStartNewStreak's own comment). Checking
@@ -246,23 +302,32 @@ export default function Saved({
     // async refresh catches up anyway.
     const willStartStreak = wouldStartNewStreak(diary.entries, selectedDate);
     const usedIds = [];
-    let addedCount = 0;
+    const revealed = [];
     for (const slot of FULL_DAY_SLOTS) {
       const alreadyFilled = dayEntries.some((e) => e.meal_slot === slot);
       if (alreadyFilled) continue;
       const recipe = pickRandomRecipe(SLOT_MEAL_TYPE[slot], usedIds);
       if (!recipe) continue;
       usedIds.push(recipe.id);
-      const ok = await diary.addEntry(selectedDate, slot, recipe.id, true);
-      if (ok) addedCount += 1;
+      const entry = await diary.addEntry(selectedDate, slot, recipe.id, true);
+      if (entry) {
+        revealed.push({ slot, recipe, entryId: entry.id });
+        // One meal pops onto the overlay at a time, in step with the real
+        // inserts actually landing -- not a fixed timer standing in for
+        // work that isn't really happening yet.
+        setSurpriseReveal({ phase: 'revealing', meals: [...revealed] });
+        await wait(550);
+      }
     }
     setGeneratingDay(false);
-    if (addedCount === 0) {
+    if (revealed.length === 0) {
+      setSurpriseReveal(null);
       showDayMessage('Every slot is already filled -- remove an entry first to regenerate it.');
-    } else {
-      showDayMessage(`Added ${addedCount} surprise meal${addedCount === 1 ? '' : 's'} to today's slots!`);
-      if (willStartStreak && onStreakStart) onStreakStart();
+      return;
     }
+    setSurpriseReveal({ phase: 'done', meals: revealed });
+    if (willStartStreak && onStreakStart) onStreakStart();
+    surpriseDismissTimerRef.current = setTimeout(() => finishSurpriseReveal(revealed), 1900);
   };
 
   const handleRegenerate = async (entry) => {
@@ -778,6 +843,7 @@ export default function Saved({
                     return (
                       <div
                         key={entry.id}
+                        id={`diary-entry-${entry.id}`}
                         className={isHighlighted ? 'diary-entry-highlight' : undefined}
                         style={{ background: 'var(--s1)', border: '1px solid var(--border)', borderRadius: 14, padding: 12, marginBottom: 8, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, opacity: isRegenerating ? 0.6 : 1 }}
                         onClick={() => openRecipe(r)}
@@ -914,6 +980,14 @@ export default function Saved({
             </div>
           </div>
         </div>
+      )}
+
+      {surpriseReveal && (
+        <SurpriseDayOverlay
+          phase={surpriseReveal.phase}
+          meals={surpriseReveal.meals}
+          onDismiss={() => finishSurpriseReveal(surpriseReveal.meals)}
+        />
       )}
 
       {showSundayPrepSettings && (

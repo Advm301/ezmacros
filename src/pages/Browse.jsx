@@ -335,6 +335,22 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
   // trade-off that means cost-per-serving and the effort gauge no longer
   // fit on every tile (still visible once you tap in), in exchange for a
   // page that actually looks like something worth swiping through.
+  // A big, unlabeled card at the top used to just look like an unexplained
+  // mystery pick ("is this trending? recipe of the day? why this one?").
+  // This eyebrow says the real, honest reason it's here -- genuinely
+  // trending, genuinely new, the actual top result of whatever sort/filter
+  // is active, or (with nothing special going on and nothing filtered)
+  // just null, since there's no truthful claim to make about an arbitrary
+  // catalog-order pick and this app doesn't fabricate a "recipe of the
+  // day."
+  const featuredReason = (r) => {
+    if (r.isTrending) return 'Trending This Week';
+    if (r.isNew) return 'Just Added';
+    if (sortByRating) return 'Top Rated';
+    if (anyFilterActive) return 'Top Match';
+    return null;
+  };
+
   const renderFeaturedTile = (r, index) => (
     <RecipeRow
       key={r.id}
@@ -344,6 +360,11 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
     >
       <div aria-hidden="true" style={{ position: 'absolute', inset: 0, background: 'rgba(4,20,26,.42)' }} />
       <div style={{ position: 'relative', padding: 'var(--space-4)' }}>
+        {featuredReason(r) && (
+          <div style={{ fontSize: 'var(--type-label)', fontWeight: 800, color: 'var(--gold)', textTransform: 'uppercase', letterSpacing: 1, display: 'flex', alignItems: 'center', gap: 5, marginBottom: 'var(--space-2)' }}>
+            {r.isTrending && <FlameIcon size={12} />} {featuredReason(r)}
+          </div>
+        )}
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 'var(--space-2)' }}>
           <div style={{ fontFamily: "'Baloo 2',sans-serif", fontWeight: 800, fontSize: 'var(--type-h1)', lineHeight: 1.2, color: '#fff', textShadow: '0 2px 12px rgba(0,0,0,.4)', display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
             {r.name}

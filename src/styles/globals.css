@@ -68,7 +68,22 @@
   0%{opacity:0;transform:scale(.97) translateY(3px);}
   100%{opacity:1;transform:scale(1) translateY(0);}
 }
-.hero-pop{animation:hero-pop var(--dur-med) var(--ease-spring);}
+/* animation-fill-mode:backwards -- inert for every existing caller (none
+   set an animation-delay, so there's no "before it starts" window to
+   matter), but it's what makes a staggered cascade work correctly for a
+   new one (Kitchen's idle-state intro, see Kitchen.jsx): each staggered
+   element holds at the keyframe's 0% state (opacity:0) during its own
+   delay instead of flashing fully visible before popping in. */
+.hero-pop{animation:hero-pop var(--dur-med) var(--ease-spring);animation-fill-mode:backwards;}
+
+/* Gentle continuous bob for Kitchen's idle-state ingredient bubbles (see
+   Kitchen.jsx) -- reads as "floating" rather than a static grid of chips.
+   Each bubble gets its own animation-delay (inline, staggered by index) so
+   they drift out of sync with each other instead of bobbing in lockstep. */
+@keyframes kitchen-bubble-float{0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
+@media (prefers-reduced-motion: no-preference) {
+  .kitchen-float-bubble{animation:kitchen-bubble-float 2.6s ease-in-out infinite;}
+}
 
 html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-serif;font-size:15px;overflow-x:hidden;overscroll-behavior-x:none;}
 .app{max-width:430px;margin:0 auto;min-height:100vh;padding-bottom:80px;position:relative;}
@@ -1573,6 +1588,58 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
   50%{transform:scale(.98) rotate(0deg);}
   75%{transform:scale(1.02) rotate(1.5deg);}
 }
+
+/* Diary's Surprise Me generating/reveal takeover (see
+   components/SurpriseDayOverlay.jsx) -- same fixed/inset/z-index/backdrop
+   convention as .streak-start-overlay above (both are the app's full-
+   screen celebratory moments), reusing that same fade-in/glow-pulse/spin
+   keyframes rather than redefining near-identical ones. */
+.surprise-day-overlay{
+  position:fixed;inset:0;z-index:1100;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:14px;padding:32px;box-sizing:border-box;text-align:center;
+  background:rgba(2,10,13,.94);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .surprise-day-overlay{animation:streak-overlay-in .35s ease-out both;}
+}
+.surprise-day-glow{
+  position:absolute;width:280px;height:280px;border-radius:50%;
+  background:radial-gradient(circle, rgba(179,136,255,.32) 0%, rgba(255,107,170,.16) 45%, rgba(255,107,170,0) 72%);
+  pointer-events:none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .surprise-day-glow{animation:streak-glow-pulse 1.8s ease-in-out infinite;}
+}
+.surprise-day-spinner-ring{
+  width:52px;height:52px;border-radius:50%;
+  border:4px solid rgba(255,255,255,.18);border-top-color:var(--magic);
+  position:relative;z-index:1;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .surprise-day-spinner-ring{animation:spin .8s linear infinite;}
+}
+.surprise-day-title{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:22px;color:var(--cream);position:relative;z-index:1;}
+.surprise-day-sub{font-size:13px;color:var(--muted);max-width:280px;line-height:1.5;position:relative;z-index:1;}
+.surprise-day-meals{display:flex;flex-direction:column;gap:10px;width:100%;max-width:320px;position:relative;z-index:1;}
+.surprise-day-meal-pop{
+  position:relative;overflow:visible;
+  background:var(--s1);border:1px solid var(--border);border-radius:16px;padding:14px 16px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .surprise-day-meal-pop{animation:surprise-meal-pop .5s cubic-bezier(.34,1.56,.64,1) both;}
+}
+@media (prefers-reduced-motion: reduce) {
+  .surprise-day-meal-pop{opacity:1;}
+}
+@keyframes surprise-meal-pop{
+  0%{opacity:0;transform:scale(.6) translateY(10px);}
+  60%{opacity:1;transform:scale(1.05) translateY(0);}
+  100%{opacity:1;transform:scale(1) translateY(0);}
+}
+.surprise-day-meal-slot{font-size:11px;font-weight:800;color:var(--magic);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;}
+.surprise-day-meal-name{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:16px;color:var(--cream);}
+.surprise-day-tap{font-size:11.5px;color:var(--muted);margin-top:4px;position:relative;z-index:1;}
 
 .streak-start-title{
   position:relative;font-family:'Baloo 2',sans-serif;font-weight:800;font-size:22px;

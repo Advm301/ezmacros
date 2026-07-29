@@ -156,7 +156,20 @@ export default function PullToRefresh({ onRefresh, children }) {
       </div>
       <div
         style={{
-          transform: `translateY(${pullPx}px)`,
+          // Only set a transform while actually pulling/settling -- ANY
+          // inline transform (even translateY(0px)) makes this div a
+          // containing block for position:fixed descendants per the CSS
+          // spec, which silently broke every modal nested inside a tab
+          // (Browse's Filters sheet, Kitchen's pantry picker, Saved's
+          // Sunday Prep sheet/calendar): they were rendering "fixed"
+          // relative to this div's box instead of the real viewport, so a
+          // sheet anchored to the bottom would land at the bottom of
+          // whatever short box this div happened to be that render, often
+          // off-screen -- the backdrop still covered the (wrong) box, so
+          // it looked like the screen "greyed out but nothing opened."
+          // Leaving the property off entirely at rest (pullPx === 0) means
+          // there's no containing block at all once the gesture settles.
+          transform: pullPx ? `translateY(${pullPx}px)` : undefined,
           transition: settling ? 'transform var(--dur-med) var(--ease-out)' : 'none',
         }}
       >
