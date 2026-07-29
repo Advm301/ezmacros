@@ -50,7 +50,7 @@ export const RECIPES = [
     "instructions": [
       "Pat cod dry with paper towels. Place on foil-lined baking sheet. Dust with garlic powder, then drizzle teriyaki sauce over the fish.",
       "Bake at 425°F for 12–14 minutes until the fish flakes easily with a fork.",
-      "Divide the cooked cod evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "Divide the cooked cod evenly into 5 containers (about 7oz each) and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave a rice pouch 90 seconds and a green beans steam-bag 3 minutes. Season the green beans with a pinch of garlic powder and sesame seeds. Arrange rice on a plate, top with a portion of cod, and add green beans to the side."
     ],
     "totalTime": 17,
@@ -113,7 +113,7 @@ export const RECIPES = [
       "Pat cod dry with paper towel.",
       "Mix soy sauce + sriracha + a small squeeze of honey in a bowl (scaled for all 5 fillets). Honey rounds the heat and prevents the sauce tasting flat. Brush over cod on a foil-lined sheet. Dust with garlic powder.",
       "Bake 425°F for 12–14 min. Rest cod 1 min.",
-      "Divide the cooked cod evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "Divide the cooked cod evenly into 5 containers (about 7oz each) and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave a rice pouch 90 sec + a green beans steam-bag 3 min. Build bowl with a portion of cod — toppings separate."
     ],
     "totalTime": 19,
@@ -168,7 +168,7 @@ export const RECIPES = [
       "Spray all the chicken with olive oil spray. Shake seasoning over both sides.",
       "Air fry 400°F for 18-20 min, flip once at 10 min (work in batches if it doesn't fit in a single layer).",
       "Melt the butter and brush over the hot chicken right out of the air fryer -- it picks up the garlic-herb flavor and keeps the chicken from tasting dry.",
-      "Divide the chicken evenly into 5 containers and refrigerate.",
+      "Divide the chicken evenly into 5 containers (about 6.5oz each) and refrigerate.",
       "To serve one portion: add toppings on the side."
     ],
     "totalTime": 24,
@@ -222,7 +222,7 @@ export const RECIPES = [
       "If your eggs aren't already boiled: place them in a pot, cover with about an inch of water, bring to a boil, then cover and remove from heat for 10-12 minutes. Cool in ice water before peeling.",
       "Halve all the pre-boiled eggs lengthwise. Pop yolks into a bowl.",
       "Mash the yolks with mayo + mustard until smooth. Fill the whites.",
-      "Divide evenly into 5 containers, shake paprika on top, and refrigerate."
+      "Divide evenly into 5 containers (about 6oz each), shake paprika on top, and refrigerate."
     ],
     "totalTime": 5,
     "pantryTags": [
@@ -302,7 +302,7 @@ export const RECIPES = [
     "instructions": [
       "Add beef, canned tomatoes, tomato paste, Worcestershire, minced garlic, Italian seasoning, and salt to the slow cooker. Break up beef roughly and stir to combine.",
       "Cook HIGH 2 hrs or LOW 4 hrs.",
-      "Divide the beef mixture evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "Divide the beef mixture evenly into 5 containers (about 10oz each) and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave a rice pouch 90 sec + a steam-bag veg 3 min. Build bowl with beef mixture. Toppings on the side."
     ],
     "totalTime": 245,
@@ -383,7 +383,7 @@ export const RECIPES = [
       "Mix turkey, breadcrumbs, egg white, Italian seasoning, minced garlic, parmesan, and salt in a bowl until just combined.",
       "Roll into ~1.5-inch balls (about 25-30 total) onto foil-lined baking sheet(s).",
       "Bake 400°F for 18–20 min.",
-      "Warm the marinara (microwave 2-3 min) and toss the meatballs in it. Top with mozzarella. Divide evenly into 5 containers and refrigerate (up to 4 days) or freeze. To serve one portion: reheat in the microwave until hot throughout."
+      "Warm the marinara (microwave 2-3 min) and toss the meatballs in it. Top with mozzarella. Divide evenly into 5 containers (about 10oz each) and refrigerate (up to 4 days) or freeze. To serve one portion: reheat in the microwave until hot throughout."
     ],
     "totalTime": 30,
     "pantryTags": [
@@ -436,7 +436,7 @@ export const RECIPES = [
     "instructions": [
       "Melt butter and mix with the lemon pepper seasoning. Brush over the salmon on a foil-lined sheet.",
       "Bake 425°F for 12–14 min.",
-      "Divide the cooked salmon evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "Divide the cooked salmon evenly into 5 containers (about 6.5oz each) and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave a broccoli steam-bag 4 min. Plate with a portion of salmon — toppings separate."
     ],
     "totalTime": 17,
@@ -492,7 +492,7 @@ export const RECIPES = [
       "Chia Seeds (1 tsp)"
     ],
     "instructions": [
-      "Whisk the protein powder into all the yogurt until smooth, then divide into 5 jars or containers and refrigerate.",
+      "Whisk the protein powder into all the yogurt until smooth, then divide into 5 jars or containers (about 11.5oz each) and refrigerate.",
       "To serve one portion: spoon blueberries over the yogurt, drizzle with honey, and add toppings to taste."
     ],
     "totalTime": 2,
@@ -538,7 +538,7 @@ export const RECIPES = [
       "Spray a large pan with cooking spray over medium heat. Add all the spinach and cook 2-3 minutes until wilted. Season with a pinch of garlic powder and onion powder (scaled for 5).",
       "Pour in all the egg whites and scramble until just set, about 5-6 minutes, working in batches if the pan gets too full.",
       "Stir in the cheese until melted through.",
-      "Divide evenly into 5 containers and refrigerate (up to 4 days) or freeze. Reheat in the microwave 1-2 minutes. Hot sauce on the side."
+      "Divide evenly into 5 containers (about 13.5oz each) and refrigerate (up to 4 days) or freeze. Reheat in the microwave 1-2 minutes. Hot sauce on the side."
     ],
     "totalTime": 5,
     "pantryTags": [
@@ -590,7 +590,7 @@ export const RECIPES = [
     "instructions": [
       "Mix all the pancake mix, eggs, almond milk, and honey (scaled for 5) in a large bowl until smooth.",
       "Spray a griddle or skillet and heat over medium. Pour ⅓ cup batter per pancake, working in batches, and cook 2 minutes per side until golden.",
-      "Let cool, then divide evenly into 5 containers (stack with parchment between pancakes) and refrigerate (up to 4 days) or freeze.",
+      "Let cool, then divide evenly into 5 containers (about 14oz each) (stack with parchment between pancakes) and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: reheat in the toaster or microwave. Syrup on the side."
     ],
     "totalTime": 8,
@@ -701,7 +701,7 @@ export const RECIPES = [
       "Dill (fresh or dried)"
     ],
     "instructions": [
-      "Divide the cream cheese, smoked salmon, and capers evenly into 5 containers and refrigerate.",
+      "Divide the cream cheese, smoked salmon, and capers evenly into 5 containers (about 6.5oz each) and refrigerate.",
       "To serve one portion: toast a bagel thin, spread with a portion of cream cheese, layer with salmon and capers, and squeeze lemon over top."
     ],
     "totalTime": 3,
@@ -757,7 +757,7 @@ export const RECIPES = [
       "Red Pepper Flakes"
     ],
     "instructions": [
-      "Divide the cottage cheese evenly into 5 containers and refrigerate.",
+      "Divide the cottage cheese evenly into 5 containers (about 6.5oz each) and refrigerate.",
       "To serve one portion: toast bread until golden, spread with a portion of cottage cheese, sprinkle everything seasoning, drizzle honey, and season with pepper."
     ],
     "totalTime": 3,
@@ -820,7 +820,7 @@ export const RECIPES = [
       "Chia Seeds"
     ],
     "instructions": [
-      "Divide oats, yogurt, protein powder, almond milk, and honey evenly among 5 jars or containers and stir each to combine.",
+      "Divide oats, yogurt, protein powder, almond milk, and honey evenly among 5 jars or containers (about 13oz each) and stir each to combine.",
       "Refrigerate overnight (keeps up to 4-5 days). Stir before eating. Top with berries and seeds."
     ],
     "totalTime": 3,
@@ -877,7 +877,7 @@ export const RECIPES = [
       "Microwave all the turkey sausage links per package directions, then chop.",
       "Heat butter in a large skillet over medium. Whisk all the eggs and pour into the skillet. Scramble until just set, about 5-6 minutes, working in batches if needed.",
       "Stir the chopped sausage and cheddar into the eggs.",
-      "Divide evenly into 5 containers and refrigerate (up to 4 days) or freeze. Reheat in the microwave 1-2 minutes."
+      "Divide evenly into 5 containers (about 9oz each) and refrigerate (up to 4 days) or freeze. Reheat in the microwave 1-2 minutes."
     ],
     "totalTime": 6,
     "pantryTags": [
@@ -936,7 +936,7 @@ export const RECIPES = [
       "Cucumber Slices"
     ],
     "instructions": [
-      "Mix the cream cheese and Greek yogurt together, then divide it and the turkey evenly into 5 containers and refrigerate.",
+      "Mix the cream cheese and Greek yogurt together, then divide it and the turkey evenly into 5 containers (about 7.5oz each) and refrigerate.",
       "To serve one portion: toast a bagel thin, spread with a portion of the cream cheese mixture on both halves, layer with a portion of turkey and mustard, squeeze lemon pepper, and add cucumber."
     ],
     "totalTime": 3,
@@ -994,7 +994,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "If your eggs aren't already boiled: place them in a pot, cover with about an inch of water, bring to a boil, then cover and remove from heat for 10-12 minutes. Cool in ice water before peeling.",
-      "Divide the guacamole and sliced eggs evenly into 5 containers and refrigerate.",
+      "Divide the guacamole and sliced eggs evenly into 5 containers (about 7.5oz each) and refrigerate.",
       "To serve one portion: toast bread, spread with a portion of guac on both slices, top with a portion of sliced egg, and season with everything bagel seasoning and pepper flakes."
     ],
     "totalTime": 3,
@@ -1047,7 +1047,7 @@ export const RECIPES = [
       "Flax Seeds"
     ],
     "instructions": [
-      "Divide the yogurt evenly among 5 jars or containers and refrigerate.",
+      "Divide the yogurt evenly among 5 jars or containers (about 11.5oz each) and refrigerate.",
       "To serve one portion: thaw a portion of berries 2 min if needed. Layer over the yogurt with granola and honey. Top with seeds."
     ],
     "totalTime": 2,
@@ -1164,7 +1164,7 @@ export const RECIPES = [
     "instructions": [
       "Spray all 5 pieces of chicken with butter and dust with garlic powder. Air fry 400°F for 16–18 min, shaking halfway (cook in two batches if it doesn't fit in a single layer).",
       "Toss the cooked chicken in buffalo sauce.",
-      "Divide the chicken evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "Divide the chicken evenly into 5 containers (about 8oz each) and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave a rice pouch 90 sec and a broccoli steam-bag 3 min. Season the broccoli with garlic powder, onion powder, and a pinch of chili flakes. Build bowl with a portion of chicken — toppings separate."
     ],
     "totalTime": 22,
@@ -1231,7 +1231,7 @@ export const RECIPES = [
     "instructions": [
       "Spray all 5 chicken thighs with olive oil and rub with garlic powder and onion powder. Air fry 400°F for 18–20 min, shaking at 10 min (cook in batches if needed).",
       "Brush BBQ sauce on the cooked chicken.",
-      "Divide the chicken evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "Divide the chicken evenly into 5 containers (about 7.5oz each) and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave a rice pouch 90 sec. Build bowl with a portion of chicken — extra sauce on the side."
     ],
     "totalTime": 24,
@@ -1292,7 +1292,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Mix all the canned chicken with soy sauce + garlic powder in a bowl.",
-      "Divide the chicken mixture evenly into 5 containers and refrigerate.",
+      "Divide the chicken mixture evenly into 5 containers (about 5.5oz each) and refrigerate.",
       "To serve one portion: microwave a rice pouch 90 sec + a frozen veg bag 3 min. Build bowl with a portion of the chicken mixture — toppings on side."
     ],
     "totalTime": 2,
@@ -1350,7 +1350,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Mix all the rotisserie chicken with Frank's RedHot in a bowl.",
-      "Divide the chicken evenly into 5 containers and refrigerate.",
+      "Divide the chicken evenly into 5 containers (about 6.5oz each) and refrigerate.",
       "To serve one portion: microwave a rice pouch 90 sec and a broccoli steam-bag 3 min. Season the broccoli with garlic powder, onion powder, and a pinch of chili flakes. Build bowl with a portion of chicken (heat 60 sec in the microwave first if cold) — toppings separate."
     ],
     "totalTime": 3,
@@ -1419,7 +1419,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Whisk all the soy sauce, sesame oil, and rice vinegar together in a bowl. Add the flaked salmon and toss to coat -- this is the real poke-style marinade, so let it sit 2-3 min if you have time.",
-      "Divide the marinated salmon evenly into 5 containers and refrigerate.",
+      "Divide the marinated salmon evenly into 5 containers (about 7.5oz each) and refrigerate.",
       "To serve one portion: microwave a rice pouch 90 sec and an edamame steam-bag 3 min. Build bowl with a portion of salmon on rice and edamame. Toppings separate."
     ],
     "totalTime": 4,
@@ -1488,7 +1488,7 @@ export const RECIPES = [
     "instructions": [
       "Mix honey + soy sauce + minced garlic (scaled for all 5 fillets). Place cod on foil. Drizzle sauce over top.",
       "Bake 425°F for 12–14 min.",
-      "Divide the cooked cod evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "Divide the cooked cod evenly into 5 containers (about 7.5oz each) and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave a rice pouch 90 sec + a green beans steam-bag 3 min. Build bowl with a portion of cod — toppings separate."
     ],
     "totalTime": 18,
@@ -1561,7 +1561,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Heat oil in a large skillet over medium-high. Brown beef 10-12 min, breaking it up as it cooks.",
-      "Add taco seasoning + water. Simmer 3-4 min, then stir in the salsa and black beans. Divide the beef mixture evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "Add taco seasoning + water. Simmer 3-4 min, then stir in the salsa and black beans. Divide the beef mixture evenly into 5 containers (about 15.5oz each) and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave rice pouch 90 sec + reheat a portion of the beef mixture. Build bowl -- toppings on side."
     ],
     "totalTime": 12,
@@ -1627,7 +1627,7 @@ export const RECIPES = [
     "instructions": [
       "Mix dijon mustard and honey in a bowl (scaled for all 5 portions of pork). Coat the pork tenderloin with half the mixture, reserving the rest.",
       "Spray with oil. Air fry 400°F for 16–18 min, shaking at 9 min (cook in batches if needed). Rest 2 min. Slice.",
-      "Divide the cooked pork evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "Divide the cooked pork evenly into 5 containers (about 7oz each) and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: drizzle the reserved honey mustard over a portion of pork. Microwave a rice pouch 90 sec + a mixed veg bag 3 min. Build bowl."
     ],
     "totalTime": 24,
@@ -1688,7 +1688,7 @@ export const RECIPES = [
     "instructions": [
       "Pat shrimp dry. Toss with melted butter and lemon pepper seasoning.",
       "Air fry 380°F for 8–10 min, shaking halfway (cook in batches if it doesn't fit in a single layer).",
-      "Divide the cooked shrimp evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "Divide the cooked shrimp evenly into 5 containers (about 6oz each) and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave a rice pouch 90 sec + a broccoli steam-bag 3 min. Build bowl with a portion of shrimp — toppings separate."
     ],
     "totalTime": 15,
@@ -1760,7 +1760,7 @@ export const RECIPES = [
     "instructions": [
       "Spray all the chicken with oil. Dust evenly with Greek seasoning.",
       "Air fry 400°F for 18-20 min, shaking at 10 min (cook in batches if needed).",
-      "Divide the chicken and tzatziki evenly into 5 containers and refrigerate. Keep the cucumber and cherry tomatoes fresh, diced just before serving.",
+      "Divide the chicken and tzatziki evenly into 5 containers (about 10oz each) and refrigerate. Keep the cucumber and cherry tomatoes fresh, diced just before serving.",
       "To serve one portion: microwave a rice pouch 90 sec. Dice a portion of cucumber and halved cherry tomatoes fresh with a pinch of salt -- this quick salad is what makes a Greek bowl taste like one, not just seasoned chicken and rice. Build bowl with rice, a portion of chicken, and the fresh cucumber-tomato salad. Drizzle a portion of tzatziki over the chicken. Toppings on side."
     ],
     "totalTime": 26,
@@ -1825,7 +1825,7 @@ export const RECIPES = [
       "Add chicken, broth, and seasonings to slow cooker.",
       "Cook LOW 6–7 hrs or HIGH 3–4 hrs. Shred all the chicken.",
       "Stir in butter and lemon juice until the butter melts into the broth for a richer, brighter sauce.",
-      "Divide shredded chicken evenly into 5 containers with a bit of the sauce spooned over each to keep it moist. Refrigerate up to 4 days, or freeze.",
+      "Divide shredded chicken evenly into 5 containers (about 15.5oz each) with a bit of the sauce spooned over each to keep it moist. Refrigerate up to 4 days, or freeze.",
       "Reheat one portion at a time. Serve with toppings on the side."
     ],
     "totalTime": 425,
@@ -1898,7 +1898,7 @@ export const RECIPES = [
     "instructions": [
       "Combine all the cooked pasta, drained tuna, and diced celery in a large bowl.",
       "Whisk all the Greek yogurt, mayo, Dijon, and lemon juice together -- the yogurt keeps this creamy without drowning it in mayo. Fold into the pasta and season to taste.",
-      "Divide evenly into 5 containers and refrigerate."
+      "Divide evenly into 5 containers (about 16oz each) and refrigerate."
     ],
     "totalTime": 5,
     "pantryTags": [
@@ -1969,7 +1969,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Mix all the black beans with the salsa, cumin, chili powder, and garlic powder (scaled for 5) in a bowl -- this is what gives the filling real flavor instead of tasting like plain beans and cheese.",
-      "Divide the bean mixture and cheese evenly into 5 containers and refrigerate.",
+      "Divide the bean mixture and cheese evenly into 5 containers (about 14oz each) and refrigerate.",
       "To serve one portion: heat oil in a skillet over medium. Place a tortilla down, spread a portion of the bean mixture and cheese on half, fold, and cook 2 minutes per side until golden and the cheese melts. Cut into triangles. Toppings on the side."
     ],
     "totalTime": 8,
@@ -2092,7 +2092,7 @@ export const RECIPES = [
       "Heat oil in skillet. Brown turkey in batches if needed, breaking it up, 6–8 min. Transfer to slow cooker.",
       "Add beans, tomatoes, and chili seasoning. Stir well.",
       "Cook LOW 5–6 hrs or HIGH 2–3 hrs. Stir occasionally.",
-      "Divide into 5 containers and refrigerate up to 4 days, or freeze. Reheat one portion at a time, topped with cheese + sour cream."
+      "Divide into 5 containers (about 24oz each) and refrigerate up to 4 days, or freeze. Reheat one portion at a time, topped with cheese + sour cream."
     ],
     "totalTime": 368,
     "pantryTags": [
@@ -2148,7 +2148,7 @@ export const RECIPES = [
     "instructions": [
       "Mix sriracha + honey + minced garlic (scaled for all 5 fillets). Place salmon on foil-lined sheet(s) and brush sauce over top.",
       "Bake 425°F for 12–14 min.",
-      "Divide the cooked salmon evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "Divide the cooked salmon evenly into 5 containers (about 8oz each) and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave a broccoli steam-bag 3 min. Plate with a portion of salmon — extra sauce on side."
     ],
     "totalTime": 19,
@@ -2221,7 +2221,7 @@ export const RECIPES = [
       "Add minced garlic to the same skillet and stir 20-30 seconds until fragrant. Add all the rice, breaking up clumps, and stir 3-4 minutes.",
       "Add the peas, soy sauce, and white pepper (scaled for 5) -- the white pepper especially is what makes fried rice taste like fried rice instead of just rice with soy sauce.",
       "Return the eggs to the skillet and toss everything together 2 minutes.",
-      "Divide evenly into 5 containers and refrigerate (up to 4 days) or freeze. Toppings on the side."
+      "Divide evenly into 5 containers (about 17oz each) and refrigerate (up to 4 days) or freeze. Toppings on the side."
     ],
     "totalTime": 8,
     "pantryTags": [
@@ -2295,7 +2295,7 @@ export const RECIPES = [
     "instructions": [
       "Spray all 5 pieces of chicken with oil. Coat with chipotle seasoning.",
       "Air fry 400°F for 18–20 min, shaking at 10 min (cook in batches if needed).",
-      "Divide the cooked chicken and the drained black beans evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "Divide the cooked chicken and the drained black beans evenly into 5 containers (about 14oz each) and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave a rice pouch 90 sec and warm a portion of beans 60 sec. Build bowl with salsa drizzled on chicken, then finish with the chipotle mayo -- the seasoning alone is milder than the name suggests, and this is where the real chipotle flavor comes from. Cheese + lime on side."
     ],
     "totalTime": 26,
@@ -2350,7 +2350,7 @@ export const RECIPES = [
       "Red Onion (powder)"
     ],
     "instructions": [
-      "Divide the turkey and guacamole evenly into 5 containers and refrigerate.",
+      "Divide the turkey and guacamole evenly into 5 containers (about 10oz each) and refrigerate.",
       "To serve one portion: lay out fresh lettuce leaves, spread with dijon, layer with a portion of turkey, add a small squeeze of guac, and roll tightly."
     ],
     "totalTime": 3,
@@ -2417,7 +2417,7 @@ export const RECIPES = [
     "instructions": [
       "Spray all 5 salmon fillets with oil. Place on foil-lined sheet(s). Dust with garlic powder, then brush teriyaki sauce over top.",
       "Bake 425°F for 12–14 min.",
-      "Divide the cooked salmon evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "Divide the cooked salmon evenly into 5 containers (about 8oz each) and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave a rice pouch 90 sec + an edamame steam-bag 3 min. Build bowl with a portion of salmon — toppings separate."
     ],
     "totalTime": 18,
@@ -2467,7 +2467,7 @@ export const RECIPES = [
       "Sea Salt"
     ],
     "instructions": [
-      "Divide the beef jerky, rice cakes, and almond butter evenly into 5 resealable bags or containers.",
+      "Divide the beef jerky, rice cakes, and almond butter evenly into 5 resealable bags or containers (about 2oz each).",
       "To serve one portion: spread almond butter on the rice cakes, top with jerky, and drizzle with honey."
     ],
     "totalTime": 1,
@@ -2515,7 +2515,7 @@ export const RECIPES = [
       "Hot Sauce"
     ],
     "instructions": [
-      "Divide the turkey, string cheese, and mustard evenly into 5 containers.",
+      "Divide the turkey, string cheese, and mustard evenly into 5 containers (about 4oz each).",
       "To serve one portion: spread mustard on a turkey slice, place a string cheese stick at the edge, and roll tightly."
     ],
     "totalTime": 2,
@@ -2563,7 +2563,7 @@ export const RECIPES = [
       "Chia Seeds"
     ],
     "instructions": [
-      "Divide the cottage cheese evenly among 5 containers and refrigerate.",
+      "Divide the cottage cheese evenly among 5 containers (about 7.5oz each) and refrigerate.",
       "To serve one portion: top with drained pineapple and honey. Add toppings to taste."
     ],
     "totalTime": 2,
@@ -2663,7 +2663,7 @@ export const RECIPES = [
       "Black Pepper"
     ],
     "instructions": [
-      "Divide the sardines evenly into 5 containers and refrigerate.",
+      "Divide the sardines evenly into 5 containers (about 6oz each) and refrigerate.",
       "To serve one portion: toast bread, spread with mustard on both slices, lay a portion of sardines on top, squeeze lemon, and add capers."
     ],
     "totalTime": 3,
@@ -2711,7 +2711,7 @@ export const RECIPES = [
       "Granola Cluster"
     ],
     "instructions": [
-      "Divide the skyr evenly among 5 containers and refrigerate.",
+      "Divide the skyr evenly among 5 containers (about 8oz each) and refrigerate.",
       "To serve one portion: thaw a portion of berries 1 min if frozen. Top the skyr with berries and honey."
     ],
     "totalTime": 2,
@@ -2765,7 +2765,7 @@ export const RECIPES = [
       "Cilantro (dried)"
     ],
     "instructions": [
-      "Divide the chicken, salsa, and cheese evenly into 5 containers and refrigerate.",
+      "Divide the chicken, salsa, and cheese evenly into 5 containers (about 9.5oz each) and refrigerate.",
       "To serve one portion: warm a tortilla 30 sec in the microwave, spread salsa down the center, layer with a portion of chicken and cheese, roll tightly, and squeeze lime on top."
     ],
     "totalTime": 3,
@@ -2822,7 +2822,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Whisk all the yogurt, protein powder, cocoa powder, and almond milk together in a large bowl until smooth and pudding-like.",
-      "Divide evenly into 5 containers and refrigerate.",
+      "Divide evenly into 5 containers (about 9.5oz each) and refrigerate.",
       "To serve one portion: top with syrup and cocoa nibs."
     ],
     "totalTime": 2,
@@ -2929,7 +2929,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Mix all the canned chicken with mustard and Frank's RedHot in a bowl.",
-      "Divide the chicken mixture evenly into 5 containers and refrigerate. Keep the crackers in their own container so they stay crisp.",
+      "Divide the chicken mixture evenly into 5 containers (about 7oz each) and refrigerate. Keep the crackers in their own container so they stay crisp.",
       "To serve one portion: spoon a portion of the chicken mixture onto crackers and season lightly."
     ],
     "totalTime": 2,
@@ -3159,7 +3159,7 @@ export const RECIPES = [
       "Hot Sauce"
     ],
     "instructions": [
-      "Mix ground turkey with minced garlic + Worcestershire in a bowl. Divide and form into 5 patties.",
+      "Mix ground turkey with minced garlic + Worcestershire in a bowl. Divide and form into 5 patties (about 142g/5oz each).",
       "Heat skillet medium-high. Cook patties in batches, 4–5 min per side (~165°F internal).",
       "Refrigerate the cooked patties (up to 4 days) or freeze.",
       "To serve one: reheat a patty in a hot pan. Toast a bun, spread mustard, build burger with pickles + toppings on side."
@@ -3247,7 +3247,7 @@ export const RECIPES = [
     "instructions": [
       "Season all the chicken breasts all over with garlic powder, paprika, cayenne, salt, and pepper (scaled for 5). Air fry 400°F for 16-18 min (work in batches if needed).",
       "Toss the cooked chicken in Frank's RedHot.",
-      "Divide the chicken evenly into 5 containers and refrigerate.",
+      "Divide the chicken evenly into 5 containers (about 11.5oz each) and refrigerate.",
       "To serve one portion: toast a bun, stack a portion of chicken and pickles on it, and spread light mayo on top if using."
     ],
     "totalTime": 23,
@@ -3309,7 +3309,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Mix all the drained tuna with mayo + mustard in a bowl.",
-      "Divide the tuna mixture evenly into 5 containers and refrigerate. Keep the bread and cheese fresh.",
+      "Divide the tuna mixture evenly into 5 containers (about 9.5oz each) and refrigerate. Keep the bread and cheese fresh.",
       "To serve one portion: spread a portion of the tuna mixture on bread slices, top with a cheese slice, place on foil in the air fryer basket, and air fry 350°F for 6-8 min until the cheese melts. Squeeze lemon on top."
     ],
     "totalTime": 14,
@@ -3373,7 +3373,7 @@ export const RECIPES = [
     "instructions": [
       "Microwave all the sausage patties per package directions, then set aside.",
       "Whisk all the egg whites and whole eggs together and scramble in a large skillet with butter, 5-6 minutes until just set (work in batches if needed).",
-      "Divide the scrambled eggs, sausage patties, and cheese slices evenly into 5 containers and refrigerate.",
+      "Divide the scrambled eggs, sausage patties, and cheese slices evenly into 5 containers (about 10oz each) and refrigerate.",
       "To serve one portion: toast an English muffin fresh, then top with a portion of egg, cheese, and sausage, reheating briefly in the microwave if needed."
     ],
     "totalTime": 6,
@@ -3435,7 +3435,7 @@ export const RECIPES = [
       "Cilantro (dried)"
     ],
     "instructions": [
-      "Divide the chicken, cheese, salsa, and yogurt evenly into 5 containers and refrigerate.",
+      "Divide the chicken, cheese, salsa, and yogurt evenly into 5 containers (about 11.5oz each) and refrigerate.",
       "To serve one portion: warm a tortilla 30 sec in the microwave, spread with a portion of the yogurt down the center, layer with a portion of chicken, cheese, and salsa, roll tightly, and squeeze lime on top."
     ],
     "totalTime": 3,
@@ -3502,7 +3502,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Microwave all the bacon 2 min (or per package directions).",
-      "Divide the turkey, bacon, and mayo evenly into 5 containers and refrigerate. Keep the lettuce and tomato fresh, sliced just before serving.",
+      "Divide the turkey, bacon, and mayo evenly into 5 containers (about 12.5oz each) and refrigerate. Keep the lettuce and tomato fresh, sliced just before serving.",
       "To serve one portion: warm a tortilla 30 sec in the microwave, spread with a portion of mayo, layer with a portion of turkey and bacon plus fresh lettuce and tomato slices, and roll tightly."
     ],
     "totalTime": 4,
@@ -3564,7 +3564,7 @@ export const RECIPES = [
       "Extra Parmesan"
     ],
     "instructions": [
-      "Divide the marinara, mozzarella, and pepperoni evenly into 5 containers and refrigerate. Keep the naan fresh.",
+      "Divide the marinara, mozzarella, and pepperoni evenly into 5 containers (about 10oz each) and refrigerate. Keep the naan fresh.",
       "To serve one portion: place a naan on foil in the air fryer basket, spread with a portion of marinara, top with a portion of mozzarella and pepperoni, sprinkle with Italian seasoning and garlic powder, and air fry 375°F for 8 min until the cheese bubbles."
     ],
     "totalTime": 13,
@@ -3622,7 +3622,7 @@ export const RECIPES = [
       "Basil (dried)"
     ],
     "instructions": [
-      "Divide the cottage cheese, marinara, mozzarella, and pepperoni evenly into 5 microwave-safe containers and refrigerate.",
+      "Divide the cottage cheese, marinara, mozzarella, and pepperoni evenly into 5 microwave-safe containers (about 8.5oz each) and refrigerate.",
       "To serve one portion: microwave a portion 2 min until the cheese melts. Sprinkle seasonings."
     ],
     "totalTime": 3,
@@ -3677,7 +3677,7 @@ export const RECIPES = [
       "Cilantro (dried)"
     ],
     "instructions": [
-      "Divide the BBQ sauce, shredded chicken, and mozzarella evenly into 5 containers and refrigerate. Keep the naan fresh.",
+      "Divide the BBQ sauce, shredded chicken, and mozzarella evenly into 5 containers (about 10.5oz each) and refrigerate. Keep the naan fresh.",
       "To serve one portion: place a naan on foil in the air fryer, spread with a portion of BBQ sauce, top with a portion of chicken and mozzarella, and air fry 375°F for 8 min until the cheese melts."
     ],
     "totalTime": 13,
@@ -3737,7 +3737,7 @@ export const RECIPES = [
       "Black Pepper"
     ],
     "instructions": [
-      "Divide the pesto, shredded chicken, mozzarella, and sun-dried tomatoes evenly into 5 containers and refrigerate. Keep the naan fresh.",
+      "Divide the pesto, shredded chicken, mozzarella, and sun-dried tomatoes evenly into 5 containers (about 11.5oz each) and refrigerate. Keep the naan fresh.",
       "To serve one portion: place a naan on foil in the air fryer, spread with a portion of pesto, top with a portion of chicken, mozzarella, and sun-dried tomatoes, and air fry 375°F for 8 min until the cheese melts."
     ],
     "totalTime": 13,
@@ -3807,7 +3807,7 @@ export const RECIPES = [
     "instructions": [
       "Heat oil in a large skillet over medium-high. Add ground beef, breaking it apart with a spoon. Cook 10-12 minutes, stirring occasionally, until browned throughout.",
       "Add soy sauce, garlic, and honey. Simmer 2-3 minutes, stirring, until the glaze coats the beef.",
-      "Divide the beef evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "Divide the beef evenly into 5 containers (about 7oz each) and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave rice pouch 90 sec + steam-bag broccoli 3 min. Build bowl with rice, top with a portion of beef, broccoli on side. Toppings on side."
     ],
     "totalTime": 7,
@@ -3888,7 +3888,7 @@ export const RECIPES = [
       "Season all the chicken with salt and pepper. Heat a large skillet and cook the chicken 6-7 minutes per side until browned and cooked through (work in batches if needed).",
       "Push the chicken to one side, add garlic and ginger, and stir 20-30 seconds until fragrant -- this is what actually builds real teriyaki flavor, not just the bottled sauce. Add the teriyaki sauce (scaled for 5) and simmer 1-2 minutes, turning to coat.",
       "Add the drained noodles and veg to the skillet and toss everything together in the glaze.",
-      "Divide evenly into 5 containers and refrigerate (up to 4 days) or freeze. Toppings on the side."
+      "Divide evenly into 5 containers (about 15.5oz each) and refrigerate (up to 4 days) or freeze. Toppings on the side."
     ],
     "totalTime": 8,
     "pantryTags": [
@@ -3971,7 +3971,7 @@ export const RECIPES = [
       "Add minced garlic to the same skillet and stir 20-30 seconds until fragrant. Add all the rice, breaking up clumps, and stir 3-4 minutes.",
       "Add the peas, soy sauce, white pepper, and shrimp (scaled for 5), and cook 3-4 minutes until the shrimp is pink and cooked through.",
       "Return the eggs to the skillet and toss everything together 2 minutes.",
-      "Divide evenly into 5 containers and refrigerate (up to 4 days) or freeze. Toppings on the side."
+      "Divide evenly into 5 containers (about 19.5oz each) and refrigerate (up to 4 days) or freeze. Toppings on the side."
     ],
     "totalTime": 8,
     "pantryTags": [
@@ -4032,7 +4032,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Microwave all the chili until hot (in batches if needed).",
-      "Divide the chili, cheese, crumbled bacon, and yogurt evenly into 5 containers and refrigerate.",
+      "Divide the chili, cheese, crumbled bacon, and yogurt evenly into 5 containers (about 17oz each) and refrigerate.",
       "To serve one portion: poke a potato with a fork and microwave on HIGH 8-10 min until tender. Split open and top with a portion of chili, cheese, crumbled bacon, and yogurt -- the bacon is what makes a baked potato actually \"loaded.\""
     ],
     "totalTime": 6,
@@ -4101,7 +4101,7 @@ export const RECIPES = [
     "instructions": [
       "Mix all the egg whites, whole eggs, protein powder, and cinnamon (scaled for 5) in a large shallow bowl.",
       "Heat butter in a skillet over medium. Dip bread slices in the mixture, coating both sides, and cook 2-3 minutes per side until golden (work in batches).",
-      "Let cool, then divide evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "Let cool, then divide evenly into 5 containers (about 11oz each) and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: reheat in the toaster or microwave. Serve with sugar-free syrup."
     ],
     "totalTime": 7,
@@ -4157,7 +4157,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Microwave all the frozen meatballs until hot (in batches if needed). Microwave all the marinara until hot.",
-      "Toss the meatballs in the sauce, then divide evenly into 5 containers and refrigerate.",
+      "Toss the meatballs in the sauce, then divide evenly into 5 containers (about 15oz each) and refrigerate.",
       "To serve one portion: warm a hoagie roll 30 sec in the microwave. Stuff with a portion of meatballs and sauce, top with mozzarella, and microwave briefly to melt the cheese. Top with seasonings."
     ],
     "totalTime": 5,
@@ -4220,7 +4220,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Mix all the canned salmon with 2 tbsp of the Caesar dressing per portion (reserving the rest) in a bowl.",
-      "Divide the salmon mixture and remaining dressing evenly into 5 containers and refrigerate. Keep the romaine fresh, portioned separately.",
+      "Divide the salmon mixture and remaining dressing evenly into 5 containers (about 14.5oz each) and refrigerate. Keep the romaine fresh, portioned separately.",
       "To serve one portion: lay a tortilla flat, place a portion of romaine on top, add a portion of the salmon mixture plus remaining dressing and parmesan, and roll tightly."
     ],
     "totalTime": 3,
@@ -4290,7 +4290,7 @@ export const RECIPES = [
     "instructions": [
       "Microwave the frozen sweet potato cubes in batches, about 5 min per batch (or air fry 12 min at 400°F), until tender.",
       "Heat a large skillet over medium-high. Brown ground beef 10-12 min, breaking it apart. Stir in taco seasoning + ¼ cup water, simmer 2 minutes.",
-      "Divide the sweet potato and seasoned beef evenly into 5 containers, each with a dollop of cottage cheese, and refrigerate (up to 4 days) or freeze.",
+      "Divide the sweet potato and seasoned beef evenly into 5 containers (about 20.5oz each), each with a dollop of cottage cheese, and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: reheat, then squeeze fresh guacamole and drizzle hot honey on top -- adding these fresh at serving time keeps them from browning or separating in storage. Toppings on side."
     ],
     "totalTime": 8,
@@ -4365,7 +4365,7 @@ export const RECIPES = [
       "Spray feta lightly with olive oil. Shake Italian seasoning + garlic powder + red pepper flakes over top.",
       "Bake 25 min. Mash the feta and tomatoes together until creamy.",
       "Cook all the pasta per package directions, drain, and toss with the feta-tomato sauce.",
-      "Divide evenly into 5 containers and refrigerate."
+      "Divide evenly into 5 containers (about 25oz each) and refrigerate."
     ],
     "totalTime": 33,
     "pantryTags": [
@@ -4431,7 +4431,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Blend all the cottage cheese + eggs in a blender until completely smooth (no lumps).",
-      "Pour onto 1-2 parchment-lined sheet pans (working in batches if needed). Spread evenly to about ¼ inch thick. Bake at 350°F for 25-30 minutes until golden brown and set. Cool 5 minutes, then peel off the parchment. Cut into 5 portions.",
+      "Pour onto 1-2 parchment-lined sheet pans (working in batches if needed). Spread evenly to about ¼ inch thick. Bake at 350°F for 25-30 minutes until golden brown and set. Cool 5 minutes, then peel off the parchment. Cut into 5 portions (about 15.5oz each).",
       "Spread dijon mustard over each portion. Layer turkey and spinach over one half of each, then roll or fold up like a wrap.",
       "Wrap each portion individually and refrigerate (up to 4 days) or freeze."
     ],
@@ -4510,7 +4510,7 @@ export const RECIPES = [
     "instructions": [
       "Mix all the mayo + sweet chili sauce + sriracha in a bowl for the bang bang sauce.",
       "Toss all the thawed shrimp with garlic powder, salt, and pepper. Air fry 380°F for 8-10 min, shaking halfway (cook in batches if needed). Toss in the bang bang sauce.",
-      "Divide the shrimp evenly into 5 containers and refrigerate. Keep the cucumber slices fresh, portioned separately.",
+      "Divide the shrimp evenly into 5 containers (about 10.5oz each) and refrigerate. Keep the cucumber slices fresh, portioned separately.",
       "To serve one portion: microwave a rice pouch 90 sec. Build bowl with a portion of shrimp and cucumber slices. Toppings on side."
     ],
     "totalTime": 15,
@@ -4589,7 +4589,7 @@ export const RECIPES = [
     "instructions": [
       "Add chicken, sun-dried tomatoes, broth, Italian seasoning, minced garlic, and red pepper flakes to slow cooker -- the red pepper flakes are what push this from a mild cream sauce toward a real Tuscan-style flavor.",
       "Cook LOW 5–6 hrs or HIGH 2–3 hrs. Stir in heavy cream + parmesan in last 30 min.",
-      "Divide chicken and sauce evenly into 5 containers. Refrigerate up to 4 days.",
+      "Divide chicken and sauce evenly into 5 containers (about 18.5oz each). Refrigerate up to 4 days.",
       "Reheat one portion at a time. Serve over a fresh white rice pouch."
     ],
     "totalTime": 365,
@@ -4662,7 +4662,7 @@ export const RECIPES = [
     "instructions": [
       "Mix all the drained tuna with soy sauce + rice vinegar + sesame oil in a large bowl.",
       "Add the cucumber slices + chili crisp + sesame seeds. Toss gently.",
-      "Divide evenly into 5 containers and refrigerate. Serve cold."
+      "Divide evenly into 5 containers (about 12oz each) and refrigerate. Serve cold."
     ],
     "totalTime": 4,
     "pantryTags": [
@@ -4737,7 +4737,7 @@ export const RECIPES = [
       "Stir rice vinegar through all the cooked rice. Press half into a large baking dish.",
       "Mix all the shredded crab with cream cheese, mayo, soy sauce, and sriracha until creamy -- this is the real sushi-bake filling, not just seasoned rice. Layer over the rice, then top with remaining rice and the mozzarella.",
       "Bake 375°F for 15-20 min (a larger dish may need a few extra minutes) until the cheese melts and the top is bubbling.",
-      "Divide evenly into 5 containers and refrigerate.",
+      "Divide evenly into 5 containers (about 12oz each) and refrigerate.",
       "To serve one portion: top with cucumber + extra sriracha. Scoop onto nori sheets to eat, sushi-hand-roll style, if using."
     ],
     "totalTime": 22,
@@ -4809,7 +4809,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Mix the cottage cheese, salmon, everything seasoning, dill, and lemon juice together in a bowl.",
-      "Divide evenly into 5 containers and refrigerate. Keep the cucumber rounds fresh, sliced just before serving.",
+      "Divide evenly into 5 containers (about 11.5oz each) and refrigerate. Keep the cucumber rounds fresh, sliced just before serving.",
       "To serve one portion: top fresh cucumber rounds with a portion of the salmon-cottage cheese mixture."
     ],
     "totalTime": 3,
@@ -4880,7 +4880,7 @@ export const RECIPES = [
       "Add minced garlic to the same skillet and stir 20-30 seconds until fragrant. Add all the rice, breaking up clumps, and stir 3-4 minutes.",
       "Add the peas, soy sauce, and white pepper (scaled for 5).",
       "Return the egg whites to the skillet and toss everything together 2 minutes.",
-      "Divide evenly into 5 containers and refrigerate (up to 4 days) or freeze. Toppings on the side."
+      "Divide evenly into 5 containers (about 19oz each) and refrigerate (up to 4 days) or freeze. Toppings on the side."
     ],
     "totalTime": 7,
     "pantryTags": [
@@ -4955,7 +4955,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Heat oil in a large pot. Brown beef 10-12 min, breaking it apart. Add taco seasoning, beef broth, and enchilada sauce. Simmer 10-12 minutes -- the enchilada sauce gives the broth real birria-style depth instead of relying on the seasoning packet alone.",
-      "Divide the beef and about ½ cup of broth per portion into 5 containers, and refrigerate (up to 4 days) or freeze. Save the rest of the broth separately for dipping.",
+      "Divide the beef and about ½ cup of broth per portion into 5 containers (about 5oz beef each), and refrigerate (up to 4 days) or freeze. Save the rest of the broth separately for dipping.",
       "To serve one portion: reheat that portion's broth in a small pot. Dip 2 corn tortillas in the hot broth until crispy (~20 sec per side).",
       "Fill the dipped tortillas with cheese + shredded beef from that portion + lime + cilantro. Serve with extra broth for dipping."
     ],
@@ -5020,7 +5020,7 @@ export const RECIPES = [
     "instructions": [
       "Mix hot honey and minced garlic (scaled for all 5 fillets). Place salmon skin-down on foil-lined sheet(s) and brush generously with the mixture.",
       "Bake 425°F for 12–14 min.",
-      "Divide the cooked salmon evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "Divide the cooked salmon evenly into 5 containers (about 8.5oz each) and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave a broccoli steam-bag 3 min. Squeeze lemon over a portion of salmon."
     ],
     "totalTime": 18,
@@ -5099,7 +5099,7 @@ export const RECIPES = [
     "instructions": [
       "Heat oil in a large skillet over high heat. Add all the shrimp (cook in batches if it doesn't fit in a single layer), cook 2–3 min per side.",
       "Mix sriracha + soy sauce + honey (scaled for the full batch) in a bowl. Add the sauce and minced garlic to the pan with the shrimp; toss and cook 30 seconds more until fragrant and the shrimp is coated.",
-      "Divide the cooked shrimp evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "Divide the cooked shrimp evenly into 5 containers (about 8oz each) and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave a rice pouch 90 sec + a broccoli steam-bag 3 min. Build bowl with a portion of shrimp — toppings on side."
     ],
     "totalTime": 7,
@@ -5178,7 +5178,7 @@ export const RECIPES = [
     "instructions": [
       "Mix all the Frank's RedHot, cayenne, brown sugar, and minced garlic (scaled for 5) -- the brown sugar balances the heat the way real Nashville hot chicken does. Toss all the chicken strips in the mixture.",
       "Air fry 400°F for 12-14 min, shaking halfway (cook in batches if needed).",
-      "Divide the chicken evenly into 5 containers and refrigerate.",
+      "Divide the chicken evenly into 5 containers (about 13oz each) and refrigerate.",
       "To serve one portion: toast a bun lightly, spread with mayo, and stack a portion of chicken tenders and pickles on top."
     ],
     "totalTime": 20,
@@ -5247,7 +5247,7 @@ export const RECIPES = [
     "instructions": [
       "Mix gochujang + soy sauce (scaled for all 5 fillets). Place salmon on foil-lined sheet(s). Brush sauce over top.",
       "Bake 425°F for 12–14 min.",
-      "Divide the cooked salmon evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "Divide the cooked salmon evenly into 5 containers (about 8oz each) and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave a rice pouch 90 sec + an edamame steam-bag 3 min. Build bowl with a portion of salmon. Drizzle mayo on top. Toppings on side."
     ],
     "totalTime": 19,
@@ -5317,7 +5317,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Spray all the shrimp with oil. Season with Tajin. Air fry 380°F for 8-10 min (cook in batches if needed).",
-      "Divide the shrimp evenly into 5 containers and refrigerate.",
+      "Divide the shrimp evenly into 5 containers (about 10.5oz each) and refrigerate.",
       "To serve one portion: warm tortillas 30 sec in the microwave, fill with a portion of shrimp, and top with yogurt, salsa verde, lime, and cilantro."
     ],
     "totalTime": 16,
@@ -5387,7 +5387,7 @@ export const RECIPES = [
     "instructions": [
       "Heat oil in a large skillet. Brown turkey 10-12 min, breaking it apart.",
       "Add chipotle seasoning, black beans, and salsa verde. Simmer 3-4 minutes.",
-      "Divide the turkey mixture evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "Divide the turkey mixture evenly into 5 containers (about 12oz each) and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave rice pouch 90 sec. Build bowl with rice, top with a portion of the turkey mixture. Toppings on side."
     ],
     "totalTime": 7,
@@ -5454,7 +5454,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "In a large skillet, brown the ground meat 10-12 min, breaking it apart. Add soy sauce, PB2, chili crisp, and sesame oil. Stir to combine and simmer 2 minutes.",
-      "Divide the meat sauce evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "Divide the meat sauce evenly into 5 containers (about 5.5oz each) and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: boil water and cook one serving of noodles (about 56g) per package directions, usually 2-4 min. Drain.",
       "Toss the noodles with a reheated portion of meat sauce. Toppings on side."
     ],
@@ -5529,7 +5529,7 @@ export const RECIPES = [
     "instructions": [
       "Heat oil in a large skillet over medium-high. Add ground beef, breaking it apart with a spoon. Cook 10-12 minutes, stirring occasionally, until browned throughout.",
       "Add stir-fry sauce, sriracha, and minced garlic -- the sriracha is what actually makes this \"spicy\" beef and broccoli instead of just a mild garlicky one. Simmer 3-4 minutes, stirring, until the sauce thickens slightly and coats the beef.",
-      "Divide the beef evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "Divide the beef evenly into 5 containers (about 7.5oz each) and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave rice pouch 90 sec + steam-bag broccoli 3 min. Build bowl with rice, top with a portion of beef, broccoli on side. Toppings on side."
     ],
     "totalTime": 7,
@@ -5611,7 +5611,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Spray all the shrimp with olive oil and season with garlic powder, salt, and pepper. Air fry 380°F for 8–10 min (cook in batches if needed). Toss in buffalo sauce.",
-      "Divide the cooked shrimp evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "Divide the cooked shrimp evenly into 5 containers (about 8oz each) and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave a rice pouch 90 sec + a broccoli steam-bag 3 min. Season the broccoli with garlic powder, onion powder, and a pinch of chili flakes. Build bowl with a portion of shrimp. Drizzle ranch dressing over the shrimp. Toppings on side."
     ],
     "totalTime": 15,
@@ -5686,7 +5686,7 @@ export const RECIPES = [
     "instructions": [
       "Heat a pan over medium. Add all the jar onions and diced bell pepper, cook 5-6 minutes until softened -- the bell pepper is what makes this taste like real shakshuka, not just eggs in marinara.",
       "Pour in all the marinara sauce. Stir in the minced garlic, onion powder, cumin, and smoked paprika (scaled for 5). Simmer 5 minutes.",
-      "Divide the sauce evenly into 5 containers and refrigerate.",
+      "Divide the sauce evenly into 5 containers (about 20.5oz each) and refrigerate.",
       "To serve one portion: warm a portion of sauce in a small skillet, make a well, and crack in a fresh egg. Cover and cook 5-7 minutes until the white is set and the yolk is still runny. Crumble feta over the top. Serve with sourdough for dipping."
     ],
     "totalTime": 14,
@@ -5768,7 +5768,7 @@ export const RECIPES = [
       "Heat olive oil in a pan over medium. Add all the jar onions and diced bell pepper, cook 6-7 minutes until softened -- real shakshuka builds its base on bell pepper and onion together, not onion alone.",
       "Add the minced garlic, cumin, smoked paprika, and red pepper flakes (scaled for 5). Stir 30 seconds to bloom the spices.",
       "Pour in all the crushed tomatoes. Season with salt and simmer 8-10 minutes, stirring occasionally, until slightly thickened.",
-      "Divide the sauce evenly into 5 containers and refrigerate.",
+      "Divide the sauce evenly into 5 containers (about 27.5oz each) and refrigerate.",
       "To serve one portion: warm a portion of sauce in a small skillet, make a well, and crack in a fresh egg. Cover and cook 5-7 minutes until the white is set and the yolk is still runny. Crumble feta over the top. Serve with sourdough."
     ],
     "totalTime": 17,
@@ -5931,7 +5931,7 @@ export const RECIPES = [
       "Heat a large skillet or pot over medium-high heat. Add ground {{protein}}, breaking it apart with a spoon. Cook 10-12 minutes, stirring occasionally, until browned throughout. Drain excess fat if needed.",
       "Push the {{protein}} to one side, add minced garlic and ground ginger to the cleared space, and cook 30-45 seconds, stirring, until fragrant.",
       "Stir in soy sauce, brown sugar, sesame oil, and red pepper flakes. Simmer 2-3 minutes, stirring occasionally, until the sauce thickens slightly and coats the {{protein}}.",
-      "Divide the {{protein}} evenly into 5 containers and refrigerate (up to 4 days) or freeze. To serve one portion: microwave rice pouch 90 sec + steam-bag veg 3 min. Build bowl with rice, top with {{protein}}. Toppings on the side."
+      "Divide the {{protein}} evenly into 5 containers (about 6.5oz each) and refrigerate (up to 4 days) or freeze. To serve one portion: microwave rice pouch 90 sec + steam-bag veg 3 min. Build bowl with rice, top with {{protein}}. Toppings on the side."
     ],
     "totalTime": 14,
     "pantryTags": [
@@ -6085,7 +6085,7 @@ export const RECIPES = [
     "instructions": [
       "Heat a large skillet over medium-high heat. Add ground {{protein}}, minced garlic, onion powder, salt, and pepper, breaking the meat apart with a spoon. Cook 10-12 minutes until browned throughout.",
       "Stir in BBQ sauce generously. Cook 2-3 minutes more.",
-      "Divide the {{protein}} mixture evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "Divide the {{protein}} mixture evenly into 5 containers (about 6.5oz each) and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave a portion of hash browns per package directions (usually 2-3 min), or air fry/bake if you'd rather have them crispy. Steam-bag broccoli 3 min, season with a pinch of onion powder and chili flakes. Plate hash browns, top with a portion of the {{protein}} mixture, broccoli on the side. Toppings on the side."
     ],
     "totalTime": 13,
@@ -6267,7 +6267,7 @@ export const RECIPES = [
     "instructions": [
       "Heat a large skillet or pot over medium-high heat. Add ground {{protein}} and break apart. Cook 10-12 minutes until mostly browned throughout.",
       "Stir in tomato paste, minced garlic, onion powder, cumin, oregano, red pepper flakes, smoked paprika, and salt, cooking 1 minute until fragrant -- this is where the real flavor comes from, not just the tomatoes. Add canned tomatoes (with liquid) and spinach. Simmer 4-5 minutes, stirring until the spinach wilts and the sauce thickens slightly.",
-      "Stir in butter off heat for a glossy, rich sauce. Divide the {{protein}} and tomato sauce evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "Stir in butter off heat for a glossy, rich sauce. Divide the {{protein}} and tomato sauce evenly into 5 containers (about 17oz each) and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave a rice pouch 90 sec. Build bowl with rice, top with a portion of the {{protein}} & tomato sauce."
     ],
     "totalTime": 12,
@@ -6415,7 +6415,7 @@ export const RECIPES = [
     "instructions": [
       "Heat a large skillet over medium-high heat. Add ground {{protein}}, break apart with a spoon. Cook 10-12 minutes until browned throughout.",
       "In a bowl, mix gochujang, soy sauce, and honey. Pour over {{protein}} and stir well. Cook 2 minutes more.",
-      "Divide the spicy {{protein}} evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "Divide the spicy {{protein}} evenly into 5 containers (about 6.5oz each) and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave rice pouch 90 sec + steam-bag broccoli 3 min, season broccoli with a pinch of garlic powder and chili flakes. Build bowl with rice, top with a portion of the {{protein}}, broccoli on side. Sesame & onion on top."
     ],
     "totalTime": 13,
@@ -6555,7 +6555,7 @@ export const RECIPES = [
       "Bring a large pot of water to a boil. Add pasta and cook per package directions (usually 8-10 min) until al dente, then drain.",
       "Meanwhile, heat a large skillet over medium-high. Add ground {{protein}}, break apart. Cook 10-12 minutes until browned throughout.",
       "Add marinara sauce and spinach to the meat. Season the spinach with a pinch of garlic powder and onion powder. Stir and simmer 3-4 minutes until the spinach wilts. Combine with the cooked pasta.",
-      "Divide the pasta and sauce evenly into 5 containers and refrigerate (up to 4 days) or freeze. To serve one portion: reheat in the microwave until hot throughout. Cheese on top."
+      "Divide the pasta and sauce evenly into 5 containers (about 15oz each) and refrigerate (up to 4 days) or freeze. To serve one portion: reheat in the microwave until hot throughout. Cheese on top."
     ],
     "totalTime": 15,
     "pantryTags": [
@@ -6695,7 +6695,7 @@ export const RECIPES = [
     "instructions": [
       "Heat a large skillet over medium-high. Add ground {{protein}} and break apart. Cook 10-12 minutes until browned throughout.",
       "Sprinkle taco seasoning over the meat and stir in the salsa (instead of water) -- it cooks down into a real sauce that coats the meat, not just a dry-seasoned crumble. Simmer 2-3 minutes.",
-      "Divide the taco {{protein}} evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "Divide the taco {{protein}} evenly into 5 containers (about 7oz each) and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: heat 2 tortillas in a dry pan 30 sec per side. Microwave veg 3 min. Build tacos with a portion of the {{protein}}. Toppings on the side."
     ],
     "totalTime": 12,
@@ -6858,7 +6858,7 @@ export const RECIPES = [
     "instructions": [
       "Heat a large skillet over medium-high. Add ground {{protein}} and break apart. Cook 10-12 minutes until browned throughout. Add the sliced mushrooms in the last 3-4 minutes and cook until softened and lightly browned -- real stroganoff is built on browned mushrooms, not just gravy.",
       "Mix stroganoff sauce powder with 2 cups water per package, then add to the meat. Simmer 4-5 minutes. Remove from heat and stir in sour cream.",
-      "Divide the {{protein}} stroganoff evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "Divide the {{protein}} stroganoff evenly into 5 containers (about 10oz each) and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave egg noodles per package + microwave broccoli 3 min, season broccoli with a pinch of garlic powder and onion powder. Combine noodles with a portion of the stroganoff. Broccoli on side."
     ],
     "totalTime": 14,
@@ -7002,7 +7002,7 @@ export const RECIPES = [
     "instructions": [
       "Heat a large skillet over medium-high heat. Add ground {{protein}} and minced garlic, breaking the meat apart. Cook 10-12 minutes until browned throughout.",
       "Drizzle teriyaki sauce over {{protein}} and stir well. Cook 2 minutes more.",
-      "Divide the teriyaki {{protein}} evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "Divide the teriyaki {{protein}} evenly into 5 containers (about 6oz each) and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave rice pouch 90 sec + steam-bag broccoli 3 min, season broccoli with sesame seeds. Build bowl with rice, top with a portion of the {{protein}}, broccoli on side. Toppings on top."
     ],
     "totalTime": 12,
@@ -7085,7 +7085,7 @@ export const RECIPES = [
       "Preheat oven to 375°F. Microwave the steam-bag sweet potato 5 minutes until fork-tender.",
       "In a bowl, mix black beans, sweet potato, cumin, chili powder, garlic powder, and ¼ cup of the enchilada sauce -- seasoning the filling directly keeps it from tasting like plain beans under sauce.",
       "Spoon filling onto tortillas, roll, and place seam-down in a baking dish. Pour remaining sauce over the top, then sprinkle with cheese.",
-      "Bake 20 minutes until the cheese is melted and the edges are bubbling. Cut into 5 equal portions."
+      "Bake 20 minutes until the cheese is melted and the edges are bubbling. Cut into 5 equal portions (about 10.5oz each)."
     ],
     "totalTime": 30,
     "pantryTags": [
@@ -7156,7 +7156,7 @@ export const RECIPES = [
     "instructions": [
       "Spray all the salmon with olive oil and season with lemon pepper.",
       "Air fry 400°F for 8-10 minutes until it flakes easily with a fork (work in batches if needed).",
-      "Divide the salmon evenly into 5 containers and refrigerate. Keep the arugula, berries, feta, and vinaigrette fresh, tossed just before serving.",
+      "Divide the salmon evenly into 5 containers (about 12.5oz each) and refrigerate. Keep the arugula, berries, feta, and vinaigrette fresh, tossed just before serving.",
       "To serve one portion: toss a portion of arugula, berries, and feta in a bowl with the balsamic vinaigrette. Plate the salad and top with a portion of salmon."
     ],
     "totalTime": 15,
@@ -7220,7 +7220,7 @@ export const RECIPES = [
       "Pour liquid eggs and milk into the dish and whisk with a fork.",
       "Scatter the hash browns, sausage crumbles, and half the cheese evenly over the eggs.",
       "Bake 35–40 minutes until the eggs are set and the center no longer jiggles. Top with remaining cheese for the last 5 minutes.",
-      "Slice into 5 equal portions."
+      "Slice into 5 equal portions (about 8.5oz each)."
     ],
     "totalTime": 48,
     "pantryTags": [
@@ -7279,7 +7279,7 @@ export const RECIPES = [
     "instructions": [
       "Mix all the jerk marinade paste with lime juice (scaled for 5). Coat all the chicken thighs on both sides.",
       "Air fry 380°F for 16-18 minutes, flipping halfway, until internal temp reaches 165°F (work in batches if needed).",
-      "Divide the chicken evenly into 5 containers and refrigerate.",
+      "Divide the chicken evenly into 5 containers (about 7oz each) and refrigerate.",
       "To serve one portion: microwave a sweet potato noodle pouch 3-4 minutes until just tender. Plate a portion of chicken over the zoodles. Add toppings."
     ],
     "totalTime": 23,
@@ -7356,7 +7356,7 @@ export const RECIPES = [
       "Add the seasoning blend, sausage, roux, broth, and cajun seasoning to the slow cooker. Stir until the roux dissolves.",
       "Cook on LOW 6 hours or HIGH 3 hours.",
       "Stir in the shredded rotisserie chicken for the last 30 minutes to warm through.",
-      "Divide the gumbo evenly into 5 containers and refrigerate up to 4 days, or freeze.",
+      "Divide the gumbo evenly into 5 containers (about 45oz each) and refrigerate up to 4 days, or freeze.",
       "To serve one portion: microwave a rice pouch 90 seconds. Serve the gumbo over rice."
     ],
     "totalTime": 368,
@@ -7417,7 +7417,7 @@ export const RECIPES = [
     "instructions": [
       "Air fry frozen turkey meatballs in batches at 400°F for 10–12 minutes each, shaking the basket halfway.",
       "Microwave the meatballs with the marinara sauce to warm through, about 3-4 minutes total.",
-      "Divide the meatballs and sauce evenly into 5 containers, top with mozzarella, and refrigerate (up to 4 days) or freeze.",
+      "Divide the meatballs and sauce evenly into 5 containers (about 18.5oz each), top with mozzarella, and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave a spaghetti pouch 90 sec. Reheat a portion of meatballs and sauce until hot and the cheese melts. Combine with the pasta."
     ],
     "totalTime": 20,
@@ -7493,7 +7493,7 @@ export const RECIPES = [
     "instructions": [
       "Season all the pork chops all over with garlic powder, smoked paprika, salt, and pepper, then brush with half the BBQ sauce (scaled for 5).",
       "Air fry 380°F for 12-14 minutes, flipping halfway, until internal temp reaches 145°F. Brush with remaining sauce for the last 2 minutes (work in batches if needed).",
-      "Divide the pork chops evenly into 5 containers and refrigerate. Keep the coleslaw mix and dressing separate, tossed fresh just before serving.",
+      "Divide the pork chops evenly into 5 containers (about 12oz each) and refrigerate. Keep the coleslaw mix and dressing separate, tossed fresh just before serving.",
       "To serve one portion: toss a portion of coleslaw mix with dressing in a bowl. Serve alongside a portion of the pork chops."
     ],
     "totalTime": 19,
@@ -7534,7 +7534,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Air fry all the frozen chicken bites 400°F for 10-12 minutes, shaking the basket halfway (work in batches if needed).",
-      "Toss the hot bites in buffalo sauce, then divide evenly into 5 containers and refrigerate.",
+      "Toss the hot bites in buffalo sauce, then divide evenly into 5 containers (about 8.5oz each) and refrigerate.",
       "To serve one portion: reheat in the air fryer or oven until hot and crisp. Serve with ranch and celery."
     ],
     "totalTime": 14,
@@ -7585,7 +7585,7 @@ export const RECIPES = [
     ],
     "toppings": [],
     "instructions": [
-      "Divide the cottage cheese evenly among 5 containers and refrigerate.",
+      "Divide the cottage cheese evenly among 5 containers (about 12oz each) and refrigerate.",
       "To serve one portion: top with berries, granola, and a drizzle of honey."
     ],
     "totalTime": 2,
@@ -7697,7 +7697,7 @@ export const RECIPES = [
     "toppings": [],
     "instructions": [
       "Stir the protein powder into all the yogurt until smooth.",
-      "Divide evenly into 5 jars or containers, cover, and refrigerate.",
+      "Divide evenly into 5 jars or containers (about 9.5oz each), cover, and refrigerate.",
       "To serve one portion: drizzle with honey, dust with cinnamon, and top with crushed pistachios or walnuts."
     ],
     "totalTime": 3,
@@ -7740,7 +7740,7 @@ export const RECIPES = [
       "Extra Parmesan"
     ],
     "instructions": [
-      "Divide the shredded rotisserie chicken evenly into 5 containers and refrigerate.",
+      "Divide the shredded rotisserie chicken evenly into 5 containers (about 11oz each) and refrigerate.",
       "To serve one portion: empty a fresh salad kit into a bowl and toss with its dressing and croutons. Top with a portion of chicken."
     ],
     "totalTime": 3,
@@ -7796,7 +7796,7 @@ export const RECIPES = [
       "Fresh Berries"
     ],
     "instructions": [
-      "Divide oats, milk, protein powder, and chia seeds evenly among 5 jars and stir each together.",
+      "Divide oats, milk, protein powder, and chia seeds evenly among 5 jars (about 10oz each) and stir each together.",
       "Cover and refrigerate overnight (keeps up to 4-5 days). Grab one from the fridge each morning -- eat cold or warm 60 seconds in the microwave."
     ],
     "totalTime": 3,
@@ -7859,7 +7859,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Mix all the tuna with mayo, dijon mustard, dill, and pepper in a bowl.",
-      "Divide evenly into 5 containers and refrigerate.",
+      "Divide evenly into 5 containers (about 8oz each) and refrigerate.",
       "To serve one portion: spoon a portion of the tuna salad into fresh lettuce leaves and fold like a taco."
     ],
     "totalTime": 4,
@@ -7917,7 +7917,7 @@ export const RECIPES = [
     "toppings": [],
     "instructions": [
       "Microwave all the chicken strips until hot (in batches if needed), then toss in buffalo sauce.",
-      "Divide the chicken evenly into 5 containers and refrigerate.",
+      "Divide the chicken evenly into 5 containers (about 9.5oz each) and refrigerate.",
       "To serve one portion: warm a tortilla and layer with a portion of chicken, ranch, and fresh lettuce. Roll into a wrap."
     ],
     "totalTime": 4,
@@ -7978,7 +7978,7 @@ export const RECIPES = [
       "Extra Parmesan"
     ],
     "instructions": [
-      "Divide the marinara, mozzarella, and pepperoni evenly into 5 containers and refrigerate. Keep the sourdough fresh.",
+      "Divide the marinara, mozzarella, and pepperoni evenly into 5 containers (about 10oz each) and refrigerate. Keep the sourdough fresh.",
       "To serve one portion: place sourdough slices on foil in the air fryer basket, spread with a portion of marinara, top with a portion of mozzarella and pepperoni, sprinkle with Italian seasoning and garlic powder, and air fry 375°F for 6-7 min, watching closely, until the cheese bubbles and bread edges are golden."
     ],
     "totalTime": 12,
@@ -8033,7 +8033,7 @@ export const RECIPES = [
     "instructions": [
       "Heat a large skillet over medium-high. Add chorizo and break apart. Cook 8-10 minutes until browned and cooked through.",
       "Whisk all the eggs together in a large bowl. Pour into the skillet with the chorizo and scramble until just set.",
-      "Top with pepper jack and let it melt. Divide evenly into 5 portions.",
+      "Top with pepper jack and let it melt. Divide evenly into 5 portions (about 13oz each).",
       "Refrigerate (up to 3 days) or freeze; reheat gently in the microwave. Serve with salsa and cilantro."
     ],
     "totalTime": 8,
@@ -8095,7 +8095,7 @@ export const RECIPES = [
     "instructions": [
       "Heat a large skillet over medium-high. Add chorizo and break apart. Cook 8-10 minutes until browned throughout.",
       "Whisk eggs and pour into the skillet. Scramble together with the chorizo until just set.",
-      "Sprinkle in pepper jack and let it melt. Divide the chorizo-egg mixture evenly among 5 tortillas with salsa, roll each into a burrito.",
+      "Sprinkle in pepper jack and let it melt. Divide the chorizo-egg mixture evenly among 5 tortillas (about 12oz each) with salsa, roll each into a burrito.",
       "Wrap each burrito individually in foil or plastic wrap and refrigerate (up to 4 days) or freeze -- a classic grab-and-go freezer burrito. To reheat: microwave 1-2 minutes (longer from frozen), flipping halfway."
     ],
     "totalTime": 10,
@@ -8217,7 +8217,7 @@ export const RECIPES = [
     "instructions": [
       "Heat sesame oil in a large skillet over medium-high. Add all the kimchi and cook 3-4 minutes until fragrant.",
       "Add all the rice and gochujang (scaled for 5). Stir-fry 5-6 minutes, breaking up clumps, until heated through.",
-      "Divide the kimchi rice evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "Divide the kimchi rice evenly into 5 containers (about 13oz each) and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: reheat a portion of rice, and in a separate small pan, fry an egg fresh to your liking (sunny-side up works well). Top the rice with the fried egg."
     ],
     "totalTime": 8,
@@ -8292,7 +8292,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Mix all the refried beans with the cumin, chili powder, and garlic powder (scaled for 5) in a bowl -- plain refried beans need this to taste like a real ranchero-style base instead of just canned beans.",
-      "Divide the seasoned beans, salsa, and cheese evenly into 5 containers and refrigerate.",
+      "Divide the seasoned beans, salsa, and cheese evenly into 5 containers (about 13.5oz each) and refrigerate.",
       "To serve one portion: warm a portion of beans in the microwave. Warm 2 tortillas in a dry pan 30 seconds per side, then fry 2 eggs fresh in the same pan.",
       "Spread the beans over the tortillas, top with the fried eggs, salsa, and cheese."
     ],
@@ -8437,7 +8437,7 @@ export const RECIPES = [
       "In the same skillet, add garlic and sun-dried tomatoes. Cook 1 minute until fragrant.",
       "Stir in broth, cream, parmesan, and remaining Italian seasoning (scaled for 5). Simmer 3-4 minutes until slightly thickened.",
       "Return the chicken to the skillet, spoon sauce over the top, and simmer 2 more minutes.",
-      "Divide evenly into 5 containers and refrigerate. Top with basil and extra parmesan before serving."
+      "Divide evenly into 5 containers (about 17oz each) and refrigerate. Top with basil and extra parmesan before serving."
     ],
     "totalTime": 15,
     "pantryTags": [
@@ -8514,7 +8514,7 @@ export const RECIPES = [
       "In the same skillet, add garlic and sun-dried tomatoes. Cook 1 minute until fragrant.",
       "Stir in broth, cream, parmesan, and remaining Italian seasoning (scaled for 5). Simmer 2-3 minutes until slightly thickened.",
       "Return the salmon to the skillet, spoon sauce over the top, and simmer 1 more minute.",
-      "Divide evenly into 5 containers and refrigerate. Top with basil before serving."
+      "Divide evenly into 5 containers (about 15oz each) and refrigerate. Top with basil before serving."
     ],
     "totalTime": 14,
     "pantryTags": [
@@ -8591,7 +8591,7 @@ export const RECIPES = [
       "Season all the diced chicken with taco seasoning. Spray a large skillet with oil and cook over medium-high 6-7 minutes until browned and cooked through (work in batches if needed). Remove and set aside.",
       "In the same skillet, add garlic and sun-dried tomatoes. Cook 1 minute until fragrant.",
       "Stir in cream and parmesan (scaled for 5). Simmer 2 minutes until slightly thickened, then return the chicken to the skillet and toss to coat.",
-      "Divide evenly into 5 containers and refrigerate.",
+      "Divide evenly into 5 containers (about 14oz each) and refrigerate.",
       "To serve one portion: warm tortillas, fill with a portion of the creamy chicken, and top with cilantro and a squeeze of lime."
     ],
     "totalTime": 15,
@@ -8658,7 +8658,7 @@ export const RECIPES = [
       "Diced Pickles"
     ],
     "instructions": [
-      "Mix all the special sauce (mayo + ketchup + pickle relish, scaled for 5) and store in a container. Divide the ground beef into 5 portions (2 balls each) and refrigerate raw (or portion and freeze).",
+      "Mix all the special sauce (mayo + ketchup + pickle relish, scaled for 5) and store in a container. Divide the ground beef into 5 portions (about 9oz each) (2 balls each) and refrigerate raw (or portion and freeze).",
       "To serve one portion: place a tortilla in a hot dry skillet, top with a portion's beef balls, and smash flat with a spatula right onto the tortilla. Sprinkle with onion and seasoning. Cook 2-3 minutes until the edges are crispy and browned, then flip.",
       "Add cheese on top, cover, and cook 1 more minute until melted.",
       "Spread a portion of the special sauce on the cheese side, fold the tortilla over the meat, and top with lettuce and pickles."
@@ -8740,7 +8740,7 @@ export const RECIPES = [
       "Toss all the shredded carrot and sliced cucumber with rice vinegar and a pinch of salt (scaled for 5). Refrigerate to quick-pickle -- these actually improve over a few days in the fridge.",
       "Season all the diced chicken with garlic, salt, and pepper. Cook in a large skillet over medium-high 8-10 minutes until browned and cooked through (work in batches if needed).",
       "Stir in the soy sauce (scaled for 5) and cook 1-2 more minutes to glaze.",
-      "Divide the chicken and pickled veg evenly into 5 containers and refrigerate.",
+      "Divide the chicken and pickled veg evenly into 5 containers (about 13oz each) and refrigerate.",
       "To serve one portion: microwave a rice pouch. Build the bowl with rice, a portion of chicken, and drained pickled veg. Drizzle with sriracha mayo and top with cilantro and jalapeño."
     ],
     "totalTime": 14,
@@ -8888,7 +8888,7 @@ export const RECIPES = [
       "Season all the chicken with salt and pepper and sear in a large skillet over medium-high 8-10 minutes until cooked through (work in batches if needed). Remove and set aside.",
       "In the same skillet, melt butter, add garlic, gochujang, soy sauce, and honey (scaled for 5). Stir in a splash of reserved pasta water to loosen into a glossy sauce.",
       "Add the noodles and chicken back to the skillet and toss to coat.",
-      "Divide evenly into 5 containers and refrigerate (up to 4 days) or freeze. Top with scallions and sesame seeds."
+      "Divide evenly into 5 containers (about 11.5oz each) and refrigerate (up to 4 days) or freeze. Top with scallions and sesame seeds."
     ],
     "totalTime": 15,
     "pantryTags": [
@@ -8959,7 +8959,7 @@ export const RECIPES = [
     "instructions": [
       "Season all the salmon with salt, pepper, and a squeeze of lemon. Spray a large skillet with oil and sear 4-5 minutes per side until cooked through (work in batches if needed). Flake into large chunks.",
       "Whisk the tahini and remaining lemon juice (scaled for 5) with a splash of water until smooth and pourable.",
-      "Divide the salmon, cucumber, feta, and tahini sauce evenly into 5 containers and refrigerate. Keep the cucumber separate/fresh if possible.",
+      "Divide the salmon, cucumber, feta, and tahini sauce evenly into 5 containers (about 10.5oz each) and refrigerate. Keep the cucumber separate/fresh if possible.",
       "To serve one portion: microwave a rice pouch. Build the bowl with rice, a portion of salmon, cucumber, and feta. Drizzle with tahini-lemon sauce and top with parsley and olives."
     ],
     "totalTime": 12,
@@ -9032,7 +9032,7 @@ export const RECIPES = [
     "instructions": [
       "Rub all 5 portions of salmon with chipotle, lime juice, salt, and pepper. Working in batches if needed, sear in an oiled skillet 4 minutes per side until cooked through.",
       "Warm the black beans and corn together in a pan 2–3 minutes.",
-      "Divide the cooked salmon and the beans-and-corn mixture evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "Divide the cooked salmon and the beans-and-corn mixture evenly into 5 containers (about 12.5oz each) and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave a rice pouch per package instructions. Build the bowl with rice, a portion of the beans and corn, and a portion of salmon. Top with avocado and cilantro."
     ],
     "totalTime": 12,
@@ -9106,7 +9106,7 @@ export const RECIPES = [
     "instructions": [
       "Season all the diced chicken with taco seasoning and cook in a skillet over medium-high 6–7 minutes until browned and cooked through (work in batches if needed).",
       "Warm the black beans and corn together in a pan 2–3 minutes.",
-      "Divide the cooked chicken and the beans-and-corn mixture evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "Divide the cooked chicken and the beans-and-corn mixture evenly into 5 containers (about 15oz each) and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave a rice pouch per package instructions. Build the bowl with rice, a portion of the beans and corn, a portion of chicken, and salsa. Top with cheese, avocado, cilantro, and a dollop of sour cream."
     ],
     "totalTime": 14,
@@ -9182,7 +9182,7 @@ export const RECIPES = [
       "Season all the chicken with chili powder, salt, and pepper. Spray a large skillet with oil and cook over medium-high 6-7 minutes until browned and cooked through (work in batches if needed). Remove and set aside.",
       "In the same skillet, char all the corn over medium-high 3-4 minutes until lightly browned.",
       "Stir mayo, lime juice, and half the cheese (scaled for 5) into the corn. Return chicken to the skillet and toss to coat.",
-      "Divide evenly into 5 containers and refrigerate. Top with remaining cheese and cilantro before serving."
+      "Divide evenly into 5 containers (about 13oz each) and refrigerate. Top with remaining cheese and cilantro before serving."
     ],
     "totalTime": 15,
     "pantryTags": [
@@ -9253,7 +9253,7 @@ export const RECIPES = [
       "Preheat oven to 425°F. Dip all the chicken cubes in egg white, then coat in panko.",
       "Arrange on lined sheet pan(s), spray with oil, and bake 15-18 minutes until golden and cooked through (use two sheet pans or work in batches if needed).",
       "Whisk all the mayo, sweet chili sauce, and sriracha together for the bang bang sauce.",
-      "Toss the baked chicken in the sauce, then divide evenly into 5 containers and refrigerate.",
+      "Toss the baked chicken in the sauce, then divide evenly into 5 containers (about 10.5oz each) and refrigerate.",
       "To serve one portion: top with scallions."
     ],
     "totalTime": 20,
@@ -9317,7 +9317,7 @@ export const RECIPES = [
       "Spread a thin layer of marinara in a large oven-safe skillet or dish. Arrange all the frozen potstickers in a single layer on top.",
       "Cover with the remaining marinara, then top with mozzarella.",
       "Bake 20-25 minutes (a larger dish may need a few extra minutes) until the cheese is bubbly and golden and the potstickers are cooked through.",
-      "Divide evenly into 5 containers and refrigerate. Top with basil and red pepper flakes before serving."
+      "Divide evenly into 5 containers (about 17oz each) and refrigerate. Top with basil and red pepper flakes before serving."
     ],
     "totalTime": 22,
     "pantryTags": [
@@ -9383,7 +9383,7 @@ export const RECIPES = [
     "instructions": [
       "Season all the chicken with salt and pepper and sear in a pot over medium-high 8-10 minutes until cooked through (work in batches if needed). Remove and set aside.",
       "In the same pot, stir the gochujang and soy sauce (scaled for 5) into 2 cups water per portion of broth base. Bring to a simmer 3-4 minutes.",
-      "Divide the chicken and broth base evenly into 5 containers and refrigerate.",
+      "Divide the chicken and broth base evenly into 5 containers (about 12.5oz each) and refrigerate.",
       "To serve one portion: soft-boil an egg fresh 6-7 minutes, cool in cold water, then peel and halve. Bring a portion of the broth base to a boil, add a portion of frozen vegetables and a block of ramen noodles, and cook 3 minutes until tender. Ladle into a bowl, top with a portion of chicken, the soft-boiled egg, scallions, and sesame seeds."
     ],
     "totalTime": 12,
@@ -9453,7 +9453,7 @@ export const RECIPES = [
       "Push the vegetables to one side, crack in all the eggs, and scramble until just set.",
       "Add all the rice and soy sauce (scaled for 5), breaking up clumps, and stir-fry 4-5 minutes until heated through.",
       "Remove from heat and stir in the chili crisp to taste.",
-      "Divide evenly into 5 containers and refrigerate (up to 4 days) or freeze. Top with scallions."
+      "Divide evenly into 5 containers (about 15oz each) and refrigerate (up to 4 days) or freeze. Top with scallions."
     ],
     "totalTime": 8,
     "pantryTags": [
@@ -9515,7 +9515,7 @@ export const RECIPES = [
     "instructions": [
       "Boil all the potatoes until fork-tender, about 12-15 minutes (work in batches if needed), then drain and let cool slightly.",
       "Spread the potatoes on the air fryer tray and smash each flat with a fork or cup. Spray with oil and season with garlic powder, salt, and pepper. Air fry at 400°F for 12-14 minutes, flipping halfway, until crispy and golden (work in batches if needed). Sprinkle cheese on top for the last minute to melt.",
-      "Divide the potatoes evenly into 5 containers and refrigerate.",
+      "Divide the potatoes evenly into 5 containers (about 13oz each) and refrigerate.",
       "To serve one portion: reheat a portion of potatoes in the air fryer or microwave. Fry an egg fresh and plate alongside with scallions and hot sauce."
     ],
     "totalTime": 15,
@@ -9587,7 +9587,7 @@ export const RECIPES = [
     "instructions": [
       "Toss all the chicken cubes in cornstarch to coat. Arrange in the air fryer basket, spray with oil, and air fry at 400°F for 10-12 minutes, shaking halfway, until crispy and cooked through (work in batches if needed).",
       "Meanwhile, whisk all the orange juice, soy sauce, honey, and garlic in a saucepan (scaled for 5). Simmer over medium 3-4 minutes until thickened into a glaze.",
-      "Toss the crispy chicken in the orange glaze until coated, then divide evenly into 5 containers and refrigerate.",
+      "Toss the crispy chicken in the orange glaze until coated, then divide evenly into 5 containers (about 10oz each) and refrigerate.",
       "To serve one portion: reheat in the air fryer or microwave. Top with scallions and sesame seeds."
     ],
     "totalTime": 14,
@@ -9659,7 +9659,7 @@ export const RECIPES = [
       "Season all the chicken with salt and pepper and cook in a large skillet over medium-high 6-7 minutes until browned and cooked through (work in batches if needed). Remove and set aside.",
       "In the same skillet, melt butter and add garlic and corn. Cook 3 minutes, then stir in mayo and sugar (scaled for 5).",
       "Return chicken to the skillet, top everything with mozzarella, cover, and cook 2-3 minutes until the cheese is melted.",
-      "Divide evenly into 5 containers and refrigerate. Top with scallions before serving."
+      "Divide evenly into 5 containers (about 12.5oz each) and refrigerate. Top with scallions before serving."
     ],
     "totalTime": 14,
     "pantryTags": [
@@ -9730,7 +9730,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Toss all the chicken with shawarma seasoning, salt, and pepper. Spray a skillet with oil and cook over medium-high 7–8 minutes until browned and cooked through (work in batches if needed).",
-      "Divide the cooked chicken evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "Divide the cooked chicken evenly into 5 containers (about 9oz each) and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: whisk a small portion of yogurt, garlic, lemon juice, and a pinch of salt fresh for the garlic sauce. Microwave a rice pouch per package instructions. Build the bowl with rice and a portion of chicken.",
       "Drizzle with the garlic yogurt sauce and top with cucumber, tomato, and parsley."
     ],
@@ -9865,7 +9865,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Preheat oven to 350°F. Mash all the banana in a large bowl. Whisk in the eggs, milk, protein powder, oats, and baking powder (scaled for 5 servings) until smooth.",
-      "Divide the batter evenly among 5 oven-safe ramekins.",
+      "Divide the batter evenly among 5 oven-safe ramekins (about 8.5oz each).",
       "Bake 20-22 minutes until set and golden on top.",
       "Refrigerate (up to 4 days) or freeze.",
       "To serve one portion: reheat in the microwave, then top with sliced banana and a peanut butter drizzle."
@@ -9997,7 +9997,7 @@ export const RECIPES = [
       "Blend all the cottage cheese, parmesan, garlic, and black pepper (scaled for 5) until completely smooth, about 1-2 minutes.",
       "Melt butter in the empty pasta pot over low heat, pour in the blended sauce, and warm gently 3-4 minutes (don't boil). Thin with reserved pasta water as needed.",
       "Toss the pasta in the sauce.",
-      "Divide evenly into 5 containers and refrigerate. Top with parsley and extra parmesan before serving."
+      "Divide evenly into 5 containers (about 10oz each) and refrigerate. Top with parsley and extra parmesan before serving."
     ],
     "totalTime": 12,
     "pantryTags": [
@@ -10054,7 +10054,7 @@ export const RECIPES = [
       "Preheat oven to 350°F and line a large sheet pan with parchment.",
       "Blend all the cottage cheese and eggs together until completely smooth.",
       "Pour onto the lined pan, sprinkle with cheese and seasoning, and bake 20-25 minutes (a larger pan may need a few extra minutes) until set and lightly golden.",
-      "Let cool slightly, then slice into rounds and divide evenly into 5 containers. Refrigerate (up to 4 days) or freeze."
+      "Let cool slightly, then slice into rounds and divide evenly into 5 containers (about 8oz each). Refrigerate (up to 4 days) or freeze."
     ],
     "totalTime": 22,
     "pantryTags": [
@@ -10110,7 +10110,7 @@ export const RECIPES = [
     "instructions": [
       "Add all the cottage cheese, frozen berries, honey, and vanilla to a blender or food processor.",
       "Blend on high 1-2 minutes, scraping down the sides, until completely smooth and creamy.",
-      "Divide evenly into 5 freezer-safe containers.",
+      "Divide evenly into 5 freezer-safe containers (about 11oz each).",
       "To serve one portion: freeze 20-30 minutes for a soft-serve texture (or eat right away for a thick shake-like texture). Top with extra berries and granola."
     ],
     "totalTime": 25,
@@ -10154,7 +10154,7 @@ export const RECIPES = [
       "Preheat oven to 375°F and line one or two sheet pans with parchment.",
       "Spoon small, thin mounds of all the cottage cheese onto the parchment, spacing well apart, and spread each into a thin round.",
       "Sprinkle with seasoning and bake 25-30 minutes until deep golden and fully dried out and crisp.",
-      "Let cool completely on the pan -- they crisp up further as they cool. Divide evenly into 5 airtight containers or bags."
+      "Let cool completely on the pan -- they crisp up further as they cool. Divide evenly into 5 airtight containers or bags (about 6oz each)."
     ],
     "totalTime": 30,
     "pantryTags": [
@@ -10217,7 +10217,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Brown all the beef in a large skillet over medium-high 6-8 minutes, breaking it up, then stir in taco seasoning (scaled for 5) with a splash of water.",
-      "Divide the beef, cheese, and salsa evenly into 5 containers and refrigerate.",
+      "Divide the beef, cheese, and salsa evenly into 5 containers (about 9.5oz each) and refrigerate.",
       "To serve one portion: in a dry pan, crisp a torn tortilla's pieces 2-3 minutes until golden, like tostada chips. Build the bowl with a portion of beef, cheese, and salsa. Top with the crispy tortilla pieces, a dollop of fresh Greek yogurt, lettuce, and tomato."
     ],
     "totalTime": 12,
@@ -10287,7 +10287,7 @@ export const RECIPES = [
     "instructions": [
       "Season all the chicken with chili powder, paprika, salt, and pepper. Spray a large skillet with oil and cook over medium-high 6-7 minutes until browned (work in batches if needed).",
       "Add pineapple and cook 2 more minutes, letting it caramelize slightly.",
-      "Divide evenly into 5 containers and refrigerate.",
+      "Divide evenly into 5 containers (about 11oz each) and refrigerate.",
       "To serve one portion: warm tortillas and fill with a portion of the chicken and pineapple. Top with onion, cilantro, and a squeeze of lime."
     ],
     "totalTime": 13,
@@ -10352,7 +10352,7 @@ export const RECIPES = [
     "instructions": [
       "Toss all the chicken cubes in cornstarch to coat. Arrange in the air fryer basket, spray with oil, and air fry at 400°F for 10-12 minutes, shaking halfway, until crispy and cooked through (work in batches if needed).",
       "Whisk all the hot honey, soy sauce, and black pepper (scaled for 5) in a saucepan and warm over low 1-2 minutes.",
-      "Toss the crispy chicken in the honey pepper glaze until coated, then divide evenly into 5 containers and refrigerate.",
+      "Toss the crispy chicken in the honey pepper glaze until coated, then divide evenly into 5 containers (about 8.5oz each) and refrigerate.",
       "To serve one portion: reheat in the air fryer or microwave. Top with scallions."
     ],
     "totalTime": 13,
@@ -10418,7 +10418,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Blend or finely mince all the herbs, yogurt, lemon juice, and garlic into a smooth green goddess dressing.",
-      "Toss the shredded chicken with the dressing until well coated, then divide evenly into 5 containers and refrigerate.",
+      "Toss the shredded chicken with the dressing until well coated, then divide evenly into 5 containers (about 9.5oz each) and refrigerate.",
       "To serve one portion: lay a tortilla flat, add fresh greens and cucumber, then top with a portion of the chicken salad. Roll tightly into a wrap and slice in half."
     ],
     "totalTime": 8,
@@ -10475,7 +10475,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Whisk the chia seeds, milk, protein powder, and honey together in a large jar or container until the powder is fully dissolved.",
-      "Divide evenly into 5 jars, cover, and refrigerate at least 4 hours or overnight, stirring each once after the first 10 minutes to prevent clumping.",
+      "Divide evenly into 5 jars (about 11oz each), cover, and refrigerate at least 4 hours or overnight, stirring each once after the first 10 minutes to prevent clumping.",
       "To serve one portion: stir and top with berries and granola."
     ],
     "totalTime": 4,
@@ -10540,7 +10540,7 @@ export const RECIPES = [
     "instructions": [
       "Heat oil in a large skillet over medium-high. Cook all the bell pepper 4 minutes until softened. Add garlic and cook 30 seconds.",
       "Stir in the diced tomatoes (scaled for 5) and simmer 4-5 minutes until slightly reduced.",
-      "Divide the tomato-pepper sauce evenly into 5 containers and refrigerate.",
+      "Divide the tomato-pepper sauce evenly into 5 containers (about 11oz each) and refrigerate.",
       "To serve one portion: warm a portion of the sauce in a skillet, crack in an egg fresh, season with salt and pepper, and gently stir into soft, saucy curds, 2-3 minutes. Top with feta and parsley."
     ],
     "totalTime": 12,
@@ -10598,7 +10598,7 @@ export const RECIPES = [
     "instructions": [
       "Add all the cottage cheese and lemon juice to a blender or food processor.",
       "Blend 1-2 minutes, scraping down the sides, until completely smooth and whipped.",
-      "Divide evenly into 5 containers and refrigerate.",
+      "Divide evenly into 5 containers (about 12.5oz each) and refrigerate.",
       "To serve one portion: spread onto a plate, top with seasoning and a drizzle of olive oil. Serve with fresh cucumber, carrot, and bell pepper sticks for dipping."
     ],
     "totalTime": 4,
@@ -10671,7 +10671,7 @@ export const RECIPES = [
       "Brown all the ground turkey in a large skillet over medium-high 5–6 minutes, breaking it up as it cooks.",
       "Add garlic and frozen vegetables, cook 3 minutes until the vegetables are heated through.",
       "Stir in gochujang, soy sauce, and honey (scaled for the full batch). Simmer 2 minutes until glossy and well coated.",
-      "Divide the turkey mixture evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "Divide the turkey mixture evenly into 5 containers (about 8oz each) and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave a rice pouch per package instructions and top with a portion of the turkey mixture, scallions, and sesame seeds."
     ],
     "totalTime": 12,
@@ -10741,7 +10741,7 @@ export const RECIPES = [
       "Boil all the pasta per package directions, then drain and rinse under cold water to cool.",
       "Whisk all the Greek yogurt, Caesar dressing, and parmesan together in a large bowl.",
       "Add the cooled pasta, chicken, and romaine, and toss until everything is well coated.",
-      "Divide evenly into 5 containers and refrigerate. Chill at least 10 minutes before the first serving."
+      "Divide evenly into 5 containers (about 12oz each) and refrigerate. Chill at least 10 minutes before the first serving."
     ],
     "totalTime": 12,
     "pantryTags": [
@@ -10824,7 +10824,7 @@ export const RECIPES = [
       "Preheat oven to 400°F. Pat all the tilapia dry and arrange in a large baking dish (or two).",
       "Melt all the butter and mix with garlic, lemon juice, lemon zest, Italian seasoning, paprika, salt, and pepper (scaled for 5 fillets). Pour evenly over the fillets.",
       "Bake 12-15 min until the fish flakes easily with a fork.",
-      "Divide the tilapia and pan sauce evenly into 5 containers and refrigerate.",
+      "Divide the tilapia and pan sauce evenly into 5 containers (about 8oz each) and refrigerate.",
       "To serve one portion: spoon the pan sauce back over the top before serving."
     ],
     "totalTime": 17,
@@ -10897,7 +10897,7 @@ export const RECIPES = [
       "Preheat the broiler on high. Pat all the tilapia dry and arrange on a foil-lined baking sheet.",
       "Mix all the parmesan, mayo, melted butter, lemon juice, garlic powder, and paprika into a thick paste (scaled for 5 fillets). Spread evenly over the fillets.",
       "Broil 6-8 min (watching closely, working in batches if needed) until the topping is golden and the fish flakes easily with a fork.",
-      "Divide evenly into 5 containers and refrigerate."
+      "Divide evenly into 5 containers (about 8.5oz each) and refrigerate."
     ],
     "totalTime": 12,
     "pantryTags": [
@@ -10982,7 +10982,7 @@ export const RECIPES = [
     "instructions": [
       "Mix all the paprika, cayenne, garlic powder, onion powder, thyme, oregano, salt, and pepper (scaled for 5). Coat all the tilapia fillets evenly on both sides.",
       "Heat a large skillet over high heat with the butter until just smoking. Sear the fillets 2-3 min per side until a dark, blackened crust forms and the fish flakes easily (work in batches if needed).",
-      "Divide evenly into 5 containers and refrigerate."
+      "Divide evenly into 5 containers (about 7oz each) and refrigerate."
     ],
     "totalTime": 8,
     "pantryTags": [
@@ -11052,7 +11052,7 @@ export const RECIPES = [
     ],
     "instructions": [
       "Coat all the tilapia in blackening seasoning. Heat butter in a large skillet over high heat and sear the fillets 2-3 min per side until blackened and flaky (work in batches if needed). Flake into large chunks.",
-      "Divide the tilapia evenly into 5 containers and refrigerate. Keep the coleslaw mix, mayo, and lime juice separate, mixed fresh just before serving.",
+      "Divide the tilapia evenly into 5 containers (about 14oz each) and refrigerate. Keep the coleslaw mix, mayo, and lime juice separate, mixed fresh just before serving.",
       "To serve one portion: mix a portion of mayo and lime juice for a quick crema. Toss a portion of coleslaw mix with half the crema. Warm a tortilla, fill with the slaw and a portion of blackened tilapia, drizzle with the remaining crema, and top with cilantro."
     ],
     "totalTime": 10,
@@ -11108,7 +11108,7 @@ export const RECIPES = [
     "instructions": [
       "Pat all the tilapia dry, spray with oil, and season both sides with lemon pepper seasoning (scaled for 5).",
       "Air fry at 400°F for 8-10 min until the fish flakes easily with a fork (work in batches if needed).",
-      "Divide evenly into 5 containers and refrigerate.",
+      "Divide evenly into 5 containers (about 6.5oz each) and refrigerate.",
       "To serve one portion: squeeze fresh lemon juice over the top before serving."
     ],
     "totalTime": 10,
@@ -11176,7 +11176,7 @@ export const RECIPES = [
     "instructions": [
       "Pat all the tilapia dry and season with salt and pepper. Heat olive oil in a large skillet over medium-high.",
       "Sear the tilapia 3 min per side until golden (work in batches if needed). Add butter and garlic to the pan, then tilt and spoon the melted garlic butter over the fish for 1 minute.",
-      "Divide evenly into 5 containers and refrigerate. Finish with a squeeze of lemon juice before serving."
+      "Divide evenly into 5 containers (about 7.5oz each) and refrigerate. Finish with a squeeze of lemon juice before serving."
     ],
     "totalTime": 8,
     "pantryTags": [
@@ -11267,7 +11267,7 @@ export const RECIPES = [
       "Season all 5 portions of tilapia with cayenne, smoked paprika, onion powder, and garlic powder.",
       "Melt butter in a large skillet over medium-high. Sauté the diced onion, minced garlic, and sliced serrano 2 min until fragrant.",
       "Add the seasoned tilapia to the skillet along with the diced tomatoes (work in batches if it doesn't fit in a single layer). Simmer 6–8 min, spooning sauce over the fish, until it flakes easily.",
-      "Divide the tilapia and sauce evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "Divide the tilapia and sauce evenly into 5 containers (about 13oz each) and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave a rice pouch 90 sec. Serve a portion of tilapia and sauce over rice, topped with cilantro and a squeeze of lime."
     ],
     "totalTime": 12,
@@ -11351,7 +11351,7 @@ export const RECIPES = [
       "Season all the tilapia with salt and pepper. Melt butter in a large skillet over medium-high and sear the fillets 3 min per side until golden (work in batches if needed). Remove and set aside.",
       "In the same skillet, add garlic and cook 30 sec. Stir in heavy cream, parmesan, and Italian seasoning (scaled for 5). Simmer 2-3 min until slightly thickened.",
       "Return the tilapia to the skillet, spoon sauce over the top, and simmer 1 more minute.",
-      "Divide evenly into 5 containers and refrigerate.",
+      "Divide evenly into 5 containers (about 10.5oz each) and refrigerate.",
       "To serve one portion: microwave a green beans steam-bag 3 min. Season with a pinch of garlic powder. Serve alongside."
     ],
     "totalTime": 12,
@@ -11424,7 +11424,7 @@ export const RECIPES = [
       "Heat oil in a large skillet over medium-high. Add all the sliced kielbasa in a single layer (work in batches if needed) and cook 3-4 minutes per side until browned and slightly crisp at the edges. Remove and set aside.",
       "In the same skillet, add the peppers and onion. Sauté 5-7 minutes until softened and starting to caramelize. Add garlic and smoked paprika, cook 1 minute more until fragrant.",
       "Return the kielbasa to the skillet and toss with the peppers for 2-3 minutes to heat through. Season with salt and pepper to taste.",
-      "Divide the kielbasa and peppers evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "Divide the kielbasa and peppers evenly into 5 containers (about 12.5oz each) and refrigerate (up to 4 days) or freeze.",
       "To serve one portion: microwave a rice pouch 90 sec. Serve a portion of kielbasa and peppers over rice. Toppings on side."
     ],
     "totalTime": 14,
@@ -11503,7 +11503,7 @@ export const RECIPES = [
       "Meanwhile, heat oil in a large skillet over medium-high. Add all the sliced chicken sausage and cook 4-5 minutes until browned.",
       "Add mushrooms and cook 4 minutes until softened and browned -- letting them sit undisturbed for the first minute or two helps them brown instead of steam. Add garlic and red pepper flakes, stir 30 seconds until fragrant.",
       "Add spinach and toss until just wilted, about 1 minute. Add the pasta and parmesan, tossing with a splash of the reserved pasta water until glossy and coated.",
-      "Divide evenly into 5 containers and refrigerate."
+      "Divide evenly into 5 containers (about 10oz each) and refrigerate."
     ],
     "totalTime": 15,
     "pantryTags": [
@@ -11575,7 +11575,7 @@ export const RECIPES = [
       "Heat oil in a large skillet over medium-high. Add all the sliced bratwurst and cook 4-5 minutes until browned (work in batches if needed). Remove and set aside.",
       "In the same skillet, add onion and apple and cook 4-5 minutes until softened -- the apple's sweetness is what balances the sauerkraut's tang in a real bratwurst-and-kraut skillet.",
       "Stir in the sauerkraut, caraway seeds, and Dijon mustard (scaled for 5). Return the bratwurst to the skillet, cover, and simmer 3-4 minutes until heated through and the flavors meld.",
-      "Divide evenly into 5 containers and refrigerate. Serve with extra Dijon on the side."
+      "Divide evenly into 5 containers (about 11.5oz each) and refrigerate. Serve with extra Dijon on the side."
     ],
     "totalTime": 15,
     "pantryTags": [
@@ -11644,7 +11644,7 @@ export const RECIPES = [
       "Preheat oven to 425°F. Toss all the sweet potato with olive oil spray, garlic powder, and Italian seasoning on one or two sheet pans. Roast 10 minutes to give it a head start -- it takes longer to cook through than the other vegetables.",
       "Add all the sliced sausage, broccoli, and bell pepper to the pan(s). Toss everything together with a bit more oil spray and seasoning.",
       "Roast 15-20 minutes more (a fuller pan may need a few extra minutes) until the vegetables are tender and the sausage is browned at the edges.",
-      "Divide evenly into 5 containers and refrigerate."
+      "Divide evenly into 5 containers (about 13oz each) and refrigerate."
     ],
     "totalTime": 26,
     "pantryTags": [
@@ -11743,7 +11743,7 @@ export const RECIPES = [
       "Break the lasagna sheets into smaller pieces directly into the skillet and stir through the sauce. Pour the chicken broth over the top, cover, and simmer, stirring occasionally, until the noodles are tender and most of the broth has cooked off, about 20-25 minutes.",
       "Stir in the cottage cheese until fully combined, then use a potato masher or the back of a spoon to break the noodles into smaller, even pieces.",
       "Sprinkle the shredded cheddar over the top, cover, and let it melt, about 3-5 minutes.",
-      "Divide evenly into 5 meal-prep containers."
+      "Divide evenly into 5 meal-prep containers (about 27oz each)."
     ],
     "totalTime": 50,
     "pantryTags": [
@@ -11844,7 +11844,7 @@ export const RECIPES = [
       "In a separate pan, cook the chopped beef bacon over medium heat until crisp, 6-8 minutes.",
       "Whisk the eggs with the all-purpose seasoning and scramble in a large skillet until just set, 5-6 minutes (work in batches if needed).",
       "Combine the beef, bacon, eggs, and roasted potatoes in one large bowl or pot and toss to distribute evenly.",
-      "Divide evenly into 10 containers and refrigerate (up to 4 days) or freeze. Sauce is optional and not included in the meal -- drizzle on right before eating if you'd like."
+      "Divide evenly into 10 containers (about 16oz each) and refrigerate (up to 4 days) or freeze. Sauce is optional and not included in the meal -- drizzle on right before eating if you'd like."
     ],
     "totalTime": 45,
     "pantryTags": [
