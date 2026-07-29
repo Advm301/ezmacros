@@ -1972,7 +1972,7 @@ export const RECIPES = [
     "id": 34,
     "method": "Microwave",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "fish"
     ],
@@ -1981,27 +1981,28 @@ export const RECIPES = [
     "activeTime": 2,
     "tags": [
       "high_protein",
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
-        "name": "Salmon Pouch (6 oz)",
-        "quantity": 170,
-        "unit": "g"
+        "name": "Salmon Pouch (6 oz, 1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       },
       {
-        "name": "White Rice Pouch (microwaveable)",
-        "quantity": 200,
-        "unit": "g"
+        "name": "White Rice Pouch (microwaveable, 1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       },
       {
         "name": "Lemon Pepper Seasoning (½ tsp)",
-        "quantity": 1,
+        "quantity": 5,
         "unit": "g"
       },
       {
         "name": "Louisiana-Style Hot Sauce (1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "ml"
       }
     ],
@@ -2010,8 +2011,8 @@ export const RECIPES = [
       "Lime Squeeze"
     ],
     "instructions": [
-      "Microwave rice 90 sec. Warm salmon pouch in microwave 60 sec.",
-      "Build bowl. Season salmon with lemon pepper + Louisiana-style hot sauce. Toppings separate."
+      "Keep 5 salmon pouches and 5 rice pouches on hand for the week.",
+      "To serve one portion: microwave a rice pouch 90 sec and warm a salmon pouch in the microwave 60 sec. Build bowl. Season salmon with lemon pepper + Louisiana-style hot sauce. Toppings separate."
     ],
     "totalTime": 2,
     "pantryTags": [
@@ -2814,7 +2815,7 @@ export const RECIPES = [
     "id": 49,
     "method": "Microwave",
     "mealType": "snack",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "plant"
     ],
@@ -2822,27 +2823,28 @@ export const RECIPES = [
     "cuisine": "asian",
     "activeTime": 3,
     "tags": [
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
-        "name": "Frozen Edamame (steam-bag)",
-        "quantity": 227,
-        "unit": "g"
+        "name": "Frozen Edamame (steam-bag, 1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       },
       {
         "name": "Low-Sodium Soy Sauce (1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "ml"
       },
       {
         "name": "Sesame Oil (½ tsp)",
-        "quantity": 2.5,
+        "quantity": 12.5,
         "unit": "g"
       },
       {
         "name": "Red Pepper Flakes (pinch)",
-        "quantity": 0.1,
+        "quantity": 0.5,
         "unit": "g"
       }
     ],
@@ -2851,8 +2853,8 @@ export const RECIPES = [
       "Sea Salt"
     ],
     "instructions": [
-      "Microwave edamame steam-bag 3 min. Pour into bowl.",
-      "Drizzle soy sauce + sesame oil. Sprinkle pepper flakes + seeds."
+      "Mix the soy sauce, sesame oil, and red pepper flakes together (scaled for 5 servings) and store in a small container.",
+      "To serve one portion: microwave an edamame steam-bag 3 min, pour into a bowl, and drizzle with a portion of the soy-sesame mixture. Sprinkle with seeds."
     ],
     "totalTime": 3,
     "pantryTags": [
@@ -3552,7 +3554,7 @@ export const RECIPES = [
     "id": 60,
     "method": "Microwave",
     "mealType": "breakfast",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "dairy",
       "turkey"
@@ -3561,27 +3563,28 @@ export const RECIPES = [
     "cuisine": "italian",
     "activeTime": 3,
     "tags": [
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Cottage Cheese",
-        "quantity": 112,
+        "quantity": 560,
         "unit": "g"
       },
       {
         "name": "Marinara Sauce (¼ cup)",
-        "quantity": 60,
+        "quantity": 300,
         "unit": "ml"
       },
       {
         "name": "Shredded Mozzarella (½ cup)",
-        "quantity": 56,
+        "quantity": 280,
         "unit": "g"
       },
       {
         "name": "Turkey Pepperoni (15 slices)",
-        "quantity": 21,
+        "quantity": 105,
         "unit": "g"
       }
     ],
@@ -3590,8 +3593,8 @@ export const RECIPES = [
       "Basil (dried)"
     ],
     "instructions": [
-      "Spoon cottage cheese into microwave-safe bowl.",
-      "Top with marinara + mozzarella + pepperoni. Microwave 2 min until cheese melts. Sprinkle seasonings."
+      "Divide the cottage cheese, marinara, mozzarella, and pepperoni evenly into 5 microwave-safe containers and refrigerate.",
+      "To serve one portion: microwave a portion 2 min until the cheese melts. Sprinkle seasonings."
     ],
     "totalTime": 3,
     "pantryTags": [
@@ -3949,7 +3952,7 @@ export const RECIPES = [
     "id": 66,
     "method": "Microwave",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "dairy"
     ],
@@ -3957,32 +3960,33 @@ export const RECIPES = [
     "cuisine": "american",
     "activeTime": 6,
     "tags": [
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Russet Potato (medium)",
-        "quantity": 180,
+        "quantity": 900,
         "unit": "g"
       },
       {
         "name": "Canned Chili (condensed, ¾ can)",
-        "quantity": 214,
+        "quantity": 1070,
         "unit": "g"
       },
       {
         "name": "Shredded Cheddar (½ cup)",
-        "quantity": 56,
+        "quantity": 280,
         "unit": "g"
       },
       {
         "name": "Center-Cut Bacon (cooked and crumbled, 2 slices)",
-        "quantity": 18,
+        "quantity": 90,
         "unit": "g"
       },
       {
         "name": "Nonfat Greek Yogurt (2 tbsp, sour cream sub)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "ml"
       }
     ],
@@ -3991,8 +3995,9 @@ export const RECIPES = [
       "Chives (dried)"
     ],
     "instructions": [
-      "Poke potato with fork. Microwave on HIGH 8–10 min until tender.",
-      "Microwave chili 2 min in separate bowl. Split potato open. Top with chili, cheese, crumbled bacon, and yogurt -- the bacon is what makes a baked potato actually \"loaded.\""
+      "Microwave all the chili until hot (in batches if needed).",
+      "Divide the chili, cheese, crumbled bacon, and yogurt evenly into 5 containers and refrigerate.",
+      "To serve one portion: poke a potato with a fork and microwave on HIGH 8-10 min until tender. Split open and top with a portion of chili, cheese, crumbled bacon, and yogurt -- the bacon is what makes a baked potato actually \"loaded.\""
     ],
     "totalTime": 6,
     "pantryTags": [
@@ -4074,7 +4079,7 @@ export const RECIPES = [
     "id": 68,
     "method": "Microwave",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "turkey"
     ],
@@ -4083,27 +4088,28 @@ export const RECIPES = [
     "activeTime": 5,
     "tags": [
       "high_protein",
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Frozen Turkey Meatballs (6 oz bag)",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "Marinara Sauce (½ cup)",
-        "quantity": 120,
+        "quantity": 600,
         "unit": "ml"
       },
       {
         "name": "Hoagie Roll (6 inch)",
-        "quantity": 85,
+        "quantity": 425,
         "unit": "g"
       },
       {
         "name": "Shredded Mozzarella (¼ cup)",
-        "quantity": 28,
+        "quantity": 140,
         "unit": "g"
       }
     ],
@@ -4112,9 +4118,9 @@ export const RECIPES = [
       "Parmesan"
     ],
     "instructions": [
-      "Microwave frozen meatballs 3–4 min. Microwave marinara 90 sec.",
-      "Toss meatballs in sauce. Warm hoagie roll 30 sec in microwave.",
-      "Stuff roll with meatballs, sauce, and mozzarella. Top with seasonings."
+      "Microwave all the frozen meatballs until hot (in batches if needed). Microwave all the marinara until hot.",
+      "Toss the meatballs in the sauce, then divide evenly into 5 containers and refrigerate.",
+      "To serve one portion: warm a hoagie roll 30 sec in the microwave. Stuff with a portion of meatballs and sauce, top with mozzarella, and microwave briefly to melt the cheese. Top with seasonings."
     ],
     "totalTime": 5,
     "pantryTags": [
@@ -7518,7 +7524,7 @@ export const RECIPES = [
     "id": 133,
     "method": "Microwave",
     "mealType": "breakfast",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "turkey",
       "eggs"
@@ -7526,27 +7532,28 @@ export const RECIPES = [
     "flavor": "neutral",
     "activeTime": 4,
     "tags": [
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Liquid Egg Substitute (carton)",
-        "quantity": 120,
+        "quantity": 600,
         "unit": "ml"
       },
       {
         "name": "Turkey Breakfast Sausage Links (pre-cooked, sliced)",
-        "quantity": 85,
+        "quantity": 425,
         "unit": "g"
       },
       {
         "name": "Flour Tortilla (burrito-size)",
-        "quantity": 1,
+        "quantity": 5,
         "unit": "each"
       },
       {
         "name": "Shredded Cheddar (bagged)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "g"
       }
     ],
@@ -7554,9 +7561,10 @@ export const RECIPES = [
       "Hot Sauce"
     ],
     "instructions": [
-      "Microwave liquid eggs in a mug 60–90 seconds, stirring halfway, until set.",
-      "Microwave turkey sausage links 60 seconds.",
-      "Layer eggs, sausage, and cheese onto the tortilla and roll into a wrap. Wrap in foil to take on the go."
+      "Microwave all the liquid eggs in a large microwave-safe bowl, stirring occasionally, until set (in batches if needed).",
+      "Microwave all the turkey sausage until hot.",
+      "Layer a portion of eggs, sausage, and cheese onto each of the 5 tortillas, roll into wraps, and wrap each individually in foil. Refrigerate (up to 4 days) or freeze.",
+      "To serve one portion: microwave a wrapped burrito (foil removed) 60-90 sec until hot, or reheat from frozen for about 3 min."
     ],
     "totalTime": 4,
     "pantryTags": [
@@ -7792,7 +7800,7 @@ export const RECIPES = [
     "id": 138,
     "method": "Microwave",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "chicken"
     ],
@@ -7800,39 +7808,41 @@ export const RECIPES = [
     "cuisine": "american",
     "activeTime": 4,
     "tags": [
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Frozen Grilled Chicken Strips (pre-cooked)",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "Buffalo Sauce (bottled)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "ml"
       },
       {
         "name": "Ranch Dressing (bottled)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "ml"
       },
       {
         "name": "Flour Tortilla (burrito-size)",
-        "quantity": 1,
+        "quantity": 5,
         "unit": "each"
       },
       {
         "name": "Shredded Lettuce (bagged)",
-        "quantity": 40,
+        "quantity": 200,
         "unit": "g"
       }
     ],
     "toppings": [],
     "instructions": [
-      "Microwave chicken strips 2–3 minutes until hot, then toss in buffalo sauce.",
-      "Layer chicken, ranch, and lettuce onto the tortilla and roll into a wrap. Wrap in foil to take on the go."
+      "Microwave all the chicken strips until hot (in batches if needed), then toss in buffalo sauce.",
+      "Divide the chicken evenly into 5 containers and refrigerate.",
+      "To serve one portion: warm a tortilla and layer with a portion of chicken, ranch, and fresh lettuce. Roll into a wrap."
     ],
     "totalTime": 4,
     "pantryTags": [
@@ -8219,39 +8229,40 @@ export const RECIPES = [
     "id": 145,
     "method": "Microwave",
     "mealType": "breakfast",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "eggs"
     ],
     "flavor": "spicy",
     "activeTime": 5,
     "tags": [
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "English Muffin (whole wheat)",
-        "quantity": 57,
+        "quantity": 285,
         "unit": "g"
       },
       {
         "name": "Whole Egg (1 large)",
-        "quantity": 50,
+        "quantity": 250,
         "unit": "count"
       },
       {
         "name": "Cheddar Slice",
-        "quantity": 21,
+        "quantity": 105,
         "unit": "g"
       },
       {
         "name": "Mayo (1 tbsp)",
-        "quantity": 14,
+        "quantity": 70,
         "unit": "g"
       },
       {
         "name": "Sriracha (1 tsp)",
-        "quantity": 5,
+        "quantity": 25,
         "unit": "ml"
       }
     ],
@@ -8259,9 +8270,8 @@ export const RECIPES = [
       "Extra Sriracha"
     ],
     "instructions": [
-      "Mix mayo and sriracha together in a small bowl to make sriracha mayo.",
-      "Crack the egg into a microwave-safe mug, pierce the yolk, and microwave 45–60 seconds until just set.",
-      "Toast the English muffin. Spread sriracha mayo on both halves, add cheese and egg, and assemble the sandwich."
+      "Mix all the mayo and sriracha together (scaled for 5 servings) and store in a container.",
+      "To serve one portion: crack an egg into a microwave-safe mug, pierce the yolk, and microwave 45-60 seconds until just set. Toast an English muffin, spread with a portion of the sriracha mayo on both halves, add a cheese slice and the egg, and assemble the sandwich."
     ],
     "totalTime": 5,
     "pantryTags": [
