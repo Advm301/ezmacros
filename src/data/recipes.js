@@ -1,57 +1,3 @@
-// QuickPrep recipe data -- simple recipe suggestion app (no macros/nutrition info)
-// Each recipe: id, name, description (a short 1-2 sentence appetizing summary --
-// shown on the recipe modal's decide screen in place of the ingredients-table
-// how-to text, which moved into the mandatory decide-screen tutorial instead;
-// see components/RecipeModal.jsx), method, mealType (breakfast | lunch_dinner |
-// snack), proteins (array of protein categories present), flavor (taste/heat
-// profile -- spicy | saucy | savory | neutral, every recipe has exactly one),
-// cuisine (optional -- asian | italian | mexican | mediterranean | american |
-// caribbean | bbq; omitted on recipes with no strong single cuisine identity,
-// e.g. a plain egg scramble or protein shake). These used to be crammed into
-// one shared `flavor` field ("single flavor/cuisine tag"), which meant a
-// recipe could only ever be tagged as one or the other -- "Ground Beef Taco
-// Bowl" was tagged `flavor: 'spicy'` with no way to also say it's Mexican,
-// so it was invisible to a Mexican cuisine filter despite obviously being a
-// taco. Split into two independent fields so a recipe can be both spicy AND
-// Mexican at once. activeTime (minutes -- hands-on prep/cook time only),
-// totalTime (minutes -- activeTime plus any passive time like baking, air
-// frying, or slow cooking; equals activeTime for methods with no passive gap),
-// components (ingredients: name/quantity/unit), toppings (optional garnish
-// names), instructions (cooking steps), tags (optional array, e.g.
-// 'high_protein', 'grab_and_go' -- used for quick-filter chips in Browse/Kitchen),
-// pantryTags (array of common-staple ids from pantryStaples.js that this recipe's
-// ingredients draw from -- used for "what can I make with what I have" matching).
-// isNew (optional, true on recently-added trending recipes -- drives the gold
-// "NEW" badge in Browse/Kitchen/Saved and the recipe modal; not meant to be
-// permanent, just a launch-window highlight for a given batch of additions).
-// isTrending (optional, true on recipes currently pulled into the weekly
-// "Trending" rotation -- drives the flame badge in Browse/Kitchen/Saved and
-// the recipe modal, plus the Trending filter chip and the Monday local
-// notification, see useTrendingNotifications.js). Meant to be hand-curated
-// and rotated weekly (swap which recipes carry the flag), not permanent --
-// pick recipes that map to what's actually trending online right now
-// (TikTok/Reddit etc.) but write/shoot them originally rather than copying
-// someone else's text or photos.
-// proteinOptions (optional, present on recipes that are the same dish across
-// multiple proteins -- e.g. Saucy Tomato Bowl -- instead of separate near-
-// duplicate recipes per protein. Each entry is { id, label, componentName };
-// componentName replaces whichever components[] entry is flagged
-// `proteinSlot: true`. description and instructions carry {{protein}} /
-// {{Protein}} placeholder tokens, resolved to the chosen proteinOption's id
-// (lowercase) / label (capitalized) at render time. See
-// utils/proteinChoice.js for the picker's remembered-per-recipe device
-// preference, and RecipeModal's resolveProteinText/resolveComponents.
-
-export const MEAL_TYPES = ['breakfast', 'lunch_dinner', 'snack'];
-
-export const PROTEINS = ['chicken', 'beef', 'turkey', 'fish', 'eggs', 'pork'];
-
-// Taste/heat profile only now -- see the schema comment above for why
-// cuisine moved out to its own field/export below.
-export const FLAVORS = ['spicy', 'saucy', 'savory', 'neutral'];
-
-export const CUISINES = ['asian', 'italian', 'mexican', 'mediterranean', 'american', 'caribbean', 'bbq'];
-
 export const RECIPES = [
   {
     "name": "Teriyaki Cod Bowl",
@@ -11467,6 +11413,108 @@ export const RECIPES = [
       "frozen_veg",
       "potatoes",
       "bell_peppers"
+    ]
+  },
+  {
+    "name": "High-Protein Skillet Lasagna",
+    "description": "A protein-packed, one-pan deconstructed lasagna -- ground beef simmered in marinara with broken lasagna noodles, folded with cottage cheese and topped with melted cheddar.",
+    "id": 314,
+    "isTrending": true,
+    "method": "Stovetop",
+    "mealType": "lunch_dinner",
+    "servings": 5,
+    "proteins": [
+      "beef",
+      "dairy"
+    ],
+    "flavor": "saucy",
+    "cuisine": "italian",
+    "activeTime": 20,
+    "tags": [
+      "high_protein",
+      "meal_prep"
+    ],
+    "sundayPrepReheat": "Microwave a portion 2-3 min, stirring halfway, until heated through.",
+    "components": [
+      {
+        "name": "Lean Ground Beef (96/4)",
+        "quantity": 907,
+        "unit": "g"
+      },
+      {
+        "name": "Diced White Onion",
+        "quantity": 227,
+        "unit": "g"
+      },
+      {
+        "name": "Lasagna Sheets (broken into pieces)",
+        "quantity": 454,
+        "unit": "g"
+      },
+      {
+        "name": "Marinara Sauce (jarred)",
+        "quantity": 710,
+        "unit": "ml"
+      },
+      {
+        "name": "Low-Sodium Chicken Broth",
+        "quantity": 950,
+        "unit": "ml"
+      },
+      {
+        "name": "Fat-Free Cottage Cheese",
+        "quantity": 340,
+        "unit": "g"
+      },
+      {
+        "name": "Shredded Fat-Free Cheddar (bagged)",
+        "quantity": 227,
+        "unit": "g"
+      },
+      {
+        "name": "Onion Powder (2 tsp)",
+        "quantity": 6,
+        "unit": "g"
+      },
+      {
+        "name": "Garlic Powder (2 tsp)",
+        "quantity": 6,
+        "unit": "g"
+      },
+      {
+        "name": "Italian Seasoning (1½ tsp)",
+        "quantity": 4,
+        "unit": "g"
+      },
+      {
+        "name": "Black Pepper",
+        "quantity": 3,
+        "unit": "g"
+      },
+      {
+        "name": "Salt",
+        "quantity": 8,
+        "unit": "g"
+      }
+    ],
+    "toppings": [],
+    "instructions": [
+      "In a large deep skillet or Dutch oven over medium-high heat, brown the ground beef, breaking it apart as it cooks. Halfway through, stir in the diced onion, onion powder, garlic powder, Italian seasoning, black pepper, and salt. Keep cooking until the beef is fully browned and the onion has softened.",
+      "Pour in the marinara sauce and stir to combine.",
+      "Break the lasagna sheets into smaller pieces directly into the skillet and stir through the sauce. Pour the chicken broth over the top, cover, and simmer, stirring occasionally, until the noodles are tender and most of the broth has cooked off, about 20-25 minutes.",
+      "Stir in the cottage cheese until fully combined, then use a potato masher or the back of a spoon to break the noodles into smaller, even pieces.",
+      "Sprinkle the shredded cheddar over the top, cover, and let it melt, about 3-5 minutes.",
+      "Divide evenly into 5 meal-prep containers."
+    ],
+    "totalTime": 50,
+    "pantryTags": [
+      "ground_beef",
+      "marinara",
+      "pasta",
+      "onion_garlic",
+      "cheese",
+      "cottage_cheese",
+      "broth"
     ]
   }
 ];
