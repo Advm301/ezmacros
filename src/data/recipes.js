@@ -132,7 +132,7 @@ export const RECIPES = [
     "id": 3,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "chicken"
     ],
@@ -141,22 +141,22 @@ export const RECIPES = [
     "components": [
       {
         "name": "Chicken Thighs (boneless, skinless)",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "Olive Oil Spray",
-        "quantity": 5,
+        "quantity": 25,
         "unit": "spray"
       },
       {
         "name": "Garlic Herb Seasoning (shaker)",
-        "quantity": 3,
+        "quantity": 15,
         "unit": "g"
       },
       {
         "name": "Butter (1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "g"
       }
     ],
@@ -165,16 +165,20 @@ export const RECIPES = [
       "Parmesan"
     ],
     "instructions": [
-      "Spray chicken with olive oil spray. Shake seasoning over both sides.",
-      "Air fry 400°F for 18–20 min, flip once at 10 min.",
-      "Melt butter and brush over the hot chicken right out of the air fryer -- it picks up the garlic-herb flavor and keeps the chicken from tasting dry. Rest 2 min.",
-      "Add toppings on the side."
+      "Spray all the chicken with olive oil spray. Shake seasoning over both sides.",
+      "Air fry 400°F for 18-20 min, flip once at 10 min (work in batches if it doesn't fit in a single layer).",
+      "Melt the butter and brush over the hot chicken right out of the air fryer -- it picks up the garlic-herb flavor and keeps the chicken from tasting dry.",
+      "Divide the chicken evenly into 5 containers and refrigerate.",
+      "To serve one portion: add toppings on the side."
     ],
     "totalTime": 24,
     "pantryTags": [
       "butter",
       "chicken_thighs",
       "onion_garlic"
+    ],
+    "tags": [
+      "meal_prep"
     ]
   },
   {
@@ -1691,7 +1695,7 @@ export const RECIPES = [
     "id": 30,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "chicken"
     ],
@@ -1699,42 +1703,43 @@ export const RECIPES = [
     "cuisine": "mediterranean",
     "activeTime": 7,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Chicken Thighs (boneless, skinless)",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "Greek Seasoning (1½ tsp)",
-        "quantity": 4,
+        "quantity": 20,
         "unit": "g"
       },
       {
         "name": "Olive Oil Spray",
-        "quantity": 3,
+        "quantity": 15,
         "unit": "spray"
       },
       {
-        "name": "White Rice Pouch",
-        "quantity": 200,
-        "unit": "g"
+        "name": "White Rice Pouch (1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       },
       {
         "name": "Mini Cucumber (diced, ¼ cup)",
-        "quantity": 35,
+        "quantity": 175,
         "unit": "g"
       },
       {
         "name": "Cherry Tomatoes (halved, ¼ cup)",
-        "quantity": 35,
+        "quantity": 175,
         "unit": "g"
       },
       {
         "name": "Store-Bought Tzatziki (3 tbsp)",
-        "quantity": 45,
+        "quantity": 225,
         "unit": "ml"
       }
     ],
@@ -1743,10 +1748,10 @@ export const RECIPES = [
       "Kalamata Olives"
     ],
     "instructions": [
-      "Spray chicken with oil. Dust evenly with Greek seasoning.",
-      "Air fry 400°F for 18–20 min, shaking at 10 min. Microwave rice 90 sec.",
-      "Toss diced cucumber and halved cherry tomatoes with a pinch of salt while the chicken cooks -- this quick salad is what makes a Greek bowl taste like one, not just seasoned chicken and rice.",
-      "Build bowl with rice, chicken, and the cucumber-tomato salad. Drizzle tzatziki over the chicken. Toppings on side."
+      "Spray all the chicken with oil. Dust evenly with Greek seasoning.",
+      "Air fry 400°F for 18-20 min, shaking at 10 min (cook in batches if needed).",
+      "Divide the chicken and tzatziki evenly into 5 containers and refrigerate. Keep the cucumber and cherry tomatoes fresh, diced just before serving.",
+      "To serve one portion: microwave a rice pouch 90 sec. Dice a portion of cucumber and halved cherry tomatoes fresh with a pinch of salt -- this quick salad is what makes a Greek bowl taste like one, not just seasoned chicken and rice. Build bowl with rice, a portion of chicken, and the fresh cucumber-tomato salad. Drizzle a portion of tzatziki over the chicken. Toppings on side."
     ],
     "totalTime": 26,
     "pantryTags": [
@@ -3158,7 +3163,7 @@ export const RECIPES = [
     "id": 54,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "chicken"
     ],
@@ -3167,52 +3172,53 @@ export const RECIPES = [
     "activeTime": 5,
     "tags": [
       "high_protein",
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Chicken Breast (boneless, skinless)",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "Frank's RedHot Sauce (3 tbsp)",
-        "quantity": 45,
+        "quantity": 225,
         "unit": "ml"
       },
       {
         "name": "Brioche Bun",
-        "quantity": 80,
+        "quantity": 400,
         "unit": "g"
       },
       {
         "name": "Dill Pickle Slices (jar, 2 tbsp)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "g"
       },
       {
         "name": "Garlic Powder (½ tsp)",
-        "quantity": 2,
+        "quantity": 10,
         "unit": "g"
       },
       {
         "name": "Paprika (½ tsp)",
-        "quantity": 2,
+        "quantity": 10,
         "unit": "g"
       },
       {
         "name": "Cayenne Pepper (¼ tsp)",
-        "quantity": 1,
+        "quantity": 5,
         "unit": "g"
       },
       {
         "name": "Salt (pinch)",
-        "quantity": 0.5,
+        "quantity": 2.5,
         "unit": "g"
       },
       {
         "name": "Black Pepper (pinch)",
-        "quantity": 0.5,
+        "quantity": 2.5,
         "unit": "g"
       }
     ],
@@ -3222,9 +3228,10 @@ export const RECIPES = [
       "Celery Powder"
     ],
     "instructions": [
-      "Season chicken breast all over with garlic powder, paprika, cayenne, salt, and pepper. Air fry 400°F for 16–18 min.",
-      "Toss the cooked chicken in Frank's RedHot. Toast bun.",
-      "Stack chicken + pickles on the bun. Spread light mayo on top if using."
+      "Season all the chicken breasts all over with garlic powder, paprika, cayenne, salt, and pepper (scaled for 5). Air fry 400°F for 16-18 min (work in batches if needed).",
+      "Toss the cooked chicken in Frank's RedHot.",
+      "Divide the chicken evenly into 5 containers and refrigerate.",
+      "To serve one portion: toast a bun, stack a portion of chicken and pickles on it, and spread light mayo on top if using."
     ],
     "totalTime": 23,
     "pantryTags": [
@@ -3241,7 +3248,7 @@ export const RECIPES = [
     "id": 55,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "fish"
     ],
@@ -3249,32 +3256,33 @@ export const RECIPES = [
     "cuisine": "american",
     "activeTime": 6,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Canned Tuna in Water (drained, 5 oz)",
-        "quantity": 142,
+        "quantity": 710,
         "unit": "g"
       },
       {
         "name": "Light Mayo (2 tbsp)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "g"
       },
       {
         "name": "Yellow Mustard (2 tsp)",
-        "quantity": 10,
+        "quantity": 50,
         "unit": "ml"
       },
       {
         "name": "Whole Grain Bread (2 slices)",
-        "quantity": 60,
+        "quantity": 300,
         "unit": "g"
       },
       {
         "name": "Cheddar Slice",
-        "quantity": 28,
+        "quantity": 140,
         "unit": "g"
       }
     ],
@@ -3283,9 +3291,9 @@ export const RECIPES = [
       "Dill (dried)"
     ],
     "instructions": [
-      "Mix drained tuna with mayo + mustard in bowl. Spread on bread slices.",
-      "Top with cheese slice. Place on foil in air fryer basket.",
-      "Air fry 350°F for 6–8 min until cheese melts. Squeeze lemon on top."
+      "Mix all the drained tuna with mayo + mustard in a bowl.",
+      "Divide the tuna mixture evenly into 5 containers and refrigerate. Keep the bread and cheese fresh.",
+      "To serve one portion: spread a portion of the tuna mixture on bread slices, top with a cheese slice, place on foil in the air fryer basket, and air fry 350°F for 6-8 min until the cheese melts. Squeeze lemon on top."
     ],
     "totalTime": 14,
     "pantryTags": [
@@ -3493,7 +3501,7 @@ export const RECIPES = [
     "id": 59,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "turkey"
     ],
@@ -3503,32 +3511,32 @@ export const RECIPES = [
     "components": [
       {
         "name": "Naan Flatbread",
-        "quantity": 100,
+        "quantity": 500,
         "unit": "g"
       },
       {
         "name": "Marinara Sauce (¼ cup)",
-        "quantity": 60,
+        "quantity": 300,
         "unit": "ml"
       },
       {
         "name": "Shredded Mozzarella (¾ cup)",
-        "quantity": 85,
+        "quantity": 425,
         "unit": "g"
       },
       {
         "name": "Turkey Pepperoni (20 slices)",
-        "quantity": 28,
+        "quantity": 140,
         "unit": "g"
       },
       {
         "name": "Italian Seasoning (½ tsp)",
-        "quantity": 1.5,
+        "quantity": 7.5,
         "unit": "g"
       },
       {
         "name": "Garlic Powder (¼ tsp)",
-        "quantity": 0.75,
+        "quantity": 3.75,
         "unit": "g"
       }
     ],
@@ -3537,15 +3545,17 @@ export const RECIPES = [
       "Extra Parmesan"
     ],
     "instructions": [
-      "Place naan on foil in air fryer basket. Spread marinara evenly.",
-      "Top with mozzarella + pepperoni. Sprinkle with Italian seasoning and garlic powder.",
-      "Air fry 375°F for 8 min until cheese bubbles."
+      "Divide the marinara, mozzarella, and pepperoni evenly into 5 containers and refrigerate. Keep the naan fresh.",
+      "To serve one portion: place a naan on foil in the air fryer basket, spread with a portion of marinara, top with a portion of mozzarella and pepperoni, sprinkle with Italian seasoning and garlic powder, and air fry 375°F for 8 min until the cheese bubbles."
     ],
     "totalTime": 13,
     "pantryTags": [
       "cheese",
       "marinara",
       "onion_garlic"
+    ],
+    "tags": [
+      "meal_prep"
     ]
   },
   {
@@ -3609,7 +3619,7 @@ export const RECIPES = [
     "id": 61,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "chicken"
     ],
@@ -3618,27 +3628,28 @@ export const RECIPES = [
     "activeTime": 5,
     "tags": [
       "high_protein",
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Naan Flatbread",
-        "quantity": 100,
+        "quantity": 500,
         "unit": "g"
       },
       {
         "name": "BBQ Sauce (3 tbsp)",
-        "quantity": 45,
+        "quantity": 225,
         "unit": "ml"
       },
       {
         "name": "Rotisserie Chicken (pre-shredded, 4 oz)",
-        "quantity": 113,
+        "quantity": 565,
         "unit": "g"
       },
       {
         "name": "Shredded Mozzarella (½ cup)",
-        "quantity": 56,
+        "quantity": 280,
         "unit": "g"
       }
     ],
@@ -3647,9 +3658,8 @@ export const RECIPES = [
       "Cilantro (dried)"
     ],
     "instructions": [
-      "Place naan on foil in air fryer. Spread BBQ sauce evenly.",
-      "Top with shredded chicken + mozzarella. Sprinkle seasonings.",
-      "Air fry 375°F for 8 min until cheese melts."
+      "Divide the BBQ sauce, shredded chicken, and mozzarella evenly into 5 containers and refrigerate. Keep the naan fresh.",
+      "To serve one portion: place a naan on foil in the air fryer, spread with a portion of BBQ sauce, top with a portion of chicken and mozzarella, and air fry 375°F for 8 min until the cheese melts."
     ],
     "totalTime": 13,
     "pantryTags": [
@@ -3664,7 +3674,7 @@ export const RECIPES = [
     "id": 62,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "chicken"
     ],
@@ -3673,32 +3683,33 @@ export const RECIPES = [
     "activeTime": 5,
     "tags": [
       "high_protein",
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Naan Flatbread",
-        "quantity": 100,
+        "quantity": 500,
         "unit": "g"
       },
       {
         "name": "Jarred Basil Pesto (3 tbsp)",
-        "quantity": 45,
+        "quantity": 225,
         "unit": "ml"
       },
       {
         "name": "Rotisserie Chicken (pre-shredded, 4 oz)",
-        "quantity": 113,
+        "quantity": 565,
         "unit": "g"
       },
       {
         "name": "Shredded Mozzarella (½ cup)",
-        "quantity": 56,
+        "quantity": 280,
         "unit": "g"
       },
       {
         "name": "Sun-Dried Tomatoes (jarred, 2 tbsp)",
-        "quantity": 16,
+        "quantity": 80,
         "unit": "g"
       }
     ],
@@ -3707,9 +3718,8 @@ export const RECIPES = [
       "Black Pepper"
     ],
     "instructions": [
-      "Place naan on foil in air fryer. Spread pesto evenly.",
-      "Top with chicken + mozzarella + sun-dried tomatoes.",
-      "Air fry 375°F for 8 min until cheese melts."
+      "Divide the pesto, shredded chicken, mozzarella, and sun-dried tomatoes evenly into 5 containers and refrigerate. Keep the naan fresh.",
+      "To serve one portion: place a naan on foil in the air fryer, spread with a portion of pesto, top with a portion of chicken, mozzarella, and sun-dried tomatoes, and air fry 375°F for 8 min until the cheese melts."
     ],
     "totalTime": 13,
     "pantryTags": [
@@ -4412,7 +4422,7 @@ export const RECIPES = [
     "id": 74,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "fish"
     ],
@@ -4420,47 +4430,48 @@ export const RECIPES = [
     "cuisine": "asian",
     "activeTime": 5,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Frozen Shrimp (16/20 count, thawed)",
-        "quantity": 150,
+        "quantity": 750,
         "unit": "g"
       },
       {
         "name": "Mayo (2 tbsp)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "g"
       },
       {
         "name": "Sweet Chili Sauce (2 tbsp)",
-        "quantity": 32,
+        "quantity": 160,
         "unit": "ml"
       },
       {
-        "name": "White Rice Pouch",
-        "quantity": 200,
-        "unit": "g"
+        "name": "White Rice Pouch (1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       },
       {
         "name": "Pre-Cut Cucumber Slices (½ cup)",
-        "quantity": 80,
+        "quantity": 400,
         "unit": "g"
       },
       {
         "name": "Garlic Powder (½ tsp)",
-        "quantity": 2,
+        "quantity": 10,
         "unit": "g"
       },
       {
         "name": "Salt (pinch)",
-        "quantity": 0.5,
+        "quantity": 2.5,
         "unit": "g"
       },
       {
         "name": "Black Pepper (pinch)",
-        "quantity": 0.5,
+        "quantity": 2.5,
         "unit": "g"
       }
     ],
@@ -4469,9 +4480,10 @@ export const RECIPES = [
       "Sesame Seeds"
     ],
     "instructions": [
-      "Mix mayo + sweet chili sauce + ½ tsp sriracha in bowl.",
-      "Toss thawed shrimp with garlic powder, salt, and pepper. Air fry 380°F for 8–10 min, shaking halfway. Toss in bang bang sauce.",
-      "Microwave rice 90 sec. Build bowl with shrimp, cucumber slices. Toppings on side."
+      "Mix all the mayo + sweet chili sauce + sriracha in a bowl for the bang bang sauce.",
+      "Toss all the thawed shrimp with garlic powder, salt, and pepper. Air fry 380°F for 8-10 min, shaking halfway (cook in batches if needed). Toss in the bang bang sauce.",
+      "Divide the shrimp evenly into 5 containers and refrigerate. Keep the cucumber slices fresh, portioned separately.",
+      "To serve one portion: microwave a rice pouch 90 sec. Build bowl with a portion of shrimp and cucumber slices. Toppings on side."
     ],
     "totalTime": 15,
     "pantryTags": [
@@ -5073,7 +5085,7 @@ export const RECIPES = [
     "id": 83,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "chicken"
     ],
@@ -5081,47 +5093,48 @@ export const RECIPES = [
     "cuisine": "american",
     "activeTime": 6,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Chicken Breast (boneless, skinless, sliced into strips)",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "Frank's RedHot Sauce (3 tbsp)",
-        "quantity": 45,
+        "quantity": 225,
         "unit": "ml"
       },
       {
         "name": "Cayenne Powder (½ tsp)",
-        "quantity": 1,
+        "quantity": 5,
         "unit": "g"
       },
       {
         "name": "Brown Sugar (1 tsp)",
-        "quantity": 4,
+        "quantity": 20,
         "unit": "g"
       },
       {
         "name": "Minced Garlic (jarred, 1½ tsp)",
-        "quantity": 7.5,
+        "quantity": 37.5,
         "unit": "g"
       },
       {
         "name": "Brioche Bun",
-        "quantity": 80,
+        "quantity": 400,
         "unit": "g"
       },
       {
         "name": "Light Mayo (2 tbsp)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "g"
       },
       {
         "name": "Pickle Slices (jar)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "g"
       }
     ],
@@ -5130,9 +5143,10 @@ export const RECIPES = [
       "Black Pepper"
     ],
     "instructions": [
-      "Mix Frank's RedHot, cayenne, brown sugar, and minced garlic -- the brown sugar balances the heat the way real Nashville hot chicken does. Toss chicken strips in the mixture.",
-      "Air fry 400°F for 12–14 min, shaking halfway. Toast bun lightly.",
-      "Spread mayo on bun. Stack chicken tenders + pickles."
+      "Mix all the Frank's RedHot, cayenne, brown sugar, and minced garlic (scaled for 5) -- the brown sugar balances the heat the way real Nashville hot chicken does. Toss all the chicken strips in the mixture.",
+      "Air fry 400°F for 12-14 min, shaking halfway (cook in batches if needed).",
+      "Divide the chicken evenly into 5 containers and refrigerate.",
+      "To serve one portion: toast a bun lightly, spread with mayo, and stack a portion of chicken tenders and pickles on top."
     ],
     "totalTime": 20,
     "pantryTags": [
@@ -5219,7 +5233,7 @@ export const RECIPES = [
     "id": 85,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "fish",
       "dairy"
@@ -5229,37 +5243,38 @@ export const RECIPES = [
     "activeTime": 6,
     "tags": [
       "high_protein",
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Frozen Shrimp (16/20 count, thawed)",
-        "quantity": 150,
+        "quantity": 750,
         "unit": "g"
       },
       {
         "name": "Tajin Chili Lime Seasoning (2 tsp)",
-        "quantity": 5,
+        "quantity": 25,
         "unit": "g"
       },
       {
         "name": "Olive Oil Spray",
-        "quantity": 3,
+        "quantity": 15,
         "unit": "spray"
       },
       {
         "name": "Corn Tortillas (2 medium)",
-        "quantity": 52,
+        "quantity": 260,
         "unit": "g"
       },
       {
         "name": "Nonfat Greek Yogurt (3 tbsp, sour cream sub)",
-        "quantity": 45,
+        "quantity": 225,
         "unit": "ml"
       },
       {
         "name": "Salsa Verde (jarred, 3 tbsp)",
-        "quantity": 48,
+        "quantity": 240,
         "unit": "ml"
       }
     ],
@@ -5268,9 +5283,9 @@ export const RECIPES = [
       "Cilantro (fresh or dried)"
     ],
     "instructions": [
-      "Spray shrimp with oil. Season with Tajin. Air fry 380°F for 8–10 min.",
-      "Warm tortillas 30 sec in microwave. Fill with shrimp.",
-      "Top with yogurt + salsa verde + lime + cilantro."
+      "Spray all the shrimp with oil. Season with Tajin. Air fry 380°F for 8-10 min (cook in batches if needed).",
+      "Divide the shrimp evenly into 5 containers and refrigerate.",
+      "To serve one portion: warm tortillas 30 sec in the microwave, fill with a portion of shrimp, and top with yogurt, salsa verde, lime, and cilantro."
     ],
     "totalTime": 16,
     "pantryTags": [
@@ -7048,7 +7063,7 @@ export const RECIPES = [
     "id": 125,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "fish"
     ],
@@ -7056,42 +7071,43 @@ export const RECIPES = [
     "cuisine": "mediterranean",
     "activeTime": 5,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Salmon Fillet",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "Olive Oil Spray",
-        "quantity": 4,
+        "quantity": 20,
         "unit": "spray"
       },
       {
         "name": "Lemon Pepper Seasoning (shaker)",
-        "quantity": 2,
+        "quantity": 10,
         "unit": "g"
       },
       {
         "name": "Baby Arugula (bagged, pre-washed)",
-        "quantity": 60,
+        "quantity": 300,
         "unit": "g"
       },
       {
         "name": "Mixed Berries (fresh, pre-washed)",
-        "quantity": 75,
+        "quantity": 375,
         "unit": "g"
       },
       {
         "name": "Feta Crumbles (pre-crumbled bag)",
-        "quantity": 20,
+        "quantity": 100,
         "unit": "g"
       },
       {
         "name": "Balsamic Vinaigrette (bottled)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "ml"
       }
     ],
@@ -7099,10 +7115,10 @@ export const RECIPES = [
       "Extra Balsamic Drizzle"
     ],
     "instructions": [
-      "Spray salmon with olive oil and season with lemon pepper.",
-      "Air fry 400°F for 8–10 minutes until it flakes easily with a fork.",
-      "Toss arugula, berries, and feta in a bowl with the balsamic vinaigrette.",
-      "Plate the salad and top with the salmon."
+      "Spray all the salmon with olive oil and season with lemon pepper.",
+      "Air fry 400°F for 8-10 minutes until it flakes easily with a fork (work in batches if needed).",
+      "Divide the salmon evenly into 5 containers and refrigerate. Keep the arugula, berries, feta, and vinaigrette fresh, tossed just before serving.",
+      "To serve one portion: toss a portion of arugula, berries, and feta in a bowl with the balsamic vinaigrette. Plate the salad and top with a portion of salmon."
     ],
     "totalTime": 15,
     "pantryTags": [
@@ -7182,7 +7198,7 @@ export const RECIPES = [
     "id": 127,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "chicken"
     ],
@@ -7192,27 +7208,27 @@ export const RECIPES = [
     "components": [
       {
         "name": "Chicken Thighs (boneless, skinless)",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "Jerk Marinade Paste (jarred, wet, 1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "g"
       },
       {
         "name": "Lime Juice (1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "ml"
       },
       {
-        "name": "Sweet Potato Noodles (pre-spiralized, steam-bag)",
-        "quantity": 200,
-        "unit": "g"
+        "name": "Sweet Potato Noodles (pre-spiralized, steam-bag, 1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       },
       {
         "name": "Olive Oil Spray",
-        "quantity": 3,
+        "quantity": 15,
         "unit": "spray"
       }
     ],
@@ -7222,16 +7238,19 @@ export const RECIPES = [
       "Sliced Scallions (pre-sliced bag)"
     ],
     "instructions": [
-      "Mix jerk marinade paste with lime juice. Coat chicken thighs on both sides.",
-      "Air fry 380°F for 16–18 minutes, flipping halfway, until internal temp reaches 165°F.",
-      "Microwave the sweet potato noodle pouch 3–4 minutes until just tender.",
-      "Plate chicken over the zoodles. Add toppings."
+      "Mix all the jerk marinade paste with lime juice (scaled for 5). Coat all the chicken thighs on both sides.",
+      "Air fry 380°F for 16-18 minutes, flipping halfway, until internal temp reaches 165°F (work in batches if needed).",
+      "Divide the chicken evenly into 5 containers and refrigerate.",
+      "To serve one portion: microwave a sweet potato noodle pouch 3-4 minutes until just tender. Plate a portion of chicken over the zoodles. Add toppings."
     ],
     "totalTime": 23,
     "pantryTags": [
       "chicken_thighs",
       "pasta",
       "potatoes"
+    ],
+    "tags": [
+      "meal_prep"
     ]
   },
   {
@@ -7376,7 +7395,7 @@ export const RECIPES = [
     "id": 130,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "pork"
     ],
@@ -7384,47 +7403,48 @@ export const RECIPES = [
     "cuisine": "bbq",
     "activeTime": 5,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Boneless Pork Chops",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "BBQ Sauce (bottled)",
-        "quantity": 40,
+        "quantity": 200,
         "unit": "ml"
       },
       {
         "name": "Coleslaw Mix (bagged, shredded)",
-        "quantity": 100,
+        "quantity": 500,
         "unit": "g"
       },
       {
         "name": "Coleslaw Dressing (bottled)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "ml"
       },
       {
         "name": "Garlic Powder (½ tsp)",
-        "quantity": 2,
+        "quantity": 10,
         "unit": "g"
       },
       {
         "name": "Smoked Paprika (½ tsp)",
-        "quantity": 2,
+        "quantity": 10,
         "unit": "g"
       },
       {
         "name": "Salt (pinch)",
-        "quantity": 0.5,
+        "quantity": 2.5,
         "unit": "g"
       },
       {
         "name": "Black Pepper (pinch)",
-        "quantity": 0.5,
+        "quantity": 2.5,
         "unit": "g"
       }
     ],
@@ -7432,9 +7452,10 @@ export const RECIPES = [
       "Extra BBQ Sauce"
     ],
     "instructions": [
-      "Season pork chops all over with garlic powder, smoked paprika, salt, and pepper, then brush with half the BBQ sauce.",
-      "Air fry 380°F for 12–14 minutes, flipping halfway, until internal temp reaches 145°F. Brush with remaining sauce for the last 2 minutes.",
-      "Toss coleslaw mix with dressing in a bowl. Serve alongside the pork chops."
+      "Season all the pork chops all over with garlic powder, smoked paprika, salt, and pepper, then brush with half the BBQ sauce (scaled for 5).",
+      "Air fry 380°F for 12-14 minutes, flipping halfway, until internal temp reaches 145°F. Brush with remaining sauce for the last 2 minutes (work in batches if needed).",
+      "Divide the pork chops evenly into 5 containers and refrigerate. Keep the coleslaw mix and dressing separate, tossed fresh just before serving.",
+      "To serve one portion: toss a portion of coleslaw mix with dressing in a bowl. Serve alongside a portion of the pork chops."
     ],
     "totalTime": 19,
     "pantryTags": [
@@ -7449,7 +7470,7 @@ export const RECIPES = [
     "id": 131,
     "method": "Air Fryer",
     "mealType": "snack",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "chicken"
     ],
@@ -7459,12 +7480,12 @@ export const RECIPES = [
     "components": [
       {
         "name": "Frozen Breaded Chicken Bites",
-        "quantity": 200,
+        "quantity": 1000,
         "unit": "g"
       },
       {
         "name": "Buffalo Sauce (bottled)",
-        "quantity": 40,
+        "quantity": 200,
         "unit": "ml"
       }
     ],
@@ -7473,12 +7494,16 @@ export const RECIPES = [
       "Sliced Celery (pre-cut bag)"
     ],
     "instructions": [
-      "Air fry frozen chicken bites 400°F for 10–12 minutes, shaking the basket halfway.",
-      "Toss the hot bites in buffalo sauce. Serve with ranch and celery."
+      "Air fry all the frozen chicken bites 400°F for 10-12 minutes, shaking the basket halfway (work in batches if needed).",
+      "Toss the hot bites in buffalo sauce, then divide evenly into 5 containers and refrigerate.",
+      "To serve one portion: reheat in the air fryer or oven until hot and crisp. Serve with ranch and celery."
     ],
     "totalTime": 14,
     "pantryTags": [
       "hot_sauce"
+    ],
+    "tags": [
+      "meal_prep"
     ]
   },
   {
@@ -7870,7 +7895,7 @@ export const RECIPES = [
     "id": 139,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "turkey"
     ],
@@ -7880,32 +7905,32 @@ export const RECIPES = [
     "components": [
       {
         "name": "Thick-Cut Sourdough Bread (2 slices)",
-        "quantity": 100,
+        "quantity": 500,
         "unit": "g"
       },
       {
         "name": "Marinara Sauce (¼ cup)",
-        "quantity": 60,
+        "quantity": 300,
         "unit": "ml"
       },
       {
         "name": "Shredded Mozzarella (¾ cup)",
-        "quantity": 85,
+        "quantity": 425,
         "unit": "g"
       },
       {
         "name": "Turkey Pepperoni (20 slices)",
-        "quantity": 28,
+        "quantity": 140,
         "unit": "g"
       },
       {
         "name": "Italian Seasoning (½ tsp)",
-        "quantity": 1.5,
+        "quantity": 7.5,
         "unit": "g"
       },
       {
         "name": "Garlic Powder (¼ tsp)",
-        "quantity": 0.75,
+        "quantity": 3.75,
         "unit": "g"
       }
     ],
@@ -7914,9 +7939,8 @@ export const RECIPES = [
       "Extra Parmesan"
     ],
     "instructions": [
-      "Place sourdough slices on foil in air fryer basket. Spread marinara evenly over both.",
-      "Top with mozzarella + pepperoni. Sprinkle with Italian seasoning and garlic powder.",
-      "Air fry 375°F for 6–7 min, watching closely near the end, until the cheese bubbles and bread edges are golden."
+      "Divide the marinara, mozzarella, and pepperoni evenly into 5 containers and refrigerate. Keep the sourdough fresh.",
+      "To serve one portion: place sourdough slices on foil in the air fryer basket, spread with a portion of marinara, top with a portion of mozzarella and pepperoni, sprinkle with Italian seasoning and garlic powder, and air fry 375°F for 6-7 min, watching closely, until the cheese bubbles and bread edges are golden."
     ],
     "totalTime": 12,
     "pantryTags": [
@@ -7924,6 +7948,9 @@ export const RECIPES = [
       "cheese",
       "marinara",
       "onion_garlic"
+    ],
+    "tags": [
+      "meal_prep"
     ]
   },
   {
@@ -9381,7 +9408,7 @@ export const RECIPES = [
     "isNew": true,
     "method": "Air Fryer",
     "mealType": "breakfast",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "eggs"
     ],
@@ -9389,32 +9416,33 @@ export const RECIPES = [
     "cuisine": "american",
     "activeTime": 12,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Baby Potatoes (boiled until fork-tender, 8 oz)",
-        "quantity": 225,
+        "quantity": 1125,
         "unit": "g"
       },
       {
         "name": "Whole Egg (2 large, fried)",
-        "quantity": 100,
+        "quantity": 500,
         "unit": "count"
       },
       {
         "name": "Shredded Cheddar (¼ cup)",
-        "quantity": 28,
+        "quantity": 140,
         "unit": "g"
       },
       {
         "name": "Garlic Powder (½ tsp)",
-        "quantity": 1.5,
+        "quantity": 7.5,
         "unit": "g"
       },
       {
         "name": "Olive Oil Spray",
-        "quantity": 4,
+        "quantity": 20,
         "unit": "spray"
       }
     ],
@@ -9423,10 +9451,10 @@ export const RECIPES = [
       "Hot Sauce"
     ],
     "instructions": [
-      "Boil potatoes until fork-tender, about 12 minutes, then drain and let cool slightly.",
-      "Spread potatoes on the air fryer tray and smash each one flat with a fork or cup. Spray with oil and season with garlic powder, salt, and pepper.",
-      "Air fry at 400°F for 12–14 minutes, flipping halfway, until crispy and golden. Sprinkle cheese on top for the last minute to melt.",
-      "Fry the eggs while the potatoes finish. Plate the smashed potatoes topped with fried eggs, scallions, and hot sauce."
+      "Boil all the potatoes until fork-tender, about 12-15 minutes (work in batches if needed), then drain and let cool slightly.",
+      "Spread the potatoes on the air fryer tray and smash each flat with a fork or cup. Spray with oil and season with garlic powder, salt, and pepper. Air fry at 400°F for 12-14 minutes, flipping halfway, until crispy and golden (work in batches if needed). Sprinkle cheese on top for the last minute to melt.",
+      "Divide the potatoes evenly into 5 containers and refrigerate.",
+      "To serve one portion: reheat a portion of potatoes in the air fryer or microwave. Fry an egg fresh and plate alongside with scallions and hot sauce."
     ],
     "totalTime": 15,
     "pantryTags": [
@@ -9442,7 +9470,7 @@ export const RECIPES = [
     "isNew": true,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "chicken"
     ],
@@ -9450,42 +9478,43 @@ export const RECIPES = [
     "cuisine": "asian",
     "activeTime": 12,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Chicken Breast (1 breast, cubed)",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "Cornstarch (2 tbsp)",
-        "quantity": 16,
+        "quantity": 80,
         "unit": "g"
       },
       {
         "name": "Orange Juice (¼ cup)",
-        "quantity": 60,
+        "quantity": 300,
         "unit": "ml"
       },
       {
         "name": "Soy Sauce (1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "ml"
       },
       {
         "name": "Honey (1 tbsp)",
-        "quantity": 21,
+        "quantity": 105,
         "unit": "g"
       },
       {
         "name": "Garlic (minced, 1 clove)",
-        "quantity": 3,
+        "quantity": 15,
         "unit": "g"
       },
       {
         "name": "Olive Oil Spray",
-        "quantity": 4,
+        "quantity": 20,
         "unit": "spray"
       }
     ],
@@ -9494,10 +9523,10 @@ export const RECIPES = [
       "Sesame Seeds"
     ],
     "instructions": [
-      "Toss chicken cubes in cornstarch to coat. Arrange in the air fryer basket, spray with oil, and air fry at 400°F for 10–12 minutes, shaking halfway, until crispy and cooked through.",
-      "Meanwhile, whisk orange juice, soy sauce, honey, and garlic in a small saucepan. Simmer over medium 3–4 minutes until thickened into a glaze.",
-      "Toss the crispy chicken in the orange glaze until coated.",
-      "Top with scallions and sesame seeds."
+      "Toss all the chicken cubes in cornstarch to coat. Arrange in the air fryer basket, spray with oil, and air fry at 400°F for 10-12 minutes, shaking halfway, until crispy and cooked through (work in batches if needed).",
+      "Meanwhile, whisk all the orange juice, soy sauce, honey, and garlic in a saucepan (scaled for 5). Simmer over medium 3-4 minutes until thickened into a glaze.",
+      "Toss the crispy chicken in the orange glaze until coated, then divide evenly into 5 containers and refrigerate.",
+      "To serve one portion: reheat in the air fryer or microwave. Top with scallions and sesame seeds."
     ],
     "totalTime": 14,
     "pantryTags": [
@@ -10207,7 +10236,7 @@ export const RECIPES = [
     "isNew": true,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "chicken"
     ],
@@ -10215,37 +10244,38 @@ export const RECIPES = [
     "cuisine": "asian",
     "activeTime": 13,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Chicken Breast (1 breast, cubed)",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "Cornstarch (2 tbsp)",
-        "quantity": 16,
+        "quantity": 80,
         "unit": "g"
       },
       {
         "name": "Hot Honey (2 tbsp)",
-        "quantity": 42,
+        "quantity": 210,
         "unit": "g"
       },
       {
         "name": "Soy Sauce (1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "ml"
       },
       {
         "name": "Black Pepper (½ tsp, coarse)",
-        "quantity": 1.5,
+        "quantity": 7.5,
         "unit": "g"
       },
       {
         "name": "Olive Oil Spray",
-        "quantity": 4,
+        "quantity": 20,
         "unit": "spray"
       }
     ],
@@ -10253,10 +10283,10 @@ export const RECIPES = [
       "Sliced Scallions"
     ],
     "instructions": [
-      "Toss chicken cubes in cornstarch to coat. Arrange in the air fryer basket, spray with oil, and air fry at 400°F for 10–12 minutes, shaking halfway, until crispy and cooked through.",
-      "Whisk hot honey, soy sauce, and black pepper in a small saucepan and warm over low 1–2 minutes.",
-      "Toss the crispy chicken in the honey pepper glaze until coated.",
-      "Top with scallions."
+      "Toss all the chicken cubes in cornstarch to coat. Arrange in the air fryer basket, spray with oil, and air fry at 400°F for 10-12 minutes, shaking halfway, until crispy and cooked through (work in batches if needed).",
+      "Whisk all the hot honey, soy sauce, and black pepper (scaled for 5) in a saucepan and warm over low 1-2 minutes.",
+      "Toss the crispy chicken in the honey pepper glaze until coated, then divide evenly into 5 containers and refrigerate.",
+      "To serve one portion: reheat in the air fryer or microwave. Top with scallions."
     ],
     "totalTime": 13,
     "pantryTags": [
@@ -10967,7 +10997,7 @@ export const RECIPES = [
     "id": 304,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "fish"
     ],
@@ -10975,27 +11005,28 @@ export const RECIPES = [
     "activeTime": 3,
     "tags": [
       "high_protein",
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Tilapia Fillet (1 fillet, ~6 oz)",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "Lemon Pepper Seasoning (1 tsp)",
-        "quantity": 3,
+        "quantity": 15,
         "unit": "g"
       },
       {
         "name": "Olive Oil Spray",
-        "quantity": 3,
+        "quantity": 15,
         "unit": "spray"
       },
       {
         "name": "Lemon Juice (1 tsp)",
-        "quantity": 5,
+        "quantity": 25,
         "unit": "ml"
       }
     ],
@@ -11004,8 +11035,10 @@ export const RECIPES = [
       "Fresh Parsley"
     ],
     "instructions": [
-      "Pat the tilapia dry, spray with oil, and season both sides with lemon pepper seasoning.",
-      "Air fry at 400°F for 8–10 min until the fish flakes easily with a fork. Squeeze fresh lemon juice over the top before serving."
+      "Pat all the tilapia dry, spray with oil, and season both sides with lemon pepper seasoning (scaled for 5).",
+      "Air fry at 400°F for 8-10 min until the fish flakes easily with a fork (work in batches if needed).",
+      "Divide evenly into 5 containers and refrigerate.",
+      "To serve one portion: squeeze fresh lemon juice over the top before serving."
     ],
     "totalTime": 10,
     "pantryTags": [
