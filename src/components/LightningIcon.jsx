@@ -1,9 +1,9 @@
 // Small inline lightning-bolt SVG (not the ⚡ emoji) so it renders
 // identically across platforms and can flicker/spark via CSS animation --
 // QuickPrep is about speed, so this bolt replaces every flame that used to
-// appear across the app (Quick Prep effort gauge, Diary streak pill,
-// cook-wizard progress indicator, the "you made it" flourish, and the High
-// Protein badge). Built the same way the flame it replaces was: a gold
+// appear across the app (Quick Prep effort gauge, cook-wizard progress
+// indicator, the "you made it" flourish, and the High Protein badge). Built
+// the same way the flame it replaces was: a gold
 // bolt (outer, gradient-filled) plus a brighter pale-yellow shine streak
 // down its leading edge (inner), each animated on its own loop, with a
 // couple of tiny spark particles that crackle near the tips on their own

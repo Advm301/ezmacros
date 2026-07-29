@@ -7,7 +7,6 @@ import { buildShoppingList, formatShoppingQuantity } from '../utils/shoppingList
 import { estimateShoppingListCost, formatUsd } from '../utils/ingredientPricing';
 import { getInstacartShoppingLink, openInBrowser } from '../utils/instacartShoppingList';
 import FlameIcon from '../components/FlameIcon';
-import { computeLoggingStreak, wouldStartNewStreak } from '../utils/streak';
 import { hapticSelection, hapticLight, hapticMedium } from '../utils/haptics';
 import LightningIcon from '../components/LightningIcon';
 import SurpriseSparkles from '../components/SurpriseSparkles';
@@ -117,11 +116,6 @@ export default function Saved({
   // once gone, it's no longer in dayEntries below and so can't render
   // highlighted regardless of whether its id is still in this list.
   onboardingHighlightedEntryIds = [],
-  // Called right before an add that would actually start a fresh streak
-  // (see utils/streak.js's wouldStartNewStreak) -- App.jsx owns the
-  // celebration overlay itself since it needs to render above everything
-  // regardless of which tab is open; this is just the trigger.
-  onStreakStart,
 }) {
   const [dayMessage, setDayMessage] = useState('');
   const [generatingDay, setGeneratingDay] = useState(false);
@@ -253,8 +247,6 @@ export default function Saved({
     dayEntries.some((e) => e.id === id)
   );
 
-  const streak = useMemo(() => computeLoggingStreak(diary?.entries || []), [diary]);
-
   const showDayMessage = (msg) => {
     setDayMessage(msg);
     setTimeout(() => setDayMessage(''), 3000);
@@ -293,14 +285,6 @@ export default function Saved({
     hapticMedium();
     setGeneratingDay(true);
     setSurpriseReveal({ phase: 'generating', meals: [] });
-    // Checked once against the entries already in hand, before any of
-    // this loop's inserts land -- same reasoning as App.jsx's
-    // handleAddToDiary (see wouldStartNewStreak's own comment). Checking
-    // once up front (rather than per slot inside the loop) avoids firing
-    // the celebration multiple times for one Surprise Day tap, since
-    // diary.entries won't reflect earlier iterations' inserts until the
-    // async refresh catches up anyway.
-    const willStartStreak = wouldStartNewStreak(diary.entries, selectedDate);
     const usedIds = [];
     const revealed = [];
     for (const slot of FULL_DAY_SLOTS) {
@@ -326,7 +310,6 @@ export default function Saved({
       return;
     }
     setSurpriseReveal({ phase: 'done', meals: revealed });
-    if (willStartStreak && onStreakStart) onStreakStart();
     surpriseDismissTimerRef.current = setTimeout(() => finishSurpriseReveal(revealed), 1900);
   };
 
@@ -516,15 +499,6 @@ export default function Saved({
             <div className="info-btn" onClick={tip.reopen} title="Show info">
               <InfoIcon />
             </div>
-            {streak > 0 && (
-              <div
-                title="Consecutive days with something logged"
-                style={{ display: 'inline-flex', alignItems: 'center', gap: 5, background: 'var(--s2)', border: '1px solid var(--border)', borderRadius: 'var(--rtag)', padding: '4px 11px', color: 'var(--lime)' }}
-              >
-                <LightningIcon id="streak" />
-                <span style={{ fontSize: 'var(--type-caption)', fontWeight: 700 }}>{streak} day{streak === 1 ? '' : 's'}</span>
-              </div>
-            )}
           </div>
           <div
             onClick={() => { hapticLight(); setShowSavedModal(true); }}

@@ -17,9 +17,8 @@ const SLOT_ORDER = ['breakfast', 'lunch', 'dinner'];
 //                   slot finishes, building up to all three.
 //   'done'       -- headline flips to the arrival message, tap (or the
 //                   caller's own timeout) to continue into the Diary.
-// Mirrors StreakStartOverlay's structure (same fixed/inset/z-index
-// convention, same "tap anywhere to continue" affordance) since both are
-// the app's full-screen celebratory moments, just with different content.
+// Full-screen, one-time celebration ("tap anywhere to continue" affordance)
+// for the Diary's Surprise Me flow.
 export default function SurpriseDayOverlay({ phase, meals, onDismiss }) {
   return (
     <div

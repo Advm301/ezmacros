@@ -293,8 +293,8 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
 .ezb.pkg{background:rgba(77,184,255,.14);color:var(--blue);border:1px solid rgba(77,184,255,.28);}
 
 /* LIGHTNING BOLT ICON (animated -- replaces the old flame icon everywhere:
-   Quick Prep effort gauge, Diary streak pill, cook-progress indicator, the
-   "you made it" flourish, and the High Protein badge). Two independently
+   Quick Prep effort gauge, cook-progress indicator, the "you made it"
+   flourish, and the High Protein badge). Two independently
    animated layers like the flame it replaces (outer bolt + inner shine),
    plus a couple of tiny spark particles that crackle near the tips. */
 @media (prefers-reduced-motion: no-preference) {
@@ -923,12 +923,7 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
 .reorder-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(201,241,58,.1);color:var(--lime);border:1px solid rgba(201,241,58,.25);border-radius:var(--rtag);padding:3px 9px;font-size:10px;font-weight:700;margin-bottom:8px;}
 .step-original-num{font-size:10px;color:var(--muted);margin-top:1px;}
 
-/* STREAK & GAMIFICATION */
-.streak-banner{background:linear-gradient(135deg,#ff8533 0%,#ffbc42 100%);border-radius:var(--r);padding:16px;margin-bottom:14px;position:relative;overflow:hidden;}
-.streak-banner::after{content:"";position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:52px;opacity:.25;}
-.streak-num{font-family:'Clash Display',sans-serif;font-size:42px;font-weight:700;color:#000;line-height:1;}
-.streak-label{font-size:13px;font-weight:700;color:rgba(0,0,0,.7);margin-top:2px;}
-.streak-sub{font-size:11px;color:rgba(0,0,0,.55);margin-top:4px;}
+/* GAMIFICATION */
 .xp-bar-wrap{background:var(--s1);border-radius:var(--r);padding:14px;border:1px solid var(--border);margin-bottom:14px;}
 .xp-bar-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
 .xp-level{font-family:'Clash Display',sans-serif;font-size:14px;font-weight:700;color:var(--lime);}
@@ -1052,7 +1047,6 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
 .feed-user-info{flex:1;}
 .feed-username{font-weight:700;font-size:13px;}
 .feed-meta{font-size:11px;color:var(--muted);}
-.feed-streak{display:flex;align-items:center;gap:3px;font-size:11px;font-weight:700;color:var(--orange);}
 .feed-meal-label{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--muted2);font-weight:700;padding:10px 14px 6px;}
 .feed-meal-body{padding:0 14px 14px;display:flex;gap:10px;align-items:center;}
 .feed-meal-emoji{font-size:32px;flex-shrink:0;}
@@ -1529,71 +1523,16 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
   50%{box-shadow:0 6px 26px rgba(255,180,40,.38), inset 0 1px 0 rgba(255,255,255,.06);}
 }
 
-/* STREAK START OVERLAY: one-time, full-screen celebration the moment a
-   logging streak actually begins (see StreakStartOverlay.jsx + App.jsx's
-   0->1 transition check). z-index 1100 -- above even the recipe modal
-   (.overlay at 50) and the welcome/generating screens (1000), since this
-   can fire while a recipe modal is still open (finishing a recipe is one
-   of the ways a diary entry -- and so a streak -- gets started). Solid-ish
-   dark scrim rather than a hard cut to var(--bg): this is landing on top
-   of whatever screen was already active, not replacing it outright. */
-.streak-start-overlay{
-  position:fixed;inset:0;z-index:1100;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:10px;padding:32px;box-sizing:border-box;text-align:center;
-  background:rgba(2,10,13,.94);
-  cursor:pointer;
-}
-@media (prefers-reduced-motion: no-preference) {
-  .streak-start-overlay{animation:streak-overlay-in .35s ease-out both;}
-  .streak-start-overlay-out{animation:streak-overlay-out .32s ease-in both;}
-}
-@media (prefers-reduced-motion: reduce) {
-  .streak-start-overlay-out{opacity:0;}
-}
-@keyframes streak-overlay-in{0%{opacity:0;}100%{opacity:1;}}
-@keyframes streak-overlay-out{0%{opacity:1;}100%{opacity:0;}}
-
-.streak-start-glow{
-  position:absolute;width:260px;height:260px;border-radius:50%;
-  background:radial-gradient(circle, rgba(255,133,51,.34) 0%, rgba(255,77,77,.18) 45%, rgba(255,77,77,0) 72%);
-}
-@media (prefers-reduced-motion: no-preference) {
-  .streak-start-glow{animation:streak-glow-pulse 1.8s ease-in-out infinite;}
-}
-@keyframes streak-glow-pulse{
+@keyframes celebration-overlay-in{0%{opacity:0;}100%{opacity:1;}}
+@keyframes celebration-glow-pulse{
   0%,100%{transform:scale(.9);opacity:.7;}
   50%{transform:scale(1.1);opacity:1;}
 }
 
-.streak-start-flame-wrap{position:relative;margin-bottom:6px;width:112px;height:112px;display:flex;align-items:center;justify-content:center;}
-.streak-start-flame{filter:drop-shadow(0 0 22px rgba(255,133,51,.65));opacity:0;transform:scale(.4) translateY(14px);}
-@media (prefers-reduced-motion: no-preference) {
-  /* Ignite: rises up from small/dim, overshoots slightly, settles --
-     then a slow ongoing flicker so it reads as a living flame the whole
-     time the overlay's up, not a static icon. */
-  .streak-start-flame{animation:streak-flame-ignite .5s cubic-bezier(.34,1.56,.64,1) forwards, streak-flame-flicker 1.4s ease-in-out .5s infinite;}
-}
-@media (prefers-reduced-motion: reduce) {
-  .streak-start-flame{opacity:1;transform:none;}
-}
-@keyframes streak-flame-ignite{
-  0%{opacity:0;transform:scale(.4) translateY(14px);}
-  70%{opacity:1;transform:scale(1.12) translateY(-2px);}
-  100%{opacity:1;transform:scale(1) translateY(0);}
-}
-@keyframes streak-flame-flicker{
-  0%,100%{transform:scale(1) rotate(0deg);}
-  25%{transform:scale(1.03) rotate(-1.5deg);}
-  50%{transform:scale(.98) rotate(0deg);}
-  75%{transform:scale(1.02) rotate(1.5deg);}
-}
-
 /* Diary's Surprise Me generating/reveal takeover (see
-   components/SurpriseDayOverlay.jsx) -- same fixed/inset/z-index/backdrop
-   convention as .streak-start-overlay above (both are the app's full-
-   screen celebratory moments), reusing that same fade-in/glow-pulse/spin
-   keyframes rather than redefining near-identical ones. */
+   components/SurpriseDayOverlay.jsx) -- full-screen celebratory moment,
+   fixed/inset/z-index 1100 so it sits above even the recipe modal (.overlay
+   at 50) and the welcome/generating screens (1000). */
 .surprise-day-overlay{
   position:fixed;inset:0;z-index:1100;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
@@ -1601,7 +1540,7 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
   background:rgba(2,10,13,.94);
 }
 @media (prefers-reduced-motion: no-preference) {
-  .surprise-day-overlay{animation:streak-overlay-in .35s ease-out both;}
+  .surprise-day-overlay{animation:celebration-overlay-in .35s ease-out both;}
 }
 .surprise-day-glow{
   position:absolute;width:280px;height:280px;border-radius:50%;
@@ -1609,7 +1548,7 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
   pointer-events:none;
 }
 @media (prefers-reduced-motion: no-preference) {
-  .surprise-day-glow{animation:streak-glow-pulse 1.8s ease-in-out infinite;}
+  .surprise-day-glow{animation:celebration-glow-pulse 1.8s ease-in-out infinite;}
 }
 .surprise-day-spinner-ring{
   width:52px;height:52px;border-radius:50%;
@@ -1641,28 +1580,3 @@ html,body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-ser
 .surprise-day-meal-name{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:16px;color:var(--cream);}
 .surprise-day-tap{font-size:11.5px;color:var(--muted);margin-top:4px;position:relative;z-index:1;}
 
-.streak-start-title{
-  position:relative;font-family:'Baloo 2',sans-serif;font-weight:800;font-size:22px;
-  color:var(--cream);opacity:0;
-}
-.streak-start-count{
-  position:relative;font-family:'Baloo 2',sans-serif;font-weight:800;font-size:15px;letter-spacing:.6px;
-  text-transform:uppercase;opacity:0;
-  background-image:linear-gradient(90deg, #ff4d4d 0%, #ffb366 25%, #ff8533 50%, #ffb366 75%, #ff4d4d 100%);
-  background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;
-}
-.streak-start-sub{position:relative;font-size:13.5px;line-height:1.5;color:rgba(255,255,255,.75);max-width:300px;opacity:0;margin-top:4px;}
-.streak-start-tap{position:relative;font-size:11px;color:var(--muted);margin-top:18px;opacity:0;}
-@media (prefers-reduced-motion: no-preference) {
-  .streak-start-title{animation:streak-text-in .45s ease-out .25s forwards;}
-  .streak-start-count{animation:streak-text-in .45s ease-out .38s forwards, action-word-shimmer 3s linear .38s infinite;}
-  .streak-start-sub{animation:streak-text-in .45s ease-out .5s forwards;}
-  .streak-start-tap{animation:streak-text-in .45s ease-out .9s forwards;}
-}
-@media (prefers-reduced-motion: reduce) {
-  .streak-start-title,.streak-start-count,.streak-start-sub,.streak-start-tap{opacity:1;}
-}
-@keyframes streak-text-in{
-  0%{opacity:0;transform:translateY(8px);}
-  100%{opacity:1;transform:translateY(0);}
-}

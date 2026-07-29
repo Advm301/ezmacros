@@ -33,7 +33,7 @@ export default function AboutModal({ onClose }) {
           QuickPrep helps you figure out what to cook with what you've already got. Pick a few ingredients in Kitchen and get real, fast recipes back -- no macros, no nutrition tracking, no 20-item grocery run, just food you can actually make tonight.
         </div>
         <div style={{ fontSize: 13.5, lineHeight: 1.6, color: 'var(--cream)', marginBottom: 12 }}>
-          Browse the full recipe catalog any time, or use Diary to plan your days, track a logging streak, and build a shopping list as you go.
+          Browse the full recipe catalog any time, or use Diary to plan your days and build a shopping list as you go.
         </div>
 
         {BETA_MODE && (

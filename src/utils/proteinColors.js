@@ -1,7 +1,7 @@
 // Maps a recipe's protein(s) to a color, for the left-edge accent stripe on
 // recipe cards (Browse tab, Kitchen results). Colors are deliberately muted
 // / desaturated rather than the app's existing bright accents (orange for
-// High Protein/streak, purple for Surprise Me, lime for saved) -- a full set
+// High Protein, purple for Surprise Me, lime for saved) -- a full set
 // of 9 saturated hues next to those badges would read as noisy. These read
 // as a calmer, secondary layer of color instead of competing for attention.
 export const PROTEIN_COLORS = {
