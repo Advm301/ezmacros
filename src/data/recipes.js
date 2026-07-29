@@ -5,7 +5,7 @@ export const RECIPES = [
     "id": 1,
     "method": "Bake",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "fish"
     ],
@@ -13,33 +13,34 @@ export const RECIPES = [
     "cuisine": "asian",
     "activeTime": 3,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Cod Fillet",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "Teriyaki Sauce (bottled)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "ml"
       },
       {
         "name": "Garlic Powder (¼ tsp)",
-        "quantity": 1,
+        "quantity": 5,
         "unit": "g"
       },
       {
-        "name": "White Rice Pouch (microwaveable)",
-        "quantity": 200,
-        "unit": "g"
+        "name": "White Rice Pouch (microwaveable, 1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       },
       {
-        "name": "Green Beans (steam-bag frozen)",
-        "quantity": 85,
-        "unit": "g"
+        "name": "Green Beans (steam-bag frozen, 1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       }
     ],
     "toppings": [
@@ -49,7 +50,8 @@ export const RECIPES = [
     "instructions": [
       "Pat cod dry with paper towels. Place on foil-lined baking sheet. Dust with garlic powder, then drizzle teriyaki sauce over the fish.",
       "Bake at 425°F for 12–14 minutes until the fish flakes easily with a fork.",
-      "While the oven heats, microwave rice pouch for 90 seconds. Microwave green beans steam-bag for 3 minutes. Season the green beans with a pinch of garlic powder and sesame seeds. Arrange rice on a plate, top with cod, and add green beans to the side."
+      "Divide the cooked cod evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "To serve one portion: microwave a rice pouch 90 seconds and a green beans steam-bag 3 minutes. Season the green beans with a pinch of garlic powder and sesame seeds. Arrange rice on a plate, top with a portion of cod, and add green beans to the side."
     ],
     "totalTime": 17,
     "pantryTags": [
@@ -66,40 +68,41 @@ export const RECIPES = [
     "id": 2,
     "method": "Bake",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "fish"
     ],
     "flavor": "spicy",
     "activeTime": 5,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Cod Fillet",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "Soy Sauce + Sriracha",
-        "quantity": 25,
+        "quantity": 125,
         "unit": "ml"
       },
       {
         "name": "Garlic Powder (shaker)",
-        "quantity": 2,
+        "quantity": 10,
         "unit": "g"
       },
       {
-        "name": "White Rice Pouch",
-        "quantity": 200,
-        "unit": "g"
+        "name": "White Rice Pouch (1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       },
       {
-        "name": "Green Beans (steam-bag)",
-        "quantity": 85,
-        "unit": "g"
+        "name": "Green Beans (steam-bag, 1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       }
     ],
     "toppings": [
@@ -108,10 +111,10 @@ export const RECIPES = [
     ],
     "instructions": [
       "Pat cod dry with paper towel.",
-      "Mix soy sauce + sriracha + a small squeeze of honey in small bowl. Honey rounds the heat and prevents the sauce tasting flat. Brush over cod on foil-lined sheet. Dust with garlic powder.",
-      "Bake 425°F 12–14 min.",
-      "Rest cod 1 min.",
-      "Microwave rice 90 sec + steam-bag beans 3 min. Build bowl — toppings separate."
+      "Mix soy sauce + sriracha + a small squeeze of honey in a bowl (scaled for all 5 fillets). Honey rounds the heat and prevents the sauce tasting flat. Brush over cod on a foil-lined sheet. Dust with garlic powder.",
+      "Bake 425°F for 12–14 min. Rest cod 1 min.",
+      "Divide the cooked cod evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "To serve one portion: microwave a rice pouch 90 sec + a green beans steam-bag 3 min. Build bowl with a portion of cod — toppings separate."
     ],
     "totalTime": 19,
     "pantryTags": [
@@ -393,7 +396,7 @@ export const RECIPES = [
     "id": 8,
     "method": "Bake",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "fish"
     ],
@@ -402,23 +405,23 @@ export const RECIPES = [
     "components": [
       {
         "name": "Salmon Fillet",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "Butter (1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "g"
       },
       {
         "name": "Lemon Pepper Seasoning (shaker)",
-        "quantity": 2,
+        "quantity": 10,
         "unit": "g"
       },
       {
-        "name": "Frozen Broccoli (steam-bag)",
-        "quantity": 100,
-        "unit": "g"
+        "name": "Frozen Broccoli (steam-bag, 1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       }
     ],
     "toppings": [
@@ -428,13 +431,17 @@ export const RECIPES = [
     "instructions": [
       "Melt butter and mix with the lemon pepper seasoning. Brush over the salmon on a foil-lined sheet.",
       "Bake 425°F for 12–14 min.",
-      "Microwave steam-bag broccoli 4 min. Plate together — toppings separate."
+      "Divide the cooked salmon evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "To serve one portion: microwave a broccoli steam-bag 4 min. Plate with a portion of salmon — toppings separate."
     ],
     "totalTime": 17,
     "pantryTags": [
       "butter",
       "frozen_veg",
       "salmon"
+    ],
+    "tags": [
+      "meal_prep"
     ]
   },
   {
@@ -1086,7 +1093,7 @@ export const RECIPES = [
     "id": 21,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "chicken"
     ],
@@ -1094,37 +1101,38 @@ export const RECIPES = [
     "cuisine": "american",
     "activeTime": 4,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Chicken Breast (boneless, skinless)",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "Buffalo Sauce (3 tbsp)",
-        "quantity": 45,
+        "quantity": 225,
         "unit": "ml"
       },
       {
         "name": "Garlic Powder (½ tsp)",
-        "quantity": 2,
+        "quantity": 10,
         "unit": "g"
       },
       {
-        "name": "White Rice Pouch (microwaveable)",
-        "quantity": 200,
-        "unit": "g"
+        "name": "White Rice Pouch (microwaveable, 1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       },
       {
-        "name": "Frozen Broccoli (steam-bag)",
-        "quantity": 100,
-        "unit": "g"
+        "name": "Frozen Broccoli (steam-bag, 1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       },
       {
         "name": "Butter (to coat)",
-        "quantity": 3,
+        "quantity": 15,
         "unit": "g"
       }
     ],
@@ -1133,9 +1141,10 @@ export const RECIPES = [
       "Celery Powder"
     ],
     "instructions": [
-      "Spray chicken with butter and dust with garlic powder. Air fry 400°F for 16–18 min, shaking halfway.",
-      "Microwave rice 90 sec. Microwave broccoli 3 min. Season the broccoli with garlic powder, onion powder, and a pinch of chili flakes. Toss chicken in buffalo sauce.",
-      "Build bowl — toppings separate."
+      "Spray all 5 pieces of chicken with butter and dust with garlic powder. Air fry 400°F for 16–18 min, shaking halfway (cook in two batches if it doesn't fit in a single layer).",
+      "Toss the cooked chicken in buffalo sauce.",
+      "Divide the chicken evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "To serve one portion: microwave a rice pouch 90 sec and a broccoli steam-bag 3 min. Season the broccoli with garlic powder, onion powder, and a pinch of chili flakes. Build bowl with a portion of chicken — toppings separate."
     ],
     "totalTime": 22,
     "pantryTags": [
@@ -1152,7 +1161,7 @@ export const RECIPES = [
     "id": 22,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "chicken"
     ],
@@ -1160,37 +1169,38 @@ export const RECIPES = [
     "cuisine": "bbq",
     "activeTime": 4,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Chicken Thighs (boneless, skinless)",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "BBQ Sauce (3 tbsp)",
-        "quantity": 45,
+        "quantity": 225,
         "unit": "ml"
       },
       {
         "name": "Garlic Powder (½ tsp)",
-        "quantity": 2,
+        "quantity": 10,
         "unit": "g"
       },
       {
         "name": "Onion Powder (½ tsp)",
-        "quantity": 2,
+        "quantity": 10,
         "unit": "g"
       },
       {
-        "name": "White Rice Pouch",
-        "quantity": 200,
-        "unit": "g"
+        "name": "White Rice Pouch (1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       },
       {
         "name": "Olive Oil Spray",
-        "quantity": 3,
+        "quantity": 15,
         "unit": "spray"
       }
     ],
@@ -1198,9 +1208,10 @@ export const RECIPES = [
       "Corn (frozen, thawed)"
     ],
     "instructions": [
-      "Spray chicken with olive oil and rub with garlic powder and onion powder. Air fry 400°F for 18–20 min, shaking at 10 min.",
-      "Microwave rice 90 sec. Brush BBQ sauce on cooked chicken.",
-      "Build bowl — extra sauce on the side."
+      "Spray all 5 chicken thighs with olive oil and rub with garlic powder and onion powder. Air fry 400°F for 18–20 min, shaking at 10 min (cook in batches if needed).",
+      "Brush BBQ sauce on the cooked chicken.",
+      "Divide the chicken evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "To serve one portion: microwave a rice pouch 90 sec. Build bowl with a portion of chicken — extra sauce on the side."
     ],
     "totalTime": 24,
     "pantryTags": [
@@ -1401,7 +1412,7 @@ export const RECIPES = [
     "id": 26,
     "method": "Bake",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "fish"
     ],
@@ -1409,38 +1420,39 @@ export const RECIPES = [
     "cuisine": "asian",
     "activeTime": 4,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Cod Fillet",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "Honey (1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "ml"
       },
       {
         "name": "Minced Garlic (jarred, 1½ tsp)",
-        "quantity": 7.5,
+        "quantity": 37.5,
         "unit": "g"
       },
       {
         "name": "Low-Sodium Soy Sauce (1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "ml"
       },
       {
-        "name": "White Rice Pouch",
-        "quantity": 200,
-        "unit": "g"
+        "name": "White Rice Pouch (1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       },
       {
-        "name": "Frozen Green Beans (steam-bag)",
-        "quantity": 75,
-        "unit": "g"
+        "name": "Frozen Green Beans (steam-bag, 1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       }
     ],
     "toppings": [
@@ -1448,9 +1460,10 @@ export const RECIPES = [
       "Green Onion (dried)"
     ],
     "instructions": [
-      "Mix honey + soy sauce + minced garlic. Place cod on foil. Drizzle sauce over top.",
-      "Bake 425°F for 12–14 min. Microwave rice 90 sec + green beans 3 min.",
-      "Build bowl — toppings separate."
+      "Mix honey + soy sauce + minced garlic (scaled for all 5 fillets). Place cod on foil. Drizzle sauce over top.",
+      "Bake 425°F for 12–14 min.",
+      "Divide the cooked cod evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "To serve one portion: microwave a rice pouch 90 sec + a green beans steam-bag 3 min. Build bowl with a portion of cod — toppings separate."
     ],
     "totalTime": 18,
     "pantryTags": [
@@ -1539,45 +1552,46 @@ export const RECIPES = [
     "id": 28,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "pork"
     ],
     "flavor": "neutral",
     "activeTime": 6,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Pork Tenderloin",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "Dijon Mustard (1 tbsp)",
-        "quantity": 10,
+        "quantity": 50,
         "unit": "g"
       },
       {
         "name": "Honey (1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "ml"
       },
       {
         "name": "Olive Oil Spray",
-        "quantity": 3,
+        "quantity": 15,
         "unit": "spray"
       },
       {
-        "name": "White Rice Pouch",
-        "quantity": 200,
-        "unit": "g"
+        "name": "White Rice Pouch (1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       },
       {
-        "name": "Frozen Mixed Veg (microwave bag)",
-        "quantity": 85,
-        "unit": "g"
+        "name": "Frozen Mixed Veg (microwave bag, 1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       }
     ],
     "toppings": [
@@ -1585,9 +1599,10 @@ export const RECIPES = [
       "Black Pepper"
     ],
     "instructions": [
-      "Mix dijon mustard and honey in a small bowl. Coat the pork tenderloin with half the mixture, reserving the rest.",
-      "Spray with oil. Air fry 400°F for 16–18 min, shaking at 9 min. Rest 2 min. Slice.",
-      "Drizzle the reserved honey mustard over the sliced pork. Microwave rice 90 sec + veg 3 min. Build bowl."
+      "Mix dijon mustard and honey in a bowl (scaled for all 5 portions of pork). Coat the pork tenderloin with half the mixture, reserving the rest.",
+      "Spray with oil. Air fry 400°F for 16–18 min, shaking at 9 min (cook in batches if needed). Rest 2 min. Slice.",
+      "Divide the cooked pork evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "To serve one portion: drizzle the reserved honey mustard over a portion of pork. Microwave a rice pouch 90 sec + a mixed veg bag 3 min. Build bowl."
     ],
     "totalTime": 24,
     "pantryTags": [
@@ -1603,40 +1618,41 @@ export const RECIPES = [
     "id": 29,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "fish"
     ],
     "flavor": "neutral",
     "activeTime": 5,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Frozen Shrimp (16/20 count, thawed)",
-        "quantity": 150,
+        "quantity": 750,
         "unit": "g"
       },
       {
         "name": "Butter (1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "g"
       },
       {
         "name": "Lemon Pepper Seasoning (1 tsp)",
-        "quantity": 2,
+        "quantity": 10,
         "unit": "g"
       },
       {
-        "name": "White Rice Pouch",
-        "quantity": 200,
-        "unit": "g"
+        "name": "White Rice Pouch (1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       },
       {
-        "name": "Frozen Broccoli (steam-bag)",
-        "quantity": 100,
-        "unit": "g"
+        "name": "Frozen Broccoli (steam-bag, 1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       }
     ],
     "toppings": [
@@ -1645,8 +1661,9 @@ export const RECIPES = [
     ],
     "instructions": [
       "Pat shrimp dry. Toss with melted butter and lemon pepper seasoning.",
-      "Air fry 380°F for 8–10 min, shaking halfway. Microwave rice 90 sec + broccoli 3 min.",
-      "Build bowl — toppings separate."
+      "Air fry 380°F for 8–10 min, shaking halfway (cook in batches if it doesn't fit in a single layer).",
+      "Divide the cooked shrimp evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "To serve one portion: microwave a rice pouch 90 sec + a broccoli steam-bag 3 min. Build bowl with a portion of shrimp — toppings separate."
     ],
     "totalTime": 15,
     "pantryTags": [
@@ -2058,7 +2075,7 @@ export const RECIPES = [
     "id": 36,
     "method": "Bake",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "fish"
     ],
@@ -2068,28 +2085,28 @@ export const RECIPES = [
     "components": [
       {
         "name": "Salmon Fillet",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "Sriracha Sauce (2 tbsp)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "ml"
       },
       {
         "name": "Honey (1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "ml"
       },
       {
         "name": "Minced Garlic (jarred, 1½ tsp)",
-        "quantity": 7.5,
+        "quantity": 37.5,
         "unit": "g"
       },
       {
-        "name": "Frozen Broccoli (steam-bag)",
-        "quantity": 100,
-        "unit": "g"
+        "name": "Frozen Broccoli (steam-bag, 1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       }
     ],
     "toppings": [
@@ -2097,9 +2114,10 @@ export const RECIPES = [
       "Green Onion (dried)"
     ],
     "instructions": [
-      "Mix sriracha + honey + minced garlic. Place salmon on foil-lined sheet.",
-      "Brush sauce over salmon. Bake 425°F for 12–14 min. Microwave broccoli 3 min.",
-      "Plate together — extra sauce on side."
+      "Mix sriracha + honey + minced garlic (scaled for all 5 fillets). Place salmon on foil-lined sheet(s) and brush sauce over top.",
+      "Bake 425°F for 12–14 min.",
+      "Divide the cooked salmon evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "To serve one portion: microwave a broccoli steam-bag 3 min. Plate with a portion of salmon — extra sauce on side."
     ],
     "totalTime": 19,
     "pantryTags": [
@@ -2107,6 +2125,9 @@ export const RECIPES = [
       "hot_sauce",
       "onion_garlic",
       "salmon"
+    ],
+    "tags": [
+      "meal_prep"
     ]
   },
   {
@@ -2182,7 +2203,7 @@ export const RECIPES = [
     "id": 38,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "chicken"
     ],
@@ -2190,42 +2211,43 @@ export const RECIPES = [
     "cuisine": "mexican",
     "activeTime": 6,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Chicken Thighs (boneless, skinless)",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "Chipotle Seasoning Powder (1 tbsp)",
-        "quantity": 10,
+        "quantity": 50,
         "unit": "g"
       },
       {
         "name": "Olive Oil Spray",
-        "quantity": 3,
+        "quantity": 15,
         "unit": "spray"
       },
       {
-        "name": "White Rice Pouch",
-        "quantity": 200,
-        "unit": "g"
+        "name": "White Rice Pouch (1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       },
       {
         "name": "Canned Black Beans (½ can, drained, microwaved)",
-        "quantity": 135,
+        "quantity": 675,
         "unit": "g"
       },
       {
         "name": "Salsa (fresh, 3 tbsp)",
-        "quantity": 48,
+        "quantity": 240,
         "unit": "ml"
       },
       {
         "name": "Chipotle Mayo (2 tbsp)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "g"
       }
     ],
@@ -2234,9 +2256,10 @@ export const RECIPES = [
       "Lime Squeeze"
     ],
     "instructions": [
-      "Spray chicken with oil. Coat with chipotle seasoning.",
-      "Air fry 400°F for 18–20 min, shaking at 10 min. Microwave rice 90 sec + beans 60 sec.",
-      "Build bowl with salsa drizzled on chicken, then finish with the chipotle mayo -- the seasoning alone is milder than the name suggests, and this is where the real chipotle flavor comes from. Cheese + lime on side."
+      "Spray all 5 pieces of chicken with oil. Coat with chipotle seasoning.",
+      "Air fry 400°F for 18–20 min, shaking at 10 min (cook in batches if needed).",
+      "Divide the cooked chicken and the drained black beans evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "To serve one portion: microwave a rice pouch 90 sec and warm a portion of beans 60 sec. Build bowl with salsa drizzled on chicken, then finish with the chipotle mayo -- the seasoning alone is milder than the name suggests, and this is where the real chipotle flavor comes from. Cheese + lime on side."
     ],
     "totalTime": 26,
     "pantryTags": [
@@ -2306,7 +2329,7 @@ export const RECIPES = [
     "id": 40,
     "method": "Bake",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "fish"
     ],
@@ -2314,37 +2337,38 @@ export const RECIPES = [
     "cuisine": "asian",
     "activeTime": 4,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Salmon Fillet",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "Teriyaki Sauce (3 tbsp)",
-        "quantity": 51,
+        "quantity": 255,
         "unit": "g"
       },
       {
         "name": "Garlic Powder (¼ tsp)",
-        "quantity": 1,
+        "quantity": 5,
         "unit": "g"
       },
       {
-        "name": "White Rice Pouch",
-        "quantity": 200,
-        "unit": "g"
+        "name": "White Rice Pouch (1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       },
       {
-        "name": "Frozen Edamame (steam-bag)",
-        "quantity": 113,
-        "unit": "g"
+        "name": "Frozen Edamame (steam-bag, 1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       },
       {
         "name": "Olive Oil Spray",
-        "quantity": 2,
+        "quantity": 10,
         "unit": "spray"
       }
     ],
@@ -2353,9 +2377,10 @@ export const RECIPES = [
       "Green Onion (dried)"
     ],
     "instructions": [
-      "Spray salmon with oil. Place on foil-lined sheet. Dust with garlic powder, then brush teriyaki sauce over top.",
-      "Bake 425°F for 12–14 min. Microwave rice 90 sec + edamame 3 min.",
-      "Build bowl — toppings separate."
+      "Spray all 5 salmon fillets with oil. Place on foil-lined sheet(s). Dust with garlic powder, then brush teriyaki sauce over top.",
+      "Bake 425°F for 12–14 min.",
+      "Divide the cooked salmon evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "To serve one portion: microwave a rice pouch 90 sec + an edamame steam-bag 3 min. Build bowl with a portion of salmon — toppings separate."
     ],
     "totalTime": 18,
     "pantryTags": [
@@ -4848,7 +4873,7 @@ export const RECIPES = [
     "isTrending": true,
     "method": "Bake",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "fish"
     ],
@@ -4857,32 +4882,32 @@ export const RECIPES = [
     "components": [
       {
         "name": "Salmon Fillet",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "Hot Honey (3 tbsp)",
-        "quantity": 45,
+        "quantity": 225,
         "unit": "ml"
       },
       {
         "name": "Minced Garlic (jarred, 1½ tsp)",
-        "quantity": 7.5,
+        "quantity": 37.5,
         "unit": "g"
       },
       {
         "name": "Lemon Juice (1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "ml"
       },
       {
-        "name": "Frozen Broccoli (steam-bag)",
-        "quantity": 100,
-        "unit": "g"
+        "name": "Frozen Broccoli (steam-bag, 1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       },
       {
         "name": "Olive Oil Spray",
-        "quantity": 2,
+        "quantity": 10,
         "unit": "spray"
       }
     ],
@@ -4891,14 +4916,19 @@ export const RECIPES = [
       "Sesame Seeds"
     ],
     "instructions": [
-      "Mix hot honey and minced garlic in a small bowl. Place salmon skin-down on foil-lined sheet and brush generously with the mixture.",
-      "Bake 425°F for 12–14 min. Microwave broccoli 3 min. Squeeze lemon over salmon."
+      "Mix hot honey and minced garlic (scaled for all 5 fillets). Place salmon skin-down on foil-lined sheet(s) and brush generously with the mixture.",
+      "Bake 425°F for 12–14 min.",
+      "Divide the cooked salmon evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "To serve one portion: microwave a broccoli steam-bag 3 min. Squeeze lemon over a portion of salmon."
     ],
     "totalTime": 18,
     "pantryTags": [
       "frozen_veg",
       "onion_garlic",
       "salmon"
+    ],
+    "tags": [
+      "meal_prep"
     ]
   },
   {
@@ -4907,7 +4937,7 @@ export const RECIPES = [
     "id": 82,
     "method": "Stovetop",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "fish"
     ],
@@ -4915,47 +4945,48 @@ export const RECIPES = [
     "cuisine": "asian",
     "activeTime": 7,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Frozen Shrimp (16/20 count, thawed)",
-        "quantity": 150,
+        "quantity": 750,
         "unit": "g"
       },
       {
         "name": "Sriracha Sauce (2 tbsp)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "ml"
       },
       {
         "name": "Low-Sodium Soy Sauce (1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "ml"
       },
       {
         "name": "Minced Garlic (jarred, 3 tsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "g"
       },
       {
         "name": "Honey (1 tsp)",
-        "quantity": 5,
+        "quantity": 25,
         "unit": "ml"
       },
       {
-        "name": "White Rice Pouch",
-        "quantity": 200,
-        "unit": "g"
+        "name": "White Rice Pouch (1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       },
       {
-        "name": "Frozen Broccoli (steam-bag)",
-        "quantity": 100,
-        "unit": "g"
+        "name": "Frozen Broccoli (steam-bag, 1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       },
       {
         "name": "Olive Oil (1 tsp)",
-        "quantity": 5,
+        "quantity": 25,
         "unit": "g"
       }
     ],
@@ -4964,9 +4995,10 @@ export const RECIPES = [
       "Sesame Seeds"
     ],
     "instructions": [
-      "Heat oil in skillet over high heat. Add shrimp, cook 2–3 min per side.",
-      "Mix sriracha + soy sauce + honey in a bowl. Add the sauce and minced garlic to the pan with the shrimp; toss and cook 30 seconds more until fragrant and the shrimp is coated.",
-      "Microwave rice 90 sec + broccoli 3 min. Build bowl — toppings on side."
+      "Heat oil in a large skillet over high heat. Add all the shrimp (cook in batches if it doesn't fit in a single layer), cook 2–3 min per side.",
+      "Mix sriracha + soy sauce + honey (scaled for the full batch) in a bowl. Add the sauce and minced garlic to the pan with the shrimp; toss and cook 30 seconds more until fragrant and the shrimp is coated.",
+      "Divide the cooked shrimp evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "To serve one portion: microwave a rice pouch 90 sec + a broccoli steam-bag 3 min. Build bowl with a portion of shrimp — toppings on side."
     ],
     "totalTime": 7,
     "pantryTags": [
@@ -5061,7 +5093,7 @@ export const RECIPES = [
     "id": 84,
     "method": "Bake",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "fish"
     ],
@@ -5069,37 +5101,38 @@ export const RECIPES = [
     "cuisine": "asian",
     "activeTime": 5,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Salmon Fillet",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "Gochujang Sauce (bottled, 2 tbsp)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "ml"
       },
       {
         "name": "Low-Sodium Soy Sauce (1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "ml"
       },
       {
-        "name": "White Rice Pouch",
-        "quantity": 200,
-        "unit": "g"
+        "name": "White Rice Pouch (1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       },
       {
-        "name": "Frozen Edamame (steam-bag)",
-        "quantity": 113,
-        "unit": "g"
+        "name": "Frozen Edamame (steam-bag, 1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       },
       {
         "name": "Mayo (1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "g"
       }
     ],
@@ -5108,9 +5141,10 @@ export const RECIPES = [
       "Green Onion (dried)"
     ],
     "instructions": [
-      "Mix gochujang + soy sauce. Place salmon on foil-lined sheet. Brush sauce over top.",
-      "Bake 425°F for 12–14 min. Microwave rice 90 sec + edamame 3 min.",
-      "Build bowl. Drizzle mayo on salmon. Toppings on side."
+      "Mix gochujang + soy sauce (scaled for all 5 fillets). Place salmon on foil-lined sheet(s). Brush sauce over top.",
+      "Bake 425°F for 12–14 min.",
+      "Divide the cooked salmon evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "To serve one portion: microwave a rice pouch 90 sec + an edamame steam-bag 3 min. Build bowl with a portion of salmon. Drizzle mayo on top. Toppings on side."
     ],
     "totalTime": 19,
     "pantryTags": [
@@ -5408,7 +5442,7 @@ export const RECIPES = [
     "id": 89,
     "method": "Air Fryer",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "fish"
     ],
@@ -5416,52 +5450,53 @@ export const RECIPES = [
     "cuisine": "american",
     "activeTime": 5,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Frozen Shrimp (16/20 count, thawed)",
-        "quantity": 150,
+        "quantity": 750,
         "unit": "g"
       },
       {
         "name": "Buffalo Sauce (3 tbsp)",
-        "quantity": 45,
+        "quantity": 225,
         "unit": "ml"
       },
       {
-        "name": "White Rice Pouch",
-        "quantity": 200,
-        "unit": "g"
+        "name": "White Rice Pouch (1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       },
       {
-        "name": "Frozen Broccoli (steam-bag)",
-        "quantity": 100,
-        "unit": "g"
+        "name": "Frozen Broccoli (steam-bag, 1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       },
       {
         "name": "Ranch Dressing (bottled, 2 tbsp)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "ml"
       },
       {
         "name": "Olive Oil Spray",
-        "quantity": 2,
+        "quantity": 10,
         "unit": "spray"
       },
       {
         "name": "Garlic Powder (½ tsp)",
-        "quantity": 2,
+        "quantity": 10,
         "unit": "g"
       },
       {
         "name": "Salt (pinch)",
-        "quantity": 0.5,
+        "quantity": 2.5,
         "unit": "g"
       },
       {
         "name": "Black Pepper (pinch)",
-        "quantity": 0.5,
+        "quantity": 2.5,
         "unit": "g"
       }
     ],
@@ -5470,9 +5505,9 @@ export const RECIPES = [
       "Parmesan"
     ],
     "instructions": [
-      "Spray shrimp with olive oil and season with garlic powder, salt, and pepper. Air fry 380°F for 8–10 min. Toss in buffalo sauce.",
-      "Microwave rice 90 sec + broccoli 3 min. Season the broccoli with garlic powder, onion powder, and a pinch of chili flakes. Build bowl.",
-      "Drizzle ranch dressing over shrimp. Toppings on side."
+      "Spray all the shrimp with olive oil and season with garlic powder, salt, and pepper. Air fry 380°F for 8–10 min (cook in batches if needed). Toss in buffalo sauce.",
+      "Divide the cooked shrimp evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "To serve one portion: microwave a rice pouch 90 sec + a broccoli steam-bag 3 min. Season the broccoli with garlic powder, onion powder, and a pinch of chili flakes. Build bowl with a portion of shrimp. Drizzle ranch dressing over the shrimp. Toppings on side."
     ],
     "totalTime": 15,
     "pantryTags": [
@@ -8790,7 +8825,7 @@ export const RECIPES = [
     "isNew": true,
     "method": "Stovetop",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "fish"
     ],
@@ -8798,42 +8833,43 @@ export const RECIPES = [
     "cuisine": "mexican",
     "activeTime": 12,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Salmon Fillet (1 fillet)",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
-        "name": "White Rice Pouch (microwaveable)",
-        "quantity": 200,
-        "unit": "g"
+        "name": "White Rice Pouch (microwaveable, 1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       },
       {
         "name": "Black Beans (canned, drained, ½ cup)",
-        "quantity": 120,
+        "quantity": 600,
         "unit": "g"
       },
       {
         "name": "Corn (frozen or canned, ¼ cup)",
-        "quantity": 40,
+        "quantity": 200,
         "unit": "g"
       },
       {
         "name": "Chipotle Peppers in Adobo (minced, 1 tsp)",
-        "quantity": 5,
+        "quantity": 25,
         "unit": "g"
       },
       {
         "name": "Lime Juice (1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "ml"
       },
       {
         "name": "Olive Oil Spray",
-        "quantity": 3,
+        "quantity": 15,
         "unit": "spray"
       }
     ],
@@ -8842,10 +8878,10 @@ export const RECIPES = [
       "Fresh Cilantro"
     ],
     "instructions": [
-      "Rub salmon with chipotle, lime juice, salt, and pepper. Spray a skillet with oil and sear 4 minutes per side until cooked through.",
-      "Warm the black beans and corn together in a small pan 2–3 minutes.",
-      "Microwave the rice per package instructions. Build the bowl with rice, beans and corn, and salmon.",
-      "Top with avocado and cilantro."
+      "Rub all 5 portions of salmon with chipotle, lime juice, salt, and pepper. Working in batches if needed, sear in an oiled skillet 4 minutes per side until cooked through.",
+      "Warm the black beans and corn together in a pan 2–3 minutes.",
+      "Divide the cooked salmon and the beans-and-corn mixture evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "To serve one portion: microwave a rice pouch per package instructions. Build the bowl with rice, a portion of the beans and corn, and a portion of salmon. Top with avocado and cilantro."
     ],
     "totalTime": 12,
     "pantryTags": [
@@ -8861,7 +8897,7 @@ export const RECIPES = [
     "isNew": true,
     "method": "Stovetop",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "chicken"
     ],
@@ -8870,42 +8906,43 @@ export const RECIPES = [
     "activeTime": 14,
     "tags": [
       "high_protein",
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Chicken Breast (1 breast, diced)",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
-        "name": "White Rice Pouch (microwaveable)",
-        "quantity": 200,
-        "unit": "g"
+        "name": "White Rice Pouch (microwaveable, 1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       },
       {
         "name": "Black Beans (canned, drained, ½ cup)",
-        "quantity": 120,
+        "quantity": 600,
         "unit": "g"
       },
       {
         "name": "Corn (frozen or canned, ¼ cup)",
-        "quantity": 40,
+        "quantity": 200,
         "unit": "g"
       },
       {
         "name": "Taco Seasoning (1 tbsp)",
-        "quantity": 8,
+        "quantity": 40,
         "unit": "g"
       },
       {
         "name": "Salsa (¼ cup)",
-        "quantity": 60,
+        "quantity": 300,
         "unit": "g"
       },
       {
         "name": "Shredded Cheese (¼ cup)",
-        "quantity": 28,
+        "quantity": 140,
         "unit": "g"
       }
     ],
@@ -8915,10 +8952,10 @@ export const RECIPES = [
       "Sour Cream"
     ],
     "instructions": [
-      "Season diced chicken with taco seasoning and cook in a skillet over medium-high 6–7 minutes until browned and cooked through.",
-      "Warm the black beans and corn together in a small pan 2–3 minutes.",
-      "Microwave the rice per package instructions. Build the bowl with rice, beans and corn, chicken, and salsa.",
-      "Top with cheese, avocado, cilantro, and a dollop of sour cream."
+      "Season all the diced chicken with taco seasoning and cook in a skillet over medium-high 6–7 minutes until browned and cooked through (work in batches if needed).",
+      "Warm the black beans and corn together in a pan 2–3 minutes.",
+      "Divide the cooked chicken and the beans-and-corn mixture evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "To serve one portion: microwave a rice pouch per package instructions. Build the bowl with rice, a portion of the beans and corn, a portion of chicken, and salsa. Top with cheese, avocado, cilantro, and a dollop of sour cream."
     ],
     "totalTime": 14,
     "pantryTags": [
@@ -9475,7 +9512,7 @@ export const RECIPES = [
     "isNew": true,
     "method": "Stovetop",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "chicken"
     ],
@@ -9483,42 +9520,43 @@ export const RECIPES = [
     "cuisine": "mediterranean",
     "activeTime": 15,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Chicken Thigh (boneless, skinless, 1 thigh, sliced)",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
-        "name": "White Rice Pouch (microwaveable)",
-        "quantity": 200,
-        "unit": "g"
+        "name": "White Rice Pouch (microwaveable, 1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       },
       {
         "name": "Shawarma Seasoning: Cumin, Paprika, Turmeric, Cinnamon (1 tbsp)",
-        "quantity": 8,
+        "quantity": 40,
         "unit": "g"
       },
       {
         "name": "Nonfat Greek Yogurt (¼ cup)",
-        "quantity": 60,
+        "quantity": 300,
         "unit": "ml"
       },
       {
         "name": "Garlic (minced, 1 clove)",
-        "quantity": 3,
+        "quantity": 15,
         "unit": "g"
       },
       {
         "name": "Lemon Juice (1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "ml"
       },
       {
         "name": "Olive Oil Spray",
-        "quantity": 3,
+        "quantity": 15,
         "unit": "spray"
       }
     ],
@@ -9528,10 +9566,10 @@ export const RECIPES = [
       "Fresh Parsley"
     ],
     "instructions": [
-      "Toss chicken with shawarma seasoning, salt, and pepper. Spray a skillet with oil and cook over medium-high 7–8 minutes until browned and cooked through.",
-      "Whisk yogurt, garlic, lemon juice, and a pinch of salt for the garlic sauce.",
-      "Microwave the rice per package instructions. Build the bowl with rice and chicken.",
-      "Drizzle with garlic yogurt sauce and top with cucumber, tomato, and parsley."
+      "Toss all the chicken with shawarma seasoning, salt, and pepper. Spray a skillet with oil and cook over medium-high 7–8 minutes until browned and cooked through (work in batches if needed).",
+      "Divide the cooked chicken evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "To serve one portion: whisk a small portion of yogurt, garlic, lemon juice, and a pinch of salt fresh for the garlic sauce. Microwave a rice pouch per package instructions. Build the bowl with rice and a portion of chicken.",
+      "Drizzle with the garlic yogurt sauce and top with cucumber, tomato, and parsley."
     ],
     "totalTime": 15,
     "pantryTags": [
@@ -10401,7 +10439,7 @@ export const RECIPES = [
     "isNew": true,
     "method": "Skillet",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "turkey"
     ],
@@ -10409,42 +10447,43 @@ export const RECIPES = [
     "cuisine": "asian",
     "activeTime": 12,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Ground Turkey (93/7, ¼ lb)",
-        "quantity": 113,
+        "quantity": 565,
         "unit": "g"
       },
       {
-        "name": "White Rice Pouch (microwaveable)",
-        "quantity": 200,
-        "unit": "g"
+        "name": "White Rice Pouch (microwaveable, 1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       },
       {
         "name": "Gochujang Sauce (bottled, 1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "ml"
       },
       {
         "name": "Soy Sauce (1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "ml"
       },
       {
         "name": "Honey (1 tsp)",
-        "quantity": 7,
+        "quantity": 35,
         "unit": "g"
       },
       {
         "name": "Garlic (minced, 1 clove)",
-        "quantity": 3,
+        "quantity": 15,
         "unit": "g"
       },
       {
         "name": "Frozen Vegetables (stir-fry blend, ½ cup)",
-        "quantity": 75,
+        "quantity": 375,
         "unit": "g"
       }
     ],
@@ -10453,10 +10492,11 @@ export const RECIPES = [
       "Sesame Seeds"
     ],
     "instructions": [
-      "Brown the turkey in a skillet over medium-high 5–6 minutes, breaking it up as it cooks.",
+      "Brown all the ground turkey in a large skillet over medium-high 5–6 minutes, breaking it up as it cooks.",
       "Add garlic and frozen vegetables, cook 3 minutes until the vegetables are heated through.",
-      "Stir in gochujang, soy sauce, and honey. Simmer 2 minutes until glossy and well coated.",
-      "Microwave the rice per package instructions and serve the turkey over rice, topped with scallions and sesame seeds."
+      "Stir in gochujang, soy sauce, and honey (scaled for the full batch). Simmer 2 minutes until glossy and well coated.",
+      "Divide the turkey mixture evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "To serve one portion: microwave a rice pouch per package instructions and top with a portion of the turkey mixture, scallions, and sesame seeds."
     ],
     "totalTime": 12,
     "pantryTags": [
@@ -10962,7 +11002,7 @@ export const RECIPES = [
     "id": 306,
     "method": "Skillet",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "fish"
     ],
@@ -10970,63 +11010,64 @@ export const RECIPES = [
     "cuisine": "mexican",
     "activeTime": 12,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Tilapia Fillet (1 fillet, ~6 oz)",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "Cayenne Pepper (¼ tsp)",
-        "quantity": 1,
+        "quantity": 5,
         "unit": "g"
       },
       {
         "name": "Smoked Paprika (½ tsp)",
-        "quantity": 2,
-        "unit": "g"
-      },
-      {
-        "name": "Onion Powder (¼ tsp)",
-        "quantity": 1,
-        "unit": "g"
-      },
-      {
-        "name": "Garlic Powder (¼ tsp)",
-        "quantity": 1,
-        "unit": "g"
-      },
-      {
-        "name": "Butter (1 tbsp)",
-        "quantity": 14,
-        "unit": "g"
-      },
-      {
-        "name": "Canned Diced Tomatoes (½ cup)",
-        "quantity": 120,
-        "unit": "g"
-      },
-      {
-        "name": "White Onion (diced, ¼ cup)",
-        "quantity": 40,
-        "unit": "g"
-      },
-      {
-        "name": "Garlic (minced, 1 clove)",
-        "quantity": 3,
-        "unit": "g"
-      },
-      {
-        "name": "Serrano or Jalapeño Pepper (sliced, 1)",
         "quantity": 10,
         "unit": "g"
       },
       {
-        "name": "White Rice Pouch (microwaveable)",
+        "name": "Onion Powder (¼ tsp)",
+        "quantity": 5,
+        "unit": "g"
+      },
+      {
+        "name": "Garlic Powder (¼ tsp)",
+        "quantity": 5,
+        "unit": "g"
+      },
+      {
+        "name": "Butter (1 tbsp)",
+        "quantity": 70,
+        "unit": "g"
+      },
+      {
+        "name": "Canned Diced Tomatoes (½ cup)",
+        "quantity": 600,
+        "unit": "g"
+      },
+      {
+        "name": "White Onion (diced, ¼ cup)",
         "quantity": 200,
         "unit": "g"
+      },
+      {
+        "name": "Garlic (minced, 1 clove)",
+        "quantity": 15,
+        "unit": "g"
+      },
+      {
+        "name": "Serrano or Jalapeño Pepper (sliced, 1)",
+        "quantity": 50,
+        "unit": "g"
+      },
+      {
+        "name": "White Rice Pouch (microwaveable, 1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       }
     ],
     "toppings": [
@@ -11034,10 +11075,11 @@ export const RECIPES = [
       "Lime Wedge"
     ],
     "instructions": [
-      "Season the tilapia with cayenne, smoked paprika, onion powder, and garlic powder.",
-      "Melt butter in a skillet over medium-high. Sauté the diced onion, minced garlic, and sliced serrano 2 min until fragrant.",
-      "Add the seasoned tilapia to the skillet along with the diced tomatoes. Simmer 6–8 min, spooning sauce over the fish, until it flakes easily.",
-      "Microwave the rice 90 sec. Serve the tilapia and sauce over rice, topped with cilantro and a squeeze of lime."
+      "Season all 5 portions of tilapia with cayenne, smoked paprika, onion powder, and garlic powder.",
+      "Melt butter in a large skillet over medium-high. Sauté the diced onion, minced garlic, and sliced serrano 2 min until fragrant.",
+      "Add the seasoned tilapia to the skillet along with the diced tomatoes (work in batches if it doesn't fit in a single layer). Simmer 6–8 min, spooning sauce over the fish, until it flakes easily.",
+      "Divide the tilapia and sauce evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "To serve one portion: microwave a rice pouch 90 sec. Serve a portion of tilapia and sauce over rice, topped with cilantro and a squeeze of lime."
     ],
     "totalTime": 12,
     "pantryTags": [
@@ -11135,7 +11177,7 @@ export const RECIPES = [
     "id": 310,
     "method": "Skillet",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "turkey"
     ],
@@ -11143,43 +11185,44 @@ export const RECIPES = [
     "cuisine": "american",
     "activeTime": 14,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Turkey Kielbasa (sliced into rounds, 4 oz)",
-        "quantity": 113,
+        "quantity": 565,
         "unit": "g"
       },
       {
         "name": "Bell Pepper (sliced, 1 cup)",
-        "quantity": 150,
+        "quantity": 750,
         "unit": "g"
       },
       {
         "name": "Onion (sliced, ½ cup)",
-        "quantity": 75,
+        "quantity": 375,
         "unit": "g"
       },
       {
         "name": "Olive Oil (1 tsp)",
-        "quantity": 5,
+        "quantity": 25,
         "unit": "g"
       },
       {
         "name": "Garlic (minced, 1 clove)",
-        "quantity": 3,
+        "quantity": 15,
         "unit": "g"
       },
       {
         "name": "Smoked Paprika (½ tsp)",
-        "quantity": 1.5,
+        "quantity": 7.5,
         "unit": "g"
       },
       {
-        "name": "White Rice Pouch (microwaveable)",
-        "quantity": 200,
-        "unit": "g"
+        "name": "White Rice Pouch (microwaveable, 1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       }
     ],
     "toppings": [
@@ -11187,10 +11230,11 @@ export const RECIPES = [
       "Extra Paprika"
     ],
     "instructions": [
-      "Heat oil in a skillet over medium-high. Add the sliced kielbasa in a single layer and cook 3-4 minutes per side until browned and slightly crisp at the edges. Remove and set aside.",
+      "Heat oil in a large skillet over medium-high. Add all the sliced kielbasa in a single layer (work in batches if needed) and cook 3-4 minutes per side until browned and slightly crisp at the edges. Remove and set aside.",
       "In the same skillet, add the peppers and onion. Sauté 5-7 minutes until softened and starting to caramelize. Add garlic and smoked paprika, cook 1 minute more until fragrant.",
       "Return the kielbasa to the skillet and toss with the peppers for 2-3 minutes to heat through. Season with salt and pepper to taste.",
-      "Microwave the rice 90 sec. Serve the kielbasa and peppers over rice. Toppings on side."
+      "Divide the kielbasa and peppers evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "To serve one portion: microwave a rice pouch 90 sec. Serve a portion of kielbasa and peppers over rice. Toppings on side."
     ],
     "totalTime": 14,
     "pantryTags": [
