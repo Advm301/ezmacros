@@ -4269,7 +4269,7 @@ export const RECIPES = [
     "id": 72,
     "method": "Bake",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "plant"
     ],
@@ -4279,42 +4279,42 @@ export const RECIPES = [
     "components": [
       {
         "name": "Banza Chickpea Pasta (dry, 1.5 cups uncooked)",
-        "quantity": 210,
+        "quantity": 1050,
         "unit": "g"
       },
       {
         "name": "Block Feta Cheese",
-        "quantity": 113,
+        "quantity": 565,
         "unit": "g"
       },
       {
         "name": "Canned Cherry Tomatoes (1 can, 14 oz)",
-        "quantity": 400,
+        "quantity": 2000,
         "unit": "ml"
       },
       {
         "name": "Olive Oil Spray",
-        "quantity": 3,
+        "quantity": 15,
         "unit": "spray"
       },
       {
         "name": "Italian Seasoning (1 tbsp)",
-        "quantity": 3,
+        "quantity": 15,
         "unit": "g"
       },
       {
         "name": "Garlic Powder (½ tsp)",
-        "quantity": 1.5,
+        "quantity": 7.5,
         "unit": "g"
       },
       {
         "name": "Red Pepper Flakes (¼ tsp)",
-        "quantity": 0.5,
+        "quantity": 2.5,
         "unit": "g"
       },
       {
         "name": "Honey (1 tsp)",
-        "quantity": 7,
+        "quantity": 35,
         "unit": "g"
       }
     ],
@@ -4323,9 +4323,11 @@ export const RECIPES = [
       "Black Pepper"
     ],
     "instructions": [
-      "Place feta block in small baking dish. Pour canned cherry tomatoes around it (don't drain completely). Drizzle honey over the tomatoes -- it caramelizes in the oven and balances their acidity.",
+      "Preheat oven to 400°F. Place the feta block in a baking dish. Pour the canned cherry tomatoes around it (don't drain completely). Drizzle honey over the tomatoes -- it caramelizes in the oven and balances their acidity.",
       "Spray feta lightly with olive oil. Shake Italian seasoning + garlic powder + red pepper flakes over top.",
-      "Bake 400°F for 25 min. Mash feta and tomatoes together until creamy. Toss with cooked pasta."
+      "Bake 25 min. Mash the feta and tomatoes together until creamy.",
+      "Cook all the pasta per package directions, drain, and toss with the feta-tomato sauce.",
+      "Divide evenly into 5 containers and refrigerate."
     ],
     "totalTime": 33,
     "pantryTags": [
@@ -4333,6 +4335,9 @@ export const RECIPES = [
       "canned_tomatoes",
       "cheese",
       "onion_garlic"
+    ],
+    "tags": [
+      "meal_prep"
     ]
   },
   {
@@ -4342,7 +4347,7 @@ export const RECIPES = [
     "isTrending": true,
     "method": "Bake",
     "mealType": "breakfast",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "dairy",
       "eggs",
@@ -4352,32 +4357,33 @@ export const RECIPES = [
     "activeTime": 5,
     "tags": [
       "high_protein",
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Cottage Cheese (1 cup)",
-        "quantity": 224,
+        "quantity": 1120,
         "unit": "g"
       },
       {
         "name": "Whole Eggs (2 large)",
-        "quantity": 100,
+        "quantity": 500,
         "unit": "count"
       },
       {
         "name": "Deli Turkey (4 slices)",
-        "quantity": 80,
+        "quantity": 400,
         "unit": "g"
       },
       {
         "name": "Baby Spinach (1 cup)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "g"
       },
       {
         "name": "Dijon Mustard (1 tbsp)",
-        "quantity": 10,
+        "quantity": 50,
         "unit": "g"
       }
     ],
@@ -4386,9 +4392,10 @@ export const RECIPES = [
       "Hot Sauce (optional)"
     ],
     "instructions": [
-      "Blend cottage cheese + eggs in blender until completely smooth (no lumps).",
-      "Pour onto parchment-lined sheet pan. Spread evenly to ~¼ inch thick. Bake at 350°F for 25–30 minutes until golden brown and set. Cool 5 minutes, then peel off the parchment.",
-      "Spread dijon mustard over the flatbread. Layer turkey and spinach over one half, then roll or fold it up like a wrap."
+      "Blend all the cottage cheese + eggs in a blender until completely smooth (no lumps).",
+      "Pour onto 1-2 parchment-lined sheet pans (working in batches if needed). Spread evenly to about ¼ inch thick. Bake at 350°F for 25-30 minutes until golden brown and set. Cool 5 minutes, then peel off the parchment. Cut into 5 portions.",
+      "Spread dijon mustard over each portion. Layer turkey and spinach over one half of each, then roll or fold up like a wrap.",
+      "Wrap each portion individually and refrigerate (up to 4 days) or freeze."
     ],
     "totalTime": 33,
     "pantryTags": [
@@ -4631,7 +4638,7 @@ export const RECIPES = [
     "id": 77,
     "method": "Bake",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "fish"
     ],
@@ -4640,43 +4647,43 @@ export const RECIPES = [
     "activeTime": 7,
     "components": [
       {
-        "name": "White Rice Pouch (cooked)",
-        "quantity": 200,
-        "unit": "g"
+        "name": "White Rice Pouch (cooked, 1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       },
       {
         "name": "Rice Vinegar (1 tsp)",
-        "quantity": 5,
+        "quantity": 25,
         "unit": "g"
       },
       {
         "name": "Imitation Crab (package, 6 oz, shredded)",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "Cream Cheese (2 tbsp, softened)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "g"
       },
       {
         "name": "Mayo (2 tbsp)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "g"
       },
       {
         "name": "Low-Sodium Soy Sauce (1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "ml"
       },
       {
         "name": "Sriracha (½ tsp)",
-        "quantity": 2.5,
+        "quantity": 12.5,
         "unit": "g"
       },
       {
         "name": "Shredded Mozzarella (¾ cup)",
-        "quantity": 85,
+        "quantity": 425,
         "unit": "g"
       }
     ],
@@ -4687,9 +4694,11 @@ export const RECIPES = [
       "Extra Sriracha"
     ],
     "instructions": [
-      "Stir rice vinegar through the cooked rice. Press half into a small baking dish.",
-      "Mix shredded crab with cream cheese, mayo, soy sauce, and sriracha until creamy -- this is the real sushi-bake filling, not just seasoned rice. Layer over the rice, then top with remaining rice and the mozzarella.",
-      "Bake 375°F for 15 min until the cheese melts and the top is bubbling. Top with cucumber + extra sriracha. Scoop onto nori sheets to eat, sushi-hand-roll style, if using."
+      "Stir rice vinegar through all the cooked rice. Press half into a large baking dish.",
+      "Mix all the shredded crab with cream cheese, mayo, soy sauce, and sriracha until creamy -- this is the real sushi-bake filling, not just seasoned rice. Layer over the rice, then top with remaining rice and the mozzarella.",
+      "Bake 375°F for 15-20 min (a larger dish may need a few extra minutes) until the cheese melts and the top is bubbling.",
+      "Divide evenly into 5 containers and refrigerate.",
+      "To serve one portion: top with cucumber + extra sriracha. Scoop onto nori sheets to eat, sushi-hand-roll style, if using."
     ],
     "totalTime": 22,
     "pantryTags": [
@@ -4700,6 +4709,9 @@ export const RECIPES = [
       "rice",
       "shrimp",
       "soy_sauce"
+    ],
+    "tags": [
+      "meal_prep"
     ]
   },
   {
@@ -9100,7 +9112,7 @@ export const RECIPES = [
     "isNew": true,
     "method": "Bake",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "chicken"
     ],
@@ -9108,42 +9120,43 @@ export const RECIPES = [
     "cuisine": "asian",
     "activeTime": 10,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Chicken Breast (1 breast, cubed)",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "Panko Breadcrumbs (½ cup)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "g"
       },
       {
         "name": "Egg White (2 tbsp)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "ml"
       },
       {
         "name": "Mayo (2 tbsp)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "g"
       },
       {
         "name": "Sweet Chili Sauce (2 tbsp)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "ml"
       },
       {
         "name": "Sriracha (1 tsp)",
-        "quantity": 5,
+        "quantity": 25,
         "unit": "ml"
       },
       {
         "name": "Olive Oil Spray",
-        "quantity": 3,
+        "quantity": 15,
         "unit": "spray"
       }
     ],
@@ -9151,10 +9164,11 @@ export const RECIPES = [
       "Sliced Scallions"
     ],
     "instructions": [
-      "Preheat oven to 425°F. Dip chicken cubes in egg white, then coat in panko.",
-      "Arrange on a lined sheet pan, spray with oil, and bake 15–18 minutes until golden and cooked through.",
-      "Whisk mayo, sweet chili sauce, and sriracha together for the bang bang sauce.",
-      "Toss the baked chicken in the sauce and top with scallions."
+      "Preheat oven to 425°F. Dip all the chicken cubes in egg white, then coat in panko.",
+      "Arrange on lined sheet pan(s), spray with oil, and bake 15-18 minutes until golden and cooked through (use two sheet pans or work in batches if needed).",
+      "Whisk all the mayo, sweet chili sauce, and sriracha together for the bang bang sauce.",
+      "Toss the baked chicken in the sauce, then divide evenly into 5 containers and refrigerate.",
+      "To serve one portion: top with scallions."
     ],
     "totalTime": 20,
     "pantryTags": [
@@ -9170,7 +9184,7 @@ export const RECIPES = [
     "isNew": true,
     "method": "Bake",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "pork"
     ],
@@ -9178,32 +9192,33 @@ export const RECIPES = [
     "cuisine": "asian",
     "activeTime": 10,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Frozen Pork Potstickers (8 count)",
-        "quantity": 200,
+        "quantity": 1000,
         "unit": "g"
       },
       {
         "name": "Marinara Sauce (¾ cup)",
-        "quantity": 180,
+        "quantity": 900,
         "unit": "g"
       },
       {
         "name": "Shredded Mozzarella (¾ cup)",
-        "quantity": 85,
+        "quantity": 425,
         "unit": "g"
       },
       {
         "name": "Garlic (minced, 1 clove)",
-        "quantity": 3,
+        "quantity": 15,
         "unit": "g"
       },
       {
         "name": "Italian Seasoning (½ tsp)",
-        "quantity": 1.5,
+        "quantity": 7.5,
         "unit": "g"
       }
     ],
@@ -9212,10 +9227,11 @@ export const RECIPES = [
       "Red Pepper Flakes"
     ],
     "instructions": [
-      "Preheat oven to 400°F. Stir garlic and Italian seasoning into the marinara.",
-      "Spread a thin layer of marinara in a small oven-safe skillet or dish. Arrange the frozen potstickers in a single layer on top.",
+      "Preheat oven to 400°F. Stir garlic and Italian seasoning into all the marinara.",
+      "Spread a thin layer of marinara in a large oven-safe skillet or dish. Arrange all the frozen potstickers in a single layer on top.",
       "Cover with the remaining marinara, then top with mozzarella.",
-      "Bake 20–22 minutes until the cheese is bubbly and golden and the potstickers are cooked through. Top with basil and red pepper flakes."
+      "Bake 20-25 minutes (a larger dish may need a few extra minutes) until the cheese is bubbly and golden and the potstickers are cooked through.",
+      "Divide evenly into 5 containers and refrigerate. Top with basil and red pepper flakes before serving."
     ],
     "totalTime": 22,
     "pantryTags": [
@@ -9707,7 +9723,7 @@ export const RECIPES = [
     "isNew": true,
     "method": "Bake",
     "mealType": "breakfast",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "protein_powder",
       "eggs"
@@ -9716,37 +9732,38 @@ export const RECIPES = [
     "activeTime": 5,
     "tags": [
       "high_protein",
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Rolled Oats (½ cup)",
-        "quantity": 45,
+        "quantity": 225,
         "unit": "g"
       },
       {
         "name": "Vanilla Protein Powder (1 scoop)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "g"
       },
       {
         "name": "Whole Egg (1 large)",
-        "quantity": 50,
+        "quantity": 250,
         "unit": "count"
       },
       {
         "name": "Banana (½, mashed)",
-        "quantity": 60,
+        "quantity": 300,
         "unit": "g"
       },
       {
         "name": "Milk (¼ cup)",
-        "quantity": 60,
+        "quantity": 300,
         "unit": "ml"
       },
       {
         "name": "Baking Powder (¼ tsp)",
-        "quantity": 1,
+        "quantity": 5,
         "unit": "g"
       }
     ],
@@ -9755,10 +9772,11 @@ export const RECIPES = [
       "Peanut Butter Drizzle"
     ],
     "instructions": [
-      "Preheat oven to 350°F (or have a microwave ready).",
-      "Mash the banana in a small oven-safe ramekin or bowl. Whisk in the egg, milk, protein powder, oats, and baking powder until smooth.",
-      "Bake 20–22 minutes until set and golden on top (or microwave 2–2.5 minutes until just set).",
-      "Top with sliced banana and a peanut butter drizzle."
+      "Preheat oven to 350°F. Mash all the banana in a large bowl. Whisk in the eggs, milk, protein powder, oats, and baking powder (scaled for 5 servings) until smooth.",
+      "Divide the batter evenly among 5 oven-safe ramekins.",
+      "Bake 20-22 minutes until set and golden on top.",
+      "Refrigerate (up to 4 days) or freeze.",
+      "To serve one portion: reheat in the microwave, then top with sliced banana and a peanut butter drizzle."
     ],
     "totalTime": 22,
     "pantryTags": [
@@ -9901,7 +9919,7 @@ export const RECIPES = [
     "isNew": true,
     "method": "Bake",
     "mealType": "breakfast",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "dairy",
       "eggs"
@@ -9910,27 +9928,28 @@ export const RECIPES = [
     "activeTime": 5,
     "tags": [
       "high_protein",
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Cottage Cheese (½ cup)",
-        "quantity": 113,
+        "quantity": 565,
         "unit": "g"
       },
       {
         "name": "Whole Egg (2 large)",
-        "quantity": 100,
+        "quantity": 500,
         "unit": "count"
       },
       {
         "name": "Everything Bagel Seasoning (1 tsp)",
-        "quantity": 3,
+        "quantity": 15,
         "unit": "g"
       },
       {
         "name": "Shredded Cheddar (2 tbsp)",
-        "quantity": 14,
+        "quantity": 70,
         "unit": "g"
       }
     ],
@@ -9938,10 +9957,10 @@ export const RECIPES = [
       "Extra Everything Bagel Seasoning"
     ],
     "instructions": [
-      "Preheat oven to 350°F and line a small pan with parchment.",
-      "Blend cottage cheese and eggs together until completely smooth.",
-      "Pour onto the lined pan, sprinkle with cheese and seasoning, and bake 20–22 minutes until set and lightly golden.",
-      "Let cool slightly, then slice into rounds."
+      "Preheat oven to 350°F and line a large sheet pan with parchment.",
+      "Blend all the cottage cheese and eggs together until completely smooth.",
+      "Pour onto the lined pan, sprinkle with cheese and seasoning, and bake 20-25 minutes (a larger pan may need a few extra minutes) until set and lightly golden.",
+      "Let cool slightly, then slice into rounds and divide evenly into 5 containers. Refrigerate (up to 4 days) or freeze."
     ],
     "totalTime": 22,
     "pantryTags": [
@@ -10013,7 +10032,7 @@ export const RECIPES = [
     "isNew": true,
     "method": "Bake",
     "mealType": "snack",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "dairy"
     ],
@@ -10021,26 +10040,27 @@ export const RECIPES = [
     "activeTime": 5,
     "tags": [
       "high_protein",
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Cottage Cheese (small curd, ¾ cup)",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "Everything Bagel Seasoning (1 tsp)",
-        "quantity": 3,
+        "quantity": 15,
         "unit": "g"
       }
     ],
     "toppings": [],
     "instructions": [
-      "Preheat oven to 375°F and line a sheet pan with parchment.",
-      "Spoon small, thin mounds of cottage cheese onto the parchment, spacing well apart, and spread each into a thin round.",
-      "Sprinkle with seasoning and bake 25–30 minutes until deep golden and fully dried out and crisp.",
-      "Let cool completely on the pan — they crisp up further as they cool."
+      "Preheat oven to 375°F and line one or two sheet pans with parchment.",
+      "Spoon small, thin mounds of all the cottage cheese onto the parchment, spacing well apart, and spread each into a thin round.",
+      "Sprinkle with seasoning and bake 25-30 minutes until deep golden and fully dried out and crisp.",
+      "Let cool completely on the pan -- they crisp up further as they cool. Divide evenly into 5 airtight containers or bags."
     ],
     "totalTime": 30,
     "pantryTags": [
@@ -10640,7 +10660,7 @@ export const RECIPES = [
     "id": 300,
     "method": "Bake",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "fish"
     ],
@@ -10648,52 +10668,53 @@ export const RECIPES = [
     "cuisine": "mediterranean",
     "activeTime": 5,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Tilapia Fillet (1 fillet, ~6 oz)",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "Butter (2 tbsp)",
-        "quantity": 28,
+        "quantity": 140,
         "unit": "g"
       },
       {
         "name": "Garlic (minced, 3 cloves)",
-        "quantity": 9,
+        "quantity": 45,
         "unit": "g"
       },
       {
         "name": "Lemon Juice (1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "ml"
       },
       {
         "name": "Lemon Zest (1 tsp)",
-        "quantity": 2,
+        "quantity": 10,
         "unit": "g"
       },
       {
         "name": "Italian Seasoning (½ tsp)",
-        "quantity": 1.5,
+        "quantity": 7.5,
         "unit": "g"
       },
       {
         "name": "Paprika (¼ tsp)",
-        "quantity": 1,
+        "quantity": 5,
         "unit": "g"
       },
       {
         "name": "Salt (¼ tsp)",
-        "quantity": 1.5,
+        "quantity": 7.5,
         "unit": "g"
       },
       {
         "name": "Black Pepper (pinch)",
-        "quantity": 0.5,
+        "quantity": 2.5,
         "unit": "g"
       }
     ],
@@ -10702,9 +10723,11 @@ export const RECIPES = [
       "Lemon Wedge"
     ],
     "instructions": [
-      "Preheat oven to 400°F. Pat the tilapia dry and place in a small baking dish.",
-      "Melt the butter and mix with garlic, lemon juice, lemon zest, Italian seasoning, paprika, salt, and pepper. Pour evenly over the fillet.",
-      "Bake 12–15 min until the fish flakes easily with a fork. Spoon the pan sauce back over the top before serving."
+      "Preheat oven to 400°F. Pat all the tilapia dry and arrange in a large baking dish (or two).",
+      "Melt all the butter and mix with garlic, lemon juice, lemon zest, Italian seasoning, paprika, salt, and pepper (scaled for 5 fillets). Pour evenly over the fillets.",
+      "Bake 12-15 min until the fish flakes easily with a fork.",
+      "Divide the tilapia and pan sauce evenly into 5 containers and refrigerate.",
+      "To serve one portion: spoon the pan sauce back over the top before serving."
     ],
     "totalTime": 17,
     "pantryTags": [
@@ -10719,7 +10742,7 @@ export const RECIPES = [
     "id": 301,
     "method": "Bake",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "fish"
     ],
@@ -10728,42 +10751,43 @@ export const RECIPES = [
     "activeTime": 4,
     "tags": [
       "high_protein",
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Tilapia Fillet (1 fillet, ~6 oz)",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "Parmesan (grated, 3 tbsp)",
-        "quantity": 24,
+        "quantity": 120,
         "unit": "g"
       },
       {
         "name": "Mayo, Light (2 tbsp)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "g"
       },
       {
         "name": "Butter (1 tbsp, melted)",
-        "quantity": 14,
+        "quantity": 70,
         "unit": "g"
       },
       {
         "name": "Lemon Juice (1 tsp)",
-        "quantity": 5,
+        "quantity": 25,
         "unit": "ml"
       },
       {
         "name": "Garlic Powder (¼ tsp)",
-        "quantity": 1,
+        "quantity": 5,
         "unit": "g"
       },
       {
         "name": "Paprika (¼ tsp)",
-        "quantity": 1,
+        "quantity": 5,
         "unit": "g"
       }
     ],
@@ -10772,9 +10796,10 @@ export const RECIPES = [
       "Lemon Wedge"
     ],
     "instructions": [
-      "Preheat the broiler on high. Pat tilapia dry and place on a foil-lined baking sheet.",
-      "Mix parmesan, mayo, melted butter, lemon juice, garlic powder, and paprika into a thick paste. Spread evenly over the fillet.",
-      "Broil 6–8 min (watching closely) until the topping is golden and the fish flakes easily with a fork."
+      "Preheat the broiler on high. Pat all the tilapia dry and arrange on a foil-lined baking sheet.",
+      "Mix all the parmesan, mayo, melted butter, lemon juice, garlic powder, and paprika into a thick paste (scaled for 5 fillets). Spread evenly over the fillets.",
+      "Broil 6-8 min (watching closely, working in batches if needed) until the topping is golden and the fish flakes easily with a fork.",
+      "Divide evenly into 5 containers and refrigerate."
     ],
     "totalTime": 12,
     "pantryTags": [
@@ -11454,7 +11479,7 @@ export const RECIPES = [
     "id": 313,
     "method": "Bake",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "turkey"
     ],
@@ -11467,37 +11492,37 @@ export const RECIPES = [
     "components": [
       {
         "name": "Turkey Smoked Sausage (sliced into rounds, 4 oz)",
-        "quantity": 113,
+        "quantity": 565,
         "unit": "g"
       },
       {
         "name": "Sweet Potato (diced, ½ cup)",
-        "quantity": 75,
+        "quantity": 375,
         "unit": "g"
       },
       {
         "name": "Broccoli Florets (fresh or frozen, 1 cup)",
-        "quantity": 100,
+        "quantity": 500,
         "unit": "g"
       },
       {
         "name": "Bell Pepper (sliced, ½ cup)",
-        "quantity": 75,
+        "quantity": 375,
         "unit": "g"
       },
       {
         "name": "Olive Oil Spray",
-        "quantity": 4,
+        "quantity": 20,
         "unit": "spray"
       },
       {
         "name": "Garlic Powder (½ tsp)",
-        "quantity": 2,
+        "quantity": 10,
         "unit": "g"
       },
       {
         "name": "Italian Seasoning (½ tsp)",
-        "quantity": 1.5,
+        "quantity": 7.5,
         "unit": "g"
       }
     ],
@@ -11506,9 +11531,10 @@ export const RECIPES = [
       "Fresh Parsley"
     ],
     "instructions": [
-      "Preheat oven to 425°F. Toss the sweet potato with olive oil spray, garlic powder, and Italian seasoning on a sheet pan. Roast 10 minutes to give it a head start -- it takes longer to cook through than the other vegetables.",
-      "Add the sliced sausage, broccoli, and bell pepper to the pan. Toss everything together with a bit more oil spray and seasoning.",
-      "Roast 15-18 minutes more until the vegetables are tender and the sausage is browned at the edges."
+      "Preheat oven to 425°F. Toss all the sweet potato with olive oil spray, garlic powder, and Italian seasoning on one or two sheet pans. Roast 10 minutes to give it a head start -- it takes longer to cook through than the other vegetables.",
+      "Add all the sliced sausage, broccoli, and bell pepper to the pan(s). Toss everything together with a bit more oil spray and seasoning.",
+      "Roast 15-20 minutes more (a fuller pan may need a few extra minutes) until the vegetables are tender and the sausage is browned at the edges.",
+      "Divide evenly into 5 containers and refrigerate."
     ],
     "totalTime": 26,
     "pantryTags": [
