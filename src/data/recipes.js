@@ -8329,7 +8329,7 @@ export const RECIPES = [
     "isNew": true,
     "method": "Skillet",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "chicken"
     ],
@@ -8337,47 +8337,48 @@ export const RECIPES = [
     "cuisine": "italian",
     "activeTime": 15,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Chicken Breast (1 breast, pounded thin)",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "Sun-Dried Tomatoes (jarred, oil-packed, chopped, ¼ cup)",
-        "quantity": 40,
+        "quantity": 200,
         "unit": "g"
       },
       {
         "name": "Heavy Cream (½ cup)",
-        "quantity": 120,
+        "quantity": 600,
         "unit": "ml"
       },
       {
         "name": "Low-Sodium Chicken Broth (½ cup)",
-        "quantity": 120,
+        "quantity": 600,
         "unit": "g"
       },
       {
         "name": "Parmesan (grated, ¼ cup)",
-        "quantity": 25,
+        "quantity": 125,
         "unit": "g"
       },
       {
         "name": "Garlic (minced, 2 cloves)",
-        "quantity": 6,
+        "quantity": 30,
         "unit": "g"
       },
       {
         "name": "Italian Seasoning (1 tsp)",
-        "quantity": 3,
+        "quantity": 15,
         "unit": "g"
       },
       {
         "name": "Olive Oil Spray",
-        "quantity": 3,
+        "quantity": 15,
         "unit": "spray"
       }
     ],
@@ -8386,10 +8387,11 @@ export const RECIPES = [
       "Extra Parmesan"
     ],
     "instructions": [
-      "Season the chicken with salt, pepper, and half the Italian seasoning. Spray a skillet with oil and sear over medium-high 4–5 minutes per side until golden and cooked through. Remove and set aside.",
+      "Season all the chicken breasts with salt, pepper, and half the Italian seasoning (scaled for 5). Spray a large skillet with oil and sear over medium-high 4-5 minutes per side until golden and cooked through (work in batches if needed). Remove and set aside.",
       "In the same skillet, add garlic and sun-dried tomatoes. Cook 1 minute until fragrant.",
-      "Stir in broth, cream, parmesan, and remaining Italian seasoning. Simmer 3–4 minutes until slightly thickened.",
-      "Return the chicken to the skillet, spoon sauce over the top, and simmer 2 more minutes. Top with basil and extra parmesan."
+      "Stir in broth, cream, parmesan, and remaining Italian seasoning (scaled for 5). Simmer 3-4 minutes until slightly thickened.",
+      "Return the chicken to the skillet, spoon sauce over the top, and simmer 2 more minutes.",
+      "Divide evenly into 5 containers and refrigerate. Top with basil and extra parmesan before serving."
     ],
     "totalTime": 15,
     "pantryTags": [
@@ -8405,7 +8407,7 @@ export const RECIPES = [
     "isNew": true,
     "method": "Skillet",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "fish"
     ],
@@ -8413,47 +8415,48 @@ export const RECIPES = [
     "cuisine": "italian",
     "activeTime": 14,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Salmon Fillet (1 fillet)",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "Sun-Dried Tomatoes (jarred, oil-packed, chopped, ¼ cup)",
-        "quantity": 40,
+        "quantity": 200,
         "unit": "g"
       },
       {
         "name": "Heavy Cream (½ cup)",
-        "quantity": 120,
+        "quantity": 600,
         "unit": "ml"
       },
       {
         "name": "Low-Sodium Chicken Broth (¼ cup)",
-        "quantity": 60,
+        "quantity": 300,
         "unit": "g"
       },
       {
         "name": "Parmesan (grated, ¼ cup)",
-        "quantity": 25,
+        "quantity": 125,
         "unit": "g"
       },
       {
         "name": "Garlic (minced, 2 cloves)",
-        "quantity": 6,
+        "quantity": 30,
         "unit": "g"
       },
       {
         "name": "Italian Seasoning (1 tsp)",
-        "quantity": 3,
+        "quantity": 15,
         "unit": "g"
       },
       {
         "name": "Olive Oil Spray",
-        "quantity": 3,
+        "quantity": 15,
         "unit": "spray"
       }
     ],
@@ -8461,10 +8464,11 @@ export const RECIPES = [
       "Fresh Basil, torn"
     ],
     "instructions": [
-      "Pat the salmon dry and season with salt, pepper, and half the Italian seasoning. Spray a skillet with oil and sear skin-side down over medium-high 4 minutes, flip, and cook 3 more minutes. Remove and set aside.",
+      "Pat all the salmon dry and season with salt, pepper, and half the Italian seasoning (scaled for 5). Spray a large skillet with oil and sear skin-side down over medium-high 4 minutes, flip, and cook 3 more minutes (work in batches if needed). Remove and set aside.",
       "In the same skillet, add garlic and sun-dried tomatoes. Cook 1 minute until fragrant.",
-      "Stir in broth, cream, parmesan, and remaining Italian seasoning. Simmer 2–3 minutes until slightly thickened.",
-      "Return the salmon to the skillet, spoon sauce over the top, and simmer 1 more minute. Top with basil."
+      "Stir in broth, cream, parmesan, and remaining Italian seasoning (scaled for 5). Simmer 2-3 minutes until slightly thickened.",
+      "Return the salmon to the skillet, spoon sauce over the top, and simmer 1 more minute.",
+      "Divide evenly into 5 containers and refrigerate. Top with basil before serving."
     ],
     "totalTime": 14,
     "pantryTags": [
@@ -8480,7 +8484,7 @@ export const RECIPES = [
     "isNew": true,
     "method": "Skillet",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "chicken"
     ],
@@ -8488,47 +8492,48 @@ export const RECIPES = [
     "cuisine": "mexican",
     "activeTime": 15,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Chicken Breast (1 breast, diced)",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "Sun-Dried Tomatoes (jarred, oil-packed, chopped, ¼ cup)",
-        "quantity": 40,
+        "quantity": 200,
         "unit": "g"
       },
       {
         "name": "Heavy Cream (⅓ cup)",
-        "quantity": 80,
+        "quantity": 400,
         "unit": "ml"
       },
       {
         "name": "Parmesan (grated, 2 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "g"
       },
       {
         "name": "Garlic (minced, 2 cloves)",
-        "quantity": 6,
+        "quantity": 30,
         "unit": "g"
       },
       {
         "name": "Taco Seasoning (1 tbsp)",
-        "quantity": 8,
+        "quantity": 40,
         "unit": "g"
       },
       {
         "name": "Corn Tortillas (3 small)",
-        "quantity": 78,
+        "quantity": 390,
         "unit": "g"
       },
       {
         "name": "Olive Oil Spray",
-        "quantity": 3,
+        "quantity": 15,
         "unit": "spray"
       }
     ],
@@ -8537,10 +8542,11 @@ export const RECIPES = [
       "Lime Wedge"
     ],
     "instructions": [
-      "Season diced chicken with taco seasoning. Spray a skillet with oil and cook over medium-high 6–7 minutes until browned and cooked through. Remove and set aside.",
+      "Season all the diced chicken with taco seasoning. Spray a large skillet with oil and cook over medium-high 6-7 minutes until browned and cooked through (work in batches if needed). Remove and set aside.",
       "In the same skillet, add garlic and sun-dried tomatoes. Cook 1 minute until fragrant.",
-      "Stir in cream and parmesan. Simmer 2 minutes until slightly thickened, then return the chicken to the skillet and toss to coat.",
-      "Warm the tortillas, fill with the creamy chicken, and top with cilantro and a squeeze of lime."
+      "Stir in cream and parmesan (scaled for 5). Simmer 2 minutes until slightly thickened, then return the chicken to the skillet and toss to coat.",
+      "Divide evenly into 5 containers and refrigerate.",
+      "To serve one portion: warm tortillas, fill with a portion of the creamy chicken, and top with cilantro and a squeeze of lime."
     ],
     "totalTime": 15,
     "pantryTags": [
@@ -8557,7 +8563,7 @@ export const RECIPES = [
     "isNew": true,
     "method": "Skillet",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "beef"
     ],
@@ -8566,37 +8572,38 @@ export const RECIPES = [
     "activeTime": 12,
     "tags": [
       "high_protein",
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Lean Ground Beef (93/7, ¼ lb)",
-        "quantity": 113,
+        "quantity": 565,
         "unit": "g"
       },
       {
         "name": "Corn Tortillas (2 small)",
-        "quantity": 52,
+        "quantity": 260,
         "unit": "g"
       },
       {
         "name": "Cheddar Slices (2)",
-        "quantity": 42,
+        "quantity": 210,
         "unit": "g"
       },
       {
         "name": "Yellow Onion (finely diced, 2 tbsp)",
-        "quantity": 20,
+        "quantity": 100,
         "unit": "g"
       },
       {
         "name": "Burger Seasoning (½ tsp)",
-        "quantity": 2,
+        "quantity": 10,
         "unit": "g"
       },
       {
         "name": "Special Sauce: Mayo + Ketchup + Pickle Relish (2 tbsp)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "g"
       }
     ],
@@ -8605,10 +8612,10 @@ export const RECIPES = [
       "Diced Pickles"
     ],
     "instructions": [
-      "Divide beef into 2 balls. Place a tortilla in a hot dry skillet, top with a beef ball, and smash flat with a spatula right onto the tortilla. Sprinkle with onion and seasoning.",
-      "Cook 2–3 minutes until the edges are crispy and browned, then flip the whole tortilla-patty stack.",
-      "Add cheese on top of the meat, cover, and cook 1 more minute until melted. Repeat with the second taco.",
-      "Spread special sauce on the cheese side, fold the tortilla over the meat, and top with lettuce and pickles."
+      "Mix all the special sauce (mayo + ketchup + pickle relish, scaled for 5) and store in a container. Divide the ground beef into 5 portions (2 balls each) and refrigerate raw (or portion and freeze).",
+      "To serve one portion: place a tortilla in a hot dry skillet, top with a portion's beef balls, and smash flat with a spatula right onto the tortilla. Sprinkle with onion and seasoning. Cook 2-3 minutes until the edges are crispy and browned, then flip.",
+      "Add cheese on top, cover, and cook 1 more minute until melted.",
+      "Spread a portion of the special sauce on the cheese side, fold the tortilla over the meat, and top with lettuce and pickles."
     ],
     "totalTime": 12,
     "pantryTags": [
@@ -9068,7 +9075,7 @@ export const RECIPES = [
     "isTrending": true,
     "method": "Skillet",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "chicken"
     ],
@@ -9076,42 +9083,43 @@ export const RECIPES = [
     "cuisine": "mexican",
     "activeTime": 15,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Chicken Breast (1 breast, diced)",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "Corn (frozen or canned, ¾ cup)",
-        "quantity": 120,
+        "quantity": 600,
         "unit": "g"
       },
       {
         "name": "Mayo (2 tbsp)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "g"
       },
       {
         "name": "Cotija or Feta Cheese (crumbled, ¼ cup)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "g"
       },
       {
         "name": "Chili Powder (1 tsp)",
-        "quantity": 3,
+        "quantity": 15,
         "unit": "g"
       },
       {
         "name": "Lime Juice (1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "ml"
       },
       {
         "name": "Olive Oil Spray",
-        "quantity": 3,
+        "quantity": 15,
         "unit": "spray"
       }
     ],
@@ -9120,10 +9128,10 @@ export const RECIPES = [
       "Extra Chili Powder"
     ],
     "instructions": [
-      "Season chicken with chili powder, salt, and pepper. Spray a skillet with oil and cook over medium-high 6–7 minutes until browned and cooked through. Remove and set aside.",
-      "In the same skillet, char the corn over medium-high 3–4 minutes until lightly browned.",
-      "Stir mayo, lime juice, and half the cheese into the corn. Return chicken to the skillet and toss to coat.",
-      "Top with remaining cheese and cilantro."
+      "Season all the chicken with chili powder, salt, and pepper. Spray a large skillet with oil and cook over medium-high 6-7 minutes until browned and cooked through (work in batches if needed). Remove and set aside.",
+      "In the same skillet, char all the corn over medium-high 3-4 minutes until lightly browned.",
+      "Stir mayo, lime juice, and half the cheese (scaled for 5) into the corn. Return chicken to the skillet and toss to coat.",
+      "Divide evenly into 5 containers and refrigerate. Top with remaining cheese and cilantro before serving."
     ],
     "totalTime": 15,
     "pantryTags": [
@@ -9542,7 +9550,7 @@ export const RECIPES = [
     "isTrending": true,
     "method": "Skillet",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "chicken"
     ],
@@ -9550,42 +9558,43 @@ export const RECIPES = [
     "cuisine": "asian",
     "activeTime": 14,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Chicken Thigh (boneless, skinless, 1 thigh, diced)",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "Corn (frozen or canned, ¾ cup)",
-        "quantity": 120,
+        "quantity": 600,
         "unit": "g"
       },
       {
         "name": "Mayo (1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "g"
       },
       {
         "name": "Shredded Mozzarella (½ cup)",
-        "quantity": 56,
+        "quantity": 280,
         "unit": "g"
       },
       {
         "name": "Butter (1 tsp)",
-        "quantity": 5,
+        "quantity": 25,
         "unit": "g"
       },
       {
         "name": "Garlic (minced, 1 clove)",
-        "quantity": 3,
+        "quantity": 15,
         "unit": "g"
       },
       {
         "name": "Sugar (½ tsp)",
-        "quantity": 2,
+        "quantity": 10,
         "unit": "g"
       }
     ],
@@ -9593,10 +9602,10 @@ export const RECIPES = [
       "Sliced Scallions"
     ],
     "instructions": [
-      "Season chicken with salt and pepper and cook in a skillet over medium-high 6–7 minutes until browned and cooked through. Remove and set aside.",
-      "In the same skillet, melt butter and add garlic and corn. Cook 3 minutes, then stir in mayo and sugar.",
-      "Return chicken to the skillet, top everything with mozzarella, cover, and cook 2–3 minutes until the cheese is melted.",
-      "Top with scallions."
+      "Season all the chicken with salt and pepper and cook in a large skillet over medium-high 6-7 minutes until browned and cooked through (work in batches if needed). Remove and set aside.",
+      "In the same skillet, melt butter and add garlic and corn. Cook 3 minutes, then stir in mayo and sugar (scaled for 5).",
+      "Return chicken to the skillet, top everything with mozzarella, cover, and cook 2-3 minutes until the cheese is melted.",
+      "Divide evenly into 5 containers and refrigerate. Top with scallions before serving."
     ],
     "totalTime": 14,
     "pantryTags": [
@@ -10103,7 +10112,7 @@ export const RECIPES = [
     "isNew": true,
     "method": "Skillet",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "beef"
     ],
@@ -10111,37 +10120,38 @@ export const RECIPES = [
     "cuisine": "mexican",
     "activeTime": 12,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Lean Ground Beef (93/7, ¼ lb)",
-        "quantity": 113,
+        "quantity": 565,
         "unit": "g"
       },
       {
         "name": "Taco Seasoning (1 tbsp)",
-        "quantity": 8,
+        "quantity": 40,
         "unit": "g"
       },
       {
         "name": "Corn Tortilla (1, torn and crisped)",
-        "quantity": 26,
+        "quantity": 130,
         "unit": "g"
       },
       {
         "name": "Shredded Cheese (¼ cup)",
-        "quantity": 28,
+        "quantity": 140,
         "unit": "g"
       },
       {
         "name": "Nonfat Greek Yogurt (2 tbsp, sour cream sub)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "ml"
       },
       {
         "name": "Salsa (¼ cup)",
-        "quantity": 60,
+        "quantity": 300,
         "unit": "g"
       }
     ],
@@ -10150,9 +10160,9 @@ export const RECIPES = [
       "Diced Tomato"
     ],
     "instructions": [
-      "Brown the beef in a skillet over medium-high 5–6 minutes, breaking it up, then stir in taco seasoning with a splash of water.",
-      "In a dry pan, crisp the torn tortilla pieces 2–3 minutes until golden, like tostada chips.",
-      "Build the bowl with beef, cheese, and salsa. Top with the crispy tortilla pieces, a dollop of Greek yogurt, lettuce, and tomato."
+      "Brown all the beef in a large skillet over medium-high 6-8 minutes, breaking it up, then stir in taco seasoning (scaled for 5) with a splash of water.",
+      "Divide the beef, cheese, and salsa evenly into 5 containers and refrigerate.",
+      "To serve one portion: in a dry pan, crisp a torn tortilla's pieces 2-3 minutes until golden, like tostada chips. Build the bowl with a portion of beef, cheese, and salsa. Top with the crispy tortilla pieces, a dollop of fresh Greek yogurt, lettuce, and tomato."
     ],
     "totalTime": 12,
     "pantryTags": [
@@ -10170,7 +10180,7 @@ export const RECIPES = [
     "isNew": true,
     "method": "Skillet",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "chicken"
     ],
@@ -10178,37 +10188,38 @@ export const RECIPES = [
     "cuisine": "mexican",
     "activeTime": 13,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Chicken Thigh (boneless, skinless, 1 thigh, diced)",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "Pineapple (diced, ¼ cup)",
-        "quantity": 55,
+        "quantity": 275,
         "unit": "g"
       },
       {
         "name": "Chili Powder (1 tsp)",
-        "quantity": 3,
+        "quantity": 15,
         "unit": "g"
       },
       {
         "name": "Paprika (½ tsp)",
-        "quantity": 1.5,
+        "quantity": 7.5,
         "unit": "g"
       },
       {
         "name": "Corn Tortillas (3 small)",
-        "quantity": 78,
+        "quantity": 390,
         "unit": "g"
       },
       {
         "name": "Olive Oil Spray",
-        "quantity": 3,
+        "quantity": 15,
         "unit": "spray"
       }
     ],
@@ -10218,10 +10229,10 @@ export const RECIPES = [
       "Lime Wedge"
     ],
     "instructions": [
-      "Season chicken with chili powder, paprika, salt, and pepper. Spray a skillet with oil and cook over medium-high 6–7 minutes until browned.",
+      "Season all the chicken with chili powder, paprika, salt, and pepper. Spray a large skillet with oil and cook over medium-high 6-7 minutes until browned (work in batches if needed).",
       "Add pineapple and cook 2 more minutes, letting it caramelize slightly.",
-      "Warm the tortillas and fill with the chicken and pineapple.",
-      "Top with onion, cilantro, and a squeeze of lime."
+      "Divide evenly into 5 containers and refrigerate.",
+      "To serve one portion: warm tortillas and fill with a portion of the chicken and pineapple. Top with onion, cilantro, and a squeeze of lime."
     ],
     "totalTime": 13,
     "pantryTags": [
@@ -10423,7 +10434,7 @@ export const RECIPES = [
     "isNew": true,
     "method": "Skillet",
     "mealType": "breakfast",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "eggs"
     ],
@@ -10431,37 +10442,38 @@ export const RECIPES = [
     "cuisine": "mediterranean",
     "activeTime": 12,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Whole Egg (2 large)",
-        "quantity": 100,
+        "quantity": 500,
         "unit": "count"
       },
       {
         "name": "Canned Diced Tomatoes (½ cup)",
-        "quantity": 120,
+        "quantity": 600,
         "unit": "g"
       },
       {
         "name": "Bell Pepper (diced, ½ cup)",
-        "quantity": 75,
+        "quantity": 375,
         "unit": "g"
       },
       {
         "name": "Feta Cheese (crumbled, 2 tbsp)",
-        "quantity": 19,
+        "quantity": 95,
         "unit": "g"
       },
       {
         "name": "Garlic (minced, 1 clove)",
-        "quantity": 3,
+        "quantity": 15,
         "unit": "g"
       },
       {
         "name": "Olive Oil Spray",
-        "quantity": 3,
+        "quantity": 15,
         "unit": "spray"
       }
     ],
@@ -10470,10 +10482,10 @@ export const RECIPES = [
       "Crusty Bread"
     ],
     "instructions": [
-      "Spray a skillet with oil and cook bell pepper over medium-high 4 minutes until softened. Add garlic and cook 30 seconds.",
-      "Stir in the diced tomatoes and simmer 4–5 minutes until slightly reduced.",
-      "Crack the eggs directly into the skillet, season with salt and pepper, and gently stir into soft, saucy curds, 2–3 minutes.",
-      "Top with feta and parsley."
+      "Heat oil in a large skillet over medium-high. Cook all the bell pepper 4 minutes until softened. Add garlic and cook 30 seconds.",
+      "Stir in the diced tomatoes (scaled for 5) and simmer 4-5 minutes until slightly reduced.",
+      "Divide the tomato-pepper sauce evenly into 5 containers and refrigerate.",
+      "To serve one portion: warm a portion of the sauce in a skillet, crack in an egg fresh, season with salt and pepper, and gently stir into soft, saucy curds, 2-3 minutes. Top with feta and parsley."
     ],
     "totalTime": 12,
     "pantryTags": [
@@ -10844,7 +10856,7 @@ export const RECIPES = [
     "id": 302,
     "method": "Skillet",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "fish"
     ],
@@ -10853,57 +10865,58 @@ export const RECIPES = [
     "activeTime": 8,
     "tags": [
       "high_protein",
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Tilapia Fillet (1 fillet, ~6 oz)",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "Paprika (1 tsp)",
-        "quantity": 3,
+        "quantity": 15,
         "unit": "g"
       },
       {
         "name": "Cayenne Pepper (¼ tsp)",
-        "quantity": 1,
+        "quantity": 5,
         "unit": "g"
       },
       {
         "name": "Garlic Powder (½ tsp)",
-        "quantity": 2,
+        "quantity": 10,
         "unit": "g"
       },
       {
         "name": "Onion Powder (½ tsp)",
-        "quantity": 2,
+        "quantity": 10,
         "unit": "g"
       },
       {
         "name": "Dried Thyme (¼ tsp)",
-        "quantity": 1,
+        "quantity": 5,
         "unit": "g"
       },
       {
         "name": "Dried Oregano (¼ tsp)",
-        "quantity": 1,
+        "quantity": 5,
         "unit": "g"
       },
       {
         "name": "Salt (¼ tsp)",
-        "quantity": 1.5,
+        "quantity": 7.5,
         "unit": "g"
       },
       {
         "name": "Black Pepper (¼ tsp)",
-        "quantity": 1,
+        "quantity": 5,
         "unit": "g"
       },
       {
         "name": "Butter (1 tbsp)",
-        "quantity": 14,
+        "quantity": 70,
         "unit": "g"
       }
     ],
@@ -10911,8 +10924,9 @@ export const RECIPES = [
       "Lemon Wedge"
     ],
     "instructions": [
-      "Mix paprika, cayenne, garlic powder, onion powder, thyme, oregano, salt, and pepper. Coat the tilapia fillet evenly on both sides.",
-      "Heat a skillet over high heat with the butter until just smoking. Sear the fillet 2–3 min per side until a dark, blackened crust forms and the fish flakes easily."
+      "Mix all the paprika, cayenne, garlic powder, onion powder, thyme, oregano, salt, and pepper (scaled for 5). Coat all the tilapia fillets evenly on both sides.",
+      "Heat a large skillet over high heat with the butter until just smoking. Sear the fillets 2-3 min per side until a dark, blackened crust forms and the fish flakes easily (work in batches if needed).",
+      "Divide evenly into 5 containers and refrigerate."
     ],
     "totalTime": 8,
     "pantryTags": [
@@ -10926,7 +10940,7 @@ export const RECIPES = [
     "id": 303,
     "method": "Skillet",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "fish"
     ],
@@ -10935,42 +10949,43 @@ export const RECIPES = [
     "activeTime": 10,
     "tags": [
       "high_protein",
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Tilapia Fillet (1 fillet, ~6 oz)",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "Blackening Seasoning: Paprika, Cayenne, Garlic & Onion Powder (1 tbsp)",
-        "quantity": 8,
+        "quantity": 40,
         "unit": "g"
       },
       {
         "name": "Corn Tortillas (3 small)",
-        "quantity": 78,
+        "quantity": 390,
         "unit": "g"
       },
       {
         "name": "Coleslaw Mix (bagged)",
-        "quantity": 85,
+        "quantity": 425,
         "unit": "g"
       },
       {
         "name": "Mayo, Light (2 tbsp)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "g"
       },
       {
         "name": "Lime Juice (1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "ml"
       },
       {
         "name": "Butter (1 tsp)",
-        "quantity": 5,
+        "quantity": 25,
         "unit": "g"
       }
     ],
@@ -10980,9 +10995,9 @@ export const RECIPES = [
       "Hot Sauce"
     ],
     "instructions": [
-      "Coat the tilapia in blackening seasoning. Heat butter in a skillet over high heat and sear the fillet 2–3 min per side until blackened and flaky. Flake into large chunks.",
-      "Mix mayo and lime juice for a quick crema. Toss the coleslaw mix with half the crema.",
-      "Warm the tortillas. Fill with the slaw and blackened tilapia. Drizzle with the remaining crema and top with cilantro."
+      "Coat all the tilapia in blackening seasoning. Heat butter in a large skillet over high heat and sear the fillets 2-3 min per side until blackened and flaky (work in batches if needed). Flake into large chunks.",
+      "Divide the tilapia evenly into 5 containers and refrigerate. Keep the coleslaw mix, mayo, and lime juice separate, mixed fresh just before serving.",
+      "To serve one portion: mix a portion of mayo and lime juice for a quick crema. Toss a portion of coleslaw mix with half the crema. Warm a tortilla, fill with the slaw and a portion of blackened tilapia, drizzle with the remaining crema, and top with cilantro."
     ],
     "totalTime": 10,
     "pantryTags": [
@@ -11051,7 +11066,7 @@ export const RECIPES = [
     "id": 305,
     "method": "Skillet",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "fish"
     ],
@@ -11059,42 +11074,43 @@ export const RECIPES = [
     "activeTime": 8,
     "tags": [
       "high_protein",
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Tilapia Fillet (1 fillet, ~6 oz)",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "Butter (2 tbsp)",
-        "quantity": 28,
+        "quantity": 140,
         "unit": "g"
       },
       {
         "name": "Garlic (minced, 2 cloves)",
-        "quantity": 6,
+        "quantity": 30,
         "unit": "g"
       },
       {
         "name": "Olive Oil (1 tsp)",
-        "quantity": 5,
+        "quantity": 25,
         "unit": "g"
       },
       {
         "name": "Lemon Juice (1 tsp)",
-        "quantity": 5,
+        "quantity": 25,
         "unit": "ml"
       },
       {
         "name": "Salt (pinch)",
-        "quantity": 0.5,
+        "quantity": 2.5,
         "unit": "g"
       },
       {
         "name": "Black Pepper (pinch)",
-        "quantity": 0.5,
+        "quantity": 2.5,
         "unit": "g"
       }
     ],
@@ -11102,9 +11118,9 @@ export const RECIPES = [
       "Fresh Parsley, chopped"
     ],
     "instructions": [
-      "Pat the tilapia dry and season with salt and pepper. Heat olive oil in a skillet over medium-high.",
-      "Sear the tilapia 3 min per side until golden. Add butter and garlic to the pan, then tilt and spoon the melted garlic butter over the fish for 1 minute.",
-      "Finish with a squeeze of lemon juice."
+      "Pat all the tilapia dry and season with salt and pepper. Heat olive oil in a large skillet over medium-high.",
+      "Sear the tilapia 3 min per side until golden (work in batches if needed). Add butter and garlic to the pan, then tilt and spoon the melted garlic butter over the fish for 1 minute.",
+      "Divide evenly into 5 containers and refrigerate. Finish with a squeeze of lemon juice before serving."
     ],
     "totalTime": 8,
     "pantryTags": [
@@ -11213,7 +11229,7 @@ export const RECIPES = [
     "id": 307,
     "method": "Skillet",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "fish"
     ],
@@ -11221,53 +11237,54 @@ export const RECIPES = [
     "cuisine": "italian",
     "activeTime": 12,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Tilapia Fillet (1 fillet, ~6 oz)",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "Salt (pinch)",
-        "quantity": 0.5,
+        "quantity": 2.5,
         "unit": "g"
       },
       {
         "name": "Black Pepper (pinch)",
-        "quantity": 0.5,
+        "quantity": 2.5,
         "unit": "g"
       },
       {
         "name": "Butter (1 tbsp)",
-        "quantity": 14,
+        "quantity": 70,
         "unit": "g"
       },
       {
         "name": "Garlic (minced, 2 cloves)",
-        "quantity": 6,
+        "quantity": 30,
         "unit": "g"
       },
       {
         "name": "Heavy Cream (⅓ cup)",
-        "quantity": 80,
+        "quantity": 400,
         "unit": "ml"
       },
       {
         "name": "Parmesan (grated, 3 tbsp)",
-        "quantity": 24,
+        "quantity": 120,
         "unit": "g"
       },
       {
         "name": "Italian Seasoning (½ tsp)",
-        "quantity": 1.5,
+        "quantity": 7.5,
         "unit": "g"
       },
       {
-        "name": "Green Beans (steam-bag)",
-        "quantity": 100,
-        "unit": "g"
+        "name": "Green Beans (steam-bag, 1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       }
     ],
     "toppings": [
@@ -11275,10 +11292,11 @@ export const RECIPES = [
       "Extra Parmesan"
     ],
     "instructions": [
-      "Season the tilapia with salt and pepper. Melt butter in a skillet over medium-high and sear the fillet 3 min per side until golden. Remove and set aside.",
-      "In the same skillet, add garlic and cook 30 sec. Stir in heavy cream, parmesan, and Italian seasoning. Simmer 2–3 min until slightly thickened.",
+      "Season all the tilapia with salt and pepper. Melt butter in a large skillet over medium-high and sear the fillets 3 min per side until golden (work in batches if needed). Remove and set aside.",
+      "In the same skillet, add garlic and cook 30 sec. Stir in heavy cream, parmesan, and Italian seasoning (scaled for 5). Simmer 2-3 min until slightly thickened.",
       "Return the tilapia to the skillet, spoon sauce over the top, and simmer 1 more minute.",
-      "Meanwhile, microwave the green beans steam-bag 3 min. Season with a pinch of garlic powder. Serve alongside."
+      "Divide evenly into 5 containers and refrigerate.",
+      "To serve one portion: microwave a green beans steam-bag 3 min. Season with a pinch of garlic powder. Serve alongside."
     ],
     "totalTime": 12,
     "pantryTags": [
@@ -11367,7 +11385,7 @@ export const RECIPES = [
     "id": 311,
     "method": "Skillet",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "chicken"
     ],
@@ -11375,47 +11393,48 @@ export const RECIPES = [
     "cuisine": "italian",
     "activeTime": 15,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Chicken Sausage (Italian-style link, sliced, 3 oz)",
-        "quantity": 85,
+        "quantity": 425,
         "unit": "g"
       },
       {
         "name": "Cremini Mushrooms (sliced, 1 cup)",
-        "quantity": 70,
+        "quantity": 350,
         "unit": "g"
       },
       {
         "name": "Fresh Baby Spinach (1 cup)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "g"
       },
       {
         "name": "Garlic (minced, 1 clove)",
-        "quantity": 3,
+        "quantity": 15,
         "unit": "g"
       },
       {
         "name": "Olive Oil (1 tsp)",
-        "quantity": 5,
+        "quantity": 25,
         "unit": "g"
       },
       {
         "name": "Red Pepper Flakes (pinch)",
-        "quantity": 0.5,
+        "quantity": 2.5,
         "unit": "g"
       },
       {
         "name": "Pasta & Noodles (dry)",
-        "quantity": 85,
+        "quantity": 425,
         "unit": "g"
       },
       {
         "name": "Parmesan (grated, 2 tbsp)",
-        "quantity": 10,
+        "quantity": 50,
         "unit": "g"
       }
     ],
@@ -11424,10 +11443,11 @@ export const RECIPES = [
       "Black Pepper"
     ],
     "instructions": [
-      "Boil the pasta per package directions, reserving ¼ cup pasta water before draining.",
-      "Meanwhile, heat oil in a skillet over medium-high. Add sliced chicken sausage and cook 4-5 minutes until browned.",
+      "Boil all the pasta per package directions, reserving some pasta water before draining.",
+      "Meanwhile, heat oil in a large skillet over medium-high. Add all the sliced chicken sausage and cook 4-5 minutes until browned.",
       "Add mushrooms and cook 4 minutes until softened and browned -- letting them sit undisturbed for the first minute or two helps them brown instead of steam. Add garlic and red pepper flakes, stir 30 seconds until fragrant.",
-      "Add spinach and toss until just wilted, about 1 minute. Add the pasta and parmesan, tossing with a splash of the reserved pasta water until glossy and coated."
+      "Add spinach and toss until just wilted, about 1 minute. Add the pasta and parmesan, tossing with a splash of the reserved pasta water until glossy and coated.",
+      "Divide evenly into 5 containers and refrigerate."
     ],
     "totalTime": 15,
     "pantryTags": [
@@ -11443,7 +11463,7 @@ export const RECIPES = [
     "id": 312,
     "method": "Skillet",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "chicken"
     ],
@@ -11451,42 +11471,43 @@ export const RECIPES = [
     "cuisine": "american",
     "activeTime": 15,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Chicken Bratwurst (1 link, sliced)",
-        "quantity": 84,
+        "quantity": 420,
         "unit": "g"
       },
       {
         "name": "Sauerkraut (jarred, drained, ¾ cup)",
-        "quantity": 113,
+        "quantity": 565,
         "unit": "g"
       },
       {
         "name": "Apple (sliced, ½ cup)",
-        "quantity": 75,
+        "quantity": 375,
         "unit": "g"
       },
       {
         "name": "Onion (sliced, ¼ cup)",
-        "quantity": 40,
+        "quantity": 200,
         "unit": "g"
       },
       {
         "name": "Dijon Mustard (1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "g"
       },
       {
         "name": "Caraway Seeds (¼ tsp)",
-        "quantity": 0.5,
+        "quantity": 2.5,
         "unit": "g"
       },
       {
         "name": "Olive Oil (1 tsp)",
-        "quantity": 5,
+        "quantity": 25,
         "unit": "g"
       }
     ],
@@ -11495,10 +11516,10 @@ export const RECIPES = [
       "Fresh Parsley"
     ],
     "instructions": [
-      "Heat oil in a skillet over medium-high. Add the sliced bratwurst and cook 4-5 minutes until browned. Remove and set aside.",
+      "Heat oil in a large skillet over medium-high. Add all the sliced bratwurst and cook 4-5 minutes until browned (work in batches if needed). Remove and set aside.",
       "In the same skillet, add onion and apple and cook 4-5 minutes until softened -- the apple's sweetness is what balances the sauerkraut's tang in a real bratwurst-and-kraut skillet.",
-      "Stir in the sauerkraut, caraway seeds, and Dijon mustard. Return the bratwurst to the skillet, cover, and simmer 3-4 minutes until heated through and the flavors meld.",
-      "Serve with extra Dijon on the side."
+      "Stir in the sauerkraut, caraway seeds, and Dijon mustard (scaled for 5). Return the bratwurst to the skillet, cover, and simmer 3-4 minutes until heated through and the flavors meld.",
+      "Divide evenly into 5 containers and refrigerate. Serve with extra Dijon on the side."
     ],
     "totalTime": 15,
     "pantryTags": [
