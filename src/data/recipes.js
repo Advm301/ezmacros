@@ -507,7 +507,7 @@ export const RECIPES = [
     "id": 10,
     "method": "Stovetop",
     "mealType": "breakfast",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "eggs"
     ],
@@ -516,17 +516,17 @@ export const RECIPES = [
     "components": [
       {
         "name": "Egg White Carton (liquid)",
-        "quantity": 240,
+        "quantity": 1200,
         "unit": "ml"
       },
       {
         "name": "Shredded Cheddar (bagged)",
-        "quantity": 28,
+        "quantity": 140,
         "unit": "g"
       },
       {
         "name": "Fresh Baby Spinach (pre-washed bag)",
-        "quantity": 85,
+        "quantity": 425,
         "unit": "g"
       }
     ],
@@ -535,14 +535,18 @@ export const RECIPES = [
       "Everything Bagel Seasoning"
     ],
     "instructions": [
-      "Spray pan with cooking spray on medium heat. Add spinach and cook 1 minute until just wilted. Season the spinach with a pinch of garlic powder and onion powder.",
-      "Pour in egg whites. Scramble until just set.",
-      "Top with cheese. Slide onto plate — hot sauce on the side."
+      "Spray a large pan with cooking spray over medium heat. Add all the spinach and cook 2-3 minutes until wilted. Season with a pinch of garlic powder and onion powder (scaled for 5).",
+      "Pour in all the egg whites and scramble until just set, about 5-6 minutes, working in batches if the pan gets too full.",
+      "Stir in the cheese until melted through.",
+      "Divide evenly into 5 containers and refrigerate (up to 4 days) or freeze. Reheat in the microwave 1-2 minutes. Hot sauce on the side."
     ],
     "totalTime": 5,
     "pantryTags": [
       "eggs",
       "cheese"
+    ],
+    "tags": [
+      "meal_prep"
     ]
   },
   {
@@ -551,7 +555,7 @@ export const RECIPES = [
     "id": 11,
     "method": "Stovetop",
     "mealType": "breakfast",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "eggs"
     ],
@@ -560,22 +564,22 @@ export const RECIPES = [
     "components": [
       {
         "name": "Protein Pancake Mix (dry 1 cup)",
-        "quantity": 100,
+        "quantity": 500,
         "unit": "g"
       },
       {
         "name": "Whole Egg",
-        "quantity": 50,
+        "quantity": 250,
         "unit": "count"
       },
       {
         "name": "Almond Milk (unsweetened)",
-        "quantity": 240,
+        "quantity": 1200,
         "unit": "ml"
       },
       {
         "name": "Honey (squeeze bottle)",
-        "quantity": 10,
+        "quantity": 50,
         "unit": "ml"
       }
     ],
@@ -584,14 +588,18 @@ export const RECIPES = [
       "Nut Butter (1 tbsp)"
     ],
     "instructions": [
-      "Mix pancake mix + egg + almond milk + honey in bowl until smooth.",
-      "Spray skillet and heat medium. Pour ⅓ cup batter per pancake. Cook 2 min per side.",
-      "Stack on plate — syrup on the side."
+      "Mix all the pancake mix, eggs, almond milk, and honey (scaled for 5) in a large bowl until smooth.",
+      "Spray a griddle or skillet and heat over medium. Pour ⅓ cup batter per pancake, working in batches, and cook 2 minutes per side until golden.",
+      "Let cool, then divide evenly into 5 containers (stack with parchment between pancakes) and refrigerate (up to 4 days) or freeze.",
+      "To serve one portion: reheat in the toaster or microwave. Syrup on the side."
     ],
     "totalTime": 8,
     "pantryTags": [
       "eggs",
       "milk"
+    ],
+    "tags": [
+      "meal_prep"
     ]
   },
   {
@@ -828,7 +836,7 @@ export const RECIPES = [
     "id": 16,
     "method": "Stovetop",
     "mealType": "breakfast",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "eggs",
       "turkey"
@@ -836,27 +844,28 @@ export const RECIPES = [
     "flavor": "neutral",
     "activeTime": 6,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Whole Eggs (3 large)",
-        "quantity": 150,
+        "quantity": 750,
         "unit": "count"
       },
       {
         "name": "Turkey Sausage Links (pre-cooked, microwave)",
-        "quantity": 56,
+        "quantity": 280,
         "unit": "g"
       },
       {
         "name": "Shredded Cheddar (bagged)",
-        "quantity": 28,
+        "quantity": 140,
         "unit": "g"
       },
       {
         "name": "Butter (for pan)",
-        "quantity": 5,
+        "quantity": 25,
         "unit": "g"
       }
     ],
@@ -865,9 +874,10 @@ export const RECIPES = [
       "Hot Sauce"
     ],
     "instructions": [
-      "Microwave turkey sausage 90 sec per package. Heat butter in skillet over medium.",
-      "Whisk eggs, pour into skillet. Scramble until just set (~3 min).",
-      "Top with cheddar. Chop sausage on the side."
+      "Microwave all the turkey sausage links per package directions, then chop.",
+      "Heat butter in a large skillet over medium. Whisk all the eggs and pour into the skillet. Scramble until just set, about 5-6 minutes, working in batches if needed.",
+      "Stir the chopped sausage and cheddar into the eggs.",
+      "Divide evenly into 5 containers and refrigerate (up to 4 days) or freeze. Reheat in the microwave 1-2 minutes."
     ],
     "totalTime": 6,
     "pantryTags": [
@@ -1905,7 +1915,7 @@ export const RECIPES = [
     "id": 33,
     "method": "Stovetop",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "plant"
     ],
@@ -1915,42 +1925,42 @@ export const RECIPES = [
     "components": [
       {
         "name": "Flour Tortillas (2 large)",
-        "quantity": 120,
+        "quantity": 600,
         "unit": "g"
       },
       {
         "name": "Canned Black Beans (½ can, drained)",
-        "quantity": 135,
+        "quantity": 675,
         "unit": "g"
       },
       {
         "name": "Shredded Mexican Cheese (1 cup)",
-        "quantity": 113,
+        "quantity": 565,
         "unit": "g"
       },
       {
         "name": "Olive Oil (1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "g"
       },
       {
         "name": "Salsa (fresh, 2 tbsp)",
-        "quantity": 32,
+        "quantity": 160,
         "unit": "g"
       },
       {
         "name": "Ground Cumin (½ tsp)",
-        "quantity": 1,
+        "quantity": 5,
         "unit": "g"
       },
       {
         "name": "Chili Powder (½ tsp)",
-        "quantity": 1,
+        "quantity": 5,
         "unit": "g"
       },
       {
         "name": "Garlic Powder (¼ tsp)",
-        "quantity": 1,
+        "quantity": 5,
         "unit": "g"
       }
     ],
@@ -1958,10 +1968,9 @@ export const RECIPES = [
       "Sour Cream"
     ],
     "instructions": [
-      "Mix black beans with the salsa, cumin, chili powder, and garlic powder in a small bowl -- this is what gives the filling real flavor instead of tasting like plain beans and cheese.",
-      "Heat oil in skillet over medium. Place 1 tortilla down. Spread bean mixture + cheese on half.",
-      "Fold in half. Cook 2 min per side until golden + cheese melts. Repeat with second tortilla.",
-      "Cut into triangles. Toppings on side."
+      "Mix all the black beans with the salsa, cumin, chili powder, and garlic powder (scaled for 5) in a bowl -- this is what gives the filling real flavor instead of tasting like plain beans and cheese.",
+      "Divide the bean mixture and cheese evenly into 5 containers and refrigerate.",
+      "To serve one portion: heat oil in a skillet over medium. Place a tortilla down, spread a portion of the bean mixture and cheese on half, fold, and cook 2 minutes per side until golden and the cheese melts. Cut into triangles. Toppings on the side."
     ],
     "totalTime": 8,
     "pantryTags": [
@@ -1969,6 +1978,9 @@ export const RECIPES = [
       "canned_beans",
       "cheese",
       "salsa"
+    ],
+    "tags": [
+      "meal_prep"
     ]
   },
   {
@@ -2156,7 +2168,7 @@ export const RECIPES = [
     "id": 37,
     "method": "Stovetop",
     "mealType": "breakfast",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "eggs"
     ],
@@ -2166,37 +2178,37 @@ export const RECIPES = [
     "components": [
       {
         "name": "White Rice Pouch (cooked, day-old or microwaved 90 sec + cooled)",
-        "quantity": 200,
+        "quantity": 1000,
         "unit": "g"
       },
       {
         "name": "Whole Eggs (3 large, beaten)",
-        "quantity": 150,
+        "quantity": 750,
         "unit": "count"
       },
       {
         "name": "Low-Sodium Soy Sauce (1.5 tbsp)",
-        "quantity": 22.5,
+        "quantity": 112.5,
         "unit": "g"
       },
       {
         "name": "Sesame Oil (1 tsp)",
-        "quantity": 5,
+        "quantity": 25,
         "unit": "g"
       },
       {
         "name": "Frozen Peas (microwave bag, ¾ cup)",
-        "quantity": 100,
+        "quantity": 500,
         "unit": "g"
       },
       {
         "name": "Minced Garlic (jarred, 1½ tsp)",
-        "quantity": 7.5,
+        "quantity": 37.5,
         "unit": "g"
       },
       {
         "name": "White Pepper (¼ tsp)",
-        "quantity": 1,
+        "quantity": 5,
         "unit": "g"
       }
     ],
@@ -2205,9 +2217,11 @@ export const RECIPES = [
       "Green Onion (dried)"
     ],
     "instructions": [
-      "Heat sesame oil in large skillet over high heat. Scramble eggs 2 min, remove to plate.",
-      "Add minced garlic to the same skillet and stir 20-30 seconds until fragrant, being careful not to let it burn. Add rice to skillet, break up clumps. Stir 2 min. Add peas + soy sauce + white pepper -- the white pepper especially is what makes fried rice taste like fried rice instead of just rice with soy sauce.",
-      "Return eggs to skillet, toss everything 1 min. Toppings on side."
+      "Heat sesame oil in a large skillet or wok over high heat. Scramble all the eggs 2-3 minutes, remove to a plate.",
+      "Add minced garlic to the same skillet and stir 20-30 seconds until fragrant. Add all the rice, breaking up clumps, and stir 3-4 minutes.",
+      "Add the peas, soy sauce, and white pepper (scaled for 5) -- the white pepper especially is what makes fried rice taste like fried rice instead of just rice with soy sauce.",
+      "Return the eggs to the skillet and toss everything together 2 minutes.",
+      "Divide evenly into 5 containers and refrigerate (up to 4 days) or freeze. Toppings on the side."
     ],
     "totalTime": 8,
     "pantryTags": [
@@ -2215,6 +2229,9 @@ export const RECIPES = [
       "eggs",
       "frozen_veg",
       "soy_sauce"
+    ],
+    "tags": [
+      "meal_prep"
     ]
   },
   {
@@ -3310,7 +3327,7 @@ export const RECIPES = [
     "id": 56,
     "method": "Stovetop",
     "mealType": "breakfast",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "eggs",
       "turkey"
@@ -3319,32 +3336,33 @@ export const RECIPES = [
     "activeTime": 6,
     "tags": [
       "high_protein",
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Egg Whites (carton, ½ cup)",
-        "quantity": 120,
+        "quantity": 600,
         "unit": "ml"
       },
       {
         "name": "Whole Egg (1 large)",
-        "quantity": 50,
+        "quantity": 250,
         "unit": "count"
       },
       {
         "name": "English Muffin (whole wheat)",
-        "quantity": 57,
+        "quantity": 285,
         "unit": "g"
       },
       {
         "name": "Cheddar Slice",
-        "quantity": 28,
+        "quantity": 140,
         "unit": "g"
       },
       {
         "name": "Turkey Sausage Patty (frozen, pre-cooked)",
-        "quantity": 28,
+        "quantity": 140,
         "unit": "g"
       }
     ],
@@ -3353,9 +3371,10 @@ export const RECIPES = [
       "Hot Sauce"
     ],
     "instructions": [
-      "Microwave sausage patty 60 sec. Toast English muffin.",
-      "Scramble egg whites + whole egg in skillet with butter 3 min.",
-      "Top muffin with eggs + cheese + sausage."
+      "Microwave all the sausage patties per package directions, then set aside.",
+      "Whisk all the egg whites and whole eggs together and scramble in a large skillet with butter, 5-6 minutes until just set (work in batches if needed).",
+      "Divide the scrambled eggs, sausage patties, and cheese slices evenly into 5 containers and refrigerate.",
+      "To serve one portion: toast an English muffin fresh, then top with a portion of egg, cheese, and sausage, reheating briefly in the microwave if needed."
     ],
     "totalTime": 6,
     "pantryTags": [
@@ -3806,7 +3825,7 @@ export const RECIPES = [
     "id": 64,
     "method": "Stovetop",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "chicken"
     ],
@@ -3816,47 +3835,47 @@ export const RECIPES = [
     "components": [
       {
         "name": "Chicken Thighs (boneless, skinless)",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "Teriyaki Sauce (3 tbsp)",
-        "quantity": 51,
+        "quantity": 255,
         "unit": "g"
       },
       {
         "name": "Ramen-Style Noodles (dried or fresh, any brand -- no seasoning packet)",
-        "quantity": 56,
+        "quantity": 280,
         "unit": "g"
       },
       {
         "name": "Frozen Stir Fry Vegetables (1 cup)",
-        "quantity": 150,
+        "quantity": 750,
         "unit": "g"
       },
       {
         "name": "Water (3 cups)",
-        "quantity": 720,
+        "quantity": 3600,
         "unit": "g"
       },
       {
         "name": "Garlic (minced, 1 clove)",
-        "quantity": 3,
+        "quantity": 15,
         "unit": "g"
       },
       {
         "name": "Fresh Ginger (minced, 1 tsp)",
-        "quantity": 3,
+        "quantity": 15,
         "unit": "g"
       },
       {
         "name": "Salt (pinch)",
-        "quantity": 0.5,
+        "quantity": 2.5,
         "unit": "g"
       },
       {
         "name": "Black Pepper (pinch)",
-        "quantity": 0.5,
+        "quantity": 2.5,
         "unit": "g"
       }
     ],
@@ -3865,10 +3884,11 @@ export const RECIPES = [
       "Green Onion (dried)"
     ],
     "instructions": [
-      "Boil water in pot. Add noodles, cook per package directions (usually 2–4 min). Add frozen veg, cook 2 min more. Drain.",
-      "Season chicken with salt and pepper. Heat skillet. Cook chicken 5 min per side.",
-      "Push chicken to one side, add garlic and ginger to the skillet, and stir 20-30 seconds until fragrant -- this is what actually builds real teriyaki flavor, not just the bottled sauce. Add teriyaki sauce and simmer 1 min, turning chicken to coat.",
-      "Add the drained noodles and veg to the skillet and toss everything together in the glaze. Plate. Toppings on side."
+      "Boil water in a large pot. Add all the noodles, cook per package directions, then add the frozen veg for the final 2 minutes. Drain.",
+      "Season all the chicken with salt and pepper. Heat a large skillet and cook the chicken 6-7 minutes per side until browned and cooked through (work in batches if needed).",
+      "Push the chicken to one side, add garlic and ginger, and stir 20-30 seconds until fragrant -- this is what actually builds real teriyaki flavor, not just the bottled sauce. Add the teriyaki sauce (scaled for 5) and simmer 1-2 minutes, turning to coat.",
+      "Add the drained noodles and veg to the skillet and toss everything together in the glaze.",
+      "Divide evenly into 5 containers and refrigerate (up to 4 days) or freeze. Toppings on the side."
     ],
     "totalTime": 8,
     "pantryTags": [
@@ -3877,6 +3897,9 @@ export const RECIPES = [
       "pasta",
       "soy_sauce",
       "teriyaki_sauce"
+    ],
+    "tags": [
+      "meal_prep"
     ]
   },
   {
@@ -3885,7 +3908,7 @@ export const RECIPES = [
     "id": 65,
     "method": "Stovetop",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "fish",
       "eggs"
@@ -3894,47 +3917,48 @@ export const RECIPES = [
     "cuisine": "asian",
     "activeTime": 8,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Frozen Shrimp (16/20 count, thawed)",
-        "quantity": 150,
+        "quantity": 750,
         "unit": "g"
       },
       {
         "name": "White Rice Pouch (cooked, day-old or cooled)",
-        "quantity": 200,
+        "quantity": 1000,
         "unit": "g"
       },
       {
         "name": "Whole Eggs (2 large, beaten)",
-        "quantity": 100,
+        "quantity": 500,
         "unit": "count"
       },
       {
         "name": "Low-Sodium Soy Sauce (1.5 tbsp)",
-        "quantity": 22.5,
+        "quantity": 112.5,
         "unit": "g"
       },
       {
         "name": "Sesame Oil (½ tsp)",
-        "quantity": 2.5,
+        "quantity": 12.5,
         "unit": "g"
       },
       {
         "name": "Frozen Peas (½ cup)",
-        "quantity": 65,
+        "quantity": 325,
         "unit": "g"
       },
       {
         "name": "Minced Garlic (jarred, 1½ tsp)",
-        "quantity": 7.5,
+        "quantity": 37.5,
         "unit": "g"
       },
       {
         "name": "White Pepper (¼ tsp)",
-        "quantity": 1,
+        "quantity": 5,
         "unit": "g"
       }
     ],
@@ -3943,9 +3967,11 @@ export const RECIPES = [
       "Green Onion (dried)"
     ],
     "instructions": [
-      "Heat sesame oil in large skillet over high. Scramble eggs, remove to plate.",
-      "Add minced garlic to the same skillet and stir 20-30 seconds until fragrant, being careful not to let it burn. Add rice, break up clumps, stir 2 min. Add peas + soy sauce + white pepper + shrimp.",
-      "Return eggs, toss everything 1 min. Toppings on side."
+      "Heat sesame oil in a large skillet or wok over high heat. Scramble all the eggs, remove to a plate.",
+      "Add minced garlic to the same skillet and stir 20-30 seconds until fragrant. Add all the rice, breaking up clumps, and stir 3-4 minutes.",
+      "Add the peas, soy sauce, white pepper, and shrimp (scaled for 5), and cook 3-4 minutes until the shrimp is pink and cooked through.",
+      "Return the eggs to the skillet and toss everything together 2 minutes.",
+      "Divide evenly into 5 containers and refrigerate (up to 4 days) or freeze. Toppings on the side."
     ],
     "totalTime": 8,
     "pantryTags": [
@@ -4024,7 +4050,7 @@ export const RECIPES = [
     "id": 67,
     "method": "Stovetop",
     "mealType": "breakfast",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "eggs",
       "protein_powder"
@@ -4033,37 +4059,38 @@ export const RECIPES = [
     "activeTime": 7,
     "tags": [
       "high_protein",
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Whole Grain Bread (2 slices)",
-        "quantity": 60,
+        "quantity": 300,
         "unit": "g"
       },
       {
         "name": "Egg Whites (carton, ¾ cup)",
-        "quantity": 180,
+        "quantity": 900,
         "unit": "count"
       },
       {
         "name": "Whole Egg (1 large)",
-        "quantity": 50,
+        "quantity": 250,
         "unit": "count"
       },
       {
         "name": "Vanilla Protein Powder (½ scoop)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "g"
       },
       {
         "name": "Cinnamon (½ tsp)",
-        "quantity": 1,
+        "quantity": 5,
         "unit": "g"
       },
       {
         "name": "Butter (for pan, 1 tsp)",
-        "quantity": 5,
+        "quantity": 25,
         "unit": "g"
       }
     ],
@@ -4072,9 +4099,10 @@ export const RECIPES = [
       "Cinnamon Powder"
     ],
     "instructions": [
-      "Mix egg whites + whole egg + protein powder + cinnamon in shallow bowl.",
-      "Heat butter in skillet medium heat. Dip bread slices in mixture, coat both sides.",
-      "Cook 2–3 min per side until golden. Serve with sugar-free syrup."
+      "Mix all the egg whites, whole eggs, protein powder, and cinnamon (scaled for 5) in a large shallow bowl.",
+      "Heat butter in a skillet over medium. Dip bread slices in the mixture, coating both sides, and cook 2-3 minutes per side until golden (work in batches).",
+      "Let cool, then divide evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "To serve one portion: reheat in the toaster or microwave. Serve with sugar-free syrup."
     ],
     "totalTime": 7,
     "pantryTags": [
@@ -4799,7 +4827,7 @@ export const RECIPES = [
     "id": 79,
     "method": "Stovetop",
     "mealType": "breakfast",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "eggs"
     ],
@@ -4809,37 +4837,37 @@ export const RECIPES = [
     "components": [
       {
         "name": "Egg White Carton (liquid, 1 cup)",
-        "quantity": 240,
+        "quantity": 1200,
         "unit": "ml"
       },
       {
         "name": "White Rice Pouch (day-old cooked, chilled preferred)",
-        "quantity": 200,
+        "quantity": 1000,
         "unit": "g"
       },
       {
         "name": "Low-Sodium Soy Sauce (1.5 tbsp)",
-        "quantity": 22.5,
+        "quantity": 112.5,
         "unit": "g"
       },
       {
         "name": "Sesame Oil (½ tsp)",
-        "quantity": 2.5,
+        "quantity": 12.5,
         "unit": "g"
       },
       {
         "name": "Frozen Peas (½ cup)",
-        "quantity": 65,
+        "quantity": 325,
         "unit": "g"
       },
       {
         "name": "Minced Garlic (jarred, 1½ tsp)",
-        "quantity": 7.5,
+        "quantity": 37.5,
         "unit": "g"
       },
       {
         "name": "White Pepper (¼ tsp)",
-        "quantity": 1,
+        "quantity": 5,
         "unit": "g"
       }
     ],
@@ -4848,9 +4876,11 @@ export const RECIPES = [
       "Green Onion (dried)"
     ],
     "instructions": [
-      "Heat sesame oil in large skillet over high heat. Scramble egg whites 2 min until just set. Remove to plate.",
-      "Add minced garlic to the same skillet and stir 20-30 seconds until fragrant, being careful not to let it burn. Add rice to skillet, break up clumps, stir 2 min. Add peas + soy sauce + white pepper.",
-      "Return eggs, toss everything 1 min. Toppings on side."
+      "Heat sesame oil in a large skillet or wok over high heat. Scramble all the egg whites 3-4 minutes until just set. Remove to a plate.",
+      "Add minced garlic to the same skillet and stir 20-30 seconds until fragrant. Add all the rice, breaking up clumps, and stir 3-4 minutes.",
+      "Add the peas, soy sauce, and white pepper (scaled for 5).",
+      "Return the egg whites to the skillet and toss everything together 2 minutes.",
+      "Divide evenly into 5 containers and refrigerate (up to 4 days) or freeze. Toppings on the side."
     ],
     "totalTime": 7,
     "pantryTags": [
@@ -4859,6 +4889,9 @@ export const RECIPES = [
       "frozen_veg",
       "onion_garlic",
       "soy_sauce"
+    ],
+    "tags": [
+      "meal_prep"
     ]
   },
   {
@@ -5596,7 +5629,7 @@ export const RECIPES = [
     "id": 90,
     "method": "Stovetop",
     "mealType": "breakfast",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "eggs"
     ],
@@ -5606,42 +5639,42 @@ export const RECIPES = [
     "components": [
       {
         "name": "Marinara Sauce (jar)",
-        "quantity": 240,
+        "quantity": 1200,
         "unit": "ml"
       },
       {
         "name": "Whole Eggs",
-        "quantity": 200,
+        "quantity": 1000,
         "unit": "count"
       },
       {
         "name": "Diced Onions (jar, drained)",
-        "quantity": 60,
+        "quantity": 300,
         "unit": "g"
       },
       {
         "name": "Bell Pepper (diced, ½ cup)",
-        "quantity": 75,
+        "quantity": 375,
         "unit": "g"
       },
       {
         "name": "Onion Powder (seasoning)",
-        "quantity": 2,
+        "quantity": 10,
         "unit": "g"
       },
       {
         "name": "Minced Garlic (jarred, 1½ tsp)",
-        "quantity": 7.5,
+        "quantity": 37.5,
         "unit": "g"
       },
       {
         "name": "Cumin (shaker)",
-        "quantity": 1,
+        "quantity": 5,
         "unit": "g"
       },
       {
         "name": "Smoked Paprika (shaker)",
-        "quantity": 1,
+        "quantity": 5,
         "unit": "g"
       }
     ],
@@ -5651,16 +5684,19 @@ export const RECIPES = [
       "Sourdough bread for dipping"
     ],
     "instructions": [
-      "Heat pan over medium. Add jar onions and diced bell pepper, cook 4-5 min until softened -- the bell pepper is what makes this taste like real shakshuka, not just eggs in marinara.",
-      "Pour in the marinara sauce. Stir in minced garlic, onion powder, cumin, and smoked paprika. Simmer 3 min.",
-      "Create 4 wells in the sauce using a spoon. Crack one egg into each well.",
-      "Cover pan with lid. Cook 5-7 min until whites are set but yolks still slightly runny. Crumble feta over top. Serve with sourdough for dipping."
+      "Heat a pan over medium. Add all the jar onions and diced bell pepper, cook 5-6 minutes until softened -- the bell pepper is what makes this taste like real shakshuka, not just eggs in marinara.",
+      "Pour in all the marinara sauce. Stir in the minced garlic, onion powder, cumin, and smoked paprika (scaled for 5). Simmer 5 minutes.",
+      "Divide the sauce evenly into 5 containers and refrigerate.",
+      "To serve one portion: warm a portion of sauce in a small skillet, make a well, and crack in a fresh egg. Cover and cook 5-7 minutes until the white is set and the yolk is still runny. Crumble feta over the top. Serve with sourdough for dipping."
     ],
     "totalTime": 14,
     "pantryTags": [
       "eggs",
       "marinara",
       "onion_garlic"
+    ],
+    "tags": [
+      "meal_prep"
     ]
   },
   {
@@ -5669,7 +5705,7 @@ export const RECIPES = [
     "id": 91,
     "method": "Stovetop",
     "mealType": "breakfast",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "eggs"
     ],
@@ -5679,47 +5715,47 @@ export const RECIPES = [
     "components": [
       {
         "name": "Canned Crushed Tomatoes",
-        "quantity": 400,
+        "quantity": 2000,
         "unit": "ml"
       },
       {
         "name": "Whole Eggs",
-        "quantity": 200,
+        "quantity": 1000,
         "unit": "count"
       },
       {
         "name": "Diced Onions (jar, drained)",
-        "quantity": 80,
+        "quantity": 400,
         "unit": "g"
       },
       {
         "name": "Bell Pepper (diced, ½ cup)",
-        "quantity": 75,
+        "quantity": 375,
         "unit": "g"
       },
       {
         "name": "Olive Oil",
-        "quantity": 14,
+        "quantity": 70,
         "unit": "g"
       },
       {
         "name": "Minced Garlic (jarred, 1½ tsp)",
-        "quantity": 7.5,
+        "quantity": 37.5,
         "unit": "g"
       },
       {
         "name": "Cumin (shaker)",
-        "quantity": 2,
+        "quantity": 10,
         "unit": "g"
       },
       {
         "name": "Smoked Paprika (shaker)",
-        "quantity": 2,
+        "quantity": 10,
         "unit": "g"
       },
       {
         "name": "Red Pepper Flakes (shaker)",
-        "quantity": 1,
+        "quantity": 5,
         "unit": "g"
       }
     ],
@@ -5729,17 +5765,20 @@ export const RECIPES = [
       "Extra red pepper flakes"
     ],
     "instructions": [
-      "Heat olive oil in pan over medium. Add jar onions and diced bell pepper, cook 5 min until softened -- real shakshuka builds its base on bell pepper and onion together, not onion alone.",
-      "Add minced garlic, cumin, smoked paprika, red pepper flakes. Stir 30 seconds to bloom spices.",
-      "Pour in crushed tomatoes. Season with salt. Simmer 5 min, stirring occasionally, until sauce thickens slightly.",
-      "Create 4 wells in sauce. Crack one egg into each well.",
-      "Cover and cook 5-7 min until whites are set, yolks runny. Crumble feta over top. Serve with sourdough."
+      "Heat olive oil in a pan over medium. Add all the jar onions and diced bell pepper, cook 6-7 minutes until softened -- real shakshuka builds its base on bell pepper and onion together, not onion alone.",
+      "Add the minced garlic, cumin, smoked paprika, and red pepper flakes (scaled for 5). Stir 30 seconds to bloom the spices.",
+      "Pour in all the crushed tomatoes. Season with salt and simmer 8-10 minutes, stirring occasionally, until slightly thickened.",
+      "Divide the sauce evenly into 5 containers and refrigerate.",
+      "To serve one portion: warm a portion of sauce in a small skillet, make a well, and crack in a fresh egg. Cover and cook 5-7 minutes until the white is set and the yolk is still runny. Crumble feta over the top. Serve with sourdough."
     ],
     "totalTime": 17,
     "pantryTags": [
       "eggs",
       "canned_tomatoes",
       "onion_garlic"
+    ],
+    "tags": [
+      "meal_prep"
     ]
   },
   {
@@ -8137,7 +8176,7 @@ export const RECIPES = [
     "id": 143,
     "method": "Stovetop",
     "mealType": "breakfast",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "eggs"
     ],
@@ -8147,27 +8186,27 @@ export const RECIPES = [
     "components": [
       {
         "name": "White Rice Pouch (day-old cooked or microwaved and cooled)",
-        "quantity": 200,
+        "quantity": 1000,
         "unit": "g"
       },
       {
         "name": "Kimchi (jarred, chopped)",
-        "quantity": 100,
+        "quantity": 500,
         "unit": "g"
       },
       {
         "name": "Whole Egg (1 large, fried)",
-        "quantity": 50,
+        "quantity": 250,
         "unit": "count"
       },
       {
         "name": "Gochujang Sauce (bottled)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "ml"
       },
       {
         "name": "Sesame Oil (½ tsp)",
-        "quantity": 2.5,
+        "quantity": 12.5,
         "unit": "g"
       }
     ],
@@ -8176,16 +8215,19 @@ export const RECIPES = [
       "Sliced Scallions"
     ],
     "instructions": [
-      "Heat sesame oil in a skillet over medium-high. Add kimchi and cook 2 minutes until fragrant.",
-      "Add rice and gochujang. Stir-fry 3–4 minutes, breaking up clumps, until heated through.",
-      "In a separate small pan, fry the egg to your liking (sunny-side up works well).",
-      "Top the rice with the fried egg. Toppings on top."
+      "Heat sesame oil in a large skillet over medium-high. Add all the kimchi and cook 3-4 minutes until fragrant.",
+      "Add all the rice and gochujang (scaled for 5). Stir-fry 5-6 minutes, breaking up clumps, until heated through.",
+      "Divide the kimchi rice evenly into 5 containers and refrigerate (up to 4 days) or freeze.",
+      "To serve one portion: reheat a portion of rice, and in a separate small pan, fry an egg fresh to your liking (sunny-side up works well). Top the rice with the fried egg."
     ],
     "totalTime": 8,
     "pantryTags": [
       "eggs",
       "hot_sauce",
       "rice"
+    ],
+    "tags": [
+      "meal_prep"
     ]
   },
   {
@@ -8194,7 +8236,7 @@ export const RECIPES = [
     "id": 144,
     "method": "Stovetop",
     "mealType": "breakfast",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "eggs"
     ],
@@ -8204,42 +8246,42 @@ export const RECIPES = [
     "components": [
       {
         "name": "Canned Refried Beans",
-        "quantity": 120,
+        "quantity": 600,
         "unit": "g"
       },
       {
         "name": "Corn Tortillas (2, warmed)",
-        "quantity": 52,
+        "quantity": 260,
         "unit": "g"
       },
       {
         "name": "Whole Eggs (2 large, fried)",
-        "quantity": 100,
+        "quantity": 500,
         "unit": "count"
       },
       {
         "name": "Salsa (jarred)",
-        "quantity": 60,
+        "quantity": 300,
         "unit": "ml"
       },
       {
         "name": "Shredded Mexican Cheese Blend (bagged)",
-        "quantity": 40,
+        "quantity": 200,
         "unit": "g"
       },
       {
         "name": "Ground Cumin (½ tsp)",
-        "quantity": 1,
+        "quantity": 5,
         "unit": "g"
       },
       {
         "name": "Chili Powder (½ tsp)",
-        "quantity": 1,
+        "quantity": 5,
         "unit": "g"
       },
       {
         "name": "Garlic Powder (¼ tsp)",
-        "quantity": 1,
+        "quantity": 5,
         "unit": "g"
       }
     ],
@@ -8249,9 +8291,10 @@ export const RECIPES = [
       "Sliced Avocado (pre-cut)"
     ],
     "instructions": [
-      "Microwave refried beans with cumin, chili powder, and garlic powder in a bowl 1–2 minutes until warmed through and stirred in -- plain refried beans need this to taste like a real ranchero-style base instead of just canned beans.",
-      "Warm tortillas in a dry pan 30 seconds per side. Fry eggs in the same pan to your liking.",
-      "Spread beans over the tortillas, top with fried eggs, salsa, and cheese."
+      "Mix all the refried beans with the cumin, chili powder, and garlic powder (scaled for 5) in a bowl -- plain refried beans need this to taste like a real ranchero-style base instead of just canned beans.",
+      "Divide the seasoned beans, salsa, and cheese evenly into 5 containers and refrigerate.",
+      "To serve one portion: warm a portion of beans in the microwave. Warm 2 tortillas in a dry pan 30 seconds per side, then fry 2 eggs fresh in the same pan.",
+      "Spread the beans over the tortillas, top with the fried eggs, salsa, and cheese."
     ],
     "totalTime": 8,
     "pantryTags": [
@@ -8260,6 +8303,9 @@ export const RECIPES = [
       "canned_beans",
       "cheese",
       "salsa"
+    ],
+    "tags": [
+      "meal_prep"
     ]
   },
   {
@@ -8633,7 +8679,7 @@ export const RECIPES = [
     "isNew": true,
     "method": "Stovetop",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "chicken"
     ],
@@ -8641,47 +8687,48 @@ export const RECIPES = [
     "cuisine": "asian",
     "activeTime": 14,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Chicken Thigh (boneless, skinless, 1 thigh, diced)",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
-        "name": "White Rice Pouch (microwaveable)",
-        "quantity": 200,
-        "unit": "g"
+        "name": "White Rice Pouch (microwaveable, 1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       },
       {
         "name": "Carrot (shredded, ½ cup)",
-        "quantity": 55,
+        "quantity": 275,
         "unit": "g"
       },
       {
         "name": "Cucumber (thinly sliced, ½ cup)",
-        "quantity": 60,
+        "quantity": 300,
         "unit": "g"
       },
       {
         "name": "Rice Vinegar (2 tbsp)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "ml"
       },
       {
         "name": "Soy Sauce (1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "ml"
       },
       {
         "name": "Garlic (minced, 1 clove)",
-        "quantity": 3,
+        "quantity": 15,
         "unit": "g"
       },
       {
         "name": "Mayo + Sriracha (2 tbsp)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "g"
       }
     ],
@@ -8690,10 +8737,11 @@ export const RECIPES = [
       "Sliced Jalapeño"
     ],
     "instructions": [
-      "Toss carrot and cucumber with rice vinegar and a pinch of salt. Set aside to quick-pickle while you cook the chicken.",
-      "Season diced chicken with garlic, salt, and pepper. Cook in a skillet over medium-high 6–7 minutes until browned and cooked through.",
-      "Stir soy sauce into the chicken and cook 1 more minute to glaze.",
-      "Microwave the rice per package instructions. Build the bowl with rice, chicken, and drained pickled veg. Drizzle with sriracha mayo and top with cilantro and jalapeño."
+      "Toss all the shredded carrot and sliced cucumber with rice vinegar and a pinch of salt (scaled for 5). Refrigerate to quick-pickle -- these actually improve over a few days in the fridge.",
+      "Season all the diced chicken with garlic, salt, and pepper. Cook in a large skillet over medium-high 8-10 minutes until browned and cooked through (work in batches if needed).",
+      "Stir in the soy sauce (scaled for 5) and cook 1-2 more minutes to glaze.",
+      "Divide the chicken and pickled veg evenly into 5 containers and refrigerate.",
+      "To serve one portion: microwave a rice pouch. Build the bowl with rice, a portion of chicken, and drained pickled veg. Drizzle with sriracha mayo and top with cilantro and jalapeño."
     ],
     "totalTime": 14,
     "pantryTags": [
@@ -8783,7 +8831,7 @@ export const RECIPES = [
     "isNew": true,
     "method": "Stovetop",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "chicken"
     ],
@@ -8791,42 +8839,43 @@ export const RECIPES = [
     "cuisine": "asian",
     "activeTime": 15,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Chicken Breast (1 breast, sliced thin)",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "Pasta & Noodles (spaghetti or ramen, dry)",
-        "quantity": 85,
+        "quantity": 425,
         "unit": "g"
       },
       {
         "name": "Gochujang Sauce (bottled, 2 tbsp)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "ml"
       },
       {
         "name": "Butter (1 tbsp)",
-        "quantity": 14,
+        "quantity": 70,
         "unit": "g"
       },
       {
         "name": "Soy Sauce (1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "ml"
       },
       {
         "name": "Garlic (minced, 2 cloves)",
-        "quantity": 6,
+        "quantity": 30,
         "unit": "g"
       },
       {
         "name": "Honey (1 tsp)",
-        "quantity": 7,
+        "quantity": 35,
         "unit": "g"
       }
     ],
@@ -8835,10 +8884,11 @@ export const RECIPES = [
       "Sesame Seeds"
     ],
     "instructions": [
-      "Boil the noodles per package directions, reserving ¼ cup pasta water before draining.",
-      "Meanwhile, season chicken with salt and pepper and sear in a skillet over medium-high 5–6 minutes until cooked through. Remove and set aside.",
-      "In the same skillet, melt butter, add garlic, gochujang, soy sauce, and honey. Stir in a splash of reserved pasta water to loosen into a glossy sauce.",
-      "Add the noodles and chicken back to the skillet and toss to coat. Top with scallions and sesame seeds."
+      "Boil all the noodles per package directions, reserving some pasta water before draining.",
+      "Season all the chicken with salt and pepper and sear in a large skillet over medium-high 8-10 minutes until cooked through (work in batches if needed). Remove and set aside.",
+      "In the same skillet, melt butter, add garlic, gochujang, soy sauce, and honey (scaled for 5). Stir in a splash of reserved pasta water to loosen into a glossy sauce.",
+      "Add the noodles and chicken back to the skillet and toss to coat.",
+      "Divide evenly into 5 containers and refrigerate (up to 4 days) or freeze. Top with scallions and sesame seeds."
     ],
     "totalTime": 15,
     "pantryTags": [
@@ -8854,7 +8904,7 @@ export const RECIPES = [
     "isNew": true,
     "method": "Stovetop",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "fish"
     ],
@@ -8862,42 +8912,43 @@ export const RECIPES = [
     "cuisine": "mediterranean",
     "activeTime": 12,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Salmon Fillet (1 fillet)",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
-        "name": "White Rice Pouch (microwaveable)",
-        "quantity": 200,
-        "unit": "g"
+        "name": "White Rice Pouch (microwaveable, 1 per meal)",
+        "quantity": 5,
+        "unit": "each"
       },
       {
         "name": "Cucumber (diced, ½ cup)",
-        "quantity": 60,
+        "quantity": 300,
         "unit": "g"
       },
       {
         "name": "Feta Cheese (crumbled, ¼ cup)",
-        "quantity": 38,
+        "quantity": 190,
         "unit": "g"
       },
       {
         "name": "Tahini (1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "g"
       },
       {
         "name": "Lemon Juice (1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "ml"
       },
       {
         "name": "Olive Oil Spray",
-        "quantity": 3,
+        "quantity": 15,
         "unit": "spray"
       }
     ],
@@ -8906,10 +8957,10 @@ export const RECIPES = [
       "Kalamata Olives"
     ],
     "instructions": [
-      "Season salmon with salt, pepper, and a squeeze of lemon. Spray a skillet with oil and sear 4 minutes per side until cooked through.",
-      "Whisk tahini and remaining lemon juice with a splash of water until smooth and pourable.",
-      "Microwave the rice per package instructions. Build the bowl with rice, salmon, cucumber, and feta.",
-      "Drizzle with tahini-lemon sauce and top with parsley and olives."
+      "Season all the salmon with salt, pepper, and a squeeze of lemon. Spray a large skillet with oil and sear 4-5 minutes per side until cooked through (work in batches if needed). Flake into large chunks.",
+      "Whisk the tahini and remaining lemon juice (scaled for 5) with a splash of water until smooth and pourable.",
+      "Divide the salmon, cucumber, feta, and tahini sauce evenly into 5 containers and refrigerate. Keep the cucumber separate/fresh if possible.",
+      "To serve one portion: microwave a rice pouch. Build the bowl with rice, a portion of salmon, cucumber, and feta. Drizzle with tahini-lemon sauce and top with parsley and olives."
     ],
     "totalTime": 12,
     "pantryTags": [
@@ -9281,7 +9332,7 @@ export const RECIPES = [
     "isNew": true,
     "method": "Stovetop",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "chicken",
       "eggs"
@@ -9290,37 +9341,38 @@ export const RECIPES = [
     "cuisine": "asian",
     "activeTime": 12,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Chicken Breast (1 breast, sliced thin)",
-        "quantity": 113,
+        "quantity": 565,
         "unit": "g"
       },
       {
         "name": "Instant Ramen Noodles (1 block, seasoning packet discarded)",
-        "quantity": 85,
+        "quantity": 425,
         "unit": "g"
       },
       {
         "name": "Gochujang Sauce (bottled, 1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "ml"
       },
       {
         "name": "Soy Sauce (1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "ml"
       },
       {
         "name": "Whole Egg (1 large, soft-boiled)",
-        "quantity": 50,
+        "quantity": 250,
         "unit": "count"
       },
       {
         "name": "Frozen Vegetables (stir-fry blend, ½ cup)",
-        "quantity": 75,
+        "quantity": 375,
         "unit": "g"
       }
     ],
@@ -9329,10 +9381,10 @@ export const RECIPES = [
       "Sesame Seeds"
     ],
     "instructions": [
-      "Soft-boil the egg 6–7 minutes, cool in cold water, then peel and halve.",
-      "Season chicken with salt and pepper and sear in a pot over medium-high 5 minutes until cooked through. Remove and set aside.",
-      "In the same pot, add 2 cups water, gochujang, and soy sauce. Bring to a boil, add frozen vegetables and noodles, and cook 3 minutes until the noodles are tender.",
-      "Ladle into a bowl, top with chicken, the soft-boiled egg, scallions, and sesame seeds."
+      "Season all the chicken with salt and pepper and sear in a pot over medium-high 8-10 minutes until cooked through (work in batches if needed). Remove and set aside.",
+      "In the same pot, stir the gochujang and soy sauce (scaled for 5) into 2 cups water per portion of broth base. Bring to a simmer 3-4 minutes.",
+      "Divide the chicken and broth base evenly into 5 containers and refrigerate.",
+      "To serve one portion: soft-boil an egg fresh 6-7 minutes, cool in cold water, then peel and halve. Bring a portion of the broth base to a boil, add a portion of frozen vegetables and a block of ramen noodles, and cook 3 minutes until tender. Ladle into a bowl, top with a portion of chicken, the soft-boiled egg, scallions, and sesame seeds."
     ],
     "totalTime": 12,
     "pantryTags": [
@@ -9349,7 +9401,7 @@ export const RECIPES = [
     "isNew": true,
     "method": "Stovetop",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "eggs"
     ],
@@ -9358,37 +9410,38 @@ export const RECIPES = [
     "activeTime": 8,
     "tags": [
       "high_protein",
-      "grab_and_go"
+      "grab_and_go",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "White Rice Pouch (day-old cooked or microwaved and cooled)",
-        "quantity": 200,
+        "quantity": 1000,
         "unit": "g"
       },
       {
         "name": "Whole Egg (2 large)",
-        "quantity": 100,
+        "quantity": 500,
         "unit": "count"
       },
       {
         "name": "Chili Crisp (bottled, 2 tbsp)",
-        "quantity": 30,
+        "quantity": 150,
         "unit": "g"
       },
       {
         "name": "Soy Sauce (1 tbsp)",
-        "quantity": 15,
+        "quantity": 75,
         "unit": "ml"
       },
       {
         "name": "Frozen Peas & Carrots (½ cup)",
-        "quantity": 75,
+        "quantity": 375,
         "unit": "g"
       },
       {
         "name": "Sesame Oil (½ tsp)",
-        "quantity": 2.5,
+        "quantity": 12.5,
         "unit": "g"
       }
     ],
@@ -9396,10 +9449,11 @@ export const RECIPES = [
       "Sliced Scallions"
     ],
     "instructions": [
-      "Heat sesame oil in a skillet over medium-high. Add peas and carrots and cook 2 minutes.",
-      "Push vegetables to one side, crack in the eggs, and scramble until just set.",
-      "Add rice and soy sauce, breaking up clumps, and stir-fry 3–4 minutes until heated through.",
-      "Remove from heat and stir in chili crisp to taste. Top with scallions."
+      "Heat sesame oil in a large skillet over medium-high. Add all the peas and carrots and cook 3-4 minutes.",
+      "Push the vegetables to one side, crack in all the eggs, and scramble until just set.",
+      "Add all the rice and soy sauce (scaled for 5), breaking up clumps, and stir-fry 4-5 minutes until heated through.",
+      "Remove from heat and stir in the chili crisp to taste.",
+      "Divide evenly into 5 containers and refrigerate (up to 4 days) or freeze. Top with scallions."
     ],
     "totalTime": 8,
     "pantryTags": [
@@ -9891,7 +9945,7 @@ export const RECIPES = [
     "isNew": true,
     "method": "Stovetop",
     "mealType": "lunch_dinner",
-    "servings": 1,
+    "servings": 5,
     "proteins": [
       "dairy"
     ],
@@ -9899,37 +9953,38 @@ export const RECIPES = [
     "cuisine": "italian",
     "activeTime": 12,
     "tags": [
-      "high_protein"
+      "high_protein",
+      "meal_prep"
     ],
     "components": [
       {
         "name": "Pasta & Noodles (dry)",
-        "quantity": 85,
+        "quantity": 425,
         "unit": "g"
       },
       {
         "name": "Cottage Cheese (¾ cup)",
-        "quantity": 170,
+        "quantity": 850,
         "unit": "g"
       },
       {
         "name": "Parmesan (grated, ¼ cup)",
-        "quantity": 25,
+        "quantity": 125,
         "unit": "g"
       },
       {
         "name": "Garlic (minced, 1 clove)",
-        "quantity": 3,
+        "quantity": 15,
         "unit": "g"
       },
       {
         "name": "Butter (1 tsp)",
-        "quantity": 5,
+        "quantity": 25,
         "unit": "g"
       },
       {
         "name": "Black Pepper (¼ tsp)",
-        "quantity": 1,
+        "quantity": 5,
         "unit": "g"
       }
     ],
@@ -9938,10 +9993,11 @@ export const RECIPES = [
       "Extra Parmesan"
     ],
     "instructions": [
-      "Boil the pasta per package directions, reserving ¼ cup pasta water before draining.",
-      "Blend cottage cheese, parmesan, garlic, and black pepper until completely smooth, about 1 minute.",
-      "Melt butter in the empty pasta pot over low heat, pour in the blended sauce, and warm gently 2–3 minutes (don't boil). Thin with reserved pasta water as needed.",
-      "Toss the pasta in the sauce and top with parsley and extra parmesan."
+      "Boil all the pasta per package directions, reserving some pasta water before draining.",
+      "Blend all the cottage cheese, parmesan, garlic, and black pepper (scaled for 5) until completely smooth, about 1-2 minutes.",
+      "Melt butter in the empty pasta pot over low heat, pour in the blended sauce, and warm gently 3-4 minutes (don't boil). Thin with reserved pasta water as needed.",
+      "Toss the pasta in the sauce.",
+      "Divide evenly into 5 containers and refrigerate. Top with parsley and extra parmesan before serving."
     ],
     "totalTime": 12,
     "pantryTags": [
