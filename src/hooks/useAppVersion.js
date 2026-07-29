@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Capacitor } from '@capacitor/core';
 import { App } from '@capacitor/app';
 import { supabase } from '../lib/supabase';
@@ -34,43 +34,49 @@ export default function useAppVersion() {
     updateAvailable: false,
   });
 
-  useEffect(() => {
-    let cancelled = false;
-
-    async function check() {
-      if (!Capacitor.isNativePlatform()) {
-        if (!cancelled) setInfo((prev) => ({ ...prev, loading: false }));
-        return;
-      }
-      try {
-        const [appInfo, configResult] = await Promise.all([
-          App.getInfo(),
-          supabase.from('app_config').select('latest_build_number, latest_version').eq('id', 1).single(),
-        ]);
-        if (cancelled) return;
-        const currentBuild = parseInt(appInfo.build, 10);
-        const latestBuild = configResult.error ? null : configResult.data?.latest_build_number ?? null;
-        setInfo({
-          loading: false,
-          isNative: true,
-          version: appInfo.version,
-          build: appInfo.build,
-          latestBuild,
-          latestVersion: configResult.error ? null : configResult.data?.latest_version ?? null,
-          updateAvailable: Boolean(latestBuild && !Number.isNaN(currentBuild) && latestBuild > currentBuild),
-        });
-      } catch (err) {
-        // Network hiccup or the table/RPC not reachable yet -- fails
-        // silently into "no update known," never blocks the app or shows
-        // a false banner over a failed check.
-        console.error('Error checking app version:', err);
-        if (!cancelled) setInfo((prev) => ({ ...prev, loading: false }));
-      }
+  // Pulled out of the mount effect (and memoized) so it can also be called
+  // on demand -- see the returned `refresh` below, which is what lets
+  // pull-to-refresh (components/PullToRefresh.jsx) re-check for an update
+  // without the person having to force-quit and reopen the app.
+  const check = useCallback(async () => {
+    if (!Capacitor.isNativePlatform()) {
+      setInfo((prev) => ({ ...prev, loading: false }));
+      return;
     }
-
-    check();
-    return () => { cancelled = true; };
+    try {
+      const [appInfo, configResult] = await Promise.all([
+        App.getInfo(),
+        supabase.from('app_config').select('latest_build_number, latest_version').eq('id', 1).single(),
+      ]);
+      const currentBuild = parseInt(appInfo.build, 10);
+      const latestBuild = configResult.error ? null : configResult.data?.latest_build_number ?? null;
+      setInfo({
+        loading: false,
+        isNative: true,
+        version: appInfo.version,
+        build: appInfo.build,
+        latestBuild,
+        latestVersion: configResult.error ? null : configResult.data?.latest_version ?? null,
+        updateAvailable: Boolean(latestBuild && !Number.isNaN(currentBuild) && latestBuild > currentBuild),
+      });
+    } catch (err) {
+      // Network hiccup or the table/RPC not reachable yet -- fails
+      // silently into "no update known," never blocks the app or shows
+      // a false banner over a failed check.
+      console.error('Error checking app version:', err);
+      setInfo((prev) => ({ ...prev, loading: false }));
+    }
   }, []);
 
-  return info;
+  useEffect(() => {
+    // Deferred a tick (queueMicrotask) rather than called inline -- calling
+    // an async function that can setState synchronously in its first
+    // branch (the non-native early-return above) counts as "setState
+    // during the effect" to React's stricter effect-linting, even though
+    // the intent here is exactly the standard "fetch on mount" pattern.
+    queueMicrotask(() => { check(); });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return { ...info, refresh: check };
 }

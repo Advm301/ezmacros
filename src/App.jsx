@@ -29,6 +29,7 @@ import Onboarding from './components/Onboarding';
 import SplashScreen from './components/SplashScreen';
 import GeneratingScreen from './components/GeneratingScreen';
 import StreakStartOverlay from './components/StreakStartOverlay';
+import PullToRefresh from './components/PullToRefresh';
 import { RECIPES } from './data/recipes.js';
 import { filterRecipes } from './utils/pantryMatch';
 import { rankForPreferences, pickBestMatch } from './utils/onboardingGoals';
@@ -485,8 +486,23 @@ export default function App() {
     updateStepNote,
     resetAll: resetSavedRecipesState,
   } = useSavedRecipes();
-  const { getRatingSummary, getMyRatingEntry, rateRecipe, getPhotoSignedUrl } = useRecipeRatings(session?.user?.id);
+  const { getRatingSummary, getMyRatingEntry, rateRecipe, getPhotoSignedUrl, refresh: refreshRatings } = useRecipeRatings(session?.user?.id);
   const diary = useDiary(session?.user?.id);
+
+  // Swipe-down-to-refresh (see components/PullToRefresh.jsx, wrapping the
+  // tab content below) -- re-runs the same on-mount checks these hooks
+  // already do on their own: is there a newer TestFlight build, and has
+  // anything in the diary/ratings changed server-side. Errors from any one
+  // of these (e.g. offline) shouldn't block the others, so each is caught
+  // individually rather than via Promise.all's fail-fast behavior.
+  const handlePullRefresh = async () => {
+    hapticMedium();
+    await Promise.allSettled([
+      diary?.refresh?.(),
+      refreshRatings?.(),
+      appVersion?.refresh?.(),
+    ]);
+  };
 
   // Logging streak -- same definition as the small pill shown in Saved.jsx
   // (computeLoggingStreak: consecutive days with a diary entry created the
@@ -1015,37 +1031,45 @@ export default function App() {
           </div>
         </div>
 
-        {/* Page content */}
-        {tab === "kitchen" && (
-          <Kitchen
-            onOpen={handleOpenRecipe}
-            getRatingSummary={getRatingSummary}
-            selectedStaples={kitchenStaples}
-            setSelectedStaples={setKitchenStaples}
-            results={kitchenResults}
-            setResults={setKitchenResults}
-            justOnboarded={kitchenJustOnboarded}
-            onDismissJustOnboarded={() => setKitchenJustOnboarded(false)}
-          />
-        )}
-        {tab === "browse" && <Browse onOpen={handleOpenRecipe} isSaved={isSaved} toggleSaved={toggleSaved} getRatingSummary={getRatingSummary} />}
-        {tab === "saved" && (
-          <Saved
-            saved={saved}
-            isSaved={isSaved}
-            toggleSaved={toggleSaved}
-            onOpen={handleOpenRecipe}
-            getRatingSummary={getRatingSummary}
-            getEntry={getEntry}
-            diary={diary}
-            selectedDate={savedDate}
-            onDateChange={setSavedDate}
-            highlightedEntryId={highlightedDiaryEntryId}
-            onConsumeHighlightedEntry={() => setHighlightedDiaryEntryId(null)}
-            onboardingHighlightedEntryIds={onboardingHighlightedEntryIds}
-            onStreakStart={() => setShowStreakStart(true)}
-          />
-        )}
+        {/* Page content -- wrapped in PullToRefresh so dragging down from
+            the top of any tab re-checks for an app update (and refreshes
+            diary/ratings data) instead of needing a force-quit. See that
+            component for why it only engages at scroll-top and steps
+            aside for open modals. */}
+        <PullToRefresh onRefresh={handlePullRefresh}>
+          {tab === "kitchen" && (
+            <Kitchen
+              onOpen={handleOpenRecipe}
+              getRatingSummary={getRatingSummary}
+              isSaved={isSaved}
+              toggleSaved={toggleSaved}
+              selectedStaples={kitchenStaples}
+              setSelectedStaples={setKitchenStaples}
+              results={kitchenResults}
+              setResults={setKitchenResults}
+              justOnboarded={kitchenJustOnboarded}
+              onDismissJustOnboarded={() => setKitchenJustOnboarded(false)}
+            />
+          )}
+          {tab === "browse" && <Browse onOpen={handleOpenRecipe} isSaved={isSaved} toggleSaved={toggleSaved} getRatingSummary={getRatingSummary} />}
+          {tab === "saved" && (
+            <Saved
+              saved={saved}
+              isSaved={isSaved}
+              toggleSaved={toggleSaved}
+              onOpen={handleOpenRecipe}
+              getRatingSummary={getRatingSummary}
+              getEntry={getEntry}
+              diary={diary}
+              selectedDate={savedDate}
+              onDateChange={setSavedDate}
+              highlightedEntryId={highlightedDiaryEntryId}
+              onConsumeHighlightedEntry={() => setHighlightedDiaryEntryId(null)}
+              onboardingHighlightedEntryIds={onboardingHighlightedEntryIds}
+              onStreakStart={() => setShowStreakStart(true)}
+            />
+          )}
+        </PullToRefresh>
 
         {/* Bottom nav -- MyFitnessPal-style floating pill: a frosted-glass
             bar (translucent fill + backdrop blur, so scrolled content

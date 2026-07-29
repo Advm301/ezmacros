@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { RECIPES } from '../data/recipes.js';
 import StarIcon from '../components/StarIcon';
-import LightningIcon from '../components/LightningIcon';
 import EffortGauge from '../components/EffortGauge';
 import FirstVisitTip from '../components/FirstVisitTip';
 import InfoIcon from '../components/InfoIcon';
@@ -10,14 +9,15 @@ import useFirstVisitTip from '../hooks/useFirstVisitTip';
 import { formatTime } from '../utils/time';
 import { hapticSelection, hapticLight } from '../utils/haptics';
 import { getProteinCardBackground } from '../utils/proteinColors';
+import { getRecipeGradient } from '../utils/recipeArt';
 import { estimateRecipeCost, formatUsd } from '../utils/ingredientPricing';
 import { estimateRecipeProtein, isHighProtein, HIGH_PROTEIN_THRESHOLD_G, formatProtein } from '../utils/ingredientNutrition';
 import FlameIcon from '../components/FlameIcon';
 
-// How many rows into a freshly-opened section get the staggered
+// How many tiles into a freshly-filtered result set get the staggered
 // entrance + tick haptic (see RecipeRow below) -- capped rather than
-// applied to every row so a 20+ recipe section doesn't drag the reveal
-// out for seconds or turn into a long buzz of haptic ticks. Rows past the
+// applied to every tile so a 20+ recipe result set doesn't drag the reveal
+// out for seconds or turn into a long buzz of haptic ticks. Tiles past the
 // cap just fade in together at the cap's own delay, still quick and
 // clean, just without their own individual stagger/tick.
 const REVEAL_CAP = 8;
@@ -33,12 +33,6 @@ const MEAL_SECTIONS = [
   { label: 'Lunch & Dinner', value: 'lunch_dinner' },
   { label: 'Snacks', value: 'snack' },
 ];
-
-const MEAL_TYPE_SHORT_LABELS = {
-  breakfast: 'Breakfast',
-  lunch_dinner: 'Lunch/Dinner',
-  snack: 'Snack',
-};
 
 // Kept in sync with every distinct `proteins` value actually used in
 // recipes.js (audited when the meal-type accordion was replaced with a flat
@@ -75,10 +69,6 @@ const FLAVORS = [
   { label: 'Neutral', value: 'neutral' },
 ];
 
-// Its own visible pill row (see the Cuisine filter-sec below) rather than
-// tucked into collapsed More Filters like Flavor/Protein -- this is
-// specifically the filter the About-menu feedback asked for, so it needs
-// to actually be found.
 const CUISINES = [
   { label: 'Asian', value: 'asian' },
   { label: 'Italian', value: 'italian' },
@@ -99,23 +89,24 @@ const METHODS = [
   { label: 'Microwave', value: 'Microwave' },
 ];
 
-// Wraps a recipe row so it animates in on mount (see .recipe-row-reveal in
-// globals.css) instead of the whole list just appearing instantly when a
-// meal section opens -- and fires one light haptic tick timed to its own
-// entrance, so opening a section reads/feels like a quick cascade landing
-// rather than a flat dump of rows. `index` drives both the CSS
+// Wraps a result tile so it animates in on mount (see .recipe-row-reveal in
+// globals.css) instead of the whole grid just appearing instantly when a
+// filter changes -- and fires one light haptic tick timed to its own
+// entrance, so a fresh result set reads/feels like a quick cascade landing
+// rather than a flat dump of tiles. `index` drives both the CSS
 // animation-delay and the haptic's setTimeout, capped at REVEAL_CAP so a
-// long section's tail doesn't stretch the reveal out or turn into a buzz
-// of ticks -- rows past the cap still fade in (all at the cap's delay),
-// just without their own individual stagger/tick.
+// long result set's tail doesn't stretch the reveal out or turn into a
+// buzz of ticks -- tiles past the cap still fade in (all at the cap's
+// delay), just without their own individual stagger/tick.
 //
 // A plain function (not a component) can't use useEffect, and this needs
 // one to time its own haptic tick to when its entrance animation actually
-// plays -- so this is a real component, mounted per-row via the `key={r.id}`
-// on the caller's side, which is also what makes this behave correctly
-// under Browse's live search filtering: only recipes newly entering the
-// filtered set actually mount (and get a tick), rows still present from the
-// previous keystroke keep their existing DOM node and don't replay.
+// plays -- so this is a real component, mounted per-tile via the
+// `key={r.id}` on the caller's side, which is also what makes this behave
+// correctly under Browse's live search filtering: only recipes newly
+// entering the filtered set actually mount (and get a tick), tiles still
+// present from the previous keystroke keep their existing DOM node and
+// don't replay.
 function RecipeRow({ index = 0, children, style, onClick }) {
   const firedRef = useRef(false);
   const delayIndex = Math.min(index, REVEAL_CAP);
@@ -202,6 +193,14 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
   const [mealPrepOnly, setMealPrepOnly] = useState(false);
   const [trendingOnly, setTrendingOnly] = useState(false);
   const [showMoreFilters, setShowMoreFilters] = useState(false);
+  // Every filter used to live on screen at once -- Meal Type, Cuisine, a
+  // Method dropdown, a Quick Toggles row, and a More Filters accordion, all
+  // stacked above the results whether or not any of them were in use. That
+  // permanent wall of controls was the actual "spreadsheet" feeling, not
+  // the colors -- so it's now one sheet (see showFiltersSheet below),
+  // opened on demand, with only the search bar and a single Filters pill
+  // staying on the main page.
+  const [showFiltersSheet, setShowFiltersSheet] = useState(false);
   // Sorting is separate from the filters above -- it reorders results
   // rather than removing any, so it's left out of anyFilterActive /
   // clearAllFilters on purpose.
@@ -310,87 +309,111 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
     onOpen(r);
   };
 
-  const renderRecipeRow = (r, index) => (
+  // Drives both the Filters pill's badge count and the removable chip row
+  // on the main page -- every active filter appears exactly once in each,
+  // built from one list so they can't drift out of sync with each other.
+  const activeFilterChips = [
+    mealFilter && { key: 'meal', label: MEAL_SECTIONS.find((s) => s.value === mealFilter)?.label, onRemove: () => selectMeal(mealFilter) },
+    cuisineFilter && { key: 'cuisine', label: CUISINES.find((c) => c.value === cuisineFilter)?.label, onRemove: () => selectCuisine(cuisineFilter) },
+    methodFilter && { key: 'method', label: methodFilter, onRemove: () => selectMethod(null) },
+    proteinFilter && { key: 'protein', label: PROTEINS.find((p) => p.value === proteinFilter)?.label, onRemove: () => selectProtein(null) },
+    flavorFilter && { key: 'flavor', label: FLAVORS.find((f) => f.value === flavorFilter)?.label, onRemove: () => selectFlavor(null) },
+    trendingOnly && { key: 'trending', label: 'Trending', onRemove: toggleTrending },
+    showSavedOnly && { key: 'saved', label: 'Saved', onRemove: toggleSavedOnly },
+    highProteinOnly && { key: 'hp', label: `High Protein (${HIGH_PROTEIN_THRESHOLD_G}g+)`, onRemove: toggleHighProtein },
+    grabAndGoOnly && { key: 'gng', label: 'Grab & Go', onRemove: toggleGrabAndGo },
+    mealPrepOnly && { key: 'mp', label: 'Meal Prep', onRemove: toggleMealPrep },
+  ].filter(Boolean);
+
+  // The top result becomes a full-bleed featured tile (same brand-gradient
+  // hero language as Kitchen/Sunday Prep, just shorter -- this is "look at
+  // this one first," not "the one decision" the way Kitchen's stack is),
+  // everything else below it renders as a 2-column bento grid instead of a
+  // single stacked list -- see the bento-grid-trend research this
+  // redesign is based on (Apple/Google/Samsung all lean on the same
+  // pattern now). Photo-forward tiles instead of dense text rows -- a
+  // trade-off that means cost-per-serving and the effort gauge no longer
+  // fit on every tile (still visible once you tap in), in exchange for a
+  // page that actually looks like something worth swiping through.
+  const renderFeaturedTile = (r, index) => (
     <RecipeRow
       key={r.id}
       index={index}
-      style={{
-        background: getProteinCardBackground(r.proteins),
-        border: '1px solid var(--border)',
-        borderRadius: 14,
-        padding: 'var(--space-3)',
-        // Snapped from 10px to var(--space-2) (8px) to match Diary's own
-        // entry rhythm (see .entry in Saved.jsx) -- same list-row spacing
-        // language across both scanning surfaces now.
-        marginBottom: 'var(--space-2)',
-        cursor: 'pointer',
-      }}
       onClick={() => openRecipe(r)}
+      style={{ position: 'relative', borderRadius: 'var(--r-lg)', overflow: 'hidden', marginBottom: 'var(--space-3)', cursor: 'pointer', background: getRecipeGradient() }}
     >
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-        <div style={{ flex: 1 }}>
-          <div style={{ fontWeight: 700, fontSize: 15, color: 'var(--cream)', marginBottom: 2, display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+      <div aria-hidden="true" style={{ position: 'absolute', inset: 0, background: 'rgba(4,20,26,.42)' }} />
+      <div style={{ position: 'relative', padding: 'var(--space-4)' }}>
+        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 'var(--space-2)' }}>
+          <div style={{ fontFamily: "'Baloo 2',sans-serif", fontWeight: 800, fontSize: 'var(--type-h1)', lineHeight: 1.2, color: '#fff', textShadow: '0 2px 12px rgba(0,0,0,.4)', display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
             {r.name}
             {r.isNew && <span className="new-badge">New</span>}
             {r.isTrending && <span className="trending-badge"><FlameIcon size={10.5} /> Trending</span>}
           </div>
-          <div style={{ fontSize: 11, color: 'var(--muted)', display: 'flex', alignItems: 'center', gap: 5, flexWrap: 'wrap' }}>
-            <span>
-              {/* Meal type only shown when browsing "All Meals" -- with a
-                  specific meal picked via the pill row above, every row in
-                  the list is already that meal type, so repeating it on
-                  every card would just be noise. This is what replaces the
-                  old Breakfast/Lunch & Dinner/Snacks section headers'
-                  context now that results render as one flat list instead
-                  of three separate accordions. */}
-              {!mealFilter && <>{MEAL_TYPE_SHORT_LABELS[r.mealType] || r.mealType} · </>}
-              {r.method}{r.method && r.activeTime ? ' · ' : ''}{formatTime(r.activeTime, r.totalTime)}
-              {' · '}
-              {getRatingSummary && getRatingSummary(r.id) ? (
-                <><span style={{ color: 'var(--gold)' }}>★</span> {getRatingSummary(r.id).avg.toFixed(1)} ({getRatingSummary(r.id).count})</>
-              ) : (
-                'No ratings yet'
-              )}
-            </span>
-            {/* Quick Prep gauge -- 1-3 bolts showing relative effort (see
-                EffortGauge/utils/effortLevel.js). Everything here is
-                already quick; this just surfaces which are the absolute
-                quickest vs. a touch more involved. */}
-            <span>·</span>
-            <EffortGauge recipe={r} size={11} />
-            {/* Estimated grocery cost per serving -- see
-                utils/ingredientPricing.js for why this is a category-price
-                estimate rather than a live retailer price. */}
-            <span>·</span>
-            <span>~{formatUsd(estimateRecipeCost(r).perServing)}/serving</span>
-            <span>·</span>
-            <span>{formatProtein(estimateRecipeProtein(r).perServing)}</span>
+          <div onClick={(e) => { e.stopPropagation(); toggleSaved(r.id); }} style={{ flexShrink: 0, marginLeft: 8 }}>
+            <StarIcon filled={isSaved(r.id)} size={20} />
           </div>
-          {(isHighProtein(r) || (r.tags || []).length > 0) && (
-            <div style={{ display: 'flex', gap: 6, marginTop: 'var(--space-1)' }}>
-              {/* .ezb.ez1/.ez3 are existing soft-tinted badge classes already
-                  defined in globals.css (same accent colors used elsewhere
-                  in the app) -- reusing them instead of one-off colors keeps
-                  these consistent with the rest of the palette. Gold for
-                  High Protein reads as "powered up"/energy; lime-green for
-                  Grab & Go reads as "fresh/fast" -- distinct hues so the two
-                  are easy to tell apart at a glance. */}
-              {isHighProtein(r) && (
-                <span className="ezb ez3"><LightningIcon id={`browse-hp-${r.id}`} size={12} /> High Protein</span>
-              )}
-              {(r.tags || []).includes('grab_and_go') && (
-                <span className="ezb ez1">Grab & Go</span>
-              )}
-            </div>
-          )}
-          {r.servings > 1 && (
-            <div style={{ marginTop: 'var(--space-1)' }}>
-              <span className="ezb pkg"><MealPrepIcon size={12} /> Meal Prep · Makes {r.servings}</span>
-            </div>
-          )}
         </div>
-        <div onClick={(e) => { e.stopPropagation(); toggleSaved(r.id); }}>
-          <StarIcon filled={isSaved(r.id)} size={20} />
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap', background: 'rgba(0,0,0,.34)', backdropFilter: 'blur(4px)', borderRadius: 'var(--rtag)', padding: '6px 11px', fontSize: 'var(--type-caption)', color: 'rgba(255,255,255,.92)', width: 'fit-content' }}>
+          <span>
+            {r.method}{r.method && r.activeTime ? ' · ' : ''}{formatTime(r.activeTime, r.totalTime)}
+            {' · '}
+            {getRatingSummary && getRatingSummary(r.id) ? (
+              <><span style={{ color: 'var(--gold)' }}>★</span> {getRatingSummary(r.id).avg.toFixed(1)} ({getRatingSummary(r.id).count})</>
+            ) : (
+              'No ratings yet'
+            )}
+          </span>
+          <span>·</span>
+          <EffortGauge recipe={r} size={11} />
+          <span>·</span>
+          <span>~{formatUsd(estimateRecipeCost(r).perServing)}/serving</span>
+          <span>·</span>
+          <span>{formatProtein(estimateRecipeProtein(r).perServing)}</span>
+        </div>
+        {r.servings > 1 && (
+          <div style={{ marginTop: 'var(--space-2)' }}>
+            <span className="ezb pkg"><MealPrepIcon size={12} /> Meal Prep · Makes {r.servings}</span>
+          </div>
+        )}
+      </div>
+    </RecipeRow>
+  );
+
+  // Compact grid tiles for everything after the featured one -- a small
+  // protein-color band up top (getProteinCardBackground, the same accent
+  // system already used elsewhere in the app) stands in for a photo, name
+  // clamped to 2 lines so uneven-length titles don't break the grid's row
+  // heights, then just the two numbers that matter most for a fast scan:
+  // time and protein, plus a rating when one exists.
+  const renderGridTile = (r, index) => (
+    <RecipeRow
+      key={r.id}
+      index={index}
+      onClick={() => openRecipe(r)}
+      style={{ position: 'relative', borderRadius: 14, overflow: 'hidden', border: '1px solid var(--border)', cursor: 'pointer', minWidth: 0 }}
+    >
+      <div style={{ height: 42, background: getProteinCardBackground(r.proteins), display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', padding: '6px 7px' }}>
+        <div style={{ display: 'flex', gap: 4 }}>
+          {r.isNew && <span className="new-badge" style={{ fontSize: 9, padding: '2px 6px' }}>New</span>}
+          {r.isTrending && <span className="trending-badge" style={{ fontSize: 9, padding: '2px 6px' }}><FlameIcon size={9} /></span>}
+        </div>
+        <div onClick={(e) => { e.stopPropagation(); toggleSaved(r.id); }} style={{ flexShrink: 0 }}>
+          <StarIcon filled={isSaved(r.id)} size={16} />
+        </div>
+      </div>
+      <div style={{ background: 'var(--s1)', padding: 'var(--space-2)' }}>
+        <div style={{ fontWeight: 700, fontSize: 12.5, color: 'var(--cream)', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', lineHeight: 1.3, marginBottom: 4, minHeight: '2.6em' }}>
+          {r.name}
+        </div>
+        <div style={{ fontSize: 10.5, color: 'var(--muted)' }}>
+          {r.method}{r.method && r.activeTime ? ' · ' : ''}{formatTime(r.activeTime, r.totalTime)}
+        </div>
+        <div style={{ fontSize: 10.5, color: 'var(--muted)', marginTop: 2 }}>
+          {formatProtein(estimateRecipeProtein(r).perServing)}
+          {getRatingSummary && getRatingSummary(r.id) && (
+            <> · <span style={{ color: 'var(--gold)' }}>★</span> {getRatingSummary(r.id).avg.toFixed(1)}</>
+          )}
         </div>
       </div>
     </RecipeRow>
@@ -417,140 +440,29 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
         </div>
 
         <FirstVisitTip show={tip.show} onDismiss={tip.dismiss}>
-          This is the full QuickPrep catalog -- search by name or use the filters below to narrow it down by meal type, cuisine, method, protein, or effort level.
+          This is the full QuickPrep catalog -- search by name, or tap Filters to narrow it down by meal type, cuisine, method, protein, or effort level.
         </FirstVisitTip>
 
         <input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search recipes..."
-          style={{ width: '100%', background: 'var(--s2)', border: '1px solid var(--border)', borderRadius: 12, padding: '10px 14px', color: 'var(--cream)', fontSize: 14, marginBottom: 14, boxSizing: 'border-box' }}
+          style={{ width: '100%', background: 'var(--s2)', border: '1px solid var(--border)', borderRadius: 12, padding: '10px 14px', color: 'var(--cream)', fontSize: 14, marginBottom: 'var(--space-3)', boxSizing: 'border-box' }}
         />
 
-        {/* Meal Type as a pill row narrows the same flat list below rather
-            than switching between three separate collapsible sections --
-            replaces the old accordion (Breakfast/Lunch & Dinner/Snacks each
-            needing its own tap-to-expand) that made this page feel
-            cluttered. Tapping the active pill again clears back to all
-            meals (see selectMeal above). */}
-        <div className="filter-sec">
-          <div className="filter-label">Meal Type</div>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2)' }}>
-            {MEAL_SECTIONS.map((s) => (
-              <div
-                key={s.value}
-                className={`pill ${mealFilter === s.value ? 'active' : ''}`}
-                onClick={() => selectMeal(s.value)}
-              >
-                {s.label}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Cuisine as its own visible pill row -- this used to be folded
-            into the "Flavor" dropdown behind collapsed More Filters (see
-            the FLAVORS/CUISINES split above), which made it both hard to
-            find and, since a recipe could only carry one shared value,
-            missing for roughly 2/3 of the catalog. Now every recipe with a
-            real cuisine identity carries it independently of its taste
-            profile, and the filter itself is right up top where Meal Type
-            is. */}
-        <div className="filter-sec">
-          <div className="filter-label">Cuisine</div>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2)' }}>
-            {CUISINES.map((c) => (
-              <div
-                key={c.value}
-                className={`pill ${cuisineFilter === c.value ? 'active' : ''}`}
-                onClick={() => selectCuisine(c.value)}
-              >
-                {c.label}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <FilterSelect
-          label="Method"
-          placeholder="Any Method"
-          value={methodFilter}
-          onChange={selectMethod}
-          options={METHODS}
-        />
-
-        {/* Saved / High Protein / Grab & Go are simple on-off toggles -- only
-            3 of them, so a non-scrolling row of pills is clearer than a
-            dropdown (and matches how the tags are displayed on each recipe
-            row below). "High Protein" is called out at 35g+ so the cutoff
-            isn't a mystery. */}
-        <div className="filter-sec">
-          <div className="filter-label">Quick Toggles</div>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2)' }}>
-            <div className={`pill ${trendingOnly ? 'active' : ''}`} onClick={toggleTrending} style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
-              <FlameIcon size={12} /> Trending
-            </div>
-            <div className={`pill ${showSavedOnly ? 'active' : ''}`} onClick={toggleSavedOnly}>
-              {showSavedOnly ? '★ Saved' : '☆ Saved'}
-            </div>
-            <div className={`pill ${highProteinOnly ? 'active' : ''}`} onClick={toggleHighProtein}>
-              High Protein ({HIGH_PROTEIN_THRESHOLD_G}g+)
-            </div>
-            <div className={`pill ${grabAndGoOnly ? 'active' : ''}`} onClick={toggleGrabAndGo}>
-              Grab & Go
-            </div>
-            <div className={`pill ${mealPrepOnly ? 'active' : ''}`} onClick={toggleMealPrep} style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
-              <MealPrepIcon size={12} /> Meal Prep
-            </div>
-          </div>
-        </div>
-
-        {/* Protein and Flavor are further refinements on top of Meal Type +
-            Method -- tucked behind a collapsible section so the page isn't
-            front-loading four dropdowns before showing any results. */}
-        <div className="filter-sec">
+        {/* Replaces the old always-on stack of Meal Type / Cuisine / Method /
+            Quick Toggles / More Filters blocks -- one pill, one entry point
+            into the same filters (now a sheet, see showFiltersSheet below),
+            so none of that occupies screen space unless it's actually
+            being used. Top Rated stays out here as its own pill since it's
+            a reorder someone reaches for constantly, not a narrowing
+            filter worth burying a tap away. */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 'var(--space-2)' }}>
           <div
-            onClick={() => { hapticSelection(); setShowMoreFilters((v) => !v); }}
-            style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer', padding: '6px 0' }}
+            onClick={() => { hapticLight(); setShowFiltersSheet(true); }}
+            style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'var(--s2)', border: '1px solid var(--border)', borderRadius: 'var(--rtag)', padding: '8px 14px 8px 12px', fontSize: 12.5, fontWeight: 700, color: 'var(--cream)', cursor: 'pointer' }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--cream)' }}>More Filters</span>
-              <span style={{ fontSize: 11, color: 'var(--muted)' }}>(Protein, Flavor)</span>
-              {moreFiltersCount > 0 && (
-                <span style={{ fontSize: 10, fontWeight: 700, color: '#000', background: 'var(--lime)', borderRadius: 100, padding: '2px 7px' }}>
-                  {moreFiltersCount}
-                </span>
-              )}
-            </div>
-            <span style={{ fontSize: 11, color: 'var(--muted)', transform: showMoreFilters ? 'rotate(180deg)' : 'none', transition: 'transform var(--dur-fast) var(--ease-out)', display: 'inline-block' }}>
-              ▾
-            </span>
-          </div>
-
-          {showMoreFilters && (
-            <div style={{ marginTop: 8 }}>
-              <FilterSelect
-                label="Protein (optional)"
-                placeholder="Any Protein"
-                value={proteinFilter}
-                onChange={selectProtein}
-                options={PROTEINS}
-              />
-
-              <FilterSelect
-                label="Flavor (optional)"
-                placeholder="Any Flavor"
-                value={flavorFilter}
-                onChange={selectFlavor}
-                options={FLAVORS}
-              />
-            </div>
-          )}
-        </div>
-
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 10 }}>
-          <div className="sub" style={{ marginTop: 0 }}>
-            {filtered.length} recipe{filtered.length !== 1 ? 's' : ''}
+            <span aria-hidden="true">⚙</span> Filters{activeFilterChips.length > 0 ? ` · ${activeFilterChips.length}` : ''}
           </div>
           <div
             className={`pill ${sortByRating ? 'active' : ''}`}
@@ -558,24 +470,198 @@ export default function Browse({ onOpen, isSaved, toggleSaved, getRatingSummary 
           >
             ★ Top Rated
           </div>
+          <div style={{ flex: 1 }} />
+          <div className="sub" style={{ marginTop: 0, whiteSpace: 'nowrap' }}>
+            {filtered.length} recipe{filtered.length !== 1 ? 's' : ''}
+          </div>
         </div>
+
+        {/* Removable chips for whatever's currently active -- visibility
+            into applied filters without reopening the sheet, and a
+            one-tap way to back any single one of them out. */}
+        {activeFilterChips.length > 0 && (
+          <div className="scroll-row" style={{ marginBottom: 'var(--space-2)' }}>
+            {activeFilterChips.map((chip) => (
+              <div
+                key={chip.key}
+                className="pill active"
+                onClick={() => { hapticSelection(); chip.onRemove(); }}
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 5, whiteSpace: 'nowrap' }}
+              >
+                {chip.label} ✕
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
-      {/* One flat, page-scrolled list instead of three separate collapsible
-          Breakfast/Lunch & Dinner/Snacks sections -- narrowing via the Meal
-          Type pill row above (or any other filter) shrinks this same list
-          rather than requiring a tap-to-expand per section. This is the
-          whole point of the redesign: less clutter, no click-to-reveal
-          needed just to see results that are already filtered down. */}
+      {/* Bento grid instead of one flat stacked list -- see
+          renderFeaturedTile/renderGridTile above. Narrowing via Filters (or
+          search) shrinks this same grid rather than requiring a
+          tap-to-expand per section. */}
       <div className="px">
         {filtered.length === 0 ? (
           <div style={{ textAlign: 'center', color: 'var(--muted)', padding: 40 }}>
             No recipes found. Try adjusting your filters.
           </div>
         ) : (
-          filtered.map((r, i) => renderRecipeRow(r, i))
+          <>
+            {renderFeaturedTile(filtered[0], 0)}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-2)' }}>
+              {filtered.slice(1).map((r, i) => renderGridTile(r, i + 1))}
+            </div>
+          </>
         )}
       </div>
+
+      {/* Filters sheet -- everything that used to live permanently on the
+          page (Meal Type, Cuisine, Method, Quick Toggles, More Filters),
+          unchanged in behavior, just relocated behind one entry point. */}
+      {showFiltersSheet && (
+        <div
+          onClick={() => { hapticLight(); setShowFiltersSheet(false); }}
+          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,.6)', zIndex: 80, display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{ background: 'var(--bg)', width: '100%', maxWidth: 430, maxHeight: '85vh', borderRadius: '20px 20px 0 0', border: '1px solid var(--border)', borderBottom: 'none', overflowY: 'auto', padding: '18px 18px 28px' }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
+              <div className="h1" style={{ marginBottom: 0, fontSize: 18 }}>Filters</div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                {anyFilterActive && (
+                  <div onClick={clearAllFilters} style={{ fontSize: 12, color: 'var(--muted)', textDecoration: 'underline', cursor: 'pointer' }}>
+                    Clear All
+                  </div>
+                )}
+                <div onClick={() => setShowFiltersSheet(false)} style={{ fontSize: 20, color: 'var(--muted)', cursor: 'pointer', padding: 4 }}>
+                  ✕
+                </div>
+              </div>
+            </div>
+
+            {/* Meal Type as a pill row narrows the same grid below rather
+                than switching between separate collapsible sections.
+                Tapping the active pill again clears back to all meals (see
+                selectMeal above). */}
+            <div className="filter-sec">
+              <div className="filter-label">Meal Type</div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2)' }}>
+                {MEAL_SECTIONS.map((s) => (
+                  <div
+                    key={s.value}
+                    className={`pill ${mealFilter === s.value ? 'active' : ''}`}
+                    onClick={() => selectMeal(s.value)}
+                  >
+                    {s.label}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="filter-sec">
+              <div className="filter-label">Cuisine</div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2)' }}>
+                {CUISINES.map((c) => (
+                  <div
+                    key={c.value}
+                    className={`pill ${cuisineFilter === c.value ? 'active' : ''}`}
+                    onClick={() => selectCuisine(c.value)}
+                  >
+                    {c.label}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <FilterSelect
+              label="Method"
+              placeholder="Any Method"
+              value={methodFilter}
+              onChange={selectMethod}
+              options={METHODS}
+            />
+
+            {/* Saved / High Protein / Grab & Go are simple on-off toggles --
+                only a few of them, so a non-scrolling row of pills is
+                clearer than a dropdown (and matches how the tags are
+                displayed on each tile). "High Protein" is called out at
+                35g+ so the cutoff isn't a mystery. */}
+            <div className="filter-sec">
+              <div className="filter-label">Quick Toggles</div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2)' }}>
+                <div className={`pill ${trendingOnly ? 'active' : ''}`} onClick={toggleTrending} style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+                  <FlameIcon size={12} /> Trending
+                </div>
+                <div className={`pill ${showSavedOnly ? 'active' : ''}`} onClick={toggleSavedOnly}>
+                  {showSavedOnly ? '★ Saved' : '☆ Saved'}
+                </div>
+                <div className={`pill ${highProteinOnly ? 'active' : ''}`} onClick={toggleHighProtein}>
+                  High Protein ({HIGH_PROTEIN_THRESHOLD_G}g+)
+                </div>
+                <div className={`pill ${grabAndGoOnly ? 'active' : ''}`} onClick={toggleGrabAndGo}>
+                  Grab & Go
+                </div>
+                <div className={`pill ${mealPrepOnly ? 'active' : ''}`} onClick={toggleMealPrep} style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+                  <MealPrepIcon size={12} /> Meal Prep
+                </div>
+              </div>
+            </div>
+
+            {/* Protein and Flavor are further refinements on top of Meal
+                Type + Method -- tucked behind their own collapsible section
+                so the sheet isn't front-loading four dropdowns before the
+                simpler pill rows above. */}
+            <div className="filter-sec">
+              <div
+                onClick={() => { hapticSelection(); setShowMoreFilters((v) => !v); }}
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer', padding: '6px 0' }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--cream)' }}>More Filters</span>
+                  <span style={{ fontSize: 11, color: 'var(--muted)' }}>(Protein, Flavor)</span>
+                  {moreFiltersCount > 0 && (
+                    <span style={{ fontSize: 10, fontWeight: 700, color: '#000', background: 'var(--lime)', borderRadius: 100, padding: '2px 7px' }}>
+                      {moreFiltersCount}
+                    </span>
+                  )}
+                </div>
+                <span style={{ fontSize: 11, color: 'var(--muted)', transform: showMoreFilters ? 'rotate(180deg)' : 'none', transition: 'transform var(--dur-fast) var(--ease-out)', display: 'inline-block' }}>
+                  ▾
+                </span>
+              </div>
+
+              {showMoreFilters && (
+                <div style={{ marginTop: 8 }}>
+                  <FilterSelect
+                    label="Protein (optional)"
+                    placeholder="Any Protein"
+                    value={proteinFilter}
+                    onChange={selectProtein}
+                    options={PROTEINS}
+                  />
+
+                  <FilterSelect
+                    label="Flavor (optional)"
+                    placeholder="Any Flavor"
+                    value={flavorFilter}
+                    onChange={selectFlavor}
+                    options={FLAVORS}
+                  />
+                </div>
+              )}
+            </div>
+
+            <button
+              className="gen-kitchen-btn"
+              style={{ marginTop: 8, marginBottom: 0 }}
+              onClick={() => { hapticLight(); setShowFiltersSheet(false); }}
+            >
+              Show {filtered.length} Recipe{filtered.length !== 1 ? 's' : ''}
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
