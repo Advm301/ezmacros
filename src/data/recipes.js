@@ -520,13 +520,13 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
-        "name": "Shredded Cheddar (bagged)",
-        "quantity": 140,
+        "name": "Shredded Cheddar (1 bag, 8 oz)",
+        "quantity": 226,
         "unit": "g"
       },
       {
-        "name": "Fresh Baby Spinach (pre-washed bag)",
-        "quantity": 425,
+        "name": "Fresh Baby Spinach (1 bag, 16 oz)",
+        "quantity": 453,
         "unit": "g"
       }
     ],
@@ -859,8 +859,8 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Shredded Cheddar (bagged)",
-        "quantity": 140,
+        "name": "Shredded Cheddar (1 bag, 8 oz)",
+        "quantity": 226,
         "unit": "g"
       },
       {
@@ -1934,8 +1934,8 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Shredded Mexican Cheese (1 cup)",
-        "quantity": 565,
+        "name": "Shredded Mexican Cheese (1 bag, 16 oz)",
+        "quantity": 452,
         "unit": "g"
       },
       {
@@ -2755,8 +2755,8 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
-        "name": "Shredded Cheddar (¼ cup)",
-        "quantity": 140,
+        "name": "Shredded Cheddar (1 bag, 8 oz)",
+        "quantity": 226,
         "unit": "g"
       }
     ],
@@ -3415,8 +3415,8 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Shredded Cheddar (¼ cup)",
-        "quantity": 140,
+        "name": "Shredded Cheddar (1 bag, 8 oz)",
+        "quantity": 226,
         "unit": "g"
       },
       {
@@ -3539,8 +3539,8 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
-        "name": "Shredded Mozzarella (¾ cup)",
-        "quantity": 425,
+        "name": "Shredded Mozzarella (1 bag, 16 oz)",
+        "quantity": 452,
         "unit": "g"
       },
       {
@@ -3607,8 +3607,8 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
-        "name": "Shredded Mozzarella (½ cup)",
-        "quantity": 280,
+        "name": "Shredded Mozzarella (1 bag, 8 oz)",
+        "quantity": 226,
         "unit": "g"
       },
       {
@@ -3667,8 +3667,8 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Shredded Mozzarella (½ cup)",
-        "quantity": 280,
+        "name": "Shredded Mozzarella (1 bag, 8 oz)",
+        "quantity": 226,
         "unit": "g"
       }
     ],
@@ -3722,8 +3722,8 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Shredded Mozzarella (½ cup)",
-        "quantity": 280,
+        "name": "Shredded Mozzarella (1 bag, 8 oz)",
+        "quantity": 226,
         "unit": "g"
       },
       {
@@ -4011,8 +4011,8 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Shredded Cheddar (½ cup)",
-        "quantity": 280,
+        "name": "Shredded Cheddar (1 bag, 8 oz)",
+        "quantity": 226,
         "unit": "g"
       },
       {
@@ -4146,8 +4146,8 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Shredded Mozzarella (¼ cup)",
-        "quantity": 140,
+        "name": "Shredded Mozzarella (1 bag, 8 oz)",
+        "quantity": 226,
         "unit": "g"
       }
     ],
@@ -4321,8 +4321,8 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Block Feta Cheese",
-        "quantity": 565,
+        "name": "Block Feta Cheese (2 blocks, 8 oz each)",
+        "quantity": 454,
         "unit": "g"
       },
       {
@@ -4415,8 +4415,8 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Baby Spinach (1 cup)",
-        "quantity": 150,
+        "name": "Baby Spinach (1 bag, 5 oz)",
+        "quantity": 142,
         "unit": "g"
       },
       {
@@ -4722,8 +4722,8 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Shredded Mozzarella (¾ cup)",
-        "quantity": 425,
+        "name": "Shredded Mozzarella (1 bag, 16 oz)",
+        "quantity": 452,
         "unit": "g"
       }
     ],
@@ -4939,8 +4939,8 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Shredded Mexican Cheese (½ cup per serving)",
-        "quantity": 280,
+        "name": "Shredded Mexican Cheese (1 bag, 8 oz)",
+        "quantity": 226,
         "unit": "g"
       },
       {
@@ -6255,8 +6255,8 @@ export const RECIPES = [
         "unit": "each"
       },
       {
-        "name": "Fresh Baby Spinach (pre-washed bag)",
-        "quantity": 425,
+        "name": "Fresh Baby Spinach (1 bag, 16 oz)",
+        "quantity": 453,
         "unit": "g"
       }
     ],
@@ -6542,8 +6542,8 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Fresh Baby Spinach (pre-washed bag)",
-        "quantity": 425,
+        "name": "Fresh Baby Spinach (1 bag, 16 oz)",
+        "quantity": 453,
         "unit": "g"
       }
     ],
@@ -7056,8 +7056,8 @@ export const RECIPES = [
         "unit": "each"
       },
       {
-        "name": "Shredded Mexican Cheese Blend (bagged)",
-        "quantity": 150,
+        "name": "Shredded Mexican Cheese Blend (1 bag, 8 oz)",
+        "quantity": 226,
         "unit": "g"
       },
       {
@@ -7201,8 +7201,8 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Shredded Cheddar (bagged)",
-        "quantity": 100,
+        "name": "Shredded Cheddar (1 bag, 8 oz)",
+        "quantity": 226,
         "unit": "g"
       },
       {
@@ -7400,8 +7400,8 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
-        "name": "Shredded Mozzarella (bagged)",
-        "quantity": 300,
+        "name": "Shredded Mozzarella (1 bag, 8 oz)",
+        "quantity": 226,
         "unit": "g"
       },
       {
@@ -7457,8 +7457,8 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
-        "name": "Coleslaw Mix (bagged, shredded)",
-        "quantity": 500,
+        "name": "Coleslaw Mix (1 bag, 16 oz)",
+        "quantity": 453,
         "unit": "g"
       },
       {
@@ -7628,8 +7628,8 @@ export const RECIPES = [
         "unit": "each"
       },
       {
-        "name": "Shredded Cheddar (bagged)",
-        "quantity": 150,
+        "name": "Shredded Cheddar (1 bag, 8 oz)",
+        "quantity": 226,
         "unit": "g"
       }
     ],
@@ -7953,8 +7953,8 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
-        "name": "Shredded Mozzarella (¾ cup)",
-        "quantity": 425,
+        "name": "Shredded Mozzarella (1 bag, 16 oz)",
+        "quantity": 452,
         "unit": "g"
       },
       {
@@ -8265,8 +8265,8 @@ export const RECIPES = [
         "unit": "ml"
       },
       {
-        "name": "Shredded Mexican Cheese Blend (bagged)",
-        "quantity": 200,
+        "name": "Shredded Mexican Cheese Blend (1 bag, 8 oz)",
+        "quantity": 226,
         "unit": "g"
       },
       {
@@ -8932,8 +8932,8 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Feta Cheese (crumbled, ¼ cup)",
-        "quantity": 190,
+        "name": "Feta Cheese (1 tub, 6 oz)",
+        "quantity": 170,
         "unit": "g"
       },
       {
@@ -9293,8 +9293,8 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Shredded Mozzarella (¾ cup)",
-        "quantity": 425,
+        "name": "Shredded Mozzarella (1 bag, 16 oz)",
+        "quantity": 452,
         "unit": "g"
       },
       {
@@ -9493,8 +9493,8 @@ export const RECIPES = [
         "unit": "count"
       },
       {
-        "name": "Shredded Cheddar (¼ cup)",
-        "quantity": 140,
+        "name": "Shredded Cheddar (1 bag, 8 oz)",
+        "quantity": 226,
         "unit": "g"
       },
       {
@@ -9632,8 +9632,8 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Shredded Mozzarella (½ cup)",
-        "quantity": 280,
+        "name": "Shredded Mozzarella (1 bag, 8 oz)",
+        "quantity": 226,
         "unit": "g"
       },
       {
@@ -10088,8 +10088,8 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Frozen Berries (½ cup)",
-        "quantity": 375,
+        "name": "Frozen Berries (1 bag, 12 oz)",
+        "quantity": 340,
         "unit": "g"
       },
       {
@@ -11025,8 +11025,8 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Coleslaw Mix (bagged)",
-        "quantity": 425,
+        "name": "Coleslaw Mix (1 bag, 16 oz)",
+        "quantity": 453,
         "unit": "g"
       },
       {
@@ -11464,8 +11464,8 @@ export const RECIPES = [
         "unit": "g"
       },
       {
-        "name": "Fresh Baby Spinach (1 cup)",
-        "quantity": 150,
+        "name": "Fresh Baby Spinach (1 bag, 5 oz)",
+        "quantity": 142,
         "unit": "g"
       },
       {
